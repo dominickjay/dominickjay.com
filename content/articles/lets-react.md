@@ -1,5 +1,5 @@
 ---
-title: 'Just React: create-react-app'
+title: 'Just react: create-react-app'
 description: "One of my personal goals for 2022 is to write more about React. Let's get started"
 date: 2022-01-01
 tags:
