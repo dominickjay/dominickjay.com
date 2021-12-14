@@ -38,26 +38,26 @@ export default Vue.extend({
     }
   },
  async created() {
-    const { count: likes } = await this.$supabase
-    .from('voting')
-    .select('result', { count: 'exact' })
-    .eq('post_title', this.post.title)
-    .eq('result', 'LIKE')
-    this.likes = likes;
+  //   const { count: likes } = await this.$supabase
+  //   .from('voting')
+  //   .select('result', { count: 'exact' })
+  //   .eq('post_title', this.post.title)
+  //   .eq('result', 'LIKE')
+  //   this.likes = likes;
 
-    const { count: dislikes } = await this.$supabase
-    .from('voting')
-    .select('result', { count: 'exact' })
-    .eq('post_title', this.post.title)
-    .eq('result', 'DISLIKE')
-    this.dislikes = dislikes;
+  //   const { count: dislikes } = await this.$supabase
+  //   .from('voting')
+  //   .select('result', { count: 'exact' })
+  //   .eq('post_title', this.post.title)
+  //   .eq('result', 'DISLIKE')
+  //   this.dislikes = dislikes;
 
-    const { count: loves } = await this.$supabase
-    .from('voting')
-    .select('result', { count: 'exact' })
-    .eq('post_title', this.post.title)
-    .eq('result', 'LOVE')
-    this.loves = loves;
+  //   const { count: loves } = await this.$supabase
+  //   .from('voting')
+  //   .select('result', { count: 'exact' })
+  //   .eq('post_title', this.post.title)
+  //   .eq('result', 'LOVE')
+  //   this.loves = loves;
   },
   methods: {
     formatDate(date: string|number|Date) {
