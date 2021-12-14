@@ -16,7 +16,7 @@
               <li
                 v-for="link of article.toc"
                 :key="link.id"
-                :class="{ 'toc2': link.depth === 2, 'toc3': link.depth === 3 }"
+                :class="{ 'toc2': link.depth === 2, 'toc3': link.depth === 3, 'toc4': link.depth === 4, 'toc5': link.depth === 5}"
               >
                 <NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
               </li>
@@ -173,7 +173,7 @@ h2 {
     line-height: 1.6;
   }
   .subheading {
-    margin-bottom: 40px;
+    margin-block: 20px;
     display: block;
     text-align: center;
     font-size: 1.5rem;
