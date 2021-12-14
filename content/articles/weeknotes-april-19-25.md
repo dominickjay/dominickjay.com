@@ -1,5 +1,5 @@
 ---
-title: "Weeknotes: April 19 – 25, 2021"
+title: 'Weeknotes: April 19 – 25, 2021'
 description: Highlights from the week
 date: 2020-04-25
 tags:
@@ -24,7 +24,7 @@ Nine Inch Nails - Broken [Definitive Edition] [Ep/7"] [Ep] New Vinyl Record
 
 ### Reading
 
-1. The Handmaiden's Tale - Margaret Atwood
+1. The Handmaid's Tale - Margaret Atwood
 
 ### Music
 

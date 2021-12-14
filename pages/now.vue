@@ -3,9 +3,10 @@
     <div class="container">
       <section class="content now">
         <nuxt-content :document="nowPage" />
+        <p>
         <strong>My most recently played song/podcast</strong> episode is
         <strong v-if="artist" class="track track__name">{{ track }}</strong>
-        by <strong v-if="track" class="track track__artist">{{ artist }}</strong>
+        by <strong v-if="track" class="track track__artist">{{ artist }}</strong></p>
         <p>This page is inspired by Derek Sivers
           <a href="https://nownownow.com/">Now project</a>.
         </p>

@@ -1,34 +1,35 @@
 <template>
   <div class="post">
-    <time v-if="article">
+    <time v-if="!isDrafts">
       <span>
-        {{ formatDate(article.date) }}
+        {{ formatDate(post.date) }}
       </span>
     </time>
-    <div class="post-content">
-      <span v-if="article" class="title">
-        <nuxt-link :to="article.path">
-          {{ article.title }}
-        </nuxt-link>
-      </span>
-      <span v-else class="title">
-        {{ draft.title }}
-        <span class="status"> - {{ draft.status }} </span>
-      </span>
-    </div>
+    <nuxt-link v-if="!isDrafts" :to="post.path" class="title">
+      {{ post.title }}
+    </nuxt-link>
+    <span v-else class="title">
+      {{ post.title }}
+    </span>
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
-    draft: {
+    post: {
       type: Object,
       default: null
     },
-    article: {
-      type: Object,
-      default: null
+  },
+  data() {
+    return {
+      result: Number,
+      likes: Number,
+      dislikes: Number,
+      loves: Number
     }
   },
   computed: {
@@ -36,13 +37,41 @@ export default {
       return this.$route.name === 'drafts'
     }
   },
+ async created() {
+    const { count: likes } = await this.$supabase
+    .from('voting')
+    .select('result', { count: 'exact' })
+    .eq('post_title', this.post.title)
+    .eq('result', 'LIKE')
+    this.likes = likes;
+
+    const { count: dislikes } = await this.$supabase
+    .from('voting')
+    .select('result', { count: 'exact' })
+    .eq('post_title', this.post.title)
+    .eq('result', 'DISLIKE')
+    this.dislikes = dislikes;
+
+    const { count: loves } = await this.$supabase
+    .from('voting')
+    .select('result', { count: 'exact' })
+    .eq('post_title', this.post.title)
+    .eq('result', 'LOVE')
+    this.loves = loves;
+  },
   methods: {
-    formatDate (date) {
-      const options = { day: 'numeric', month: 'numeric' }
-      return new Date(date).toLocaleDateString('en-GB', options)
+    formatDate(date: string|number|Date) {
+      return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric' })
+    },
+    async saveResult(title: any, result: any) {
+      await this.$supabase
+        .from('voting')
+        .insert([
+            { post_title: title, result }
+        ])
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +102,11 @@ export default {
       text-decoration-color: var(--clr-links-active);
     }
   }
+  &:hover .options,
+  &:focus .options {
+    opacity: 1;
+    filter: grayscale(0);
+  }
 }
 
 time {
@@ -86,6 +120,35 @@ time {
 
 .status {
     font-weight: var(--fw-base);
+}
+
+.options {
+  opacity: 0.25;
+  display: flex;
+  filter: grayscale(1);
+  gap: 10px;
+  transition: var(--trn-default);
+  & button {
+    background: transparent;
+    border: 0;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    &:hover {
+      &::before {
+        transform: scale(1.05);
+      }
+    }
+    &.love::before {
+      content: "💓";
+    }
+    &.like::before {
+      content: "👍";
+    }
+    &.dislike::before {
+      content: "👎";
+    }
+  }
 }
 
 @media (max-width: 640px) {

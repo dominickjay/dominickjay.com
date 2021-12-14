@@ -28,7 +28,6 @@ export default Vue.extend({
   async asyncData ({ $content }) {
     const posts = await $content('articles').sortBy('date', 'desc').fetch()
     const tags = await $content('tags').fetch()
-
     return {
       posts,
       tags,
@@ -39,31 +38,5 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-
-.posts {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: var(--grid-gap);
-}
-.posts .posts-wrapper {
-  margin-block: 0;
-  margin-top: 82px;
-}
-@media (max-width: 992px) {
-  .posts .posts-wrapper {
-    grid-row: 2;
-  }
-}
-@media (max-width: 640px) {
-  .posts .posts-wrapper {
-    margin-top: 0;
-  }
-  .sidebar {
-    grid-column: 1 / -1;
-    top: 0;
-    position: relative;
-  }
-}
 
 </style>

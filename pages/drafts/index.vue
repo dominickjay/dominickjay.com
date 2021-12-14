@@ -26,7 +26,6 @@ export default Vue.extend({
   layout: 'blog',
   async asyncData ({ $content }) {
     const posts = await $content('drafts').sortBy('date', 'desc').fetch()
-
     return {
       posts
     }
@@ -36,31 +35,5 @@ export default Vue.extend({
 
 <style lang="scss">
 
-.posts {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: var(--grid-gap);
-}
-
-@media (max-width: 992px) {
-  .posts .posts-wrapper {
-    grid-row: 2;
-  }
-}
-
-@media (max-width: 640px) {
-
-  .posts .posts-wrapper {
-    margin-top: 0;
-  }
-
-  .sidebar {
-    grid-column: 1 / -1;
-    top: 0;
-    position: relative;
-  }
-
-}
 
 </style>

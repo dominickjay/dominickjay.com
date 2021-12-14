@@ -1,12 +1,24 @@
 ---
-title: "CSS Object-Fit Property"
+title: 'CSS Object-Fit Property'
 
-description: "A super quick insight into the object-fit property"
+description: 'A super quick insight into the object-fit property'
 
 date: 2021-10-20
 
 tags:
   - css
+
+links:
+  [
+    {
+      'title': 'MDN: object-fit',
+      'target': 'https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit',
+    },
+    {
+      'title': 'CSS Tricks: object-fit',
+      'target': 'https://css-tricks.com/almanac/properties/o/object-fit/',
+    },
+  ]
 ---
 
 ## Let's get into it
@@ -56,7 +68,7 @@ Support is **very** good, with - typically - IE 11 being the outcast.
 
 !["Can I use" support tables for the object-fit property](/images/can-i-use-object-fit.png)
 
-_Source:_ [CanIUse](https://caniuse.com/object-fit "CanIUse link for CSS3 object-fit")
+_Source:_ [CanIUse](https://caniuse.com/object-fit 'CanIUse link for CSS3 object-fit')
 
 So, what are you waiting for? Go try it out!
 
@@ -67,9 +79,3 @@ So, what are you waiting for? Go try it out!
 </div>
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
-Hopefully this was helpful, but if you would like to know more about the object-fit property, you might want to take a look at these links;
-
-[MDN: object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)
-
-[CSS Tricks: object-fit](https://css-tricks.com/almanac/properties/o/object-fit/)

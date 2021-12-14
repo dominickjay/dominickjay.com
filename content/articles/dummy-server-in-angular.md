@@ -1,10 +1,26 @@
 ---
-title: "Using a Local Server in an Angular Project (Part 1)"
-description: "Part 1 of a series where we create a basic local server of dummy data and feed it to our Angular application."
+title: 'Using a Local Server in an Angular Project (Part 1)'
+description: 'Part 1 of a series where we create a basic local server of dummy data and feed it to our Angular application.'
 date: 2021-09-09
 tags:
   - angular
   - javascript
+
+links:
+  [
+    {
+      'title': 'json-server - npm',
+      'target': 'https://www.npmjs.com/package/json-server',
+    },
+    {
+      'title': 'How to create a local API server & REST API for testing',
+      'target': 'https://medium.com/chaya-thilakumara/how-to-create-a-local-api-server-rest-api-for-testing-945bbb2d31b7',
+    },
+    {
+      'title': 'The repo used in this post',
+      'target': 'https://github.com/dominickjay/local-json-server/tree/01---Set-up-the-local-development-server',
+    },
+  ]
 ---
 
 ## Why would we need this?
@@ -66,11 +82,3 @@ After running this command, we can access the data in our server at `http://loca
 On from this, I've tended to change the command further based on what [Lukas Ruebbelke](https://twitter.com/simpulton?lang=en) has setup in his [Angular course](https://frontendmasters.com/courses/angular-9/). This meant creating a new command that starts both the local Angular application and the local server by adding `"server:all": "concurrently \"npm run server\" \"ng serve\""` to the package json. **Do not** replace the original `server` command. This runs both scripts one after another, using the [Concurrently](https://www.npmjs.com/package/concurrently) npm package.
 
 As it's Part 1, actually _getting_ the data into an Angular application will be involved in the next post. But this was a good start into how it can be setup at the beginning stages.
-
-Hopefully this was helpful, but if you would like to know more about what you can do with the json-server, you might want to take a look at these links;
-
-[json-server - npm](https://www.npmjs.com/package/json-server)
-
-[How to create a local API server & REST API for testing](https://medium.com/chaya-thilakumara/how-to-create-a-local-api-server-rest-api-for-testing-945bbb2d31b7)
-
-[The repo used in this post](https://github.com/dominickjay/local-json-server/tree/01---Set-up-the-local-development-server)

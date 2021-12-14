@@ -1,30 +1,21 @@
 <template>
   <main>
     <div class="container">
-      {{ recipes }}
-      {{ error }}
+      {{ voting[0].likes }}
+      {{ voting[0].loves }}
+      {{ voting[0].dislikes }}
     </div>
   </main>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { createClient } from '@supabase/supabase-js'
 
 export default Vue.extend({
-  async asyncData ({ $content }) {
-    const posts = await $content('articles').limit(3).sortBy('date', 'desc').fetch()
-    const tags = await $content('tags').fetch()
-    const supabase = createClient('https://typhiugqpeglnunhjvcl.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNjczMjQwMiwiZXhwIjoxOTUyMzA4NDAyfQ._vSzwVzJR8EYZ_Dfl8eHBCdzOQxaP42sQcDEM8fZZ0Y')
-    const { data, error } = await supabase.from('recipes').select('*')
-    console.log(data);
-    return {
-      posts,
-      tags,
-      recipes: data,
-      error
-    }
-  },
+	async asyncData({ $supabase }) {
+		const { data } = await $supabase.from('voting').select('*')
+		return { voting: data }
+	},
 })
 </script>
 

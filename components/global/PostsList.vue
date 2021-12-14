@@ -1,29 +1,36 @@
 <template>
   <ul class="post-list">
     <li v-for="post in posts" :key="post.slug" class="post-list__item">
-      <div class="post">
-        <time v-if="!isDrafts">
-          <span>
-            {{ formatDate(post.date) }}
-          </span>
-        </time>
-        <nuxt-link v-if="!isDrafts" :to="post.path" class="title">
-          {{ post.title }}
-        </nuxt-link>
-        <span v-else class="title">
-          {{ post.title }}
-        </span>
-      </div>
+      <post :post="post"></post>
     </li>
   </ul>
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+import { createClient } from '@supabase/supabase-js'
+
+export default Vue.extend({
   props: {
     posts: {
       type: [Array, Object],
       default: null
+    }
+  },
+  async asyncData () {
+    const supabase = createClient(
+      process.env.supabaseUrl,
+      process.env.supabaseKey
+    );
+    const { data, error } = await supabase.from('voting').select('*');
+    return {
+      data,
+      error
+    }
+  },
+  data() {
+    return {
+      data: Object,
     }
   },
   computed: {
@@ -37,7 +44,7 @@ export default {
       return new Date(date).toLocaleDateString('en-GB', options)
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

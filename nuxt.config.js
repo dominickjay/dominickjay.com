@@ -1,6 +1,8 @@
 export default {
   env: {
     lastFm: process.env.LASTFM_API_KEY,
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseKey: process.env.SUPABASE_KEY,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -51,8 +53,8 @@ export default {
   content: {},
 
   supabase: {
-    url: 'https://typhiugqpeglnunhjvcl.supabase.co',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNjczMjQwMiwiZXhwIjoxOTUyMzA4NDAyfQ._vSzwVzJR8EYZ_Dfl8eHBCdzOQxaP42sQcDEM8fZZ0Y',
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

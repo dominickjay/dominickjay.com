@@ -54,6 +54,7 @@
     width: 100%;
     padding: 0;
     justify-content: flex-start;
+    margin-bottom: 40px;
   }
 
   .navigation__item {

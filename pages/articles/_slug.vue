@@ -168,10 +168,12 @@ h2 {
 .post {
   color: var(--ff-color);
   .heading {
+    margin-top: 0;
     font-weight: 900;
+    line-height: 1.6;
   }
   .subheading {
-    margin-block: 20px;
+    margin-bottom: 40px;
     display: block;
     text-align: center;
     font-size: 1.5rem;
@@ -196,8 +198,8 @@ h2 {
       font-weight: var(--fw-base-lg);
       opacity: 0.5;
       font-size: var(--step--1);
-      left: -20px;
-      top: -2px;
+      left: -25px;
+      top: 2px;
     }
   }
   h3 {

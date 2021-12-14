@@ -1,10 +1,22 @@
 ---
-title: "Level Up Your Styles With CSS Variables"
+title: 'Level Up Your Styles With CSS Variables'
 description: Let's do a quick dive into CSS variables and see what they can offer us.
 date: 2021-08-17
 tags:
   - css
   - javascript
+
+links:
+  [
+    {
+      'title': 'MDN: Using Custom Properties',
+      'target': 'https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties',
+    },
+    {
+      'title': 'A Complete Guide to Custom Properties',
+      'target': 'https://css-tricks.com/a-complete-guide-to-custom-properties',
+    },
+  ]
 ---
 
 ## So, What are CSS Variables?
@@ -24,7 +36,7 @@ main {
 }
 
 h1 {
-  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
   letter-spacing: -0.5px;
   font-size: 3rem;
   color: var(--primaryColour);
@@ -82,7 +94,7 @@ Support for CSS custom properties is excellent, you would have to be using a rel
 
 ![Can I use Support tables for CSS Custom Properties](//images.contentful.com/d44h62nxqp3d/2CacnERymSW3hpuUaRV0ug/0715640040f5f3b42b137f459d97e4c3/Screenshot_2021-08-12_at_15-51-50_CSS_Variables__Custom_Properties__Can_I_use_Support_tables_for_HTML5__CSS3__etc.png)
 
-_Source:_ [CanIUse](https://caniuse.com/css-variables "CanIUse link for CSS Variable support")
+_Source:_ [CanIUse](https://caniuse.com/css-variables 'CanIUse link for CSS Variable support')
 
 ## Context Changing
 
@@ -101,7 +113,7 @@ color: var(--changeColour, hotpink);
 background-color: var(--changeBgColour, black);
 ```
 
-But, they are not defined yet so they use the fallback colours instead. On the second h2 element, we then use the `.add-styles` class to define these custom properties of `changeColour` and `changeBgColour`, which in turn, allows this element to fullfil where they were originally being used, rather than using the fallback. Clever, eh? A great example I've seen of this is [this post](https://piccalil.li/tutorial/create-a-user-controlled-dark-or-light-mode/ "A post by Andy Bell for User Controlled Dark or Light Mode") by Andy Bell, where it is being used within the `prefers-color-scheme` media query.
+But, they are not defined yet so they use the fallback colours instead. On the second h2 element, we then use the `.add-styles` class to define these custom properties of `changeColour` and `changeBgColour`, which in turn, allows this element to fullfil where they were originally being used, rather than using the fallback. Clever, eh? A great example I've seen of this is [this post](https://piccalil.li/tutorial/create-a-user-controlled-dark-or-light-mode/ 'A post by Andy Bell for User Controlled Dark or Light Mode') by Andy Bell, where it is being used within the `prefers-color-scheme` media query.
 
 ## Using With Javascript
 
@@ -116,9 +128,3 @@ In this example, inline custom properties are set to allow new values for the `m
 ## Conclusion
 
 CSS custom properties are a great way to keep your styles controlled and consistent (because who wants to rely on a Find and Replace when a new branding colour comes along), and allows for _less_ CSS to be written overall.
-
-Hopefully this was helpful, but if you would like to know more about CSS custom properties, you might want to take a look at these links;
-
-[MDN: Using Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
-
-[A Complete Guide to Custom Properties](https://css-tricks.com/a-complete-guide-to-custom-properties)

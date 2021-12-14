@@ -62,7 +62,7 @@ export default {
     display: block;
     padding-block: 5px;
     padding-inline: 10px;
-    background-color: var(--clr-third-lt);
+    border: 2px solid var(--clr-third-lt);
     color: var(--clr-tag-text);
     font-size: var(--step-0);
     text-decoration: none;
@@ -73,16 +73,12 @@ export default {
   & span {
     transition: var(--trn-default);
     &:hover {
-      transform: scale(1.05);
       transition: var(--trn-default);
     }
   }
   & span:hover {
-    transform: scale(1.05);
-    transition: var(--trn-default);
     & a {
-      background-color: var(--clr-third);
-      transition: var(--trn-default);
+      background-color: var(--clr-third-lt);
     }
   }
 }
