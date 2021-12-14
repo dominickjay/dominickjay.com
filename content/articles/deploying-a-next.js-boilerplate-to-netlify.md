@@ -3,8 +3,6 @@ title: 'Deploying a Next.js Boilerplate to Netlify'
 
 description: 'Setting up the Netlify CLI to deploy a Next application to Netlify'
 
-date: 2021-11-03
-
 tags:
   - react
   - devops

@@ -1,10 +1,5 @@
 <template>
   <div class="post">
-    <time v-if="!isDrafts">
-      <span>
-        {{ formatDate(post.date) }}
-      </span>
-    </time>
     <nuxt-link v-if="!isDrafts" :to="post.path" class="title">
       {{ post.title }}
     </nuxt-link>
@@ -40,9 +35,6 @@ export default Vue.extend({
  async created() {
   },
   methods: {
-    formatDate(date: string|number|Date) {
-      return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric' })
-    },
     async saveResult(title: any, result: any) {
       await this.$supabase
         .from('voting')
@@ -63,7 +55,6 @@ export default Vue.extend({
   align-items: flex-start;
   position: relative;
   padding: 10px;
-  padding-right: 40px;
   text-align: left;
   overflow: hidden;
   & .title {
@@ -87,15 +78,6 @@ export default Vue.extend({
     opacity: 1;
     filter: grayscale(0);
   }
-}
-
-time {
-  text-align: right;
-  display: flex;
-  font-family: var(--ff-alt);
-  font-size: var(--step-0);
-  font-weight: var(--fw-base-lg);
-  opacity: 0.75;
 }
 
 .status {
