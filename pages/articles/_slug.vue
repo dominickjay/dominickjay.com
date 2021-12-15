@@ -31,6 +31,13 @@
                 </li>
               </ul>
             </div>
+            <time>
+                Published at:
+                <strong>{{ formatDate(article.date, article.gitCreatedAt) }}</strong>
+            </time>
+            <time>
+                Updated: <strong>{{ formatDate(article.date, article.gitUpdatedAt) }}</strong>
+            </time>
           </div>
         </article>
       </section>
@@ -38,7 +45,7 @@
   </main>
 </template>
 
-<script>
+<script lang>
 
 import getShareImage from '@jlengstorf/get-share-image'
 import getSiteMeta from '~/utils/getSiteMeta.js'
@@ -117,6 +124,13 @@ export default {
       }
       return getSiteMeta(metaData)
     }
+  },
+  methods: {
+    formatDate(articleDate, gitDate) {
+      let date;
+      articleDate ? date = this.article.date : date = gitDate;
+      return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+    },
   }
 }
 </script>
@@ -147,15 +161,13 @@ export default {
 
 time {
   display: block;
-  & span {
-    display: block;
-    opacity: 0.85;
-  }
-  & .blogpost__datetime {
-    opacity: 1;
-    font-weight: var(--fw-base-m);
+  margin-bottom: 10px;
+  opacity: 0.85;
+  & strong {
+    font-size: var(--step-0);
   }
 }
+
 img[src*="#gif"] {
    max-width: 350px;
 }
