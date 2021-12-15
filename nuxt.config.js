@@ -45,6 +45,13 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    [
+      'nuxt-content-git',
+      {
+        createdAtName: 'gitCreatedAt',
+        updatedAtName: 'gitUpdatedAt',
+      },
+    ],
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
   ],
