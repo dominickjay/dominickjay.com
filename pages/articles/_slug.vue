@@ -33,7 +33,10 @@
             </div>
             <time>
                 Published at:
-                <strong>{{ formatDate(article.gitUpdatedAt) }}</strong>
+                <strong>{{ formatDate(article.date, article.gitCreatedAt) }}</strong>
+            </time>
+            <time>
+                Updated: <strong>{{ formatDate(article.date, article.gitUpdatedAt) }}</strong>
             </time>
           </div>
         </article>
@@ -123,7 +126,10 @@ export default {
     }
   },
   methods: {
-    formatDate(date) {
+    formatDate(articleDate, gitDate) {
+      let date;
+      articleDate ? date = this.article.date : date = gitDate;
+      console.log(date);
       return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
     },
   }
@@ -156,6 +162,7 @@ export default {
 
 time {
   display: block;
+  margin-bottom: 10px;
   opacity: 0.85;
   & strong {
     font-size: var(--step-0);
