@@ -129,7 +129,6 @@ export default {
     formatDate(articleDate, gitDate) {
       let date;
       articleDate ? date = this.article.date : date = gitDate;
-      console.log(date);
       return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
     },
   }
