@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts">
+
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -29,6 +30,7 @@ export default Vue.extend({
   },
   computed: {
     isDrafts () {
+      // @ts-ignore
       return this.$route.name === 'drafts'
     }
   },
