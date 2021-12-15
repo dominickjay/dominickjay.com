@@ -32,7 +32,8 @@
               </ul>
             </div>
             <time>
-                Published at: <strong>{{ formatDate(article.gitUpdatedAt) }}</strong>
+                Published at:
+                <strong>{{ formatDate(article.gitUpdatedAt) }}</strong>
             </time>
           </div>
         </article>
