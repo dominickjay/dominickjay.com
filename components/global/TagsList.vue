@@ -5,8 +5,8 @@
     </span>
     <div class="tag-list">
       <span v-for="tag in tags" :key="tag.name">
-        <a v-if="tag.name" :href="'tags/' + tag.slug">{{ tag.name }}</a>
-        <a v-else :href="'tags/' + tag">{{ tag }}</a>
+        <a v-if="tag.name" :href="'/tags/' + tag.slug">{{ tag.name }}</a>
+        <a v-else :href="'/tags/' + tag">{{ tag }}</a>
       </span>
     </div>
   </div>
