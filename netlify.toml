@@ -1,2 +1,2 @@
 [build.environment]
-  NODE_VERSION="^12.13.0 || ^14.15.0 || >=16"
+  NODE_VERSION="14.8.0"
