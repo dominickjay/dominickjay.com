@@ -1,7 +1,6 @@
 ---
 title: 'Using a Local Server in an Angular Project (Part 1)'
 description: 'Part 1 of a series where we create a basic local server of dummy data and feed it to our Angular application.'
-date: 2021-09-09
 tags:
   - angular
   - javascript

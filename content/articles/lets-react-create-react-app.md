@@ -80,7 +80,7 @@ You can delete or rename the other files.
 
 ### After project setup
 
-run `yarn start` to open the project up - default is on port 3000 - and get started!
+run `yarn start` to open the project up on the default port of 3000 - and get started!
 
 ### Eject from CRA
 
