@@ -33,6 +33,8 @@
 
 .posts .posts-wrapper {
   margin-top: 82px;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 992px) {
