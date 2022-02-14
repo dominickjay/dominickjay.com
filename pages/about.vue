@@ -42,13 +42,13 @@
             </li>
           </ul>
         </div>
-        <!-- <div
+        <div
           id="joke"
           class="joke"
         >
           <h3 class="heading">Random Dad Joke</h3>
-          {{ joke }}
-        </div> -->
+          {{ joke.joke }}
+        </div>
       </section>
     </div>
   </main>
@@ -60,11 +60,11 @@ import Vue from 'vue'
 export default Vue.extend({
   async asyncData ({ $content, $axios }) {
     const about = await $content('about').fetch()
-    // const joke = await $axios.$get('https://icanhazdadjoke.com', {
-    //   headers: {'Content-Type': 'application/json'}})
+    const joke = await $axios.$get('https://icanhazdadjoke.com', {
+      headers: {'Accept': 'application/json'}})
     return {
       about,
-      // joke
+      joke
     }
   },
   data() {

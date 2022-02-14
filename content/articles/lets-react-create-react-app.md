@@ -51,6 +51,8 @@ If you intend on using Typescript in your React project, just add `--template ty
 
 </aside>
 
+Looking at our output in the folder directory, this is what we are given;
+
 ```
 README.md
   node_modules/
@@ -76,173 +78,15 @@ For the project to build, these files must exist with exact filenames:
 
 You can delete or rename the other files.
 
+### After project setup
+
+run `yarn start` to open the project up - default is on port 3000 - and get started!
+
 ### Eject from CRA
 
 running `npm run eject` - an irreversible command used to copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc.) into your project as dependencies in package.json. Technically, the distinction between dependencies and development dependencies is pretty arbitrary for front-end apps that produce static bundles.
 
-Allows for extra configuration from what is delivered "out of the box"
-
 See also [next-steps](#next-steps)
-
-### What is created here?
-
-Let's understand what's given to us here:
-
-#### node_modules
-
-The node_modules directory is a collection of subdirectories and files that could be compared to a cache for the external libraries/modules that the project depends on. The libraries that are inside this directory are downloaded when the `yarn` or `npm install` command is ran, which uses the `package.json` file to determine what needs to be collected. This folder is not traditionally pushed to a repository, due to the `package.json` file referencing everything that is needed for the project anyway.
-
-#### public
-
-The public directory consists of a `robots.txt` file, the relevant favicon images for use in the project, `index.html` and `manifest.json` files. I think it's safe to assume we all know what the images do, and the `robots.txt` file is, so let's see what the the other are used for in this context.
-
-##### index.html
-
-Note the use of `%PUBLIC_URL%` in this file. `%PUBLIC_URL%` is used as a placeholder for the public folder, and will be replaced during the build.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
-</html>
-```
-
-##### manifest.json
-
-The `manifest.json` file is used to deliver information to the browser from your site when the user is on a mobile device or desktop. It is normally required by Chrome to allow the 'Add to Home Screen' prompt to be enabled. This isn't directly related to React, but it's definetely helpful as part of a skeleton structure.
-
-```json
-{
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}
-```
-
-##### robots.txt
-
-```txt
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
-```
-
-#### src
-
-##### app.css & index.css
-
-This seems relatively straightforward - the `index.css` file contains _global_ styles for the project, whereas the `app.css` file contains the styles relevant for the App component that is created in `app.js`
-
-<aside class="info">
-
-A component is a _JavaScript class or function that optionally accepts inputs i.e. properties(props) and returns a React element that describes how a section of the UI (User Interface) should appear_. We'll dig into this in a later post.
-
-</aside>
-
-##### app.js & index.js
-
-##### app.test.js
-
-##### reportWebVitals.js
-
-##### setupTests.js
-
-#### root
-
-##### package.json
-
-```json
-{
-  "name": "learn-react",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": ["react-app", "react-app/jest"]
-  },
-  "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
-}
-```
 
 ## Advantages & Disadvantages
 
@@ -327,9 +171,43 @@ It's not all sunshine though, as always there are some downsides. The CRA does h
 }
 ```
 
-Comparing this to the `package.json` shown in our **What is created here** section above, there is a huge difference in the amount of dependencies shown. So, all of this is brought into a project everytime CRA is used to build it. If you only use CSS, and not SASS...well you're getting the functionality to use SASS anyway.
+Let's compare this 'ejected' version to the one created by default upon running the tool;
 
-- Difficult to add custom build configs. One way to add custom configs is to eject the app, but then it overrides the Only one build dependency advantage. The other way is you can use packages like customize-cra or react-app-rewired but then they have limited capabilities.
+```json
+{
+  "name": "create-react-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": ["react-app", "react-app/jest"]
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+```
+
+There is a huge difference in the amount of dependencies shown. So, all of this is brought into a project everytime CRA is used to build it. If you only use CSS, and not SASS...well you're getting the functionality to use SASS anyway. There is also a disadvantage when it comes to adding custom build configs, as ejecting the app would mean that you didn't have only one build dependency.
 
 ## Next Steps
 
