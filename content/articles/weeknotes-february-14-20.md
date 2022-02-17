@@ -1,6 +1,7 @@
 ---
 title: 'Weeknotes: February 14 - 20, 2022'
 description: Highlights from the week
+date: 2022-02-20
 tags:
   - weeknotes
   - personal

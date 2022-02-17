@@ -49,13 +49,7 @@
             <time>
               Published at:
               <strong>{{
-                formatDate(article.date, article.gitCreatedAt)
-              }}</strong>
-            </time>
-            <time>
-              Updated:
-              <strong>{{
-                formatDate(article.date, article.gitUpdatedAt)
+                formatDate(article.date)
               }}</strong>
             </time>
           </div>
@@ -153,10 +147,8 @@ export default {
     },
   },
   methods: {
-    formatDate(articleDate, gitDate) {
-      let date
-      articleDate ? (date = this.article.date) : (date = gitDate)
-      return new Date(date).toLocaleDateString('en-GB', {
+    formatDate(articleDate) {
+      return new Date(articleDate).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'long',
         year: 'numeric',

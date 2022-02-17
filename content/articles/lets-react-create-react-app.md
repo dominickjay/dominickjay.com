@@ -1,6 +1,7 @@
 ---
 title: 'Just React: Create React App'
 description: 'A deep dive into Create React App - a tool for building single page applications'
+date: 2022-02-17
 tags:
   - react
 

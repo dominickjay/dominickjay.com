@@ -1,6 +1,7 @@
 ---
 title: 'Weeknotes: April 19 – 25, 2021'
 description: Highlights from the week
+date: 2021-04-25
 tags:
   - weeknotes
   - personal

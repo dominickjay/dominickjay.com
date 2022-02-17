@@ -32,7 +32,7 @@ import Vue from 'vue'
 export default Vue.extend({
   layout: 'blog',
   async asyncData ({ $content }) {
-    const posts = await $content('articles').sortBy('createdAt', 'desc').fetch()
+    const posts = await $content('articles').sortBy('date', 'desc').fetch()
     const externalPosts = await $content('external-posts').fetch()
     const tags = await $content('tags').fetch()
     return {
