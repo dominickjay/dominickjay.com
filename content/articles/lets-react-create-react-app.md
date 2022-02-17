@@ -14,6 +14,14 @@ links:
       'title': 'React docs: create react app',
       'target': 'https://reactjs.org/docs/create-a-new-react-app.html#create-react-app',
     },
+    {
+      'title': 'Enabling server-side rendering in React for improved app performance',
+      'target': 'https://blog.logrocket.com/why-you-should-render-react-on-the-server-side-a50507163b79/',
+    },
+    {
+      'title': 'You Should Choose Vite Over CRA for React Apps, Here’s Why',
+      'target': 'https://medium.com/codex/you-should-choose-vite-over-cra-for-react-apps-heres-why-47e2e7381d13',
+    },
   ]
 ---
 
@@ -39,9 +47,7 @@ You will need to have the following versions of Node & npm installed; Node >= 14
 
 ### Install the 'Create React App' package
 
-Install the CRA package with `npm i create-react-app` or `yarn add create-react-app`. For this post, I am using my preferred choice of package manager, which is Yarn.
-
-Create a new project using CRA, using the command `yarn create-react-app learn-react`
+Rather than installing the CRA packaging directly using `npm i create-react-app`, we are going to use `npx`. This is a tool that allows you to run packages without having a global or local installation. In a similar fashion to an `npm` command, we will use `npx create-react-app my-app` to get started. If you are using `yarn` like I do, use the command `yarn create-react-app learn-react`. To use `npx`, you will need to have npm 5.2+ or higher.
 
 <aside class="info">
 
@@ -80,11 +86,23 @@ You can delete or rename the other files.
 
 ### After project setup
 
-run `yarn start` to open the project up on the default port of 3000 - and get started!
+Run `yarn start` to open the project up on the default port of 3000 - and get started!
 
 ### Eject from CRA
 
-running `npm run eject` - an irreversible command used to copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc.) into your project as dependencies in package.json. Technically, the distinction between dependencies and development dependencies is pretty arbitrary for front-end apps that produce static bundles.
+The CRA has a distinct advantage of only having one dependency to manage - `react-scripts`. While it is great to only have to manage one dependency, and not have to deal with the underlying packages, sometime we need/want to. So what then? In this instance, the CRA team included a command `npm run eject`. This command takes all the configuration files and other dependencies such as webpack and Babel and copies them into your projects `package.json` file as seperate dependencies.
+
+<aside class="warning">
+
+**Point of no return**
+
+Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.
+
+</aside>
+
+#### Eject alternatives
+
+Running eject isn't highly recommended however, as there are tools that can allow for overriding dependencies _without_ ejecting. CRACO for example, which stands for Create React App Configuration Override can override parts of the create-react-app tool while still allowing for the advantage of CRA's one dependecy to be taken advantage of.
 
 See also [next-steps](#next-steps)
 
@@ -207,8 +225,4 @@ Let's compare this 'ejected' version to the one created by default upon running 
 }
 ```
 
-There is a huge difference in the amount of dependencies shown. So, all of this is brought into a project everytime CRA is used to build it. If you only use CSS, and not SASS...well you're getting the functionality to use SASS anyway. There is also a disadvantage when it comes to adding custom build configs, as ejecting the app would mean that you didn't have only one build dependency.
-
-## Next Steps
-
-[Customizing create-react-app: How to Make Your Own Template](https://auth0.com/blog/how-to-configure-create-react-app/)
+There is a huge difference in the amount of dependencies shown. So, all of this is brought into a project everytime CRA is used to build it. If you only use CSS, and not SASS...well you're getting the functionality to use SASS anyway. There is also a disadvantage when it comes to adding custom build configs, as ejecting the app would mean that you didn't have only one build dependency. Then again, we can resolve these issues CRA also uses Client Side Rendering by default, which means that the main javascript file in our built project will be downloaded first before any other assets. Also, development time can be slower than other tools, such as Vite, depending on the size of the project. Vite is built on top of esbuild whereas CRA is built on top of Webpack, and for comparison, esbuild continually builds projects much faster than CRA does. This is written about in more depth in [this](https://medium.com/codex/you-should-choose-vite-over-cra-for-react-apps-heres-why-47e2e7381d13) article by Can Durmus.

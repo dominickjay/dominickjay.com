@@ -36,7 +36,7 @@ export default {
 }
 
 [data-user-color-scheme='dark'] {
-  --clr-tag-text: var(--clr-base-dk);
+  --clr-tag-text: var(--clr-base-lt);
 }
 
 .tags {
@@ -58,7 +58,6 @@ export default {
   gap: var(--grid-gap);
   margin-bottom: var(--grid-gap);
   & a {
-    --clr-tag-text: var(--clr-base-dk);
     display: block;
     padding-block: 5px;
     padding-inline: 10px;
