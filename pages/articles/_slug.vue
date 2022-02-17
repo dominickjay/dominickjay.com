@@ -9,6 +9,9 @@
           <strong class="subheading">
             {{ article.description }}
           </strong>
+          <span class="reading-time"
+            >Estimated reading time:<span>{{ readingTime }} min</span></span
+          >
           <tagsList :tags="article.tags"></tagsList>
           <div class="content-wrapper">
             <ul class="toc">
@@ -16,7 +19,12 @@
               <li
                 v-for="link of article.toc"
                 :key="link.id"
-                :class="{ 'toc2': link.depth === 2, 'toc3': link.depth === 3 }"
+                :class="{
+                  toc2: link.depth === 2,
+                  toc3: link.depth === 3,
+                  toc4: link.depth === 4,
+                  toc5: link.depth === 5,
+                }"
               >
                 <NuxtLink :to="`#${link.id}`">{{ link.text }}</NuxtLink>
               </li>
@@ -24,19 +32,31 @@
             <nuxt-content :document="article" />
             <div v-if="article.links" class="resources">
               <h2>Resources</h2>
-              <p>Hopefully this was helpful, but if you would like to know more about this, you might want to take a look at these links;</p>
+              <p>
+                Hopefully this was helpful, but if you would like to know more
+                about this, you might want to take a look at these links;
+              </p>
               <ul class="links-list">
-                <li v-for="link in article.links" :key="link.title" class="links-list-item">
+                <li
+                  v-for="link in article.links"
+                  :key="link.title"
+                  class="links-list-item"
+                >
                   <a :href="link.target" target="_blank">{{ link.title }}</a>
                 </li>
               </ul>
             </div>
             <time>
-                Published at:
-                <strong>{{ formatDate(article.date, article.gitCreatedAt) }}</strong>
+              Published at:
+              <strong>{{
+                formatDate(article.date, article.gitCreatedAt)
+              }}</strong>
             </time>
             <time>
-                Updated: <strong>{{ formatDate(article.date, article.gitUpdatedAt) }}</strong>
+              Updated:
+              <strong>{{
+                formatDate(article.date, article.gitUpdatedAt)
+              }}</strong>
             </time>
           </div>
         </article>
@@ -46,12 +66,11 @@
 </template>
 
 <script lang>
-
 import getShareImage from '@jlengstorf/get-share-image'
 import getSiteMeta from '~/utils/getSiteMeta.js'
 
 export default {
-  async asyncData ({ $content, params }) {
+  async asyncData({ $content, params }) {
     const { year, month, slug } = params
 
     const article = await $content('articles', year, month, slug).fetch()
@@ -71,76 +90,87 @@ export default {
       taglineFont: 'Hackney.ttf',
       taglineFontSize: '45',
       taglineLeftOffset: '225',
-      taglineTopOffset: '450'
+      taglineTopOffset: '450',
     })
 
     return {
       article,
-      socialImage
+      socialImage,
     }
   },
-  data () {
+  data() {
     return {
-      tags: this.article
+      tags: this.article,
     }
   },
-  head () {
+  head() {
     return {
       title: this.article.title,
       meta: [
         ...this.meta,
         {
           property: 'article:published_time',
-          content: this.article.createdAt
+          content: this.article.createdAt,
         },
         {
           property: 'article:tag',
-          content: this.article.tags ? this.article.tags.toString() : ''
+          content: this.article.tags ? this.article.tags.toString() : '',
         },
         { name: 'twitter:label1', content: 'Written by' },
         { name: 'twitter:data1', content: 'Dominick Jay' },
         {
           name: 'twitter:data2',
-          content: this.article.tags ? this.article.tags.toString() : ''
-        }
+          content: this.article.tags ? this.article.tags.toString() : '',
+        },
       ],
       link: [
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: `https://dominickjay.com/articles/${this.$route.params.year}/${this.$route.params.month}/${this.$route.params.slug}`
-        }
-      ]
+          href: `https://dominickjay.com/articles/${this.$route.params.year}/${this.$route.params.month}/${this.$route.params.slug}`,
+        },
+      ],
     }
   },
   computed: {
-    meta () {
+    readingTime() {
+      let minutes = 0
+      const contentString = JSON.stringify(this.article)
+      const words = contentString.split(' ').length
+      const wordsPerMinute = 200
+      minutes = Math.ceil(words / wordsPerMinute)
+      return minutes
+    },
+    meta() {
       const metaData = {
         type: 'article',
         title: this.article.title,
         description: this.article.description,
         url: `https://dominickjay.com/articles/${this.$route.params.year}/${this.$route.params.month}/${this.$route.params.slug}`,
-        mainImage: this.socialImage
+        mainImage: this.socialImage,
       }
       return getSiteMeta(metaData)
-    }
+    },
   },
   methods: {
     formatDate(articleDate, gitDate) {
-      let date;
-      articleDate ? date = this.article.date : date = gitDate;
-      return new Date(date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+      let date
+      articleDate ? (date = this.article.date) : (date = gitDate)
+      return new Date(date).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      })
     },
-  }
+  },
 }
 </script>
 
 <style lang="scss">
-
 :root {
   --blog-gradient: var(--heading-gradient);
   --code-block-background: #efefef;
-  --aside-background: rgba(96, 146, 153, 0.15);
+  --aside-background: rgba(255, 255, 255, 0.15);
   --aside-border: var(--clr-fifth-dk);
   --aside-icon: var(--clr-fifth-dk);
 }
@@ -159,6 +189,17 @@ export default {
   --code-block-background: #000000;
 }
 
+.reading-time {
+  font-weight: var(--fw-base-lg);
+  margin-block: 1em;
+  display: flex;
+  justify-content: center;
+  & span {
+    font-weight: var(--fw-base);
+    padding-inline: 10px;
+  }
+}
+
 time {
   display: block;
   margin-bottom: 10px;
@@ -168,8 +209,8 @@ time {
   }
 }
 
-img[src*="#gif"] {
-   max-width: 350px;
+img[src*='#gif'] {
+  max-width: 350px;
 }
 
 h2 {
@@ -185,7 +226,7 @@ h2 {
     line-height: 1.6;
   }
   .subheading {
-    margin-bottom: 40px;
+    margin-block: 20px;
     display: block;
     text-align: center;
     font-size: 1.5rem;
@@ -205,7 +246,7 @@ h2 {
     }
     & li::before {
       counter-increment: section;
-      content: "0" counter(section);
+      content: '0' counter(section);
       position: absolute;
       font-weight: var(--fw-base-lg);
       opacity: 0.5;
@@ -224,8 +265,8 @@ img {
   margin: 40px auto;
 }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
   background: var(--code-block-background);
   text-shadow: none;
 }
@@ -251,129 +292,128 @@ p > code {
 }
 
 @media (prefers-color-scheme: dark) {
+  code[class*='language-'],
+  pre[class*='language-'] {
+    color: #f8f8f2;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
 
-code[class*="language-"],
-pre[class*="language-"] {
-  color: #f8f8f2;
-  background: none;
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.5;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
 
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
 
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
+  /* Code blocks */
+  pre[class*='language-'] {
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow: auto;
+    border-radius: 0.3em;
+  }
 
-/* Code blocks */
-pre[class*="language-"] {
-  padding: 1em;
-  margin: 0.5em 0;
-  overflow: auto;
-  border-radius: 0.3em;
-}
+  :not(pre) > code[class*='language-'],
+  pre[class*='language-'] {
+    background: var(--code-block-background);
+  }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-  background: var(--code-block-background);
-}
+  /* Inline code */
+  :not(pre) > code[class*='language-'] {
+    padding: 0.1em;
+    border-radius: 0.3em;
+    white-space: normal;
+  }
 
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-  padding: 0.1em;
-  border-radius: 0.3em;
-  white-space: normal;
-}
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #d4d0ab;
+  }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #d4d0ab;
-}
+  .token.punctuation {
+    color: #fefefe;
+  }
 
-.token.punctuation {
-  color: #fefefe;
-}
+  .token.property,
+  .token.tag,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    color: #ffa07a;
+  }
 
-.token.property,
-.token.tag,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #ffa07a;
-}
+  .token.boolean,
+  .token.number {
+    color: #00e0e0;
+  }
 
-.token.boolean,
-.token.number {
-  color: #00e0e0;
-}
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    color: #abe338;
+  }
 
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #abe338;
-}
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string,
+  .token.variable {
+    color: #00e0e0;
+    background: none;
+  }
 
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string,
-.token.variable {
-  color: #00e0e0;
-  background: none;
-}
+  .token.atrule,
+  .token.attr-value,
+  .token.function {
+    color: #ffd700;
+  }
 
-.token.atrule,
-.token.attr-value,
-.token.function {
-  color: #ffd700;
-}
+  .token.keyword {
+    color: #00e0e0;
+  }
 
-.token.keyword {
-  color: #00e0e0;
-}
+  .token.regex,
+  .token.important {
+    color: #ffd700;
+  }
 
-.token.regex,
-.token.important {
-  color: #ffd700;
-}
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
 
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
+  .token.italic {
+    font-style: italic;
+  }
 
-.token.italic {
-  font-style: italic;
-}
+  .token.entity {
+    cursor: help;
+  }
 
-.token.entity {
-  cursor: help;
-}
-
-@media screen and (-ms-high-contrast: active) {
-    code[class*="language-"],
-    pre[class*="language-"] {
+  @media screen and (-ms-high-contrast: active) {
+    code[class*='language-'],
+    pre[class*='language-'] {
       color: windowText;
       background: window;
     }
 
-    :not(pre) > code[class*="language-"],
-    pre[class*="language-"] {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
       background: window;
     }
 
@@ -413,11 +453,17 @@ pre[class*="language-"] {
 aside {
   position: relative;
   padding: 20px 40px;
+  padding-left: 25px;
   margin: 40px 0;
-  border-left: 5px solid;
+  border-left: 15px solid;
+  background-color: var(--aside-background);
   &.info {
+    --aside-background: rgba(96, 146, 153, 0.15);
     border-left-color: var(--aside-border);
-    background-color: var(--aside-background);
+  }
+  &.warning {
+    --aside-background: rgba(234, 90, 79, 0.15);
+    border-left-color: var(--clr-sixth);
   }
 }
 
@@ -453,13 +499,18 @@ aside {
 }
 
 .post .nuxt-content-container,
-.post .nuxt-content {
+.post .nuxt-content,
+.resources {
   position: relative;
   max-width: calc(100% - 350px);
 }
 
 .post .nuxt-content-container > .nuxt-content {
   max-width: none;
+}
+
+.post .nuxt-content-container ul:not([class]) {
+  margin: 1em 0;
 }
 
 .links-list {
@@ -472,7 +523,6 @@ aside {
 }
 
 @media (max-width: 992px) {
-
   .post .nuxt-content-container,
   .post .nuxt-content,
   .nuxt-content-container > .nuxt-content {
@@ -488,5 +538,4 @@ aside {
     top: 0;
   }
 }
-
 </style>

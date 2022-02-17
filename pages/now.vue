@@ -32,7 +32,6 @@ export default Vue.extend({
     }
   },
   async created () {
-  // GET request using fetch with async/await
     const response = await fetch('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&api_key=' + process.env.lastFm + '&format=json')
     const data = await response.json()
     this.artist = data.recenttracks.track[0].artist['#text']
