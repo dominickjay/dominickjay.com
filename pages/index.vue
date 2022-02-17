@@ -38,7 +38,7 @@ import Vue from 'vue'
 
 export default Vue.extend({
   async asyncData({ $content }) {
-    const posts = await $content('articles').limit(3).sortBy('updatedAt', 'desc').fetch()
+    const posts = await $content('articles').limit(3).sortBy('createdAt', 'desc').fetch()
     const tags = await $content('tags').fetch()
     return {
       posts,
