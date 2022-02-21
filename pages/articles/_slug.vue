@@ -121,7 +121,7 @@ export default {
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: `https://dominickjay.com/articles/${this.$route.params.year}/${this.$route.params.month}/${this.$route.params.slug}`,
+          href: `https://dominickjay.com/articles/${this.$route.params.slug}`,
         },
       ],
     }
@@ -140,7 +140,7 @@ export default {
         type: 'article',
         title: this.article.title,
         description: this.article.description,
-        url: `https://dominickjay.com/articles/${this.$route.params.year}/${this.$route.params.month}/${this.$route.params.slug}`,
+        url: `https://dominickjay.com/articles/${this.$route.params.slug}`,
         mainImage: this.socialImage,
       }
       return getSiteMeta(metaData)
