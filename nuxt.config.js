@@ -68,6 +68,11 @@ export default {
           'Dominick Jay is an experienced creative Front-End Developer from Plymouth, UK, that specializes in fun, creative solutions.',
       },
       {
+        hid: 'twitter:image',
+        property: 'twitter:image',
+        content: 'https://dominickjay.com/images/card-image.png',
+      },
+      {
         hid: 'twitter:card',
         property: 'twitter:card',
         content: 'summary_large_image',
