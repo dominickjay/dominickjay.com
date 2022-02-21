@@ -105,8 +105,6 @@ Running the `npm run eject` or `yarn eject` commands is irreversible, so make su
 
 Running eject isn't highly recommended however, as there are tools that can allow for overriding dependencies _without_ ejecting. CRACO for example, which stands for Create React App Configuration Override can override parts of the create-react-app tool while still allowing for the advantage of CRA's one dependecy to be taken advantage of.
 
-See also [next-steps](#next-steps)
-
 ## Advantages & Disadvantages
 
 Ultimately, using the CRA tool seems like a great way forward to creating Single Page Applications in React, but surely there's some downsides? Let's run through some advantages and disadvantages of using this.
