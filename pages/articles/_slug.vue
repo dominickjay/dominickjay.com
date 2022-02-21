@@ -517,7 +517,8 @@ aside {
 @media (max-width: 992px) {
   .post .nuxt-content-container,
   .post .nuxt-content,
-  .nuxt-content-container > .nuxt-content {
+  .nuxt-content-container > .nuxt-content,
+  .resources {
     max-width: none;
   }
 
