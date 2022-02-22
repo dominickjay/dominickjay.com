@@ -3,6 +3,7 @@ export default {
     lastFm: process.env.LASTFM_API_KEY,
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
+    cloudinaryName: process.env.NUXT_ENV_CLOUDINARY_CLOUD_NAME,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -12,8 +13,6 @@ export default {
   generate: {
     fallback: true,
     async routes() {
-      // next comment to make VSCode ignore the "error"
-      // @ts-ignore
       const { $content } = require('@nuxt/content')
       const pages = await $content().only(['path']).fetch()
       const posts = await $content('articles').only(['path']).fetch()
@@ -116,6 +115,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxtjs/cloudinary',
   ],
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
@@ -128,4 +128,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_NAME,
+    useComponent: true,
+    secure: true,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_SECRET,
+  },
 }
