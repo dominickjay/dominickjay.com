@@ -6,23 +6,21 @@ export default {
     cloudinaryName: process.env.NUXT_ENV_CLOUDINARY_CLOUD_NAME,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   generate: {
     fallback: true,
-    // async routes() {
-    //   // next comment to make VSCode ignore the "error"
-    //   // @ts-ignore
-    //   const { $content } = require('@nuxt/content')
-    //   const pages = await $content().only(['path']).fetch()
-    //   const posts = await $content('articles').only(['path']).fetch()
+    async routes() {
+      const { $content } = require('@nuxt/content')
+      const pages = await $content().only(['path']).fetch()
+      const posts = await $content('articles').only(['path']).fetch()
 
-    //   const files = [...pages, ...posts]
+      const files = [...pages, ...posts]
 
-    //   return files.map((file) => (file.path === '/index' ? '/' : file.path))
-    // },
+      return files.map((file) => (file.path === '/index' ? '/' : file.path))
+    },
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -67,6 +65,11 @@ export default {
         property: 'twitter:description',
         content:
           'Dominick Jay is an experienced creative Front-End Developer from Plymouth, UK, that specializes in fun, creative solutions.',
+      },
+      {
+        hid: 'twitter:image',
+        property: 'twitter:image',
+        content: 'https://dominickjay.com/images/card-image.png',
       },
       {
         hid: 'twitter:card',
@@ -126,10 +129,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   cloudinary: {
-    cloudName: 'dominickjay',
+    cloudName: process.env.CLOUDINARY_NAME,
     useComponent: true,
     secure: true,
-    apiKey: '852725863879719',
-    apiSecret: 'UgLNATHW_Z4wJWBejWw79n1xjfQ',
+    apiKey: process.env.CLOUDINARY_API_KEY,
+    apiSecret: process.env.CLOUDINARY_SECRET,
   },
 }
