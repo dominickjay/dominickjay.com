@@ -6,23 +6,23 @@ export default {
     cloudinaryName: process.env.NUXT_ENV_CLOUDINARY_CLOUD_NAME,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
   generate: {
     fallback: true,
-    async routes() {
-      // next comment to make VSCode ignore the "error"
-      // @ts-ignore
-      const { $content } = require('@nuxt/content')
-      const pages = await $content().only(['path']).fetch()
-      const posts = await $content('articles').only(['path']).fetch()
+    // async routes() {
+    //   // next comment to make VSCode ignore the "error"
+    //   // @ts-ignore
+    //   const { $content } = require('@nuxt/content')
+    //   const pages = await $content().only(['path']).fetch()
+    //   const posts = await $content('articles').only(['path']).fetch()
 
-      const files = [...pages, ...posts]
+    //   const files = [...pages, ...posts]
 
-      return files.map((file) => (file.path === '/index' ? '/' : file.path))
-    },
+    //   return files.map((file) => (file.path === '/index' ? '/' : file.path))
+    // },
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
