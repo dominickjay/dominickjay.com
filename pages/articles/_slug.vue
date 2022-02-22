@@ -121,11 +121,11 @@ export default {
         name: "twitter:description",
         content: this.article.description
       },
-      // {
-      //   hid: "twitter:image",
-      //   name: "twitter:image",
-      //   content: this.ogImageUrl
-      // }
+      {
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: this.ogImageUrl
+      }
       ]
     }
   },
