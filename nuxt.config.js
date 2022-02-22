@@ -3,6 +3,7 @@ export default {
     lastFm: process.env.LASTFM_API_KEY,
     supabaseUrl: process.env.SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_KEY,
+    cloudinaryName: process.env.NUXT_ENV_CLOUDINARY_CLOUD_NAME,
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -116,6 +117,7 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxtjs/cloudinary',
   ],
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
@@ -128,4 +130,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  cloudinary: {
+    cloudName: 'dominickjay',
+    useComponent: true,
+    secure: true,
+    apiKey: '852725863879719',
+    apiSecret: 'UgLNATHW_Z4wJWBejWw79n1xjfQ',
+  },
 }
