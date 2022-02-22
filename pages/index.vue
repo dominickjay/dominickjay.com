@@ -45,6 +45,17 @@ export default Vue.extend({
       tags,
     }
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'twitter:image',
+          property: 'twitter:image',
+          content: 'https://dominickjay.com/images/card-image.png',
+        },
+      ]
+    }
+  }
 })
 </script>
 
