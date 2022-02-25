@@ -188,15 +188,15 @@ export default {
 
     function createCircles () {
 
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 3; i++) {
         for (let index = 0; index < canvas.length; index++) {
           const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
           const svgNS = svg.namespaceURI
 
           const circle = document.createElementNS(svgNS, 'circle')
           const line = document.createElementNS(svgNS, 'line')
-          const fill = "rgba(255,255,255,1)"
-          const stroke = "rgba(255,255,255,1)"
+          const fill = "rgba(255,255,255,.5)"
+          const stroke = "rgba(255,255,255,.5)"
           const circlePositionx = getRandomXPosition(index)
           const circlePositiony = getRandomYPosition(index)
           const linePositionx = getRandomXPosition(index)
@@ -475,7 +475,7 @@ aside {
 }
 
 .error {
-    background: linear-gradient(to right, rgba(243,170,165,1) 0%, rgba(238,137,129,1) 100%);
+    background: linear-gradient(to right, rgb(245, 176, 171) 0%, rgb(247, 155, 148) 100%);
     & .aside__icon {
       fill: #B42318;
     }
