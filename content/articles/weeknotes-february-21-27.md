@@ -18,6 +18,7 @@ tags:
 
 1. As of Friday, I have walked approximately 25,989 steps.
 1. I took a yoga class at the gym, and later on in the week did a mixture of bodyweight and free weight exercises.
+1. Been playing 'Animals' by Muse on the guitar, not played the song in years and took some remembering, but definetely improved on it!
 
 ### Reading
 
