@@ -48,13 +48,9 @@
             </div>
             <time>
               Published at:
-<<<<<<< Updated upstream
               <strong>{{
                 formatDate(article.date)
               }}</strong>
-=======
-              <strong>{{ formatDate(article.date) }}</strong>
->>>>>>> Stashed changes
             </time>
           </div>
         </article>
@@ -154,7 +150,91 @@ export default {
     },
   },
   mounted() {
-    Prism.highlightAll()
+    Prism.highlightAll();
+    const canvas = document.getElementsByTagName('aside')
+
+    function randomRgbaString () {
+      // const colors = ['rgba(252, 178, 118, 0.5)', 'rgba(157, 206, 210, 0.5)', 'rgba(254, 125, 21, 0.5)']
+      const randomColor = Math.floor(Math.random() * colors.length)
+      return colors[randomColor]
+    }
+
+    function randomStroke () {
+      // eslint-disable-next-line no-unreachable-loop
+      for (let x = 0; x < 30; x++) {
+        const stroke = randomRgbaString()
+        return stroke
+      }
+    }
+
+    function getRandomXPosition (index) {
+      console.log(canvas[index])
+      const width = canvas[index].scrollWidth
+      const x = Math.floor(Math.random() * width)
+      return x
+    }
+
+    function getRandomYPosition (index) {
+      const height = canvas[index].offsetHeight
+      const y = Math.floor(Math.random() * height)
+      return y
+    }
+
+    function getRandomRadius (min, max) {
+      min = Math.ceil(min)
+      max = Math.floor(max)
+      return Math.floor(Math.random() * (max - min) + min)
+    }
+
+    function createCircles () {
+
+      for (let i = 0; i < 2; i++) {
+        for (let index = 0; index < canvas.length; index++) {
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+          const svgNS = svg.namespaceURI
+
+          const circle = document.createElementNS(svgNS, 'circle')
+          const line = document.createElementNS(svgNS, 'line')
+          const fill = "rgba(255,255,255,1)"
+          const stroke = "rgba(255,255,255,1)"
+          const circlePositionx = getRandomXPosition(index)
+          const circlePositiony = getRandomYPosition(index)
+          const linePositionx = getRandomXPosition(index)
+          const linePositiony = getRandomYPosition(index)
+          const radius = getRandomRadius(50, 150)
+
+          circle.setAttributeNS(null, 'id', 'gen-circle')
+          circle.setAttributeNS(null, 'cx', circlePositionx)
+          circle.setAttributeNS(null, 'cy', circlePositiony)
+          circle.setAttributeNS(null, 'r', radius)
+
+          if (i % 2 !== 0) {
+            circle.setAttributeNS(null, 'fill', 'none')
+            circle.setAttributeNS(null, 'stroke', stroke)
+          } else {
+            circle.setAttributeNS(null, 'fill', fill)
+            circle.setAttributeNS(null, 'stroke', 'transparent')
+          }
+          circle.setAttributeNS(null, 'stroke-width', 2)
+
+          line.setAttributeNS(null, 'id', 'gen-line')
+          line.setAttribute('x1', linePositionx)
+          line.setAttribute('y1', linePositiony)
+          line.setAttribute('x2', linePositionx + 200)
+          line.setAttribute('y2', linePositiony + 200)
+          line.setAttribute('stroke', fill)
+          line.setAttribute('stroke-width', 2)
+
+          svg.appendChild(circle)
+          canvas[index].appendChild(svg)
+          svg.appendChild(line)
+          canvas[index].appendChild(svg)
+        }
+      }
+    }
+
+    createCircles()
+
   },
   methods: {
     formatDate(articleDate) {
@@ -271,24 +351,24 @@ p > code {
   font-weight: var(--fw-base-lg);
 }
 
-@media (prefers-color-scheme: dark) {
-}
-
 aside {
   position: relative;
   padding: 20px 40px;
-  padding-left: 25px;
   margin: 40px 0;
-  border-left: 15px solid;
-  background-color: var(--aside-background);
-  &.info {
-    --aside-background: rgba(96, 146, 153, 0.15);
-    border-left-color: var(--aside-border);
-  }
-  &.warning {
-    --aside-background: rgba(234, 90, 79, 0.15);
-    border-left-color: var(--clr-sixth);
-  }
+  // &.info {
+  //   --aside-background: rgba(96, 146, 153, 0.15);
+  //   border-left-color: var(--aside-border);
+  // }
+  // &.warning {
+  //   --aside-background: rgba(234, 90, 79, 0.15);
+  //   border-left-color: var(--clr-sixth);
+  // }
+}
+
+.aside__content {
+  position: relative;
+  z-index: 1;
+  font-weight: 700;
 }
 
 .toc {
@@ -362,4 +442,52 @@ aside {
     top: 0;
   }
 }
+
+aside {
+  position: relative;
+  padding: 20px 40px;
+  padding-left: 80px;
+  margin: 40px 0;
+  & svg:not([class]) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
+}
+
+.aside__icon {
+  position: absolute;
+  top: 25px;
+  left: 20px;
+}
+
+.prerequisites {
+  background: linear-gradient(to right, rgba(192,213,216,1) 0%, rgba(166,197,201,1) 100%);
+  color: var(--ff-color);
+  padding-left: 40px;
+}
+
+.info {
+  background: linear-gradient(to right, rgba(173,195,215,1) 0%, rgba(146,175,201,1) 100%);
+}
+
+.warning {
+    background: linear-gradient(to right, rgba(253,210,175,1) 0%, rgba(251,188,136,1) 100%);
+    & .aside__icon {
+      fill: #C55D07;
+    }
+}
+
+.error {
+    background: linear-gradient(to right, rgba(243,170,165,1) 0%, rgba(238,137,129,1) 100%);
+    & .aside__icon {
+      fill: #B42318;
+    }
+}
+
 </style>
