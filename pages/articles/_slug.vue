@@ -355,20 +355,11 @@ aside {
   position: relative;
   padding: 20px 40px;
   margin: 40px 0;
-  // &.info {
-  //   --aside-background: rgba(96, 146, 153, 0.15);
-  //   border-left-color: var(--aside-border);
-  // }
-  // &.warning {
-  //   --aside-background: rgba(234, 90, 79, 0.15);
-  //   border-left-color: var(--clr-sixth);
-  // }
 }
 
 .aside__content {
   position: relative;
   z-index: 1;
-  font-weight: 700;
 }
 
 .toc {
@@ -456,7 +447,7 @@ aside {
     bottom: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.5;
+    opacity: 0.35;
   }
 }
 
