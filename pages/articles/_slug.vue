@@ -335,20 +335,27 @@ p + h2 {
   }
 }
 
-code,
 code[class*="language-"],
-pre[class*="language-"] {
+pre[class*="language-"] code {
   font-family: var(--ff-code-block);
   line-height: var(--ff-lh);
   color: var(--clr-base-dk);
   text-shadow: none;
   padding: calc(var(--padding-df) * 2);
-  width: 100%;
   display: block;
+}
+
+code {
+  font-family: var(--ff-code-block);
+  line-height: var(--ff-lh);
+  color: var(--clr-base-dk);
+  background: #F1F6F7;
 }
 
 pre[class*="language-"] {
   padding: 0;
+  width: 100%;
+  display: block;
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
