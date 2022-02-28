@@ -38,25 +38,15 @@ So, what is it? 'Create React App' is a tool to create single-page React applica
 
 Now we know _what_ it is, let's start using it.
 
-<aside class="warning">
-
-**Prerequisites**
-
-You will need to have the following versions of Node & npm installed; Node >= 14.0.0, npm >= 5.6. You can check what versions you have of each by using `node -v` and `npm -v`.
-
-</aside>
+<aside-block type="prerequisites" heading="Prerequisites" text="
+      You will need to have the following versions of Node & npm installed; Node >= 14.0.0, npm >= 5.6. You can check what versions you have of each by using `node -v` and `npm -v`."></aside-block>
 
 ### Install the 'Create React App' package
 
 Rather than installing the CRA packaging directly using `npm i create-react-app`, we are going to use `npx`. This is a tool that allows you to run packages without having a global or local installation. In a similar fashion to an `npm` command, we will use `npx create-react-app my-app` to get started. If you are using `yarn` like I do, use the command `yarn create-react-app learn-react`. To use `npx`, you will need to have npm 5.2+ or higher.
 
-<aside class="info">
-
-**Using typescript? No problem**
-
-If you intend on using Typescript in your React project, just add `--template typescript` to the `create-react-app` command. We're sticking with "regular" Javascript for this, but it doesn't differ too much.
-
-</aside>
+<aside-block type="info" heading="Using typescript? No problem" text="
+      If you intend on using Typescript in your React project, just add `--template typescript` to the `create-react-app` command. We're sticking with 'regular' Javascript for this, but it doesn't differ too much."></aside-block>
 
 Looking at our output in the folder directory, this is what we are given;
 
@@ -93,13 +83,8 @@ Run `yarn start` to open the project up on the default port of 3000 - and get st
 
 The CRA has a distinct advantage of only having one dependency to manage - `react-scripts`. While it is great to only have to manage one dependency, and not have to deal with the underlying packages, sometime we need/want to. So what then? In this instance, the CRA team included a command `npm run eject`. This command takes all the configuration files and other dependencies such as webpack and Babel and copies them into your projects `package.json` file as seperate dependencies.
 
-<aside class="warning">
-
-**Point of no return**
-
-Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.
-
-</aside>
+<aside-block type="warning" heading="Point of no return" text="
+      Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy."></aside-block>
 
 #### Eject alternatives
 
