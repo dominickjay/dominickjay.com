@@ -71,11 +71,7 @@ The [Getting Started](https://www.npmjs.com/package/json-server#getting-started)
 
 Now we've got our dummy JSON at `server/db.json`, we can add a command into the `package.json` file to start the server up. This command should be `"server": "json-server --watch server/db.json"`, but the `server` text can be changed to whatever is considered appropriate.
 
-<aside class="info">
-
-**FYI** - As I was working on this, the original attempt at running this command didn't work. Due to this site running locally on port 3000, and the local server attempting to do the same (as it's default), I needed to add the following flag to the command in the `package.json` file: `--port 3004`. This means that the whole command now reads as `json-server --watch server/db.json --port 3004`. I'm going to continue to reference this port number change throughout the rest of the post.
-
-</aside>
+<aside-block type="info" heading="FYI" text="As I was working on this, the original attempt at running this command didn't work. Due to this site running locally on port 3000, and the local server attempting to do the same (as it's default), I needed to add the following flag to the command in the <code>`package.json`</code> file: <code>`--port 3004`</code>. This means that the whole command now reads as <code>`json-server --watch server/db.json --port 3004`</code>. I'm going to continue to reference this port number change throughout the rest of the post."></aside-block>
 
 After running this command, we can access the data in our server at `http://localhost:3004/albums`!
 

@@ -14,8 +14,6 @@ tags:
 
 ### Personal
 
-Nine Inch Nails - Broken [Definitive Edition] [Ep/7"] [Ep] New Vinyl Record
-
 1. Watched episode 5 of Marvel's Falcon and the Winter Solider
 2. Watched episode 5 of BBC's Line of Duty
 3. This week I walked 91,391 steps this week according to Google Fit.

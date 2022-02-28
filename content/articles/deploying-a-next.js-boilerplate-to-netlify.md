@@ -30,13 +30,8 @@ To install Netlify CLI, make sure you have [Node.js](https://nodejs.org/en/downl
 
 After installation, check version and basic information by using the `netlify` command.
 
-<aside class="info">
-
-#### Global vs Local
-
-Installing Netlify CLI globally means that your system always has the latest version, including any breaking changes. While global installation is appropriate for initial development and experimentation, for managing builds in a continuous integration (CI) environment, use [local CLI installation](https://docs.netlify.com/cli/get-started/#installation-in-a-ci-environment) instead.
-
-</aside>
+<aside-block type="info" heading="Global vs Local" text="
+      Installing Netlify CLI globally means that your system always has the latest version, including any breaking changes. While global installation is appropriate for initial development and experimentation, for managing builds in a continuous integration (CI) environment, use <a href='https://docs.netlify.com/cli/get-started/#installation-in-a-ci-environment'>local CLI installation</a> instead."></aside-block>
 
 ### Authenticating with Netlify
 
@@ -78,19 +73,14 @@ package = "@netlify/plugin-nextjs"
 
 Also we will need to install this package using `npm install -D @netlify/plugin-nextjs@beta` to make it available for our deployment to be successful overall. For more information on the beta package, this is a great article: [Essential Next.js Build Plugin (beta)](https://github.com/netlify/netlify-plugin-nextjs#installing-the-beta)
 
-<aside class="info">
-
-#### What's the netlify.toml file?
-
-Netlify couldn't put it better themselves from their documentation;
-
-"...is a configuration file that specifies how Netlify builds and deploys your site — including redirects, branch and context-specific settings, and more. Its goal is to describe much of your site configuration alongside your code — with two goals:
-
-- When someone forks your repository, they can instantly create a Netlify site using the new repo. They don’t have to configure anything in the UI, and they’ll still get an identical site configuration.
-
-- You can track configuration changes using version control and configure some things that aren’t customizable in our UI."
-
-</aside>
+<aside-block type="info" heading="What's the netlify.toml file?" text="
+	<p>Netlify couldn't put it better themselves from their documentation;</p>
+	<p>'...is a configuration file that specifies how Netlify builds and deploys your site — including redirects, branch and context-specific settings, and more. Its goal is to describe much of your site configuration alongside your code — with two goals:</p>
+	<ul>
+	<li><p>When someone forks your repository, they can instantly create a Netlify site using the new repo. They don’t have to configure anything in the UI, and they’ll still get an identical site configuration.</p></li>
+	<li><p>You can track configuration changes using version control and configure some things that aren’t customizable in our UI.'</p></li></p>
+	</ul>
+"></aside-block>
 
 The reason we added these extra lines was because the `build` plugin that is being used will check for the `out` directory, but Netlify's beta version that was released for Next 12 was changed to match to the `.next` directory. This should be how our netlify.toml file looks at the moment;
 
@@ -105,11 +95,8 @@ The reason we added these extra lines was because the `build` plugin that is bei
 
 Now we've got this sorted, lets run `netlify build` again.
 
-<aside class="info">
-
-I found that along the way - I think when the deploy command was run - that a /.next directory was created, which caused the `netlify build` command to hang. If this occurs to you, try deleting this directory and running the build command again.
-
-</aside>
+<aside-block type="info" heading="" text="
+I found that along the way - I think when the deploy command was run - that a /.next directory was created, which caused the `netlify build` command to hang. If this occurs to you, try deleting this directory and running the build command again."></aside-block>
 
 After a while, this should complete, with the CLI returning something like this;
 

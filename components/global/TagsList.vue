@@ -27,11 +27,11 @@ export default {
 
 @media (prefers-color-scheme: dark) {
   .tag-list a {
-    --clr-tag-text: var(--clr-base-dk);
+    --clr-tag-text: var(--clr-base-lt);
   }
 
   *:not([data-user-color-scheme]) .tag-list a {
-    --clr-tag-text: var(--clr-base-dk);
+    --clr-tag-text: var(--clr-base-lt);
   }
 }
 

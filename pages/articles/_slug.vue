@@ -48,13 +48,9 @@
             </div>
             <time>
               Published at:
-<<<<<<< Updated upstream
               <strong>{{
                 formatDate(article.date)
               }}</strong>
-=======
-              <strong>{{ formatDate(article.date) }}</strong>
->>>>>>> Stashed changes
             </time>
           </div>
         </article>
@@ -63,10 +59,8 @@
   </main>
 </template>
 
-<script lang>
+<script>
 import Prism from 'prismjs'
-import getShareImage from '@jlengstorf/get-share-image'
-import getSiteMeta from '~/utils/getSiteMeta.js'
 import 'prismjs/plugins/line-highlight/prism-line-highlight'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
 
@@ -76,27 +70,8 @@ export default {
 
     const article = await $content('articles', year, month, slug).fetch()
 
-    const socialImage = getShareImage({
-      title: article.title,
-      tagline: article.tags,
-      cloudName: 'dominickjay217',
-      imagePublicID: 'post-template',
-      textAreaWidth: '850',
-      titleColor: '203140',
-      titleBottomOffset: '300',
-      titleLeftOffset: '220',
-      titleFont: 'Hackney.ttf',
-      titleExtraConfig: '_bold',
-      titleFontSize: '100',
-      taglineFont: 'Hackney.ttf',
-      taglineFontSize: '45',
-      taglineLeftOffset: '225',
-      taglineTopOffset: '450',
-    })
-
     return {
       article,
-      socialImage,
     }
   },
   data() {
@@ -106,31 +81,55 @@ export default {
   },
   head() {
     return {
-      title: this.article.title,
-      meta: [
-        ...this.meta,
-        {
-          property: 'article:published_time',
-          content: this.article.createdAt,
-        },
-        {
-          property: 'article:tag',
-          content: this.article.tags ? this.article.tags.toString() : '',
-        },
-        { name: 'twitter:label1', content: 'Written by' },
-        { name: 'twitter:data1', content: 'Dominick Jay' },
-        {
-          name: 'twitter:data2',
-          content: this.article.tags ? this.article.tags.toString() : '',
-        },
-      ],
-      link: [
-        {
-          hid: 'canonical',
-          rel: 'canonical',
-          href: `https://dominickjay.com/articles/${this.$route.params.slug}`,
-        },
-      ],
+      meta:  [
+      {
+        hid:  "og:type",
+        property:  "og:type",
+        content:  "article"
+      },
+      {
+        hid: "og:title",
+        property: "og:title",
+        content: this.article.title
+      },
+      {
+        hid: "og:description",
+        property: "og:description",
+        content: this.article.description
+      },
+      {
+        hid: "og:image",
+        property: "og:image",
+        content: this.ogImageUrl
+      },
+      {
+        property: "og:image:width",
+        content: "1200"
+      },
+      {
+        property: "og:image:height",
+        content: "630"
+      },
+      {
+        name: "twitter:card",
+        content: "summary_large_image"
+      },
+      {
+        hid: "twitter:title",
+        name: "twitter:title",
+        content: this.article.title
+      },
+      {
+        hid: "twitter:description",
+        name: "twitter:description",
+        content: this.article.description
+      },
+      {
+        hid: "twitter:image",
+        name: "twitter:image",
+        content: this.ogImageUrl
+      }
+      ]
     }
   },
   computed: {
@@ -142,19 +141,26 @@ export default {
       minutes = Math.ceil(words / wordsPerMinute)
       return minutes
     },
-    meta() {
-      const metaData = {
-        type: 'article',
-        title: this.article.title,
-        description: this.article.description,
-        url: `https://dominickjay.com/articles/${this.$route.params.slug}`,
-        mainImage: this.socialImage,
-      }
-      return getSiteMeta(metaData)
-    },
+    ogImageUrl()  {
+      return this.$cloudinary.image.url(
+        'post-template', {
+          transformation:  [{
+            width:  "700",
+            overlay:  {
+              font_family:  "Hackney.ttf",
+              font_size:  80,
+              font_weight:  "bold",
+              text:  this.article.title,
+              co_rgb:  "203140",
+              width: 850
+            },
+          }]
+        }
+      )
+    }
   },
   mounted() {
-    Prism.highlightAll()
+    Prism.highlightAll();
   },
   methods: {
     formatDate(articleDate) {
@@ -171,15 +177,6 @@ export default {
 <style lang="scss">
 :root {
   --blog-gradient: var(--heading-gradient);
-  --aside-background: rgba(255, 255, 255, 0.15);
-  --aside-border: var(--clr-fifth-dk);
-  --aside-icon: var(--clr-fifth-dk);
-}
-
-@media (prefers-color-scheme: dark) {
-}
-
-[data-user-color-scheme='dark'] {
 }
 
 .reading-time {
@@ -271,26 +268,6 @@ p > code {
   font-weight: var(--fw-base-lg);
 }
 
-@media (prefers-color-scheme: dark) {
-}
-
-aside {
-  position: relative;
-  padding: 20px 40px;
-  padding-left: 25px;
-  margin: 40px 0;
-  border-left: 15px solid;
-  background-color: var(--aside-background);
-  &.info {
-    --aside-background: rgba(96, 146, 153, 0.15);
-    border-left-color: var(--aside-border);
-  }
-  &.warning {
-    --aside-background: rgba(234, 90, 79, 0.15);
-    border-left-color: var(--clr-sixth);
-  }
-}
-
 .toc {
   position: sticky;
   margin: 0;
@@ -349,7 +326,8 @@ aside {
 @media (max-width: 992px) {
   .post .nuxt-content-container,
   .post .nuxt-content,
-  .nuxt-content-container > .nuxt-content {
+  .nuxt-content-container > .nuxt-content,
+  .resources {
     max-width: none;
   }
 
@@ -362,4 +340,5 @@ aside {
     top: 0;
   }
 }
+
 </style>

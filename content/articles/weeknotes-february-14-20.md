@@ -16,6 +16,7 @@ tags:
 
 1. Went Axe throwing with my partner and was surprisingly pleased at the results.
 1. Been watching 'This is Going to Hurt' on BBC iPlayer - quite enjoyed the book and while the TV series comes off a lot darker, I'm still enjoying it.
+1. Bought tickets to see Nine Inch Nails in June at the Eden Project. First concert since all that COVID mess and absolutely stoked for it.
 
 ### Reading
 

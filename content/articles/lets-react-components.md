@@ -18,18 +18,12 @@ links:
 
 In this post, we are going to look into React components, what they are, what types are available and how we can create them. We'll then quickly scale up a project using the CRA, and put together a custom component to see how it all clicks together.
 
-<aside class="prerequisites">
+<aside-block type="prerequisites" heading="Prerequisites" text="
+      <ul>
+        <li>You will need to have the following versions of Node & npm installed; Node >= 14.0.0, npm >= 5.6. You can check what versions you have of each by using <code>`node -v`</code> and <code>`npm -v`</code> - this is in order to use the CRA effectively</li>
+        <li>We will be using JSX, so some knowledge of that would be helpful. Here's a page from the official React docs - <a href='https://reactjs.org/docs/introducing-jsx.html'>Introducing JSX</a></li>
+      </ul>"></aside-block>
 
-<div class="aside__content">
-
-**Prerequisites**
-
-- You will need to have the following versions of Node & npm installed; Node >= 14.0.0, npm >= 5.6. You can check what versions you have of each by using `node -v` and `npm -v` - this is in order to use the CRA effectively
-- We will be using JSX, so some knowledge of that would be helpful. Here's a page from the official React docs - [Introducing JSX](https://reactjs.org/docs/introducing-jsx.html)
-
-</div>
-
-</aside>
 
 ## What is it?
 
@@ -95,6 +89,16 @@ In this document, we’ll discuss why higher-order components are useful, and ho
 `npx generate-react-cli component MyComponent`
 
 ## Rendering a component
+
+Previously, we only encountered React elements that represent DOM tags:
+
+`const element = <div />;`
+
+However, elements can also represent user-defined components:
+
+`const element = <Welcome name="Sara" />;`
+
+When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
 
 ### Passing props
 
