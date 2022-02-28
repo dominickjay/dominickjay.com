@@ -61,8 +61,6 @@
 
 <script>
 import Prism from 'prismjs'
-import getShareImage from '@jlengstorf/get-share-image'
-import getSiteMeta from '~/utils/getSiteMeta.js'
 import 'prismjs/plugins/line-highlight/prism-line-highlight'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
 

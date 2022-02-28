@@ -1,3 +1,4 @@
+---
 title: "Let's React: Create React App"
 description: 'A deep dive into Create React App - a tool for building single page applications'
 date: 2022-02-17
@@ -37,7 +38,7 @@ So, what is it? 'Create React App' is a tool to create single-page React applica
 
 Now we know _what_ it is, let's start using it.
 
-<aside class="warning">
+<aside class="prerequisites">
 
 **Prerequisites**
 
