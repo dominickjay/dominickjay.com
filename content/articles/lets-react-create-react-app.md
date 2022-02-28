@@ -1,5 +1,4 @@
----
-title: 'Let`s React: Create React App'
+title: "Let's React: Create React App"
 description: 'A deep dive into Create React App - a tool for building single page applications'
 date: 2022-02-17
 tags:
@@ -104,8 +103,6 @@ Running the `npm run eject` or `yarn eject` commands is irreversible, so make su
 #### Eject alternatives
 
 Running eject isn't highly recommended however, as there are tools that can allow for overriding dependencies _without_ ejecting. CRACO for example, which stands for Create React App Configuration Override can override parts of the create-react-app tool while still allowing for the advantage of CRA's one dependecy to be taken advantage of.
-
-See also [next-steps](#next-steps)
 
 ## Advantages & Disadvantages
 
