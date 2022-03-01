@@ -106,6 +106,12 @@ When React sees an element representing a user-defined component, it passes JSX 
 
 ### Compound components
 
+Compound components can be said to be a pattern that encloses the state and the behavior of a group of components but still gives the rendering control of its variable parts back to the external user.
+
+From the definition above, taking note of the keywords: state and behavior. This helps us understand that compound component deal with state (i.e. how state behaves across a component which is enclosed by an external user being the parent of the component).
+
+The objective of compound components is to provide a more expressive and flexible API for communication between the parent and the child components.
+
 ### Controlled components
 
 ### Recursive components

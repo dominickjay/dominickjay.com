@@ -117,6 +117,7 @@ export default {
 .aside__content {
   position: relative;
   z-index: 1;
+  color: var(--clr-base-dk);
 }
 
 aside {

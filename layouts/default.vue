@@ -34,6 +34,12 @@ export default {
   font-display: swap;
 }
 
+@font-face {
+  font-family: var(--ff-code-block);
+  src: url("/fonts/CascadiaMono-Regular.otf")  format("truetype");
+  font-display: swap;
+}
+
 :root {
 
   --clr-base:    #f9f9f9;
@@ -59,6 +65,7 @@ export default {
   --ff-alt-alpha: 'Hackney';
   --ff-heading: 'Faune';
   --ff-heading-tb: 'Faune TB';
+  --ff-code-block: 'CascadiaMono';
   --fw-base: 300;
   --fw-base-m: 500;
   --fw-base-lg: 700;
