@@ -119,7 +119,7 @@ export default {
 <style lang="scss">
 
 .header {
-  padding: var(--padding);
+  padding: var(--space-s);
   position: relative;
   overflow: hidden;
   & > .container {
@@ -130,6 +130,7 @@ export default {
   }
   &__title {
     padding-block: var(--space-m);
+    position: relative;
     & img {
       margin: 0;
     }
@@ -163,6 +164,9 @@ export default {
 }
 
 @media (max-width: 640px){
+  .header {
+    padding-block: var(--space-l);
+  }
   .header .container:nth-child(2) {
     flex-direction: column;
     margin-bottom: 0;

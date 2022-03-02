@@ -38,7 +38,7 @@ a {
     padding-inline: var(--space-s);
     margin-block: var(--space-m);
     position: relative;
-    transition: color var(--transition-timing) var(--transition-duration);;
+    transition: color var(--transition-timing) var(--transition-duration);
     transition-delay: .02s;
     &::before {
       content: "";

@@ -61,9 +61,6 @@ export default {
   --font-weight-900: 900;
   --line-height: 1.8;
 
-  --padding: 20px;
-  --grid-gap: 20px;
-
   --space-2xs: clamp(0.56rem, calc(0.65rem + -0.10vw), 0.63rem);
   --space-xs: clamp(0.88rem, calc(0.96rem + -0.10vw), 0.94rem);
   --space-s: clamp(1.13rem, calc(1.29rem + -0.21vw), 1.25rem);
@@ -164,9 +161,9 @@ a:not([class]),
 a[class=""],
 button:not([class]) {
   text-decoration: underline;
-  text-decoration-color: var(--red-500);
+  text-decoration-color: var(--gray-500);
   text-decoration-thickness: 2px;
-  transition: .2s ease-out text-decoration-color;
+  transition: text-decoration-color var(--transition-timing) var(--transition-duration);
 }
 
 a:not([class]):hover,
@@ -208,8 +205,8 @@ main {
 }
 
 .content {
-  padding: 40px 0;
-  margin-bottom: 40px;
+  padding-block: var(--space-l);
+  margin-bottom: var(--space-l);
 }
 
 .content:last-child {
@@ -218,7 +215,7 @@ main {
 
 @media (max-width: 640px) {
   .content {
-    padding-block: var(--padding);
+    padding-block: var(--space-s);
   }
 }
 

@@ -27,7 +27,7 @@
     position: relative;
   }
   &__link {
-    padding-inline: var(--space-m);
+    padding-inline: var(--space-s);
     padding-top: var(--space-s);
     font-family: var(--sans-serif);
     font-size: var(--step-1);
@@ -45,24 +45,26 @@
 @media (max-width: 992px) {
   .navigation {
     margin-block: var(--space-2xs);
-    padding-inline: var(--padding);
+    padding-inline: var(--padding-s);
   }
 }
 
 @media (max-width: 640px) {
   .navigation {
     width: 100%;
-    padding: 0;
     justify-content: flex-start;
-    margin-block-end: var(--space-l);
+    margin-block-start: var(--space-s);
   }
 
   .navigation__item {
-    margin-inline-end: var(--space-m);
+    margin-inline: var(--space-m);
+    &:first-child {
+      margin-left: 0;
+    }
   }
 
   .navigation__link {
-    padding-inline-start: 5px;
+    padding-inline: 5px;
   }
 }
 

@@ -74,44 +74,10 @@ export default Vue.extend({
       text-decoration-color: var(--red-500);
     }
   }
-  &:hover .options,
-  &:focus .options {
-    opacity: 1;
-    filter: grayscale(0);
-  }
 }
 
 .status {
     font-weight: var(--font-weight-500);
-}
-
-.options {
-  opacity: 0.25;
-  display: flex;
-  filter: grayscale(1);
-  gap: 10px;
-  transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
-  & button {
-    background: transparent;
-    border: 0;
-    display: flex;
-    gap: 5px;
-    cursor: pointer;
-    &:hover {
-      &::before {
-        transform: scale(1.05);
-      }
-    }
-    &.love::before {
-      content: "💓";
-    }
-    &.like::before {
-      content: "👍";
-    }
-    &.dislike::before {
-      content: "👎";
-    }
-  }
 }
 
 @media (max-width: 640px) {
