@@ -27,16 +27,16 @@ export default {
 
 @media (prefers-color-scheme: dark) {
   .tag-list a {
-    --clr-tag-text: var(--clr-base-lt);
+    --tag-text: var(--base-lt);
   }
 
   *:not([data-user-color-scheme]) .tag-list a {
-    --clr-tag-text: var(--clr-base-lt);
+    --tag-text: var(--base-lt);
   }
 }
 
 [data-user-color-scheme='dark'] {
-  --clr-tag-text: var(--clr-base-lt);
+  --tag-text: var(--base-lt);
 }
 
 .tags {
@@ -61,8 +61,8 @@ export default {
     display: block;
     padding-block: 5px;
     padding-inline: 10px;
-    border: 2px solid var(--clr-third-lt);
-    color: var(--clr-tag-text);
+    border: 2px solid var(--orange-300);
+    color: var(--tag-text);
     font-size: var(--step-0);
     text-decoration: none;
     text-decoration-thickness: 1px;
@@ -77,7 +77,7 @@ export default {
   }
   & span:hover {
     & a {
-      background-color: var(--clr-third-lt);
+      background-color: var(--orange-300);
     }
   }
 }

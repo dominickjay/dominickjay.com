@@ -28,17 +28,18 @@ export default {
 <style lang="scss" scoped>
 
 a {
-    font-size: var(--step-2);
-    font-family: var(--ff-alt-alpha);
-    display: inline-block;
-    color: var(--all-posts-link);
-    padding: 0 var(--padding-df);
-    position: relative;
-    transition: .25s ease-in-out color;
-    transition-delay: .02s;
-    padding-bottom: 2px;
+    font-size: var(--step-0);
+    font-family: var(--display);
+    color: var(--gray-100);
+    text-transform: uppercase;
     text-decoration: none;
-    margin-block: 20px;
+    display: inline-block;
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-s);
+    margin-block: var(--space-m);
+    position: relative;
+    transition: color var(--transition-timing) var(--transition-duration);;
+    transition-delay: .02s;
     &::before {
       content: "";
       position: absolute;
@@ -46,27 +47,27 @@ a {
       top: 0;
       bottom: 0;
       right: 0;
-      background: var(--clr-sixth);
+      background: var(--red-300);
       z-index: -1;
-      transition: var(--trn-default);
+      transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
     }
     & svg {
       max-width: 50px;
       position: absolute;
-      top: -2.5px;
+      top: 4.5px;
       right: -50px;
       fill: transparent;
     }
     &:hover {
-      transition: .25s ease-in-out color;
-      color: var(--all-posts-link-hover);
+      transition: color var(--transition-timing) var(--transition-duration);
+      color: var(--gray-500);
       &::before {
         right: -50px;
         width: 50px;
-        transition: var(--trn-default);
+        transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
       }
       & svg {
-        fill: #fff;
+        fill: var(--gray-100);
         height: auto;
       }
     }

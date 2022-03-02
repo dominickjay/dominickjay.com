@@ -30,7 +30,6 @@ export default Vue.extend({
   },
   computed: {
     isDrafts () {
-      // @ts-ignore
       return this.$route.name === 'drafts'
     }
   },
@@ -60,7 +59,7 @@ export default Vue.extend({
   text-align: left;
   overflow: hidden;
   & .title {
-    font-weight: var(--fw-base-m);
+    font-weight: var(--font-weight-500);
     flex: 1;
     font-size: var(--step-0);
     margin-bottom: 10px;
@@ -68,11 +67,11 @@ export default Vue.extend({
   }
   & a.title {
     text-decoration: underline;
-    text-decoration-color: var(--clr-links);
+    text-decoration-color: var(--gray-500);
     text-decoration-thickness: 2px;
-    transition: .2s ease-out text-decoration-color;
+    transition: text-decoration-color var(--transition-timing) var(--transition-duration);
     &:hover {
-      text-decoration-color: var(--clr-links-active);
+      text-decoration-color: var(--red-500);
     }
   }
   &:hover .options,
@@ -83,7 +82,7 @@ export default Vue.extend({
 }
 
 .status {
-    font-weight: var(--fw-base);
+    font-weight: var(--font-weight-500);
 }
 
 .options {
@@ -91,7 +90,7 @@ export default Vue.extend({
   display: flex;
   filter: grayscale(1);
   gap: 10px;
-  transition: var(--trn-default);
+  transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
   & button {
     background: transparent;
     border: 0;

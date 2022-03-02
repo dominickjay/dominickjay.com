@@ -105,29 +105,29 @@ export default Vue.extend({
 <style lang="scss">
 
 :root {
-  --skill-background: var(--clr-secondary);
-  --skill-font: var(--clr-base);
-  --testimonial-text: var(--clr-secondary);
+  --skill-background: var(--blue-900);
+  --skill-font: var(--gray-100);
+  --testimonial-text: var(--blue-900);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --skill-background: var(--clr-primary);
-    --skill-font: var(--clr-secondary);
-    --testimonial-text: var(--clr-secondary);
+    --skill-background: var(--primary);
+    --skill-font: var(--blue-900);
+    --testimonial-text: var(--blue-900);
   }
 
   :root:not([data-user-color-scheme]) {
-    --skill-background: var(--clr-primary);
-    --skill-font: var(--clr-secondary);
-    --testimonial-text: var(--clr-secondary);
+    --skill-background: var(--primary);
+    --skill-font: var(--blue-900);
+    --testimonial-text: var(--blue-900);
   }
 }
 
 [data-user-color-scheme='dark'] {
-  --skill-background: var(--clr-primary);
-  --skill-font: var(--clr-secondary);
-  --testimonial-text: var(--clr-secondary);
+  --skill-background: var(--primary);
+  --skill-font: var(--blue-900);
+  --testimonial-text: var(--blue-900);
 }
 
 .about-me {
@@ -215,8 +215,8 @@ export default Vue.extend({
     opacity: 0.65;
   }
   & li {
-    background-color: var(--clr-sixth-lt);
-    color: var(--clr-base-dk);
+    background-color: var(--sixth-lt);
+    color: var(--gray-900);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
@@ -230,7 +230,7 @@ export default Vue.extend({
   padding-block: 40px;
   padding-inline: 60px;
   font-weight: var(--fw-base-m);
-  background-color: var(--clr-third-lt);
+  background-color: var(--orange-300);
   color: var(--testimonial-text);
 }
 

@@ -31,7 +31,7 @@ export default {
   margin-block: 2em;
   padding-block: 3em;
   padding-inline: 4em;
-  background-color: var(--clr-third-lt);
+  background-color: var(--orange-300);
   & p {
     font-size: var(--step-2);
     margin: 0 0 20px;

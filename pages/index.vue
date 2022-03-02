@@ -61,25 +61,25 @@ export default Vue.extend({
 
 <style lang="scss">
 :root {
-  --all-posts-link: var(--clr-base);
-  --all-posts-link-hover: var(--clr-base-dk);
+  --all-posts-link: var(--gray-100);
+  --all-posts-link-hover: var(--gray-900);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --all-posts-link: var(--clr-base-dk);
-    --all-posts-link-hover: var(--clr-base);
+    --all-posts-link: var(--gray-900);
+    --all-posts-link-hover: var(--gray-100);
   }
 
   :root:not([data-user-color-scheme]) {
-    --all-posts-link: var(--clr-base-dk);
-    --all-posts-link-hover: var(--clr-base);
+    --all-posts-link: var(--gray-900);
+    --all-posts-link-hover: var(--gray-100);
   }
 }
 
 [data-user-color-scheme='dark'] {
-  --all-posts-link: var(--clr-base-dk);
-  --all-posts-link-hover: var(--clr-base);
+  --all-posts-link: var(--gray-900);
+  --all-posts-link-hover: var(--gray-100);
 }
 
 .about {

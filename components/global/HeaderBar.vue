@@ -5,12 +5,12 @@
   >
     <div class="canvas" />
     <div class="container">
-      <h1 class="header__title heading heading--one">
+      <h1 class="heading heading--one header__title">
         <NuxtLink
           class="header__link"
           to="/"
         >
-          Dominick Jay
+          <img src="/images/logo.svg" alt="Logo for Dominick Jay" />
         </NuxtLink>
       </h1>
       <NavigationBar />
@@ -119,7 +119,7 @@ export default {
 <style lang="scss">
 
 .header {
-  padding: var(--padding-df);
+  padding: var(--padding);
   position: relative;
   overflow: hidden;
   & > .container {
@@ -129,23 +129,10 @@ export default {
     align-items: center;
   }
   &__title {
-    font-family: var(--ff-alt-alpha);
-    font-weight: var(--fw-base-m);
-    font-size: var(--step-5);
-    opacity: 0.85;
-    &:hover {
-      opacity: 1;
+    padding-block: var(--space-m);
+    & img {
+      margin: 0;
     }
-  }
-
-  &__link,
-  &__link:hover {
-    font-family: var(--ff-alt-alpha);
-    position: relative;
-    box-shadow: none;
-    transition: none;
-    color: var(--ff-color);
-    -webkit-text-fill-color: var(--ff-color);
   }
 }
 
