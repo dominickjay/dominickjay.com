@@ -6,6 +6,7 @@
           <h2 class="heading heading--two">{{ about.title }}</h2>
           <p>{{ about.intro }}</p>
           <nuxt-content :document="about" />
+          You can also see what I am currently up to <a :href="weeknotes[0].path">now</a>.
           <div class="testimonial">
             <p>
               "{{ about.testimonial[randomTestimonialNumber].testimonial }}"
@@ -60,11 +61,13 @@ import Vue from 'vue'
 export default Vue.extend({
   async asyncData ({ $content, $axios }) {
     const about = await $content('about').fetch()
+    const weeknotes = await $content('articles').where({ 'title': { $contains: 'Weeknotes' } }).limit(1).sortBy('date', 'desc').fetch()
     const joke = await $axios.$get('https://icanhazdadjoke.com', {
       headers: {'Accept': 'application/json'}})
     return {
       about,
-      joke
+      joke,
+      weeknotes
     }
   },
   data() {
@@ -85,49 +88,16 @@ export default Vue.extend({
 
     this.randomTestimonialNumber = getRandomInt(0, this.about.testimonial.length)
   }
-  // mounted () {
-  //   axios
-  //     .get('https://icanhazdadjoke.com/', {
-  //       headers: {
-  //         Accept: 'application/json'
-  //       }
-  //     })
-  //     .then((response) => {
-  //       this.newJoke = response.data.joke
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // },
 })
 </script>
 
 <style lang="scss">
 
-:root {
-  --skill-background: var(--blue-900);
-  --skill-font: var(--gray-100);
-  --testimonial-text: var(--blue-900);
-}
-
 @media (prefers-color-scheme: dark) {
-  :root {
-    --skill-background: var(--primary);
-    --skill-font: var(--blue-900);
-    --testimonial-text: var(--blue-900);
-  }
 
-  :root:not([data-user-color-scheme]) {
-    --skill-background: var(--primary);
-    --skill-font: var(--blue-900);
-    --testimonial-text: var(--blue-900);
-  }
 }
 
 [data-user-color-scheme='dark'] {
-  --skill-background: var(--primary);
-  --skill-font: var(--blue-900);
-  --testimonial-text: var(--blue-900);
 }
 
 .about-me {
@@ -138,20 +108,19 @@ export default Vue.extend({
                          "about-content about-content experience"
                          "about-content about-content joke";
   align-items: start;
-  grid-gap: 0 calc(var(--grid-gap) * 2);
+  gap: 0 var(--space-l);
   & h2,
   & h3 {
-    font-family: var(--ff-heading);
-    font-size: var(--step-5);
+    font-family: var(--display);
+    font-size: var(--step-3);
     text-align: left;
     position: relative;
   }
   & h3 {
-    font-size: var(--step-3);
-    margin-top: 40px;
     margin-bottom: 0;
+    margin-block-start: var(--space-l);
     &:not(:first-child) {
-      margin-block: 0;
+      margin-top: 0;
     }
   }
   &__content {
@@ -159,7 +128,7 @@ export default Vue.extend({
     position: sticky;
     top: 0;
     & > p {
-      font-weight: var(--fw-base-m);
+      font-weight: var(--font-weight-400);
       opacity: 0.65;
       font-size: var(--step-1);
     }
@@ -170,6 +139,9 @@ export default Vue.extend({
     font-size: var(--step-0);
   }
   &__skills {
+    & h3 {
+      margin-top: 0;
+    }
     grid-area: skills;
   }
   &__experience {
@@ -184,7 +156,7 @@ export default Vue.extend({
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-xs);
   & li {
     padding-block: 5px;
     padding-inline: 0;
@@ -192,9 +164,9 @@ export default Vue.extend({
   }
   p {
     font-size: var(--step-1);
-    font-weight: var(--fw-base-m);
+    font-weight: var(--font-weight-400);
     opacity: 0.85;
-    margin-block: 10px;
+    margin-block: var(--space-xs);
   }
   span:last-child {
     opacity: 0.75;
@@ -203,24 +175,24 @@ export default Vue.extend({
 
 .skill {
   &:not(:last-child) {
-    margin-bottom: 40px;
+    margin-bottom: var(--space-l);
   }
   & .list {
     flex-wrap: wrap;
     flex-direction: row;
   }
   & p {
-    margin-block: 20px;
-    font-weight: var(--fw-base-m);
+    margin-block: var(--space-s);
+    font-weight: var(--font-weight-400);
     opacity: 0.65;
   }
   & li {
-    background-color: var(--sixth-lt);
+    background-color: var(--red-100);
     color: var(--gray-900);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
-    font-weight: var(--fw-base-m);
+    font-weight: var(--font-weight-400);
   }
 }
 
@@ -229,8 +201,8 @@ export default Vue.extend({
   margin-top: 40px;
   padding-block: 40px;
   padding-inline: 60px;
-  font-weight: var(--fw-base-m);
-  background-color: var(--orange-300);
+  font-weight: var(--font-weight-400);
+  background-color: var(--orange-100);
   color: var(--testimonial-text);
 }
 
