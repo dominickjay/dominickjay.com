@@ -51,7 +51,7 @@ export default Vue.extend({
 .post {
   font-size: var(--step-0);
   display: flex;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
   justify-content: space-between;
   align-items: flex-start;
   position: relative;

@@ -101,20 +101,6 @@ export default {
   --step-3: clamp(1.73rem, calc(1.57rem + 0.78vw), 2.20rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-mode: 'dark';
-  }
-
-  :root:not([data-user-color-scheme]) {
-    --color-mode: 'dark';
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --color-mode: 'dark';
-}
-
 @media screen and (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
@@ -124,12 +110,21 @@ export default {
 }
 
 body {
+  --background: var(--gray-100);
+  --text: var(--gray-500);
   font-size: var(--step-0);
   line-height: var(--line-height);
   font-weight: var(--font-weight-500);
   font-family: var(--sans-serif);
-  color: var(--gray-500);
-  background-color: var(--gray-100);
+  color: var(--text);
+  background-color: var(--background);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --background: var(--gray-500);
+    --text: var(--gray-100);
+  }
 }
 
 b,
@@ -147,9 +142,17 @@ strong {
 
 a,
 button {
+  --text: var(--gray-500);
   font-family: var(--sans-serif);
-  color: var(--gray-500);
+  color: var(--text);
   text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  a,
+  button {
+    --text: var(--gray-100);
+  }
 }
 
 a:hover,
@@ -190,9 +193,16 @@ main {
 }
 
 .heading {
+  --text: var(--blue-500);
   font-family: var(--display);
   letter-spacing: -0.5px;
-  color: var(--blue-500);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .heading {
+    --text: var(--red-100);
+  }
 }
 
 .heading--two {

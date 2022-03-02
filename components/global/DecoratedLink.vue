@@ -28,49 +28,60 @@ export default {
 <style lang="scss" scoped>
 
 a {
-    font-size: var(--step-0);
-    font-family: var(--display);
-    color: var(--gray-100);
-    text-transform: uppercase;
-    text-decoration: none;
-    display: inline-block;
-    padding-block: var(--space-xs);
-    padding-inline: var(--space-s);
-    margin-block: var(--space-m);
-    position: relative;
+  --text: var(--gray-100);
+  font-size: var(--step-0);
+  font-family: var(--display);
+  color: var(--text);
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  padding-block: var(--space-xs);
+  padding-inline: var(--space-s);
+  margin-block: var(--space-m);
+  position: relative;
+  transition: color var(--transition-timing) var(--transition-duration);
+  transition-delay: .02s;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: var(--red-300);
+    z-index: -1;
+    transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
+  }
+  & svg {
+    max-width: 50px;
+    position: absolute;
+    top: 4.5px;
+    right: -50px;
+    fill: transparent;
+  }
+  &:hover {
+    --text: var(--gray-500);
     transition: color var(--transition-timing) var(--transition-duration);
-    transition-delay: .02s;
+    color: var(--text);
     &::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      background: var(--red-300);
-      z-index: -1;
+      right: -50px;
+      width: 50px;
       transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
     }
     & svg {
-      max-width: 50px;
-      position: absolute;
-      top: 4.5px;
-      right: -50px;
-      fill: transparent;
-    }
-    &:hover {
-      transition: color var(--transition-timing) var(--transition-duration);
-      color: var(--gray-500);
-      &::before {
-        right: -50px;
-        width: 50px;
-        transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
-      }
-      & svg {
-        fill: var(--gray-100);
-        height: auto;
-      }
+      fill: var(--gray-100);
+      height: auto;
     }
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  a {
+    --text: var(--gray-500);
+    &:hover {
+      --text: var(--gray-100);
+    }
+  }
+}
 
 </style>

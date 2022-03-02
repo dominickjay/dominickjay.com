@@ -60,27 +60,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-:root {
-  --all-posts-link: var(--gray-100);
-  --all-posts-link-hover: var(--gray-900);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --all-posts-link: var(--gray-900);
-    --all-posts-link-hover: var(--gray-100);
-  }
-
-  :root:not([data-user-color-scheme]) {
-    --all-posts-link: var(--gray-900);
-    --all-posts-link-hover: var(--gray-100);
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --all-posts-link: var(--gray-900);
-  --all-posts-link-hover: var(--gray-100);
-}
 
 .about {
   padding: 60px 0;
@@ -89,7 +68,7 @@ export default Vue.extend({
   font-weight: var(--fw-base-m);
   font-size: var(--step-1);
   display: flex;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
   & > p:first-child {
     opacity: 0.85;
     text-align: left;
@@ -100,14 +79,14 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
 }
 
 .posts-wrapper {
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--grid-gap);
+  gap: var(--space-s);
 }
 
 .posts-recent {
@@ -117,7 +96,6 @@ export default Vue.extend({
 .posts-recent .heading {
   margin: 0;
   margin-bottom: 20px;
-  -webkit-text-fill-color: unset;
   font-weight: 500;
 }
 

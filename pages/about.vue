@@ -104,32 +104,6 @@ export default Vue.extend({
 
 <style lang="scss">
 
-:root {
-  --skill-background: var(--blue-900);
-  --skill-font: var(--gray-100);
-  --testimonial-text: var(--blue-900);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --skill-background: var(--primary);
-    --skill-font: var(--blue-900);
-    --testimonial-text: var(--blue-900);
-  }
-
-  :root:not([data-user-color-scheme]) {
-    --skill-background: var(--primary);
-    --skill-font: var(--blue-900);
-    --testimonial-text: var(--blue-900);
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --skill-background: var(--primary);
-  --skill-font: var(--blue-900);
-  --testimonial-text: var(--blue-900);
-}
-
 .about-me {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -212,7 +186,7 @@ export default Vue.extend({
   }
   & li {
     background-color: var(--red-100);
-    color: var(--gray-900);
+    color: var(--gray-500);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
@@ -224,7 +198,8 @@ export default Vue.extend({
   margin-top: 40px;
   padding-block: 40px;
   padding-inline: 60px;
-  background-color: var(--orange-300);
+  background-color: var(--orange-100);
+  color: var(--gray-500);
 }
 
 .joke {
