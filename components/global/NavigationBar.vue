@@ -54,6 +54,7 @@
     width: 100%;
     justify-content: flex-start;
     margin-block-start: var(--space-s);
+    margin-block-end: 0;
   }
 
   .navigation__item {

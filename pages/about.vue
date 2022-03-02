@@ -138,11 +138,9 @@ export default Vue.extend({
                          "about-content about-content experience"
                          "about-content about-content joke";
   align-items: start;
-  grid-gap: 0 calc(var(--grid-gap) * 2);
+  grid-gap: 0 var(--space-xl);
   & h2,
   & h3 {
-    font-family: var(--ff-heading);
-    font-size: var(--step-5);
     text-align: left;
     position: relative;
   }
@@ -150,9 +148,6 @@ export default Vue.extend({
     font-size: var(--step-3);
     margin-top: 40px;
     margin-bottom: 0;
-    &:not(:first-child) {
-      margin-block: 0;
-    }
   }
   &__content {
     grid-area: about-content;
@@ -171,6 +166,9 @@ export default Vue.extend({
   }
   &__skills {
     grid-area: skills;
+    & h3 {
+      margin-top: 0;
+    }
   }
   &__experience {
     grid-area: experience;
@@ -192,7 +190,6 @@ export default Vue.extend({
   }
   p {
     font-size: var(--step-1);
-    font-weight: var(--fw-base-m);
     opacity: 0.85;
     margin-block: 10px;
   }
@@ -211,16 +208,14 @@ export default Vue.extend({
   }
   & p {
     margin-block: 20px;
-    font-weight: var(--fw-base-m);
     opacity: 0.65;
   }
   & li {
-    background-color: var(--sixth-lt);
+    background-color: var(--red-100);
     color: var(--gray-900);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
-    font-weight: var(--fw-base-m);
   }
 }
 
@@ -229,9 +224,7 @@ export default Vue.extend({
   margin-top: 40px;
   padding-block: 40px;
   padding-inline: 60px;
-  font-weight: var(--fw-base-m);
   background-color: var(--orange-300);
-  color: var(--testimonial-text);
 }
 
 .joke {

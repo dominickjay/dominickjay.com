@@ -166,6 +166,7 @@ export default {
 @media (max-width: 640px){
   .header {
     padding-block: var(--space-l);
+    padding-bottom: 0;
   }
   .header .container:nth-child(2) {
     flex-direction: column;

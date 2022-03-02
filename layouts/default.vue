@@ -196,7 +196,7 @@ main {
 }
 
 .heading--two {
-  font-size: var(--step-4);
+  font-size: var(--step-3);
   text-align: center;
 }
 
