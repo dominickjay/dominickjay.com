@@ -128,7 +128,6 @@ export default Vue.extend({
     position: sticky;
     top: 0;
     & > p {
-      font-weight: var(--fw-base-m);
       opacity: 0.65;
       font-size: var(--step-1);
     }

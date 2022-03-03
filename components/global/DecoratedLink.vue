@@ -28,10 +28,9 @@ export default {
 <style lang="scss" scoped>
 
 a {
-  --text: var(--gray-100);
   font-size: var(--step-0);
   font-family: var(--display);
-  color: var(--text);
+  color: var(--decorated-link-text);
   text-transform: uppercase;
   text-decoration: none;
   display: inline-block;
@@ -60,9 +59,8 @@ a {
     fill: transparent;
   }
   &:hover {
-    --text: var(--gray-500);
     transition: color var(--transition-timing) var(--transition-duration);
-    color: var(--text);
+    color: var(--decorated-link-text-hover);
     &::before {
       right: -50px;
       width: 50px;
@@ -71,15 +69,6 @@ a {
     & svg {
       fill: var(--gray-100);
       height: auto;
-    }
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  a {
-    --text: var(--gray-500);
-    &:hover {
-      --text: var(--gray-100);
     }
   }
 }

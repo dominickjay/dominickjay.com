@@ -92,13 +92,29 @@ export default {
 
   --container: 1280px;
 
-  --color-mode: 'light';
-
   --step--1: clamp(0.83rem, calc(0.81rem + 0.11vw), 0.90rem);
   --step-0: clamp(1.00rem, calc(0.96rem + 0.21vw), 1.13rem);
   --step-1: clamp(1.20rem, calc(1.13rem + 0.34vw), 1.41rem);
   --step-2: clamp(1.44rem, calc(1.33rem + 0.53vw), 1.76rem);
   --step-3: clamp(1.73rem, calc(1.57rem + 0.78vw), 2.20rem);
+
+  --background: var(--gray-100);
+  --text: var(--gray-500);
+
+  --decorated-link-text: var(--gray-100);
+  --decorated-link-text-hover: var(--gray-500);
+
+  --heading-text: var(--blue-500);
+
+  --link-color: var(--gray-500);
+  --logo-fill: var(--gray-500);
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-mode: 'dark';
+  }
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -110,21 +126,12 @@ export default {
 }
 
 body {
-  --background: var(--gray-100);
-  --text: var(--gray-500);
   font-size: var(--step-0);
   line-height: var(--line-height);
   font-weight: var(--font-weight-500);
   font-family: var(--sans-serif);
   color: var(--text);
   background-color: var(--background);
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    --background: var(--gray-500);
-    --text: var(--gray-100);
-  }
 }
 
 b,
@@ -142,7 +149,6 @@ strong {
 
 a,
 button {
-  --text: var(--gray-500);
   font-family: var(--sans-serif);
   color: var(--text);
   text-decoration: none;
@@ -164,7 +170,7 @@ a:not([class]),
 a[class=""],
 button:not([class]) {
   text-decoration: underline;
-  text-decoration-color: var(--gray-500);
+  text-decoration-color: var(--link-color);
   text-decoration-thickness: 2px;
   transition: text-decoration-color var(--transition-timing) var(--transition-duration);
 }
@@ -193,16 +199,9 @@ main {
 }
 
 .heading {
-  --text: var(--blue-500);
   font-family: var(--display);
   letter-spacing: -0.5px;
-  color: var(--text);
-}
-
-@media (prefers-color-scheme: dark) {
-  .heading {
-    --text: var(--red-100);
-  }
+  color: var(--heading-text);
 }
 
 .heading--two {
@@ -227,6 +226,34 @@ main {
   .content {
     padding-block: var(--space-s);
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--gray-500);
+    --text: var(--gray-100);
+
+    --decorated-link-text: var(--gray-500);
+    --decorated-link-text-hover: var(--gray-100);
+
+    --heading-text: var(--blue-100);
+
+    --link-color: var(--blue-100);
+    --logo-fill: var(--gray-100);
+  }
+}
+
+[data-user-color-scheme="dark"] {
+  --background: var(--gray-500);
+  --text: var(--gray-100);
+
+  --decorated-link-text: var(--gray-500);
+  --decorated-link-text-hover: var(--gray-100);
+
+  --heading-text: var(--blue-100);
+
+  --link-color: var(--blue-100);
+  --logo-fill: var(--gray-100);
 }
 
 </style>
