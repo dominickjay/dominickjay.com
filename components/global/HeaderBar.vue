@@ -3,16 +3,19 @@
     class="header"
     :class="[isHome ? 'header--thick' : 'header--thin']"
   >
-    <div class="user-toggle">
-      <div role="status" class="visually-hidden js-mode-status"></div>
-      <label id="switch" class="switch">
-          <span class="js-mode-toggle-text visually-hidden">Enable dark mode</span>
-          <input id="slider" type="checkbox" class="js-mode-toggle">
-          <span class="slider round"></span>
-      </label>
-    </div>
     <div class="canvas" />
     <div class="container">
+      <!-- TODO: Move to component -->
+      <div class="user-toggle">
+        <div role="status" class="visually-hidden js-mode-status"></div>
+        <label id="switch" class="switch">
+            <span class="js-mode-toggle-text visually-hidden">Enable dark mode</span>
+            <input id="slider" type="checkbox" class="js-mode-toggle">
+            <span class="slider">
+              <img src="/images/switch.png" alt="" srcset="">
+            </span>
+        </label>
+      </div>
       <h1 class="heading heading--one header__title">
         <NuxtLink
           class="header__link"
@@ -72,6 +75,7 @@ export default {
     };
 
     const setButtonLabelAndStatus = currentSetting => {
+      currentSetting === 'dark' ? document.getElementById('slider').setAttribute('checked', 'checked') : document.getElementById('slider').removeAttribute('checked');
       modeToggleText.innerText = `Enable ${
         currentSetting === 'dark' ? 'light' : 'dark'
       } mode`;
@@ -87,12 +91,9 @@ export default {
           break;
         case 'light':
           currentSetting = 'dark';
-          console.log(document.getElementById('slider').checked = true)
-          document.getElementById('slider').setAttribute('checked', 'checked')
           break;
         case 'dark':
           currentSetting = 'light';
-          document.getElementById('slider').removeAttribute('checked')
           break;
       }
 
@@ -194,6 +195,7 @@ export default {
 
 .header {
   padding: var(--space-s);
+  padding-block-start: var(--space-xl);
   position: relative;
   overflow: hidden;
   & > .container {
@@ -229,10 +231,13 @@ export default {
 }
 
 .user-toggle {
-  position: relative;
   z-index: 1;
-  max-width: 100px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  margin: 0 auto;
+  right: 100px;
+  top: -20px;
 }
 
 .slider {
@@ -242,39 +247,14 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
   transition: 0.4s;
-  &::before {
-    position: absolute;
-    content: "";
-    height: 110%;
-    width: 60%;
-    left: 0px;
-    bottom: 4px;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    transition: 0.4s;
-    box-shadow: 0 0px 15px #2020203d;
-    background: white;
-    background-position-x: 0%;
-    background-position-y: 0%;
-    background-repeat: repeat;
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 50%;
-  }
-}
-
-.slider.round {
-  border-radius: 50px;
 }
 
 .switch {
   position: absolute;
   display: inline-block;
-  width: 40%;
-  height: 40%;
+  width: 100%;
+  height: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -286,10 +266,9 @@ export default {
   height: 0;
 }
 
-input[checked="checked"] + .slider {
-  background-color: #2196f3;
-  &::before {
-  transform: translateX(70%);
+input[checked="checked"] + .slider img {
+  transform: rotate(180deg);
+  filter: invert(100%);
 }
 
 @media (max-width: 992px) {

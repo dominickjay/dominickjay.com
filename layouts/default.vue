@@ -196,6 +196,7 @@ main {
   max-width: var(--container);
   margin: 0 auto;
   padding-inline: var(--space-l);
+  position: relative;
 }
 
 .heading {
