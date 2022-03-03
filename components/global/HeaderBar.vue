@@ -7,7 +7,7 @@
       <div role="status" class="visually-hidden js-mode-status"></div>
       <label id="switch" class="switch">
           <span class="js-mode-toggle-text visually-hidden">Enable dark mode</span>
-          <input type="checkbox" onchange="toggleTheme()" class="js-mode-toggle" id="slider">
+          <input id="slider" type="checkbox" class="js-mode-toggle">
           <span class="slider round"></span>
       </label>
     </div>
@@ -87,9 +87,12 @@ export default {
           break;
         case 'light':
           currentSetting = 'dark';
+          console.log(document.getElementById('slider').checked = true)
+          document.getElementById('slider').setAttribute('checked', 'checked')
           break;
         case 'dark':
           currentSetting = 'light';
+          document.getElementById('slider').removeAttribute('checked')
           break;
       }
 
@@ -100,7 +103,6 @@ export default {
 
     modeToggleButton.addEventListener('click', evt => {
       evt.preventDefault();
-
       applySetting(toggleSetting());
     });
 
@@ -229,6 +231,8 @@ export default {
 .user-toggle {
   position: relative;
   z-index: 1;
+  max-width: 100px;
+  height: 50px;
 }
 
 .slider {
@@ -240,6 +244,26 @@ export default {
   bottom: 0;
   background-color: #ccc;
   transition: 0.4s;
+  &::before {
+    position: absolute;
+    content: "";
+    height: 110%;
+    width: 60%;
+    left: 0px;
+    bottom: 4px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    transition: 0.4s;
+    box-shadow: 0 0px 15px #2020203d;
+    background: white;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+  }
 }
 
 .slider.round {
@@ -249,8 +273,8 @@ export default {
 .switch {
   position: absolute;
   display: inline-block;
-  width: 20%;
-  height: 15%;
+  width: 40%;
+  height: 40%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -262,8 +286,10 @@ export default {
   height: 0;
 }
 
-input:checked + .slider {
+input[checked="checked"] + .slider {
   background-color: #2196f3;
+  &::before {
+  transform: translateX(70%);
 }
 
 @media (max-width: 992px) {
