@@ -104,32 +104,6 @@ export default Vue.extend({
 
 <style lang="scss">
 
-:root {
-  --skill-background: var(--clr-secondary);
-  --skill-font: var(--clr-base);
-  --testimonial-text: var(--clr-secondary);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --skill-background: var(--clr-primary);
-    --skill-font: var(--clr-secondary);
-    --testimonial-text: var(--clr-secondary);
-  }
-
-  :root:not([data-user-color-scheme]) {
-    --skill-background: var(--clr-primary);
-    --skill-font: var(--clr-secondary);
-    --testimonial-text: var(--clr-secondary);
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --skill-background: var(--clr-primary);
-  --skill-font: var(--clr-secondary);
-  --testimonial-text: var(--clr-secondary);
-}
-
 .about-me {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -138,11 +112,9 @@ export default Vue.extend({
                          "about-content about-content experience"
                          "about-content about-content joke";
   align-items: start;
-  grid-gap: 0 calc(var(--grid-gap) * 2);
+  grid-gap: 0 var(--space-xl);
   & h2,
   & h3 {
-    font-family: var(--ff-heading);
-    font-size: var(--step-5);
     text-align: left;
     position: relative;
   }
@@ -150,16 +122,12 @@ export default Vue.extend({
     font-size: var(--step-3);
     margin-top: 40px;
     margin-bottom: 0;
-    &:not(:first-child) {
-      margin-block: 0;
-    }
   }
   &__content {
     grid-area: about-content;
     position: sticky;
     top: 0;
     & > p {
-      font-weight: var(--fw-base-m);
       opacity: 0.65;
       font-size: var(--step-1);
     }
@@ -171,6 +139,9 @@ export default Vue.extend({
   }
   &__skills {
     grid-area: skills;
+    & h3 {
+      margin-top: 0;
+    }
   }
   &__experience {
     grid-area: experience;
@@ -192,7 +163,6 @@ export default Vue.extend({
   }
   p {
     font-size: var(--step-1);
-    font-weight: var(--fw-base-m);
     opacity: 0.85;
     margin-block: 10px;
   }
@@ -211,16 +181,14 @@ export default Vue.extend({
   }
   & p {
     margin-block: 20px;
-    font-weight: var(--fw-base-m);
     opacity: 0.65;
   }
   & li {
-    background-color: var(--clr-sixth-lt);
-    color: var(--clr-base-dk);
+    background-color: var(--red-100);
+    color: var(--gray-500);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
-    font-weight: var(--fw-base-m);
   }
 }
 
@@ -229,9 +197,8 @@ export default Vue.extend({
   margin-top: 40px;
   padding-block: 40px;
   padding-inline: 60px;
-  font-weight: var(--fw-base-m);
-  background-color: var(--clr-third-lt);
-  color: var(--testimonial-text);
+  background-color: var(--orange-100);
+  color: var(--gray-500);
 }
 
 .joke {

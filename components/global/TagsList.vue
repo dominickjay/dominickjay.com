@@ -25,59 +25,38 @@ export default {
 
 <style lang="scss" scoped>
 
-@media (prefers-color-scheme: dark) {
-  .tag-list a {
-    --clr-tag-text: var(--clr-base-lt);
-  }
-
-  *:not([data-user-color-scheme]) .tag-list a {
-    --clr-tag-text: var(--clr-base-lt);
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --clr-tag-text: var(--clr-base-lt);
-}
-
 .tags {
   max-width: 360px;
   display: flex;
   flex-direction: column;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
   align-content: center;
-  & .heading {
-    color: var(--ff-color);
-    -webkit-text-fill-color: unset;
-    font-weight: 500;
-  }
 }
 
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--grid-gap);
-  margin-bottom: var(--grid-gap);
+  gap: var(--space-s);
+  margin-bottom: var(--space-s);
   & a {
     display: block;
     padding-block: 5px;
-    padding-inline: 10px;
-    border: 2px solid var(--clr-third-lt);
-    color: var(--clr-tag-text);
+    padding-inline: var(--space-s);
+    border: 2px solid var(--orange-300);
     font-size: var(--step-0);
     text-decoration: none;
     text-decoration-thickness: 1px;
-    font-weight: var(--fw-base-m);
-    transition: var(--trn-default);
+    transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
   }
   & span {
-    transition: var(--trn-default);
+      transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
     &:hover {
-      transition: var(--trn-default);
+      transition: var(--transition-property) var(--transition-timing) var(--transition-duration);
     }
   }
   & span:hover {
     & a {
-      background-color: var(--clr-third-lt);
+      background-color: var(--orange-300);
     }
   }
 }
