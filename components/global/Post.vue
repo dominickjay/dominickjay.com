@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 
 import Vue from 'vue'
 
@@ -33,17 +33,6 @@ export default Vue.extend({
       return this.$route.name === 'drafts'
     }
   },
- async created() {
-  },
-  methods: {
-    async saveResult(title: any, result: any) {
-      await this.$supabase
-        .from('voting')
-        .insert([
-            { post_title: title, result }
-        ])
-    }
-  }
 })
 </script>
 
