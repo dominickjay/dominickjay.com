@@ -323,7 +323,8 @@ code[class*="language-"],
 pre[class*="language-"] code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--gray-900);
+  color: var(--gray-500);
+  font-weight: 600;
   text-shadow: none;
   padding: var(--space-l);
   display: block;
@@ -332,7 +333,7 @@ pre[class*="language-"] code {
 code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--gray-900);
+  color: var(--gray-500);
   background: #F1F6F7;
 }
 
