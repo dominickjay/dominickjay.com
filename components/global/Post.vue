@@ -67,7 +67,7 @@ export default Vue.extend({
   }
   & a.title {
     text-decoration: underline;
-    text-decoration-color: var(--gray-500);
+    text-decoration-color: var(--link-color);
     text-decoration-thickness: 2px;
     transition: text-decoration-color var(--transition-timing) var(--transition-duration);
     &:hover {

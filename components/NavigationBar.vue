@@ -28,7 +28,7 @@
   }
   &__link {
     padding-inline: var(--space-s);
-    padding-top: var(--space-s);
+    padding-top: var(--space-2xs);
     font-family: var(--sans-serif);
     font-size: var(--step-1);
     font-weight: var(--font-weight-700);
