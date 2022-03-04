@@ -175,9 +175,6 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
-  --blog-gradient: var(--heading-gradient);
-}
 
 .reading-time {
   font-weight: var(--fw-base-lg);
@@ -203,24 +200,18 @@ img[src*='#gif'] {
   max-width: 350px;
 }
 
-h2 {
-  font-family: var(--ff-heading);
-  font-weight: 400;
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: var(--font-weight-300);
 }
 
 .post {
   color: var(--ff-color);
-  .heading {
-    margin-top: 0;
-    font-weight: 900;
-    line-height: 1.6;
-  }
   .subheading {
     margin-block: 20px;
     display: block;
     text-align: center;
-    font-size: 1.5rem;
-    line-height: 1.4;
   }
   .resources {
     padding-block: 20px;
@@ -239,7 +230,7 @@ h2 {
     }
     & li::before {
       counter-increment: section;
-      content: '0' counter(section);
+      content: counter(section);
       position: absolute;
       font-weight: var(--fw-base-lg);
       opacity: 0.5;
@@ -247,9 +238,6 @@ h2 {
       left: -25px;
       top: 2px;
     }
-  }
-  h3 {
-    font-weight: var(--fw-base-lg);
   }
 }
 
@@ -271,18 +259,14 @@ p + h2 {
   flex: 1 1 auto;
   min-width: 250px;
   float: right;
-  & h2 {
+  & h2,
+  & h3 {
     font-size: var(--step-1);
+    font-family: var(--display);
   }
   & a {
-    font-size: calc(var(--step-0) * 1.05);
-    font-family: var(--ff-heading-tb);
-    line-height: 1;
-    &.nuxt-link-active {
-      text-decoration: underline;
-      text-decoration-color: var(--links-active);
-      text-decoration-thickness: 2px;
-    }
+    font-size: var(--step-0);
+    font-weight: var(--font-weight-300);
   }
   & li {
     padding-left: 5px;
@@ -337,17 +321,17 @@ p + h2 {
 
 code[class*="language-"],
 pre[class*="language-"] code {
-  font-family: var(--ff-code-block);
-  line-height: var(--ff-lh);
+  font-family: var(--code);
+  line-height: var(--line-height);
   color: var(--gray-900);
   text-shadow: none;
-  padding: calc(var(--padding-df) * 2);
+  padding: var(--space-l);
   display: block;
 }
 
 code {
-  font-family: var(--ff-code-block);
-  line-height: var(--ff-lh);
+  font-family: var(--code);
+  line-height: var(--line-height);
   color: var(--gray-900);
   background: #F1F6F7;
 }
@@ -363,9 +347,9 @@ pre[class*="language-"] {
 }
 
 .line-highlight {
-  border-left: 10px solid var(--sixth-lt);
+  border-left: 10px solid var(--red-100);
   background: rgba(244, 122, 113, 0.25);
-  line-height: var(--ff-lh);
+  line-height: var(--line-height);
   margin-top: 0.7em;
 }
 
@@ -374,15 +358,15 @@ pre[class*="language-"] {
 }
 
 .token.selector, .token.attr-value, .token.string, .token.char, .token.builtin, .token.inserted {
-  color: var(--sixth);
+  color: var(--red-100);
 }
 
 .token.property {
-  color: var(--fifth-dk);
+  color: var(--orange-500);
 }
 
 .token.atrule, .token.attr-name, .token.keyword {
-  color: var(--fifth-lt);
+  color: var(--red-500);
 }
 
 .token.comment, .token.prolog, .token.doctype, .token.cdata {

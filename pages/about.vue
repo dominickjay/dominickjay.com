@@ -93,13 +93,6 @@ export default Vue.extend({
 
 <style lang="scss">
 
-@media (prefers-color-scheme: dark) {
-
-}
-
-[data-user-color-scheme='dark'] {
-}
-
 .about-me {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -108,27 +101,20 @@ export default Vue.extend({
                          "about-content about-content experience"
                          "about-content about-content joke";
   align-items: start;
-  gap: 0 var(--space-l);
+  grid-gap: 0 var(--space-xl);
   & h2,
   & h3 {
-    font-family: var(--display);
-    font-size: var(--step-3);
     text-align: left;
     position: relative;
   }
   & h3 {
     margin-bottom: 0;
-    margin-block-start: var(--space-l);
-    &:not(:first-child) {
-      margin-top: 0;
-    }
   }
   &__content {
     grid-area: about-content;
     position: sticky;
     top: 0;
     & > p {
-      font-weight: var(--font-weight-400);
       opacity: 0.65;
       font-size: var(--step-1);
     }
@@ -143,6 +129,9 @@ export default Vue.extend({
       margin-top: 0;
     }
     grid-area: skills;
+    & h3 {
+      margin-top: 0;
+    }
   }
   &__experience {
     grid-area: experience;
@@ -164,7 +153,6 @@ export default Vue.extend({
   }
   p {
     font-size: var(--step-1);
-    font-weight: var(--font-weight-400);
     opacity: 0.85;
     margin-block: var(--space-xs);
   }
@@ -182,17 +170,15 @@ export default Vue.extend({
     flex-direction: row;
   }
   & p {
-    margin-block: var(--space-s);
-    font-weight: var(--font-weight-400);
+    margin-block: 20px;
     opacity: 0.65;
   }
   & li {
     background-color: var(--red-100);
-    color: var(--gray-900);
+    color: var(--gray-500);
     display: flex;
     flex-direction: column;
     padding-inline: 10px;
-    font-weight: var(--font-weight-400);
   }
 }
 
@@ -201,9 +187,8 @@ export default Vue.extend({
   margin-top: 40px;
   padding-block: 40px;
   padding-inline: 60px;
-  font-weight: var(--font-weight-400);
   background-color: var(--orange-100);
-  color: var(--testimonial-text);
+  color: var(--gray-500);
 }
 
 .joke {

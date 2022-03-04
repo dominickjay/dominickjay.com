@@ -50,20 +50,17 @@ export default Vue.extend({
 .external-posts {
   display: flex;
   flex-direction: column;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
   & div {
     padding-block: 10px;
     padding-inline: 10px;
   }
   & a {
     padding-right: 5px;
-    font-weight: var(--fw-base-m);
-    font-size: var(--step-0);
     margin-bottom: 10px;
     position: relative;
   }
   & strong {
-    font-size: var(--step-0);
     opacity: 0.75;
   }
 }

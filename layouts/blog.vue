@@ -28,11 +28,11 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: var(--grid-gap);
+  grid-gap: var(--space-s);
 }
 
 .posts .posts-wrapper {
-  margin-top: 82px;
+  margin-top: calc(var(--space-xl) + 15px);
   display: flex;
   flex-direction: column;
 }

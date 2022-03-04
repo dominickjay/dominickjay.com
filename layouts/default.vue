@@ -61,9 +61,6 @@ export default {
   --font-weight-900: 900;
   --line-height: 1.8;
 
-  --padding: 20px;
-  --grid-gap: 20px;
-
   --space-2xs: clamp(0.56rem, calc(0.65rem + -0.10vw), 0.63rem);
   --space-xs: clamp(0.88rem, calc(0.96rem + -0.10vw), 0.94rem);
   --space-s: clamp(1.13rem, calc(1.29rem + -0.21vw), 1.25rem);
@@ -95,27 +92,29 @@ export default {
 
   --container: 1280px;
 
-  --color-mode: 'light';
-
   --step--1: clamp(0.83rem, calc(0.81rem + 0.11vw), 0.90rem);
   --step-0: clamp(1.00rem, calc(0.96rem + 0.21vw), 1.13rem);
   --step-1: clamp(1.20rem, calc(1.13rem + 0.34vw), 1.41rem);
   --step-2: clamp(1.44rem, calc(1.33rem + 0.53vw), 1.76rem);
   --step-3: clamp(1.73rem, calc(1.57rem + 0.78vw), 2.20rem);
+
+  --background: var(--gray-100);
+  --text: var(--gray-500);
+
+  --decorated-link-text: var(--gray-100);
+  --decorated-link-text-hover: var(--gray-500);
+
+  --heading-text: var(--blue-500);
+
+  --link-color: var(--gray-500);
+  --logo-fill: var(--gray-500);
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-mode: 'dark';
   }
-
-  :root:not([data-user-color-scheme]) {
-    --color-mode: 'dark';
-  }
-}
-
-[data-user-color-scheme='dark'] {
-  --color-mode: 'dark';
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -131,8 +130,8 @@ body {
   line-height: var(--line-height);
   font-weight: var(--font-weight-500);
   font-family: var(--sans-serif);
-  color: var(--gray-500);
-  background-color: var(--gray-100);
+  color: var(--text);
+  background-color: var(--background);
 }
 
 b,
@@ -151,8 +150,15 @@ strong {
 a,
 button {
   font-family: var(--sans-serif);
-  color: var(--gray-500);
+  color: var(--text);
   text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  a,
+  button {
+    --text: var(--gray-100);
+  }
 }
 
 a:hover,
@@ -164,9 +170,9 @@ a:not([class]),
 a[class=""],
 button:not([class]) {
   text-decoration: underline;
-  text-decoration-color: var(--red-500);
+  text-decoration-color: var(--link-color);
   text-decoration-thickness: 2px;
-  transition: .2s ease-out text-decoration-color;
+  transition: text-decoration-color var(--transition-timing) var(--transition-duration);
 }
 
 a:not([class]):hover,
@@ -190,16 +196,17 @@ main {
   max-width: var(--container);
   margin: 0 auto;
   padding-inline: var(--space-l);
+  position: relative;
 }
 
 .heading {
   font-family: var(--display);
   letter-spacing: -0.5px;
-  color: var(--blue-500);
+  color: var(--heading-text);
 }
 
 .heading--two {
-  font-size: var(--step-4);
+  font-size: var(--step-3);
   text-align: center;
 }
 
@@ -208,8 +215,8 @@ main {
 }
 
 .content {
-  padding: 40px 0;
-  margin-bottom: 40px;
+  padding-block: var(--space-l);
+  margin-bottom: var(--space-l);
 }
 
 .content:last-child {
@@ -218,8 +225,36 @@ main {
 
 @media (max-width: 640px) {
   .content {
-    padding-block: var(--padding);
+    padding-block: var(--space-s);
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--gray-500);
+    --text: var(--gray-100);
+
+    --decorated-link-text: var(--gray-500);
+    --decorated-link-text-hover: var(--gray-100);
+
+    --heading-text: var(--blue-100);
+
+    --link-color: var(--blue-100);
+    --logo-fill: var(--gray-100);
+  }
+}
+
+[data-user-color-scheme="dark"] {
+  --background: var(--gray-500);
+  --text: var(--gray-100);
+
+  --decorated-link-text: var(--gray-500);
+  --decorated-link-text-hover: var(--gray-100);
+
+  --heading-text: var(--blue-100);
+
+  --link-color: var(--blue-100);
+  --logo-fill: var(--gray-100);
 }
 
 </style>
