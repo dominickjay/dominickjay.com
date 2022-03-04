@@ -46,6 +46,9 @@ testimonial:
     {
       'testimonial': 'Dom is a delight to work with, he is hard working and will complete given projects/tasks to a very high standard. I enjoy working alongside Dom and think he is a great asset to any team.',
     },
+    {
+      'testimonial': 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
+    },
   ]
 ---
 
