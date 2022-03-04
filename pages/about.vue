@@ -6,6 +6,7 @@
           <h2 class="heading heading--two">{{ about.title }}</h2>
           <p>{{ about.intro }}</p>
           <nuxt-content :document="about" />
+          You can also see what I am currently up to <a :href="weeknotes[0].path">now</a>.
           <div class="testimonial">
             <p>
               "{{ about.testimonial[randomTestimonialNumber].testimonial }}"
@@ -60,11 +61,13 @@ import Vue from 'vue'
 export default Vue.extend({
   async asyncData ({ $content, $axios }) {
     const about = await $content('about').fetch()
+    const weeknotes = await $content('articles').where({ 'title': { $contains: 'Weeknotes' } }).limit(1).sortBy('date', 'desc').fetch()
     const joke = await $axios.$get('https://icanhazdadjoke.com', {
       headers: {'Accept': 'application/json'}})
     return {
       about,
-      joke
+      joke,
+      weeknotes
     }
   },
   data() {
@@ -85,20 +88,6 @@ export default Vue.extend({
 
     this.randomTestimonialNumber = getRandomInt(0, this.about.testimonial.length)
   }
-  // mounted () {
-  //   axios
-  //     .get('https://icanhazdadjoke.com/', {
-  //       headers: {
-  //         Accept: 'application/json'
-  //       }
-  //     })
-  //     .then((response) => {
-  //       this.newJoke = response.data.joke
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // },
 })
 </script>
 
@@ -119,8 +108,6 @@ export default Vue.extend({
     position: relative;
   }
   & h3 {
-    font-size: var(--step-3);
-    margin-top: 40px;
     margin-bottom: 0;
   }
   &__content {
@@ -138,6 +125,9 @@ export default Vue.extend({
     font-size: var(--step-0);
   }
   &__skills {
+    & h3 {
+      margin-top: 0;
+    }
     grid-area: skills;
     & h3 {
       margin-top: 0;
@@ -155,7 +145,7 @@ export default Vue.extend({
   display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-xs);
   & li {
     padding-block: 5px;
     padding-inline: 0;
@@ -164,7 +154,7 @@ export default Vue.extend({
   p {
     font-size: var(--step-1);
     opacity: 0.85;
-    margin-block: 10px;
+    margin-block: var(--space-xs);
   }
   span:last-child {
     opacity: 0.75;
@@ -173,7 +163,7 @@ export default Vue.extend({
 
 .skill {
   &:not(:last-child) {
-    margin-bottom: 40px;
+    margin-bottom: var(--space-l);
   }
   & .list {
     flex-wrap: wrap;
