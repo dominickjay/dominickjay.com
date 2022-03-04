@@ -104,6 +104,9 @@ export default {
   right: 0;
   bottom: 0;
   transition: 0.4s;
+  & img {
+    margin: 0;
+  }
 }
 
 .switch {
