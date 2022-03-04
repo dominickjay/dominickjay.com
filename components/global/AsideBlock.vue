@@ -108,16 +108,16 @@ export default {
 
 <style lang="scss">
 
-:root {
-  --aside-background: rgba(255, 255, 255, 0.15);
-  --aside-border: var(--clr-fifth-dk);
-  --aside-icon: var(--clr-fifth-dk);
-}
+// :root {
+//   --aside-background: rgba(255, 255, 255, 0.15);
+//   --aside-border: var(--fifth-dk);
+//   --aside-icon: var(--fifth-dk);
+// }
 
 .aside__content {
   position: relative;
   z-index: 1;
-  color: var(--clr-base-dk);
+  color: var(--gray-900);
 }
 
 aside {
