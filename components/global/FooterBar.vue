@@ -15,6 +15,9 @@
         <li class="footer__link">
           <a target="_blank" href="//github.com/dominickjay">Github</a>
         </li>
+        <li class="footer__link">
+          <nuxt-link to="/credits">Credits</nuxt-link>
+        </li>
       </ul>
     </div>
   </footer>

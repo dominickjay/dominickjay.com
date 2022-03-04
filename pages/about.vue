@@ -4,7 +4,7 @@
       <section class="content about-me">
         <div class="about-me__content">
           <h2 class="heading heading--two">{{ about.title }}</h2>
-          <p>{{ about.intro }}</p>
+          <p class="intro">{{ about.intro }}</p>
           <nuxt-content :document="about" />
           You can also see what I am currently up to <a :href="weeknotes[0].path">now</a>.
           <div class="testimonial">
@@ -114,7 +114,7 @@ export default Vue.extend({
     grid-area: about-content;
     position: sticky;
     top: 0;
-    & > p {
+    & .intro {
       opacity: 0.65;
       font-size: var(--step-1);
     }
