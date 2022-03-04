@@ -108,7 +108,9 @@ export default Vue.extend({
     position: relative;
   }
   & h3 {
+    margin-block-start: var(--space-xl);
     margin-bottom: 0;
+    font-size: var(--step-3);
   }
   &__content {
     grid-area: about-content;
@@ -129,9 +131,6 @@ export default Vue.extend({
       margin-top: 0;
     }
     grid-area: skills;
-    & h3 {
-      margin-top: 0;
-    }
   }
   &__experience {
     grid-area: experience;
