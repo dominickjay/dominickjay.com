@@ -15,7 +15,7 @@ tags:
 
 ### Personal
 
-1. As of Friday 11:19AM, I have walked 32,846 steps according to Apple Health.
+1. According to Apple Health, I have walked 52,106 steps.
 1. Started up bodyweight/cardio exercises, replacing my purely free-weight workouts, and feel much better for it.
 1. Went to Paignton Zoo for my niece's birthday. It's somewhere we have visited at least once a year since my eldest was born and it's always a good day out.
 1. Had family round a few nights this week so got to see my 3 week old niece.
