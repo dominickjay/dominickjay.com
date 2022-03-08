@@ -81,6 +81,7 @@ export default {
   },
   head() {
     return {
+      title: this.article.title + ' | Dominick Jay | Front End Web Developer',
       meta:  [
       {
         hid:  "og:type",
@@ -375,6 +376,37 @@ pre[class*="language-"] {
 
 .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
   background: none;
+}
+
+.blockquote {
+  max-width: calc(100% - 250px);
+  margin-block: var(--space-l);
+  margin-inline: auto;
+  padding: var(--space-m);
+  font-style: italic;
+  position: relative;
+  &::before {
+    content: "";
+    background-image: url("/images/blockquote-symbol.svg");
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.10;
+  }
+}
+
+.spacer-example {
+  margin-block: var(--space-xl);
+  & .spacer {
+    margin-block: var(--space-m);
+  }
 }
 
 @media (prefers-color-scheme: dark) {

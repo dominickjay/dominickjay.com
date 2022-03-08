@@ -1,6 +1,6 @@
 ---
 title: 'Just React: Components'
-description: 'A deep dive into React components'
+description: 'Components all the way down'
 date: 2022-02-18
 tags:
   - react
@@ -11,6 +11,10 @@ links:
       'title': 'Components and Props',
       'target': 'https://reactjs.org/docs/components-and-props.html',
     },
+    {
+      'title': 'How To Create Custom Components in React',
+      'target': 'https://www.digitalocean.com/community/tutorials/how-to-create-custom-components-in-react'
+    }
   ]
 ---
 
@@ -27,19 +31,42 @@ In this post, we are going to look into React components, what they are, what ty
 
 ## What is it?
 
-So, what is a component?
+Let's get this out the way, what is a component?
 
-_Components are independent pieces of functionality that you can reuse in your application, and are the building blocks of all React applications. Often, they can be simple JavaScript functions and classes, but you use them as if they were customized HTML elements. Buttons, menus, and any other front-end page content can all be created as components. Components can also contain state information and display markdown._
+Digital Ocean's ["How To Create Custom Components in React"](https://www.digitalocean.com/community/tutorials/how-to-create-custom-components-in-react) article explains this quite well:
+
+<div class="blockquote">
+
+_...components are independent pieces of functionality that you can reuse in your application, and are the building blocks of all React applications. Often, they can be simple JavaScript functions and classes, but you use them as if they were customized HTML elements. Buttons, menus, and any other front-end page content can all be created as components._
+
+</div>
+
+In this site, I have a few different components. Here are the 3 primary ones that I use a lot of:
+
+<decorated-link post-title="This is a link component"></decorated-link>
+
+<aside-block type="info" heading="And..." text="This is another that I use for displaying info, warnings and errors"></aside-block>
+
+<div class="spacer-example">
+
+  __And this is another...__
+  <spacer></spacer>
+
+</div>
+
+These are all components with code that I can use again and again. In the case of the link and info block, additional data is passed in - which is why the text involved makes more sense in context to our article and demonstration. These inputs are called props and we will go into more detail [here](#passing-props).
 
 ## Types of components
 
+While we now know the gist of components, it's time to go a bit deeper. There are a few different types of components, all with their own different purposes.
+
 ### Functional
 
-A functional component is basically a JavaScript/ES6 function that returns a React element (JSX). According to React's official docs, the function below is a valid functional component:
+First off is a functional component. This is a component that is a Javascript function that returns a React element. The below is an example of a simple functional component.
 
 ```jsx
-function Welcome(props) {
-  return <h1>Hello, {props.name}</h1>;
+function FavouriteBand(props) {
+  return <p>My favourite band is {props.bandName}</p>
 }
 ```
 
