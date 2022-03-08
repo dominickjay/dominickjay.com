@@ -141,23 +141,6 @@ export default {
       minutes = Math.ceil(words / wordsPerMinute)
       return minutes
     },
-    ogImageUrl()  {
-      return this.$cloudinary.image.url(
-        'post-template', {
-          transformation:  [{
-            width:  "700",
-            overlay:  {
-              font_family:  "Hackney.ttf",
-              font_size:  80,
-              font_weight:  "bold",
-              text:  this.article.title,
-              co_rgb:  "203140",
-              width: 850
-            },
-          }]
-        }
-      )
-    }
   },
   mounted() {
     Prism.highlightAll();
