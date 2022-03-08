@@ -16,7 +16,7 @@ links:
 
 ## Introduction
 
-In this post, we are going to look into React components, what they are, what types are available and how we can create them. We'll then quickly scale up a project using the CRA, and put together a custom component to see how it all clicks together.
+In this post, we are going to look into React components, what they are, what types are available and how we can create them. We'll also quickly scale up a project using the CRA, and put together a custom component to see how it all clicks together.
 
 <aside-block type="prerequisites" heading="Prerequisites" text="
       <ul>
@@ -37,13 +37,40 @@ _Components are independent pieces of functionality that you can reuse in your a
 
 A functional component is basically a JavaScript/ES6 function that returns a React element (JSX). According to React's official docs, the function below is a valid functional component:
 
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+
 Alternatively, you can also create a functional component with the arrow function definition:
+
+```jsx
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
 
 This function is a valid React component because it accepts a single “props” (which stands for properties) object argument with data and returns a React element. — reactjs.org
 
 To be able to use a component later, you need to first export it so you can import it somewhere else:
 
+```jsx{6}
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+export default Welcome;
+```
+
 After importing it, you can call the component like in this example:
+
+```jsx
+const element = <Welcome name="Sara" />;
+```
 
 So a Functional Component in React:
 
@@ -56,7 +83,13 @@ So a Functional Component in React:
 
 The second type of component is the class component. Class components are ES6 classes that return JSX. Below, you see our same Welcome function, this time as a class component:
 
-`js class Welcome extends React.Component { render() { return <h1>Hello, {this.props.name}</h1> } }`
+```jsx
+  class Welcome extends React.Component {
+    render() {
+      return <h1>Hello, {this.props.name}</h1> }
+    }
+  }
+```
 
 A Class Component:
 

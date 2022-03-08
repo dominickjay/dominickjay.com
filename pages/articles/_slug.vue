@@ -350,8 +350,7 @@ pre[class*="language-"] {
 .line-highlight {
   border-left: 10px solid var(--red-100);
   background: rgba(244, 122, 113, 0.25);
-  line-height: var(--line-height);
-  margin-top: 0.7em;
+  margin-top: 1.65em;
 }
 
 .token.tag {

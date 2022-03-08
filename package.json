@@ -17,7 +17,6 @@
     "@nuxtjs/cloudinary": "^1.0.3",
     "@supabase/supabase-js": "^1.28.2",
     "core-js": "^3.15.1",
-    "motion": "^10.4.0",
     "netlify-cli": "^7.1.0",
     "nuxt": "^2.15.7",
     "nuxt-content-git": "^2.0.11"
