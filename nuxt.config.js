@@ -5,8 +5,6 @@ export default {
     supabaseKey: process.env.SUPABASE_KEY,
     cloudinaryName: process.env.NUXT_ENV_CLOUDINARY_CLOUD_NAME,
   },
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
