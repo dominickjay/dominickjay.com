@@ -66,7 +66,7 @@ Did you forget to run a build?
 
 Looks like we were too quick to deploy, and forgot to actually _generate_ our site. At this time of writing, we need to add some extra lines to our `netlify.toml` file;
 
-```
+```toml
 [[plugins]]
 package = "@netlify/plugin-nextjs"
 ```
