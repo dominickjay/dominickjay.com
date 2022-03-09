@@ -7,7 +7,7 @@
 <circle cx="158.537" cy="405.918" r="61.9178" transform="rotate(-108.066 158.537 405.918)" fill="url(#paint2_linear)"/>
 <defs>
 <linearGradient id="paint0_linear" x1="284.905" y1="148.144" x2="196.805" y2="208.903" gradientUnits="userSpaceOnUse">
-<stop stop-color="var(--clr-sixth)"/>
+<stop stop-color="var(--sixth)"/>
 <stop offset="1" stop-color="#FFABA5"/>
 </linearGradient>
 <linearGradient id="paint1_linear" x1="465.643" y1="364.952" x2="404.136" y2="407.371" gradientUnits="userSpaceOnUse">
