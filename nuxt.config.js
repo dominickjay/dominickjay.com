@@ -96,9 +96,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/reset.css'],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
-
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
@@ -119,7 +116,12 @@ export default {
   ],
 
   // Content module configuration: https://go.nuxtjs.dev/config-content
-  content: {},
+  content: {
+    prism: {
+      theme: 'prism-themes/themes/prism-material-oceanic.css',
+      languages: ['javascript', 'css', 'html', 'jsx']
+    }
+  },
 
   supabase: {
     url: process.env.SUPABASE_URL,

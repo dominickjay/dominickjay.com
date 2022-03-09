@@ -61,6 +61,8 @@
 
 <script>
 import Prism from 'prismjs'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-toml'
 import 'prismjs/plugins/line-highlight/prism-line-highlight'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
 
