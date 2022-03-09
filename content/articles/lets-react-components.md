@@ -64,39 +64,37 @@ While we now know the gist of components, it's time to go a bit deeper. There ar
 
 First off is a functional component. This is a component that is a Javascript function that returns a React element. The below is an example of a simple functional component.
 
-```jsx
+```jsx[FavoriteBand.js]
 function FavouriteBand(props) {
   return <p>My favourite band is {props.bandName}</p>
 }
 ```
 
-Alternatively, you can also create a functional component with the arrow function definition:
+Likewise, we can create a component using an ES6 arrow function:
 
-```jsx
-class Welcome extends React.Component {
+```jsx[FavoriteBand.js]
+class FavouriteBand extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <p>My favourite band is {this.props.bandName}</p>;
   }
 }
 ```
 
-This function is a valid React component because it accepts a single “props” (which stands for properties) object argument with data and returns a React element. — reactjs.org
+This won't work on it's own however. To be able to use it in other places, it needs to be exported, by adding the following line:
 
-To be able to use a component later, you need to first export it so you can import it somewhere else:
-
-```jsx{6}
-class Welcome extends React.Component {
+```jsx{6}[FavoriteBand.js]
+class FavouriteBand extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <p>My favourite band is {this.props.bandName}</p>;
   }
 }
-export default Welcome;
+export default FavouriteBand;
 ```
 
-After importing it, you can call the component like in this example:
+After importing it using `import FavoriteBand from './FavoriteBand'`, you can call the component like in this example:
 
-```jsx
-const element = <Welcome name="Sara" />;
+```jsx[App.js]
+const element = <FavouriteBand name="Deftones" />;
 ```
 
 So a Functional Component in React:

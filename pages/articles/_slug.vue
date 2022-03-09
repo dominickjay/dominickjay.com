@@ -62,6 +62,7 @@
 <script>
 import Prism from 'prismjs'
 import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-json'
 import 'prismjs/components/prism-toml'
 import 'prismjs/plugins/line-highlight/prism-line-highlight'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
@@ -327,7 +328,7 @@ pre[class*="language-"] code {
   font-family: var(--code);
   line-height: var(--line-height);
   color: var(--gray-500);
-  font-weight: 600;
+  font-weight: var(--font-weight-700);
   text-shadow: none;
   padding: var(--space-l);
   display: block;
@@ -344,6 +345,24 @@ pre[class*="language-"] {
   padding: 0;
   width: 100%;
   display: block;
+}
+
+.filename + pre {
+  margin: 0;
+}
+
+.filename {
+  font-weight: var(--font-weight-700);
+  font-size: var(--step--1);
+  font-family: var(--code);
+  line-height: var(--line-height);
+  color: var(--gray-500);
+  background: #F1F6F7;
+  padding-block: var(--space-2xs);
+  padding-inline: var(--space-s);
+  border-top-right-radius: 50% 25%;
+  float: right;
+  margin-top: .5em;
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
