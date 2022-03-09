@@ -84,7 +84,7 @@ Also we will need to install this package using `npm install -D @netlify/plugin-
 
 The reason we added these extra lines was because the `build` plugin that is being used will check for the `out` directory, but Netlify's beta version that was released for Next 12 was changed to match to the `.next` directory. This should be how our netlify.toml file looks at the moment;
 
-```
+```toml
 [build]
 	command = "yarn build"
 	publish = ".next"
