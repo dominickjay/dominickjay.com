@@ -129,13 +129,13 @@ A higher-order component, or HOC, is a bit different to the previous two compone
 
 ## Using the CLI
 
-While the Create React App tool can help us with a skeleton setup of a project, it doesn't give us the ability to create new components when needed as it is build to be as non-opinionated as possible, allowing the developer to make other structural decisions such as grouping by feature or by file type. This is different to other languages like Angular (`ng generate component component-name`) that have this functionality built it into its own CLI.
+While the Create React App tool can help us with a skeleton setup of a project, it doesn't give us the ability to create new components when needed as it is build to be as non-opinionated as possible, allowing the developer to make other structural decisions such as grouping by feature or by file type. This is different to other languages like Angular - where `ng generate component component-name` is used - that have this functionality built it into its own CLI.
 
-So what can we use? This topic seems like one with a few options, but it _does_ seem to come down to preference rather than best practice. If you use VSCode as an IDE, there is a Folder Templates plugin that can set up a component for you after a short manual process to setup the plugin. But if you want a CLI based solution we could use the npm package `Generate React CLI`.
+So what can we use? This topic seems like one with a few options, but it _does_ seem to come down to preference rather than best practice. If you use VSCode as an IDE, there is a Folder Templates plugin that can set up a component for you after a short manual process to setup the plugin. But if you want a CLI based solution we could use the `Generate React CLI` npm package.
 
 <aside-block type="warning" heading="FYI" text="This is not necessary, just as example to show how you <i>could</i> set it up if you wanted"></aside-block>
 
-`npx generate-react-cli component Component`
+<code class="language-bash">npx generate-react-cli component Component</code>
 
 ## Rendering a component
 

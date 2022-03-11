@@ -108,16 +108,13 @@ export default {
 
 <style lang="scss">
 
-// :root {
-//   --aside-background: rgba(255, 255, 255, 0.15);
-//   --aside-border: var(--fifth-dk);
-//   --aside-icon: var(--fifth-dk);
-// }
-
 .aside__content {
   position: relative;
   z-index: 1;
   color: var(--gray-900);
+  & + svg {
+    margin-top: 0;
+  }
 }
 
 aside {
@@ -135,11 +132,15 @@ aside {
     height: 100%;
     opacity: 0.35;
   }
+  & code {
+    padding-inline: var(--space-2xs);
+    color: var(--gray-500);
+  }
 }
 
 .aside__icon {
   position: absolute;
-  top: 25px;
+  top: 0;
   left: 20px;
 }
 
