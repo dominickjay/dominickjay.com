@@ -260,7 +260,7 @@ p + h2 {
   margin-top: -10px;
   top: 20px;
   list-style: none;
-  flex: 1 1 auto;
+  max-width: 300px;
   min-width: 250px;
   float: right;
   & h2,
@@ -342,20 +342,21 @@ code {
 }
 
 pre[class*="language-"] {
+  margin-block: var(--space-m);
   padding: 0;
   width: 100%;
   display: block;
 }
 
 .filename + pre {
-  margin: 0;
+  margin-top: 0;
 }
 
 .filename {
   font-weight: var(--font-weight-700);
   font-size: var(--step--1);
   font-family: var(--code);
-  line-height: var(--line-height);
+  line-height: 2;
   color: var(--gray-500);
   background: #F1F6F7;
   padding-block: var(--space-2xs);
@@ -369,10 +370,21 @@ pre[class*="language-"] {
   background: #F1F6F7;
 }
 
+// .line-highlight {
+
+//   margin-top: .15em;
+//   line-height: 1.4;
+// }
+
 .line-highlight {
+  margin-top: 0;
   border-left: 10px solid var(--red-100);
   background: rgba(244, 122, 113, 0.25);
-  margin-top: 1.65em;
+  line-height: 1.8;
+}
+
+.line-highlight + .line-highlight {
+  margin-top: 0.32em;
 }
 
 .token.tag {

@@ -70,27 +70,6 @@ function FavouriteBand(props) {
 }
 ```
 
-Likewise, we can create a component using an ES6 arrow function:
-
-```jsx[FavoriteBand.js]
-class FavouriteBand extends React.Component {
-  render() {
-    return <p>My favourite band is {this.props.bandName}</p>;
-  }
-}
-```
-
-This won't work on it's own however. To be able to use it in other places, it needs to be exported, by adding the following line:
-
-```jsx{6}[FavoriteBand.js]
-class FavouriteBand extends React.Component {
-  render() {
-    return <p>My favourite band is {this.props.bandName}</p>;
-  }
-}
-export default FavouriteBand;
-```
-
 After importing it using `import FavoriteBand from './FavoriteBand'`, you can call the component like in this example:
 
 ```jsx[App.js]
@@ -106,37 +85,41 @@ So a Functional Component in React:
 
 ### Class
 
-The second type of component is the class component. Class components are ES6 classes that return JSX. Below, you see our same Welcome function, this time as a class component:
+The second type of component is known as the class component, and is commonly used in React projects. These are ES6 classes that return JSX. The obvious differences in the markup is the addition of `extends React.Component`, which will identify it as a React component, and `render()` which is used to return the JSX markup. Here is an example of our functional component above, refactored to be a class component;
 
-```jsx
-  class Welcome extends React.Component {
+```jsx{1, 2}[FavoriteBand.js]
+  class FavoriteBand extends React.Component {
     render() {
-      return <h1>Hello, {this.props.name}</h1> }
+      return <p>My favorite band is {this.props.name}</p> }
     }
   }
 ```
 
-A Class Component:
+#### Differences between functional and class components
 
-- is an ES6 class, will be a component once it ‘extends’ a React component.
-- takes Props (in the constructor) if needed
-- must have a render( ) method for returning JSX
+**DO AS A DIAGRAM OR SOMETHING**
 
-Different from functional components, class components must have an additional render( ) method for returning JSX.
+https://www.geeksforgeeks.org/differences-between-functional-components-and-class-components-in-react/?ref=rp
 
 ### High Order
 
-A higher-order component (HOC) is an advanced technique in React for reusing component logic. HOCs are not part of the React API, per se. They are a pattern that emerges from React’s compositional nature.
+A higher-order component, or HOC, is a bit different to the previous two components, instead they are a function that takes a component and returns a new component. They are an advanced method for reusing component logic and enhancing it.
 
-Concretely, a higher-order component is a function that takes a component and returns a new component.
+```jsx[FavoriteBandHOC.js]
+  const enhancedFavoriteBand = FavoriteBand => {
+    class favoriteBandHOC extends React.Component {
+      getBandName() {
+        console.log('The returned value is ' + this.props.bandName)
+      }
+      render() {
+        return <FavoriteBand bandName="Deftones"/>
+      }
+    }
+    return favoriteBandHOC
+  }
+```
 
-`const EnhancedComponent = higherOrderComponent(WrappedComponent);`
-
-Whereas a component transforms props into UI, a higher-order component transforms a component into another component.
-
-HOCs are common in third-party React libraries, such as Redux’s connect and Relay’s createFragmentContainer.
-
-In this document, we’ll discuss why higher-order components are useful, and how to write your own.
+**HOCs are common in third-party React libraries, such as Redux’s connect and Relay’s createFragmentContainer.**
 
 ## Component life cycle
 
@@ -146,11 +129,13 @@ In this document, we’ll discuss why higher-order components are useful, and ho
 
 ## Using the CLI
 
-`npx generate-react-cli component MyComponent`
+While the Create React App tool can help us with a skeleton setup of a project, it doesn't give us the ability to create new components when needed as it is build to be as non-opinionated as possible, allowing the developer to make other structural decisions such as grouping by feature or by file type. This is different to other languages like Angular (`ng generate component component-name`) that have this functionality built it into its own CLI.
 
-https://github.com/jondot/hygen
+So what can we use? This topic seems like one with a few options, but it _does_ seem to come down to preference rather than best practice. If you use VSCode as an IDE, there is a Folder Templates plugin that can set up a component for you after a short manual process to setup the plugin. But if you want a CLI based solution we could use the npm package `Generate React CLI`.
 
- VSCode then the Folder Templates plugin is great for this. You set up the few variations you would need (e.g. I have one for standard component, one with test file, one with translation file etc.) and then when you need a new component you just select New Template Folder and type in the one you want 🙂 Super useful
+<aside-block type="warning" heading="FYI" text="This is not necessary, just as example to show how you <i>could</i> set it up if you wanted"></aside-block>
+
+`npx generate-react-cli component Component`
 
 ## Rendering a component
 
