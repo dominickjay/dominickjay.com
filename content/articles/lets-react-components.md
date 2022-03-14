@@ -62,26 +62,13 @@ While we now know the gist of components, it's time to go a bit deeper. There ar
 
 ### Functional
 
-First off is a functional component. This is a component that is a Javascript function that returns a React element. The below is an example of a simple functional component.
+First off is a functional component. This is a component that is a Javascript function that returns a React element in JSX, and can take in a <span style="color: var(--red-400)">prop</span> if necessary. The below is an example of a simple functional component.
 
 ```jsx[FavoriteBand.js]
 function FavouriteBand(props) {
   return <p>My favourite band is {props.bandName}</p>
 }
 ```
-
-After importing it using `import FavoriteBand from './FavoriteBand'`, you can call the component like in this example:
-
-```jsx[App.js]
-const element = <FavouriteBand name="Deftones" />;
-```
-
-So a Functional Component in React:
-
-- is a JavaScript/ES6 function
-- must return a React element (JSX)
-- always starts with a capital letter (naming convention)
-- takes props as a parameter if necessary
 
 ### Class
 
@@ -97,13 +84,35 @@ The second type of component is known as the class component, and is commonly us
 
 #### Differences between functional and class components
 
-**DO AS A DIAGRAM OR SOMETHING**
+<comparison>
+  <template v-slot:compare-01>
+    <span>Functional Components</span>
+    <div>
+      <span>A functional component is just a plain JavaScript function that accepts props as an argument and returns a React element.</span>
+      <span>There is no render method used in functional components.</span>
+      <span>Also known as Stateless components as they simply accept data and display them in some form, that they are mainly responsible for rendering UI.</span>
+      <span>React lifecycle methods (for example, componentDidMount) cannot be used in functional components.</span>
+      <span>Hooks can be easily used in functional components.</span>
+    </div>
+  </template>
+  <template v-slot:compare-02>
+    <span>Class Components</span>
+    <div>
+      <span>A class component requires you to extend from React. Component and create a render function which returns a React element.</span>
+      <span>It must have the render() method returning HTML</span>
+      <span>Also known as Stateful components because they implement logic and state.</span>
+      <span>React lifecycle methods can be used inside class components (for example, componentDidMount).</span>
+      <span>It requires different syntax inside a class component to implement hooks.</span>
+      <span>Constructor are used as it needs to store state.</span>
+    </div>
+  </template>
+</comparison>
 
 https://www.geeksforgeeks.org/differences-between-functional-components-and-class-components-in-react/?ref=rp
 
 ### High Order
 
-A higher-order component, or HOC, is a bit different to the previous two components, instead they are a function that takes a component and returns a new component. They are an advanced method for reusing component logic and enhancing it.
+A higher-order component, or HOC, is a bit different to the previous two components, instead they are a function that takes a component and returns a new component. They are an advanced method for reusing component logic and enhancing it. Commonly, HOC's are found in third-party React libraries - such as Redux's connect and Relay's createFragmentContainer.
 
 ```jsx[FavoriteBandHOC.js]
   const enhancedFavoriteBand = FavoriteBand => {
@@ -119,7 +128,19 @@ A higher-order component, or HOC, is a bit different to the previous two compone
   }
 ```
 
-**HOCs are common in third-party React libraries, such as Redux’s connect and Relay’s createFragmentContainer.**
+## Rendering a component
+
+Previously, we only encountered React elements that represent DOM tags:
+
+`const element = <div />;`
+
+However, elements can also represent user-defined components:
+
+`const element = <Welcome name="Sara" />;`
+
+When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
+
+### Passing props
 
 ## Component life cycle
 
@@ -136,42 +157,6 @@ So what can we use? This topic seems like one with a few options, but it _does_ 
 <aside-block type="warning" heading="FYI" text="This is not necessary, just as example to show how you <i>could</i> set it up if you wanted"></aside-block>
 
 <code class="language-bash">npx generate-react-cli component Component</code>
-
-## Rendering a component
-
-Previously, we only encountered React elements that represent DOM tags:
-
-`const element = <div />;`
-
-However, elements can also represent user-defined components:
-
-`const element = <Welcome name="Sara" />;`
-
-When React sees an element representing a user-defined component, it passes JSX attributes and children to this component as a single object. We call this object “props”.
-
-### Passing props
-
-React Props are like function arguments in JavaScript and attributes in HTML.
-
-To send props into a component, use the same syntax as HTML attributes:
-Example
-
-Add a "brand" attribute to the Car element:
-
-`const myelement = <Car brand="Ford" />;`
-
-
-The component receives the argument as a props object:
-Example
-
-Use the brand attribute in the component:
-
-```jsx
-function Car(props) {
-  return <h2>I am a { props.brand }!</h2>;
-}
-```
-
 
 ## UI Patterns
 

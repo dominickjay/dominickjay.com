@@ -113,7 +113,7 @@ export default {
   z-index: 1;
   color: var(--gray-900);
   & + svg {
-    margin-top: 0;
+    margin: 0;
   }
 }
 
@@ -140,7 +140,7 @@ aside {
 
 .aside__icon {
   position: absolute;
-  top: 0;
+  top: 25px;
   left: 20px;
 }
 
