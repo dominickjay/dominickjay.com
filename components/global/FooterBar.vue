@@ -23,8 +23,8 @@
 <style lang="scss" scoped>
 
 .footer {
-  padding: var(--padding-df);
-  padding-top: 60px;
+  padding: var(--space-m);
+  padding-block-start: var(--space-xl);
   &__container {
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@
   }
   & p {
     font-size: var(--step--1);
-    font-weight: var(--fw-base);
+    font-weight: var(--font-weight-500);
     text-align: center;
     padding-right: 7px;
   }

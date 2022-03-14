@@ -25,15 +25,10 @@ import Vue from 'vue'
 export default Vue.extend({
   layout: 'blog',
   async asyncData ({ $content }) {
-    const posts = await $content('drafts').sortBy('date', 'desc').fetch()
+    const posts = await $content('drafts').sortBy('date').fetch()
     return {
       posts
     }
   },
 })
 </script>
-
-<style lang="scss">
-
-
-</style>

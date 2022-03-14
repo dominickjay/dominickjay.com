@@ -3,26 +3,28 @@
     <div class="container">
       <section class="content about">
         <div class="about-me-content">
-          <p>
-            Hey! I’m Dom <span class="wave-emoji">
-              👋
-            </span>
-          </p>
+          <p>Hey! I'm Dom <span class="wave-emoji"> 👋 </span></p>
           <p class="about-intro">
-            I’m a <strong>Front-End Developer</strong> based out of Plymouth, UK.
-            I specialise in creating digital solutions that are <strong>fun</strong> and <strong>creative</strong>. I don’t like speaking about myself in the 3rd person.
+            I'm a <strong>Front-End Developer</strong> based out of Plymouth,
+            UK. I specialise in creating digital solutions that are
+            <strong>fun</strong> and <strong>creative</strong>. I don't like
+            speaking about myself in the 3rd person.
           </p>
-          <decoratedLink link-target="about" post-title="Learn more about me"></decoratedLink>
+          <decoratedLink
+            link-target="about"
+            post-title="Learn more about me"
+          ></decoratedLink>
         </div>
       </section>
       <section class="content">
         <div class="posts-wrapper">
           <div class="posts-recent">
-            <h3 class="heading heading--three">
-              Recently Published
-            </h3>
+            <h3 class="heading heading--three">Recently Published</h3>
             <postsList :posts="posts"></postsList>
-            <decoratedLink link-target="articles" post-title="View all posts"></decoratedLink>
+            <decoratedLink
+              link-target="articles"
+              post-title="View all posts"
+            ></decoratedLink>
           </div>
           <tagsList :tags="tags"></tagsList>
         </div>
@@ -35,40 +37,29 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  async asyncData ({ $content }) {
+  async asyncData({ $content }) {
     const posts = await $content('articles').limit(3).sortBy('date', 'desc').fetch()
     const tags = await $content('tags').fetch()
     return {
       posts,
-      tags
+      tags,
     }
   },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'twitter:image',
+          property: 'twitter:image',
+          content: 'https://dominickjay.com/images/card-image.png',
+        },
+      ]
+    }
+  }
 })
 </script>
 
 <style lang="scss">
-
-:root {
-  --all-posts-link: var(--clr-base);
-  --all-posts-link-hover: var(--clr-base-dk);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --all-posts-link: var(--clr-base-dk);
-    --all-posts-link-hover: var(--clr-base);
-  }
-
-  :root:not([data-user-color-scheme]) {
-    --all-posts-link: var(--clr-base-dk);
-    --all-posts-link-hover: var(--clr-base);
-  }
-}
-
-[data-user-color-scheme='dark'] {
-    --all-posts-link: var(--clr-base-dk);
-    --all-posts-link-hover: var(--clr-base);
-}
 
 .about {
   padding: 60px 0;
@@ -77,7 +68,7 @@ export default Vue.extend({
   font-weight: var(--fw-base-m);
   font-size: var(--step-1);
   display: flex;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
   & > p:first-child {
     opacity: 0.85;
     text-align: left;
@@ -88,14 +79,14 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--grid-gap);
+  gap: var(--space-s);
 }
 
 .posts-wrapper {
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--grid-gap);
+  gap: var(--space-s);
 }
 
 .posts-recent {
@@ -105,7 +96,6 @@ export default Vue.extend({
 .posts-recent .heading {
   margin: 0;
   margin-bottom: 20px;
-  -webkit-text-fill-color: unset;
   font-weight: 500;
 }
 
@@ -131,5 +121,4 @@ export default Vue.extend({
     padding: 20px 0;
   }
 }
-
 </style>

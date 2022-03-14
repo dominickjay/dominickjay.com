@@ -1,7 +1,7 @@
 ---
 title: 'Weeknotes: April 19 – 25, 2021'
 description: Highlights from the week
-date: 2020-04-25
+date: 2021-04-25
 tags:
   - weeknotes
   - personal
@@ -13,8 +13,6 @@ tags:
 2. Read '[What are design tokens?](https://piccalil.li/tutorial/what-are-design-tokens "Article for 'What are design tokens?'")' by Andy Bell
 
 ### Personal
-
-Nine Inch Nails - Broken [Definitive Edition] [Ep/7"] [Ep] New Vinyl Record
 
 1. Watched episode 5 of Marvel's Falcon and the Winter Solider
 2. Watched episode 5 of BBC's Line of Duty
