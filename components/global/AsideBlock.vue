@@ -117,7 +117,7 @@ export default {
 .aside__content {
   position: relative;
   z-index: 1;
-  color: var(--gray-900);
+  color: var(--gray-500);
 }
 
 aside {
