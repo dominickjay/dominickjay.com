@@ -154,13 +154,6 @@ button {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  a,
-  button {
-    --text: var(--gray-100);
-  }
-}
-
 a:hover,
 button:hover {
   text-decoration: none;
@@ -231,6 +224,19 @@ main {
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --background: var(--gray-500);
+    --text: var(--gray-100);
+
+    --decorated-link-text: var(--gray-500);
+    --decorated-link-text-hover: var(--gray-100);
+
+    --heading-text: var(--blue-100);
+
+    --link-color: var(--blue-100);
+    --logo-fill: var(--gray-100);
+  }
+
+  :root:not([data-user-color-scheme]) {
     --background: var(--gray-500);
     --text: var(--gray-100);
 
