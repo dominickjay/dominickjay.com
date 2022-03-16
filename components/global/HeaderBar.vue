@@ -5,7 +5,7 @@
   >
     <div class="canvas" />
     <div class="container">
-      <ThemeToggle />
+      <!-- <ThemeToggle /> -->
       <h1 class="heading heading--one header__title">
         <NuxtLink
           class="header__link"

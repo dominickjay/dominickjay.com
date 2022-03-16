@@ -47,10 +47,6 @@ export default {
 
     const setButtonLabelAndStatus = currentSetting => {
       currentSetting === 'dark' ? document.getElementById('slider').setAttribute('checked', 'checked') : document.getElementById('slider').removeAttribute('checked');
-      modeToggleText.innerText = `Enable ${
-        currentSetting === 'dark' ? 'light' : 'dark'
-      } mode`;
-      modeStatusElement.innerText = `Color mode is now "${currentSetting}"`;
     };
 
     const toggleSetting = () => {

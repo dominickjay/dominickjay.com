@@ -141,23 +141,6 @@ export default {
       minutes = Math.ceil(words / wordsPerMinute)
       return minutes
     },
-    ogImageUrl()  {
-      return this.$cloudinary.image.url(
-        'post-template', {
-          transformation:  [{
-            width:  "700",
-            overlay:  {
-              font_family:  "Hackney.ttf",
-              font_size:  80,
-              font_weight:  "bold",
-              text:  this.article.title,
-              co_rgb:  "203140",
-              width: 850
-            },
-          }]
-        }
-      )
-    }
   },
   mounted() {
     Prism.highlightAll();
@@ -177,8 +160,9 @@ export default {
 <style lang="scss">
 
 :root {
-  --text: var(--gray-500);
-  --background: #F1F6F7;
+  --code-text: var(--gray-500);
+  --code-background: #F1F6F7;
+  --code-font-weight: var(--font-weight-700);
 }
 
 .reading-time {
@@ -329,7 +313,7 @@ pre[class*="language-"] code {
   font-family: var(--code);
   line-height: var(--line-height);
   color: var(--code-text);
-  font-weight: 600;
+  font-weight: var(--code-font-weight);
   text-shadow: none;
   padding: var(--space-l);
   display: block;
@@ -386,13 +370,20 @@ pre[class*="language-"] {
 @media (prefers-color-scheme: dark) {
   :root {
     --code-text: var(--gray-100);
-    --background: hsl(210deg, 30%, 12%);
+    --code-background: hsl(210deg, 30%, 12%);
+    --code-font-weight: var(--font-weight-500);
+  }
+  :root:not([data-user-color-scheme]) {
+    --code-text: var(--gray-100);
+    --code-background: hsl(210deg, 30%, 12%);
+    --code-font-weight: var(--font-weight-500);
   }
 }
 
 [data-user-color-scheme='dark'] {
   --code-text: var(--gray-100);
-  --background: hsl(210deg, 30%, 12%);
+  --code-background: hsl(210deg, 30%, 12%);
+  --code-font-weight: var(--font-weight-500);
 }
 
 </style>
