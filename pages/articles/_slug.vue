@@ -176,6 +176,11 @@ export default {
 
 <style lang="scss">
 
+:root {
+  --text: var(--gray-500);
+  --background: #F1F6F7;
+}
+
 .reading-time {
   font-weight: var(--fw-base-lg);
   margin-block: 1em;
@@ -323,7 +328,7 @@ code[class*="language-"],
 pre[class*="language-"] code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--gray-500);
+  color: var(--text);
   font-weight: 600;
   text-shadow: none;
   padding: var(--space-l);
@@ -333,8 +338,8 @@ pre[class*="language-"] code {
 code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--gray-500);
-  background: #F1F6F7;
+  color: var(--text);
+  background: --background;
 }
 
 pre[class*="language-"] {
@@ -344,7 +349,7 @@ pre[class*="language-"] {
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
-  background: #F1F6F7;
+  background: --background;
 }
 
 .line-highlight {
@@ -388,12 +393,8 @@ pre[class*="language-"] {
 }
 
 [data-user-color-scheme='dark'] {
-  code,
-  code[class*="language-"],
-  pre[class*="language-"] {
-    background: hsl(210deg, 30%, 12%);
-    color: var(--gray-100);
-  }
+  --text: var(--gray-100);
+  --background: hsl(210deg, 30%, 12%);
 }
 
 </style>
