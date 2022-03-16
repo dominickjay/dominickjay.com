@@ -328,7 +328,7 @@ code[class*="language-"],
 pre[class*="language-"] code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--text);
+  color: var(--code-text);
   font-weight: 600;
   text-shadow: none;
   padding: var(--space-l);
@@ -338,8 +338,8 @@ pre[class*="language-"] code {
 code {
   font-family: var(--code);
   line-height: var(--line-height);
-  color: var(--text);
-  background: var(--background);
+  color: var(--code-text);
+  background: var(--code-background);
 }
 
 pre[class*="language-"] {
@@ -349,7 +349,7 @@ pre[class*="language-"] {
 }
 
 :not(pre) > code[class*="language-"], pre[class*="language-"] {
-  background: --background;
+  background: var(--code-background);
 }
 
 .line-highlight {
@@ -384,16 +384,14 @@ pre[class*="language-"] {
 }
 
 @media (prefers-color-scheme: dark) {
-  code,
-  code[class*="language-"],
-  pre[class*="language-"] {
-    background: hsl(210deg, 30%, 12%);
-    color: var(--gray-100);
+  :root {
+    --code-text: var(--gray-100);
+    --background: hsl(210deg, 30%, 12%);
   }
 }
 
 [data-user-color-scheme='dark'] {
-  --text: var(--gray-100);
+  --code-text: var(--gray-100);
   --background: hsl(210deg, 30%, 12%);
 }
 
