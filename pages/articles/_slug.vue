@@ -339,7 +339,7 @@ code {
   font-family: var(--code);
   line-height: var(--line-height);
   color: var(--text);
-  background: --background;
+  background: var(--background);
 }
 
 pre[class*="language-"] {
