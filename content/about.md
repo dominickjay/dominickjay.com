@@ -15,9 +15,14 @@ skillsDevelopment:
 experience:
   [
     {
+      'title': 'Series Eight',
+      'position': 'Front-end Developer',
+      'dateRange': '2022 - Present',
+    },
+    {
       'title': 'roweIT',
       'position': 'Software Engineer',
-      'dateRange': '2019 - Present',
+      'dateRange': '2019 - 2022',
     },
     {
       'title': 'GOSS Interactive',
@@ -52,8 +57,8 @@ testimonial:
   ]
 ---
 
-Hi 👋. My name’s Dom and I'm a Software Engineer currently working at Rowe IT. In the past, I have worked at GOSS Interactive, n9 Design and Logo CCP, and graduated from Bournemouth University with a BSc in Computing.
+Hi 👋. My name’s Dom and I'm a Front-end Developer currently working at Series Eight. In the past, I have worked at Rowe IT, GOSS Interactive, n9 Design and Logo CCP, and graduated from Bournemouth University with a BSc in Computing.
 
-Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href="/docs/resume.pdf" target="_blank" rel="noopener">resume</a>. My current role at [Rowe IT](https://roweit.co.uk) as a Software Engineer allows me to work on a wide range of technologies and processes.
+Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href="/docs/resume.pdf" target="_blank" rel="noopener">resume</a>. My current role at [Series Eight](https://serieseight.com/) as a Front-end Developer allows me to work on a wide range of technologies and processes.
 
 I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog <a href="/articles">here</a>, or putting together small projects on [CodePen](https://codepen.io/dominickjay217/).
