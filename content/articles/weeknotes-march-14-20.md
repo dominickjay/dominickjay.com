@@ -16,6 +16,7 @@ tags:
 ### Personal
 
 1. Went to Bournemouth to visit my parents and friends I haven't seen properly since the pandemic started.
+1. Saw all my nieces, and was great to have some family time.
 
 ### Reading
 
@@ -30,3 +31,14 @@ tags:
 
 1. Arcade Fire - Funeral
 1. Nine Inch Nails - Things Falling Apart
+1. Biffy Clyro - A Celebration of Endings
+1. Biffy Clyro - The Myth of the Happily Ever After
+1. Biffy Clyro - Similarities
+1. Black Country, New Road - Ants From Up There
+1. Cult of Luna - The Long Road North
+1. Ghost - IMPERA
+1. Puscifer - Conditions of my Parole
+1. Puscifer - Money Shot
+1. TOOL - Fear Inoculum
+1. TOOL - Lateralus
+1. The Weeknd - Dawn FM
