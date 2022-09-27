@@ -1,0 +1,33 @@
+{
+  "name": "11ty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "eleventy --serve & postcss css/main.css --o _site/css/main.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.1",
+    "eleventy-load": "^0.3.1",
+    "eleventy-load-file": "^0.1.0",
+    "eleventy-load-html": "^0.1.1",
+    "eleventy-load-js": "^0.1.1",
+    "postcss-cli": "^10.0.0",
+    "postcss-partial-import": "^4.1.0",
+    "tailwindcss": "^3.1.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "autoprefixer": "^10.4.7",
+    "luxon": "^3.0.3",
+    "markdown-it": "^13.0.1",
+    "memfs": "^3.4.7",
+    "motion": "^10.14.2"
+  }
+}

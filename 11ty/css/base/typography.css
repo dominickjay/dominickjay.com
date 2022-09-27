@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+
+html {
+    @apply font-main text-[62.5%];
+}
+
+  body {
+    font-size: 1.6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+@layer utilities {
+    .h1 {
+        @apply text-[58px] leading-[1] mb-[32px] font-heading;
+    }
+
+    .h2 {
+
+    }
+
+    .h3 {
+
+    }
+
+    .h4 {
+
+    }
+
+    .p {
+
+    }
+}

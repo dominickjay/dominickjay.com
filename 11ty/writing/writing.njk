@@ -1,0 +1,24 @@
+---
+title: 'Writing'
+layout: 'layouts/default.njk'
+---
+
+<div class="col-start-1 col-span-6 z-[1]">
+    <h1 class="h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+
+    {% set postslist = collections.writing %}
+    {% set postslistCounter = collections.writing | length %}
+
+    <ol reversed class="pt-[120px]" style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}">
+        {% for post in postslist | reverse %}
+        <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
+        <a href="{{ post.url | url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
+        <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate  }}</time>
+        {% for tag in post.data.tags %}
+            {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+            <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
+        {% endfor %}
+        </li>
+        {% endfor %}
+    </ol>
+</div>

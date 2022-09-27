@@ -1,0 +1,10 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+
+@import "./base/layout.css";
+@import "./base/reset.css";
+@import "./base/fonts.css";
+@import "./base/typography.css";
+
+@import "./utilities/skip-link.css";
+@import "tailwindcss/utilities";
