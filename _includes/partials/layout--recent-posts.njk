@@ -1,0 +1,42 @@
+{% set postslist = collections.writing %}
+{% set postslistCounter = collections.writing | length %}
+
+<section class="recent-posts relative">
+
+    <div class="container flex flex-col mdw:site-grid fl-py-3xl relative">
+        <div class="col-start-1 col-end-8 fl-py-l">
+            <h2 class="h2 heading">Recently Published</h2>
+            <ul class="list-none fl-py-m">
+                {% for post in postslist | reverse %}
+                    <li class="fl-mt-m first:mt-0">
+                        <a
+                            class="flex flex-col gap-y-2"
+                            href="{{ post.url | url }}"
+                        >
+                            <span
+                                class="fl-text-step-1"
+                            >
+                            {% if post.data.title %}
+                                {{ post.data.title }}
+                            {% else %}
+                                <code>
+                                    {{ post.url }}
+                                </code>
+                            {% endif %}
+                            </span>
+                            <time
+                                class=""
+                                datetime="{{ post.date | htmlDateString }}"
+                            >
+                                {{ post.date | readableDate  }}
+                            </time>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-start-9 col-end-13 fl-py-l">
+            <h3 class="h2 heading">Categories</h3>
+        </div>
+    </div>
+</section>

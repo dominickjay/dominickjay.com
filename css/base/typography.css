@@ -5,28 +5,28 @@ html {
 }
 
   body {
-    font-size: 1.6rem;
+    @apply fl-text-step-0;
     -webkit-font-smoothing: antialiased;
   }
 
 @layer utilities {
     .h1 {
-        @apply text-[58px] leading-[1] mb-[32px] font-heading;
+        @apply fl-text-step-5 fl-mb-m;
     }
 
     .h2 {
-
+      @apply fl-text-step-4 fl-mb-s;
     }
 
     .h3 {
-
+      @apply fl-text-step-3 fl-mb-xs;
     }
 
     .h4 {
 
     }
 
-    .p {
-
+    .heading {
+      @apply font-heading leading-[1] font-bold tracking-[-0.04em];
     }
 }
