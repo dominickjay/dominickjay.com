@@ -8,6 +8,15 @@
 }
 
 @font-face {
+    font-family: theme("fontFamily.heading.0");
+    src: url("../../fonts/Erode-Medium.woff2") format("woff2"),
+        url("../../fonts/Erode-Medium.otf") format("woff");
+    font-weight: theme("fontWeight.medium");
+    font-style: medium;
+    font-display: swap;
+}
+
+@font-face {
     font-family: theme("fontFamily.main.0");
     src: url("../../fonts/Recia-Regular.woff2") format("woff2"),
         url("../../fonts/Recia-Regular.woff") format("woff");

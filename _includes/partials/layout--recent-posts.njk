@@ -4,33 +4,12 @@
 <section class="recent-posts relative">
 
     <div class="container flex flex-col mdw:site-grid fl-py-3xl relative">
-        <div class="col-start-1 col-end-8 fl-py-l">
+        <div class="col-start-1 col-end-7 fl-py-l">
             <h2 class="h2 heading">Recently Published</h2>
             <ul class="list-none fl-py-m">
-                {% for post in postslist | reverse %}
+                {% for post in postslist | reverse | limit(5) %}
                     <li class="fl-mt-m first:mt-0">
-                        <a
-                            class="flex flex-col gap-y-2"
-                            href="{{ post.url | url }}"
-                        >
-                            <span
-                                class="fl-text-step-1"
-                            >
-                            {% if post.data.title %}
-                                {{ post.data.title }}
-                            {% else %}
-                                <code>
-                                    {{ post.url }}
-                                </code>
-                            {% endif %}
-                            </span>
-                            <time
-                                class=""
-                                datetime="{{ post.date | htmlDateString }}"
-                            >
-                                {{ post.date | readableDate  }}
-                            </time>
-                        </a>
+                        {% include "partials/block--post-thin.njk" %}
                     </li>
                 {% endfor %}
             </ul>

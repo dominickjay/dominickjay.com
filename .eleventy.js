@@ -1,5 +1,6 @@
 const { DateTime } = require("luxon");
 const markdownIt = require("markdown-it");
+const now = String(Date.now())
 
 module.exports = function (eleventyConfig) {
   let options = {
@@ -18,20 +19,25 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
 
+  eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`)
+
+  // limit filter
+  eleventyConfig.addFilter('limit', function (array, limit) {
+    console.log(array.slice(0, limit));
+    return array.slice(0, limit)
+  })
+
+  eleventyConfig.addShortcode('version', function () {
+    return now
+  })
+
+  eleventyConfig.addPassthroughCopy({
+    './node_modules/alpinejs/dist/cdn.js': './js/alpine.js',
+  })
+
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd')
-  })
-
-  eleventyConfig.addCollection('tagsList', (collectionApi) => {
-    const tagsSet = new Set()
-    collectionApi.getAll().forEach((item) => {
-      if (!item.data.tags) return
-      item.data.tags
-        .filter((tag) => !['foo', 'bar'].includes(tag))
-        .forEach((tag) => tagsSet.add(tag))
-    })
-    return [...tagsSet].sort((a, b) => b.localeCompare(a))
   })
 
   eleventyConfig.addPlugin(require('eleventy-load'), {

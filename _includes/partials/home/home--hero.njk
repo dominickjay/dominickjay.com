@@ -1,6 +1,15 @@
 <div class="hero h-screen max-h-[900px]">
-    <div class="container flex flex-col mdw:site-grid h-full place-content-center">
-        <div class="symbol-pattern absolute h-full left-0 w-full overflow-hidden">
+    <div class="container flex flex-col mdw:site-grid h-full">
+        <div class="absolute h-full left-0 top-0 w-full overflow-hidden">
+            <div class="absolute h-[200px] w-[650px] bg-grey/[0.2] rounded-[20px] top-[23vh] block"></div>
+            <div class="absolute -right-[20px] -top-[20px] flex flex-col gap-y-[20px]">
+                <div class="relative h-[75px] w-[225px] bg-black/[0.25] rounded-[20px] right-0 top-[23vh] block hover:-right-[20px] hover:bg-black/[0.95] transition-all ease-in-out duration-[0.85s]"></div>
+                <div class="relative h-[75px] w-[225px] bg-grey/[0.30] rounded-[20px] -right-[80px] top-[23vh] block hover:-right-[20px] hover:bg-grey/[0.95] transition-all ease-in-out duration-[0.85s]"></div>
+                <div class="relative h-[75px] w-[225px] bg-red/[0.28] rounded-[20px] -right-[40px] top-[23vh] block hover:-right-[20px] hover:bg-red/[0.95] transition-all ease-in-out duration-[0.85s]"></div>
+                <div class="relative h-[75px] w-[225px] bg-orange/[0.32] rounded-[20px] -right-[120px] top-[23vh] block hover:-right-[20px] hover:bg-orange/[0.95] transition-all ease-in-out duration-[0.85s]"></div>
+            </div>
+        </div>
+        {# <div class="symbol-pattern absolute h-full left-0 w-full overflow-hidden">
             <img class="absolute right-[50%] -top-[125px] max-w-[250px] rotate-12 opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
             <img class="absolute right-[45%] top-[50px] max-w-[100px] rotate-[60deg] opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
             <img class="absolute right-[40%] top-[150px] max-w-[150px] rotate-[80deg] opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
@@ -8,11 +17,10 @@
             <img class="absolute right-[20%] top-[350px] max-w-[105px] rotate-[97deg] opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
             <img class="absolute right-[5%] top-[400px] max-w-[225px] rotate-[17deg] opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
             <img class="absolute -right-[100px] top-[500px] max-w-[225px] rotate-[17deg] opacity-[0.08] hover:opacity-100 duration-[0.3s] ease-in-out" src="/images/contor.png" />
-        </div>
-        <div class="col-start-1 col-span-6 z-[1]">
+        </div> #}
+        <div class="col-start-1 col-span-6 z-[1] pt-[33vh]">
             <h1 class="h1 heading !text-[80px] !leading-[0.85]">{{ title | lower }}</h1>
-            <div class="p !text-[18px] font-medium fl-mt-l">{{ intro | safe }}
-            </div>
+            <div class="p !text-[18px] font-medium fl-mt-l">{{ intro | safe }}</div>
         </div>
     </div>
 </div>
