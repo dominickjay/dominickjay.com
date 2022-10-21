@@ -1,6 +1,7 @@
 const { DateTime } = require("luxon");
 const markdownIt = require("markdown-it");
 const now = String(Date.now())
+const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 
 module.exports = function (eleventyConfig) {
   let options = {
@@ -39,6 +40,8 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd')
   })
+
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   eleventyConfig.addPlugin(require('eleventy-load'), {
     rules: [

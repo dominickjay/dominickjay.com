@@ -1,8 +1,10 @@
-<section class="relative">
+<section>
     <div class="container flex flex-col mdw:site-grid fl-py-3xl relative">
-        <div class="col-start-3 col-span-7 z-[1] relative">
-            <div class="fl-text-step-2 font-medium">
-                {{ intro }}
+        <div class="absolute h-[325px] w-[510px] bg-grey/[0.2] rounded-[20px] top-[40px] right-[120px] block header-bottom-block translate-x-[100vw]"></div>
+        <div class="col-start-7 col-span-6 z-[1] relative" id="intro">
+            <div class="relative flex flex-col">
+                <h2 class="h2 heading font-black !text-[80px]">Hello!</h2>
+                <div class="p fl-text-step-2 font-medium text-left">{{ intro | safe }}</div>
             </div>
         </div>
     </div>

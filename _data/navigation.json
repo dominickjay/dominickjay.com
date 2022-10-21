@@ -1,5 +1,5 @@
 {
-  "items": [
+  "main": [
     {
       "text": "About",
       "url": "/about/"
@@ -11,6 +11,16 @@
     {
       "text": "Snippets",
       "url": "/snippets/"
+    }
+  ],
+  "secondary": [
+    {
+      "text": "Uses",
+      "url": "/uses/"
+    },
+    {
+      "text": "Now",
+      "url": "/now/"
     }
   ]
 }

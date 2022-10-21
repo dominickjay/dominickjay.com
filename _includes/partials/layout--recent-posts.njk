@@ -6,16 +6,16 @@
     <div class="container flex flex-col mdw:site-grid fl-py-3xl relative">
         <div class="col-start-1 col-end-7 fl-py-l">
             <h2 class="h2 heading">Recently Published</h2>
-            <ul class="list-none fl-py-m">
+            <ol class="list-none fl-py-m">
                 {% for post in postslist | reverse | limit(5) %}
                     <li class="fl-mt-m first:mt-0">
                         {% include "partials/block--post-thin.njk" %}
                     </li>
                 {% endfor %}
-            </ul>
+            </ol>
         </div>
         <div class="col-start-9 col-end-13 fl-py-l">
-            <h3 class="h2 heading">Categories</h3>
+            <h3 class="h2 heading highlight">Categories</h3>
         </div>
     </div>
 </section>

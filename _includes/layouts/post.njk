@@ -1,0 +1,10 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+  {% include "partials/home/home--hero.njk" %}
+  <div class="container flex flex-col mdw:site-grid fl-py-3xl">
+    <div class="col-start-1 col-span-full post-body max-w-[900px]">
+      {{ content | safe }}
+    </div>
+  </div>
+{% endblock %}

@@ -29,4 +29,24 @@ html {
     .heading {
       @apply font-heading leading-[1] font-bold tracking-[-0.04em];
     }
+
+    .highlight {
+      @apply bg-black text-white p-[2px_10px] inline-block;
+    }
+
+    .post-body h3 {
+      @apply heading fl-text-step-3 fl-mt-m fl-mb-s;
+    }
+
+    .post-body h2 {
+      @apply heading fl-text-step-4 fl-mt-l fl-mb-m;
+    }
+
+    .post-body h4 {
+      @apply heading fl-text-step-2 fl-mt-s fl-mb-xs;
+    }
+
+    .post-body ol {
+      @apply list-decimal pl-[20px] flex flex-col gap-y-[5px];
+    }
 }

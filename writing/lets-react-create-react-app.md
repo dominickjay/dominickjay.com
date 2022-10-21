@@ -25,6 +25,7 @@ links:
       'target': 'https://medium.com/codex/you-should-choose-vite-over-cra-for-react-apps-heres-why-47e2e7381d13',
     },
   ]
+layout: 'layouts/post.njk'
 ---
 
 ## Intro
@@ -51,7 +52,7 @@ Rather than installing the CRA packaging directly using `npm i create-react-app`
 
 Looking at our output in the folder directory, this is what we are given;
 
-```
+```txt
 README.md
   node_modules/
   package.json

@@ -2,23 +2,38 @@
 title: 'Writing'
 layout: 'layouts/default.njk'
 ---
+<div class="col-start-1 col-span-full grid grid-cols-6 fl-py-3xl">
+    <section class="col-start-1 col-span-3 row-start-1">
+        <h1 class="h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
 
-<div class="col-start-1 col-span-6 z-[1] pt-[80px]">
-    <h1 class="h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+        {% set postslist = collections.writing %}
+        {% set postslistCounter = collections.writing | length %}
 
-    {% set postslist = collections.writing %}
-    {% set postslistCounter = collections.writing | length %}
+        <ol
+            reversed
+            class="fl-pt-xl"
+            style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
+        >
+            {% for post in postslist | reverse %}
+                <li class="fl-mt-m first:mt-0">
+                    <a
+                        href="{{ post.url | url }}"
+                        class="font-medium hover:underline hover:underline-offset-2"
+                    >
+                        {% if post.data.title %}
+                            {{ post.data.title }}
+                        {% else %}
+                            <code>{{ post.url }}</code>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+    </section>
 
-    <ol reversed class="pt-[120px]" style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}">
-        {% for post in postslist | reverse %}
-        <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
-        <a href="{{ post.url | url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
-        <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate  }}</time>
-        {% for tag in post.data.tags %}
-            {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-            <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
-        {% endfor %}
-        </li>
-        {% endfor %}
-    </ol>
+    <aside class="col-start-5 col-span-2 row-start-1 fl-pt-3xl">
+        <div class="fl-pt-xl fl-text-step-1">
+            I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these <span class="font-heading font-bold fl-text-step-1 leading-[1]">{{ postslist.length }}</span> posts, I go through problems, solutions and how I am - infact - not Batman.
+        </div>
+    </aside>
 </div>
