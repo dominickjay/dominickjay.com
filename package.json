@@ -29,6 +29,8 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@11ty/eleventy-cache-assets": "^2.3.0",
+    "@11ty/eleventy-fetch": "^3.0.0",
     "@11ty/eleventy-navigation": "^0.3.5",
     "autoprefixer": "^10.4.7",
     "concurrently": "^7.4.0",
