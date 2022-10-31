@@ -82,7 +82,7 @@ Run `yarn start` to open the project up on the default port of 3000 - and get st
 
 The CRA has a distinct advantage of only having one dependency to manage - `react-scripts`. While it is great to only have to manage one dependency, and not have to deal with the underlying packages, sometime we need/want to. So what then? In this instance, the CRA team included a command `npm run eject`. This command takes all the configuration files and other dependencies such as webpack and Babel and copies them into your projects `package.json` file as seperate dependencies.
 
-<div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px]">
+<div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
   <span class="fl-text-step-2 heading">Point of no return</span>
   <p>Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.</p>
 </div>
