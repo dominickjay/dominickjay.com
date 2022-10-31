@@ -1,0 +1,29 @@
+<div
+    class="hero mdw:h-screen mdw:max-h-[50vh] relative bg-black text-white"
+    x-data="{
+      light: true,
+
+      checkHeader() {
+        const header = document.querySelectorAll('header')[0];
+        if (!this.light) {
+            header.classList.remove('light')
+        } else {
+            header.classList.add('light')
+        }
+      }
+    }"
+    x-init="checkHeader()"
+    @scroll.window="checkHeader()"
+    x-intersect:leave="light = false"
+    x-intersect:enter="light = true"
+>
+	<div class="container flex flex-col mdw:site-grid h-full">
+		<div class="col-start-1 col-span-8 z-[1] pt-[120px] mdw:pt-0 fl-pb-l">
+            <div class="flex flex-col justify-end h-full gap-y-[10px]">
+                <span class="font-bold">{{ page.date | readableDate() }}</span>
+                <span class="font-bold">About {{ content | readingTime }} to read</span>
+                <h1 class="h1 heading !text-[100px] !leading-[0.75] text-left fl-mt-m">{{ title | lower | safe }}</h1>
+            </div>
+		</div>
+	</div>
+</div>

@@ -1,7 +1,8 @@
 ---
 title: "Let's React: Create React App"
 description: 'A deep dive into Create React App - a tool for building single page applications'
-date: 2022-02-17
+intro: "For this post, we're going to do a deep dive into 'Create React App' (CRA). We'll look into what it is, what it's useful for, how to set it up and - after setting it up - what is created. Plus, advantages and disadvantages of its use and lastly, where you can take it next."
+date: Created
 tags:
   - react
   - writing
@@ -27,10 +28,6 @@ links:
   ]
 layout: 'layouts/post.njk'
 ---
-
-## Intro
-
-For this post, we're going to do a deep dive into 'Create React App' (CRA). We'll look into what it is, what it's useful for, how to set it up and - after setting it up - what is created. Plus, advantages and disadvantages of its use and lastly, where you can take it next.
 
 ## What is 'Create React App'?
 
@@ -85,8 +82,10 @@ Run `yarn start` to open the project up on the default port of 3000 - and get st
 
 The CRA has a distinct advantage of only having one dependency to manage - `react-scripts`. While it is great to only have to manage one dependency, and not have to deal with the underlying packages, sometime we need/want to. So what then? In this instance, the CRA team included a command `npm run eject`. This command takes all the configuration files and other dependencies such as webpack and Babel and copies them into your projects `package.json` file as seperate dependencies.
 
-<aside-block type="warning" heading="Point of no return" text="
-      Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy."></aside-block>
+<div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px]">
+  <span class="fl-text-step-2 heading">Point of no return</span>
+  <p>Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.</p>
+</div>
 
 #### Eject alternatives
 

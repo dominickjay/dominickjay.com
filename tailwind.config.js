@@ -49,5 +49,7 @@ module.exports = {
       textSizes: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'],
     }),
   },
-  plugins: [require('tailwind-utopia')],
+  plugins: [
+    require('tailwind-utopia'),
+  ],
 }

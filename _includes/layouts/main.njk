@@ -8,7 +8,8 @@
 		<link rel="stylesheet" media="print" href="/fonts/fonts.css?{{ assetHash }}" onload="this.media='all'" />
 		<link rel="stylesheet" href="/css/main.css" />
 		<script src="/js/alpine.js?v={% version %}" defer></script>
-		<script src="/js/index.js"></script>
+		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+		<script src="/js/index.js?v={% version %}"></script>
 	</head>
 	<body>
 		<a class="skip-link" href="#main">Skip to main content</a>
@@ -57,13 +58,13 @@
 			</div>
 		</header>
 
-		<main class="main overflow-hidden mb-[450px] bg-white z-10 relative" tabindex="-1" id="main-content">
+		<main class="main mb-[650px] bg-white z-10 relative" tabindex="-1" id="main-content">
 			{% block content %}
 				{{ content | safe }}
 			{% endblock %}
 		</main>
 
-		<footer class="fixed w-full bg-black bottom-0 p-[10vh_0_10vh] min-h-[450px] flex flex-col justify-center items-center">
+		<footer class="fixed w-full bg-black bottom-0 p-[10vh_0_10vh] min-h-[650px] flex flex-col justify-center items-center">
 			<div class="container flex flex-col mdw:site-grid h-full overflow-hidden">
 				<div class="col-start-1 col-span-3">
 					<span class="fl-text-step-5 heading text-orange">Want to get in touch?</span>

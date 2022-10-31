@@ -1,0 +1,15 @@
+.toc {
+    @apply bg-grey/[0.5] fl-px-l fl-py-xl rounded-br-[80px];
+}
+
+.toc a {
+    @apply font-medium transition-transform ease-in-out duration-[0.25s] block;
+}
+
+.toc a:hover {
+    @apply translate-x-[5px];
+}
+
+.anchor-link {
+    @apply text-red;
+}

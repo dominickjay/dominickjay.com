@@ -1,16 +1,32 @@
 const { DateTime } = require("luxon");
 const markdownIt = require("markdown-it");
-const now = String(Date.now())
+const markdownItAnchor = require('markdown-it-anchor');
+const now = String(Date.now());
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
+const readingTime = require('eleventy-plugin-reading-time');
+const pluginTOC = require('eleventy-plugin-toc')
 
 module.exports = function (eleventyConfig) {
-  let options = {
+  const mdOptions = {
     html: true,
     breaks: true,
     linkify: true,
+    typographer: true
+  }
+  const mdAnchorOpts = {
+    permalink: true,
+    permalinkClass: 'anchor-link',
+    permalinkSymbol: '#',
+    level: [1, 2, 3, 4]
   }
 
-  eleventyConfig.setLibrary('md', markdownIt(options))
+  eleventyConfig.addPlugin(readingTime)
+
+  eleventyConfig.setLibrary(
+    'md',
+    markdownIt(mdOptions).use(markdownItAnchor, mdAnchorOpts)
+  )
+  eleventyConfig.addPlugin(pluginTOC)
 
   eleventyConfig.addPassthroughCopy('css')
   eleventyConfig.addPassthroughCopy('images')
@@ -34,6 +50,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy({
     './node_modules/alpinejs/dist/cdn.js': './js/alpine.js',
+    './node_modules/@alpinejs/intersect/builds/cdn.js': './js/intersect.js'
   })
 
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string

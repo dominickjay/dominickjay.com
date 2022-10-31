@@ -1,5 +1,5 @@
 @layer utilities {
     .site-grid {
-        @apply grid grid-cols-4 md:grid-cols-12 gap-x-[32px];
+        @apply grid grid-cols-4 mdw:grid-cols-12 gap-x-[32px];
     }
 }
