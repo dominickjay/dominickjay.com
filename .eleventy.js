@@ -31,6 +31,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('css')
   eleventyConfig.addPassthroughCopy('images')
   eleventyConfig.addPassthroughCopy('fonts')
+  eleventyConfig.addPassthroughCopy('docs')
 
   eleventyConfig.addFilter('readableDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')

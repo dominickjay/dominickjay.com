@@ -51,4 +51,8 @@ html {
     .post-body ol {
       @apply list-decimal pl-[20px] flex flex-col gap-y-[5px];
     }
+
+    a:not([class]) {
+      @apply underline hover:underline-offset-2 relative;
+    }
 }

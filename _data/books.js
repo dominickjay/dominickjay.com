@@ -1,9 +1,31 @@
-const supabase = require('@supabase/supabase-js')
-
-// Create a single supabase client for interacting with your database
-const client = supabase.createClient(
-  'https://nxpoeyhatnktapwxwjqg.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54cG9leWhhdG5rdGFwd3h3anFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjcxNjAwOTgsImV4cCI6MTk4MjczNjA5OH0.wQi21RJfSRnamBISXfqBxmSSdEgIbpNzBKFSG6Fq7x8'
+require('dotenv').config()
+const Airtable = require('airtable')
+let base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base(
+  process.env.AIRTABLE_ID
 )
 
-console.log(client);
+module.exports = () => {
+  return new Promise((resolve, reject) => {
+    let allDatasets = [] // change 'allDatasets' to something more relevant to your project
+    base('Books') // change 'New' to your base name
+      .select({ view: 'Currently Reading' }) // change 'All' to your view name
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach((record) => {
+            allDatasets.push({
+              id: record._rawJson.id,
+              ...record._rawJson.fields,
+            })
+          })
+          fetchNextPage()
+        },
+        function done(err) {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(allDatasets)
+          }
+        }
+      )
+  })
+}

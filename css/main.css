@@ -9,6 +9,7 @@
 @import "./components/toc.css";
 @import "./components/code.css";
 @import "./components/header.css";
+@import "./components/fyi-block.css";
 
 @import "./utilities/skip-link.css";
 @import "tailwindcss/utilities";

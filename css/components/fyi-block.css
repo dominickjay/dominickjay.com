@@ -1,0 +1,11 @@
+.fyi-block {
+    @apply fl-p-l font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)] border-[16px];
+}
+
+.fyi-block--warning {
+    @apply border-red/[0.85];
+}
+
+.fyi-block span:first-child {
+    @apply fl-text-step-2;
+}

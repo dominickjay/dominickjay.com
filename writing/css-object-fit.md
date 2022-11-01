@@ -1,14 +1,11 @@
 ---
 title: 'CSS Object-Fit Property'
-
 description: 'A super quick insight into the object-fit property'
-
-date: 2021-10-20
-
+date: Created
 tags:
   - css
   - writing
-
+layout: 'layouts/post.njk'
 links:
   [
     {

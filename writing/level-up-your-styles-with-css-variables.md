@@ -6,7 +6,7 @@ tags:
   - css
   - javascript
   - writing
-
+layout: 'layouts/post.njk'
 links:
   [
     {

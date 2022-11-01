@@ -6,6 +6,7 @@ tags:
   - weeknotes
   - personal
   - writing
+layout: 'layouts/post.njk'
 ---
 
 ### Professional

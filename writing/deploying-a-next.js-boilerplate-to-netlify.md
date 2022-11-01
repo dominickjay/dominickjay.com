@@ -2,20 +2,18 @@
 title: 'Deploying a Next.js Boilerplate to Netlify'
 
 description: 'Setting up the Netlify CLI to deploy a Next application to Netlify'
+intro: 'In this post, we will clone a repo and set up the Netlify CLI in order to deploy a Next.js application!'
 date: 2021-11-03
 tags:
   - react
   - devops
   - writing
+layout: 'layouts/post.njk'
 ---
-
-## Introduction
-
-In this post, we will clone a repo and set up the Netlify CLI in order to deploy a Next.js application!
 
 ## Clone repo
 
-Pull down Cassidy Williams Next.js Netlify Starter repo - [Next + Netlify Starter](https://github.com/cassidoo/next-netlify-starter). I've moved the contents of this - excluding the .git folder - into a seperate folder. Commit this repo to your github account, and add it to the Build Settings section in your Netlify account.
+Pull down Cassidy Williams Next.js [Netlify Starter repo](https://github.com/cassidoo/next-netlify-starter). I've moved the contents of this - excluding the .git folder - into a seperate folder. Commit this repo to your github account, and add it to the Build Settings section in your Netlify account.
 
 ### What's in the repo
 
@@ -31,8 +29,10 @@ To install Netlify CLI, make sure you have [Node.js](https://nodejs.org/en/downl
 
 After installation, check version and basic information by using the `netlify` command.
 
-<aside-block type="info" heading="Global vs Local" text="
-      Installing Netlify CLI globally means that your system always has the latest version, including any breaking changes. While global installation is appropriate for initial development and experimentation, for managing builds in a continuous integration (CI) environment, use <a href='https://docs.netlify.com/cli/get-started/#installation-in-a-ci-environment'>local CLI installation</a> instead."></aside-block>
+<div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
+  	<span class="fl-text-step-2 heading">Global vs Local</span>
+	<p>Installing Netlify CLI globally means that your system always has the latest version, including any breaking changes. While global installation is appropriate for initial development and experimentation, for managing builds in a continuous integration (CI) environment, use <a href='https://docs.netlify.com/cli/get-started/#installation-in-a-ci-environment'>local CLI installation</a> instead.</p>
+</div>
 
 ### Authenticating with Netlify
 
@@ -67,25 +67,26 @@ Did you forget to run a build?
 
 Looks like we were too quick to deploy, and forgot to actually _generate_ our site. At this time of writing, we need to add some extra lines to our `netlify.toml` file;
 
-```
+```yaml
 [[plugins]]
 package = "@netlify/plugin-nextjs"
 ```
 
 Also we will need to install this package using `npm install -D @netlify/plugin-nextjs@beta` to make it available for our deployment to be successful overall. For more information on the beta package, this is a great article: [Essential Next.js Build Plugin (beta)](https://github.com/netlify/netlify-plugin-nextjs#installing-the-beta)
 
-<aside-block type="info" heading="What's the netlify.toml file?" text="
+<div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
+  	<span class="fl-text-step-2 heading">What's the netlify.toml file?</span>
 	<p>Netlify couldn't put it better themselves from their documentation;</p>
 	<p>'...is a configuration file that specifies how Netlify builds and deploys your site — including redirects, branch and context-specific settings, and more. Its goal is to describe much of your site configuration alongside your code — with two goals:</p>
 	<ul>
 	<li><p>When someone forks your repository, they can instantly create a Netlify site using the new repo. They don’t have to configure anything in the UI, and they’ll still get an identical site configuration.</p></li>
 	<li><p>You can track configuration changes using version control and configure some things that aren’t customizable in our UI.'</p></li></p>
 	</ul>
-"></aside-block>
+</div>
 
 The reason we added these extra lines was because the `build` plugin that is being used will check for the `out` directory, but Netlify's beta version that was released for Next 12 was changed to match to the `.next` directory. This should be how our netlify.toml file looks at the moment;
 
-```
+```yaml
 [build]
 	command = "yarn build"
 	publish = ".next"

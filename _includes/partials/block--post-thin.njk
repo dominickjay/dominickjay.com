@@ -1,6 +1,12 @@
 <div
     class="flex flex-col gap-y-2"
 >
+    <time
+        class="text-black/[0.8]"
+        datetime="{{ post.date | htmlDateString }}"
+    >
+        {{ post.date | readableDate  }}
+    </time>
     <a
         class="fl-text-step-1 font-medium hover:underline hover:underline-offset-2"
         href="{{ post.url | url }}"
@@ -13,25 +19,4 @@
         </code>
     {% endif %}
     </a>
-    <div class="flex justify-start items-center gap-x-[20px] fl-mt-3xs">
-        <time
-            class="border-r-2 border-r-orange pr-[20px] text-black/[0.8]"
-            datetime="{{ post.date | htmlDateString }}"
-        >
-            {{ post.date | readableDate  }}
-        </time>
-        <div class="flex gap-x-[5px]">
-        {% for tag in post.data.tags %}
-            {% if tag != 'writing' %}
-                {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-                <a
-                    href="{{ tagUrl | url }}"
-                    class="text-black/[0.8] hover:underline"
-                >
-                    {{ tag }}
-                </a>
-            {% endif %}
-        {% endfor %}
-        </div>
-    </div>
 </div>

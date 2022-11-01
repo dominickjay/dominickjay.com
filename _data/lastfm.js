@@ -1,8 +1,8 @@
 const Cache = require('@11ty/eleventy-cache-assets');
-// require('dotenv').config();
+require('dotenv').config();
 
-const API_KEY = '86a5b41a85035739e32c576f027c4765'
-const USERNAME = 'zerosandones217';
+const API_KEY = process.env.LASTFM_API_KEY;
+const USERNAME = process.env.LASTFM_USERNAME;
 const API = 'http://ws.audioscrobbler.com/2.0/'
 
 module.exports = async () => {
