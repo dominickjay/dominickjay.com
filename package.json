@@ -9,7 +9,7 @@
     "dev:webpack": "webpack --mode development --watch",
     "dev:eleventy": "eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "npx @11ty/eleventy"
+    "prod": "npx @11ty/eleventy & postcss css/main.css --o _site/css/main.css && webpack --mode production"
   },
   "keywords": [],
   "author": "",
