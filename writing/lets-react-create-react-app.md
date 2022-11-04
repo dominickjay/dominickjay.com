@@ -60,7 +60,7 @@ README.md
     App.css
     App.js
     App.test.js
-    index.css
+    main.css
     index.js
     logo.svg
     reportWebVitals.js

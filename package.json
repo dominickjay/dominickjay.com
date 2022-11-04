@@ -2,14 +2,18 @@
   "name": "11ty",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "dev": "eleventy --serve & postcss css/main.css --o _site/css/main.css --watch & webpack --mode development --watch",
     "dev:postcss": "postcss css/main.css --o _site/css/main.css --watch",
     "dev:webpack": "webpack --mode development --watch",
     "dev:eleventy": "eleventy --serve",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "npx @11ty/eleventy & postcss css/main.css --o _site/css/main.css && webpack --mode production"
+    "clean": "rm -rf ./_site & rm -rf ./dist",
+    "debug": "DEBUG=* npx @11ty/eleventy",
+    "build": "npm-run-all clean build:assets build:site",
+    "build:assets": "NODE_ENV=production webpack --mode=production",
+    "build:site": "NODE_ENV=production eleventy"
   },
   "keywords": [],
   "author": "",
@@ -17,13 +21,19 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.1.0",
+    "@babel/preset-env": "^7.10.2",
     "alpinejs": "^3.10.3",
+    "babel-loader": "^9.1.0",
     "eleventy-load": "^0.3.1",
     "eleventy-load-file": "^0.1.0",
     "eleventy-load-html": "^0.1.1",
     "eleventy-load-js": "^0.1.1",
+    "file-loader": "^6.2.0",
+    "postcss": "^8.4.18",
     "postcss-cli": "^10.0.0",
+    "postcss-loader": "^4.0.3",
     "postcss-partial-import": "^4.1.0",
+    "postcss-preset-env": "^7.8.2",
     "tailwind-utopia": "github:cwsdigital/tailwind-utopia#v1.0.5",
     "tailwindcss": "^3.1.4",
     "webpack": "^5.74.0",
@@ -38,6 +48,8 @@
     "airtable": "^0.11.5",
     "autoprefixer": "^10.4.7",
     "concurrently": "^7.4.0",
+    "css-loader": "^3.5.3",
+    "cssnano": "^5.1.14",
     "dotenv": "^16.0.3",
     "duolingo-api-js": "^0.0.5",
     "eleventy-plugin-reading-time": "^0.0.1",
@@ -46,6 +58,10 @@
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "^8.6.5",
     "memfs": "^3.4.7",
-    "motion": "^10.14.2"
+    "mini-css-extract-plugin": "^2.6.1",
+    "motion": "^10.14.2",
+    "npm-run-all": "^4.1.5",
+    "postcss-loader": "^3.0.0",
+    "webpack-manifest-plugin": "^5.0.0"
   }
 }

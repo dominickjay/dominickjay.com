@@ -5,13 +5,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		{% include "partials/metadata--info.njk" %}
-		<link rel="stylesheet" href="/css/main.css" />
+		<link rel="stylesheet" href="{% webpackAsset 'main.css' %}">
 		<script src="/js/alpine.js?v={% version %}" defer></script>
 		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-		<script src="/js/index.js?v={% version %}"></script>
+    	<script src="{% webpackAsset 'main.js' %}"></script>
 	</head>
 	<body>
-		<a class="skip-link" href="#main">Skip to main content</a>
+		<a class="skip-link" href="#main-content">Skip to main content</a>
 		<header
 			class="py-[20px] fixed top-0 w-full z-20"
 			x-data="{

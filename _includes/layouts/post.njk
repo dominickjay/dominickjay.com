@@ -1,20 +1,20 @@
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-  {% include "partials/posts/post--hero.njk" %}
-  <div class="container flex flex-col mdw:site-grid fl-py-3xl">
-    <div class="col-start-1 col-span-full post-body max-w-[900px]">
-      <div class="fl-text-step-1 font-bold">
-        {{ intro }}
-      </div>
-      <div class="fl-mt-l">
-        <div>
-          {{ content | toc | safe }}
-        </div>
-      </div>
-      <div class="fl-mt-l">
-        {{ content | safe }}
-      </div>
-    </div>
-  </div>
+	{% include "partials/posts/post--hero.njk" %}
+	<div class="container flex flex-col mdw:site-grid fl-py-3xl">
+		<div class="col-start-1 col-span-full post-body max-w-[900px]">
+			<div class="fl-text-step-1 font-bold">
+				{{ intro }}
+			</div>
+			<div class="fl-mt-l">
+				<div>
+					{{ content | toc | safe }}
+				</div>
+			</div>
+			<div class="fl-mt-l">
+				{{ content | safe }}
+			</div>
+		</div>
+	</div>
 {% endblock %}
