@@ -11,18 +11,11 @@ layout: 'layouts/post.njk'
 
 ## I started a new role
 
-The first big thing that happened this year was leaving my previous role at RoweIT for pastures new at Series Eight. For me, this was a huge decision and one that has paid off time and time again.
-
-- working remotely
-- Working in front end again
+The first big thing that happened this year was leaving my previous role at RoweIT for pastures new at Series Eight. For me, this was a huge decision and one that has paid off time and time again. I’ve seen myself heading towards a full time remote role for a matter of years, and the pandemic gave me the opportunity to see if I could work in a remote environment while also having two young children. Luckily the opportunity arose with Series Eight, and its worked out very well! It’s also great to be working properly in the front end side of development again, and seeing what has changed in the couple of years I’ve been out of it.
 
 ## I started working with a bunch of new tech
 
-- shopify
-- Craft
-- Tailwind
-- AlpineJS
-- Eleventy
+Jumping back into a full time dev role, I was introduced to a whole world of new things, now mainly using Tailwind and AlpineJS on top of Craft and Shopify sites. I’ve also started using Eleventy, finally jumping on the hype train and have been really pleased with the results.
 
 ## Dev Community game was weak
 

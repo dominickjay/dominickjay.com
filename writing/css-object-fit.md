@@ -70,7 +70,7 @@ _Source:_ [CanIUse](https://caniuse.com/object-fit 'CanIUse link for CSS3 object
 
 So, what are you waiting for? Go try it out!
 
-<div style="height: 300px; width: 300px; margin: 4em auto">
+<div>
 
 ![Do It Now Gif](/images/gifs/do-it-now.gif)
 

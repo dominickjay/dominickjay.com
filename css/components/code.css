@@ -144,3 +144,7 @@ pre[class*="language-"] {
 .token.italic {
     font-style: italic;
 }
+
+.cp_embed_wrapper {
+    @apply fl-my-l;
+}
