@@ -7,7 +7,7 @@ const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight')
 const readingTime = require('eleventy-plugin-reading-time')
 const pluginTOC = require('eleventy-plugin-toc')
 const path = require('path')
-const manifestPath = path.resolve(__dirname, 'dist', 'assets', 'manifest.json')
+const manifestPath = path.resolve(__dirname, '_site', 'assets', 'manifest.json')
 const manifest = JSON.parse(fs.readFileSync(manifestPath, { encoding: 'utf8' }))
 
 module.exports = function (eleventyConfig) {

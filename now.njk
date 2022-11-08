@@ -8,25 +8,7 @@ layout: 'layouts/default.njk'
 </div>
 <div class="fl-mt-xl col-start-1 col-span-full">
     <div class="max-w-[850px]">
-        {% set career = about.career[0] %}
-        <div class="fl-mt-l">Current working as:
-            <span class="font-bold">{{ career.role }}</span>
-            for
-            <a href="{{ career.companyLink }}" target="_blank" rel="noopener">
-                <span class="font-bold">{{ career.company }}</span>
-            </a>
-        </div>
-        <div class="fl-mt-l">Currently reading:
-            <ul class="list-disc fl-pl-m fl-mt-s">
-                {% for item in books %}
-                    <li>
-                        <span class="font-bold">{{ item.title }}</span>
-                        by
-                        <span class="font-bold">{{ item.author }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        
 
         {% set recentlyPlayed = lastfm.recenttracks.track %}
         <div class="fl-mt-l">Currently listening to:
