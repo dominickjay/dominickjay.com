@@ -18,9 +18,13 @@ layout: 'layouts/default.njk'
         <div class="fl-mt-s">{{ text | safe }}</div>{% set career = about.career[0] %}
         <div
             class="fl-mt-l"
-            x-data="page()"
-            x-cloak
         >
+            {% edge %}
+                <pre>
+                    {{ lastfm | json }}
+                </pre>
+            {% endedge %}
+
             <h3 class="heading fl-text-step-4">Now</h3>
             <div class="fl-mt-m flex gap-x-[4px]">Currently listening to:
                 <span class="font-bold" x-text="song.track[0].name"></span>

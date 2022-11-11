@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { EleventyEdgePlugin } = require('@11ty/eleventy')
 const { DateTime } = require('luxon')
 const markdownIt = require('markdown-it')
 const markdownItAnchor = require('markdown-it-anchor')
@@ -25,6 +26,7 @@ module.exports = function (eleventyConfig) {
   }
 
   eleventyConfig.addPlugin(readingTime)
+  eleventyConfig.addPlugin(EleventyEdgePlugin)
 
   eleventyConfig.setLibrary(
     'md',
