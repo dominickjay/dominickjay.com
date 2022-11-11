@@ -1,7 +1,7 @@
 ---
 title: 'About'
 tagline: 'Creative Front End Developer, writer, music nerd.'
-intro: "Hi 👋. My name's Dom and I'm a Front-end Developer currently working at Series Eight. In the past, I have worked at Rowe IT, GOSS Interactive, n9 Design and Logo CCP, and graduated from Bournemouth University with a BSc in Computing."
+intro: "Hi 👋. My name's Dom and I'm a Front-end Developer currently working at Series Eight. In the past, I have worked at Rowe IT, GOSS Interactive, n9Design and Logo CCP, and graduated from Bournemouth University with a BSc in Computing."
 text: "Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href='/docs/resume.pdf' target='_blank'>resume</a>. My current role at <span class='highlight'>Series Eight</span> as a <span class='highlight'>Front-End Developer</span> allows me to work on a wide range of technologies and processes.
 
 I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog here, or putting together small projects on <a href='https://codepen.io/dominickjay217' target='_blank'>CodePen</a>."
@@ -12,17 +12,20 @@ layout: 'layouts/default.njk'
     <h1 class="h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
     <span class="text-blue/[0.85] font-bold">{{ tagline | lower }}</span>
 </div>
-<div class="fl-my-xl col-start-1 col-span-full">
+<div class="fl-pb-xl fl-my-xl col-start-1 col-span-full">
     <div class="max-w-[850px]">
         <div class="fl-text-step-1 font-bold">{{ intro }}</div>
         <div class="fl-mt-s">{{ text | safe }}</div>{% set career = about.career[0] %}
-        <div class="fl-mt-s">
-            <h3 class="heading fl-text-step-2">Now</h3>
-            {% set recentlyPlayed = lastfm.recenttracks.track %}
-            <div class="fl-mt-xs">Currently listening to:
-                <span class="font-bold">{{ recentlyPlayed[0].name }}</span>
+        <div
+            class="fl-mt-l"
+            x-data="page()"
+            x-cloak
+        >
+            <h3 class="heading fl-text-step-4">Now</h3>
+            <div class="fl-mt-m flex gap-x-[4px]">Currently listening to:
+                <span class="font-bold" x-text="song.track[0].name"></span>
                 by
-                <span class="font-bold">{{ recentlyPlayed[0].artist['#text'] }}</span>
+                <span class="font-bold" x-text="song.track[0].artist['#text']"></span>
             </div>
             <div class="fl-mt-xs">Current working as:
                 <span class="font-bold">{{ career.role }}</span>
@@ -45,3 +48,16 @@ layout: 'layouts/default.njk'
         </div>
     </div>
 </div>
+
+{# <script>
+function page() {
+    return {
+        song: null,
+        init() {
+            fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json`,)
+                .then((response) => response.json())
+                .then((json) => this.song = json.recenttracks);
+        },
+    }
+}
+</script> #}

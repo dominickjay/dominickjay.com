@@ -19,13 +19,17 @@ Jumping back into a full time dev role, I was introduced to a whole world of new
 
 ## Dev Community game was weak
 
-- Wasn’t too active on discord/LinkedIn
-- Didn’t blog as much
+After spending a few months near the end of last year being much more active on social media than I normally am, I fell out of habit with it. Mainly due to a busy personal life at the time, so didn’t have the time as much to hang out on the Frontend Horse discord as I would’ve liked to.
+
+I also didn’t write, at all, from March until now. I had been writing a post on React components - at the time it was the start of a series on React as I was keen to learn it. The interest soon waived and I found myself struggling to finish it. Rather than just sling out Weeknote posts in the meantime, I took some time (admittedly more than I wanted in hindsight) to reevaluate what I wanted to write about. I’ve since gathered a ton of inspiration and topics to write about, so hopefully I’ll start posting more next year.
 
 ## I went to Portugal
 
-- first time meeting a lot of new colleagues
-- Make this Last to tie into personal section
+I also went abroad for the first time in years, and in doing so completely went out of my normal comfort zone. Not the biggest fan of flying, or navigating airports by myself, I found myself doing both (well, navigating an airport alone on the way back at least). This was over to Ericeria in Portugal, for Series Eights annual team retreat. It was great to see everyone in person rather than over a webcam.
+
+I did a few activities I’ve always wanted to try but held back from doing it; surfing (kind of, more like “how can I not drown while Im attached to this” and paddleboarding.
+
+All in all, a really good time. You can read more about it on S8’s site at [https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet](https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet)
 
 ## I bought a house
 

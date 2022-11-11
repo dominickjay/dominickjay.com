@@ -1,0 +1,1 @@
+{"bundles":[{"asset":"05f23f5b0280c085e34660bb51c031ab54c0552312325b36ca5a8e704919e116.eszip","format":"eszip2"}],"routes":[{"function":"lastfm","pattern":"^/lastfm/?$"}],"post_cache_routes":[],"bundler_version":"3.1.1"}
