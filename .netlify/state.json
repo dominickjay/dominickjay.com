@@ -1,3 +1,18 @@
 {
-	"siteId": "24bcf5a2-fe23-4b95-8cb7-bccd6b54ac19"
+	"siteId": "24bcf5a2-fe23-4b95-8cb7-bccd6b54ac19",
+	"promptVSCodeSettings": true,
+	"geolocation": {
+		"data": {
+			"city": "Plymouth",
+			"country": {
+				"code": "GB",
+				"name": "United Kingdom"
+			},
+			"subdivision": {
+				"code": "ENG",
+				"name": "England"
+			}
+		},
+		"timestamp": 1668180234144
+	}
 }

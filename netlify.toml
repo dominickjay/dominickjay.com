@@ -5,6 +5,9 @@
   publish = "_site"
   NODE_ENV = "10.15.3"
 
+[dev]
+    command = "npm run dev"
+
 [[edge_functions]]
 function = "lastfm"
 path = "/lastfm"
