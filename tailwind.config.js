@@ -3,7 +3,8 @@ module.exports = {
   mode: 'jit',
   content: [
     '_site/**/*.html',
-    '_site/assets/*.{css,scss,js}'
+    '_site/assets/*.{css,scss,js}',
+    '_site/assets/**/*.{css,scss,js}'
   ],
   darkMode: 'media',
   theme: {

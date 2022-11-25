@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
-
 html {
     @apply font-main text-[62.5%];
 }
 
-  body {
-    @apply fl-text-step-0;
-    -webkit-font-smoothing: antialiased;
-  }
+body {
+  @apply fl-text-step-0;
+  -webkit-font-smoothing: antialiased;
+}
 
 @layer utilities {
     .h1 {
