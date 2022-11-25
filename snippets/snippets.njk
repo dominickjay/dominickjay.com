@@ -3,36 +3,51 @@ title: 'Snippets'
 layout: 'layouts/default.njk'
 ---
 <div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-6 mdw:fl-py-3xl">
-    <section class="col-start-1 col-span-10 row-start-1">
-        <h1 class="hidden mdw:block h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+	<section class="col-start-1 col-span-10 row-start-1">
+		<h1 class="hidden mdw:block h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
 
-        {% set postslist = collections.snippets %}
-        {% set postslistCounter = collections.snippets | length %}
+		{% set postslist = collections.snippets %}
+		{% set postslistCounter = collections.snippets | length %}
+		<div class="fl-pt-l flex flex-wrap gap-[10px]">
+			{% for tag in collections.snippetTagsList %}
+				{% if tag != 'snippets' %}
+					<button
+						class="tag" href="/tags/{{tag}}"
+						data-tag="{{tag}}"
+					>{{tag}}</button>
+				{% endif %}
+			{% endfor %}
+		</div>
 
-        <ol
-            reversed
-            class="fl-pt-xl"
-            style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
-        >
-            {% for post in postslist | reverse %}
-                <li class="fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l">
-                    <div class="flex flex-col gap-y-[10px]">
-                        <a
-                            href="{{ post.url | url }}"
-                            class="fl-text-step-2 font-bold text-black/[0.75] hover:underline hover:underline-offset-2"
-                        >
-                            {% if post.data.title %}
-                                {{ post.data.title }}
-                            {% else %}
-                                <code>{{ post.url }}</code>
-                            {% endif %}
-                        </a>
-                        <div>
-                            {{ post.data.description }}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ol>
-    </section>
+		<ol
+			reversed
+			class="fl-pt-xl"
+			style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
+		>
+			{% for post in postslist | reverse %}
+				<li class="fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l">
+					<div class="flex flex-col gap-y-[10px]">
+						<div
+							class="flex items-center justify-between"
+							data-tag="{{post.data.tags[1]}}"
+						>
+							<a
+								href="{{ post.url | url }}"
+								class="fl-text-step-2 font-bold text-black/[0.75] hover:underline hover:underline-offset-2"
+							>
+								{% if post.data.title %}
+									{{ post.data.title }}
+								{% else %}
+									<code>{{ post.url }}</code>
+								{% endif %}
+							</a>
+						</div>
+						<div>
+							{{ post.data.description }}
+						</div>
+					</div>
+				</li>
+			{% endfor %}
+		</ol>
+	</section>
 </div>

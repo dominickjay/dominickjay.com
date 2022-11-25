@@ -52,6 +52,14 @@ html {
       @apply list-decimal pl-[20px] flex flex-col gap-y-[5px];
     }
 
+    .post-body iframe {
+      @apply fl-my-l;
+    }
+
+    .post-body img {
+      @apply fl-my-l mx-auto;
+    }
+
     a:not([class]) {
       @apply underline hover:underline-offset-2 relative;
     }

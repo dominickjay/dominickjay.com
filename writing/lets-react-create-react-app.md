@@ -2,7 +2,7 @@
 title: "Let's React: Create React App"
 description: 'A deep dive into Create React App - a tool for building single page applications'
 intro: "For this post, we're going to do a deep dive into 'Create React App' (CRA). We'll look into what it is, what it's useful for, how to set it up and - after setting it up - what is created. Plus, advantages and disadvantages of its use and lastly, where you can take it next."
-date: Created
+date: 2022-02-17
 tags:
   - react
   - writing

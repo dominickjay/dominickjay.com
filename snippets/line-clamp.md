@@ -3,7 +3,7 @@ title: 'line-clamp'
 description: The -webkit-line-clamp CSS property allows limiting of the contents of a block to the specified number of lines.
 date: Created
 tags:
-  - snippets
+  - css
 layout: 'layouts/post.njk'
 ---
 

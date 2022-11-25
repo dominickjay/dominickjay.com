@@ -19,7 +19,9 @@
 				<h3 class="h2 heading">Categories</h3>
 				<div class="fl-mt-xs flex flex-wrap gap-[10px]">
 				{% for tag in collections.tagsList %}
-					<a class="tag" href="/tags/{{tag}}">{{tag}}</a>
+					{% if tag != 'writing' %}
+						<a class="tag" href="/tags/{{tag}}">{{tag}}</a>
+					{% endif %}
 				{% endfor %}
 				</div>
 			</div>

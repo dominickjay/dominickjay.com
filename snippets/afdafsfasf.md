@@ -1,6 +1,6 @@
 ---
-title: ':is()'
-description: The :is() CSS pseudo-class function takes a selector list as its argument, and selects any element that can be selected by one of the selectors in that list.
+title: 'offset-pathasfasdf'
+description: The offset-path CSS property specifies a motion path for an element to follow and defines the element's positioning within the parent container or SVG coordinate system.
 date: Created
 tags:
   - css

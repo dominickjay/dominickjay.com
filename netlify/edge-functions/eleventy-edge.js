@@ -1,16 +1,17 @@
-import { EleventyEdge } from "eleventy:edge";
-import precompiledAppData from "./_generated/eleventy-edge-app-data.js";
+import {
+  EleventyEdge,
+  precompiledAppData,
+} from "./_generated/eleventy-edge-app.js";
 
 export default async (request, context) => {
   try {
-    const edge = new EleventyEdge("edge", {
-        request,
-        context,
-        precompiled: precompiledAppData,
+    let edge = new EleventyEdge("edge", {
+      request,
+      context,
+      precompiled: precompiledAppData,
 
-        // default is [], add more keys to opt-in e.g. ["appearance", "username"]
-        cookies: [],
-
+      // default is [], add more keys to opt-in e.g. ["appearance", "username"]
+      cookies: [],
     });
 
     const response = await fetch(
@@ -19,13 +20,13 @@ export default async (request, context) => {
 
     const data = await response.json();
 
-    // console.log(data.recenttracks[0].track.name)
+    console.log(data.recenttracks[0].track.name)
 
     edge.config((eleventyConfig) => {
-        // Add some custom Edge-specific configuration
-        // e.g. Fancier json output
-        // eleventyConfig.addGlobalData('lastfm', data)
-        eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
+      // Add some custom Edge-specific configuration
+      // e.g. Fancier json output
+      eleventyConfig.addGlobalData('lastfm', data.recenttracks[0].track.name)
+      eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
     });
 
     return await edge.handleResponse();

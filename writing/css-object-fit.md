@@ -1,7 +1,7 @@
 ---
 title: 'CSS Object-Fit Property'
 description: 'A super quick insight into the object-fit property'
-date: Created
+date: 2021-10-20
 tags:
   - css
   - writing

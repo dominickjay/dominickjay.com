@@ -36,7 +36,7 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addCollection('tagsList', function (collectionApi) {
     const tagsList = new Set()
-    collectionApi.getAll().map((item) => {
+    collectionApi.getFilteredByTag('writing').map((item) => {
       if (item.data.tags) {
         // handle pages that don't have tags
         item.data.tags.map((tag) => tagsList.add(tag))
@@ -44,6 +44,18 @@ module.exports = function (eleventyConfig) {
     })
     return tagsList
   })
+
+  eleventyConfig.addCollection('snippetTagsList', function (collectionApi) {
+    const tagsList = new Set()
+    collectionApi.getFilteredByTag('snippets').map((item) => {
+      if (item.data.tags) {
+        // handle pages that don't have tags
+        item.data.tags.map((tag) => tagsList.add(tag))
+      }
+    })
+    return tagsList
+  })
+
 
   // eleventyConfig.addPassthroughCopy('css')
   eleventyConfig.addPassthroughCopy('images')

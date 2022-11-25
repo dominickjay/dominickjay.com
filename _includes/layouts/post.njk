@@ -2,8 +2,8 @@
 
 {% block content %}
 	{% include "partials/posts/post--hero.njk" %}
-	<div class="container flex flex-col mdw:site-grid fl-py-3xl">
-		<div class="col-start-1 col-span-full post-body max-w-[900px]">
+	<div class="container flex flex-col mdw:site-grid">
+		<div class="col-start-1 col-span-full post-body max-w-[900px] fl-py-3xl">
 			<div class="fl-text-step-1 font-bold">
 				{{ intro }}
 			</div>
@@ -15,6 +15,64 @@
 			<div class="fl-mt-l">
 				{{ content | safe }}
 			</div>
+
 		</div>
+		{% if links or tags %}
+			<div
+				class="col-start-1 col-span-full max-w-[900px] sticky bottom-0 w-full flex flex-col"
+				x-data="{
+					open: false
+				}"
+				:class="{
+					'h-fit max-h-[50vh]' : open
+				}"
+			>
+				<button
+					class="tag bg-black text-white rounded-b-none max-w-fit ml-auto"
+					@click="open = !open"
+					@click.outside="open = false"
+				>Click me for more info</button>
+				<div
+					class="overflow-auto bg-black w-full h-full rounded-tl-[40px] flex justify-between"
+					:class="{
+						'h-0' : !open,
+						'fl-p-l' : open
+					}"
+				>
+					{% if links %}
+					<div class="flex flex-col basis-1/2">
+						<span class="font-heading fl-text-step-1 text-white">Resources</span>
+						<ul class="text-white flex flex-col gap-y-[5px] fl-mt-m">
+							{% for link in links %}
+								<li>
+									<a class="no-underline hover:underline" href="{{ link.target }}" target="_blank">{{ link.title }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+					{% if tags %}
+					<div class="flex flex-col basis-1/2">
+						<span class="font-heading fl-text-step-1 text-white">Topics</span>
+						<ul class="text-white flex flex-wrap gap-[5px] fl-mt-m">
+						{% for tag in tags %}
+							<li>
+							{% if tag != 'writing' %}
+								{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+								<a
+									href="{{ tagUrl | url }}"
+									class="tag tag--reverse font-bold"
+								>
+									{{ tag }}
+								</a>
+							{% endif %}
+							</li>
+						{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
 	</div>
 {% endblock %}

@@ -4,6 +4,7 @@ description: The offset-path CSS property specifies a motion path for an element
 date: Created
 tags:
   - snippets
+  - css
 layout: 'layouts/post.njk'
 ---
 
