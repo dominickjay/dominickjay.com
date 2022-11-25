@@ -3,9 +3,9 @@
   publish = "_site"
 
 [dev]
-    command = "npm run dev"
-    targetPort = 8081
+  command = "npm run dev"
+  targetPort = 8081
 
 [[edge_functions]]
-function = "eleventy-edge"
-path = "/*"
+  function = "eleventy-edge"
+  path = "/*"
