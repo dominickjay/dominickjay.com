@@ -9,7 +9,7 @@ const baseFilename = isDev ? 'main' : 'main.[contenthash]'
 module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: [
-    path.resolve(__dirname, 'js', 'main.js'),
+  path.resolve(__dirname, 'js', 'main.js'),
     path.resolve(__dirname, 'css', 'main.css'),
   ],
   output: {

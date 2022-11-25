@@ -27,12 +27,23 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addPlugin(readingTime)
   eleventyConfig.addPlugin(EleventyEdgePlugin)
+  eleventyConfig.addPlugin(pluginTOC)
 
   eleventyConfig.setLibrary(
     'md',
     markdownIt(mdOptions).use(markdownItAnchor, mdAnchorOpts)
   )
-  eleventyConfig.addPlugin(pluginTOC)
+
+  eleventyConfig.addCollection('tagsList', function (collectionApi) {
+    const tagsList = new Set()
+    collectionApi.getAll().map((item) => {
+      if (item.data.tags) {
+        // handle pages that don't have tags
+        item.data.tags.map((tag) => tagsList.add(tag))
+      }
+    })
+    return tagsList
+  })
 
   // eleventyConfig.addPassthroughCopy('css')
   eleventyConfig.addPassthroughCopy('images')
@@ -54,14 +65,14 @@ module.exports = function (eleventyConfig) {
 
   eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`)
 
+  eleventyConfig.addShortcode('version', function () {
+    return now
+  })
+
   // limit filter
   eleventyConfig.addFilter('limit', function (array, limit) {
     console.log(array.slice(0, limit))
     return array.slice(0, limit)
-  })
-
-  eleventyConfig.addShortcode('version', function () {
-    return now
   })
 
   eleventyConfig.addPassthroughCopy({

@@ -6,10 +6,13 @@
 @import "./base/fonts.css";
 @import "./base/typography.css";
 
+@import "./components/tags.css";
 @import "./components/toc.css";
 @import "./components/code.css";
 @import "./components/header.css";
 @import "./components/fyi-block.css";
+@import "./components/hero-shape.css";
 
+@import "./utilities/external-link.css";
 @import "./utilities/skip-link.css";
 @import "tailwindcss/utilities";

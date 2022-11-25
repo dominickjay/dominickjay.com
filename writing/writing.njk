@@ -15,7 +15,7 @@ layout: 'layouts/default.njk'
             style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
         >
             {% for post in postslist | reverse %}
-                <li class="fl-mt-l first:mt-0 border-b border-black/[0.25] last:border-none fl-pb-l">
+                <li class="fl-mt-l first:mt-0 border-b-2 border-dashed border-black/[0.25] last:border-none fl-pb-l">
                     <div class="flex flex-col gap-y-[10px]">
                         <span class="text-black/[0.5] font-bold">{{ post.date | readableDate() }}</span>
                         <a
@@ -37,7 +37,7 @@ layout: 'layouts/default.njk'
                                     {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
                                     <a
                                         href="{{ tagUrl | url }}"
-                                        class="text-black/[0.8] hover:underline bg-black/[0.05] fl-px-xs fl-py-3xs rounded-[5px]"
+                                        class="tag"
                                     >
                                         {{ tag }}
                                     </a>
@@ -55,7 +55,7 @@ layout: 'layouts/default.njk'
             style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
         >
             {% for post in features.features %}
-                <li class="fl-mt-l first:mt-0 border-b border-black/[0.25] last:border-none fl-pb-l">
+                <li class="fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l">
                     <div class="flex flex-col gap-y-[10px]">
                         <a
                             href="{{ post.url | url }}"

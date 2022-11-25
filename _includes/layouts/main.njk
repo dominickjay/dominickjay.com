@@ -35,7 +35,7 @@
 					'max-w-[2000px] mx-auto fl-px-l': scrolled
 				}"
 			>
-				<a class="group" href="/">
+				<a class="group hover:rotate-[45deg]" href="/">
 					{% include "partials/icons/logo.svg" %}
 				</a>
 				{% if navigation.main | length %}
@@ -78,6 +78,20 @@
 						>
 							hello@dominickjay.com
 						</a>
+						<ul class="flex fl-mt-s gap-x-[10px]">
+
+							{% for item in navigation.socialmedia %}
+							<li class="py-[4px] hover:underline hover:underline-offset-2">
+								<a
+									href="{{ item.url}}"
+									class="text-white hover:text-white/[0.85] ease-in-out duration-[0.25s]"
+								>
+									<span class="sr-only">{{ item.text }}</span>
+									{{ item.imagePath | safe }}
+								</a>
+							</li>
+							{% endfor %}
+						</ul>
 					</div>
 					<div class="flex flex-col gap-y-[52px] ml-auto">
 						<div class="flex gap-x-[25px] justify-end">
@@ -98,15 +112,6 @@
 										</a>
 									</li>
 									{% endfor %}
-								</ul>
-							</nav>
-							{% endif %}
-							<nav
-								class="ml-auto min-w-[200px]"
-								aria-label="secondary"
-							>
-								<span class="text-white/[0.5] font-heading fl-text-step-0 tracking-[0.06em] uppercase">Pages</span>
-								<ul class="flex flex-col mt-[19px]">
 									{% for item in navigation.secondary %}
 									<li class="py-[4px] hover:underline hover:underline-offset-2">
 										<a
@@ -119,6 +124,7 @@
 									{% endfor %}
 								</ul>
 							</nav>
+							{% endif %}
 						</div>
 					</div>
 				</div>

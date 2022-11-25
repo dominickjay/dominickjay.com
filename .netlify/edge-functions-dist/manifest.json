@@ -1,1 +1,0 @@
-{"bundles":[{"asset":"b10d58bed6a037a81acba2bbc6c6dcc754e4644c906f7cfe2fa350fc4f0db3c5.eszip","format":"eszip2"}],"routes":[{"function":"eleventy-edge","pattern":"^/.*/?$"},{"function":"lastfm","pattern":"^/lastfm/?$"}],"post_cache_routes":[],"bundler_version":"3.1.1"}

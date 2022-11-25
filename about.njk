@@ -19,18 +19,12 @@ layout: 'layouts/default.njk'
         <div
             class="fl-mt-l"
         >
-            {% edge %}
-                <pre>
-                    {{ lastfm | json }}
-                </pre>
-            {% endedge %}
 
+            {% edge "njk" %}
+
+                This track is {{ myData }}
+            {% endedge %}
             <h3 class="heading fl-text-step-4">Now</h3>
-            <div class="fl-mt-m flex gap-x-[4px]">Currently listening to:
-                <span class="font-bold" x-text="song.track[0].name"></span>
-                by
-                <span class="font-bold" x-text="song.track[0].artist['#text']"></span>
-            </div>
             <div class="fl-mt-xs">Current working as:
                 <span class="font-bold">{{ career.role }}</span>
                 for
@@ -52,16 +46,3 @@ layout: 'layouts/default.njk'
         </div>
     </div>
 </div>
-
-{# <script>
-function page() {
-    return {
-        song: null,
-        init() {
-            fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json`,)
-                .then((response) => response.json())
-                .then((json) => this.song = json.recenttracks);
-        },
-    }
-}
-</script> #}
