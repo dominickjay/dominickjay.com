@@ -20,13 +20,14 @@ export default async (request, context) => {
 
     const data = await response.json();
 
-    console.log(data.recenttracks.track[0].name)
+    // console.log(data.recenttracks.track[0].name)
+    console.log(data.recenttracks.track[0].artist['#text'])
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
       eleventyConfig.addGlobalData('lastfmTrack', data.recenttracks.track[0].name)
-      eleventyConfig.addGlobalData('lastfmArtist', data.recenttracks.track[0].artist)
+      eleventyConfig.addGlobalData('lastfmArtist', data.recenttracks.track[0].artist['#text'])
       eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
     });
 
