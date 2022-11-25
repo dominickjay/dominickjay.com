@@ -21,7 +21,7 @@ layout: 'layouts/default.njk'
         >
 
             {% edge %}
-                This track is {{ lastfm.recenttracks.track[0].name }} by {{ .recenttracks.track[0].artist }}
+                This track is {{ lastfmTrack }} by {{ lastfmArtist }}
             {% endedge %}
             <h3 class="heading fl-text-step-4">Now</h3>
             <div class="fl-mt-xs">Current working as:
