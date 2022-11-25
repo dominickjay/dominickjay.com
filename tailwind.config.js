@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   mode: 'jit',
-  content: ['_site/**/*.html'],
+  content: [
+    '_site/**/*.html',
+    '_site/assets/*.{css,scss,js}'
+  ],
   darkMode: 'media',
   theme: {
     container: {
@@ -49,7 +52,5 @@ module.exports = {
       textSizes: ['xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl'],
     }),
   },
-  plugins: [
-    require('tailwind-utopia'),
-  ],
+  plugins: [require('tailwind-utopia')],
 }
