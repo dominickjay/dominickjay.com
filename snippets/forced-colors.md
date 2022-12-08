@@ -3,8 +3,9 @@ title: 'forced-colors'
 description: The forced-colors CSS media feature is used to detect if the user agent has enabled a forced colors mode where it enforces a user-chosen limited color palette on the page.
 date: Created
 tags:
+  - snippets
   - css
-layout: 'layouts/post.njk'
+layout: 'layouts/snippet.njk'
 ---
 
 ### Professional

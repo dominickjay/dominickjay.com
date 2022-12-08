@@ -2,8 +2,8 @@
 title: 'Writing'
 layout: 'layouts/default.njk'
 ---
-<div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-6 mdw:fl-py-3xl">
-    <section class="col-start-1 col-span-3 row-start-1">
+<div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-8 mdw:fl-py-3xl">
+    <section class="col-start-1 col-span-5 row-start-1">
         <h1 class="hidden mdw:block h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
 
         {% set postslist = collections.writing %}
@@ -37,7 +37,7 @@ layout: 'layouts/default.njk'
                                     {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
                                     <a
                                         href="{{ tagUrl | url }}"
-                                        class="tag"
+                                        class="category"
                                     >
                                         {{ tag }}
                                     </a>
@@ -72,9 +72,9 @@ layout: 'layouts/default.njk'
         </ol>
     </section>
 
-    <aside class="col-start-5 col-span-2 row-start-1 mdw:fl-pt-3xl">
-        <h1 class="block mdw:hidden h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
-        <div class="fl-pt-xl fl-text-step-1">
+    <aside class="col-start-7 col-span-2 row-start-1 mdw:fl-pt-3xl">
+        <h1 class="block mdw:hidden h1 fl-text-step-4 font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+        <div class="fl-pt-xl fl-text-step-0">
             I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these <span class="font-heading font-bold fl-text-step-1 leading-[1]">{{ postslist.length }}</span> posts, I go through problems, solutions and how I am - infact - not Batman.
         </div>
     </aside>

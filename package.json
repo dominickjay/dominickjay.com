@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm-run-all webpack:assets --parallel dev:*",
     "dev:assets": "yarn run webpack:assets --watch",
-    "dev:site": "NODE_ENV=development eleventy --serve --port=8080",
+    "dev:site": "NODE_ENV=development eleventy --serve --port=8085",
     "webpack:assets": "NODE_ENV=development webpack --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./_site",
@@ -36,7 +36,6 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@11ty/eleventy-cache-assets": "^2.3.0",
     "@11ty/eleventy-fetch": "^3.0.0",
     "@11ty/eleventy-navigation": "^0.3.5",
     "@alpinejs/intersect": "^3.10.5",

@@ -1,9 +1,13 @@
 .fyi-block {
-    @apply fl-p-l font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)] border-[16px];
+    @apply fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-4 border-dashed flex flex-col gap-y-[8px];
 }
 
 .fyi-block--warning {
-    @apply border-red/[0.85];
+    @apply border-red/[0.35];
+}
+
+.fyi-block p {
+    @apply mt-0;
 }
 
 .fyi-block span:first-child {

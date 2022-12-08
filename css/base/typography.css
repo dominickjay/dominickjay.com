@@ -46,8 +46,21 @@ body {
       @apply heading fl-text-step-2 fl-mt-s fl-mb-xs;
     }
 
+    .post-body > p {
+      @apply fl-mt-xs;
+    }
+
+    .post-body ol,
+    .post-body ul {
+      @apply pl-[20px] flex flex-col gap-y-[5px]
+    }
+
     .post-body ol {
-      @apply list-decimal pl-[20px] flex flex-col gap-y-[5px];
+      @apply list-decimal;
+    }
+
+    .post-body ul {
+      @apply list-disc;
     }
 
     .post-body iframe {
@@ -58,7 +71,7 @@ body {
       @apply fl-my-l mx-auto;
     }
 
-    a:not([class]) {
-      @apply underline hover:underline-offset-2 relative;
+    .post-body blockquote {
+      @apply fl-py-l fl-my-l border-y-black/[0.25] border-dashed border-y-2 font-semibold italic fl-text-step-1 text-black/[0.75];
     }
 }

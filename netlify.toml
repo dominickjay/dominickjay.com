@@ -4,7 +4,7 @@
 
 [dev]
   command = "npm run dev"
-  targetPort = 8081
+  targetPort = 8085
 
 [[edge_functions]]
   function = "eleventy-edge"

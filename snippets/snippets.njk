@@ -3,21 +3,52 @@ title: 'Snippets'
 layout: 'layouts/default.njk'
 ---
 <div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-6 mdw:fl-py-3xl">
-	<section class="col-start-1 col-span-10 row-start-1">
-		<h1 class="hidden mdw:block h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+	<section
+		class="col-start-1 col-span-10 row-start-1"
+		x-data="{
+			filter: 'all',
+
+			filter(tag) {
+				const allSnippets = document.querySelectorAll('[data-tag]');
+				const hideSnippets = document.querySelectorAll(`.snippet:not([data-tag='${tag}'])`);
+				if (tag == 'all') {
+					for (const snippet of allSnippets) {
+						snippet.classList.remove('hidden');
+					}
+				} else {
+					for (const snippet of allSnippets) {
+						snippet.classList.remove('hidden');
+					}
+					for (const snippet of hideSnippets) {
+						snippet.classList.add('hidden');
+					}
+				}
+			}
+		}"
+	>
+		<h1 class="block h1 !text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
 
 		{% set postslist = collections.snippets %}
 		{% set postslistCounter = collections.snippets | length %}
+
+		{% if collections.snippetTagsList | length > 2 %}
 		<div class="fl-pt-l flex flex-wrap gap-[10px]">
+			<button
+				class="category"
+				data-tag-button="all"
+				@click="filter('all')"
+			>all</button>
 			{% for tag in collections.snippetTagsList %}
 				{% if tag != 'snippets' %}
 					<button
-						class="tag" href="/tags/{{tag}}"
-						data-tag="{{tag}}"
+						class="category"
+						data-tag-button="{{tag}}"
+						@click="filter('{{tag}}')"
 					>{{tag}}</button>
 				{% endif %}
 			{% endfor %}
 		</div>
+		{% endif %}
 
 		<ol
 			reversed
@@ -25,11 +56,13 @@ layout: 'layouts/default.njk'
 			style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
 		>
 			{% for post in postslist | reverse %}
-				<li class="fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l">
+				<li
+					class="snippet fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l"
+					data-tag="{{post.data.tags[1]}}"
+				>
 					<div class="flex flex-col gap-y-[10px]">
 						<div
 							class="flex items-center justify-between"
-							data-tag="{{post.data.tags[1]}}"
 						>
 							<a
 								href="{{ post.url | url }}"

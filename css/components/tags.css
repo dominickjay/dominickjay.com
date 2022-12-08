@@ -1,7 +1,7 @@
-.tag {
+.category {
     @apply text-[18px] px-[30px] py-[10px] text-black/[0.8] bg-black/[0.08] rounded-[10px] hover:bg-black/[0.85] hover:text-white/[0.8] font-heading duration-[0.2s] ease-linear;
 }
 
-.tag--reverse {
+.category--reverse {
     @apply text-white/[0.85] bg-white/[0.35] hover:bg-white/[0.85] hover:text-black/[0.8];
 }

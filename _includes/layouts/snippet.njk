@@ -1,0 +1,16 @@
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+	{% include "partials/snippets/snippet--hero.njk" %}
+	<div class="container flex flex-col mdw:site-grid">
+		<div class="col-start-1 col-span-full post-body fl-py-3xl">
+			<div class="fl-text-step-1 font-bold">
+				{{ description }}
+			</div>
+			<div class="fl-mt-l">
+				{{ content | safe }}
+			</div>
+
+		</div>
+	</div>
+{% endblock %}

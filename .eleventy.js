@@ -22,7 +22,7 @@ module.exports = function (eleventyConfig) {
     permalink: true,
     permalinkClass: 'anchor-link',
     permalinkSymbol: '#',
-    level: [1, 2, 3, 4],
+    level: [1, 2, 3],
   }
 
   eleventyConfig.addPlugin(readingTime)
@@ -101,5 +101,6 @@ module.exports = function (eleventyConfig) {
 
   return {
     passthroughFileCopy: true,
+    markdownTemplateEngine: 'njk',
   }
 }

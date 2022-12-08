@@ -2,7 +2,7 @@
 title: 'About'
 tagline: 'Creative Front End Developer, writer, music nerd.'
 intro: "Hi 👋. My name's Dom and I'm a Front-end Developer currently working at Series Eight. In the past, I have worked at Rowe IT, GOSS Interactive, n9Design and Logo CCP, and graduated from Bournemouth University with a BSc in Computing."
-text: "Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href='/docs/resume.pdf' target='_blank'>resume</a>. My current role at <span class='highlight'>Series Eight</span> as a <span class='highlight'>Front-End Developer</span> allows me to work on a wide range of technologies and processes.
+text: "Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href='/docs/resume.pdf' target='_blank'>resume</a>. My current role at <span class='highlight'>Series Eight</span> as a <span class='highlight'>Front-End Developer</span> allows me to work on a wide range of technologies and processes.</br></br>
 
 I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog here, or putting together small projects on <a href='https://codepen.io/dominickjay217' target='_blank'>CodePen</a>."
 layout: 'layouts/default.njk'
@@ -15,10 +15,8 @@ layout: 'layouts/default.njk'
 <div class="fl-pb-xl fl-my-xl col-start-1 col-span-full">
     <div class="max-w-[850px]">
         <div class="fl-text-step-1 font-bold">{{ intro }}</div>
-        <div class="fl-mt-s">{{ text | safe }}</div>{% set career = about.career[0] %}
-        <div
-            class="fl-mt-l"
-        >
+        <div class="fl-mt-s">{{ text | safe }}</div>
+        <div class="fl-mt-l">
             <h3 class="heading fl-text-step-4">Now</h3>
 
             {% edge %}
@@ -27,6 +25,7 @@ layout: 'layouts/default.njk'
             </div>
             {% endedge %}
             <div class="fl-mt-xs">Current working as:
+                {% set career = about.career[0] %}
                 <span class="font-bold">{{ career.role }}</span>
                 for
                 <a href="{{ career.companyLink }}" target="_blank" rel="noopener">
@@ -35,13 +34,13 @@ layout: 'layouts/default.njk'
             </div>
             <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
-                    {% for item in books %}
-                        <li>
-                            <span class="font-bold">{{ item.title }}</span>
-                            by
-                            <span class="font-bold">{{ item.author }}</span>
-                        </li>
-                    {% endfor %}
+                {% for item in books %}
+                    <li>
+                        <span class="font-bold">{{ item.title }}</span>
+                        by
+                        <span class="font-bold">{{ item.author }}</span>
+                    </li>
+                {% endfor %}
                 </ul>
             </div>
         </div>

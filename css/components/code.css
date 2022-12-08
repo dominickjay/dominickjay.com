@@ -58,6 +58,11 @@ pre[class*="language-"] {
     white-space: normal;
 }
 
+:not(pre)>code {
+    @apply py-[1px] px-[6px] bg-grey/[0.5] font-semibold text-black/[0.65];
+    white-space: normal;
+}
+
 .token.comment,
 .token.prolog,
 .token.cdata {

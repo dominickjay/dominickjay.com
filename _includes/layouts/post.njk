@@ -2,35 +2,39 @@
 
 {% block content %}
 	{% include "partials/posts/post--hero.njk" %}
-	<div class="container flex flex-col mdw:site-grid">
-		<div class="col-start-1 col-span-full post-body max-w-[900px] fl-py-3xl">
+	<div class="container flex flex-col-reverse mdw:site-grid">
+		<div class="col-start-1 col-span-8 row-start-1 post-body max-w-[900px] fl-py-3xl">
 			<div class="fl-text-step-1 font-bold">
-				{{ intro }}
-			</div>
-			<div class="fl-mt-l">
-				<div>
-					{{ content | toc | safe }}
-				</div>
+				{{ intro | safe }}
 			</div>
 			<div class="fl-mt-l">
 				{{ content | safe }}
 			</div>
-
+		</div>
+		<div class="col-start-9 col-span-4 row-start-1 fl-mt-l">
+			<div class="sticky top-[80px]">
+				<span class="uppercase tracking-[-0.04em] font-heading text-black/[0.75] font-bold">Contents</span>
+				{{ content | toc | safe }}
+			</div>
 		</div>
 		{% if links or tags %}
 			<div
-				class="col-start-1 col-span-full max-w-[900px] sticky bottom-0 w-full flex flex-col"
+				class="col-start-1 col-span-full sticky bottom-0 w-full flex flex-col"
 				x-data="{
 					open: false
 				}"
 				:class="{
 					'h-fit max-h-[50vh]' : open
 				}"
+				@click.outside="open = false"
 			>
 				<button
-					class="tag bg-black text-white rounded-b-none max-w-fit ml-auto"
+					class="button max-w-fit ml-auto"
+					:class="{
+						'!bg-black !text-white' : open,
+						'!bg-grey hover:bg-black hover:text-white' : !open
+					}"
 					@click="open = !open"
-					@click.outside="open = false"
 				>Click me for more info</button>
 				<div
 					class="overflow-auto bg-black w-full h-full rounded-tl-[40px] flex justify-between"
@@ -61,7 +65,7 @@
 								{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
 								<a
 									href="{{ tagUrl | url }}"
-									class="tag tag--reverse font-bold"
+									class="category category--reverse font-bold"
 								>
 									{{ tag }}
 								</a>
