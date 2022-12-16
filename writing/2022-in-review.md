@@ -49,6 +49,12 @@ I did a few activities I’ve always wanted to try but held back from doing it; 
 
 ## German stats
 
-{{ language._2022.stats.language_data.de.streak }}
+<strong class="font-bold">{{ language._2022.stats.language_data.de.streak }}</strong>
 
 ## Read more books than ever
+
+{% for item in books %}
+{% if item.finishedYear == '2022' %}
+  1. <span class="font-bold">{{ item.title }}</span> by <span class="font-bold">{{ item.author }}</span>
+{% endif %}
+{% endfor %}

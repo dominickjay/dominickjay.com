@@ -35,11 +35,13 @@ layout: 'layouts/default.njk'
             <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
                 {% for item in books %}
+                    {% if item.select == 'Currently Reading' %}
                     <li>
                         <span class="font-bold">{{ item.title }}</span>
                         by
                         <span class="font-bold">{{ item.author }}</span>
                     </li>
+                    {% endif %}
                 {% endfor %}
                 </ul>
             </div>

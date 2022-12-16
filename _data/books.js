@@ -8,7 +8,7 @@ module.exports = () => {
   return new Promise((resolve, reject) => {
     let allDatasets = [] // change 'allDatasets' to something more relevant to your project
     base('Books') // change 'New' to your base name
-      .select({ view: 'Currently Reading' }) // change 'All' to your view name
+      .select({ view: 'All' }) // change 'All' to your view name
       .eachPage(
         function page(records, fetchNextPage) {
           records.forEach((record) => {
