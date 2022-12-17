@@ -58,13 +58,13 @@
 			</div>
 		</header>
 
-		<main class="main mb-[650px] bg-white z-10 relative" tabindex="-1" id="main-content">
+		<main class="main mb-[540px] mdw:mb-[650px] bg-white z-10 relative" tabindex="-1" id="main-content">
 			{% block content %}
 				{{ content | safe }}
 			{% endblock %}
 		</main>
 
-		<footer class="fixed w-full bg-black bottom-0 p-[10vh_0_10vh] min-h-[650px] flex flex-col justify-center items-center">
+		<footer class="fixed w-full bg-black bottom-0 py-[100px] mdw:p-[10vh_0_10vh] mdw:min-h-[650px] flex flex-col justify-center items-center">
 			<div class="container flex flex-col mdw:site-grid h-full overflow-hidden">
 				<div class="col-start-1 col-span-3">
 					<span class="fl-text-step-5 heading text-orange">Want to get in touch?</span>
