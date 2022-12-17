@@ -2,7 +2,8 @@
 module.exports = {
   mode: 'jit',
   content: [
-    '_site/**/*.html'
+    './*.njk',
+    './**/*.njk'
   ],
   darkMode: 'media',
   theme: {
