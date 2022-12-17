@@ -9,8 +9,3 @@
 [[edge_functions]]
   function = "eleventy-edge"
   path = "/*"
-
-[[plugins]]
-  package = "netlify-plugin-inline-functions-env"
-  [plugins.inputs]
-  include = ["LASTFM_API"]
