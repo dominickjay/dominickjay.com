@@ -31,7 +31,7 @@ I also didn’t write, at all, from March until now. I had been writing a post o
 
 I also went abroad for the first time in years, and in doing so completely went out of my normal comfort zone. Not the biggest fan of flying, or navigating airports by myself, I found myself doing both (well, navigating an airport alone on the way back at least). This was over to Ericeria in Portugal, for Series Eights annual team retreat. It was great to see everyone in person rather than over a webcam.
 
-I did a few activities I’ve always wanted to try but held back from doing it; surfing (kind of, more like “how can I not drown while Im attached to this” and paddleboarding. All in all, a really good time. You can read more about it on S8’s site at [https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet](https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet)
+I did a few activities I’ve always wanted to try but held back from doing it; surfing (kind of, more like “how can I not drown while Im attached to this”) and paddleboarding. All in all, a really good time. You can read more about it on S8’s site at [https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet](https://serieseight.com/journal/ericeira-2022-our-biggest-and-best-team-trip-yet)
 
 ## Music stats
 
