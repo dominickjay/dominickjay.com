@@ -12,6 +12,7 @@ const manifestPath = path.resolve(__dirname, '_site', 'assets', 'manifest.json')
 const manifest = JSON.parse(fs.readFileSync(manifestPath, { encoding: 'utf8' }))
 
 module.exports = function (eleventyConfig) {
+
   const mdOptions = {
     html: true,
     breaks: true,
