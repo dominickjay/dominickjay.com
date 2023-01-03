@@ -1,0 +1,16 @@
+.comparison-table {
+    @apply grid border-2 border-dashed;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.table-heading {
+    @apply fl-p-xs font-bold;
+}
+
+.table-content:not(ul) {
+    @apply fl-p-s;
+}
+
+ul.table-content {
+    @apply fl-p-s fl-pl-m;
+}

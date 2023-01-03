@@ -65,10 +65,10 @@ The second type of component is known as the class component, and is commonly us
 
 #### Differences between functional and class components
 
-<div class="grid grid-cols-2 fl-my-l border-2 border-dashed">
+<div class="comparison-table fl-my-t">
   <div class="col-start-1 col-span-1 flex flex-col items-center fl-pb-s border-r-2 border-dashed">
-    <span class="fl-p-s font-semibold border-b-2 border-dashed block w-full text-center bg-grey/[0.25]">Functional Components</span>
-    <ul class="fl-px-s fl-pt-s flex !gap-y-[10px] items-stretch flex-col !list-none">
+    <span class="table-heading fl-p-s font-semibold border-b-2 border-dashed block w-full text-center bg-grey/[0.25]">Functional Components</span>
+    <ul class="table-content fl-px-s fl-pt-s flex !gap-y-[10px] items-stretch flex-col !list-none">
       <li>A functional component is just a plain JavaScript function that accepts props as an argument and returns a React element.</li>
       <li>There is no render method used in functional components.</li>
       <li>Also known as Stateless components as they simply accept data and display them in some form, that they are mainly responsible for rendering UI.</li>
@@ -77,8 +77,8 @@ The second type of component is known as the class component, and is commonly us
     </ul>
   </div>
   <div class="col-start-2 col-span-1 flex flex-col items-center fl-pb-s">
-    <span class="fl-p-s font-semibold border-b-2 border-dashed block w-full text-center bg-grey/[0.25]">Class Components</span>
-    <ul class="fl-px-s fl-pt-s flex !gap-y-[10px] items-stretch flex-col !list-none">
+    <span class="table-heading fl-p-s font-semibold border-b-2 border-dashed block w-full text-center bg-grey/[0.25]">Class Components</span>
+    <ul class="table-content fl-px-s flex !gap-y-[10px] items-stretch flex-col !list-none">
       <li>A class component requires you to extend from React. Component and create a render function which returns a React element.</li>
       <li>It must have the render() method returning HTML</li>
       <li>Also known as Stateful components because they implement logic and state.</li>

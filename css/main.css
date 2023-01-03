@@ -14,6 +14,7 @@
 @import "./components/header.css";
 @import "./components/fyi-block.css";
 @import "./components/hero-shape.css";
+@import "./components/comparison-table.css";
 
 @import "./utilities/external-link.css";
 @import "./utilities/skip-link.css";
