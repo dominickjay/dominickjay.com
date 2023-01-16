@@ -10,6 +10,8 @@ const pluginTOC = require('eleventy-plugin-toc')
 const path = require('path')
 const manifestPath = path.resolve(__dirname, '_site', 'assets', 'manifest.json')
 const manifest = JSON.parse(fs.readFileSync(manifestPath, { encoding: 'utf8' }))
+const metagen = require('eleventy-plugin-metagen')
+const socialShareCardGenerator = require('eleventy-plugin-social-share-card-generator/dist/lib')
 
 module.exports = function (eleventyConfig) {
 
@@ -29,6 +31,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(readingTime)
   eleventyConfig.addPlugin(EleventyEdgePlugin)
   eleventyConfig.addPlugin(pluginTOC)
+  eleventyConfig.addPlugin(metagen)
+  eleventyConfig.addPlugin(socialShareCardGenerator, {
+    cloudName: 'dominickjay',
+    publicId: 'main-image',
+  })
 
   eleventyConfig.setLibrary(
     'md',
@@ -67,6 +74,10 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
 
+  eleventyConfig.addFilter('sanitise', (value) => {
+    return encodeURIComponent(value)
+  });
+
   // Adds a universal shortcode to return the URL to a webpack asset. In Nunjack templates:
   // {% webpackAsset 'main.js' %} or {% webpackAsset 'main.css' %}
   eleventyConfig.addShortcode('webpackAsset', function (name) {
@@ -89,8 +100,8 @@ module.exports = function (eleventyConfig) {
   })
 
   eleventyConfig.addPassthroughCopy({
-    './node_modules/alpinejs/dist/cdn.js': './js/alpine.js',
-    './node_modules/@alpinejs/intersect/builds/cdn.js': './js/intersect.js',
+    './node_modules/alpinejs/dist/cdn.min.js': './js/alpine.js',
+    './node_modules/@alpinejs/intersect/builds/cdn.min.js': './js/intersect.js',
   })
 
   // https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string

@@ -11,6 +11,10 @@
     @apply fl-p-s;
 }
 
+.table-content--dashed {
+    @apply border-r-2 border-dashed;
+}
+
 ul.table-content {
     @apply fl-p-s fl-pl-m;
 }

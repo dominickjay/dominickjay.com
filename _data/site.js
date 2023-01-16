@@ -3,6 +3,12 @@ const site = {
   baseURL: 'https://dominickjay.com',
   description:
     'Dominick Jay is an experienced creative Front-End Developer from Plymouth, UK, that specializes in fun, creative solutions.',
+  builtAt: new Date().toLocaleString('en-us', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }),
 }
 
 module.exports = function () {

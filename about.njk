@@ -21,7 +21,7 @@ layout: 'layouts/default.njk'
 
             {% edge %}
             <div class="fl-mt-xs">
-                This track is <span class="font-bold">{{ lastfmTrack }}</span> by <span class="font-bold">{{ lastfmArtist }}</span>
+                Latest track from Last.FM: <span class="font-bold">{{ lastfmTrack }}</span> by <span class="font-bold">{{ lastfmArtist }}</span>
             </div>
             {% endedge %}
             <div class="fl-mt-xs">Current working as:
@@ -32,6 +32,17 @@ layout: 'layouts/default.njk'
                     <span class="font-bold">{{ career.company }}</span>
                 </a>
             </div>
+            <div class="fl-mt-xs">My latest post is:
+                {% for post in collections.writing | reverse | limit(1) %}
+                    <a
+                        href="{{ post.url }}"
+                    >
+                        <span class="font-bold">
+                            {{ post.data.title }}
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
             <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
                 {% for item in books %}
@@ -40,6 +51,15 @@ layout: 'layouts/default.njk'
                         <span class="font-bold">{{ item.title }}</span>
                         by
                         <span class="font-bold">{{ item.author }}</span>
+                    </li>
+                    {% elseif item.select === 'On Hold' %}
+                    <li>
+                        <div>
+                            <p>
+                                <span class="font-bold line-through text-black/[0.5]">{{ item.title }} by {{ item.author }}</span>
+                                <span class="font-bold uppercase min-w-fit">- On Hold</span>
+                            </p>
+                        </div>
                     </li>
                     {% endif %}
                 {% endfor %}

@@ -1,5 +1,5 @@
 .toc {
-    @apply bg-grey/[0.25] fl-px-xl fl-py-xl rounded-br-[80px] fl-mt-xs;
+    @apply bg-grey/[0.25] fl-px-xl fl-py-xl mdw:rounded-br-[80px] fl-mt-xs;
 }
 
 .toc ol {
