@@ -1,7 +1,11 @@
 header.light div nav a {
-    @apply text-white;
+  @apply text-white;
 }
 
 header.light div nav li {
-    @apply border-l-white/[0.85];
+  @apply border-l-white/[0.85];
+}
+
+header.light .logo {
+  @apply text-white;
 }
