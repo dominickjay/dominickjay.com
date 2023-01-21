@@ -8,6 +8,7 @@ tags:
   - js
   - writing
 layout: 'layouts/post.njk'
+eleventyExcludeFromCollections: true
 ---
 
 ```html

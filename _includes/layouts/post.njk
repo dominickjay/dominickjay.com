@@ -2,25 +2,6 @@
 
 {% block content %}
 
-	{% set img %}
-	{% sscg
-		overlayText = title,
-		fontFace = 'Bitter',
-		fontWeight = 'bold',
-		fontColour = "010f0a",
-		x = "210" %}
-	{% endset %}
-
-    {% metagen
-		name = name,
-		title = title,
-		desc = excerpt,
-		twitter_card_type = "summary_large_image",
-		url = page.url,
-		twitter_handle = twitter,
-		img = img
-	%}
-
 	{% include "partials/posts/post--hero.njk" %}
 	<div class="fl-mt-l block mdw:hidden">
 		<span class="uppercase tracking-[-0.04em] font-heading text-black/[0.75] font-bold px-[20px]">Contents</span>

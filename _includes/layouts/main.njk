@@ -27,7 +27,7 @@
 				},
 
 				checkScroll() {
-					this.scrolled = window.scrollY > 150;
+					this.scrolled = window.scrollY > 400;
 				}
 			}"
 			@scroll.window="checkScroll()"
@@ -40,12 +40,18 @@
 					'mdw:max-w-[2000px] mx-auto fl-px-l': scrolled
 				}"
 			>
+				<div
+					class="absolute inset-0 w-full h-full"
+					:class="{
+						'backdrop-blur-[2.5px]' : scrolled
+					}"
+				></div>
 				<a class="logo group duration-[0.3s] ease-linear -rotate-[25deg] text-black" href="/">
 					<span class="sr-only">Link to homepage</span>
 					{% include "partials/icons/logo.svg" %}
 				</a>
 				{% if navigation.main | length %}
-				<nav class="ml-auto" aria-label="primary">
+				<nav class="ml-auto z-[1]" aria-label="primary">
 					<ul class="flex">
 						{% for item in navigation.main %}
 						<li class=" fl-px-xs border-l border-dashed border-l-black/[0.85] first:border-none">
