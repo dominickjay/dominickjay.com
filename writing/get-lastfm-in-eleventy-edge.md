@@ -16,6 +16,10 @@ links:
     {
       'title': 'Last.fm Music Discovery API',
       'target': 'https://www.last.fm/api'
+    },
+    {
+      'title': 'Eleventy - Getting Started',
+      'target': 'https://www.11ty.dev/docs/getting-started'
     }
   ]
 ---
@@ -34,16 +38,15 @@ links:
 
 ## Get lastfm api key
 
-First off, set up an API key for Last.fm. You'll need to apply for one at [https://www.last.fm/api/account/create](https://www.last.fm/api/account/create), but it's not an arduous process, nor does it take long to be approved for one. 
+First off, set up an API key for Last.fm. You'll need to apply for one at [https://www.last.fm/api/account/create](https://www.last.fm/api/account/create), but it's not an arduous process, nor does it take long to be approved for one.
 
 ### Explain endpoint that is used
-## Get bare-bones eleventy project
 
-## How to install netlify cli
-`npm install netlify-cli -g`
+For the API endpoint that we're going to use, we're going to retrieve the data from `getRecentTracks`, which is part of the group of user [data](https://www.last.fm/api/show/user.getRecentTracks).
 
-## How to install eleventy-edge plugjn
-eleventy-edge plugin is bundled up with Eleventy, but you need *at least* `v2.0.0-beta.1`
+## Get Eleventy, eleventy-edge and the Netlify CLI
+
+Next, let's set up a bare-bones eleventy project, creating a blank directory and then using `npm init -y` to initialise the directory with a `package.json` file. After that we can use `npm install --save-dev @11ty/eleventy` to install eleventy, and then `npx @11ty/eleventy` to run it. `npm install netlify-cli -g` Luckily, the eleventy-edge plugin is already included in our project (thanks, Zach) - at least, if you've installed a version of Eleventy with at *at least* `v2.0.0-beta.1`
 
 ## Setup plugin
 

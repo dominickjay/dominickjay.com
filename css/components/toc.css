@@ -1,27 +1,27 @@
 .toc {
-    @apply bg-grey/[0.25] fl-px-xl fl-py-xl mdw:rounded-br-[80px] fl-mt-xs;
+  @apply fl-px-m fl-py-xs mdw:rounded-br-[80px] fl-mt-xs;
 }
 
 .toc ol {
-    @apply list-decimal flex flex-col gap-y-[5px];
+  @apply list-decimal flex flex-col gap-y-[5px];
 }
 
 .toc li > ol {
-    @apply pl-[20px];
+  @apply pl-[20px] mt-[5px];
 }
 
 .toc a {
-    @apply inline-flex text-black/[0.8] font-medium transition-transform ease-in-out duration-[0.25s];
+  @apply inline-flex text-black/[0.8] font-medium transition-transform ease-in-out duration-[0.25s];
 }
 
 .toc a:hover {
-    @apply text-black font-bold;
+  @apply text-black font-bold;
 }
 
 a.anchor-link {
-    @apply text-black/[0.25] px-[4px] ease-linear duration-[0.2s] hover:text-white focus:text-white hover:bg-black focus:bg-black;
+  @apply text-black/[0.25] px-[4px] ease-linear duration-[0.2s] hover:text-white focus:text-white hover:bg-black focus:bg-black;
 }
 
 a:not([class]) {
-    @apply underline hover:underline-offset-2 relative;
+  @apply underline hover:underline-offset-2 relative;
 }
