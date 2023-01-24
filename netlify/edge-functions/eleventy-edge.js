@@ -15,7 +15,7 @@ export default async (request, context) => {
     });
 
     const response = await fetch(
-      `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${process.env.LASTFM_API_KEY}&format=json`
+      `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${process.env.LASTFM_API}&format=json`
     )
 
     const data = await response.json();
