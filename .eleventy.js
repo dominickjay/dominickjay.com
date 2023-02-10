@@ -11,7 +11,7 @@ const path = require('path')
 const manifestPath = path.resolve(__dirname, '_site', 'assets', 'manifest.json')
 const manifest = JSON.parse(fs.readFileSync(manifestPath, { encoding: 'utf8' }))
 const metagen = require('eleventy-plugin-metagen')
-const socialShareCardGenerator = require('eleventy-plugin-social-share-card-generator/dist/lib')
+const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 
 module.exports = function (eleventyConfig) {
 
@@ -32,10 +32,6 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(EleventyEdgePlugin)
   eleventyConfig.addPlugin(pluginTOC)
   eleventyConfig.addPlugin(metagen)
-  eleventyConfig.addPlugin(socialShareCardGenerator, {
-    cloudName: 'dominickjay',
-    publicId: 'main-image',
-  })
 
   eleventyConfig.setLibrary(
     'md',
@@ -109,7 +105,20 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd')
   })
 
-  eleventyConfig.addPlugin(syntaxHighlight)
+  eleventyConfig.addPlugin(syntaxHighlight);
+
+  eleventyConfig.addPlugin(EleventyPluginOgImage, {
+    satoriOptions: {
+      fonts: [
+        {
+          name: 'Erode',
+          data: fs.readFileSync('./fonts/Erode-Bold.woff'),
+          weight: 700,
+          style: 'normal',
+        },
+      ],
+    },
+  })
 
   return {
     passthroughFileCopy: true,
