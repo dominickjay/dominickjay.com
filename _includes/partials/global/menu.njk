@@ -7,7 +7,7 @@
     @toggle-menu.window="menuShow = !menuShow"
     @keyup.window.escape="menuShow = false"
     @click.outside="menuShow = false"
-    class="fixed top-0 right-0 bottom-0 h-full bg-white border-l-8 border-black z-30 duration-[0.85s] ease-in-out flex justify-center items-center fl-px-l w-full max-w-[calc(33vw_+_20px)]"
+    class="fixed top-0 right-0 bottom-0 h-full bg-white border-l-8 border-black z-30 duration-[0.85s] ease-in-out flex justify-center items-center fl-px-l w-full md:max-w-[50vw] mdw:max-w-[calc(33vw_+_20px)]"
     :class="{
         '-right-full' : !menuShow,
         'right-0' : menuShow
