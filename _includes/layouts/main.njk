@@ -34,7 +34,6 @@
 				init() {
 					this.checkScroll();
 				},
-
 				checkScroll() {
 					this.scrolled = window.scrollY > 250;
 				}
@@ -49,7 +48,7 @@
 					'mdw:max-w-[2000px] mx-auto fl-px-l': scrolled
 				}"
 			>
-				<a class="logo group duration-[0.3s] ease-linear -rotate-[25deg] text-black" href="/">
+				<a class="logo group duration-[0.3s] ease-linear -rotate-[25deg] hover:-rotate-[15deg] text-black" href="/">
 					<span class="sr-only">Link to homepage</span>
 					{% include "partials/icons/logo.svg" %}
 				</a>
@@ -97,8 +96,8 @@
 							{% endfor %}
 						</ul>
 					</div>
-					<div class="flex flex-col gap-y-[52px] mdw:ml-auto">
-						<div class="flex gap-x-[25px] justify-end">
+					<div class="flex flex-col mdw:ml-auto">
+						<div class="flex justify-end">
 						{% if navigation.main | length %}
 							<nav
 								class="ml-auto min-w-[200px]"

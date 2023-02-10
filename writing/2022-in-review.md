@@ -49,7 +49,7 @@ I did a few activities I’ve always wanted to try but held back from doing it; 
 
 ## German stats
 
-<strong class="font-bold">{{ language._2022.stats.language_data.de.streak }}</strong>
+I decided to up my personal development and pick up another language using Duolingo this year too, and picked back up my German lessons. Got to a streak of **{{ language._2022.stats.language_data.de.streak }}** days so far, which is my longest to date. Feel like I'm getting used to how sentences are formed - slightly - so can only hope that continuing on with it in 2023 will be the same.
 
 ## Read more books than ever
 
