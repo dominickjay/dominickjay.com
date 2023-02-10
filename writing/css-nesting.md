@@ -7,6 +7,7 @@ tags:
   - css
   - writing
 layout: 'layouts/post.njk'
+eleventyExcludeFromCollections: true
 links:
   [
     {

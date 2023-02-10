@@ -2,6 +2,7 @@
 	class="py-[20px] fixed top-0 w-full z-20"
 	x-data="{
 		scrolled: false,
+		menu: false,
 
 		init() {
 			this.checkScroll();
@@ -25,6 +26,9 @@
 			{% include "partials/icons/logo.svg" %}
 		</a>
 		{% if navigation.main | length %}
+		<button
+        	@click="$dispatch('toggle-menu')"
+		>Menu</button>
 		<nav class="ml-auto" aria-label="primary">
 			<ul class="flex">
 				{% for item in navigation.main %}
