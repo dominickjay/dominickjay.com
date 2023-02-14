@@ -7,7 +7,11 @@ permalink: 404.html
 
 {% block content %}
   <div class="mdw:min-h-screen">
-    <h1>404</h1>
-    <p>This is where you should tell the user how to find their content. Maybe on the <a href="/">home page?</a></p>
+    <div class="container flex flex-col mdw:site-grid h-full">
+      <div class="col-start-2 col-span-5 z-[1] pt-[150px] mdw:pt-[180px]">
+        <h1 class="h1 heading max-w-[500px] mdw:max-w-none !text-[52px] !md:text-[70px] mdw:!text-[100px] !leading-[0.75] font-black">404</h1>
+        <p>Sorry, this page you are looking for doesn't exist or has been moved. Here's something else to try:</p>
+      <div>
+    </div>
   </div>
 {% endblock %}
