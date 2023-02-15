@@ -38,6 +38,19 @@ module.exports = function (eleventyConfig) {
     markdownIt(mdOptions).use(markdownItAnchor, mdAnchorOpts)
   )
 
+  eleventyConfig.addCollection('randomizedPosts', function (collection) {
+    return (
+      collection
+        // Change to the name of your tag
+        .getFilteredByTag('writing')
+        .sort(() => {
+          return 0.5 - Math.random()
+        })
+        // Optional limit, remove if unwanted
+        .slice(0, 3)
+    )
+  })
+
   eleventyConfig.addCollection('tagsList', function (collectionApi) {
     const tagsList = new Set()
     collectionApi.getFilteredByTag('writing').map((item) => {
