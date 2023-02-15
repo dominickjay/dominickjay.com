@@ -75,9 +75,9 @@ module.exports = function (eleventyConfig) {
 
 
   // eleventyConfig.addPassthroughCopy('css')
-  eleventyConfig.addPassthroughCopy('images')
-  eleventyConfig.addPassthroughCopy('fonts')
-  eleventyConfig.addPassthroughCopy('docs')
+  eleventyConfig.addPassthroughCopy('src/images')
+  eleventyConfig.addPassthroughCopy('src/fonts')
+  eleventyConfig.addPassthroughCopy('src/docs')
 
   eleventyConfig.addFilter('readableDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
@@ -125,16 +125,18 @@ module.exports = function (eleventyConfig) {
       fonts: [
         {
           name: 'Erode',
-          data: fs.readFileSync('./fonts/Erode-Bold.woff'),
+          data: fs.readFileSync('./src/fonts/Erode-Bold.woff'),
           weight: 700,
           style: 'normal',
         },
       ],
     },
   })
-
   return {
     passthroughFileCopy: true,
     markdownTemplateEngine: 'njk',
+    dir: {
+      input: 'src',
+    }
   }
 }
