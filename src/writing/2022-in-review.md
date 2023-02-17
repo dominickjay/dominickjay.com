@@ -8,9 +8,8 @@ language: 2022
 tags:
   - personal
   - writing
-layout: 'layouts/post.njk'
+layout: post
 templateEngineOverride: njk,md
-
 ---
 
 ## I started a new role
@@ -38,14 +37,16 @@ I did a few activities I’ve always wanted to try but held back from doing it; 
 ### Top Artists
 
 {% for artist in music._2022.topArtists.weeklyartistchart.artist %}
+
 1. {{ artist.name }}
-{% endfor %}
+   {% endfor %}
 
 ### Top Albums
 
 {% for album in music._2022.topAlbums.weeklyalbumchart.album %}
-  1. <strong>{{ album.name }}</strong> by {{ album.artist['#text'] }}
-{% endfor %}
+
+1. <strong>{{ album.name }}</strong> by {{ album.artist['#text'] }}
+   {% endfor %}
 
 ## German stats
 
@@ -55,6 +56,7 @@ I decided to up my personal development and pick up another language using Duoli
 
 {% for item in books %}
 {% if item.finishedYear == '2022' %}
-  1. <span class="font-bold">{{ item.title }}</span> by <span class="font-bold">{{ item.author }}</span>
-{% endif %}
-{% endfor %}
+
+1. <span class="font-bold">{{ item.title }}</span> by <span class="font-bold">{{ item.author }}</span>
+   {% endif %}
+   {% endfor %}

@@ -5,5 +5,5 @@ date: Created
 tags:
   - snippets
   - css
-layout: 'layouts/snippet.njk'
+layout: snippet
 ---

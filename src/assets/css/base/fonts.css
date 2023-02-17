@@ -1,7 +1,7 @@
 @font-face {
     font-family: theme("fontFamily.heading.0");
-    src: url("/fonts/Erode-Bold.woff2") format("woff2"),
-        url("/fonts/Erode-Bold.otf") format("woff");
+    src: url("/assets/fonts/erode/Erode-Bold.woff2") format("woff2"),
+        url("/assets/fonts/erode/Erode-Bold.otf") format("woff");
     font-weight: theme("fontWeight.bold");
     font-style: bold;
     font-display: swap;
@@ -9,8 +9,8 @@
 
 @font-face {
     font-family: theme("fontFamily.heading.0");
-    src: url("/fonts/Erode-Medium.woff2") format("woff2"),
-        url("/fonts/Erode-Medium.otf") format("woff");
+    src: url("/assets/fonts/erode/Erode-Medium.woff2") format("woff2"),
+        url("/assets/fonts/erode/Erode-Medium.otf") format("woff");
     font-weight: theme("fontWeight.medium");
     font-style: medium;
     font-display: swap;
@@ -18,8 +18,8 @@
 
 @font-face {
     font-family: theme("fontFamily.main.0");
-    src: url("/fonts/Recia-Regular.woff2") format("woff2"),
-        url("/fonts/Recia-Regular.woff") format("woff");
+    src: url("/assets/fonts/recia/Recia-Regular.woff2") format("woff2"),
+        url("/assets/fonts/recia/Recia-Regular.woff") format("woff");
     font-weight: theme("fontWeight.normal");
     font-style: normal;
     font-display: swap;
@@ -27,8 +27,8 @@
 
 @font-face {
     font-family: theme("fontFamily.main.0");
-    src: url("/fonts/Recia-Medium.woff2") format("woff2"),
-        url("/fonts/Recia-Medium.woff") format("woff");
+    src: url("/assets/fonts/recia/Recia-Medium.woff2") format("woff2"),
+        url("/assets/fonts/recia/Recia-Medium.woff") format("woff");
     font-weight: theme("fontWeight.medium");
     font-style: medium;
     font-display: swap;

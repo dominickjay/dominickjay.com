@@ -1,12 +1,12 @@
 ---
 title: 'Get lastfm in eleventy-edge'
-description: "How I created a edge function to bring in live data from Last.fm"
+description: 'How I created a edge function to bring in live data from Last.fm'
 intro: "On my about page, there's a 'Now Playing' section, that gives live data about my last played song according to Last.fm. Using the eleventy-edge plugin, let's see how this is set up."
 date: Created
 tags:
   - js
   - writing
-layout: 'layouts/post.njk'
+layout: post
 eleventyExcludeFromCollections: true
 links:
   [
@@ -16,12 +16,12 @@ links:
     },
     {
       'title': 'Last.fm Music Discovery API',
-      'target': 'https://www.last.fm/api'
+      'target': 'https://www.last.fm/api',
     },
     {
       'title': 'Eleventy - Getting Started',
-      'target': 'https://www.11ty.dev/docs/getting-started'
-    }
+      'target': 'https://www.11ty.dev/docs/getting-started',
+    },
   ]
 ---
 
@@ -47,19 +47,20 @@ For the API endpoint that we're going to use, we're going to retrieve the data f
 
 ## Get Eleventy, eleventy-edge and the Netlify CLI
 
-Next, let's set up a bare-bones eleventy project, creating a blank directory and then using `npm init -y` to initialise the directory with a `package.json` file. After that we can use `npm install --save-dev @11ty/eleventy` to install eleventy, and then `npx @11ty/eleventy` to run it. `npm install netlify-cli -g` Luckily, the eleventy-edge plugin is already included in our project (thanks, Zach) - at least, if you've installed a version of Eleventy with at *at least* `v2.0.0-beta.1`
+Next, let's set up a bare-bones eleventy project, creating a blank directory and then using `npm init -y` to initialise the directory with a `package.json` file. After that we can use `npm install --save-dev @11ty/eleventy` to install eleventy, and then `npx @11ty/eleventy` to run it. `npm install netlify-cli -g` Luckily, the eleventy-edge plugin is already included in our project (thanks, Zach) - at least, if you've installed a version of Eleventy with at _at least_ `v2.0.0-beta.1`
 
 ## Setup plugin
 
 In `eleventy.js`:
 
 ```js
-const { EleventyEdgePlugin } = require("@11ty/eleventy");
+const { EleventyEdgePlugin } = require('@11ty/eleventy')
 
-module.exports = function(eleventyConfig) {
-  eleventyConfig.addPlugin(EleventyEdgePlugin);
-};
+module.exports = function (eleventyConfig) {
+  eleventyConfig.addPlugin(EleventyEdgePlugin)
+}
 ```
+
 The above plugin will automatically generate an Eleventy Edge Function file for you at: `./netlify/edge-functions/eleventy-edge.js`.
 
 <div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
@@ -69,17 +70,21 @@ The above plugin will automatically generate an Eleventy Edge Function file for 
 
 ```js
 const response = await fetch(
-  "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json"
+  'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json'
 )
 
-const data = await response.json();
+const data = await response.json()
 
 edge.config((eleventyConfig) => {
   eleventyConfig.addGlobalData('lastfmTrack', data.recenttracks.track[0].name)
-  eleventyConfig.addGlobalData('lastfmArtist', data.recenttracks.track[0].artist['#text'])
-  eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
-});
+  eleventyConfig.addGlobalData(
+    'lastfmArtist',
+    data.recenttracks.track[0].artist['#text']
+  )
+  eleventyConfig.addFilter('json', (obj) => JSON.stringify(obj, null, 2))
+})
 ```
 
 ## Refer to discord chat
+
 [Discord chat](https://discord.com/channels/741017160297611315/1040730014926254110/1043258902248181833)

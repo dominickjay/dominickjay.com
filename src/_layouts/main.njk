@@ -1,3 +1,5 @@
+{% set assetHash = global.random() %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,40 +11,40 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
 		<meta name="theme-color" content="#ffffff">
-		<link rel="stylesheet" type="text/css" href="{% webpackAsset 'main.css' %}">
+		<!-- synchronous css / inline css  -->
+		<link rel="stylesheet" href="/assets/css/global.css?{{ assetHash }}" />
 		<link
 			rel="preload"
-			href="fonts/Erode-Bold.woff2"
+			href="/assets/fonts/erode/Erode-Bold.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
 		/>
 		<link
 			rel="preload"
-			href="fonts/Erode-Medium.woff2"
+			href="/assets/fonts/erode/Erode-Medium.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
 		/>
 		<link
 			rel="preload"
-			href="fonts/Recia-Medium.woff2"
+			href="/assets/fonts/recia/Recia-Medium.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
 		/>
 		<link
-		rel="preload"
-		href="fonts/Recia-Regular.woff2"
-		as="font"
-		type="font/woff2"
-		crossorigin
+			rel="preload"
+			href="/assets/fonts/recia/Recia-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
 		/>
 
-		<script src="/js/alpine.js?v={% version %}" defer></script>
+		<script src="/assets/js/alpine.js?v={% version %}" defer></script>
 		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
-    	{# <script defer src="{% webpackAsset 'main.js' %}"></script> #}
 		{# {% if page.url == "/" %}
 			{% ogImage "og-image.og.njk", { title: title } %}
 		{% else %}
@@ -52,7 +54,7 @@
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 
-		{% include "../partials/global/menu.njk" %}
+    	{% include "partials/global/menu.njk" %}
 
 		<header
 			class="py-[20px] fixed top-0 w-full z-20 border-t-8 border-black"

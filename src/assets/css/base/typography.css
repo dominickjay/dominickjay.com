@@ -71,7 +71,7 @@ body {
     @apply fl-my-l;
   }
 
-  .post-body img {
+  .post-body > img {
     @apply fl-my-l mx-auto;
   }
 

@@ -6,14 +6,14 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: 'layouts/post.njk'
+layout: post
 ---
 
 ### Professional
 
 1. My codepen from last week was picked by the team and has had a slowly growing number of views and likes over the last week, so super happy about that. Currently on 74 'loves' and 2,780 views. [Here it is](https://codepen.io/dominickjay217/pen/BamOBRZ).
 1. Added in a dark/light mode toggle to this site (See at the top of the page, above the navigation) as found `prefers-color-scheme` wasn't working on Firefox.
-1. Refactored a *whole* bunch of custom property names after a short discussion on the Front End Horse discord about naming conventions.
+1. Refactored a _whole_ bunch of custom property names after a short discussion on the Front End Horse discord about naming conventions.
 
 ### Personal
 

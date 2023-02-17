@@ -5,7 +5,7 @@ date: 2021-10-20
 tags:
   - css
   - writing
-layout: 'layouts/post.njk'
+layout: post
 links:
   [
     {

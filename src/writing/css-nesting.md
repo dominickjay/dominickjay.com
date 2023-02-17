@@ -6,7 +6,7 @@ date: Created
 tags:
   - css
   - writing
-layout: 'layouts/post.njk'
+layout: post
 eleventyExcludeFromCollections: true
 links:
   [
@@ -16,15 +16,15 @@ links:
     },
     {
       'title': 'Native CSS nesting: What you need to know',
-      'target': 'https://blog.logrocket.com/native-css-nesting/'
+      'target': 'https://blog.logrocket.com/native-css-nesting/',
     },
     {
       'title': 'New CSS Features In 2022',
-      'target': 'https://www.smashingmagazine.com/2022/03/new-css-features-2022/#nesting'
+      'target': 'https://www.smashingmagazine.com/2022/03/new-css-features-2022/#nesting',
     },
     {
       'title': 'Help pick a syntax for CSS nesting',
-      'target': 'https://developer.chrome.com/blog/help-css-nesting/'
+      'target': 'https://developer.chrome.com/blog/help-css-nesting/',
     },
   ]
 ---

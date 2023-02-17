@@ -1,9 +1,8 @@
 ---
 title: Oops! Not Found
 permalink: 404.html
+layout: main
 ---
-
-{% extends "layouts/main.njk" %}
 
 {% block content %}
   <div class="min-h-screen">
@@ -11,7 +10,7 @@ permalink: 404.html
       <div class="col-start-2 col-span-5 z-[1] pt-[150px] mdw:pt-[180px]">
         <h1 class="h1 heading max-w-[500px] mdw:max-w-none !text-[52px] !md:text-[70px] mdw:!text-[100px] !leading-[0.75] font-black mb-[10px]">404</h1>
         <div class="flex flex-col">
-          <p class="fl-mb-m">Sorry, this page you are looking for doesn't exist or has been moved. Here's something else to try:</p>
+          <p class="fl-mb-m">Sorry, this page you are looking for doesn't exist or has been moved. If you don't want to head <a href="{{ site.baseURL }}">home</a>, then here's something else to try:</p>
           {% for post in collections.randomizedPosts %}
             <a class="fl-mb-3xs last:mb-0" href="{{ post.url }}">{{ post.data.title }}</a>
           {% endfor %}

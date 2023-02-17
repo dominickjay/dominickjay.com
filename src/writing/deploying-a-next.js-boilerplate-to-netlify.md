@@ -8,7 +8,7 @@ tags:
   - react
   - devops
   - writing
-layout: 'layouts/post.njk'
+layout: post
 ---
 
 ## Clone repo
