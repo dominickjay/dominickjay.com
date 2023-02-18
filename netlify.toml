@@ -3,7 +3,7 @@
   publish = "dist"
 
 [dev]
-  command = "npm run dev"
+  command = "npm run start"
   targetPort = 8085
 
 [[edge_functions]]

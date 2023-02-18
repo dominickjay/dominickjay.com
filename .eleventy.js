@@ -24,11 +24,9 @@
 // } = require('./config/filters/index.js');
 
 // module import shortcodes
-// const {
-//   imageShortcodePlaceholder,
-//   includeRaw,
-//   liteYoutube
-// } = require('./config/shortcodes/index.js');
+const {
+  imageShortcodePlaceholder,
+} = require('./config/shortcodes/index.js');
 
 // module import collections
 // const {getAllPosts} = require('./config/collections/index.js');
@@ -43,7 +41,6 @@
 // const {slugifyString} = require('./config/utils');
 // const {escape} = require('lodash');
 // const pluginRss = require('@11ty/eleventy-plugin-rss');
-// const inclusiveLangPlugin = require('@11ty/eleventy-plugin-inclusive-language');
 const fs = require('fs');
 const { EleventyEdgePlugin } = require('@11ty/eleventy');
 const { DateTime } = require('luxon');
@@ -79,10 +76,9 @@ module.exports = eleventyConfig => {
   })
 
   // 	--------------------- Custom shortcodes ---------------------
+  eleventyConfig.addNunjucksAsyncShortcode('imagePlaceholder', imageShortcodePlaceholder);
   eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`) // current year, stephanie eckles
-  eleventyConfig.addShortcode('version', function () {
-    return now
-  })
+  eleventyConfig.addShortcode('version', function () { return now })
 
   // 	--------------------- Plugins ---------------------
   eleventyConfig.addPlugin(EleventyEdgePlugin)
