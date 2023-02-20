@@ -124,6 +124,42 @@ module.exports = eleventyConfig => {
     './node_modules/@alpinejs/intersect/dist/cdn.min.js': './assets/js/intersect.js',
   });
 
+  // 	--------------------- custom Collections -----------------------
+
+  eleventyConfig.addCollection('tagsList', function (collectionApi) {
+    const tagsList = new Set()
+    collectionApi.getFilteredByTag('writing').map((item) => {
+      if (item.data.tags) {
+        // handle pages that don't have tags
+        item.data.tags.map((tag) => tagsList.add(tag))
+      }
+    })
+    return tagsList
+  })
+
+  eleventyConfig.addCollection('snippetTagsList', function (collectionApi) {
+    const tagsList = new Set()
+    collectionApi.getFilteredByTag('snippets').map((item) => {
+      if (item.data.tags) {
+        // handle pages that don't have tags
+        item.data.tags.map((tag) => tagsList.add(tag))
+      }
+    })
+    return tagsList
+  });
+
+  eleventyConfig.addCollection('randomizedPosts', function (collection) {
+    return (
+      collection
+        // Change to the name of your tag
+        .getFilteredByTag('writing')
+        .sort(() => {
+          return 0.5 - Math.random()
+        })
+        .slice(0, 3)
+    )
+  });
+
   // 	--------------------- general config -----------------------
   return {
     // Pre-process *.md, *.html and global data files files with: (default: `liquid`)

@@ -72,7 +72,7 @@ Let's take a general card layout, we've all seen this before right? Standard ima
     overflow: hidden;
   }
 
-  .card--example--truncate {
+  .card-example--truncate {
     width: auto;
   }
 

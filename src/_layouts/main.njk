@@ -45,11 +45,11 @@
 		<script src="/assets/js/alpine.js?v={% version %}" defer></script>
 		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/ireade/caniuse-embed/public/caniuse-embed.min.js"></script>
-		{# {% if page.url == "/" %}
-			{% ogImage "og-image.og.njk", { title: title } %}
+		{% if page.url == "/" %}
+			{% ogImage "./src/og-image.og.njk", { title: title } %}
 		{% else %}
-			{% ogImage "og-image.og.njk", { title: title, siteName:  site.name } %}
-		{% endif %} #}
+			{% ogImage "./src/og-image.og.njk", { title: title, siteName:  site.name } %}
+		{% endif %}
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
