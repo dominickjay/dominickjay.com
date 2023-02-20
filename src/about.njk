@@ -1,0 +1,70 @@
+---
+title: 'About'
+tagline: 'Creative Front End Developer, writer, music nerd.'
+intro: "Hi 👋. My name's Dom and I'm a Front-end Developer currently working at Series Eight. In the past, I have worked at Rowe IT, GOSS Interactive, n9Design and Logo CCP."
+text: "Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href='/docs/resume.pdf' target='_blank'>resume</a>. My current role at <span class='highlight'>Series Eight</span> as a <span class='highlight'>Front-End Developer</span> allows me to work on a wide range of technologies and processes.</br></br>
+
+I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog here, or putting together small projects on <a href='https://codepen.io/dominickjay217' target='_blank'>CodePen</a>."
+layout: default
+---
+
+<div class="col-start-1 col-span-6 z-[1] mdw:fl-pt-3xl">
+    <h1 class="h1 heading !text-[70px] mdw:!text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+    <span class="text-blue/[0.85] font-bold">{{ tagline | lower }}</span>
+</div>
+<div class="fl-pb-xl fl-my-xl col-start-1 col-span-full">
+    <div class="mdw:max-w-[850px]">
+        <div class="fl-text-step-1 font-bold tracking-[-0.04em]">{{ intro }}</div>
+        <div class="fl-mt-s">{{ text | safe }}</div>
+        <div class="fl-mt-l">
+            <h3 class="heading fl-text-step-4">Now</h3>
+
+            {% edge %}
+            <div class="fl-mt-xs">
+                Latest track from Last.FM: <span class="font-bold">{{ lastfmTrack }}</span> by <span class="font-bold">{{ lastfmArtist }}</span>
+            </div>
+            {% endedge %}
+            <div class="fl-mt-xs">Current working as:
+                {% set career = about.career[0] %}
+                <span class="font-bold">{{ career.role }}</span>
+                for
+                <a href="{{ career.companyLink }}" target="_blank" rel="noopener">
+                    <span class="font-bold">{{ career.company }}</span>
+                </a>
+            </div>
+            <div class="fl-mt-xs">My latest post is:
+                {% for post in collections.writing | reverse | limit(1) %}
+                    <a
+                        href="{{ post.url }}"
+                    >
+                        <span class="font-bold">
+                            {{ post.data.title }}
+                        </span>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="fl-mt-xs">Currently reading:
+                <ul class="list-disc fl-pl-m fl-mt-s">
+                {% for item in books %}
+                    {% if item.select == 'Currently Reading' %}
+                    <li>
+                        <span class="font-bold">{{ item.title }}</span>
+                        by
+                        <span class="font-bold">{{ item.author }}</span>
+                    </li>
+                    {% elseif item.select === 'On Hold' %}
+                    <li>
+                        <div>
+                            <p>
+                                <span class="font-bold line-through text-black/[0.5]">{{ item.title }} by {{ item.author }}</span>
+                                <span class="font-bold uppercase min-w-fit">- On Hold</span>
+                            </p>
+                        </div>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

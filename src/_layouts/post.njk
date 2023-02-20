@@ -1,0 +1,93 @@
+---
+layout: main
+---
+
+{% block content %}
+
+	{% include "partials/posts/post--hero.njk" %}
+	{% if content | toc %}
+	<div class="fl-mt-l block mdw:hidden fl-px-s">
+		<span class="uppercase tracking-[-0.04em] font-heading text-black/[0.75] font-bold px-[20px]">Contents</span>
+		{{ content | toc | safe }}
+	</div>
+	{% endif %}
+	<div class="container flex flex-col-reverse mdw:site-grid">
+		<article class="col-start-1 col-span-8 row-start-1 post-body mdw:max-w-[900px] fl-py-l mdw:fl-py-3xl">
+			<div class="fl-text-step-1 font-bold tracking-[-0.04em]">
+				{{ intro | safe }}
+			</div>
+			<div class="fl-mt-l post-body">
+				{{ content | safe }}
+			</div>
+		</article>
+		{% if content | toc %}
+		<aside class="hidden mdw:block col-start-9 col-span-4 row-start-1 fl-mt-l mdw:fl-mt-3xl">
+			<div class="sticky top-[80px]">
+				<span class="uppercase tracking-[-0.04em] font-heading text-black/[0.75] font-bold">Contents</span>
+				{{ content | toc | safe }}
+			</div>
+		</aside>
+		{% endif %}
+		{% if links or tags %}
+			<div
+				class="col-start-1 col-span-full hidden sticky bottom-0 w-full mdw:flex flex-col"
+				x-data="{
+					open: false
+				}"
+				:class="{
+					'h-fit max-h-[50vh]' : open
+				}"
+				@click.outside="open = false"
+			>
+				<button
+					class="button max-w-fit ml-auto"
+					:class="{
+						'!bg-black !text-white' : open,
+						'!bg-grey/[0.25] hover:bg-black' : !open
+					}"
+					@click="open = !open"
+				>Click me for more info</button>
+				<div
+					class="overflow-auto bg-black w-full h-full rounded-tl-[40px] flex justify-between"
+					:class="{
+						'h-0' : !open,
+						'fl-p-l' : open
+					}"
+				>
+					{% if links %}
+					<div class="flex flex-col basis-1/2">
+						<span class="font-heading fl-text-step-1 text-white">Resources</span>
+						<ul class="text-white flex flex-col gap-y-[5px] fl-mt-m">
+							{% for link in links %}
+								<li>
+									<a class="no-underline hover:underline" href="{{ link.target }}" target="_blank">{{ link.title }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+					{% if tags %}
+					<div class="flex flex-col basis-1/2">
+						<span class="font-heading fl-text-step-1 text-white">Topics</span>
+						<ul class="text-white flex flex-wrap gap-[5px] fl-mt-m">
+						{% for tag in tags %}
+							<li>
+							{% if tag != 'writing' %}
+								{% set tagUrl %}/tag/{{ tag | slugify }}/{% endset %}
+								<a
+									href="{{ tagUrl | url }}"
+									class="category category--reverse font-bold"
+								>
+									{{ tag }}
+								</a>
+							{% endif %}
+							</li>
+						{% endfor %}
+						</ul>
+					</div>
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+	</div>
+{% endblock %}

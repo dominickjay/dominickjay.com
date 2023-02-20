@@ -1,0 +1,31 @@
+.fyi-block {
+  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-4 border-dashed flex flex-col gap-y-[8px];
+}
+
+.fyi-block--warning {
+  @apply border-red/[0.35];
+}
+
+.fyi-block--prerequisites {
+  @apply border-0 bg-black text-white;
+}
+
+.fyi-block p {
+  @apply mt-0;
+}
+
+.fyi-block span:first-child {
+  @apply fl-text-step-2;
+}
+
+.fyi-block .svg-icon {
+  @apply absolute -right-[90px] -top-[90px] opacity-[0.15] h-[250px] rotate-[45deg];
+}
+
+.fyi-block .svg-icon svg {
+  @apply h-full w-auto;
+}
+
+.fyi-block .svg-icon path {
+  @apply !fill-white;
+}
