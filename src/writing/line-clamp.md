@@ -101,7 +101,7 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 
 You've got the markup done to the design, but haven't accounted for the huge amount of text that the client will undoubtedly drop into only _some_ of them.
 
-{% imagePlaceholder "./src/assets/images/posts/line-clamp-card-grid.png", "Alt... A row of cards with long content", "Caption.. Our generic cards with longer than needed text on them." %}
+{% imagePlaceholder "./src/assets/images/posts/line-clamp-card-grid.png", "A row of cards with long content", "Our generic cards with longer than needed text on them." %}
 
 Yuck. So we need to trim it down, make it look a bit more visually pleasing to the user right? We could just add a `max-height` to the cards, with an `overflow: hidden` on the `p` tag....maybe? Chuck in a few media queries to adjust for smaller screen sizes?
 
