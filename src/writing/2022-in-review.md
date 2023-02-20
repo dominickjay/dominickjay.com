@@ -2,7 +2,7 @@
 title: '2022 in Review'
 description: 'A public reflection of 2022, both professionally and personally.'
 intro: 'This year has been crazy busy, both on a Personal and Professional Level - starting a new role, bringing with it a whole wealth of new challenges, and increasing my personal skills outside of my professional career As the year closes out, I thought I would take a bit of time to review how the year has gone publicly, rather than the normal ‘well that year went ok’ type introspection that normally happens.'
-date: Created
+date: 2022-12-30
 music: 2022
 language: 2022
 tags:
