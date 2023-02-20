@@ -13,8 +13,8 @@ permalink: '/tag/{{ tag | slug }}/'
 
 {# If this is a tag, grab those items instead as one large collection #}
 {% if tag %}
-  {% set postListItems = collections[tag] %}
-  {% set title = "I've written about “" + tag + "” here" %}
+    {% set postListItems = collections[tag] %}
+    {% set title = "I've written about “" + tag + "” here" %}
 {% endif %}
 
 {% block content %}
@@ -50,7 +50,7 @@ permalink: '/tag/{{ tag | slug }}/'
                     </div>
                 </li>
             {% endfor %}
-        </ol>
+            </ol>
         </div>
   </article>
 {% endblock %}

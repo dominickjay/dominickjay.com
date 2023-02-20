@@ -79,3 +79,7 @@ select {
 [x-cloak] {
   display: none !important;
 }
+
+body::-webkit-scrollbar-thumb {
+  background-color: black;
+}

@@ -6,6 +6,7 @@ tags:
   - snippets
   - css
 layout: snippet
+eleventyExcludeFromCollections: true
 ---
 
 <p class="ciu_embed" data-feature="mdn-css__properties__contain" data-periods="future_1,current,past_1,past_2" data-accessible-colours="false">

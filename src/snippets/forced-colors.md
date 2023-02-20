@@ -6,6 +6,7 @@ tags:
   - snippets
   - css
 layout: snippet
+eleventyExcludeFromCollections: true
 ---
 
 ### Professional
