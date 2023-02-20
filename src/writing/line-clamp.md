@@ -20,7 +20,7 @@ links:
   ]
 ---
 
-Let's take a general card layout, we've all seen this before right? Standard image, heading and text content. I'm leaving out a link, because how that is placed is a _whole_ other thing.
+Let's take a general card layout, we've all seen this before right? Standard image (provided by [placeskull.com](placeskull.com)), heading and text content. I'm leaving out a link, because how that is placed is a _whole_ other thing.
 
 <style>
   .card-example {
