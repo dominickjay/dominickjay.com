@@ -1,0 +1,48 @@
+<div
+    x-init=""
+    x-data="{
+        menuShow: false,
+    }"
+    x-cloak
+    x-show="menuShow"
+    @toggle-menu.window="menuShow = !menuShow"
+    @keyup.window.escape="menuShow = false"
+    @click.outside="menuShow = false"
+    class="fixed top-0 right-0 bottom-0 h-full bg-white border-l-8 border-black z-30 duration-[0.85s] ease-in-out flex justify-center items-center fl-px-l w-full md:max-w-[50vw] mdw:max-w-[calc(33vw_+_20px)]"
+    :class="{
+        '-right-full' : !menuShow,
+        'right-0' : menuShow
+    }"
+>
+    <button
+        class="fl-text-step-1 font-heading absolute top-[35px] left-[35px] hover:underline hover:underline-offset-2"
+        @click="menuShow = !menuShow"
+    >Close</button>
+    <nav class="w-full" aria-label="primary">
+        <ul class="flex flex-col">
+            {% for item in navigation.main %}
+            <li class=" fl-py-m border-b border-dashed border-black/[0.85] last:border-none">
+                <a
+                    class="text-black hover:text-orange duration-[0.3s] ease-in-out font-bold fl-text-step-3"
+                    href="{{ item.url}}"
+                >
+                    {{ item.text }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <ul class="flex fl-mt-xl gap-x-[10px] absolute bottom-[20px] right-[20px]">
+            {% for item in navigation.socialmedia %}
+            <li class="py-[4px] hover:underline hover:underline-offset-2">
+                <a
+                    href="{{ item.url}}"
+                    class="flex text-black hover:text-black/[0.5] ease-in-out duration-[0.25s]"
+                >
+                    <span class="sr-only">{{ item.text }}</span>
+                    <span class="flex items-center justify-center h-[40px] w-[40px]">{{ item.imagePath | safe }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

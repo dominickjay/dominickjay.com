@@ -1,0 +1,87 @@
+---
+title: 'Snippets'
+layout: 'default.njk'
+eleventyExcludeFromCollections: true
+---
+<div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-6 mdw:fl-py-3xl">
+	<section
+		class="col-start-1 col-span-10 row-start-1"
+		x-data="{
+			filter: 'all',
+
+			filter(tag) {
+				const allSnippets = document.querySelectorAll('[data-tag]');
+				const hideSnippets = document.querySelectorAll(`.snippet:not([data-tag='${tag}'])`);
+				if (tag == 'all') {
+					for (const snippet of allSnippets) {
+						snippet.classList.remove('hidden');
+					}
+				} else {
+					for (const snippet of allSnippets) {
+						snippet.classList.remove('hidden');
+					}
+					for (const snippet of hideSnippets) {
+						snippet.classList.add('hidden');
+					}
+				}
+			}
+		}"
+	>
+		<h1 class="block h1 heading !text-[70px] mdw:!text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+
+		{% set postslist = collections.snippets %}
+		{% set postslistCounter = collections.snippets | length %}
+
+		{% if collections.snippetTagsList | length > 2 %}
+		<div class="fl-pt-l flex flex-wrap gap-[10px]">
+			<button
+				class="category"
+				data-tag-button="all"
+				@click="filter('all')"
+			>all</button>
+			{% for tag in collections.snippetTagsList %}
+				{% if tag != 'snippets' %}
+					<button
+						class="category"
+						data-tag-button="{{tag}}"
+						@click="filter('{{tag}}')"
+					>{{tag}}</button>
+				{% endif %}
+			{% endfor %}
+		</div>
+		{% endif %}
+
+		<ol
+			reversed
+			class="fl-pt-xl"
+			style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
+		>
+			{% for post in postslist | reverse %}
+				<li
+					class="snippet fl-mt-l first:mt-0 border-b border-dashed border-black/[0.25] last:border-none fl-pb-l"
+					data-tag="{{post.data.tags[1]}}"
+				>
+					<div class="flex flex-col gap-y-[10px]">
+						<div
+							class="flex items-center justify-between"
+						>
+							<a
+								href="{{ post.url | url }}"
+								class="fl-text-step-2 font-bold text-black/[0.75] hover:underline hover:underline-offset-2"
+							>
+								{% if post.data.title %}
+									{{ post.data.title }}
+								{% else %}
+									<code>{{ post.url }}</code>
+								{% endif %}
+							</a>
+						</div>
+						<div>
+							{{ post.data.description }}
+						</div>
+					</div>
+				</li>
+			{% endfor %}
+		</ol>
+	</section>
+</div>
