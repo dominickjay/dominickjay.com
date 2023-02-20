@@ -111,5 +111,5 @@ body {
 }
 
 .caption p {
-  @apply heading !font-normal fl-text-step-0 italic opacity-[0.65] text-left fl-mt-xs;
+  @apply heading fl-text-step-0 italic opacity-[0.65] text-left fl-mt-xs;
 }
