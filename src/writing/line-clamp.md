@@ -113,7 +113,7 @@ Yuck. So we need to trim it down, make it look a bit more visually pleasing to t
   </div>
 </div>
 
-Well that looks terrible, and also ignores any padding that might around the content (hint: there is.). We need to be able to trim the text off nicely, which is where `line-clamp` comes in. Hooray!
+Well that looks terrible, and also ignores any padding that might around the content (hint: there is). We need to be able to trim the text off nicely, which is where `line-clamp` comes in. Hooray!
 
 Using this property allows any text to be cut off, with the end of the visible text be replaced with an ellipses. There's a few ways of doing this already _kind of_, using JS (there's even a handy (?) npm script to help [line-clamp](https://www.npmjs.com/package/line-clamp) ), [Clamp.js](https://github.com/josephschmitt/Clamp.js) or the `text-overflow` property, as shown below.
 
