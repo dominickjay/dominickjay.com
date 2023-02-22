@@ -50,6 +50,7 @@ const pluginTOC = require('eleventy-plugin-toc');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 const EleventyPluginOgImage = require('eleventy-plugin-og-image');
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 module.exports = eleventyConfig => {
   // 	--------------------- Custom Watch Targets -----------------------
@@ -86,6 +87,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addPlugin(pluginTOC)
   eleventyConfig.addPlugin(metagen)
   eleventyConfig.addPlugin(syntaxHighlight)
+  eleventyConfig.addPlugin(pluginRss)
 
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
     satoriOptions: {
