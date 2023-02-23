@@ -8,12 +8,12 @@ const { EleventyEdgePlugin } = require('@11ty/eleventy');
 const { DateTime } = require('luxon');
 const now = String(Date.now());
 const readingTime = require('eleventy-plugin-reading-time');
-const pluginTOC = require('eleventy-plugin-toc');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
+const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
 
 module.exports = eleventyConfig => {
   // 	--------------------- Custom Watch Targets -----------------------
@@ -47,9 +47,12 @@ module.exports = eleventyConfig => {
   // 	--------------------- Plugins ---------------------
   eleventyConfig.addPlugin(EleventyEdgePlugin)
   eleventyConfig.addPlugin(readingTime)
-  eleventyConfig.addPlugin(pluginTOC)
   eleventyConfig.addPlugin(metagen)
   eleventyConfig.addPlugin(syntaxHighlight)
+  eleventyConfig.addPlugin(canIuse, {
+    accessible_colors: false,
+    periods: "future_2,current,past_2"
+  })
 
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
     satoriOptions: {
