@@ -20,9 +20,6 @@ body {
     @apply fl-text-step-3 fl-mb-xs;
   }
 
-  .h4 {
-  }
-
   .heading {
     @apply font-heading leading-[1] font-bold tracking-[-0.04em];
   }
@@ -71,8 +68,8 @@ body {
     @apply fl-my-l;
   }
 
-  .post-body > iframe .caniuse {
-    @apply mt-[20px];
+  .post-body .ciu_embed {
+    @apply fl-mt-l fl-mb-s;
   }
 
   .post-body > img,
