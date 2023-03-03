@@ -17,7 +17,7 @@
     x-intersect:leave.threshold.05="light = false"
     x-intersect:enter="light = true"
 >
-	<div class="container flex flex-col mdw:site-grid h-full">
+	<div class="wrapper flex flex-col mdw:site-grid h-full">
 		<div class="row-start-1 col-start-1 col-span-9 z-[1] pt-[120px] mdw:pt-0 fl-pb-l">
       <div class="flex flex-col justify-end h-full gap-y-[10px]">
           <span class="font-bold">{{ page.date | readableDate() }}</span>
@@ -25,7 +25,7 @@
       </div>
 		</div>
     <div class="row-start-1 col-start-10 col-span-3 z-[1] fl-pb-l flex items-end flex-col justify-end fl-mb-m">
-      <span class="text-white font-bold font-heading">Share</span>
+      <span class="text-white font-bold heading">Share</span>
       <ul class="flex flex-wrap gap-[10px] fl-mt-s">
         <li>
           <a class="text-orange hover:text-orange/[0.8] duration-[0.3s] transition-colors" href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.baseURL }}{{ page.url | url }}"><svg fill='currentColor' xmlns='http://www.w3.org/2000/svg'  viewBox='0 0 30 30' width='30px' height='30px'><path d='M9,25H4V10h5V25z M6.501,8C5.118,8,4,6.879,4,5.499S5.12,3,6.501,3C7.879,3,9,4.121,9,5.499C9,6.879,7.879,8,6.501,8z M27,25h-4.807v-7.3c0-1.741-0.033-3.98-2.499-3.98c-2.503,0-2.888,1.896-2.888,3.854V25H12V9.989h4.614v2.051h0.065 c0.642-1.18,2.211-2.424,4.551-2.424c4.87,0,5.77,3.109,5.77,7.151C27,16.767,27,25,27,25z'/></svg></a>

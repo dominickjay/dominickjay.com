@@ -8,7 +8,9 @@
 
 code[class*='language-'],
 pre[class*='language-'] {
-  @apply text-white/[0.9] text-left whitespace-pre leading-[1.5] fl-my-l;
+  @apply text-white/[0.9] text-left whitespace-pre leading-[1.5];
+  --flow-space: 20px;
+  margin-bottom: var(--flow-space);
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   word-spacing: normal;
   word-break: normal;
@@ -42,7 +44,7 @@ code[class*='language-'] ::selection {
 
 /* Code blocks */
 pre[class*='language-'] {
-  @apply fl-my-l overflow-auto fl-p-l w-[calc(100%_+_40px)] -ml-[20px];
+  @apply overflow-auto fl-p-l w-[calc(100%_+_40px)] -ml-[20px];
 }
 
 :not(pre) > code[class*='language-'],

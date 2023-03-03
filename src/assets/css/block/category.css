@@ -1,0 +1,4 @@
+.category {
+  font-family: var(--font-heading);
+  @apply text-[18px] p-[10px_30px_13px] text-black/[0.8] bg-black/[0.08] rounded-[10px] hover:bg-black/[0.85] hover:text-white/[0.8] duration-[0.2s] ease-linear hover:no-underline;
+}

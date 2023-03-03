@@ -1,0 +1,7 @@
+.logo {
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
+    color: var(--text-color, #010f0a);
+    height: var(--height, 46px);
+    width: var(--height, 46px);
+}

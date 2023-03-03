@@ -1,0 +1,13 @@
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: var(--color-black);
+    padding-block: 10vh;
+    padding-inline: 0;
+    min-height: 650px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

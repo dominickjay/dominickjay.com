@@ -1,0 +1,7 @@
+.logo--rotate {
+    transform: rotate(var(--rotate, -25deg));
+}
+
+.logo--rotate:hover {
+    transform: rotate(var(--rotateHover, -15deg));
+}

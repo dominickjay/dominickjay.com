@@ -1,0 +1,8 @@
+.card {
+    --flow-space: 1rem;
+    @apply flex flex-col;
+}
+
+.card__title {
+    @apply fl-text-step-2 font-bold text-black/[0.75];
+}

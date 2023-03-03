@@ -1,0 +1,18 @@
+/* This won’t work */
+.cluster > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--space-s-l) / 2 * -1);
+}
+
+@supports (gap: 1rem) {
+  .cluster > * {
+    margin: 0;
+  }
+
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s-l, 1rem);
+  }
+}

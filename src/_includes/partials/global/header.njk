@@ -1,5 +1,6 @@
 <header
-	class="py-[20px] fixed top-0 w-full z-20"
+	class="py-[20px] fixed top-[0px] w-full z-20 border-t-8 border-black"
+	role="banner"
 	x-data="{
 		scrolled: false,
 		menu: false,
@@ -7,42 +8,29 @@
 		init() {
 			this.checkScroll();
 		},
-
 		checkScroll() {
-			this.scrolled = window.scrollY > 150;
+			this.scrolled = window.scrollY > 250;
 		}
 	}"
 	@scroll.window="checkScroll()"
 	x-cloak
 >
 	<div
-		class="container flex justify-between items-center duration-[.5s] ease-linear"
+		class="wrapper flex justify-between items-center duration-[.5s] ease-linear"
 		:class="{
-			'container': !scrolled,
+			'wrapper': !scrolled,
 			'mdw:max-w-[2000px] mx-auto fl-px-l': scrolled
 		}"
 	>
-		<a class="group" href="/">
+		<a class="logo logo--rotate" href="/">
+			<span class="sr-only">Link to homepage</span>
 			{% include "partials/icons/logo.svg" %}
 		</a>
 		{% if navigation.main | length %}
-		<button
-        	@click="$dispatch('toggle-menu')"
-		>Menu</button>
-		<nav class="ml-auto" aria-label="primary">
-			<ul class="flex">
-				{% for item in navigation.main %}
-				<li class="px-[16px] border-l border-dashed border-l-black/[0.85] first:border-none">
-					<a
-						class="text-black font-bold"
-						href="{{ item.url}}"
-					>
-						{{ item.text }}
-					</a>
-				</li>
-				{% endfor %}
-			</ul>
-		</nav>
+			<button
+				class="button button--ghost fl-text-step-1 heading"
+				@click="$dispatch('toggle-menu'), menu != menu"
+			>Menu</button>
 		{% endif %}
 	</div>
 </header>

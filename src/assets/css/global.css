@@ -1,8 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 
-@import-glob 'base/*.css';
+@import-glob 'global/*.css';
+@import-glob 'blocks/*.css';
+@import-glob 'compositions/*.css';
 @import-glob 'components/*.css';
 @import-glob 'utilities/*.css';
+@import-glob 'block/*.css';
 
 @import 'tailwindcss/utilities';

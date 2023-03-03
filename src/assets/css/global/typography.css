@@ -7,6 +7,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+button,
+a {
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+button:hover,
+a:hover {
+  text-decoration: underline;
+}
+
 @layer utilities {
   .h1 {
     @apply fl-text-step-5 fl-mb-m;
@@ -21,7 +32,13 @@ body {
   }
 
   .heading {
-    @apply font-heading leading-[1] font-bold tracking-[-0.04em];
+    font-family: var(--font-heading);
+    @apply leading-[1] font-bold tracking-[-0.04em];
+  }
+
+  .heading--large {
+    font-family: var(--font-heading);
+    @apply text-[70px] mdw:text-[80px] font-bold tracking-[-0.04em] leading-[0.85];
   }
 
   .highlight {
@@ -47,10 +64,6 @@ body {
     @apply heading fl-text-step-2 fl-mt-s fl-mb-xs;
   }
 
-  .post-body > p {
-    @apply fl-mt-xs;
-  }
-
   .post-body ol,
   .post-body ul {
     @apply pl-[20px] flex flex-col gap-y-[5px];
@@ -69,16 +82,19 @@ body {
   }
 
   .post-body .ciu_embed {
-    @apply fl-mt-l fl-mb-s;
+    --flow-space: 20px;
   }
 
   .post-body > img,
   .post-body > figure {
-    @apply fl-my-l mx-auto;
+    --flow-space: 20px;
+    margin-bottom: var(--flow-space);
+    @apply mx-auto;
   }
 
   .post-body > figure img {
     width: 100%;
+    height: auto;
   }
 
   .post-body blockquote {

@@ -1,3 +1,10 @@
 .button {
-    @apply text-[18px] px-[30px] py-[10px] text-black/[0.8] bg-black/[0.08] font-heading duration-[0.2s] ease-linear;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    @apply text-[18px] px-[30px] py-[10px] text-black/[0.8] bg-black/[0.08] duration-[0.2s] ease-linear;
+}
+
+.button--ghost {
+    background-color: var(--color-transparent, --color-white);
 }

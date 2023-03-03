@@ -1,5 +1,6 @@
 .fyi-block {
-  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-l-[12px] flex flex-col gap-y-[8px];
+  font-family: var(--font-heading);
+  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 fl-my-l border-l-[12px] flex flex-col gap-y-[8px];
 }
 
 .fyi-block strong:first-child {
@@ -12,10 +13,6 @@
 
 .fyi-block--prerequisites {
   @apply border-0 bg-black text-white;
-}
-
-.fyi-block p {
-  @apply mt-0;
 }
 
 .fyi-block span:first-child {

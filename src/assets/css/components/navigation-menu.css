@@ -1,0 +1,29 @@
+/* fixed top-[0px] right-[0px] bottom-[0px] h-full bg-white border-l-8 border-black z-30 duration-[0.85s] ease-in-out flex justify-center items-center fl-px-l w-full md:max-w-[50vw] mdw:max-w-[calc(33vw_+_20px)] */
+
+.navigation-menu {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background-color: var(--color-white);
+    border-left: 8px solid var(--color-black);
+    z-index: 30;
+    position: fixed;
+    padding-inline: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@media all and (min-width: 768px) {
+    .navigation-menu {
+        max-width: 50%;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .navigation-menu {
+        max-width: calc(33vw+20px);
+    }
+}

@@ -1,0 +1,12 @@
+.card--thin {
+    --flow-space: 0;
+}
+
+.card--thin .card__title {
+    @apply fl-text-step-1 font-semibold;
+}
+
+.card--thin .card__description,
+.card--thin .cluster {
+    @apply hidden;
+}

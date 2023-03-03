@@ -24,11 +24,12 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 
 <style>
   .card-example {
+    --flow-space: 20px;
+    margin-bottom: var(--flow-space);
     width: fit-content;
     max-width: 50ch;
     height: fit-content;
     border: 2px solid black;
-    margin-block: 20px;
   }
 
   .card-example--thin {
@@ -135,12 +136,16 @@ To break this down quickly, there's three properties being used to get this solu
 
 If you take a look at the above, currently `line-clamp` is supported in pretty much every major browser - except for that pesky IE - as long as we use it along with `display: -webkit-box` and a prefix of `-webkit-`. So we can use it like this:
 
+<div class="breakout">
+
 ```css
 display: -webkit-box;
 -webkit-line-clamp: 3;
 -webkit-box-orient: vertical;
 overflow: hidden;
 ```
+
+</div>
 
 Let's throw this onto the `p` tag that's used here (could also be a modifier on the parent block class if you're familiar with BEM)
 

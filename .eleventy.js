@@ -14,6 +14,7 @@ const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
 const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
+const dayjs = require('dayjs');
 
 module.exports = eleventyConfig => {
   // 	--------------------- Custom Watch Targets -----------------------
@@ -30,6 +31,11 @@ module.exports = eleventyConfig => {
   eleventyConfig.addFilter('readableDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
+
+  eleventyConfig.addFilter('toIsoString', (dateObj) => {
+    return dayjs(dateObj).toISOString();
+  })
+
 
   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd')
