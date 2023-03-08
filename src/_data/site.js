@@ -9,6 +9,10 @@ const site = {
     month: 'short',
     day: 'numeric',
   }),
+  // RSS details
+  author: 'Dom Jay',
+  authorEmail: 'hello@dominickjay.com',
+  locale: 'en',
 }
 
 module.exports = function () {

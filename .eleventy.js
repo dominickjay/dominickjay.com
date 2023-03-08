@@ -11,6 +11,7 @@ const readingTime = require('eleventy-plugin-reading-time');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 const EleventyPluginOgImage = require('eleventy-plugin-og-image');
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
 const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
@@ -49,6 +50,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addPlugin(readingTime)
   eleventyConfig.addPlugin(metagen)
   eleventyConfig.addPlugin(syntaxHighlight)
+  eleventyConfig.addPlugin(pluginRss)
   eleventyConfig.addPlugin(canIuse, {
     accessible_colors: false,
     periods: "future_2,current,past_2"
