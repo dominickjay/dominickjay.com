@@ -1,9 +1,13 @@
 .fyi-block {
-  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-4 border-dashed flex flex-col gap-y-[8px];
+  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-l-[12px] flex flex-col gap-y-[8px];
+}
+
+.fyi-block strong:first-child {
+  @apply h3 heading block;
 }
 
 .fyi-block--warning {
-  @apply border-red/[0.35];
+  @apply border-red;
 }
 
 .fyi-block--prerequisites {

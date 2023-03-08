@@ -96,7 +96,7 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 </style>
 
 <div class="card-example">
-  <img src='http://placeskull.com/550/350' alt='' width="550" height="350" />
+  <img src='https://placeskull.com/550/350' alt='' width="550" height="350" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
@@ -105,12 +105,12 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 
 You've got the markup done to the design, but haven't accounted for the huge amount of text that the client will undoubtedly drop into only _some_ of them.
 
-{% imagePlaceholder "./src/assets/images/posts/line-clamp-card-grid.png", "A row of cards with long content", "Our generic cards with longer than needed text on them." %}
+{% imagePlaceholder "./src/assets/images/posts/line-clamp-card-grid.png", "A row of cards with long content", "Our generic cards with longer than needed text on them.", "100vw" %}
 
 Yuck. So we need to trim it down, make it look a bit more visually pleasing to the user right? We could just add a `max-height` to the cards, with an `overflow: hidden` on the `p` tag....maybe? Chuck in a few media queries to adjust for smaller screen sizes?
 
 <div class="card-example card-example--mh">
-  <img src='http://placeskull.com/550/350' alt='' width="550" height="350" />
+  <img src='https://placeskull.com/550/350' alt='' width="550" height="350" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
@@ -122,7 +122,7 @@ Well that looks terrible, and also ignores any padding that might around the con
 Using this property allows any text to be cut off, with the end of the visible text be replaced with an ellipses. There's a few ways of doing this already _kind of_, using JS (there's even a handy (?) npm script to help [line-clamp](https://www.npmjs.com/package/line-clamp) ), [Clamp.js](https://github.com/josephschmitt/Clamp.js) or the `text-overflow` property, as shown below.
 
 <div class="card-example card-example--truncate">
-  <img src='http://placeskull.com/550/350' alt='' width="550" height="350" />
+  <img src='https://placeskull.com/550/350' alt='' width="550" height="350" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
@@ -131,13 +131,7 @@ Using this property allows any text to be cut off, with the end of the visible t
 
 To break this down quickly, there's three properties being used to get this solution - `overflow: hidden`, `text-overflow: ellipsis` and `white-space: nowrap`. `white-space: nowrap` puts all the text on one line, disregarding the boundaries of the box, `text-overflow: ellipsis` puts the familiar '...' at the end of the text that is visible, and `overflow: hidden`...well...hides the overflow of the content. Due to this, it only works if you want one line of text, no more. Not ideal.
 
-<p class="ciu_embed" data-feature="css-line-clamp" data-periods="future_1,current,past_1" data-accessible-colours="false">
-  <picture>
-    <source type="image/webp" srcset="https://caniuse.bitsofco.de/image/css-line-clamp.webp">
-    <source type="image/png" srcset="https://caniuse.bitsofco.de/image/css-line-clamp.png">
-    <img src="https://caniuse.bitsofco.de/image/css-line-clamp.jpg" alt="Data on support for the css-line-clamp feature across the major browsers from caniuse.com">
-  </picture>
-</p>
+{% caniuse "css-line-clamp" %}
 
 If you take a look at the above, currently `line-clamp` is supported in pretty much every major browser - except for that pesky IE - as long as we use it along with `display: -webkit-box` and a prefix of `-webkit-`. So we can use it like this:
 
@@ -162,7 +156,7 @@ Let's throw this onto the `p` tag that's used here (could also be a modifier on 
 
 ```html
 <div class="card-example">
-  <img src="http://placeskull.com/550/350" alt="" width="550" height="350" />
+  <img src="https://placeskull.com/550/350" alt="" width="550" height="350" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p class="clamped">
@@ -178,7 +172,7 @@ Let's throw this onto the `p` tag that's used here (could also be a modifier on 
 We've got our `display: -webkit-box` that we need, and `-webkit-line-clamp: 3` to set how many lines we want to keep visible. We still need `overflow: hidden` otherwise we'll get a mix of a clamped line with an ellipses and also overflowing content. We've also got this mystery `-webkit-box-orient: vertical`, which I'm unfamiliar with - but it does appear to be deprecated and there's a recommendation to not use it. Hopefully in the future, ~when~ if this gets implemented properly, the `display: -webkit-box` and `-webkit-box-orient: vertical` can be dropped, as well as the prefix on `line-clamp`. But for now, let's take a final look at our card.
 
 <div class="card-example">
-  <img src="http://placeskull.com/550/350" alt="" width="550" height="350" />
+  <img src="https://placeskull.com/550/350" alt="" width="550" height="350" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p class="clamped">

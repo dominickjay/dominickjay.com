@@ -1,56 +1,20 @@
-/**
- * I strive to keep the `.eleventy.js` file clean and uncluttered. Most adjustments must be made in:
- *  - `./config/collections/index.js`
- *  - `./config/filters/index.js`
- *  - `./config/plugins/index.js`
- *  - `./config/shortcodes/index.js`
- *  - `./config/transforms/index.js`
- */
-
-
-// module import filters
-// const {
-//   limit,
-//   toHtml,
-//   where,
-//   toISOString,
-//   formatDate,
-//   toAbsoluteUrl,
-//   stripHtml,
-//   minifyCss,
-//   minifyJs,
-//   mdInline,
-//   splitlines
-// } = require('./config/filters/index.js');
-
 // module import shortcodes
 const {
   imageShortcodePlaceholder,
 } = require('./config/shortcodes/index.js');
 
-// module import collections
-// const {getAllPosts} = require('./config/collections/index.js');
-
-// module import events
-// const {svgToJpeg} = require('./config/events/index.js');
-
-// plugins
-// const markdownLib = require('./config/plugins/markdown.js');
-// const {EleventyRenderPlugin} = require('@11ty/eleventy');
-// const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
-// const {slugifyString} = require('./config/utils');
-// const {escape} = require('lodash');
-// const pluginRss = require('@11ty/eleventy-plugin-rss');
 const fs = require('fs');
 const { EleventyEdgePlugin } = require('@11ty/eleventy');
 const { DateTime } = require('luxon');
 const now = String(Date.now());
 const readingTime = require('eleventy-plugin-reading-time');
-const pluginTOC = require('eleventy-plugin-toc');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
 const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 const pluginRss = require("@11ty/eleventy-plugin-rss");
+const markdownIt = require('markdown-it');
+const markdownItAnchor = require('markdown-it-anchor');
+const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
 
 module.exports = eleventyConfig => {
   // 	--------------------- Custom Watch Targets -----------------------
@@ -84,10 +48,13 @@ module.exports = eleventyConfig => {
   // 	--------------------- Plugins ---------------------
   eleventyConfig.addPlugin(EleventyEdgePlugin)
   eleventyConfig.addPlugin(readingTime)
-  eleventyConfig.addPlugin(pluginTOC)
   eleventyConfig.addPlugin(metagen)
   eleventyConfig.addPlugin(syntaxHighlight)
   eleventyConfig.addPlugin(pluginRss)
+  eleventyConfig.addPlugin(canIuse, {
+    accessible_colors: false,
+    periods: "future_2,current,past_2"
+  })
 
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
     satoriOptions: {
@@ -163,6 +130,26 @@ module.exports = eleventyConfig => {
   });
 
   // 	--------------------- general config -----------------------
+
+  const mdOptions = {
+    html: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+  }
+
+  const mdAnchorOpts = {
+    permalink: true,
+    permalinkClass: 'anchor-link',
+    permalinkSymbol: '#',
+    level: [1, 2, 3],
+  }
+
+  eleventyConfig.setLibrary(
+    'md',
+    markdownIt(mdOptions).use(markdownItAnchor, mdAnchorOpts)
+  )
+
   return {
     // Pre-process *.md, *.html and global data files files with: (default: `liquid`)
     markdownTemplateEngine: 'njk',

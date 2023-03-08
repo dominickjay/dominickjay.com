@@ -1,4 +1,9 @@
 @font-face {
+    font-family: 'Rocher';
+    src: url("/assets/fonts/rocher/RocherColorGX.woff2") format("woff2");
+}
+
+@font-face {
     font-family: theme("fontFamily.heading.0");
     src: url("/assets/fonts/erode/Erode-Bold.woff2") format("woff2"),
         url("/assets/fonts/erode/Erode-Bold.otf") format("woff");

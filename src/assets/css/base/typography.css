@@ -20,9 +20,6 @@ body {
     @apply fl-text-step-3 fl-mb-xs;
   }
 
-  .h4 {
-  }
-
   .heading {
     @apply font-heading leading-[1] font-bold tracking-[-0.04em];
   }
@@ -71,8 +68,8 @@ body {
     @apply fl-my-l;
   }
 
-  .post-body > iframe .caniuse {
-    @apply mt-[20px];
+  .post-body .ciu_embed {
+    @apply fl-mt-l fl-mb-s;
   }
 
   .post-body > img,
@@ -80,12 +77,16 @@ body {
     @apply fl-my-l mx-auto;
   }
 
-  .post-body > figure img {
+  /* .post-body > figure img {
     width: 100%;
-  }
+  } */
 
   .post-body blockquote {
     @apply fl-py-l fl-my-l border-y-black/[0.25] border-dashed border-y-2 font-semibold italic fl-text-step-1 text-black/[0.75];
+  }
+
+  .post-body hr {
+    @apply fl-mt-m fl-mb-m pb-[2px] bg-black;
   }
 }
 
