@@ -15,6 +15,7 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
 const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
+const EleventyFetch = require("@11ty/eleventy-fetch");
 
 module.exports = eleventyConfig => {
   // 	--------------------- Custom Watch Targets -----------------------
@@ -39,6 +40,25 @@ module.exports = eleventyConfig => {
   eleventyConfig.addFilter('limit', function (array, limit) {
     return array.slice(0, limit)
   })
+
+  eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
+    const res = await fetchStargazers(from, to);
+    if (!res) {
+      return "";
+    }
+    return res.weeklyalbumchart;
+  })
+
+  async function fetchStargazers(from, to) {
+    if (!from, to) {
+      return;
+    }
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${from}&to=${to}&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
+    return EleventyFetch(url, {
+      duration: "2s",
+      type: "json",
+    });
+  }
 
   // 	--------------------- Custom shortcodes ---------------------
   eleventyConfig.addNunjucksAsyncShortcode('imagePlaceholder', imageShortcodePlaceholder);
