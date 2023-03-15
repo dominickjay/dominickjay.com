@@ -45,6 +45,9 @@ module.exports = {
     },
   },
   extend: {
+    boxShadow: {
+      "circles": ['inset 0 0 45px rgba(55, 74, 170, 0), inset 0 0 44px rgba(255, 255, 255, 0), 10px 10px 30px rgba(55, 84, 170, 0.15), -5px -5px 22px white, inset 0px 0px 17px rgba(255, 255, 255, 0.5)'],
+    },
     utopia: (theme) => ({
       minScreen: theme('screens.sm'),
       maxScreen: theme('screens.xl'),
