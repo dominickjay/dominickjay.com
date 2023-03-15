@@ -41,19 +41,33 @@ module.exports = eleventyConfig => {
     return array.slice(0, limit)
   })
 
-  eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
-    const res = await fetchStargazers(from, to);
+  eleventyConfig.addAsyncFilter('apiCall', async function (to) {
+    const res = await fetchWeeklyAlbumChart(to);
     if (!res) {
       return "";
     }
-    return res.weeklyalbumchart;
+    const albums = [];
+
+    for (const album of res.weeklyalbumchart.album) {
+      const albumInfo = await fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=86a5b41a85035739e32c576f027c4765&format=json&mbid=${album.mbid}`);
+      const data = await albumInfo.json();
+      if (data.album != undefined) {
+        albums.push({
+          art: data.album.image[3]['#text'],
+          artist: data.album.artist,
+          name: data.album.name,
+          url: data.album.url
+        })
+      }
+    }
+    return albums;
   })
 
-  async function fetchStargazers(from, to) {
-    if (!from, to) {
+  async function fetchWeeklyAlbumChart(to) {
+    if (!to) {
       return;
     }
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${from}&to=${to}&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=1678089904&to=1678694704&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
     return EleventyFetch(url, {
       duration: "2s",
       type: "json",

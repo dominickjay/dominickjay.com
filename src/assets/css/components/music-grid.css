@@ -1,0 +1,7 @@
+.music-grid {
+    @apply grid grid-cols-8 gap-[16px];
+}
+
+.music-grid > * {
+    @apply col-span-2 border-[4px] border-black hover:border-red transition-colors duration-[0.3s];
+}

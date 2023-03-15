@@ -6,13 +6,8 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1678694704'
+musicDateTo: '1678694704'
+layout: weeknotes
 templateEngineOverride: njk,md
 ---
-
-{% set results = '1672531200,1673136000' | apiCall %}
-
-{% for track in results.album %}
-  {{ track.artist['#text'] }}
-  {{ track.name }}
-{% endfor %}
