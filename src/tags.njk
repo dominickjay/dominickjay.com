@@ -33,7 +33,7 @@ permalink: '/tag/{{ tag | slug }}/'
                 style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}"
             >
 
-            {% for item in postListItems %}
+            {% for item in postListItems | reverse %}
                 <li class="fl-mt-l first:mt-0 border-b-2 border-dashed border-black/[0.25] last:border-none fl-pb-l">
                     <div
                         class="flex flex-col justify-between gap-y-[10px]"
