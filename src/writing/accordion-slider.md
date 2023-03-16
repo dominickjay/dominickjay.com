@@ -1,11 +1,11 @@
 ---
-title: 'Creating an accordion slider in CSS and AlpineJS'
+title: 'Creating an accordion slider in CSS Grid and AlpineJS'
 description: "We can use JS to expand/reduce the size of blocks, but we can also use the grid to our advantage"
 intro: "I recently put together an accordion slider using a method commonly used from AlpineJS. Having recently found that you can animate grid columns, I rethought my approach here."
 date: Created
 tags:
   - css
-  - js
+  - javascript
   - writing
 layout: post
 links:
