@@ -67,7 +67,7 @@ module.exports = eleventyConfig => {
     if (!to) {
       return;
     }
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=1678089904&to=1678694704&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=1678705157&to=1679050757&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
     return EleventyFetch(url, {
       duration: "2s",
       type: "json",
