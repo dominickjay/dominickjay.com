@@ -1,0 +1,29 @@
+---
+title: 'Experiments'
+layout: 'default.njk'
+eleventyExcludeFromCollections: true
+---
+<div class="col-start-1 col-span-full flex flex-col-reverse mdw:grid grid-cols-6 mdw:fl-py-3xl">
+	<section class="col-start-1 col-span-10 row-start-1">
+		<h1 class="block h1 heading !text-[70px] mdw:!text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+
+		{% set postslist = collections.experiments %}
+		{% set postslistCounter = collections.experiments | length %}
+
+		<ol
+			reversed
+			class="fl-pt-xl experiment-grid grid grid-cols-10 gap-[20px]"
+		>
+			{% for post in postslist | reverse %}
+				<li class="{% if post.data.featured %}col-span-4{% else %}col-span-2{% endif %}">
+					<a href="{{ post.url }}" class="experiment-card {% if post.data.featured %} experiment-card--featured{% endif %} flex flex-col border-[4px] border-black {% if post.data.featured %} bg-red/[0.65]{% else %}bg-black text-white{% endif %} hover:bg-transparent hover:text-black duration-[0.3s] ease-in-out transition-colors p-[32px]">
+						<span class="heading text-[26px]">{{ post.data.title }}</span>
+						{% if post.data.featured %}
+							<div class="mt-[20px]">{{ post.data.description }}</div>
+						{% endif %}
+					</a>
+				</li>
+			{% endfor %}
+		</ol>
+	</section>
+</div>

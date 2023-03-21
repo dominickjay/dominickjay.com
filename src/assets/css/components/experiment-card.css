@@ -1,0 +1,23 @@
+.experiment-card:not(.experiment-card--featured) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-row: span 1 / span 1;
+}
+
+/* .experiment-grid > li {
+    grid-row: span 1 / span 1;
+}
+
+.experiment-grid > li.col-span-4 {
+    grid-row: span 2 / span 2;
+} */
+
+.experiment-card > div {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
