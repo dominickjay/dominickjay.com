@@ -18,10 +18,16 @@ layout: default
         <div class="fl-mt-s">{{ text | safe }}</div>
         <div class="fl-mt-l">
             <h3 class="heading fl-text-step-4">Now</h3>
-
             {% edge %}
             <div class="fl-mt-xs">
-                Latest track from Last.FM: <span class="font-bold">{{ lastfmTrack }}</span> by <span class="font-bold">{{ lastfmArtist }}</span>
+                Latest track from Last.FM: <span class="font-bold">{{ lastPlayedTrack }}</span> by <span class="font-bold">{{ lastPlayedArtist }}</span>
+            </div>
+            <div class="music-grid">
+                {% for album in tracks %}
+                    <a href="{{ album.album.url }}">
+                        <img height="174" width="174" src="{{ album.album.image[3]['#text'] }}" loading="lazy" />
+                    </a>
+                {% endfor %}
             </div>
             {% endedge %}
             <div class="fl-mt-xs">Current working as:
@@ -35,6 +41,7 @@ layout: default
             <div class="fl-mt-xs">My latest post is:
                 {% for post in collections.writing | reverse | limit(1) %}
                     <a
+                        class="underline hover:no-underline underline-offset-2"
                         href="{{ post.url }}"
                     >
                         <span class="font-bold">

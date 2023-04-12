@@ -76,9 +76,9 @@ const response = await fetch(
 const data = await response.json()
 
 edge.config((eleventyConfig) => {
-  eleventyConfig.addGlobalData('lastfmTrack', data.recenttracks.track[0].name)
+  eleventyConfig.addGlobalData('lastPlayedTrack', data.recenttracks.track[0].name)
   eleventyConfig.addGlobalData(
-    'lastfmArtist',
+    'lastPlayedArtist',
     data.recenttracks.track[0].artist['#text']
   )
   eleventyConfig.addFilter('json', (obj) => JSON.stringify(obj, null, 2))
