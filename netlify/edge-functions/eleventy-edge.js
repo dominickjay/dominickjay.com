@@ -14,17 +14,17 @@ export default async (request, context) => {
       cookies: [],
     });
 
-    const response = await fetch(
+    const music = await fetch(
       'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
 
-    const data = await response.json();
+    const tracks = await music.json();
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
-      eleventyConfig.addGlobalData('lastfmTrack', data.recenttracks.track[0].name)
-      eleventyConfig.addGlobalData('lastfmArtist', data.recenttracks.track[0].artist['#text'])
+      eleventyConfig.addGlobalData('lastfmTrack', tracks.recenttracks.track[0].name)
+      eleventyConfig.addGlobalData('lastfmArtist', tracks.recenttracks.track[0].artist['#text'])
       eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
     });
 

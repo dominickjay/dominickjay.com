@@ -60,6 +60,7 @@
     "postcss-import": "^15.0.0",
     "postcss-import-ext-glob": "^2.1.1",
     "postcss-js": "^4.0.0",
-    "webpack-manifest-plugin": "^5.0.0"
+    "webpack-manifest-plugin": "^5.0.0",
+    "xml2json": "^0.12.0"
   }
 }
