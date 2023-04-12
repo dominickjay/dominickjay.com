@@ -25,7 +25,7 @@ layout: default
             <div class="music-grid">
                 {% for album in tracks %}
                     <a href="{{ album.album.url }}">
-                        <img height="174" width="174" src="{{ album.album.image[3]['#text'] }}" loading="lazy" />
+                    <img height="174" width="174" src="{{ album.album.image[3]['#text'] }}" loading="lazy" />
                     </a>
                 {% endfor %}
             </div>
