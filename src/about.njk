@@ -24,7 +24,7 @@ layout: default
             </div>
             <div class="music-grid">
                 Over the past 7 days, I've also listened to
-                {% for artist in tracks | limit(5) %}
+                {% for artist in tracks %}
                     <span class="font-bold">{{ artist.name }}</span>
                 {% endfor %}
             </div>
