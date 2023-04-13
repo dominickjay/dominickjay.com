@@ -24,11 +24,11 @@ layout: default
             </div>
             <div class="music-grid">
                 this is our music grid
-                {{ tracks }}
-                {% for album in tracks %}
-                    <a href="{{ album.album.url }}">
+                {% for artist in tracks %}
+                    {{ artist.name }}
+                    {# <a href="{{ album.album.url }}">
                     <img height="174" width="174" src="{{ album.album.image[3]['#text'] }}" loading="lazy" />
-                    </a>
+                    </a> #}
                 {% endfor %}
             </div>
             {% endedge %}

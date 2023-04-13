@@ -30,7 +30,7 @@ export default async (request, context) => {
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
-      eleventyConfig.addGlobalData('tracks', data.recenttracks)
+      eleventyConfig.addGlobalData('tracks', artistData.weeklyartistchart.artist)
       eleventyConfig.addGlobalData('lastPlayedTrack', data.recenttracks.track[0].name)
       eleventyConfig.addGlobalData('lastPlayedArtist', data.recenttracks.track[0].artist['#text'])
       eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
