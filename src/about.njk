@@ -22,11 +22,11 @@ layout: default
             <div class="fl-mt-xs">
                 Latest track from Last.FM: <span class="font-bold">{{ lastPlayedTrack }}</span> by <span class="font-bold">{{ lastPlayedArtist }}</span>
             </div>
-            <div class="music-grid">
+            <div class="">
                 Over the past 7 days, I've also listened to
                 {% for artist in tracks %}
                     {% if loop.index != 0 %}
-                        <span class="font-bold">{{ artist.name }}</span>
+                        <span class="font-bold">{{ loop.index }}{{ artist.name }}</span>
                     {% endif %}
                 {% endfor %}
             </div>
