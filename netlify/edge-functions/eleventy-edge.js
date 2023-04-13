@@ -22,7 +22,7 @@ export default async (request, context) => {
       'http://ws.audioscrobbler.com/2.0/?method=user.getweeklyartistchart&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
 
-    const data = await response.json();
+    const data = await music.json();
     const artistData = await artistResponse.json();
 
     console.log(artistData.weeklyartistchart.artist);
