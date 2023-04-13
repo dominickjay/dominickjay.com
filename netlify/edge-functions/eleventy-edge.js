@@ -14,7 +14,7 @@ export default async (request, context) => {
       cookies: [],
     });
 
-    const response = await fetch(
+    const music = await fetch(
       'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
 

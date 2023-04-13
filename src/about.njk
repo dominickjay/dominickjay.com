@@ -50,22 +50,11 @@ layout: default
             <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
                 {% for item in books %}
-                    {% if item.select == 'Currently Reading' %}
                     <li>
                         <span class="font-bold">{{ item.title }}</span>
                         by
-                        <span class="font-bold">{{ item.author }}</span>
+                        <span class="font-bold">{{ item.authors }}</span>
                     </li>
-                    {% elseif item.select === 'On Hold' %}
-                    <li>
-                        <div>
-                            <p>
-                                <span class="font-bold line-through text-black/[0.5]">{{ item.title }} by {{ item.author }}</span>
-                                <span class="font-bold uppercase min-w-fit">- On Hold</span>
-                            </p>
-                        </div>
-                    </li>
-                    {% endif %}
                 {% endfor %}
                 </ul>
             </div>

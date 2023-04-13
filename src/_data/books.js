@@ -1,69 +1,23 @@
-require('dotenv').config()
+const xml2json = require('xml2json');
 
-const Airtable = require('airtable')
-const airtableBaseId = process.env.AIRTABLE_ID
-const airtableTable = 'Books'
-const airtableTableView = 'All'
+async function run() {
+  const books = await fetch("https://oku.club/rss/collection/p9twg")
+    .then(response => response.text())
+    .then(str => xml2json.toJson(str, { object: true }))
+    .then(data => {
+        // console.log(data.rss.channel.item[0]['dc:creator']['$t'])
+        return data.rss.channel.item.slice(0, 5).map(b => {
+            return {
+                title: b.title,
+                link: b.link,
+                image: b['oku:cover'],
+                authors: b['dc:creator']['$t'],
+            }
+        })
+    })
 
-var base = new Airtable({ apiKey: process.env.AIRTABLE_API }).base(
-  airtableBaseId
-)
+    console.log(books);
+    return books
+}
 
-module.exports = () => {
-
-  return new Promise((resolve, reject) => {
-    let allDatasets = [];
-
-    base(airtableTable)
-      .select({
-        view: airtableTableView,
-        // optional sorting params
-        sort: [{ field: "started", direction: "asc" }],
-      })
-      .eachPage(
-        function page(records, fetchNextPage) {
-          records.forEach((record) => {
-            allDatasets.push({
-              id: record._rawJson.id,
-              ...record._rawJson.fields,
-            });
-          });
-          fetchNextPage();
-        },
-        function done(err) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve(allDatasets)
-          }
-        }
-      );
-  });
-};
-
-
-// module.exports = () => {
-//   return new Promise((resolve, reject) => {
-//     let allDatasets = [] // change 'allDatasets' to something more relevant to your project
-//     base('Books') // change 'New' to your base name
-//       .select({ view: 'All' }) // change 'All' to your view name
-//       .eachPage(
-//         function page(records, fetchNextPage) {
-//           records.forEach((record) => {
-//             allDatasets.push({
-//               id: record._rawJson.id,
-//               ...record._rawJson.fields,
-//             })
-//           })
-//           fetchNextPage()
-//         },
-//         function done(err) {
-//           if (err) {
-//             reject(err)
-//           } else {
-//             resolve(allDatasets)
-//           }
-//         }
-//       )
-//   })
-// }
+module.exports = run();
