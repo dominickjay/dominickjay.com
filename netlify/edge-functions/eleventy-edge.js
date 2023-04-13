@@ -20,6 +20,9 @@ export default async (request, context) => {
 
     const data = await response.json();
 
+    console.log(data);
+    console.log(data.recenttracks);
+
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
