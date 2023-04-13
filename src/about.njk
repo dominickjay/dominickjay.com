@@ -23,12 +23,11 @@ layout: default
                 Latest track from Last.FM: <span class="font-bold">{{ lastPlayedTrack }}</span> by <span class="font-bold">{{ lastPlayedArtist }}</span>
             </div>
             <div class="music-grid">
-                this is our music grid
-                {% for artist in tracks %}
-                    {{ artist.name }}
-                    {# <a href="{{ album.album.url }}">
-                    <img height="174" width="174" src="{{ album.album.image[3]['#text'] }}" loading="lazy" />
-                    </a> #}
+                Over the past 7 days, I've also listened to
+                {% for artist in tracks | limit(5) %}
+                    {% if loop.index != 0 %}
+                        <span class="font-bold">{{ artist.name }}</span>
+                    {% endif %}
                 {% endfor %}
             </div>
             {% endedge %}
