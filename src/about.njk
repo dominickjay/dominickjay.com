@@ -26,7 +26,7 @@ layout: default
                 Over the past 7 days, I've also listened to
                 {% for artist in tracks %}
                     {% if loop.index != 1 %}
-                        <span class="font-bold">{{ artist.name }}{% if not loop.last %}, {% endif %}</span>
+                        <span class="font-bold">{% if loop.last %} and {% endif %} {{ artist.name }}{% if not loop.last %}, {% endif %}</span>
                     {% endif %}
                 {% endfor %}
             </div>
