@@ -10,4 +10,5 @@ musicDateFrom: '1678694704'
 musicDateTo: '1678694704'
 layout: weeknotes
 templateEngineOverride: njk,md
+eleventyExcludeFromCollections: true
 ---
