@@ -18,10 +18,14 @@ export default async (request, context) => {
       'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
 
-    const data = await response.json();
+    const artistResponse = await fetch(
+      'http://ws.audioscrobbler.com/2.0/?method=user.getweeklyartistchart&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
+    )
 
-    console.log(data);
-    console.log(data.recenttracks);
+    const data = await response.json();
+    const artistData = await artistResponse.json();
+
+    console.log(artistData.weeklyartistchart.artist);
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
