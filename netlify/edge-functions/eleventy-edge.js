@@ -36,13 +36,13 @@ export default async (request, context) => {
     const data = await music.json();
     const artistData = await artistResponse.json();
 
-  console.log(tvData[0].seasons[0]);
+    console.log(tvData[0].seasons[Object.keys(tvData[0].seasons).pop()]);
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
       eleventyConfig.addGlobalData('tracks', artistData.weeklyartistchart.artist)
-      // eleventyConfig.addGlobalData('lastTVEpisode', tvData.weeklyartistchart.artist)
+      eleventyConfig.addGlobalData('lastTVEpisode', tvData.weeklyartistchart.artist)
       eleventyConfig.addGlobalData('lastPlayedTrack', data.recenttracks.track[0].name)
       eleventyConfig.addGlobalData('lastPlayedArtist', data.recenttracks.track[0].artist['#text'])
       eleventyConfig.addFilter("json", obj => JSON.stringify(obj, null, 2));
