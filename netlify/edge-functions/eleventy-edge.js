@@ -14,6 +14,10 @@ export default async (request, context) => {
       cookies: [],
     });
 
+    const tv = await fetch(
+      'https://api.trakt.tv/users/id/history/type/item_id?start_at=2023-03-01T00%3A00%3A00.000Z&end_at=2023-04-14T23%3A59%3A59.000Z'
+    )
+
     const music = await fetch(
       'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
