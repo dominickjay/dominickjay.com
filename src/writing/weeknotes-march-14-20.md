@@ -6,7 +6,10 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1647255033'
+musicDateTo: '1647773433'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
@@ -31,16 +34,9 @@ layout: post
 
 ### Music
 
-1. Arcade Fire - Funeral
-1. Nine Inch Nails - Things Falling Apart
-1. Biffy Clyro - A Celebration of Endings
-1. Biffy Clyro - The Myth of the Happily Ever After
-1. Biffy Clyro - Similarities
-1. Black Country, New Road - Ants From Up There
-1. Cult of Luna - The Long Road North
-1. Ghost - IMPERA
-1. Puscifer - Conditions of my Parole
-1. Puscifer - Money Shot
-1. TOOL - Fear Inoculum
-1. TOOL - Lateralus
-1. The Weeknd - Dawn FM
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>

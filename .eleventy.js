@@ -41,8 +41,8 @@ module.exports = eleventyConfig => {
     return array.slice(0, limit)
   })
 
-  eleventyConfig.addAsyncFilter('apiCall', async function (to) {
-    const res = await fetchWeeklyAlbumChart(to);
+  eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
+    const res = await fetchWeeklyAlbumChart(from, to);
     if (!res) {
       return "";
     }
@@ -63,11 +63,11 @@ module.exports = eleventyConfig => {
     return albums;
   })
 
-  async function fetchWeeklyAlbumChart(to) {
-    if (!to) {
+  async function fetchWeeklyAlbumChart(from, to) {
+    if (!from || !to) {
       return;
     }
-    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=1678705157&to=1679050757&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
+    const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${ from }&to=${to}&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
     return EleventyFetch(url, {
       duration: "2s",
       type: "json",
