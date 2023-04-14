@@ -12,14 +12,6 @@ layout: main
 			</div>
 			<div class="fl-mt-l post-body">
 				{{ content | safe }}
-				<div class="music-grid">
-					{% set results = musicDateFrom | apiCall %}
-					{% for album in results %}
-						<a href="{{ album.url }}">
-							<img height="174" width="174" src="{{ album.art }}" loading="lazy" />
-						</a>
-					{% endfor %}
-				</div>
 			</div>
 		</article>
 		{% if links or tags %}

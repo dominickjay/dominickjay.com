@@ -6,7 +6,10 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1644835833'
+musicDateTo: '1645354233'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
@@ -27,11 +30,9 @@ layout: post
 
 ### Music
 
-1. Run the Jewels - Run the Jewels 3
-1. clipping - midcity
-1. Injury Reserve - By the Time I Get To Phoenix
-1. Earl Sweatshirt - SICK!
-1. Death Grips - The Money Store
-1. The Weeknd - Dawn FM
-1. Kendrick Lamar - To Pimp a Butterfly
-1. Devon Hendryx - THE GHOST~POP TAPE
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>

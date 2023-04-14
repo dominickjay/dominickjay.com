@@ -6,7 +6,10 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1645440633'
+musicDateTo: '1645959033'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
@@ -30,17 +33,9 @@ layout: post
 
 ### Music
 
-1. Earl Sweatshirt - SICK!
-1. Eminem - The Eminem Show
-1. Eminem - Music to be Murdered By
-1. Greg Puciato - Lowered
-1. Jack White - Love is Selfish (Single)
-1. Tyler, the Creator - Call Me If You Get Lost
-1. Carpenter Brut - Fab Tool
-1. Daft Punk - Random Access Memories
-1. Daniel Avery - Love + Light
-1. Frightened Rabbit - Pedestrian Verse
-1. Kendrick Lamar - DAMN
-1. Kendrick Lamar - i (Single)
-1. Kendrick Lamar & Baby Keem - family ties (Single)
-1. Pantera - Vulgar Display of Power
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>
