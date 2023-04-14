@@ -15,7 +15,13 @@ export default async (request, context) => {
     });
 
     const tv = await fetch(
-      'https://api.trakt.tv/users/dominickjay217/watched/shows'
+      'https://api.trakt.tv/users/dominickjay217/watched/shows', {
+        headers: {
+          "Content-Type": "application/json",
+          "trakt-api-version": "1",
+          "trakt-api-key": Deno.env.get("TRAKT_API")
+        },
+      }
     )
 
     const music = await fetch(
