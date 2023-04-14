@@ -36,7 +36,7 @@ export default async (request, context) => {
     const data = await music.json();
     const artistData = await artistResponse.json();
 
-    console.log(tvData[0].seasons);
+    console.log(tvData[0].seasons[Object.keys(tvData[0].seasons).pop()]);
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
