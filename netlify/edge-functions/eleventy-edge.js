@@ -15,7 +15,7 @@ export default async (request, context) => {
     });
 
     const tv = await fetch(
-      'https://api.trakt.tv/users/id/history/type/item_id?start_at=2023-03-01T00%3A00%3A00.000Z&end_at=2023-04-14T23%3A59%3A59.000Z'
+      'https://api.trakt.tv/users/dominickjay217/watched/shows'
     )
 
     const music = await fetch(
@@ -26,10 +26,11 @@ export default async (request, context) => {
       'http://ws.audioscrobbler.com/2.0/?method=user.getweeklyartistchart&user=zerosandones217&limit=10&api_key=' + Deno.env.get("LASTFM_API") + '&format=json'
     )
 
+    const tvData = await tv.json();
     const data = await music.json();
     const artistData = await artistResponse.json();
 
-    console.log(artistData.weeklyartistchart.artist);
+    console.log(tvData);
 
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
