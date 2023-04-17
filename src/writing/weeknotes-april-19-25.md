@@ -6,7 +6,10 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1618825833'
+musicDateTo: '1619344233'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
@@ -28,6 +31,9 @@ layout: post
 
 ### Music
 
-1. Ask the Dusk - Lorn (4/5)
-2. CLPPING - clipping (4/5)
-3. Punisher - Phoebe Bridgers (4/5)
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>

@@ -6,7 +6,10 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1618182000'
+musicDateTo: '1618700400'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
@@ -29,8 +32,9 @@ layout: post
 
 ### Music
 
-1. Plastic Beach - Gorillaz (4/5)
-2. The Midnight Organ Fight - Frightened Rabbit (4/5)
-3. I Disagree - Poppy (4/5)
-4. Demon Days - Gorillaz (4/5)
-5. Ghosts V: Together - Nine Inch Nails (4/5)
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>

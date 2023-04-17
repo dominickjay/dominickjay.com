@@ -6,13 +6,16 @@ tags:
   - weeknotes
   - personal
   - writing
-layout: post
+musicDateFrom: '1646045433'
+musicDateTo: '1646563833'
+layout: weeknotes
+templateEngineOverride: njk,md
 ---
 
 ### Professional
 
 1. My codepen from last week was picked by the team and has had a slowly growing number of views and likes over the last week, so super happy about that. Currently on 74 'loves' and 2,780 views. [Here it is](https://codepen.io/dominickjay217/pen/BamOBRZ).
-1. Added in a dark/light mode toggle to this site (See at the top of the page, above the navigation) as found `prefers-color-scheme` wasn't working on Firefox.
+1. Added in a dark/light mode toggle to this site (See at the top of the page, above the navigation) as found `prefers-color-scheme` wasn't working on Firefox. **[Editors note] - this was made for an old variation of the site**
 1. Refactored a _whole_ bunch of custom property names after a short discussion on the Front End Horse discord about naming conventions.
 
 ### Personal
@@ -32,11 +35,9 @@ layout: post
 
 ### Music
 
-1. Biffy Clyro - A Celebration of Endings
-1. Biffy Clyro - The Myth of the Happily Ever After
-1. Mac Miller - The Divine Feminine
-1. Radiohead - A Moon Shaped Pool
-1. TOOL - Opiate2
-1. TOOL - Fear Inoculum
-1. Run the Jewels - Run the Jewels 3
-1. Sleep Token - The Place Will Become Your Tomb
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>
