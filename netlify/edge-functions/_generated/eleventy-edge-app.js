@@ -3,7 +3,7 @@ import { EleventyEdge } from "https://cdn.11ty.dev/edge@2.0.2/eleventy-edge.js";
 const precompiledAppData = { "eleventy": { "compatibility": ">=2" },
 "buildTimeData": {},
 "nunjucksPrecompiled": {
-  "EleventyEdgeNunjucksPrecompile:78de6cfd7e5caad0f0179dfc6ef6d2e368eeacd673f7af966fed4a426707e313": (function() {function root(env, context, frame, runtime, cb) {
+  "EleventyEdgeNunjucksPrecompile:61717f6866a4ae95bba846d5d8f32b6c5930c32670888f5c83fed32e9b5e683d": (function() {function root(env, context, frame, runtime, cb) {
 var lineno = 0;
 var colno = 0;
 var output = "";
@@ -13,16 +13,14 @@ output += "\n            <div class=\"fl-mt-xs\">\n                Latest track 
 output += runtime.suppressValue(runtime.contextOrFrameLookup(context, frame, "lastPlayedTrack"), env.opts.autoescape);
 output += "</span> by <span class=\"font-bold\">";
 output += runtime.suppressValue(runtime.contextOrFrameLookup(context, frame, "lastPlayedArtist"), env.opts.autoescape);
-output += "</span>\n            </div>\n            <div class=\"music-grid\">\n                this is our music grid\n                ";
-output += runtime.suppressValue(runtime.contextOrFrameLookup(context, frame, "tracks"), env.opts.autoescape);
-output += "\n                ";
+output += "</span>\n            </div>\n            <div class=\"fl-mt-xs\">\n                Over the past 7 days, I've also listened to\n                ";
 frame = frame.push();
 var t_3 = runtime.contextOrFrameLookup(context, frame, "tracks");
 if(t_3) {t_3 = runtime.fromIterator(t_3);
 var t_2 = t_3.length;
 for(var t_1=0; t_1 < t_3.length; t_1++) {
 var t_4 = t_3[t_1];
-frame.set("album", t_4);
+frame.set("artist", t_4);
 frame.set("loop.index", t_1 + 1);
 frame.set("loop.index0", t_1);
 frame.set("loop.revindex", t_2 - t_1);
@@ -30,11 +28,23 @@ frame.set("loop.revindex0", t_2 - t_1 - 1);
 frame.set("loop.first", t_1 === 0);
 frame.set("loop.last", t_1 === t_2 - 1);
 frame.set("loop.length", t_2);
-output += "\n                    <a href=\"";
-output += runtime.suppressValue(runtime.memberLookup((runtime.memberLookup((t_4),"album")),"url"), env.opts.autoescape);
-output += "\">\n                    <img height=\"174\" width=\"174\" src=\"";
-output += runtime.suppressValue(runtime.memberLookup((runtime.memberLookup((runtime.memberLookup((runtime.memberLookup((t_4),"album")),"image")),3)),"#text"), env.opts.autoescape);
-output += "\" loading=\"lazy\" />\n                    </a>\n                ";
+if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "loop")),"index") != 1) {
+if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "loop")),"last")) {
+output += " and ";
+;
+}
+else {
+if(runtime.memberLookup((runtime.contextOrFrameLookup(context, frame, "loop")),"index") != 2) {
+output += ", ";
+;
+}
+;
+}
+output += "<span class=\"font-bold\">";
+output += runtime.suppressValue(runtime.memberLookup((t_4),"name"), env.opts.autoescape);
+output += "</span>";
+;
+}
 ;
 }
 }
