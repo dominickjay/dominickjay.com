@@ -1,0 +1,12 @@
+.details {
+    @apply fl-mt-xs;
+}
+
+.details summary {
+    cursor: pointer;
+    @apply font-bold heading accent-red text-[20px];
+}
+
+.details > div {
+    @apply fl-py-s;
+}

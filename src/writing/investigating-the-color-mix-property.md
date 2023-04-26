@@ -1,5 +1,5 @@
 ---
-title: 'Some color-mix title'
+title: 'Investigating the color-mix property'
 description: ""
 intro: ""
 date: Created
@@ -13,12 +13,16 @@ links:
       'title': 'Animating CSS Grid (How To + Examples)',
       'target': 'https://css-tricks.com/animating-css-grid-how-to-examples/',
     },
+    {
+      'title': 'Simplify Your Color Palette With CSS Color-Mix()',
+      'target': 'https://www.smashingmagazine.com/2022/06/simplify-color-palette-css-color-mix/'
+    }
   ]
 eleventyExcludeFromCollections: true
 ---
 
 <div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
-	<p>Reader beware - this feature is experimental, and not supported in most browsers! There's a bit below that is going through support and how to set it up to use it. If you want to skip it, <a href="#skip-setup">here you go</a>.</p>
+	<p>Reader beware - this feature is experimental, and not supported in most browsers! There's a bit below that is going through support and how to set it up to use it.</p>
 </div>
 
 We're going to toe the line of browser support with this one, so as usual, let's check out the support first.
@@ -27,30 +31,35 @@ We're going to toe the line of browser support with this one, so as usual, let's
 
 Yuck, big thumbs down for support here. It's a new property, so roll out to browsers will take a while. Despite this, we *can* use it in Firefox and Safari - just needs a couple of things done first. It's also available for the latest version of Chrome (111-113+). Lets go through how to get it enabled in Firefox and Safari.
 
-In Firefox, go to `about:config` and use the search bar to find `layout.css.color-mix.enabled`, click the toggle button on the far right to enable it. Done!
+<details class="details">
+  <summary>
+    Enable it for Firefox
+  </summary>
+  <div> <!-- optional wrapper (for styling) -->
+    In Firefox, go to `about:config` and use the search bar to find `layout.css.color-mix.enabled`, click the toggle button on the far right to enable it. Done!
+  </div>
+</details>
 
-Likewise for Safari, you'll need [Safari Technology Preview](https://developer.apple.com/safari/technology-preview/) and head to the Develop tab->Experimental Features->CSS color-mix() and click it to enable it. Nice.
+<details class="details">
+  <summary>
+    Enable it for Safari
+  </summary>
+  <div> <!-- optional wrapper (for styling) -->
+    Likewise for Safari, you'll need <a href="https://developer.apple.com/safari/technology-preview">Safari Technology Preview</a> and head to the Develop tab->Experimental Features->CSS color-mix() and click it to enable it. Nice.
+  </div>
+</details>
 
-<strong id="skip-setup">So, after all that, what is it?</strong>
+Now we've got that enabled in the right places, we can start seeing the results when we use this in development.
 
-The **`color-mix()`** functional notation takes two `[color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)` values and returns the result of mixing them in a given colorspace by a given amount.
+The `color-mix()` function takes two color values into it, and passes back a mix of the two in a colorspace by a certain amount. Like our own B&Q (Home Depot for an American equivalent...maybe) paint mixing service, or kids loose with a bunch of paintbrushes and neon paint. So althogther, it takes 2 color values but also a percentage parameter as well, for example: `background-color: color-mix(in srgb, #34c9eb 40%, white)`.
 
-### how do I use it?
-
-The `color-mix` property passes in 3 parameters; a colorspace, color and percentage e.g. `background-color: color-mix(in srgb, #34c9eb 40%, white)`
-
-**Info**
-
-Here is a full list of the available colorspace options; `srgb`, `srgb-linear`, `lab`, `oklab`, `xyz`, `xyz-d50`, `xyz-d65`, `hsl`, `hwb`, `lch`, `oklch`. There is no default.
+There's also quite a list of available colorspace options; `srgb`, `srgb-linear`, `lab`, `oklab`, `xyz`, `xyz-d50`, `xyz-d65`, `hsl`, `hwb`, `lch`, `oklch`. There is no default.
 
 ### what does it look like?
 
 <style>
 
 .color-mix-block {
-  grid-row: 2;
-  grid-column-start: 3;
-  grid-column-end: 12;
   max-width: 80ch;
   padding-block: 2rem;
   padding-inline: 2rem;

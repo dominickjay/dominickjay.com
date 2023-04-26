@@ -15,7 +15,7 @@ links:
       'target': 'https://css-tricks.com/animating-css-grid-how-to-examples/',
     },
   ]
-# eleventyExcludeFromCollections: true
+eleventyExcludeFromCollections: true
 ---
 
 <style>

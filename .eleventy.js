@@ -3,6 +3,7 @@ const {
   imageShortcodePlaceholder,
 } = require('./config/shortcodes/index.js');
 
+const _ = require("lodash");
 const fs = require('fs');
 const xml2json = require('xml2json');
 const { EleventyEdgePlugin } = require('@11ty/eleventy');
@@ -158,6 +159,14 @@ module.exports = eleventyConfig => {
       }
     })
     return tagsList
+  })
+
+  eleventyConfig.addCollection("postsByYear", (collection) => {
+    return _.chain(collection.getAllSorted())
+      .groupBy((post) => post.date.getFullYear())
+      .toPairs()
+      .reverse()
+      .value();
   })
 
   eleventyConfig.addCollection('snippetTagsList', function (collectionApi) {

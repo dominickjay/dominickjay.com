@@ -7,7 +7,6 @@ tags:
   - js
   - writing
 layout: post
-eleventyExcludeFromCollections: true
 links:
   [
     {
@@ -23,6 +22,7 @@ links:
       'target': 'https://www.11ty.dev/docs/getting-started',
     },
   ]
+eleventyExcludeFromCollections: true
 ---
 
 <div class="fyi-block fyi-block--prerequisites fl-p-l font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)] relative">
