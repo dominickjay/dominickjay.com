@@ -25,8 +25,6 @@ export default async (request, context) => {
     const data = await music.json();
     const artistData = await artistResponse.json();
 
-    console.log(artistData.weeklyartistchart.artist);
-
     edge.config((eleventyConfig) => {
       // Add some custom Edge-specific configuration
       // e.g. Fancier json output
