@@ -4,6 +4,7 @@ const {
 } = require('./config/shortcodes/index.js');
 
 const fs = require('fs');
+const xml2json = require('xml2json');
 const { EleventyEdgePlugin } = require('@11ty/eleventy');
 const { DateTime } = require('luxon');
 const now = String(Date.now());
@@ -39,6 +40,25 @@ module.exports = eleventyConfig => {
 
   eleventyConfig.addFilter('limit', function (array, limit) {
     return array.slice(0, limit)
+  })
+
+  eleventyConfig.addAsyncFilter('booksApi', async function (collectionId) {
+    console.log(collectionId);
+    const books = await fetch(`https://oku.club/rss/collection/${collectionId}`)
+      .then(response => response.text())
+      .then(str => xml2json.toJson(str, { object: true }))
+      .then(data => {
+          return data.rss.channel.item.slice(0, 5).map(b => {
+              return {
+                  title: b.title,
+                  link: b.link,
+                  image: b['oku:cover'],
+                  authors: b['dc:creator']['$t'],
+              }
+          })
+      })
+
+      return books
   })
 
   eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {

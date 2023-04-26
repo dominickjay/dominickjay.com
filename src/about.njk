@@ -6,6 +6,7 @@ text: "Over my time in design agencies and private sector work, I have gathered 
 
 I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog here, or putting together small projects on <a href='https://codepen.io/dominickjay217' target='_blank'>CodePen</a>."
 layout: default
+bookCollections: CfctG
 ---
 
 <div class="col-start-1 col-span-6 z-[1] mdw:fl-pt-3xl">
@@ -49,6 +50,7 @@ layout: default
             </div>
             <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
+                {% set books = 'p9twg' | booksApi %}
                 {% for item in books %}
                     <li>
                         <span class="font-bold">{{ item.title }}</span>
