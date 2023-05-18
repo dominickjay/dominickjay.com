@@ -140,6 +140,10 @@ module.exports = eleventyConfig => {
   });
 
   eleventyConfig.addPassthroughCopy({
+    'src/_redirects': '/',
+  });
+
+  eleventyConfig.addPassthroughCopy({
     'src/assets/css/global.css': 'src/_includes/global.css',
   });
 
