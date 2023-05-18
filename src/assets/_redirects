@@ -1,0 +1,15 @@
+# Redirects from what the browser requests to what we serve
+
+/articles/weeknotes-march-14-20/    /writing/weeknotes-march-14-20/
+/articles/weeknotes-february-28-06/    /writing/weeknotes-february-28-06/
+/articles/weeknotes-april-19-25/    /writing/weeknotes-april-19-25/
+/articles/lets-react-create-react-app    /writing/lets-react-create-react-app
+/articles/weeknotes-february-21-27    /writing/weeknotes-february-21-27
+/articles/css-object-fit/    /writing/css-object-fit/
+/articles/deploying-a-next.js-boilerplate-to-netlify    /writing/deploying-a-next.js-boilerplate-to-netlify
+/articles                /writing
+/_nuxt/    /
+/now/    /
+/articles/dummy-server-in-angular    /writing
+/articles/2022-in-review    /writing/2022-in-review
+/articles/level-up-your-styles-with-css-variables    /writing/level-up-your-styles-with-css-variables

@@ -1,9 +1,9 @@
 {% set postslist = collections.writing %}
 {% set postslistCounter = collections.writing | length %}
 
-<section class="recent-posts relative">
+<section class="relative recent-posts">
 
-	<div class="container flex flex-col mdw:site-grid fl-pb-3xl relative">
+	<div class="container relative flex flex-col mdw:site-grid fl-pb-3xl">
 		<div class="col-start-1 col-end-7 fl-py-l">
 			<h2 class="h2 heading">Recently Published</h2>
 			<ol class="list-none fl-py-m">
@@ -14,13 +14,13 @@
 				{% endfor %}
 			</ol>
 		</div>
-		<div class="col-start-9 col-end-13 fl-py-l flex flex-col h-full justify-between">
+		<div class="flex flex-col justify-between h-full col-start-9 col-end-13 fl-py-l">
 			<div class="flex flex-col">
 				<h3 class="h2 heading">Categories</h3>
 				<div class="fl-mt-xs flex flex-wrap gap-[10px]">
 				{% for tag in collections.tagsList %}
 					{% if tag != 'writing' %}
-						<a class="category" href="/tag/{{tag}}">{{tag}}</a>
+						<a class="category" href="/tags/{{tag}}">{{tag}}</a>
 					{% endif %}
 				{% endfor %}
 				</div>

@@ -15,7 +15,7 @@ layout: main
 			</div>
 		</article>
 		{% if links or tags %}
-		<aside class="block col-start-9 col-span-4 row-start-1 fl-my-l mdw:fl-mt-3xl">
+		<aside class="block col-span-4 col-start-9 row-start-1 fl-my-l mdw:fl-mt-3xl">
 			<div
 				class="sticky top-[80px]"
 			>
@@ -34,7 +34,7 @@ layout: main
 					{% for tag in tags %}
 						<li>
 						{% if tag != 'writing' %}
-							{% set tagUrl %}/tag/{{ tag | slugify }}/{% endset %}
+							{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
 							<a
 								href="{{ tagUrl | url }}"
 								class="category pb-[13px] flex max-w-fit"
