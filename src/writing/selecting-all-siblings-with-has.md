@@ -34,7 +34,7 @@ It's been notoriously difficult to select elements depending on their children (
   .box {
     flex: 1 0 30px;
     height: auto;
-    apsect-ratio: 1;
+    aspect-ratio: 1;
     background-color: black;
   }
 
