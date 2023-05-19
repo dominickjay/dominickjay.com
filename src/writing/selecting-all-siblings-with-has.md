@@ -32,8 +32,9 @@ It's been notoriously difficult to select elements depending on their children (
 <style>
 
   .box {
-    width: 50px;
-    height: 50px;
+    flex: 1 0 30px;
+    height: auto;
+    apsect-ratio: 1;
     background-color: black;
   }
 
@@ -48,7 +49,7 @@ It's been notoriously difficult to select elements depending on their children (
   }
 
   .box-row {
-    display: inline-flex;
+    display: flex;
     column-gap: 25px;
     margin-block: 20px;
     border: 5px solid #010f0a;
