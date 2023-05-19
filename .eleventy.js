@@ -129,22 +129,20 @@ module.exports = eleventyConfig => {
 
   // 	--------------------- Passthrough File Copy -----------------------
 
+  eleventyConfig.addPassthroughCopy({
+    'src/assets/images/favicon/*': '/',
+  });
+
+  eleventyConfig.addPassthroughCopy('src/_redirects');
+
   // same path
-  ;['src/assets/fonts/', 'src/assets/images/'].forEach((path) =>
+  ['src/assets/fonts/', 'src/assets/images/'].forEach((path) =>
     eleventyConfig.addPassthroughCopy(path)
   )
 
   // social icons to root directory
   eleventyConfig.addPassthroughCopy({
     'src/assets/images/favicon/*': '/',
-  });
-
-  eleventyConfig.addPassthroughCopy({
-    'src/_redirects': '/',
-  });
-
-  eleventyConfig.addPassthroughCopy({
-    'src/assets/css/global.css': 'src/_includes/global.css',
   });
 
   eleventyConfig.addPassthroughCopy({
