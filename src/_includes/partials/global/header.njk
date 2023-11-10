@@ -26,9 +26,9 @@
 			{% include "partials/icons/logo.svg" %}
 		</a>
 		{% if navigation.main | length %}
-		<button
+		{# <button
         	@click="$dispatch('toggle-menu')"
-		>Menu</button>
+		>Menu</button> #}
 		<nav class="ml-auto" aria-label="primary">
 			<ul class="flex">
 				{% for item in navigation.main %}

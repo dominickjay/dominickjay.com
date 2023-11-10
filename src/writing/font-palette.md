@@ -2,7 +2,8 @@
 title: "Making variable fonts fit your site theme"
 intro: "Sometimes, variable fonts come with multiple palette options. Don't like the default one? Well, it's easy enough to change it, and possibly override it too."
 description: "Don't like some of the colors used on a variable font? Don't stand for it (...unless the options aren't provided anyway, in which case fall in line)"
-date: 2023-03-09
+date: Created
+updated: 2023-16-08
 tags:
   - css
   - writing
@@ -165,6 +166,12 @@ I guess there's a downside to using a number to reference a color palette as we'
 
 But nothing, so we're stuck with the numbers, and needing a reference as to what palette numbers are what colours. Sad times.
 
+<div class="pull-quote pull-quote--right">
+
+So there’s another propery we can use instead of font-palette, which is called override-colors. This gives you access to the individual colors used in each palette...
+
+</div>
+
 Let's imagine that none of the preset color palettes were what you were looking for, and you want to impose your own colors on it instead (let's face it, the mint color I tested on the hover state didn't exactly fit my super cool monochrome aesthetic). Let's see what we can do here.
 
 So there's another propery we can use instead of `font-palette`, which is called `override-colors`. This gives you access to the individual colors used in each palette, and the ability to override those colors seperately by using the color values alongside the color number. It can be quite difficult to establish which color number is equal to a specific color on the font, so it does take a bit of guesswork to start with. There's also the added complication that each font could have a different amount of palettes, with a different amount of colors in them. Our font for this 'Rocher', has **11** palettes, with 4 colors in each.
@@ -204,6 +211,12 @@ To sum up, these are things you need to do to control a palette;
 - use a `@font-palette-values` at-rule to define what you want to call the palette e.g. `--coloredPalette`
 - in that, set the `font-family` and the `base-palette` number
 - if you want to override the palette, use the `override-colors` property to define different colours
+
+<div class="pull-quote pull-quote--left">
+
+Despite a good bit of support, I _probably_ wouldn’t be using this on a client build as I think it’s got some limitations and is slightly difficult to predict.
+
+</div>
 
 At the very least, it's an interesting experiment to play around with. Despite a good bit of support, I _probably_ wouldn't be using this on a client build as I think it's got some limitations and is slightly difficult to predict. Some things also didn't seem to work for me that works with normal fonts, like transitioning between color palette changes on hover, or passing custom properties. So it's a bit of a trade-off between expectations - you can do some fancy things with colors, but in turn you lose some pretty standard things.
 

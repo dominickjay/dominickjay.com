@@ -25,6 +25,13 @@ links:
 
 As always, I'm going to start with support for this feature first. For once it's not just IE being the awkward one, as Firefox doesn't have support here for it - unless you enable it through the `layout.css.has-selector.enabled` flag anyway. So if you're on Firefox and want to see this demo in all its glory, you'll need this flag enabled or jump onto another browser.
 
+
+<div class="pull-quote pull-quote--left">
+
+  It’s been notoriously difficult to select elements depending on their children
+
+</div>
+
 It's been notoriously difficult to select elements depending on their children (almost as hard as that one level on Crash Bandicoot when you have to ride a tiger down the Great Wall of China, or that level on Max Payne with the crying baby and the blood line path), or siblings that came before it. Super easy to say _"let's make this box red when it is an element following on from an element with a class of outline"_.
 
 `.outline + .red`
@@ -372,4 +379,5 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
 	</div>
 </div>
 
-If I end up revisiting this at any point, I'll probably look at refining the selector as it's quite long. Maybe that's the way it has to be to be able to achieve this, but maybe worth the trip. I'm a big fan of this - not only because it's my own work - and ended up implementing into my Weeknotes <a class="underline hover:no-underline" href="/tags/weeknotes/">posts</a> for my music choices for that week. If you want to see my other work on CodePen, you can follow me <a class="underline hover:no-underline" href="https://codepen.io/dominickjay217">here</a>.
+If I end up revisiting this at any point, I'll probably look at refining the selector as it's quite long. Maybe that's the way it has to be to be able to achieve this, but maybe worth the trip. I'm a big fan of this - not only because it's my own work - and ended up implementing into my Weeknotes <a class="underline hover:no-underline" href="/tag/weeknotes/">posts</a> for my music choices for that week. If you want to see my other work on CodePen, you can follow me <a class="underline hover:no-underline" href="https://codepen.io/dominickjay217">here</a>.
+

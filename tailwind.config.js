@@ -28,6 +28,8 @@ module.exports = {
       md: '768px',
       mdw: '1024px',
       lg: '1160px',
+      xl: '1280px',
+      xxl: '1450px'
     },
     fontFamily: {
       heading: ['Erode', 'serif'],
@@ -42,6 +44,8 @@ module.exports = {
       grey: '#bfc3ca',
       red: '#e63946',
       orange: '#ff5f1f',
+      green: '#0ba95b',
+      pink: '#f38ba3'
     },
   },
   extend: {

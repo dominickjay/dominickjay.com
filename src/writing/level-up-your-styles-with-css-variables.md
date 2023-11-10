@@ -53,13 +53,17 @@ There. Nice, quick example there - you can see this working below.
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
 
-Now we've got that up, let's see how this is put together, so...
+Now we've got that up, let's see how this is put together, so let's break this down.
 
-![Break It Down Gif](//images.contentful.com/d44h62nxqp3d/4RFimCeEtyGe4303IpqolX/b7c31216699d05d4247d1d9b7789a965/break-it-down.gif#gif)
+<div class="pull-quote pull-quote--left">
+
+  Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way
+
+</div>
 
 Firstly, the `:root` pseudo-class being used at the top of the example? That represents the root of the document tree (typically the `html` element) and is used to define custom properties in a way that will allow them to be used globally across your site. Neat! They can be defined elsewhere, but let's not go into that right now.
 
-Second, CSS custom properties are always prefixed with a `--`. Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there is lots of different opinions on the best way.
+Second, CSS custom properties are always prefixed with a `--`. Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way.
 
 After setting up the custom properties in `:root`, they can then be used within any CSS selector by using them alongside the `var()` function, which is what is being shown in the `background-color` and `color` properties in the example above.
 

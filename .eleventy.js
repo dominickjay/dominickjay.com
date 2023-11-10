@@ -35,6 +35,15 @@ module.exports = eleventyConfig => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
 
+   // to show "dateModified" data on application/ld+json
+	eleventyConfig.addFilter("stat", (file, field="birthtime") => {
+		return DateTime.fromJSDate(fs.statSync(file)[field]).toISO();
+	});
+
+	eleventyConfig.addNunjucksGlobal("stat", function(file, field="birthtime"){
+		return DateTime.fromJSDate(fs.statSync(file)[field]).toISO();
+	});
+
   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd')
   })
@@ -44,7 +53,6 @@ module.exports = eleventyConfig => {
   })
 
   eleventyConfig.addAsyncFilter('booksApi', async function (collectionId) {
-    console.log(collectionId);
     const books = await fetch(`https://oku.club/rss/collection/${collectionId}`)
       .then(response => response.text())
       .then(str => xml2json.toJson(str, { object: true }))
@@ -143,6 +151,11 @@ module.exports = eleventyConfig => {
   // social icons to root directory
   eleventyConfig.addPassthroughCopy({
     'src/assets/images/favicon/*': '/',
+  });
+
+  eleventyConfig.addPassthroughCopy({
+    'src/assets/css/global.css': './assets/css/global.css',
+    'src/assets/js/slanted.js': './assets/js/slanted.js',
   });
 
   eleventyConfig.addPassthroughCopy({

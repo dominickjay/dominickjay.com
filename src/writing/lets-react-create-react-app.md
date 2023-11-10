@@ -27,6 +27,7 @@ links:
     },
   ]
 layout: post
+eleventyExcludeFromCollections: true
 ---
 
 ## What is 'Create React App'?

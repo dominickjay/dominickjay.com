@@ -1,0 +1,37 @@
+.pull-quote {
+  font-size: 24px;
+  font-weight: bold;
+  padding-inline: 40px;
+  padding-block: 20px;
+  width: 100%;
+  margin-top: 10px;
+  display: none;
+}
+
+.pull-quote--left {
+  margin-right: 20px;
+  @screen md {
+    float: left;
+    display: flex;
+    margin-left: 0;
+    max-width: 18em;
+  }
+  @screen xxl {
+    margin-left: -7em;
+  }
+}
+
+.pull-quote--right {
+  float: right;
+  margin-right: -7em;
+  margin-left: 20px;
+  @screen md {
+    float: right;
+    display: flex;
+    margin-right: 0;
+    max-width: 18em;
+  }
+  @screen lg {
+    margin-right: -7em;
+  }
+}
