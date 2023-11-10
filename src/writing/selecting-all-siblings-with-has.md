@@ -39,8 +39,9 @@ It's been notoriously difficult to select elements depending on their children (
 <style>
 
   .box {
-    width: 50px;
-    height: 50px;
+    flex: 1 0 30px;
+    height: auto;
+    aspect-ratio: 1;
     background-color: black;
   }
 
@@ -55,7 +56,7 @@ It's been notoriously difficult to select elements depending on their children (
   }
 
   .box-row {
-    display: inline-flex;
+    display: flex;
     column-gap: 25px;
     margin-block: 20px;
     border: 5px solid #010f0a;
@@ -379,3 +380,4 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
 </div>
 
 If I end up revisiting this at any point, I'll probably look at refining the selector as it's quite long. Maybe that's the way it has to be to be able to achieve this, but maybe worth the trip. I'm a big fan of this - not only because it's my own work - and ended up implementing into my Weeknotes <a class="underline hover:no-underline" href="/tag/weeknotes/">posts</a> for my music choices for that week. If you want to see my other work on CodePen, you can follow me <a class="underline hover:no-underline" href="https://codepen.io/dominickjay217">here</a>.
+

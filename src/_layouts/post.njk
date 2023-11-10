@@ -34,7 +34,7 @@ layout: main
 					{% for tag in tags %}
 						<li>
 						{% if tag != 'writing' %}
-							{% set tagUrl %}/tag/{{ tag | slugify }}/{% endset %}
+							{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
 							<a
 								href="{{ tagUrl | url }}"
 								class="category pb-[13px] flex max-w-fit"
