@@ -25,6 +25,13 @@ links:
 
 As always, I'm going to start with support for this feature first. For once it's not just IE being the awkward one, as Firefox doesn't have support here for it - unless you enable it through the `layout.css.has-selector.enabled` flag anyway. So if you're on Firefox and want to see this demo in all its glory, you'll need this flag enabled or jump onto another browser.
 
+
+<div class="pull-quote pull-quote--left">
+
+  It’s been notoriously difficult to select elements depending on their children
+
+</div>
+
 It's been notoriously difficult to select elements depending on their children (almost as hard as that one level on Crash Bandicoot when you have to ride a tiger down the Great Wall of China, or that level on Max Payne with the crying baby and the blood line path), or siblings that came before it. Super easy to say _"let's make this box red when it is an element following on from an element with a class of outline"_.
 
 `.outline + .red`

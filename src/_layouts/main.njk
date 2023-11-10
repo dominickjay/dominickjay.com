@@ -21,6 +21,12 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
 		<meta name="theme-color" content="#ffffff">
+
+    <script>
+      if (CSS.paintWorklet) {
+        CSS.paintWorklet.addModule('/assets/js/slanted.js?{{ assetHash }}');
+      }
+    </script>
 		<!-- synchronous css / inline css  -->
 		<link rel="stylesheet" href="/assets/css/global.css?{{ assetHash }}" />
 		<link
@@ -63,7 +69,7 @@
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 
-    	{% include "partials/global/menu.njk" %}
+			{% include "partials/global/menu.njk" %}
 
 		<header
 			class="py-[20px] fixed top-0 w-full z-20 border-t-8 border-black"
@@ -93,10 +99,20 @@
 					{% include "partials/icons/logo.svg" %}
 				</a>
 				{% if navigation.main | length %}
-				<button
-					class="fl-text-step-1 font-heading hover:underline hover:underline-offset-2"
-					@click="$dispatch('toggle-menu'), menu != menu"
-				>Menu</button>
+				<nav class="ml-auto" aria-label="primary">
+					<ul class="flex">
+						{% for item in navigation.main %}
+						<li class="px-[16px] border-l border-dashed border-l-black/[0.85] first:border-none">
+							<a
+								class="text-black font-bold"
+								href="{{ item.url}}"
+							>
+								{{ item.text }}
+							</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</nav>
 				{% endif %}
 			</div>
 		</header>
