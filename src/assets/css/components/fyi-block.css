@@ -1,5 +1,6 @@
 .fyi-block {
-  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-l-[12px] flex flex-col gap-y-[8px];
+  @apply overflow-hidden fl-p-m font-medium fl-text-step-1 font-heading fl-my-l border-l-[6px] flex flex-col gap-y-[8px];
+  font-style: italic;
 }
 
 .fyi-block strong:first-child {

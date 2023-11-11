@@ -5,3 +5,27 @@
 .category--reverse {
   @apply text-white/[0.85] bg-white/[0.35] hover:bg-white/[0.85] hover:text-black/[0.8];
 }
+
+.topic {
+  color: var(--topic-color, theme('colors.black'));
+  opacity: 0.85;
+}
+
+.topic--javascript {
+  --topic-color: theme('colors.red');
+}
+
+.topic--css {
+  --topic-color: theme('colors.orange');
+}
+
+.topic.category {
+  @apply hover:bg-black/[0.25];
+  color: theme('colors.black');
+  border: 2px solid var(--topic-color);
+}
+
+@supports (background: paint(slanted-bg)) {
+  .topic.category span {
+  }
+}

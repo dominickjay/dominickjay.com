@@ -4,7 +4,7 @@ description: 'How I created a edge function to bring in live data from Last.fm'
 intro: "On my about page, there's a 'Now Playing' section, that gives live data about my last played song according to Last.fm. Using the eleventy-edge plugin, let's see how this is set up."
 date: Created
 tags:
-  - js
+  - javascript
   - writing
 layout: post
 links:

@@ -9,6 +9,7 @@ tags:
   - devops
   - writing
 layout: post
+eleventyExcludeFromCollections: true
 ---
 
 ## Clone repo
