@@ -7,7 +7,6 @@ tags:
   - writing
 layout: post
 templateEngineOverride: njk,md
-eleventyExcludeFromCollections: true
 ---
 
 <aside class="album-profile" style="--shadow: rgb(40,45,60)">
