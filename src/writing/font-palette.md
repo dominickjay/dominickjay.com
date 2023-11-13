@@ -2,7 +2,7 @@
 title: "Making variable fonts fit your site theme"
 intro: "Sometimes, variable fonts come with multiple palette options. Don't like the default one? Well, it's easy enough to change it, and possibly override it too."
 description: "Don't like some of the colors used on a variable font? Don't stand for it (...unless the options aren't provided anyway, in which case fall in line)"
-date: Created
+date: 2023-03-09
 updated: 2023-16-08
 tags:
   - css
