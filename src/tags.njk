@@ -20,7 +20,7 @@ permalink: '/tags/{{ tag | slug }}/'
 {% block content %}
 <div class="flex flex-col-reverse grid-cols-8 col-start-1 col-span-full mdw:grid mdw:fl-py-3xl">
     <section class="col-span-5 col-start-1 row-start-1">
-        <h1 class="hidden mdw:block h1 heading !text-[70px] mdw:!text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
+        <h1 class="h1 heading !text-[70px] mdw:!text-[80px] font-bold tracking-[-0.04em] !leading-[0.85]">{{ title | lower }}</h1>
         {% if postListHeadline %}
             <h2>
             {{ postListHeadline }}

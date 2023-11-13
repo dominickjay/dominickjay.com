@@ -53,7 +53,7 @@ body {
 
   .post-body ol,
   .post-body ul {
-    @apply pl-[20px] flex flex-col gap-y-[5px];
+    @apply pl-[20px] flex flex-col gap-y-[5px] fl-mt-xs;
   }
 
   .post-body ol {
