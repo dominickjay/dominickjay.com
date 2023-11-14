@@ -1,5 +1,6 @@
 ---
 title: '#5. The Campfire Headphase - Boards of Canada'
+metaDesc: 'Day 5 of my album-a-day mini-project'
 date: 2023-11-14
 tags:
   - music365

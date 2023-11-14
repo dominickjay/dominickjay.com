@@ -1,5 +1,6 @@
 ---
 title: '#4. This is Why - Paramore'
+metaDesc: 'Day 4 of my album-a-day mini-project'
 date: 2023-11-13
 tags:
   - music365

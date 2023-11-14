@@ -8,7 +8,11 @@
 {% set siteTitle = site.name %}
 {% set currentUrl = site.baseURL + page.url %}
 
-{% set currentPage = (page.description if page.description else site.description) %}
+{% set metaDescription = metaDesc %}
+
+{% if not metaDesc %}
+  {% set metaDescription = site.description %}
+{% endif %}
 
 
 {# If the page’s frontmatter has specific metaTitle and/or metaDesc items, switch
@@ -33,8 +37,8 @@
   <meta name="twitter:image:alt" content="Page image for {{ site.name }}" />
 {% endif %}
 
-{% if metaDesc %}
-  <meta name="description" content="{{ metaDesc }}" />
-  <meta name="twitter:description" content="{{ metaDesc }}" />
-  <meta property="og:description" content="{{ metaDesc }}" />
+{% if metaDescription %}
+  <meta name="description" content="{{ metaDescription }}" />
+  <meta name="twitter:description" content="{{ metaDescription }}" />
+  <meta property="og:description" content="{{ metaDescription }}" />
 {% endif %}
