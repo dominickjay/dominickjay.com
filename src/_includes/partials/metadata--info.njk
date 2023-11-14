@@ -8,13 +8,14 @@
 {% set siteTitle = site.name %}
 {% set currentUrl = site.baseURL + page.url %}
 
+{% set currentPage = (page.description if page.description else site.description) %}
+
+
 {# If the page’s frontmatter has specific metaTitle and/or metaDesc items, switch
   them into the mix #}
 {% if metaTitle %}
   {% set pageTitle = metaTitle %}
 {% endif %}
-
-{% set metaDesc = page.description ?? site.description %}
 
 <title>{{ pageTitle | lower }}</title>
 <link rel="canonical" href="{{ currentUrl }}" />
