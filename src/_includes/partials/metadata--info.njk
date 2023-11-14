@@ -14,10 +14,7 @@
   {% set pageTitle = metaTitle %}
 {% endif %}
 
-{% if not metaDesc %}
-{% set metaDesc = site.description %}
-{% endif %}
-
+{% set metaDesc = page.description ?? site.description %}
 
 <title>{{ pageTitle | lower }}</title>
 <link rel="canonical" href="{{ currentUrl }}" />

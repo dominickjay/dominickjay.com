@@ -2,7 +2,7 @@
 title: 'Selecting all siblings with the :has() function'
 description: "It's been tricky to get to all an elements siblings before, but with :has() it's simple!"
 intro: "I was experimenting with the :has() function recently, and put together a quick demonstration of how to select all an elements siblings and style them. It ended up being picked by CodePen, so this post is demonstrating how that was put together."
-date: Created
+date: 2023-04-26
 tags:
   - css
   - writing
@@ -380,4 +380,3 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
 </div>
 
 If I end up revisiting this at any point, I'll probably look at refining the selector as it's quite long. Maybe that's the way it has to be to be able to achieve this, but maybe worth the trip. I'm a big fan of this - not only because it's my own work - and ended up implementing into my Weeknotes <a class="underline hover:no-underline" href="/tag/weeknotes/">posts</a> for my music choices for that week. If you want to see my other work on CodePen, you can follow me <a class="underline hover:no-underline" href="https://codepen.io/dominickjay217">here</a>.
-

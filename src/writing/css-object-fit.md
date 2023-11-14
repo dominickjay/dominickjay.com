@@ -38,7 +38,7 @@ Similar to background-size, the content is sized to completely fill the content 
 
 ### Contain
 
-When using `contain`, the content scales to keep its aspect ration while also fitting within the boundaries of the elements content box. Using this can make the object display gaps vertically or horizontally
+When using `contain`, the content scales to keep its aspect ration while also fitting within the boundaries of the elements content box. Using this can make the object display gaps vertically or horizontally.
 
 The entire object is made to fill the box, while preserving its aspect ratio, so the object will be "letterboxed" if its aspect ratio does not match the aspect ratio of the box.
 
