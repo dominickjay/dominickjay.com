@@ -1,5 +1,6 @@
 ---
 title: '#2. Dead Club City - Nothing But Thieves'
+metaDesc: 'Day 2 of my album-a-day mini-project'
 date: 2023-11-11
 tags:
   - music365

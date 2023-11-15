@@ -1,6 +1,6 @@
 ---
-title: '#3. Welcome To Horrorwood: The Silver Scream 2
- - Ice Nine Kills'
+title: '#3. Welcome To Horrorwood: The Silver Scream 2 - Ice Nine Kills'
+metaDesc: 'Day 3 of my album-a-day mini-project'
 date: 2023-11-12
 tags:
   - music365

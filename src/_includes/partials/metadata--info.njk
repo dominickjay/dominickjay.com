@@ -1,20 +1,20 @@
-{% set pageTitle = title + ' - ' +  site.name %}
-
-{# We don't want any duplication. This is likely for the homepage #}
-{% if site.name === title %}
-  {% set pageTitle = title %}
-{% endif %}
+{% set pageTitle = title %}
 
 {% set siteTitle = site.name %}
 {% set currentUrl = site.baseURL + page.url %}
+
+{% set metaDescription = metaDesc %}
+
+{% if not metaDesc %}
+  {% set metaDescription = site.description %}
+{% endif %}
+
 
 {# If the page’s frontmatter has specific metaTitle and/or metaDesc items, switch
   them into the mix #}
 {% if metaTitle %}
   {% set pageTitle = metaTitle %}
 {% endif %}
-
-{% set metaDesc = page.description ?? site.description %}
 
 <title>{{ pageTitle | lower }}</title>
 <link rel="canonical" href="{{ currentUrl }}" />
@@ -32,8 +32,8 @@
   <meta name="twitter:image:alt" content="Page image for {{ site.name }}" />
 {% endif %}
 
-{% if metaDesc %}
-  <meta name="description" content="{{ metaDesc }}" />
-  <meta name="twitter:description" content="{{ metaDesc }}" />
-  <meta property="og:description" content="{{ metaDesc }}" />
+{% if metaDescription %}
+  <meta name="description" content="{{ metaDescription }}" />
+  <meta name="twitter:description" content="{{ metaDescription }}" />
+  <meta property="og:description" content="{{ metaDescription }}" />
 {% endif %}
