@@ -7,7 +7,7 @@ albumArtist: Enter Shikari
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/c49264e99a0c62589df10d180f11066c.jpg#c49264e99a0c62589df10d180f11066c
 albumTracks: 15 tracks
 albumReleaseDate: 16 April 2020
-embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1570477692&theme=light
+embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1663517171&theme=light"
 tags:
   - music365
   - writing
