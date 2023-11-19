@@ -1,8 +1,8 @@
 ---
-title: '#10. Nothing is True & Everything is Possible - Enter Shikari'
+title: '#10. Nothing is True and Everything is Possible - Enter Shikari'
 metaDesc: 'Day 9 of my album-a-day mini-project'
 date: 2023-11-19
-albumTitle: Nothing is True & Everything is Possible
+albumTitle: Nothing is True and Everything is Possible
 albumArtist: Enter Shikari
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/c49264e99a0c62589df10d180f11066c.jpg#c49264e99a0c62589df10d180f11066c
 albumTracks: 15 tracks
