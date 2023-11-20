@@ -1,8 +1,8 @@
 ---
-title: '#9. Crawler - Idles'
+title: '#9. CRAWLER - Idles'
 metaDesc: 'Day 9 of my album-a-day mini-project'
 date: 2023-11-18
-albumTitle: Crawler
+albumTitle: CRAWLER
 albumArtist: Idles
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/5cbb621500562a568d92ca9b934c50d3.jpg#5cbb621500562a568d92ca9b934c50d3
 albumTracks: 14 tracks, 46:32
