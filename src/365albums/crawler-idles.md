@@ -1,13 +1,13 @@
 ---
-title: '#6. The Midnight Organ Fight - Frightened Rabbit'
-metaDesc: 'Day 6 of my album-a-day mini-project'
-date: 2023-11-15
-albumTitle: The Midnight Organ Fight
-albumArtist: Frightened Rabbit
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/7f1d3e4691744ed4a93479be733781eb.jpg#7f1d3e4691744ed4a93479be733781eb
-albumReleaseDate: 2007
-albumTracks: 14 tracks
-embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F274244281&theme=light"
+title: '#9. Crawler - Idles'
+metaDesc: 'Day 9 of my album-a-day mini-project'
+date: 2023-11-18
+albumTitle: Crawler
+albumArtist: Idles
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/5cbb621500562a568d92ca9b934c50d3.jpg#5cbb621500562a568d92ca9b934c50d3
+albumTracks: 14 tracks, 46:32
+albumReleaseDate: 12 November 2021
+embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1570477692&theme=light
 tags:
   - music365
   - writing
@@ -15,9 +15,9 @@ layout: post
 templateEngineOverride: njk,md
 ---
 
-<aside class="album-profile" style="--shadow: rgb(233,228,211)">
+<aside class="album-profile" style="--shadow: rgb(46,35,30);">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="{{ albumArt }}"/>
+    <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>{{ albumTitle }}</strong>by {{ albumArtist }}</h1>
@@ -33,17 +33,18 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Head Rolls Off</li>
-          <li>Fast Blood</li>
-          <li>I Feel Better/The Twist</li>
+          <li>The Beachland Ballroom</li>
+          <li>Car Crash</li>
+          <li>When the Lights Come On</li>
+          <li>Crawl!</li>
         </ul>
       </div>
     </dl>
     <div class="color-grid" style="--opacity: 1;">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(233,228,211)"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(119,101,95)"></span>
-					<span class="color color--3" style="--thirdColor: rgb(136,132,115)"></span>
+					<span class="color color--1" style="--firstColor: rgb(46,35,30);"></span>
+					<span class="color color--2" style="--secondaryColor: rgb(217,158,100);"></span>
+					<span class="color color--3" style="--thirdColor: rgb(138,160,168);"></span>
       </div>
     </div>
   </div>
