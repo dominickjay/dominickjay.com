@@ -335,7 +335,7 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
     margin-inline: auto;
     text-align: center;
     max-width: 750px;
-    font-family: 'Erode', sans-serif;
+    font-family: 'Infinity', sans-serif;
   }
 
   .attribute a {
@@ -346,7 +346,7 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
     margin-block: 40px;
     font-size: 1.85rem;
     text-align: center;
-    font-family: 'Erode', sans-serif;
+    font-family: 'Infinity', sans-serif;
   }
 </style>
 

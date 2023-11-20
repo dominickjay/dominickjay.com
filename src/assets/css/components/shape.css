@@ -1,0 +1,24 @@
+.shape {
+  position: absolute;
+  border-radius: 100%;
+  height: 300px;
+  width: 300px;
+  filter: blur(30px);
+  background: radial-gradient(
+    farthest-corner circle at 50% 50% in oklch decreasing hue,
+    oklch(94.99% 0.038 72.37) 0% 100%, oklch(91.5% 0.044 54.88) 100%
+  );
+  background-blend-mode: multiply, normal;
+}
+
+.shape--1 {
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+}
+
+.shape--2 {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 25%;
+}

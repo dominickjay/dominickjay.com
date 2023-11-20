@@ -32,14 +32,14 @@
 		<link rel="stylesheet" href="/assets/css/global.css?{{ assetHash }}" />
 		<link
 			rel="preload"
-			href="/assets/fonts/erode/Erode-Bold.woff2"
+			href="/assets/fonts/Infinity/Infinity-Bold.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
 		/>
 		<link
 			rel="preload"
-			href="/assets/fonts/erode/Erode-Medium.woff2"
+			href="/assets/fonts/Infinity/Infinity-Medium.woff2"
 			as="font"
 			type="font/woff2"
 			crossorigin
@@ -65,14 +65,31 @@
 			{% ogImage "./src/og-image.og.njk", { title: title } %}
 		{% else %}
 			{% ogImage "./src/og-image.og.njk", { title: title, siteName:  site.name } %}
-		{% endif %}
+  {% endif %}
 	</head>
-	<body>
+	<body
+    class="flex flex-col"
+    x-data="{
+      init() {
+        this.getPos()
+      },
+      getPos() {
+        let mousePos = { x: undefined, y: undefined };
+
+        window.addEventListener('mousemove', (event) => {
+          mousePos = { x: event.clientX, y: event.clientY };
+          // console.log(mousePos);
+          document.body.style.setProperty('--mouse-x', mousePos.x + 'px');
+          document.body.style.setProperty('--mouse-y', mousePos.y + 'px');
+        });
+      }
+    }"
+  >
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 
 			{% include "partials/global/menu.njk" %}
 
-		<header
+		{# <header
 			class="py-[20px] fixed top-0 w-full z-20 border-t-8 border-black"
 			x-data="{
 				scrolled: false,
@@ -116,22 +133,29 @@
 				</nav>
 				{% endif %}
 			</div>
-		</header>
+		</header> #}
 
-		<main class="main mb-[540px] mdw:mb-[650px] bg-white z-10 relative overflow-hidden mdw:overflow-visible" tabindex="-1" id="main-content">
+		<main
+      class="main z-10 relative flex-1 overflow-hidden"
+      tabindex="-1"
+      id="main-content"
+    >
+      {% for i in range(1, 2) %}
+        <div class="shape shape--{{ i }}"></div>
+      {% endfor %}
 			{% block content %}
 				{{ content | safe }}
 			{% endblock %}
 		</main>
-
-		<footer class="fixed w-full bg-black bottom-0 py-[100px] mdw:p-[10vh_0_10vh] mdw:min-h-[650px] flex flex-col justify-center items-center">
-			<div class="container flex flex-col mdw:site-grid h-full overflow-hidden">
+{#
+		<footer class="w-full flex flex-col justify-center items-center z-20">
+			<div class="container flex flex-col mdw:site-grid h-full overflow-hidden bg-black py-[40px] rounded-t-[25px]">
 				<div class="col-start-1 col-span-3 text-orange">
 					<span class="fl-text-step-5 heading ">Want to get in touch?</span>
 				</div>
 				<div class="col-start-6 col-span-7 flex flex-col mdw:flex-row gap-x-[160px] gap-y-[25px] mdw:gap-y-[52px] items-start fl-mt-m">
 					<div class="flex flex-col">
-						<span class="text-white/[0.5] font-heading fl-text-step-0 tracking-[0.06em] uppercase">Contact</span>
+						<span class="text-white/[0.5] font-heading fl-text-step-0 tracking-[0.06em]">Contact</span>
 						<ul class="flex fl-mt-s gap-x-[10px]">
 
 							{% for item in navigation.socialmedia %}
@@ -154,7 +178,7 @@
 								class="ml-auto min-w-[200px]"
 								aria-label="secondary"
 							>
-								<span class="text-white/[0.5] font-heading fl-text-step-0 tracking-[0.06em] uppercase">Pages</span>
+								<span class="text-white/[0.5] font-heading fl-text-step-0 tracking-[0.06em]">Pages</span>
 								<ul class="flex flex-row gap-x-[25px] mdw:gap-0 mdw:flex-col mt-[8px] mdw:mt-[19px]">
 									{% for item in navigation.main%}
 									<li class="py-[4px] hover:underline hover:underline-offset-2">
@@ -187,6 +211,6 @@
 					<small class="text-white/[0.85] font-bold fl-text-step-0">© 2015 - {% year %} - Dominick Jay</small>
 				</div>
 			</div>
-		</footer>
+		</footer> #}
 	</body>
 </html>

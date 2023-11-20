@@ -14,40 +14,5 @@ layout: main
 				{{ content | safe }}
 			</div>
 		</article>
-		{# {% if links or tags %}
-		<aside class="block col-start-9 col-span-4 row-start-1 fl-my-l mdw:fl-mt-3xl">
-			<div
-				class="sticky top-[80px]"
-			>
-				<button class="uppercase tracking-[-0.04em] font-heading text-black/[0.75] font-bold">More Information</button>
-				<div class="flex flex-col fl-py-s">
-					<ul class="flex flex-col fl-mb-m">
-					{% if links %}
-						{% for link in links %}
-							<li>
-								<a class="no-underline hover:underline pb-[13px]" href="{{ link.target }}" target="_blank">{{ link.title }}</a>
-							</li>
-						{% endfor %}
-					{% endif %}
-					</ul>
-					<ul class="flex flex-col gap-y-[5px]">
-					{% for tag in tags %}
-						<li>
-						{% if tag != 'writing' %}
-							{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
-							<a
-								href="{{ tagUrl | url }}"
-								class="category pb-[13px] flex max-w-fit"
-							>
-								{{ tag }}
-							</a>
-						{% endif %}
-						</li>
-					{% endfor %}
-					</ul>
-				</div>
-			</div>
-		</aside>
-		{% endif %} #}
 	</div>
 {% endblock %}

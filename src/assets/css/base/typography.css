@@ -4,12 +4,27 @@ html {
 
 body {
   @apply fl-text-step-0;
+  background: linear-gradient(in oklch to right, #fad7c4, #fde1d3, #fad7c4);
   -webkit-font-smoothing: antialiased;
 }
 
 @layer utilities {
+
+  .heading {
+    @apply font-heading leading-[1] font-medium tracking-[-0.04em];
+  }
+
   .h1 {
     @apply fl-text-step-5 fl-mb-m;
+  }
+
+  .h1--alt {
+    font-size: 50px;
+    line-height: 0.75;
+    font-weight: 900;
+    @screen mdw {
+      font-size: 100px;
+    }
   }
 
   .h2 {
@@ -20,19 +35,19 @@ body {
     @apply fl-text-step-3 fl-mb-xs;
   }
 
-  .heading {
-    @apply font-heading leading-[1] font-bold tracking-[-0.04em];
-  }
-
   .highlight {
-    background-color: var(--background, #010f0a);
-    color: var(--text, #ffffff);
+    position: relative;
     @apply p-[2px_15px_2px_10px] inline-block;
   }
 
-  .typed {
-    @apply overflow-hidden max-w-fit border-r-orange border-r-[10px] whitespace-nowrap;
-    animation: typing 3.5s steps(30, end), blink-caret 0.85s step-end infinite;
+  .highlight::before {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 0;
+    top: 0;
+    bottom: 0;
+    background: #010f0a;
   }
 
   .post-body h3 {

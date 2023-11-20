@@ -32,8 +32,8 @@ module.exports = {
       xxl: '1450px'
     },
     fontFamily: {
-      heading: ['Erode', 'serif'],
-      main: ['Recia', 'serif'],
+      heading: ['Infinity', 'sans-serif'],
+      main: ['Infinity', 'sans-serif'],
     },
 
     colors: {

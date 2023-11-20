@@ -29,7 +29,7 @@ eleventyExcludeFromCollections: true
     height: fit-content;
     border: 2px solid black;
     margin-block: 20px;
-    font-family: 'Erode', sans-serif;
+    font-family: 'Infinity', sans-serif;
   }
 
   .breakdown span {

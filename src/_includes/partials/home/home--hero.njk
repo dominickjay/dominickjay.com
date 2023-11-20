@@ -1,111 +1,109 @@
-<div class="hero h-screen max-h-[450px] md:max-h-[650px] relative fl-pb-l md:fl-pb-3xl">
-	<div class="container flex flex-col mdw:site-grid h-full">
-		<div
-			class="block absolute h-[calc(100%_-_60px)] left-0 top-0 w-full text-black hero-symbols overflow-hidden"
-			x-data="{
-				height: $el.offsetHeight,
-				width: $el.offsetWidth
-			}"
-			x-on:resize.window="{
-				height: $el.offsetHeight,
-				width: $el.offsetWidth
-			}"
-		>
-			{% set classes = "absolute bg-[#fafafa] rounded-full" %}
-			<div
-				x-data="{
-					y: 250,
-					x: 200,
-					init() {
-						this.y = this.randomY();
-						this.x = this.randomX();
-					},
-					randomY(){
-						var max = Math.floor(this.height / 2);
-						return Math.floor(Math.random() * (max - 0) + 0);
-					},
-					randomX(){
-						var max = Math.floor(this.width / 2);
-						return Math.floor(Math.random() * (max - 0) + 0);
-					}
-				}"
-				:style="{ top: y + 'px', left: x + 'px' }"
-				class="{{ classes }} w-[70.5px] md:w-[150px] h-[70.5px] md:h-[150px]"
-				style="--delay: 0.4s"
-			>
-			</div>
-			<div
-				x-data="{
-					y: 250,
-					x: 200,
-					init() {
-						this.y = this.randomY();
-						this.x = this.randomX();
-					},
-					randomY(){
-						var max = Math.floor(this.height / 2);
-						return Math.floor(Math.random() * (max - 0) + 0);
-					},
-					randomX(){
-						var max = Math.floor(this.width / 2);
-						return Math.floor(Math.random() * (max - 0) + 0);
-					}
-				}"
-				:style="{ top: y + 'px', right: x + 'px' }"
-				class="{{ classes }} w-[92.5px] md:w-[185px] h-[92.5px] md:h-[185px]"
-				style="--delay: 0.8s"
-			>
-			</div>
-			<div
-				x-data="{
-					y: 250,
-					x: 200,
-					init() {
-						this.y = this.randomY();
-						this.x = this.randomX();
-					},
-					randomY(){
-						var max = Math.floor(this.height - 180);
-						var min = Math.floor(this.height / 2);
-						return Math.floor(Math.random() * (max - min) + min);
-					},
-					randomX(){
-						var max = Math.floor(this.width / 2);
-						return Math.floor(Math.random() * (max - 0) + 0);
-					}
-				}"
-				:style="{ top: y + 'px', left: x + 'px' }"
-				class="{{ classes }} w-[30px] md:w-[60px] h-[30px] md:h-[60px]"
-				style="--delay: 0.12s"
-			>
-			</div>
-			<div
-				x-data="{
-					y: 250,
-					x: 200,
-					init() {
-						this.y = this.randomY();
-						this.x = this.randomX();
-					},
-					randomY(){
-						var max = Math.floor(this.height - 180);
-						var min = Math.floor(this.height / 2);
-						return Math.floor(Math.random() * (max - min) + min);
-					},
-					randomX(){
-						var max = Math.floor(this.width);
-						var min = Math.floor(this.width / 2);
-						return Math.floor(Math.random() * (max - min) + min);
-					}
-				}"
-				:style="{ top: y + 'px', left: x + 'px' }"
-				class="{{ classes }} w-[30px] md:w-[60px] h-[30px] md:h-[60px] shadow-circles"
-				style="--delay: 0.16s"
-			>
-			</div>
-		</div>
-		<div class="col-start-2 col-span-8 z-[1] pt-[180px] mdw:pt-[280px]">
-			<h1 class="h1 heading ml-auto mdw:ml-0 max-w-[500px] mdw:max-w-none !text-[50px] !mdw:text-[70px] mdw:!text-[100px] !leading-[0.75] text-right font-black">leave it <span class="highlight typed">better</span><br /> than you found it</h1>
+<div
+  class="hero relative pb-[100px] pt-[230px] cursor-pointer"
+  x-data="{
+    height: $el.offsetHeight,
+    width: $el.offsetWidth,
+    createElement() {
+      if (document.getElementsByClassName('circle').length < 14) {
+        var circle = document.getElementsByClassName('circle')[0];
+        var hero = document.querySelector('.hero');
+
+        const newCircle = circle.cloneNode(true);
+        hero.appendChild(newCircle);
+      }
+    }
+  }"
+  x-on:resize.window="{
+    height: $el.offsetHeight,
+    width: $el.offsetWidth
+  }"
+  @click.prevent="createElement()"
+>
+    {% set classes = "absolute rounded-full opacity-50 transition-[top,left] ease-in-out" %}
+    {% for i in range(0, 6) %}
+      <svg
+        x-data="{
+          y: window.addEventListener('mouseenter', (event) => { return event.clientY }),
+          x: window.addEventListener('mouseenter', (event) => { return event.clientX }),
+          size: 25,
+          bgColor: '#ffffff',
+          init() {
+            this.y = this.randomY();
+            this.x = this.randomX();
+            this.size = this.randomSize();
+            this.bgColor = this.randomBgColor();
+            var rand = Math.round(Math.random() * (50000 - {{ i }})) + {{ i }};
+            setInterval(() => {
+              this.y = Math.floor(Math.random() * (this.height - 0) + 0);
+              this.x = Math.floor(Math.random() * (this.width - 0) + 0);
+            }, rand);
+          },
+          randomY(){
+            var max = Math.floor(this.height);
+            return Math.floor(Math.random() * (max - 0) + 0);
+          },
+          randomX(){
+            var max = Math.floor(this.width);
+            return Math.floor(Math.random() * (max - 0) + 0);
+          },
+          randomSize() {
+            return Math.random() * (70 - 10) + 10;
+          },
+          randomBgColor() {
+            const bgColor = ['#ffffff', '#e63946'];
+            return bgColor[Math.floor(Math.random() * bgColor.length)]
+          }
+        }"
+        :style="{
+          top: y + 'px',
+          left: x + 'px',
+          height: size + 'px',
+          width: size + 'px',
+          color: bgColor
+        }"
+        class="{{ classes }} circle"
+        style="--delay: 0.4s; transition-duration: 3s"
+        width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="4.5" cy="4.5" r="4.5" fill="currentColor"/>
+      </svg>
+    {% endfor %}
+	<div class="container flex flex-col mdw:site-grid h-full z-10 relative cursor-default pointer-events-none">
+		<div class="col-start-1 col-span-8 pointer-events-none">
+			<span class="font-main fl-mb-s block kicker">{{ site.name }}</span>
+			<h1
+        class="h1 heading h1--alt max-w-[500px] mdw:max-w-[750px] glitch-text"
+        x-data="{
+          init() {
+            let element = document.getElementsByClassName('glitch-text__text')[0];
+            let beforeArray = new Array(3).fill(null).map(()=> ({'before': this.getRandomArbitrary(10, 35)}))
+            console.log(beforeArray)
+
+            let left = this.getRandomInt(0, 5);
+            let right = this.getRandomInt(0, 5);
+
+            element.style.setProperty(
+              '--clip-path-before',
+              'polygon(0 0, 100% 0, 100% ' + beforeArray[1].before + '%, 0 ' + beforeArray[2].before + '%)');
+            element.style.setProperty(
+              '--clip-path-after',
+              'polygon(0 ' + beforeArray[1].before + 20 + '%, 100% 42%, 100% 100%, 0 100%)');
+
+            element.style.setProperty('--left', '-' + left + 'px');
+            element.style.setProperty('--right', '-' + right + 'px');
+          },
+          getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+          },
+          getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
+          }
+        }"
+      >
+					leave it <span class="glitch-text__text" data-text="better">better</span> than you found it
+			</h1>
 		</div>
 	</div>
 </div>

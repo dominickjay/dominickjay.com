@@ -123,8 +123,8 @@ module.exports = eleventyConfig => {
     satoriOptions: {
       fonts: [
         {
-          name: 'Erode',
-          data: fs.readFileSync('./src/assets/fonts/erode/Erode-Bold.woff'),
+          name: 'Infinity',
+          data: fs.readFileSync('./src/assets/fonts/infinity/infinity.otf'),
           weight: 700,
           style: 'normal',
         },
