@@ -1,21 +1,20 @@
 ---
-title: '#9. CRAWLER - Idles'
-metaDesc: 'Day 9 of my album-a-day mini-project'
-date: 2023-11-18
-albumTitle: CRAWLER
-albumArtist: Idles
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/5cbb621500562a568d92ca9b934c50d3.jpg#5cbb621500562a568d92ca9b934c50d3
-albumTracks: 14 tracks, 46:32
-albumReleaseDate: 12 November 2021
-embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1570477692&theme=light
+title: '#11. The Divine Feminine - Mac Miller'
+metaDesc: 'Day 10 of my album-a-day mini-project'
+date: 2023-11-20
+albumTitle: The Divine Feminine
+albumArtist: Mac Miller
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/b8f1d45f318d32329329727444c51239.jpg#b8f1d45f318d32329329727444c51239
+albumTracks: 10 tracks
+albumReleaseDate: 16 September 2016
+embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1137965822&theme=light"
 tags:
   - music365
   - writing
 layout: post
 templateEngineOverride: njk,md
 ---
-
-<aside class="album-profile" style="--shadow: rgb(46,35,30);">
+<aside class="album-profile" style="--shadow: rgb(214,197,194);">
   <div class="album-profile__image">
     <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
@@ -33,18 +32,17 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>The Beachland Ballroom</li>
-          <li>Car Crash</li>
-          <li>When the Lights Come On</li>
-          <li>Crawl!</li>
+          <li>Dang!</li>
+          <li>We</li>
+          <li>My Favorite Part</li>
         </ul>
       </div>
     </dl>
     <div class="color-grid" style="--opacity: 1;">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(46,35,30);"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(217,158,100);"></span>
-					<span class="color color--3" style="--thirdColor: rgb(138,160,168);"></span>
+					<span class="color color--1" style="--firstColor: rgb(214,197,194);"></span>
+					<span class="color color--2" style="--secondaryColor: rgb(30,29,29);"></span>
+					<span class="color color--3" style="--thirdColor: rgb(117,91,90);"></span>
       </div>
     </div>
   </div>
