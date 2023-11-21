@@ -1,8 +1,8 @@
 .glitch-text__text {
   --clip-path-before: polygon(0 0, 100% 0, 100% 39%, 0 39%);
   --clip-path-after: polygon(0 42%, 100% 42%, 100% 100%, 0 100%);
-  --left: -5px;
-  --right: -5px;
+  --left: 0px;
+  --right: 0px;
   @apply h1--alt;
   font-family: theme('fontFamily.heading');
   position: relative;
@@ -10,7 +10,7 @@
   width: 100%;
   text-align: center;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: color: theme('colors.black');;
   &::before,
   &::after {
     content: attr(data-text);

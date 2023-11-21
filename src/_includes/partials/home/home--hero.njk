@@ -76,11 +76,8 @@
         x-data="{
           init() {
             let element = document.getElementsByClassName('glitch-text__text')[0];
-            let beforeArray = new Array(3).fill(null).map(()=> ({'before': this.getRandomArbitrary(10, 35)}))
+            let beforeArray = new Array(3).fill(null).map(()=> ({'before': this.getRandomArbitrary(10, 50)}))
             console.log(beforeArray)
-
-            let left = this.getRandomInt(0, 5);
-            let right = this.getRandomInt(0, 5);
 
             element.style.setProperty(
               '--clip-path-before',
@@ -88,9 +85,6 @@
             element.style.setProperty(
               '--clip-path-after',
               'polygon(0 ' + beforeArray[1].before + 20 + '%, 100% 42%, 100% 100%, 0 100%)');
-
-            element.style.setProperty('--left', '-' + left + 'px');
-            element.style.setProperty('--right', '-' + right + 'px');
           },
           getRandomArbitrary(min, max) {
             return Math.random() * (max - min) + min;
