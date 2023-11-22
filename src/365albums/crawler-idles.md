@@ -10,7 +10,6 @@ albumReleaseDate: 12 November 2021
 embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1570477692&theme=light
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---

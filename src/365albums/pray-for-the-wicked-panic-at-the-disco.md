@@ -10,7 +10,6 @@ albumReleaseDate: 21 June 2018
 embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1361152002&theme=light
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---

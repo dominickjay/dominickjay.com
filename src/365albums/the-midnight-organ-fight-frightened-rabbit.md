@@ -10,7 +10,6 @@ albumTracks: 14 tracks
 embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F274244281&theme=light"
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---

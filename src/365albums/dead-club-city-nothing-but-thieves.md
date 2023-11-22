@@ -4,7 +4,6 @@ metaDesc: 'Day 2 of my album-a-day mini-project'
 date: 2023-11-11
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
