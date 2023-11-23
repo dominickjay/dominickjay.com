@@ -180,10 +180,13 @@ pre[class*='language-'] {
 
 /* language blocks */
 pre[class="language-css"]::before,
-pre[class="language-diff-css"]::before {
+pre[class="language-diff-css"]::before,
+pre[class="language-jsx"]::before,
+pre[class="language-diff-jsx"]::before,
+pre[class="language-js"]::before,
+pre[class="language-diff-js"]::before {
   @apply font-heading fl-text-step-1;
   font-weight: 900;
-  content: "CSS";
   position: absolute;
   left: 0;
   top: 0;
@@ -194,4 +197,16 @@ pre[class="language-diff-css"]::before {
   color: theme('colors.white');
   background-color: theme('colors.black');
   border-bottom: 1px solid theme('colors.white');
+}
+
+pre[class="language-css"]::before,
+pre[class="language-diff-css"]::before {
+  content: "CSS";
+}
+
+pre[class="language-jsx"]::before,
+pre[class="language-diff-jsx"]::before,
+pre[class="language-js"]::before,
+pre[class="language-diff-js"]::before {
+  content: "JS";
 }
