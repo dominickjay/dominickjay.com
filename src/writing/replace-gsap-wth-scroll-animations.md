@@ -30,7 +30,7 @@ I was interested in picking up some new CSS tricks, and there’s been a lot of 
 </p>
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
-After playing around with it and digging into the source code, pretty instantly found out it was a GSAP demo rather than scroll driven animations. Ah well. But then I wondered how tricky it would be to take this original demo and refactor it to not depend on the GSAP library anymore, and instead bring in those sweet scroll driven animations that I was so keen to figure out.
+After playing around with it and digging into the source code, pretty instantly found out it was a GSAP demo rather than scroll driven animations. Ah well, it's still lovely, and this post is in **no** way assuming that I can do one better. But then I wondered how tricky it would be to take this original demo and refactor it to not depend on the GSAP library anymore, and instead bring in those sweet scroll driven animations that I was so keen to figure out.
 
 {% imagePlaceholder "./src/assets/images/posts/caniuse-animation-timeline.png", "A screenshot from caniuse showing support for animation-timeline as of November, 2023", "Support for color-mix from caniuse as of November, 2023", "(min-width: 30em) 25vw, 25vw" %}
 
@@ -45,7 +45,7 @@ So, to rip a use case out of the mdn docs;
 
 **“When used in a quotation (`[<q>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)`) or block quote (`[<blockquote>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)`), it generally indicates text which is of special interest but is not marked in the original source material, or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.”**
 
-So cool. That’s one for the next project then.
+Pretty interesting, that’s one for the next project if needs be then.
 
 
 <div class="pull-quote pull-quote--right">
@@ -89,12 +89,9 @@ Outside of the setup, the real meat of the demo comes from the styles for the va
 }
 ```
 
-JS;
-
-Excluding the toggle handlers for the dark mode and the options, we’re left with the GSAP work -
+On the Javascript side, we've got the event listeners for the dropdown change and the dark-mode. Excluding them, we’re left with this chunk of GSAP.
 
 ```jsx
-const highlight = document.getElementById("highlight-style");
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -107,19 +104,16 @@ gsap.utils.toArray(".text-highlight").forEach((highlight) => {
 });
 ```
 
-Quick breakdown;.
+To my understanding, this block does this;
 
-- We set highlight to get the option style
-- We register the GSAP ScrollTrigger plugin
-- We create an array of elements that has the text-highlight class set on them
-- On each item in the array, we create a ScrollTrigger that;
-    - Uses the element as the trigger here, so each element will have its animation triggered independently from each other.
-    - Starts the animation when it’s -100px from the center of the
-    - Has a callback function ‘onEnter’ that adds an active class to that specific element.
+- Registers the [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) plugin
+- Uses GSAP's `toArray` function, to create an array of elements that has the `text-highlight` class on them
+- On each item in the array, a `ScrollTrigger` that;
+  - Uses the element as the trigger here, so each element will have its animation triggered independently from each other.
+  - Starts the animation when it’s -100px from the center of the viewport.
+  - Has a callback function ‘onEnter’ that adds an active class to that specific element.
 
-So effectively, you scroll and as each mark element gets *just* beyond the center of the viewport, the active class gets applied and BAM that sweet animation goes off. Nice!
-
-So this is a real cool demo and looks ace. So let’s rip it down and rebuild it.
+So effectively, you scroll and as each mark element gets *just* 🤏 beyond the center of the viewport, the active class gets applied and BAM that sweet animation goes off. Nice! This is a real cool demo and looks ace. So let’s rip it down and rebuild it.
 
 ## The rework
 
@@ -144,7 +138,7 @@ setHighlightStyle(highlight.value);
 
 For the HTML nothing needs to change here for this, which is great. Thanks Ryan!
 
-The CSS, given how we’re relying on it more now without the JS providing the animations, needs some tweaking. To the mark element that has the text-highlight service, we need to add this:
+The CSS - given how we’re relying on it more now without the Javascript providing the animations - needs some tweaking. To the mark element that has the `text-highlight` class, we can add this:
 
 ```css
 @keyframes highlight {
@@ -163,7 +157,7 @@ The CSS, given how we’re relying on it more now without the JS providing the a
 }
 ```
 
-and remove this:
+and remove this, as we're no longer adding an `active` class to any elements:
 
 ```css
   &.active {
@@ -189,6 +183,8 @@ Bingo.
 </p>
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
+## Resources
+
 [https://scroll-driven-animations.style/](https://scroll-driven-animations.style/)
 [https://developer.chrome.com/articles/scroll-driven-animations](https://developer.chrome.com/articles/scroll-driven-animations/)
 [https://codepen.io/hexagoncircle/pen/gOPMwvd](https://codepen.io/hexagoncircle/pen/gOPMwvd)
@@ -196,3 +192,4 @@ Bingo.
 [https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark)
 [https://gsap.com/docs/v3/Plugins/ScrollTrigger/](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
 [https://scroll-driven-animations.style](https://scroll-driven-animations.style/tools/view-timeline/ranges/#range-start-name=cover&range-start-percentage=0&range-end-name=cover&range-end-percentage=50&view-timeline-axis=block&view-timeline-inset=0&subject-size=smaller&subject-animation=none&interactivity=clicktodrag&show-areas=yes&show-fromto=yes&show-labels=yes)
+[https://ryanmulligan.dev/](https://ryanmulligan.dev/)
