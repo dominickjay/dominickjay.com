@@ -28,6 +28,9 @@ bookCollections: CfctG
                 {% for artist in tracks %}{% if loop.index != 1 %}{% if loop.last %} and {% elseif loop.index != 2 %}, {% endif %}<span class="font-bold">{{ artist.name }}</span>{% endif %}{% endfor %}
             </div>
             {% endedge %}
+            <div class="fl-mt-xs">
+              I'm also currently posting an album a day for a year that I enjoy, here's the <a class="underline hover:no-underline underline-offset-2" href="/365albums/">current list</a>.
+            </div>
             <div class="fl-mt-xs">Current working as:
                 {% set career = about.career[0] %}
                 <span class="font-bold">{{ career.role }}</span>

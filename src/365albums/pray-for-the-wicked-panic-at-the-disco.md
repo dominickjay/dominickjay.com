@@ -7,10 +7,9 @@ albumArtist: Panic! At the Disco
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/15d962ee89b1690b3ad3abc9f558d4dd.jpg#15d962ee89b1690b3ad3abc9f558d4dd
 albumTracks: 11 tracks, 34:07
 albumReleaseDate: 21 June 2018
-embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1647227480&theme=light
+embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1361152002&theme=light
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
