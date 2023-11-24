@@ -1,6 +1,7 @@
 ---
 title: '#2. Dead Club City - Nothing But Thieves'
 metaDesc: 'Day 2 of my album-a-day mini-project'
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/162ce560ea21ea5fa92598462be07c1f.jpg#162ce560ea21ea5fa92598462be07c1f
 date: 2023-11-11
 tags:
   - music365
@@ -10,7 +11,7 @@ templateEngineOverride: njk,md
 
 <aside class="album-profile" style="--shadow: rgb(170,64,46)">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="https://lastfm.freetls.fastly.net/i/u/770x0/162ce560ea21ea5fa92598462be07c1f.jpg#162ce560ea21ea5fa92598462be07c1f"/>
+    <img crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>Dead Club City</strong>by Nothing But Thieves</h1>

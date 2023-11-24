@@ -1,6 +1,7 @@
 ---
 title: '#5. The Campfire Headphase - Boards of Canada'
 metaDesc: 'Day 5 of my album-a-day mini-project'
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/77b2419ede333b1b20ab565305bd8039.jpg#77b2419ede333b1b20ab565305bd8039
 date: 2023-11-14
 tags:
   - music365
@@ -10,7 +11,7 @@ templateEngineOverride: njk,md
 
 <aside class="album-profile" style="--shadow: rgb(106,165,160)">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="https://lastfm.freetls.fastly.net/i/u/770x0/77b2419ede333b1b20ab565305bd8039.jpg#77b2419ede333b1b20ab565305bd8039"/>
+    <img crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>The Campfire Headphase</strong>by Boards of Canada</h1>
