@@ -44,8 +44,7 @@ code[class*='language-'] ::selection {
 /* Code blocks */
 pre[class*='language-'] {
   @apply fl-my-l overflow-auto w-[calc(100%_+_40px)] -ml-[20px];
-  padding: 42px;
-  padding-top: 82px;
+  padding: 25px;
 }
 
 :not(pre) > code[class*='language-'],
@@ -176,37 +175,4 @@ pre[class*='language-'] {
 
 .cp_embed_wrapper {
   @apply fl-my-l;
-}
-
-/* language blocks */
-pre[class="language-css"]::before,
-pre[class="language-diff-css"]::before,
-pre[class="language-jsx"]::before,
-pre[class="language-diff-jsx"]::before,
-pre[class="language-js"]::before,
-pre[class="language-diff-js"]::before {
-  @apply font-heading fl-text-step-1;
-  font-weight: 900;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  padding-inline: 42px;
-  display: flex;
-  padding-block: 10px;
-  color: theme('colors.white');
-  background-color: theme('colors.black');
-  border-bottom: 1px solid theme('colors.white');
-}
-
-pre[class="language-css"]::before,
-pre[class="language-diff-css"]::before {
-  content: "CSS";
-}
-
-pre[class="language-jsx"]::before,
-pre[class="language-diff-jsx"]::before,
-pre[class="language-js"]::before,
-pre[class="language-diff-js"]::before {
-  content: "JS";
 }
