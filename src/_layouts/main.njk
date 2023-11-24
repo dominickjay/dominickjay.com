@@ -78,7 +78,6 @@
 
         window.addEventListener('mousemove', (event) => {
           mousePos = { x: event.clientX, y: event.clientY };
-          // console.log(mousePos);
           document.body.style.setProperty('--mouse-x', mousePos.x + 'px');
           document.body.style.setProperty('--mouse-y', mousePos.y + 'px');
         });
@@ -87,7 +86,28 @@
   >
 		<a class="skip-link" href="#main-content">Skip to main content</a>
 
-			{% include "partials/global/menu.njk" %}
+			{# {% include "partials/global/menu.njk" %} #}
+
+    <header class="py-[20px] fixed top-0 w-full z-20 border-t-8 border-black">
+      <div class="container flex justify-between items-center">
+        {% if navigation.main | length %}
+				<nav class="ml-auto" aria-label="primary">
+					<ul class="flex">
+						{% for item in navigation.main %}
+						<li class="px-[16px] border-l border-dashed border-l-black/[0.85] first:border-none">
+							<a
+								class="text-black font-bold"
+								href="{{ item.url}}"
+							>
+								{{ item.text }}
+							</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</nav>
+				{% endif %}
+      </div>
+    </header>
 
 		{# <header
 			class="py-[20px] fixed top-0 w-full z-20 border-t-8 border-black"

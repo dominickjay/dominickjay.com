@@ -1,0 +1,32 @@
+<div class="relative md:py-[230px]">
+	<div class="container flex flex-col mdw:site-grid h-full z-10 relative">
+		<div class="col-start-8 col-span-13 row-start-1">
+      <h2 class="heading h2">About</h2>
+      <div
+        x-data="{
+          contentLength: 'short',
+          setContentLength(event) {
+            this.contentLength = event.target.value;
+          }
+        }"
+        x-cloak
+      >
+        <span x-text="contentLength"></span>
+        <div class="about-slider">
+          <input x-on:change.debounce="setContentLength($event)" x-model="contentLength" type="radio" name="about-content" id="short" value="short">
+          <label for="short"></label>
+          <input x-on:change.debounce="setContentLength($event)" x-model="contentLength" type="radio" name="about-content" id="medium" value="medium">
+          <label for="medium"></label>
+          <input x-on:change.debounce="setContentLength($event)" x-model="contentLength" type="radio" name="about-content" id="loud" value="loud">
+          <label for="loud"></label>
+        </div>
+        <div x-if="contentLength == 'short">
+          {{ about.shortBio }}
+        </div>
+        <div x-if="contentLength == 'medium'">
+          {{ about.shortBio }}
+        </div>
+      </div>
+		</div>
+	</div>
+</div>

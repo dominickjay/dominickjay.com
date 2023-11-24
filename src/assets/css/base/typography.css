@@ -12,6 +12,7 @@ body {
 
   .heading {
     @apply font-heading leading-[1] font-medium tracking-[-0.04em];
+    font-weight: 900;
   }
 
   .h1 {
@@ -28,7 +29,7 @@ body {
   }
 
   .h2 {
-    @apply fl-text-step-4 fl-mb-s;
+    @apply fl-text-step-5 fl-mb-s;
   }
 
   .h3 {

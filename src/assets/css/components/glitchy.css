@@ -10,7 +10,7 @@
   width: 100%;
   text-align: center;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: color: theme('colors.black');;
+  -webkit-text-stroke-color: theme('colors.black');
   &::before,
   &::after {
     content: attr(data-text);

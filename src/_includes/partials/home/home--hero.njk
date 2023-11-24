@@ -1,15 +1,17 @@
 <div
-  class="hero relative pb-[100px] pt-[230px] cursor-pointer"
+  class="hero relative md:py-[230px] cursor-pointer h-[calc(100vh-345px)]"
   x-data="{
     height: $el.offsetHeight,
     width: $el.offsetWidth,
-    createElement() {
+    createElement(event) {
       if (document.getElementsByClassName('circle').length < 14) {
-        var circle = document.getElementsByClassName('circle')[0];
+        var circle = document.getElementsByClassName('default-circle')[0];
         var hero = document.querySelector('.hero');
 
         const newCircle = circle.cloneNode(true);
         hero.appendChild(newCircle);
+        newCircle.style.top = event.clientY - 10 + 'px';
+        newCircle.style.left = event.clientX - 15 + 'px';
       }
     }
   }"
@@ -17,14 +19,68 @@
     height: $el.offsetHeight,
     width: $el.offsetWidth
   }"
-  @click.prevent="createElement()"
+  @click.prevent="createElement(event)"
 >
-    {% set classes = "absolute rounded-full opacity-50 transition-[top,left] ease-in-out" %}
+    {% set classes = "absolute rounded-full opacity-40 transition-[top,left] ease-in-out" %}
+
+      <svg
+        x-data="{
+          y: null,
+          x: null,
+          size: 25,
+          bgColor: '#ffffff',
+          init() {
+            this.getPos();
+            this.size = this.randomSize();
+            this.bgColor = this.randomBgColor();
+            setInterval(() => {
+              this.y = Math.floor(Math.random() * (this.height - 0) + 0);
+              this.x = Math.floor(Math.random() * (this.width - 0) + 0);
+            }, 10000);
+          },
+          {# getPos() {
+            let mousePos = { x: undefined, y: undefined };
+
+            window.addEventListener('mousemove', (event) => {
+              mousePos = { x: event.clientX, y: event.clientY };
+              this.y = mousePos.y;
+              this.x = mousePos.x;
+            });
+          }, #}
+          randomY(){
+            var max = Math.floor(this.height);
+            return Math.floor(Math.random() * (max - 0) + 0);
+          },
+          randomX(){
+            var max = Math.floor(this.width);
+            return Math.floor(Math.random() * (max - 0) + 0);
+          },
+          randomSize() {
+            return Math.random() * (70 - 10) + 10;
+          },
+          randomBgColor() {
+            const bgColor = ['#ffffff', '#e63946'];
+            return bgColor[Math.floor(Math.random() * bgColor.length)]
+          }
+        }"
+        :style="{
+          top: y + 'px',
+          left: x + 'px',
+          height: size + 'px',
+          width: size + 'px',
+          color: bgColor
+        }"
+        class="{{ classes }} default-circle circle"
+        style="--delay: 0.4s; transition-duration: 3s"
+        width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="4.5" cy="4.5" r="4.5" fill="currentColor"/>
+      </svg>
     {% for i in range(0, 6) %}
       <svg
         x-data="{
-          y: window.addEventListener('mouseenter', (event) => { return event.clientY }),
-          x: window.addEventListener('mouseenter', (event) => { return event.clientX }),
+        y: undefined,
+        x: undefined,
           size: 25,
           bgColor: '#ffffff',
           init() {
