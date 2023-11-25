@@ -12,7 +12,6 @@ tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
-eleventyExcludeFromCollections: true
 ---
 
 <aside class="album-profile" style="--shadow: rgb(236,241,240)">
