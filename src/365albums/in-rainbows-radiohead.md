@@ -14,7 +14,7 @@ layout: post
 templateEngineOverride: njk,md
 ---
 
-<aside class="album-profile" style="--shadow: rgb(39,25,31)">
+<aside class="album-profile">
   <div class="album-profile__image">
     <img class="album-image" width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
@@ -37,11 +37,11 @@ templateEngineOverride: njk,md
         </ul>
       </div>
     </dl>
-    <div class="color-grid" style="--opacity: 1;">
+    <div class="color-grid">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(39,25,31)"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(213,109,39)"></span>
-					<span class="color color--3" style="--thirdColor: rgb(104,177,118)"></span>
+					<span class="color color--1"></span>
+					<span class="color color--2"></span>
+					<span class="color color--3"></span>
       </div>
     </div>
   </div>
