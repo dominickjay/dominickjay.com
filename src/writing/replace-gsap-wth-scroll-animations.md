@@ -9,7 +9,6 @@ tags:
   - javascript
   - writing
 layout: post
-draft: true
 links:
   [
     {
@@ -17,7 +16,6 @@ links:
       'target': 'https://css-tricks.com/animating-css-grid-how-to-examples/',
     },
   ]
-#eleventyExcludeFromCollections: true
 ---
 
 <div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
@@ -185,7 +183,9 @@ So anyway, where were we, so by setting this up this way, this starts the underl
 
 A great tool to work with for finding out the correct values here is [https://scroll-driven-animations.style](https://scroll-driven-animations.style/tools/view-timeline/ranges/#range-start-name=cover&range-start-percentage=0&range-end-name=cover&range-end-percentage=50&view-timeline-axis=block&view-timeline-inset=0&subject-size=smaller&subject-animation=none&interactivity=clicktodrag&show-areas=yes&show-fromto=yes&show-labels=yes), a super helpful visualizer for this. Tinkering around with it, we can change `animation-range: entry 0% entry 100%;` to `animation-range: cover 0% cover 60%`, so the highlighting effect starts when it appears in the bottom of the viewport, and finishes when it's 60% of the way up the screen.
 
-Bingo.
+{% imagePlaceholder "./src/assets/images/posts/replace-gsap-view-timeline-screenshot.png", "A screenshot from scroll-driven-animations.style showing support the setup for a timeline range", "Timeline range for a scroll driven animation", "(min-width: 30em) 25vw, 25vw" %}
+
+Bingo. That seemed to do the trick pretty well, check out our final demo below. Again, this was very much written while I was learning, so if there's anything that could be done differently, please let me know!
 
 <p class="codepen" data-height="600" data-theme-id="light" data-default-tab="result" data-slug-hash="ExrEdLX" data-user="dominickjay217" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/dominickjay217/pen/ExrEdLX">

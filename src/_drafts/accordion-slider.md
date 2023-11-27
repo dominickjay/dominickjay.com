@@ -16,7 +16,7 @@ links:
       'target': 'https://css-tricks.com/animating-css-grid-how-to-examples/',
     },
   ]
-eleventyExcludeFromCollections: true
+draft: true
 ---
 
 I was working on a project recently that involved what I could only describe as a sideways accordion - I'm sure there's a better name for it.
