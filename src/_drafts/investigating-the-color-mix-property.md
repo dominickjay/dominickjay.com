@@ -18,7 +18,7 @@ links:
       'target': 'https://www.smashingmagazine.com/2022/06/simplify-color-palette-css-color-mix/'
     }
   ]
-eleventyExcludeFromCollections: true
+draft: true
 ---
 <style>
 
