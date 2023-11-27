@@ -21,7 +21,7 @@ layout: 'default.njk'
                             href="{{ post.url | url }}"
                             class="fl-text-step-2 font-bold relative w-full py-[25px] fl-px-l group flex items-center justify-center overflow-hidden aspect-[16/6]"
                         >
-                          <img class="absolute object-cover object-center h-full w-full group-hover:blur-md duration-[0.25s] transition-all" src="{{ post.data.albumArt }}" />
+                          <img class="absolute object-cover object-center h-full w-full group-hover:blur-md duration-[0.25s] transition-all" src="{{ post.data.albumArt }}" loading="lazy" />
                           <div class="absolute bg-black/[0.35] h-full w-full"></div>
                           <div class="flex gap-y-[5px] flex-col items-center justify-center">
                             <span class="text-white heading fl-text-step-1 relative">{{ post.date | readableDate() }}</span>
