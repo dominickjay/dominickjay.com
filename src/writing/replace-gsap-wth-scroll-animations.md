@@ -1,6 +1,6 @@
 ---
 title: 'Replacing GSAP with Scroll Animations'
-description: ""
+description: "I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across a pen from Ryan Mulligan that helped me to understand it better"
 intro: ""
 published: Created
 updated: Last Modified
@@ -9,13 +9,6 @@ tags:
   - javascript
   - writing
 layout: post
-links:
-  [
-    {
-      'title': 'Animating CSS Grid (How To + Examples)',
-      'target': 'https://css-tricks.com/animating-css-grid-how-to-examples/',
-    },
-  ]
 ---
 
 <div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
@@ -23,7 +16,7 @@ links:
 	<p>There's some CSS properties used in this demo and in the featured Codepen that are experimental technologies - check your browser support for <a href="animation-range> <a href="https://caniuse.com/?search=animation-timeline">animation-timeline</a> and <a href="https://caniuse.com/?search=view-timeline-name">view-timeline-name</a> before venturing further and thinking I've broken something. I'm in <i>no</i> means an expert at this here, but I think I got it right!</p>
 </div>
 
-I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across this pen from [Ryan Mulligan](https://ryanmulligan.dev/) (hexagoncircle)
+I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across this pen from [Ryan Mulligan](https://ryanmulligan.dev/) (hexagoncircle).
 
 <p class="codepen" data-height="600" data-theme-id="light" data-default-tab="result" data-slug-hash="gOPMwvd" data-user="hexagoncircle" style="height: 600px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/hexagoncircle/pen/gOPMwvd">
