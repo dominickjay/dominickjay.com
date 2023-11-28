@@ -27,7 +27,7 @@ I was interested in picking up some new CSS tricks, and there’s been a lot of 
 
 After playing around with it and digging into the source code, pretty instantly found out it was a GSAP demo rather than scroll driven animations. Ah well, it's still lovely, and this post is in **no** way assuming that I can do one better. But then I wondered how tricky it would be to take this original demo and refactor it to not depend on the GSAP library anymore, and instead bring in those sweet scroll driven animations that I was so keen to figure out.
 
-{% imagePlaceholder "./src/assets/images/posts/caniuse-animation-timeline.png", "A screenshot from caniuse showing support for animation-timeline as of November, 2023", "Support for color-mix from caniuse as of November, 2023", "(min-width: 30em) 25vw, 25vw" %}
+{% imagePlaceholder "./src/assets/images/posts/caniuse-animation-timeline.png", "A screenshot from caniuse showing support for animation-timeline as of November, 2023", "Support for animation-timeline from caniuse as of November, 2023", "(min-width: 30em) 25vw, 25vw" %}
 
 ## The original
 
