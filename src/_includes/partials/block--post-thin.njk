@@ -3,9 +3,9 @@
 >
     <time
         class="text-black/[0.8]"
-        datetime="{{ post.date | htmlDateString }}"
+        datetime="{{ post.published | htmlDateString }}"
     >
-        {{ post.date | readableDate  }}
+        {{ post.published | readableDate  }}
     </time>
     <a
         class="fl-text-step-1 font-medium hover:underline hover:underline-offset-2"
