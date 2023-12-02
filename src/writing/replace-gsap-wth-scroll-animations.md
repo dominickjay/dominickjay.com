@@ -2,7 +2,7 @@
 title: 'Replacing GSAP with Scroll Animations'
 description: "I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across a pen from Ryan Mulligan that helped me to understand it better"
 intro: ""
-published: 2023-11-27
+date: 2023-11-27
 updated: Last Modified
 tags:
   - css
