@@ -1,5 +1,5 @@
 ---
-title: '#22. Life is But a dream - Electric Callboy'
+title: '#22. Life is But a dream - Avenged Sevenfold'
 metaDesc: 'Day 22 of my album-a-day mini-project'
 date: 2023-12-01
 albumTitle: Life is But a dream
@@ -12,7 +12,6 @@ tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
-draft: true
 ---
 
 <aside class="album-profile">
