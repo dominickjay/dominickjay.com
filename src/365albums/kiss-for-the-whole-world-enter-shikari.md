@@ -1,17 +1,18 @@
 ---
-title: "#29. Action Adventure - DJ Shadow"
-metaDesc: 'Day 29 of my album-a-day mini-project'
-date: 2023-12-08
-albumTitle: Action Adventure
-albumArtist: DJ Shadow
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/e173619ef79817587da4693c29c625a7.jpg#e173619ef79817587da4693c29c625a7
-albumTracks: 14 tracks, 57:37
-albumReleaseDate: 27 October 2023
-embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1702336934&theme=light
+title: "#30. A Kiss for the Whole World - Enter Shikari"
+metaDesc: 'Day 30 of my album-a-day mini-project'
+date: 2023-12-09
+albumTitle: A Kiss for the Whole World
+albumArtist: Enter Shikari
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/f73157b7069df144187f3fd510827dfe.jpg#f73157b7069df144187f3fd510827dfe
+albumTracks: 12 tracks, 33:52
+albumReleaseDate: 21 April 2023
+embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1659082009&theme=light
 tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
+draft: true
 ---
 <aside class="album-profile">
   <div class="album-profile__image">
@@ -31,7 +32,10 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Ozone Scraper</li>
+          <li>(Pls) Set Me on Fire</li>
+          <li>It Hurts</li>
+          <li>Bloodshot</li>
+          <li>A Kiss for the Whole World</li>
         </ul>
       </div>
     </dl>

@@ -1,6 +1,6 @@
 ---
-title: "#32. So much (FOR) STARDUST - Fall Out Boy"
-metaDesc: 'Day 32 of my album-a-day mini-project'
+title: "#31. So much (FOR) STARDUST - Fall Out Boy"
+metaDesc: 'Day 31 of my album-a-day mini-project'
 date: 2023-12-10
 albumTitle: So much (FOR) STARDUST
 albumArtist: Fall Out Boy
