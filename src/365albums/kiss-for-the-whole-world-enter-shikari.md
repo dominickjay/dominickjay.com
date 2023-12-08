@@ -1,6 +1,6 @@
 ---
-title: "#31. Action Adventure - DJ Shadow"
-metaDesc: 'Day 31 of my album-a-day mini-project'
+title: "#29. Action Adventure - DJ Shadow"
+metaDesc: 'Day 29 of my album-a-day mini-project'
 date: 2023-12-08
 albumTitle: Action Adventure
 albumArtist: DJ Shadow
