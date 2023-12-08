@@ -1,6 +1,6 @@
 ---
-title: "#29. A Kiss for the Whole World - Enter Shikari"
-metaDesc: 'Day 29 of my album-a-day mini-project'
+title: "#30. A Kiss for the Whole World - Enter Shikari"
+metaDesc: 'Day 30 of my album-a-day mini-project'
 date: 2023-12-09
 albumTitle: A Kiss for the Whole World
 albumArtist: Enter Shikari
