@@ -1,17 +1,17 @@
 ---
 title: '#4. This is Why - Paramore'
 metaDesc: 'Day 4 of my album-a-day mini-project'
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/32d1f1aaa8e038d36c10eec0dcd20225.jpg#32d1f1aaa8e038d36c10eec0dcd20225
 date: 2023-11-13
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
 
 <aside class="album-profile" style="--shadow: rgb(88,75,60)">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="https://lastfm.freetls.fastly.net/i/u/770x0/32d1f1aaa8e038d36c10eec0dcd20225.jpg#32d1f1aaa8e038d36c10eec0dcd20225"/>
+    <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>This is Why</strong>by Paramore</h1>

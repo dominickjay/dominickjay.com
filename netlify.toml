@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  ignore = "exit 0"
 
 [dev]
   command = "npm run start"
@@ -9,3 +10,6 @@
 [[edge_functions]]
   function = "eleventy-edge"
   path = "/*"
+
+[functions]
+  node_bundler = "esbuild"

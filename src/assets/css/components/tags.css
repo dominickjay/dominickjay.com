@@ -19,6 +19,14 @@
   --topic-color: theme('colors.orange');
 }
 
+.topic--personal {
+  --topic-color: theme('colors.green');
+}
+
+.topic--weeknotes {
+  --topic-color: theme('colors.pink');
+}
+
 .topic.category {
   @apply hover:bg-black/[0.25];
   color: theme('colors.black');

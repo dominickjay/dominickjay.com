@@ -9,7 +9,7 @@ tags:
   - testing
   - writing
 layout: post
-eleventyExcludeFromCollections: true
+draft: true
 ---
 
 - what is cypress

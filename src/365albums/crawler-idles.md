@@ -1,8 +1,8 @@
 ---
-title: '#9. Crawler - Idles'
+title: '#9. CRAWLER - Idles'
 metaDesc: 'Day 9 of my album-a-day mini-project'
 date: 2023-11-18
-albumTitle: Crawler
+albumTitle: CRAWLER
 albumArtist: Idles
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/5cbb621500562a568d92ca9b934c50d3.jpg#5cbb621500562a568d92ca9b934c50d3
 albumTracks: 14 tracks, 46:32
@@ -10,7 +10,6 @@ albumReleaseDate: 12 November 2021
 embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1570477692&theme=light
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---

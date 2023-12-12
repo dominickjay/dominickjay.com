@@ -1,22 +1,21 @@
 ---
-title: '#8. Only Revolutions - Biffy Clyro'
-metaDesc: 'Day 8 of my album-a-day mini-project'
-date: 2023-11-17
-albumTitle: Only Revolutions
-albumArtist: Biffy Clyro
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/dbf7ce4c1b2288dc3065ec640695f933.jpg#dbf7ce4c1b2288dc3065ec640695f933
-albumTracks: 12 tracks
-albumReleaseDate: 5 November 2009
-embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F384241289&theme=light"
+title: "#33. The Death Of Randy Fitzsimmons - The Hives"
+metaDesc: 'Day 33 of my album-a-day mini-project'
+date: 2023-12-12
+albumTitle: The Death Of Randy Fitzsimmons
+albumArtist: The Hives
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/4f6547eb600474baddd13b3b01421734.jpg#4f6547eb600474baddd13b3b01421734
+albumTracks: 12 tracks, 31:27
+albumReleaseDate: 11 August 2023
+embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1681166933&theme=light
 tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
 ---
-
-<aside class="album-profile" style="--shadow: rgb(195,198,203);">
+<aside class="album-profile">
   <div class="album-profile__image">
-    <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
+    <img class="album-image" width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>{{ albumTitle }}</strong>by {{ albumArtist }}</h1>
@@ -32,20 +31,18 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Mountains</li>
-          <li>That Golden Rule</li>
-          <li>The Captain</li>
-          <li>Many of Horror</li>
-          <li>Bubbles</li>
-          <li>God &amp; Satan</li>
+          <li>Bogus Operandi</li>
+          <li>Countdown to Shutdown</li>
+          <li>Rigor Mortis Radio</li>
+          <li>Trapdoor Solution</li>
         </ul>
       </div>
     </dl>
-    <div class="color-grid" style="--opacity: 1;">
+    <div class="color-grid">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(195,198,203);"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(53,63,53);"></span>
-					<span class="color color--3" style="--thirdColor: rgb(142,33,39);"></span>
+					<span class="color color--1"></span>
+					<span class="color color--2"></span>
+					<span class="color color--3"></span>
       </div>
     </div>
   </div>

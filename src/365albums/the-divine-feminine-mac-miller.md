@@ -1,20 +1,19 @@
 ---
-title: '#8. Only Revolutions - Biffy Clyro'
-metaDesc: 'Day 8 of my album-a-day mini-project'
-date: 2023-11-17
-albumTitle: Only Revolutions
-albumArtist: Biffy Clyro
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/dbf7ce4c1b2288dc3065ec640695f933.jpg#dbf7ce4c1b2288dc3065ec640695f933
-albumTracks: 12 tracks
-albumReleaseDate: 5 November 2009
-embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F384241289&theme=light"
+title: '#11. The Divine Feminine - Mac Miller'
+metaDesc: 'Day 10 of my album-a-day mini-project'
+date: 2023-11-20
+albumTitle: The Divine Feminine
+albumArtist: Mac Miller
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/b8f1d45f318d32329329727444c51239.jpg#b8f1d45f318d32329329727444c51239
+albumTracks: 10 tracks
+albumReleaseDate: 16 September 2016
+embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1137965822&theme=light"
 tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
 ---
-
-<aside class="album-profile" style="--shadow: rgb(195,198,203);">
+<aside class="album-profile" style="--shadow: rgb(214,197,194);">
   <div class="album-profile__image">
     <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
@@ -32,20 +31,17 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Mountains</li>
-          <li>That Golden Rule</li>
-          <li>The Captain</li>
-          <li>Many of Horror</li>
-          <li>Bubbles</li>
-          <li>God &amp; Satan</li>
+          <li>Dang!</li>
+          <li>We</li>
+          <li>My Favorite Part</li>
         </ul>
       </div>
     </dl>
     <div class="color-grid" style="--opacity: 1;">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(195,198,203);"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(53,63,53);"></span>
-					<span class="color color--3" style="--thirdColor: rgb(142,33,39);"></span>
+					<span class="color color--1" style="--firstColor: rgb(214,197,194);"></span>
+					<span class="color color--2" style="--secondaryColor: rgb(30,29,29);"></span>
+					<span class="color color--3" style="--thirdColor: rgb(117,91,90);"></span>
       </div>
     </div>
   </div>

@@ -1,17 +1,17 @@
 ---
 title: '#1. Rumours - Fleetwood Mac '
 metaDesc: 'Day 1 of my album-a-day mini-project'
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0b4716b42466ffa893ad3e3ab824318b.jpg#0b4716b42466ffa893ad3e3ab824318b
 date: 2023-11-10
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
 
 <aside class="album-profile" style="--shadow: rgb(38,39,43)">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="https://lastfm.freetls.fastly.net/i/u/770x0/0b4716b42466ffa893ad3e3ab824318b.jpg#0b4716b42466ffa893ad3e3ab824318b"/>
+    <img crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>Rumours</strong>by Fleetwood Mac</h1>

@@ -1,17 +1,17 @@
 ---
 title: '#3. Welcome To Horrorwood: The Silver Scream 2 - Ice Nine Kills'
 metaDesc: 'Day 3 of my album-a-day mini-project'
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/1e757535e9e0ebbca3178f670756581d.jpg#1e757535e9e0ebbca3178f670756581d
 date: 2023-11-12
 tags:
   - music365
-  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
 
 <aside class="album-profile" style="--shadow: rgb(40,45,60)">
   <div class="album-profile__image">
-    <img crossorigin="anonymous" src="https://lastfm.freetls.fastly.net/i/u/770x0/1e757535e9e0ebbca3178f670756581d.jpg#1e757535e9e0ebbca3178f670756581d"/>
+    <img crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>Welcome To Horrorwood: The Silver Scream 2</strong>by Ice Nine Kills</h1>

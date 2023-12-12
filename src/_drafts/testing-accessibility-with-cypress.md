@@ -9,7 +9,7 @@ tags:
   - accessibility
   - writing
 layout: post
-eleventyExcludeFromCollections: true
+draft: true
 ---
 
 - part 1 is installation and setup - don't forget this
