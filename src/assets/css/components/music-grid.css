@@ -1,7 +1,6 @@
 .music-grid {
-    @apply overflow-auto flex md:grid md:grid-cols-8 gap-[16px];
+    @apply overflow-auto flex md:grid md:grid-cols-8 gap-[16px] cursor-grab md:cursor-pointer;
     scroll-snap-type: x mandatory;
-
 }
 
 .music-grid > * {

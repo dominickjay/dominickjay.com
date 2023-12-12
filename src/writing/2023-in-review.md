@@ -10,10 +10,8 @@ tags:
   - writing
 layout: post
 templateEngineOverride: njk,md
-eleventyExcludeFromCollections: true
+draft: true
 ---
-
-## Career decisions
 
 ## Conferences
 
@@ -21,11 +19,16 @@ eleventyExcludeFromCollections: true
 
 ## Travel
 
-- Prague
+- [prague](https://serieseight.com/journal/team-trip-2023)
+- Hendra
+- Butlins
 
 ## Books
 
 {% set books = 'CfctG' | booksApi %}
+
+<ul>
+
 {% for item in books %}
 
    <li>
@@ -36,14 +39,45 @@ eleventyExcludeFromCollections: true
 
 {% endfor %}
 
+   <li>
+      <span class="font-bold">Mort</span>
+      by
+      <span class="font-bold">Terry Pratchett</span>
+   </li>
+
+   <li>
+      <span class="font-bold">Reaper Man</span>
+      by
+      <span class="font-bold">Terry Pratchett</span>
+   </li>
+
+   <li>
+      <span class="font-bold">The Storyteller</span>
+      by
+      <span class="font-bold">Dave Grohl</span>
+   </li>
+
+   <li>
+      <span class="font-bold">Leviathan Wakes</span>
+      by
+      <span class="font-bold">James S. A. Corey</span>
+   </li>
+
+</ul>
+
 ## Music
+
+Started posting late November an [album a day](/365albums/) inspired by [Matt](https://birchtree.me/blog/the-365-albums-project/)
 
 <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/gb/playlist/replay-2023/pl.rp-xOOvc4O7B6ng"></iframe>
 
 ## Video games
 
-- red dead redemption 2
-- super mario deluxe U
+<div class="music-grid">
+    <img height="350" width="284" src="https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg" loading="lazy" />
+    <img height="350" width="284" src="https://static.wikia.nocookie.net/mario/images/b/b8/NSMBUD_boxart.jpg" loading="lazy" />
+    <img height="350" width="284" src="https://upload.wikimedia.org/wikipedia/en/e/e1/Spider-Man_PS4_cover.jpg" loading="lazy" />
+</div>
 
 ## TV Series/Movies
 
@@ -53,8 +87,11 @@ eleventyExcludeFromCollections: true
 4. Happy Valley
 5. Succession
 6. The Mandalorian
-
-## Learning things
+7. What we do in the shadows
+8. New Amsterdam
+9. The Bear
+10. Loki
+11. Fresh off the Boat
 
 ## Blog posts
 
@@ -76,5 +113,9 @@ Automated majority of weeknotes posts
 ## The web
 
 - [https://www.lenesaile.com/en/blog/organizing-the-eleventy-config-file/](https://www.lenesaile.com/en/blog/organizing-the-eleventy-config-file/)
+- [https://andy-bell.co.uk/just-post/](https://andy-bell.co.uk/just-post/)
+- [https://joshcollinsworth.com/blog/antiquated-react](https://joshcollinsworth.com/blog/antiquated-react)
+- [https://joshcollinsworth.com/blog/great-transitions](https://joshcollinsworth.com/blog/antiquated-react)
+- [https://ryanmulligan.dev/blog/scroll-driven-animations/](https://ryanmulligan.dev/blog/scroll-driven-animations/)
 
 ## Wrap up
