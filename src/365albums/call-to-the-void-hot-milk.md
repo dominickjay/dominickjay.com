@@ -1,7 +1,7 @@
 ---
 title: "#35. A Call to the Void - Hot Milk"
 metaDesc: 'Day 35 of my album-a-day mini-project'
-date: 2023-12-13
+date: 2023-12-14
 albumTitle: A Call to the Void
 albumArtist: Hot Milk
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/f2ec0fcef7920e4f177cf92b9d00100f.jpg#f2ec0fcef7920e4f177cf92b9d00100f
