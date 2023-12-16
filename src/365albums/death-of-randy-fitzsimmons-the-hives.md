@@ -1,5 +1,5 @@
 ---
-title: "#33. The Death Of Randy Fitzsimmons - The Hives"
+title: "The Death Of Randy Fitzsimmons - The Hives"
 metaDesc: 'Day 33 of my album-a-day mini-project'
 date: 2023-12-12
 albumTitle: The Death Of Randy Fitzsimmons

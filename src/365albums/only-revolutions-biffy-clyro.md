@@ -1,5 +1,5 @@
 ---
-title: '#8. Only Revolutions - Biffy Clyro'
+title: 'Only Revolutions - Biffy Clyro'
 metaDesc: 'Day 8 of my album-a-day mini-project'
 date: 2023-11-17
 albumTitle: Only Revolutions

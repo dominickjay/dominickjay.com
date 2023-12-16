@@ -1,5 +1,5 @@
 ---
-title: '#3. Welcome To Horrorwood: The Silver Scream 2 - Ice Nine Kills'
+title: 'Welcome To Horrorwood: The Silver Scream 2 - Ice Nine Kills'
 metaDesc: 'Day 3 of my album-a-day mini-project'
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/1e757535e9e0ebbca3178f670756581d.jpg#1e757535e9e0ebbca3178f670756581d
 date: 2023-11-12

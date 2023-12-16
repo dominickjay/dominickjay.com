@@ -1,5 +1,5 @@
 ---
-title: '#13. Pray for the Wicked - Panic! At the Disco'
+title: 'Pray for the Wicked - Panic! At the Disco'
 metaDesc: 'Day 13 of my album-a-day mini-project'
 date: 2023-11-22
 albumTitle: Pray for the Wicked

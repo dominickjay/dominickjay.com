@@ -1,5 +1,5 @@
 ---
-title: '#2. Dead Club City - Nothing But Thieves'
+title: 'Dead Club City - Nothing But Thieves'
 metaDesc: 'Day 2 of my album-a-day mini-project'
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/162ce560ea21ea5fa92598462be07c1f.jpg#162ce560ea21ea5fa92598462be07c1f
 date: 2023-11-11

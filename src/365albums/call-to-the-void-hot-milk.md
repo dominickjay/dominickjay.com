@@ -1,5 +1,5 @@
 ---
-title: "#35. A Call to the Void - Hot Milk"
+title: "A Call to the Void - Hot Milk"
 metaDesc: 'Day 35 of my album-a-day mini-project'
 date: 2023-12-14
 albumTitle: A Call to the Void

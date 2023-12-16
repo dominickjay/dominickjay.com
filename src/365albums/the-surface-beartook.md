@@ -1,5 +1,5 @@
 ---
-title: '#23. The Surface - Beartooth'
+title: 'The Surface - Beartooth'
 metaDesc: 'Day 23 of my album-a-day mini-project'
 date: 2023-12-02
 albumTitle: The Surface

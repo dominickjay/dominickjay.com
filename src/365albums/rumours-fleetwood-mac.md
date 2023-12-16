@@ -1,5 +1,5 @@
 ---
-title: '#1. Rumours - Fleetwood Mac '
+title: 'Rumours - Fleetwood Mac '
 metaDesc: 'Day 1 of my album-a-day mini-project'
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0b4716b42466ffa893ad3e3ab824318b.jpg#0b4716b42466ffa893ad3e3ab824318b
 date: 2023-11-10

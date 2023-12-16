@@ -1,5 +1,5 @@
 ---
-title: "#28. Dogma - Crown the Empire"
+title: "Dogma - Crown the Empire"
 metaDesc: 'Day 28 of my album-a-day mini-project'
 date: 2023-12-07
 albumTitle: Dogma

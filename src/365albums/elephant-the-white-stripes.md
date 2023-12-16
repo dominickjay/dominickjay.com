@@ -1,5 +1,5 @@
 ---
-title: '#7. Elephant - The White Stripes'
+title: 'Elephant - The White Stripes'
 metaDesc: 'Day 7 of my album-a-day mini-project'
 date: 2023-11-16
 albumTitle: Elephant

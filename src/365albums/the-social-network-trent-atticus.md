@@ -1,5 +1,5 @@
 ---
-title: '#14. The Social Network (OST) - Trent Reznor and Atticus Ross'
+title: 'The Social Network (OST) - Trent Reznor and Atticus Ross'
 metaDesc: 'Day 14 of my album-a-day mini-project'
 date: 2023-11-23
 albumTitle: The Social Network (OST)

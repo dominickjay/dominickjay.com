@@ -1,5 +1,5 @@
 ---
-title: "#34. Back to the Water Below - Royal Blood"
+title: "Back to the Water Below - Royal Blood"
 metaDesc: 'Day 34 of my album-a-day mini-project'
 date: 2023-12-13
 albumTitle: Back to the Water Below

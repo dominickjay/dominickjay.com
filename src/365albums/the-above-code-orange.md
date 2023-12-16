@@ -1,5 +1,5 @@
 ---
-title: "#27. The Above - Code Orange"
+title: "The Above - Code Orange"
 metaDesc: 'Day 27 of my album-a-day mini-project'
 date: 2023-12-06
 albumTitle: The Above

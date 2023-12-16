@@ -1,5 +1,5 @@
 ---
-title: "#32. But Here We Are - Foo Fighters"
+title: "But Here We Are - Foo Fighters"
 metaDesc: 'Day 32 of my album-a-day mini-project'
 date: 2023-12-11
 albumTitle: But Here We Are

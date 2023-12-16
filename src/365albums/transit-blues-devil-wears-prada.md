@@ -1,5 +1,5 @@
 ---
-title: '#17. Transit Blues - The Devil Wears Prada'
+title: 'Transit Blues - The Devil Wears Prada'
 metaDesc: 'Day 17 of my album-a-day mini-project'
 date: 2023-11-26
 albumTitle: Transit Blues

@@ -1,5 +1,5 @@
 ---
-title: '#26. Suffer in Heaven - Chelsea Grin'
+title: 'Suffer in Heaven - Chelsea Grin'
 metaDesc: 'Day 26 of my album-a-day mini-project'
 date: 2023-12-05
 albumTitle: Suffer in Heaven

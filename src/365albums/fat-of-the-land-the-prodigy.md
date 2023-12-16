@@ -1,5 +1,5 @@
 ---
-title: '#15. Fat of the Land - The Prodigy'
+title: 'Fat of the Land - The Prodigy'
 metaDesc: 'Day 15 of my album-a-day mini-project'
 date: 2023-11-24
 albumTitle: Fat of the Land

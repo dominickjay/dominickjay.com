@@ -1,5 +1,5 @@
 ---
-title: '#21. TEKKNO - Electric Callboy'
+title: 'TEKKNO - Electric Callboy'
 metaDesc: 'Day 21 of my album-a-day mini-project'
 date: 2023-11-30
 albumTitle: TEKKNO

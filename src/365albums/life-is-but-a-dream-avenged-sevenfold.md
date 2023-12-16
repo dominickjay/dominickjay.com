@@ -1,5 +1,5 @@
 ---
-title: '#22. Life is But a dream - Avenged Sevenfold'
+title: 'Life is But a dream - Avenged Sevenfold'
 metaDesc: 'Day 22 of my album-a-day mini-project'
 date: 2023-12-01
 albumTitle: Life is But a dream

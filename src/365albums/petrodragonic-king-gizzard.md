@@ -1,5 +1,5 @@
 ---
-title: "#36. PetroDragonic Apocalypse... - King Gizzard and The Lizard Wizard"
+title: "PetroDragonic Apocalypse... - King Gizzard and The Lizard Wizard"
 metaDesc: 'Day 36 of my album-a-day mini-project'
 date: 2023-12-15
 albumTitle: PetroDragonic Apocalypse; or, Dawn of Eternal Night - An Annihilation of Planet Earth and the Beginning of Merciless Damnation
