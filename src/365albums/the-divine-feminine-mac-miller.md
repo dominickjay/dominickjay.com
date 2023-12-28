@@ -1,5 +1,5 @@
 ---
-title: '#11. The Divine Feminine - Mac Miller'
+title: 'The Divine Feminine - Mac Miller'
 metaDesc: 'Day 10 of my album-a-day mini-project'
 date: 2023-11-20
 albumTitle: The Divine Feminine

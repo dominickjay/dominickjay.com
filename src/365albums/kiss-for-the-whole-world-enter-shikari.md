@@ -1,5 +1,5 @@
 ---
-title: "#30. A Kiss for the Whole World - Enter Shikari"
+title: "A Kiss for the Whole World - Enter Shikari"
 metaDesc: 'Day 30 of my album-a-day mini-project'
 date: 2023-12-09
 albumTitle: A Kiss for the Whole World

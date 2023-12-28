@@ -1,5 +1,5 @@
 ---
-title: '#10. Nothing is True and Everything is Possible - Enter Shikari'
+title: 'Nothing is True and Everything is Possible - Enter Shikari'
 metaDesc: 'Day 9 of my album-a-day mini-project'
 date: 2023-11-19
 albumTitle: Nothing is True and Everything is Possible

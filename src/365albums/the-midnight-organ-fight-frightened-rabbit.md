@@ -1,5 +1,5 @@
 ---
-title: '#6. The Midnight Organ Fight - Frightened Rabbit'
+title: 'The Midnight Organ Fight - Frightened Rabbit'
 metaDesc: 'Day 6 of my album-a-day mini-project'
 date: 2023-11-15
 albumTitle: The Midnight Organ Fight

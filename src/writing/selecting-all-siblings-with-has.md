@@ -25,6 +25,11 @@ links:
 
 As always, I'm going to start with support for this feature first. For once it's not just IE being the awkward one, as Firefox doesn't have support here for it - unless you enable it through the `layout.css.has-selector.enabled` flag anyway. So if you're on Firefox and want to see this demo in all its glory, you'll need this flag enabled or jump onto another browser.
 
+<div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
+  <span class="fl-text-step-2 heading">Update - 23rd December, 2024</span>
+  <p>This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</p>
+</div>
+
 
 <div class="pull-quote pull-quote--left">
 

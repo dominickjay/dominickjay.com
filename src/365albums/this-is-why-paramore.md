@@ -1,5 +1,5 @@
 ---
-title: '#4. This is Why - Paramore'
+title: 'This is Why - Paramore'
 metaDesc: 'Day 4 of my album-a-day mini-project'
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/32d1f1aaa8e038d36c10eec0dcd20225.jpg#32d1f1aaa8e038d36c10eec0dcd20225
 date: 2023-11-13

@@ -1,5 +1,5 @@
 ---
-title: '#18. In Rainbows - Radiohead'
+title: 'In Rainbows - Radiohead'
 metaDesc: 'Day 18 of my album-a-day mini-project'
 date: 2023-11-27
 albumTitle: In Rainbows

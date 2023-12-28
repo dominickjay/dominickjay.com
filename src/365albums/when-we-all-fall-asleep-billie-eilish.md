@@ -1,5 +1,5 @@
 ---
-title: '#16. When We All Fall Asleep, Where Do We Go? - Billie Eilish'
+title: 'When We All Fall Asleep, Where Do We Go? - Billie Eilish'
 metaDesc: 'Day 16 of my album-a-day mini-project'
 date: 2023-11-25
 albumTitle: When We All Fall Asleep, Where Do We Go?

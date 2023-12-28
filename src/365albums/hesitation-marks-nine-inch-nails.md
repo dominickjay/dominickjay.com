@@ -1,5 +1,5 @@
 ---
-title: '#19. Hesitation Marks - Nine Inch Nails'
+title: 'Hesitation Marks - Nine Inch Nails'
 metaDesc: 'Day 19 of my album-a-day mini-project'
 date: 2023-11-28
 albumTitle: Hesitation Marks

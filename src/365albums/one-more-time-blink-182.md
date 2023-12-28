@@ -1,5 +1,5 @@
 ---
-title: '#24. One More Time - Blink 182'
+title: 'One More Time - Blink 182'
 metaDesc: 'Day 24 of my album-a-day mini-project'
 date: 2023-12-03
 albumTitle: One More Time

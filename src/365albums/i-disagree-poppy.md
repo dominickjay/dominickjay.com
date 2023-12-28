@@ -1,5 +1,5 @@
 ---
-title: '#12. I Disagree - Poppy'
+title: 'I Disagree - Poppy'
 metaDesc: 'Day 12 of my album-a-day mini-project'
 date: 2023-11-21
 albumTitle: I Disagree

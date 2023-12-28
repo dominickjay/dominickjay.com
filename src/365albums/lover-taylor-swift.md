@@ -1,22 +1,21 @@
 ---
-title: 'Elephant - The White Stripes'
-metaDesc: 'Day 7 of my album-a-day mini-project'
-date: 2023-11-16
-albumTitle: Elephant
-albumArtist: The White Stripes
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/4834c1de5bae49f594bd2f2df1f16286.jpg#4834c1de5bae49f594bd2f2df1f16286
-albumTracks: 14 tracks, 58:47
-albumReleaseDate: 31 March 2003
-embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1533513536&theme=light"
+title: "Lover - Taylor Swift"
+metaDesc: 'Day 48 of my album-a-day mini-project'
+date: 2023-12-27
+albumTitle: Lover
+albumArtist: Taylor Swift
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/d3f083370c371a3ba1cddafaf193c27d.jpg#d3f083370c371a3ba1cddafaf193c27d
+albumTracks: 18 tracks, 61:21
+albumReleaseDate: 21 August 2019
+embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1468058165&theme=light
 tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
 ---
-
-<aside class="album-profile" style="--shadow: rgb(159,36,20)">
+<aside class="album-profile">
   <div class="album-profile__image">
-    <img width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
+    <img class="album-image" width="250" height="250" crossorigin="anonymous" src="{{ albumArt }}"/>
   </div>
   <div class="aside__content">
     <h1><strong>{{ albumTitle }}</strong>by {{ albumArtist }}</h1>
@@ -32,18 +31,19 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Seven Nation Army</li>
-          <li>I Just Don't Know What to Do with Myself</li>
-          <li>The Hardest Button to Button</li>
-          <li>There's No Home for You Here</li>
+          <li>Me!</li>
+          <li>You Need to Calm Down</li>
+          <li>Lover</li>
+          <li>The Man</li>
+          <li>Cruel Summer</li>
         </ul>
       </div>
     </dl>
-    <div class="color-grid" style="--opacity: 1;">
+    <div class="color-grid">
       <div class="color-grid__container">
-					<span class="color color--1" style="--firstColor: rgb(159,36,20)"></span>
-					<span class="color color--2" style="--secondaryColor: rgb(26,6,16)"></span>
-					<span class="color color--3" style="--thirdColor: rgb(233,216,210)"></span>
+					<span class="color color--1"></span>
+					<span class="color color--2"></span>
+					<span class="color color--3"></span>
       </div>
     </div>
   </div>

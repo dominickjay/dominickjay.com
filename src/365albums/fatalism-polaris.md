@@ -1,13 +1,12 @@
 ---
-title: "Dogma - Crown the Empire"
-metaDesc: 'Day 28 of my album-a-day mini-project'
-date: 2023-12-07
-albumTitle: Dogma
-albumArtist: Crown the Empire
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/aed1358e4beeb7c1c4799d7b17b96451.jpg#aed1358e4beeb7c1c4799d7b17b96451
-albumTracks: 10 Tracks, 33:50
-albumReleaseDate: April 28, 2023
-embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1667041358&theme=light
+title: "Fatalism - Polaris"
+metaDesc: 'Day 46 of my album-a-day mini-project'
+date: 2023-12-25
+albumTitle: Fatalism
+albumArtist: Polaris
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/818991d13ef5294cf73c5f902feba4e2.jpg#818991d13ef5294cf73c5f902feba4e2
+albumTracks: 11 tracks
+albumReleaseDate: 1 September 2023
 tags:
   - music365
 layout: post
@@ -31,10 +30,9 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>In Another Life</li>
-          <li>Dance with the Dead</li>
-          <li>Immortalize</li>
-          <li>Dogma</li>
+          <li>Inhumane</li>
+          <li>Nightmare</li>
+          <li>Overflow</li>
         </ul>
       </div>
     </dl>
@@ -48,7 +46,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src={{ embedUrl }} frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1685204489&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

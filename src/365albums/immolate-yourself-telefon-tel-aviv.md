@@ -1,5 +1,5 @@
 ---
-title: '#20. Immolate Yourself - Telefon Tel Aviv'
+title: 'Immolate Yourself - Telefon Tel Aviv'
 metaDesc: 'Day 20 of my album-a-day mini-project'
 date: 2023-11-29
 albumTitle: Immolate Yourself

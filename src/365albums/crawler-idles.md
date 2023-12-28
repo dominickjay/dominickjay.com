@@ -1,5 +1,5 @@
 ---
-title: '#9. CRAWLER - Idles'
+title: 'CRAWLER - Idles'
 metaDesc: 'Day 9 of my album-a-day mini-project'
 date: 2023-11-18
 albumTitle: CRAWLER

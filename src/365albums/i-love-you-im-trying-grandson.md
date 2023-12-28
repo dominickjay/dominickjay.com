@@ -1,5 +1,5 @@
 ---
-title: "#25. I Love You, I'm Trying - grandson"
+title: "I Love You, I'm Trying - grandson"
 metaDesc: 'Day 25 of my album-a-day mini-project'
 date: 2023-12-04
 albumTitle: I Love You, I'm Trying
