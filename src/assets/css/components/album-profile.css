@@ -111,10 +111,11 @@
 .album-profile .singles ul {
   row-gap: 0;
   padding-block-start: 10px;
+  margin-block-start: 0;
 }
 
 .singles li {
-  @apply fl-text-step--1;
+  @apply fl-text-step-0;
 }
 
 .color-grid {
