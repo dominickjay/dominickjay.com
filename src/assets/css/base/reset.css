@@ -31,7 +31,7 @@ html:focus-within {
 }
 
 *:focus {
-  @apply outline-dashed outline-4 outline-orange;
+  outline: 1px dashed #000000;
 }
 
 /* Set core body defaults */

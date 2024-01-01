@@ -7,6 +7,7 @@ music: 2023
 language: 2023
 tags:
   - personal
+  - reviews
   - writing
 layout: post
 templateEngineOverride: njk,md

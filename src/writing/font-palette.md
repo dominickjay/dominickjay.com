@@ -6,6 +6,7 @@ date: 2023-03-09
 updated: 2023-16-08
 tags:
   - css
+  - variable fonts
   - writing
 layout: post
 templateEngineOverride: njk,md

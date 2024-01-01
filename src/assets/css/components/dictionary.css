@@ -1,0 +1,19 @@
+.dictionary {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dictionary::before {
+  content: "";
+  height: 2px;
+  width: 100px;
+  background-color: theme('colors.black');
+}
+
+.dictionary span {
+  font-size: 100px;
+  font-family: theme('fontFamily.main.0');
+  font-weight: 900;
+  line-height: 1.6;
+}

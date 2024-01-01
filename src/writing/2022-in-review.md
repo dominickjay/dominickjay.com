@@ -7,6 +7,7 @@ music: 2022
 language: 2022
 tags:
   - personal
+  - reviews
   - writing
 layout: post
 templateEngineOverride: njk,md

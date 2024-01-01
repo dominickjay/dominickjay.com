@@ -1,11 +1,71 @@
----
-layout: main
----
+{% set assetHash = global.random() %}
 
-{% block content %}
-<div class="hero min-h-screen">
-  <div class="container flex flex-col mdw:site-grid h-full overflow-hidden pt-[150px]">
-    {{ content | safe }}
-  </div>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YW8F6BSY1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-4YW8F6BSY1');
+		</script>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta name="generator" content="Eleventy">
+		{% include "partials/metadata--info.njk" %}
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+    <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ navigation.socialmedia[3].url }}" />
+		<meta name="theme-color" content="#ffffff">
+
+    <script>
+      if (CSS.paintWorklet) {
+        CSS.paintWorklet.addModule('/assets/js/slanted.js?{{ assetHash }}');
+      }
+    </script>
+		<!-- synchronous css / inline css  -->
+		<link rel="stylesheet" href="/assets/css/global.css?{{ assetHash }}" />
+		<link
+			rel="preload"
+			href="/assets/fonts/Infinity/Infinity-Bold.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/assets/fonts/Infinity/Infinity-Medium.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/assets/fonts/recia/Recia-Medium.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+		<link
+			rel="preload"
+			href="/assets/fonts/recia/Recia-Regular.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+	</head>
+	<body>
+		<a class="skip-link" href="#main-content">Skip to main content</a>
+    {# {% include "../_includes/partials/global/header.njk"%} #}
+    <main>
+      {{ content | safe }}
+    </main>
+    {# {% include "../_includes/partials/global/footer.njk"%} #}
+    <script src="https://tinylytics.app/embed/1WA3sspPzaSsnsq_M65a.js"></script>
+	</body>
+</html>

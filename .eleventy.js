@@ -57,11 +57,11 @@ module.exports = eleventyConfig => {
   eleventyConfig.addWatchTarget('./src/assets')
 
   // --------------------- layout aliases -----------------------
-  eleventyConfig.addLayoutAlias('base', 'main.njk')
+  // eleventyConfig.addLayoutAlias('base', 'main.njk')
   eleventyConfig.addLayoutAlias('default', 'default.njk')
   eleventyConfig.addLayoutAlias('home', 'home.njk')
   eleventyConfig.addLayoutAlias('post', 'post.njk')
-  eleventyConfig.addLayoutAlias('snippet', 'snippet.njk')
+  // eleventyConfig.addLayoutAlias('snippet', 'snippet.njk')
 
   // 	---------------------  Custom filters -----------------------
   eleventyConfig.addFilter('readableDate', (dateObj) => {

@@ -5,6 +5,7 @@ date: 2021-08-17
 tags:
   - css
   - javascript
+  - custom properties
   - writing
 layout: post
 links:

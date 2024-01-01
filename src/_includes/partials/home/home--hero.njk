@@ -33,20 +33,15 @@
             this.getPos();
             this.size = this.randomSize();
             this.bgColor = this.randomBgColor();
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (prefersReducedMotion.matches) return
+
             setInterval(() => {
               this.y = Math.floor(Math.random() * (this.height - 0) + 0);
               this.x = Math.floor(Math.random() * (this.width - 0) + 0);
             }, 10000);
           },
-          {# getPos() {
-            let mousePos = { x: undefined, y: undefined };
-
-            window.addEventListener('mousemove', (event) => {
-              mousePos = { x: event.clientX, y: event.clientY };
-              this.y = mousePos.y;
-              this.x = mousePos.x;
-            });
-          }, #}
           randomY(){
             var max = Math.floor(this.height);
             return Math.floor(Math.random() * (max - 0) + 0);
@@ -89,6 +84,10 @@
             this.size = this.randomSize();
             this.bgColor = this.randomBgColor();
             var rand = Math.round(Math.random() * (50000 - {{ i }})) + {{ i }};
+
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (prefersReducedMotion.matches) return
+
             setInterval(() => {
               this.y = Math.floor(Math.random() * (this.height - 0) + 0);
               this.x = Math.floor(Math.random() * (this.width - 0) + 0);

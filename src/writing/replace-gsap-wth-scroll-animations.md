@@ -7,6 +7,8 @@ updated: Last Modified
 tags:
   - css
   - javascript
+  - scroll animations
+  - gsap
   - writing
 layout: post
 ---

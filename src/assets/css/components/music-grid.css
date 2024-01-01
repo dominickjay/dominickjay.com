@@ -8,7 +8,7 @@
 }
 
 .music-grid > * {
-    @apply min-w-[250px] md:min-w-0 col-span-2 border-[8px] md:border-[4px] border-black hover:border-red transition-colors duration-[0.3s] overflow-hidden;
+    @apply min-w-[250px] md:min-w-0 col-span-2 border-[8px] md:border-[4px] transition-colors duration-[0.3s] overflow-hidden;
     scroll-snap-align: start;
 }
 
