@@ -1,16 +1,17 @@
 ---
-title: "1989 (Taylor's Version) - Taylor Swift"
-metaDesc: 'Day 52 of my album-a-day mini-project'
-date: 2023-12-31
-albumTitle: 1989 (Taylor's Version)
-albumArtist: Taylor Swift
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/f58d29605321bc6e1ee4da6ae5a0cb4a.jpg#f58d29605321bc6e1ee4da6ae5a0cb4a
-albumTracks: 16 tracks, 61:04
-albumReleaseDate: October 27, 2023
+title: "Float Along - Fill Your Lungs - King Gizzard and the Lizard Wizard"
+metaDesc: 'Day 55 of my album-a-day mini-project'
+date: 2024-01-03
+albumTitle: Float Along - Fill Your Lungs
+albumArtist: King Gizzard and the Lizard Wizard
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/b30e4e96683d4db6b05b677ef5d1c4b7.jpg#b30e4e96683d4db6b05b677ef5d1c4b7
+albumTracks: 8 tracks, 59:05
+albumReleaseDate: 26 September 2013
 tags:
   - music365
 layout: post
 templateEngineOverride: njk,md
+draft: true
 ---
 <aside class="album-profile">
   <div class="album-profile__image">
@@ -30,8 +31,8 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Slut!</li>
-          <li>Is It Over Now?</li>
+          <li>Head On/Pill</li>
+          <li>30 Past 7</li>
         </ul>
       </div>
     </dl>
@@ -45,7 +46,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1708308989&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1649049118&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

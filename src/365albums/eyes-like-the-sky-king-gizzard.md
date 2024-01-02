@@ -1,12 +1,12 @@
 ---
-title: "1989 (Taylor's Version) - Taylor Swift"
-metaDesc: 'Day 52 of my album-a-day mini-project'
-date: 2023-12-31
-albumTitle: 1989 (Taylor's Version)
-albumArtist: Taylor Swift
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/f58d29605321bc6e1ee4da6ae5a0cb4a.jpg#f58d29605321bc6e1ee4da6ae5a0cb4a
-albumTracks: 16 tracks, 61:04
-albumReleaseDate: October 27, 2023
+title: "Eyes Like the Sky - King Gizzard and the Lizard Wizard"
+metaDesc: 'Day 54 of my album-a-day mini-project'
+date: 2024-01-02
+albumTitle: Eyes Like the Sky
+albumArtist: King Gizzard and the Lizard Wizard
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/e67af7d46b627c201116e952e392179d.jpg#e67af7d46b627c201116e952e392179d
+albumTracks: 10 tracks, 27:45
+albumReleaseDate: 14 February 2013
 tags:
   - music365
 layout: post
@@ -27,13 +27,6 @@ templateEngineOverride: njk,md
         <dd><strong>Release Date:</strong></dd>
         <dt>{{ albumReleaseDate }}</dt>
       </div>
-      <div class="singles">
-        <span>Singles:</span>
-        <ul>
-          <li>Slut!</li>
-          <li>Is It Over Now?</li>
-        </ul>
-      </div>
     </dl>
     <div class="color-grid">
       <div class="color-grid__container">
@@ -45,7 +38,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1708308989&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1649047656&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

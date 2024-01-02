@@ -58,6 +58,12 @@
 			type="font/woff2"
 			crossorigin
 		/>
+
+		<script src="/assets/js/alpine.js?v={% version %}" defer></script>
+		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    {% if tags and not "drafts" in tags %}
+      {% ogImage "./src/og-image.og.njk", { title: title | safe, siteName:  site.name | safe } %}
+    {% endif %}
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
