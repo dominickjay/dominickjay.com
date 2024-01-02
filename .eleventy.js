@@ -20,6 +20,7 @@ const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
 const EleventyFetch = require("@11ty/eleventy-fetch");
 
 module.exports = eleventyConfig => {
+  production: process.env.ELEVENTY_RUN_MODE === 'build',
   // 	--------------------- Global  -----------------------
   // When `permalink` is false, the file is not written to disk
 	eleventyConfig.addGlobalData("eleventyComputed.permalink", function() {
@@ -67,6 +68,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addFilter('readableDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
+  
 
    // to show "dateModified" data on application/ld+json
 	eleventyConfig.addFilter("stat", (file, field="birthtime") => {
