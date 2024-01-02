@@ -23,6 +23,10 @@
   --topic-color: theme('colors.green');
 }
 
+.topic--productivity {
+  --topic-color: #404E7C;
+}
+
 .topic--weeknotes {
   --topic-color: theme('colors.pink');
 }
