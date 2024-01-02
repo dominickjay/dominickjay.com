@@ -21,7 +21,6 @@ const EleventyFetch = require("@11ty/eleventy-fetch");
 
 module.exports = eleventyConfig => {
   // 	--------------------- Global  -----------------------
-
   // When `permalink` is false, the file is not written to disk
 	eleventyConfig.addGlobalData("eleventyComputed.permalink", function() {
     return (data) => {
@@ -55,6 +54,7 @@ module.exports = eleventyConfig => {
 
   // 	--------------------- Custom Watch Targets -----------------------
   eleventyConfig.addWatchTarget('./src/assets')
+  eleventyConfig.watchIgnores.add('./src/assets/ogi/**/*')
 
   // --------------------- layout aliases -----------------------
   eleventyConfig.addLayoutAlias('base', 'main.njk')
@@ -153,6 +153,7 @@ module.exports = eleventyConfig => {
   })
 
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
+    outputDir: 'src/assets/ogi',
     satoriOptions: {
       fonts: [
         {
