@@ -68,7 +68,7 @@ module.exports = eleventyConfig => {
   eleventyConfig.addFilter('readableDate', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy')
   })
-  
+
 
    // to show "dateModified" data on application/ld+json
 	eleventyConfig.addFilter("stat", (file, field="birthtime") => {
@@ -155,7 +155,6 @@ module.exports = eleventyConfig => {
   })
 
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
-    outputDir: 'src/assets/ogi',
     satoriOptions: {
       fonts: [
         {
