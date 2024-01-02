@@ -1,5 +1,5 @@
 ---
-title: 'Testing Accessibility with Axe & CypressJS'
+title: 'Testing Accessibility with Axe and CypressJS'
 description: "We can use JS to expand/reduce the size of blocks, but we can also use the grid to our advantage"
 intro: "I recently put together an accordion slider using a method commonly used from AlpineJS. Having recently found that you can animate grid columns, I rethought my approach here."
 published: Created
