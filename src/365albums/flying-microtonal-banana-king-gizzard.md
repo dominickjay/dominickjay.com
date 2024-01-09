@@ -1,12 +1,12 @@
 ---
-title: "Nonagon Infinity - King Gizzard and the Lizard Wizard"
-metaDesc: 'Day 60 of my album-a-day mini-project'
-date: 2024-01-08
-albumTitle: Nonagon Infinity
+title: "Flying Microtonal Banana - King Gizzard and the Lizard Wizard"
+metaDesc: 'Day 61 of my album-a-day mini-project'
+date: 2024-01-09
+albumTitle: Flying Microtonal Banana
 albumArtist: King Gizzard and the Lizard Wizard
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/45d2570199853ec87e5da6dd8c1ea1a3.jpg#45d2570199853ec87e5da6dd8c1ea1a3
-albumTracks: 9 tracks, 59:23
-albumReleaseDate: 28 April 2016
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/205d1d3eb0eb5e4d08ceb3d9721ab2bc.jpg#205d1d3eb0eb5e4d08ceb3d9721ab2bc
+albumTracks: 9 tracks, 51:20
+albumReleaseDate: 23 February 2017
 tags:
   - music365
 layout: post
@@ -30,9 +30,9 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Gamma Knife</li>
-          <li>People-Vultures</li>
-          <li>Mr. Beat</li>
+          <li>Rattlesnake</li>
+          <li>Nuclear Fusion</li>
+          <li>Sleep Drifter</li>
         </ul>
       </div>
     </dl>
@@ -46,7 +46,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1087182669&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1172917977&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
