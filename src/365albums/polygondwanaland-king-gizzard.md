@@ -1,12 +1,12 @@
 ---
-title: "Sketches of Brunswick East - King Gizzard and the Lizard Wizard"
-metaDesc: 'Day 62 of my album-a-day mini-project'
-date: 2024-01-11
-albumTitle: Sketches of Brunswick East
+title: "Polygondwanaland - King Gizzard and the Lizard Wizard"
+metaDesc: 'Day 63 of my album-a-day mini-project'
+date: 2024-01-12
+albumTitle: Polygondwanaland
 albumArtist: King Gizzard and the Lizard Wizard
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/4603e77e3a3f860fd6d67ecb1cce6e39.jpg#4603e77e3a3f860fd6d67ecb1cce6e39
-albumTracks: 13 tracks, 38:50
-albumReleaseDate: 18 August 2017
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/63287ae3739a01fe90e2809f8270c64a.jpg#63287ae3739a01fe90e2809f8270c64a
+albumTracks: 10 tracks, 37:20
+albumReleaseDate: 16 November 2017
 tags:
   - music365
 layout: post
@@ -38,7 +38,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1270989140&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1314436845&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
