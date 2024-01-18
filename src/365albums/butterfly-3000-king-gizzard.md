@@ -1,8 +1,8 @@
 ---
-title: "L.W. - King Gizzard and the Lizard Wizard"
+title: "Butterfly 3000 - King Gizzard and the Lizard Wizard"
 metaDesc: 'Day 69 of my album-a-day mini-project'
 date: 2024-01-18
-albumTitle: L.W.
+albumTitle: Butterfly 3000
 albumArtist: King Gizzard and the Lizard Wizard
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0d0355c5b67c42a7be557485eaceae07.jpg#0d0355c5b67c42a7be557485eaceae07
 albumTracks: 10 tracks, 50:34
