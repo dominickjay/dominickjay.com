@@ -1,7 +1,7 @@
 ---
 title: "Omnium Gatherum - King Gizzard and the Lizard Wizard"
-metaDesc: 'Day 70 of my album-a-day mini-project'
-date: 2024-01-19
+metaDesc: 'Day 71 of my album-a-day mini-project'
+date: 2024-01-20
 albumTitle: Omnium Gatherum
 albumArtist: King Gizzard and the Lizard Wizard
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/8f12c24164a8bcb942bac7bb1281424b.jpg#8f12c24164a8bcb942bac7bb1281424b

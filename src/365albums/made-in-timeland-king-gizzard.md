@@ -1,12 +1,12 @@
 ---
-title: "Ice, Death, Planets, Lungs, Mushrooms and Lava - King Gizzard and the Lizard Wizard"
-metaDesc: 'Day 72 of my album-a-day mini-project'
-date: 2024-01-21
-albumTitle: Ice, Death, Planets, Lungs, Mushrooms and Lava
+title: "Made in Timeland - King Gizzard and the Lizard Wizard"
+metaDesc: 'Day 70 of my album-a-day mini-project'
+date: 2024-01-19
+albumTitle: Made in Timeland
 albumArtist: King Gizzard and the Lizard Wizard
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/f159d401b7691c67aca0e56b54f11b1c.jpg#f159d401b7691c67aca0e56b54f11b1c
-albumTracks: 7 tracks, 75:07
-albumReleaseDate: 7 October 2022
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/b179bd59d97295c23c4a874bba2259cf.jpg#b179bd59d97295c23c4a874bba2259cf
+albumTracks: 2 tracks, 30:00
+albumReleaseDate: 12 October 2022
 tags:
   - music365
 layout: post
@@ -28,13 +28,6 @@ draft: true
         <dd><strong>Release Date:</strong></dd>
         <dt>{{ albumReleaseDate }}</dt>
       </div>
-      <div class="singles">
-        <span>Singles:</span>
-        <ul>
-          <li>Ice V</li>
-          <li>Iron Lung</li>
-        </ul>
-      </div>
     </dl>
     <div class="color-grid">
       <div class="color-grid__container">
@@ -46,7 +39,7 @@ draft: true
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1640761260&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1649043909&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

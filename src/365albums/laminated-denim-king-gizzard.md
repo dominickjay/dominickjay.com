@@ -1,7 +1,7 @@
 ---
 title: "Laminated Denim - King Gizzard and the Lizard Wizard"
-metaDesc: 'Day 72 of my album-a-day mini-project'
-date: 2024-01-21
+metaDesc: 'Day 73 of my album-a-day mini-project'
+date: 2024-01-22
 albumTitle: Laminated Denim
 albumArtist: King Gizzard and the Lizard Wizard
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/c0ac24f59bb04080a6224897b2bb0aa9.jpg#c0ac24f59bb04080a6224897b2bb0aa9
