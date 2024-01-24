@@ -4,7 +4,7 @@ metaDesc: 'Day 21 of my album-a-day mini-project'
 date: 2023-11-30
 albumTitle: TEKKNO
 albumArtist: Electric Callboy
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/7630440175e49e64c2ff5dda07f7c526.jpg#7630440175e49e64c2ff5dda07f7c526
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/85334a57b2b2a85bfd61a808add64741.jpg#85334a57b2b2a85bfd61a808add64741
 albumTracks: 10 tracks
 albumReleaseDate: 8 September 2022
 embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1618490079&theme=light
