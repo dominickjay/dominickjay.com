@@ -8,7 +8,7 @@ tags:
   - javascript
   - accessibility
   - writing
-layout: post
+
 draft: true
 ---
 

@@ -8,7 +8,7 @@ tags:
   - javascript
   - testing
   - writing
-layout: post
+
 draft: true
 ---
 

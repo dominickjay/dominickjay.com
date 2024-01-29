@@ -7,7 +7,7 @@ updated: Last Modified
 tags:
   - css
   - writing
-layout: post
+
 draft: true
 ---
 
