@@ -1,12 +1,12 @@
 ---
-title: "Eternal Blue - Spiritbox"
-metaDesc: 'Day 88 of my album-a-day mini-project'
-date: 2024-02-06
-albumTitle: Eternal Blue
-albumArtist: Spiritbox
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/a6db30d62a534b03f730ebc27b5cde7d.jpg#a6db30d62a534b03f730ebc27b5cde7d
-albumTracks: 12 tracks, 43:07
-albumReleaseDate: 17 September 2021
+title: "Sempiternal - Bring Me the Horizon"
+metaDesc: 'Day 87 of my album-a-day mini-project'
+date: 2024-02-05
+albumTitle: Sempiternal
+albumArtist: Bring Me the Horizon
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/b665c029fbe8489f8e6a45dde56215d4.jpg#b665c029fbe8489f8e6a45dde56215d4
+albumTracks: 11 tracks, 45:31
+albumReleaseDate: 29 March 2013
 tags:
   - music365
 layout: post
@@ -30,11 +30,10 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>Holy Roller</li>
-          <li>Constance</li>
-          <li>Circle With Me</li>
-          <li>Secret Garden</li>
-          <li>Hurt You</li>
+          <li>Shadow Moses</li>
+          <li>Sleepwalking</li>
+          <li>Go to Hell, for Heaven's Sake</li>
+          <li>Can You Feel My Heart</li>
         </ul>
       </div>
     </dl>
@@ -48,7 +47,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1566679952&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F598282638&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
