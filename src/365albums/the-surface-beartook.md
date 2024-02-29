@@ -10,7 +10,7 @@ albumReleaseDate: 13 October 2023
 embedUrl: https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1692844946&theme=light
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 

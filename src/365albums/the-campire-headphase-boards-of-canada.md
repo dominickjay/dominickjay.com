@@ -5,7 +5,7 @@ albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/77b2419ede333b1b20ab565305
 date: 2023-11-14
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 

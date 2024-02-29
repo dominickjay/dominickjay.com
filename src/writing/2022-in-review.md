@@ -8,7 +8,7 @@ language: 2022
 tags:
   - personal
   - writing
-layout: post
+
 templateEngineOverride: njk,md
 ---
 

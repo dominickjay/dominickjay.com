@@ -9,7 +9,7 @@ albumTracks: 10 tracks, 47:34
 albumReleaseDate: 1 September 2000
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile">

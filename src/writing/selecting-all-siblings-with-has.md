@@ -6,7 +6,7 @@ date: 2023-04-26
 tags:
   - css
   - writing
-layout: post
+
 links:
   [
     {

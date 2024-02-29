@@ -9,7 +9,7 @@ albumTracks: 10 tracks, 64:12
 albumReleaseDate: 19 November 2020
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile">

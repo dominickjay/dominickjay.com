@@ -8,7 +8,7 @@ tags:
   - css
   - javascript
   - writing
-layout: post
+
 ---
 
 <div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">

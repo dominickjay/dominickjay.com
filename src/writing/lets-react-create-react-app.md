@@ -26,7 +26,7 @@ links:
       'target': 'https://medium.com/codex/you-should-choose-vite-over-cra-for-react-apps-heres-why-47e2e7381d13',
     },
   ]
-layout: post
+
 eleventyExcludeFromCollections: true
 ---
 

@@ -9,7 +9,7 @@ albumTracks: 21 tracks, 51:47
 albumReleaseDate: 22 June 2017
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile">

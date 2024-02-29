@@ -10,7 +10,7 @@ albumReleaseDate: 16 September 2016
 embedUrl: "https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1137965822&theme=light"
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile" style="--shadow: rgb(214,197,194);">

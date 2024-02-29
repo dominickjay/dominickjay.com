@@ -8,7 +8,7 @@ tags:
   - react
   - devops
   - writing
-layout: post
+
 eleventyExcludeFromCollections: true
 ---
 

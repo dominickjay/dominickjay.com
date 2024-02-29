@@ -8,7 +8,7 @@ language: 2024
 tags:
   - personal
   - writing
-layout: post
+
 templateEngineOverride: njk,md
 draft: true
 ---

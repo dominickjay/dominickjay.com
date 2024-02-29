@@ -9,7 +9,7 @@ albumTracks: 21 tracks
 albumReleaseDate: 21 January 2022
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile">

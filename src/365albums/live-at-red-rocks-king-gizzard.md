@@ -9,7 +9,7 @@ albumTracks: 85 tracks, 8.5 hours
 albumReleaseDate: 24 January 2023
 tags:
   - music365
-layout: post
+layout: 'album-post.njk'
 templateEngineOverride: njk,md
 ---
 <aside class="album-profile">
