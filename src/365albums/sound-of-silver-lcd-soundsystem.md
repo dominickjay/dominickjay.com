@@ -1,12 +1,12 @@
 ---
-title: "MASSEDUCTION - St. Vincent"
-metaDesc: 'Day 120 of my album-a-day mini-project'
-date: 2024-03-02
-albumTitle: MASSEDUCTION
-albumArtist: St. Vincent
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/daf17bc1013ebe92f8f2b230bfbd5b5e.jpg#daf17bc1013ebe92f8f2b230bfbd5b5e
-albumTracks: 14 tracks, 44:35
-albumReleaseDate: 13 October 2017
+title: "Sound of Silver - LCD Soundsystem"
+metaDesc: 'Day 123 of my album-a-day mini-project'
+date: 2024-03-05
+albumTitle: Sound of Silver
+albumArtist: LCD Soundsystem
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/62e79d7331b34ea9ced494570a2fe797.jpg#62e79d7331b34ea9ced494570a2fe797
+albumTracks: 9 tracks, 55:55
+albumReleaseDate: 11 March 2007
 tags:
   - music365
 layout: 'album-post.njk'
@@ -30,10 +30,10 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>New York</li>
-          <li>Los Ageless</li>
-          <li>Pills</li>
-          <li>Masseduction</li>
+          <li>North American Scum</li>
+          <li>All My Friends</li>
+          <li>Someone Great</li>
+          <li>Time to Get Away</li>
         </ul>
       </div>
     </dl>
@@ -47,7 +47,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440947061&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F742432549&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

@@ -1,12 +1,12 @@
 ---
-title: "MASSEDUCTION - St. Vincent"
-metaDesc: 'Day 120 of my album-a-day mini-project'
-date: 2024-03-02
-albumTitle: MASSEDUCTION
-albumArtist: St. Vincent
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/daf17bc1013ebe92f8f2b230bfbd5b5e.jpg#daf17bc1013ebe92f8f2b230bfbd5b5e
-albumTracks: 14 tracks, 44:35
-albumReleaseDate: 13 October 2017
+title: "Muscle Memory - Jamie Lenman"
+metaDesc: 'Day 122 of my album-a-day mini-project'
+date: 2024-03-04
+albumTitle: Muscle Memory
+albumArtist: Jamie Lenman
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/45aefcc6bcb74636c60ac272b9f8a485.jpg#45aefcc6bcb74636c60ac272b9f8a485
+albumTracks: 22 tracks, 75:17
+albumReleaseDate: 11 November 2013
 tags:
   - music365
 layout: 'album-post.njk'
@@ -30,10 +30,10 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>New York</li>
-          <li>Los Ageless</li>
-          <li>Pills</li>
-          <li>Masseduction</li>
+          <li>Fizzy Blood</li>
+          <li>All the Things You Hate About Me, I Hate Them Too</li>
+          <li>It's Hard to be a Gentleman</li>
+          <li>Pretty Please</li>
         </ul>
       </div>
     </dl>
@@ -47,7 +47,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440947061&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1707868100&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

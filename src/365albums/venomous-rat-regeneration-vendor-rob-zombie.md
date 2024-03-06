@@ -1,12 +1,12 @@
 ---
-title: "MASSEDUCTION - St. Vincent"
-metaDesc: 'Day 120 of my album-a-day mini-project'
-date: 2024-03-02
-albumTitle: MASSEDUCTION
-albumArtist: St. Vincent
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/daf17bc1013ebe92f8f2b230bfbd5b5e.jpg#daf17bc1013ebe92f8f2b230bfbd5b5e
-albumTracks: 14 tracks, 44:35
-albumReleaseDate: 13 October 2017
+title: "Venomous Rat Regeneration Vendor - Rob Zombie"
+metaDesc: 'Day 121 of my album-a-day mini-project'
+date: 2024-03-03
+albumTitle: Venomous Rat Regeneration Vendor
+albumArtist: Rob Zombie
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/78fa66f476a14a74966647c406b67f51.jpg#78fa66f476a14a74966647c406b67f51
+albumTracks: 12 tracks, 38:51
+albumReleaseDate: 1 January 2013
 tags:
   - music365
 layout: 'album-post.njk'
@@ -30,10 +30,8 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>New York</li>
-          <li>Los Ageless</li>
-          <li>Pills</li>
-          <li>Masseduction</li>
+          <li>Dead City Radio and the New Gods of Supertown</li>
+          <li>We're an American Band</li>
         </ul>
       </div>
     </dl>
@@ -47,7 +45,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440947061&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440861112&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 

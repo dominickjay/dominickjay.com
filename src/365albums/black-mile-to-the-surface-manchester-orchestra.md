@@ -1,12 +1,12 @@
 ---
-title: "MASSEDUCTION - St. Vincent"
-metaDesc: 'Day 120 of my album-a-day mini-project'
-date: 2024-03-02
-albumTitle: MASSEDUCTION
-albumArtist: St. Vincent
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/daf17bc1013ebe92f8f2b230bfbd5b5e.jpg#daf17bc1013ebe92f8f2b230bfbd5b5e
-albumTracks: 14 tracks, 44:35
-albumReleaseDate: 13 October 2017
+title: "A Black Mile To The Surface - Manchester Orchestra"
+metaDesc: 'Day 123 of my album-a-day mini-project'
+date: 2024-03-06
+albumTitle: A Black Mile To The Surface
+albumArtist: Manchester Orchestra
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0839c57a8ba7bdc3d9278b04082f5034.jpg#0839c57a8ba7bdc3d9278b04082f5034
+albumTracks: 11 tracks, 49:41
+albumReleaseDate: July 21, 2017
 tags:
   - music365
 layout: 'album-post.njk'
@@ -30,10 +30,9 @@ templateEngineOverride: njk,md
       <div class="singles">
         <span>Singles:</span>
         <ul>
-          <li>New York</li>
-          <li>Los Ageless</li>
-          <li>Pills</li>
-          <li>Masseduction</li>
+          <li>The Gold</li>
+          <li>The Alien</li>
+          <li>The Moth</li>
         </ul>
       </div>
     </dl>
@@ -47,7 +46,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440947061&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440945297&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
