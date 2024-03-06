@@ -5,7 +5,7 @@ intro: "Hi 👋. My name's Dom and I'm a Front-end Developer currently working a
 text: "Over my time in design agencies and private sector work, I have gathered a knowledge for all round user experience, whilst incorporating accessibility and creativity as a standard in my work. You can see a more indepth account of my work history on my <a href='/docs/resume.pdf' target='_blank'>resume</a>. My current role at <span class='highlight'>Series Eight</span> as a <span class='highlight'>Front-End Developer</span> allows me to work on a wide range of technologies and processes.</br></br>
 
 I make consistent updates to this site; both with the visuals and with the content. I treat this site as a playground to try out things I have learnt or want to get using. I am constantly writing in my blog here, or putting together small projects on <a href='https://codepen.io/dominickjay217' target='_blank'>CodePen</a>."
-layout: default
+layout: default.njk
 bookCollections: CfctG
 ---
 
@@ -51,7 +51,7 @@ bookCollections: CfctG
                     </a>
                 {% endfor %}
             </div>
-            <div class="fl-mt-xs">Currently reading:
+            {# <div class="fl-mt-xs">Currently reading:
                 <ul class="list-disc fl-pl-m fl-mt-s">
                 {% set books = 'p9twg' | booksApi %}
                 {% for item in books %}
@@ -62,7 +62,7 @@ bookCollections: CfctG
                     </li>
                 {% endfor %}
                 </ul>
-            </div>
+            </div> #}
         </div>
     </div>
 </div>

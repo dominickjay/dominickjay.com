@@ -6,7 +6,7 @@ date: Created
 tags:
   - javascript
   - writing
-
+layout: post
 links:
   [
     {

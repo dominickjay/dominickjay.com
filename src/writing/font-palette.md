@@ -7,7 +7,7 @@ updated: 2023-16-08
 tags:
   - css
   - writing
-
+layout: post
 templateEngineOverride: njk,md
 links:
   [

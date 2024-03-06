@@ -6,7 +6,7 @@ date: 2022-02-17
 tags:
   - react
   - writing
-
+layout: post
 links:
   [
     {

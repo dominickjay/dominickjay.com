@@ -87,23 +87,23 @@ module.exports = eleventyConfig => {
     return array.slice(0, limit)
   })
 
-  eleventyConfig.addAsyncFilter('booksApi', async function (collectionId) {
-    const books = await fetch(`https://oku.club/rss/collection/${collectionId}`)
-      .then(response => response.text())
-      .then(str => xml2json.toJson(str, { object: true }))
-      .then(data => {
-          return data.rss.channel.item.slice(0, 5).map(b => {
-              return {
-                  title: b.title,
-                  link: b.link,
-                  image: b['oku:cover'],
-                  authors: b['dc:creator']['$t'],
-              }
-          })
-      })
+  // eleventyConfig.addAsyncFilter('booksApi', async function (collectionId) {
+  //   const books = await fetch(`https://oku.club/rss/collection/${collectionId}`)
+  //     .then(response => response.text())
+  //     .then(str => xml2json.toJson(str, { object: true }))
+  //     .then(data => {
+  //         return data.rss.channel.item.slice(0, 5).map(b => {
+  //             return {
+  //                 title: b.title,
+  //                 link: b.link,
+  //                 image: b['oku:cover'],
+  //                 authors: b['dc:creator']['$t'],
+  //             }
+  //         })
+  //     })
 
-      return books
-  })
+  //     return books
+  // })
 
   eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
     const res = await fetchWeeklyAlbumChart(from, to);
@@ -113,15 +113,24 @@ module.exports = eleventyConfig => {
     const albums = [];
 
     for (const album of res.weeklyalbumchart.album) {
-      const albumInfo = await fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=86a5b41a85035739e32c576f027c4765&format=json&mbid=${album.mbid}`);
-      const data = await albumInfo.json();
-      if (data.album != undefined) {
-        albums.push({
-          art: data.album.image[3]['#text'],
-          artist: data.album.artist,
-          name: data.album.name,
-          url: data.album.url
-        })
+      if (album.mbid != '') {
+        const url = `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=86a5b41a85035739e32c576f027c4765&format=json&mbid=${album.mbid}`;
+        try {
+          let albumInfo = await EleventyFetch(url, {
+            duration: "30d",
+            type: "json",
+          });
+          if (albumInfo.album != undefined) {
+              albums.push({
+                art: albumInfo.album.image[3]['#text'],
+                artist: albumInfo.album.artist,
+                name: albumInfo.album.name,
+                url: albumInfo.album.url
+              })
+            }
+        } catch (error) {
+          console.error(`Fetch failed in github.js. ${error}`);
+        }
       }
     }
     return albums;
@@ -189,8 +198,7 @@ module.exports = eleventyConfig => {
   });
 
   eleventyConfig.addPassthroughCopy({
-    'src/assets/css/global.css': './assets/css/global.css',
-    'src/assets/js/slanted.js': './assets/js/slanted.js',
+    'src/assets/css/global.css': './assets/css/global.css'
   });
 
   eleventyConfig.addPassthroughCopy({

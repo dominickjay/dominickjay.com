@@ -6,7 +6,7 @@ tags:
   - css
   - javascript
   - writing
-
+layout: post
 links:
   [
     {

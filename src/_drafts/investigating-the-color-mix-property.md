@@ -6,7 +6,7 @@ date: Created
 tags:
   - css
   - writing
-
+layout: post
 links:
   [
     {

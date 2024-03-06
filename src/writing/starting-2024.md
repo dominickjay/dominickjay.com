@@ -7,7 +7,7 @@ tags:
   - personal
   - productivity
   - writing
-
+layout: post
 templateEngineOverride: njk,md
 ---
 
