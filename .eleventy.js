@@ -12,7 +12,7 @@ const now = String(Date.now());
 const readingTime = require('eleventy-plugin-reading-time');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
-const EleventyPluginOgImage = require('eleventy-plugin-og-image');
+// const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
@@ -163,18 +163,18 @@ module.exports = eleventyConfig => {
     periods: "future_2,current,past_2"
   })
 
-  eleventyConfig.addPlugin(EleventyPluginOgImage, {
-    satoriOptions: {
-      fonts: [
-        {
-          name: 'Erode',
-          data: fs.readFileSync('./src/assets/fonts/erode/Erode-Bold.woff'),
-          weight: 700,
-          style: 'normal',
-        },
-      ],
-    },
-  })
+  // eleventyConfig.addPlugin(EleventyPluginOgImage, {
+  //   satoriOptions: {
+  //     fonts: [
+  //       {
+  //         name: 'Erode',
+  //         data: fs.readFileSync('./src/assets/fonts/erode/Erode-Bold.woff'),
+  //         weight: 700,
+  //         style: 'normal',
+  //       },
+  //     ],
+  //   },
+  // })
 
   // 	--------------------- Custom Template Languages ---------------------
   eleventyConfig.addPlugin(require('./config/template-languages/css-config.js'))
