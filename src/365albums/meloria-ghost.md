@@ -11,7 +11,6 @@ tags:
   - music365
 layout: 'album-post.njk'
 templateEngineOverride: njk,md
-draft: true
 ---
 <aside class="album-profile">
   <div class="album-profile__image">
