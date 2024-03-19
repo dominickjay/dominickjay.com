@@ -1,6 +1,7 @@
 // module import shortcodes
 const {
   imageShortcodePlaceholder,
+  shareImageShortcode
 } = require('./config/shortcodes/index.js');
 
 const _ = require("lodash");
@@ -12,12 +13,12 @@ const now = String(Date.now());
 const readingTime = require('eleventy-plugin-reading-time');
 const metagen = require('eleventy-plugin-metagen');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
-// const EleventyPluginOgImage = require('eleventy-plugin-og-image');
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const markdownIt = require('markdown-it');
 const markdownItAnchor = require('markdown-it-anchor');
 const canIuse = require("@kevingimbel/eleventy-plugin-caniuse");
 const EleventyFetch = require("@11ty/eleventy-fetch");
+const Image = require("@11ty/eleventy-img");
 
 module.exports = eleventyConfig => {
   production: process.env.ELEVENTY_RUN_MODE === 'build',
@@ -55,7 +56,6 @@ module.exports = eleventyConfig => {
 
   // 	--------------------- Custom Watch Targets -----------------------
   eleventyConfig.addWatchTarget('./src/assets')
-  eleventyConfig.watchIgnores.add('./src/assets/ogi/**/*')
 
   // --------------------- layout aliases -----------------------
   eleventyConfig.addLayoutAlias('base', 'main.njk')
@@ -155,6 +155,7 @@ module.exports = eleventyConfig => {
 
   // 	--------------------- Custom shortcodes ---------------------
   eleventyConfig.addNunjucksAsyncShortcode('imagePlaceholder', imageShortcodePlaceholder);
+  eleventyConfig.addNunjucksAsyncShortcode('shareImageShortcode', shareImageShortcode);
   eleventyConfig.addShortcode('year', () => `${new Date().getFullYear()}`) // current year, stephanie eckles
   eleventyConfig.addShortcode('version', function () { return now })
 
@@ -169,18 +170,6 @@ module.exports = eleventyConfig => {
     periods: "future_2,current,past_2"
   })
 
-  // eleventyConfig.addPlugin(EleventyPluginOgImage, {
-  //   satoriOptions: {
-  //     fonts: [
-  //       {
-  //         name: 'Erode',
-  //         data: fs.readFileSync('./src/assets/fonts/erode/Erode-Bold.woff'),
-  //         weight: 700,
-  //         style: 'normal',
-  //       },
-  //     ],
-  //   },
-  // })
 
   // 	--------------------- Custom Template Languages ---------------------
   eleventyConfig.addPlugin(require('./config/template-languages/css-config.js'))
