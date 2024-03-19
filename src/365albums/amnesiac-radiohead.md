@@ -7,6 +7,7 @@ albumArtist: Radiohead
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/d59fb77b86ba4dd5d7f99c34564a56ce.jpg#d59fb77b86ba4dd5d7f99c34564a56ce
 albumTracks: 11 tracks, 43:22
 albumReleaseDate: 11 March 2001
+# shareimage: "small.jpeg"
 tags:
   - music365
 layout: 'album-post.njk'

@@ -46,7 +46,9 @@
 
 		<script src="/assets/js/alpine.js?v={% version %}" defer></script>
 		<script src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-		{# {% ogImage "./src/og-image.og.njk", { title: title | safe, siteName:  site.name | safe } %} #}
+  {% if shareimage %}
+    <meta property="og:image" content="{% shareImageShortcode shareimage %}" />
+  {% endif %}
 	</head>
 	<body>
 		<a class="skip-link" href="#main-content">Skip to main content</a>
