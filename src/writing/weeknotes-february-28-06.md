@@ -32,3 +32,12 @@ templateEngineOverride: njk,md
 1. Harry Potter and the Philosophers Stone
 1. Harshil Patel - [6 Creative Ideas for CSS Link Hover Effects](https://css-tricks.com/css-link-hover-effects/?utm_source=swlinks-tw)
 1. Dieter Raber- [Creating Color Themes With Custom Properties, HSL, and a Little calc() ](https://css-tricks.com/creating-color-themes-with-custom-properties-hsl-and-a-little-calc/)
+
+### Music
+
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>

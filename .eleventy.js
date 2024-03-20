@@ -105,53 +105,51 @@ module.exports = eleventyConfig => {
   //     return books
   // })
 
-  // eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
-  //   const res = await fetchWeeklyAlbumChart(from, to);
-  //   if (!res) {
-  //     return "";
-  //   }
-  //   const albums = [];
+  eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
+    const res = await fetchWeeklyAlbumChart(from, to);
+    if (!res) {
+      return "";
+    }
+    const albums = [];
 
-  //   for (const album of res.weeklyalbumchart.album) {
-  //     if (album.mbid != '') {
-  //       try {
-  //         const url = `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=86a5b41a85035739e32c576f027c4765&format=json&mbid=${album.mbid}`;
-  //         let albumInfo = await EleventyFetch(url, {
-  //           duration: "30d",
-  //           type: "json",
-  //         });
-  //         if (albumInfo.album != undefined) {
-  //           albums.push({
-  //             art: albumInfo.album.image[3]['#text'],
-  //             artist: albumInfo.album.artist,
-  //             name: albumInfo.album.name,
-  //             url: albumInfo.album.url
-  //           })
-  //         }
-  //         return albumInfo
-  //       } catch (error) {
-  //         console.error(`Fetch failed for album. ${error}`);
-  //       }
-  //     }
-  //   }
-  //   console.log(albums)
-  //   return albums;
-  // })
+    for (const album of res.weeklyalbumchart.album) {
+      if (album.mbid != '') {
+        try {
+          const url = `https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=86a5b41a85035739e32c576f027c4765&format=json&mbid=${album.mbid}`;
+          let albumInfo = await EleventyFetch(url, {
+            duration: "30d",
+            type: "json",
+          });
+          if (albumInfo.album != undefined) {
+            albums.push({
+              art: albumInfo.album.image[3]['#text'],
+              artist: albumInfo.album.artist,
+              name: albumInfo.album.name,
+              url: albumInfo.album.url
+            })
+          }
+        } catch (error) {
+          console.error(`Fetch failed for album. ${error}`);
+        }
+      }
+    }
+    return albums;
+  })
 
-  // async function fetchWeeklyAlbumChart(from, to) {
-  //   if (!from || !to) {
-  //     return;
-  //   }
-  //   try {
-  //     const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${ from }&to=${to}&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=10`;
-  //     return EleventyFetch(url, {
-  //       duration: "30d",
-  //       type: "json",
-  //     });
-  //   } catch (error) {
-  //     console.error(`Fetch failed for album. ${error}`);
-  //   }
-  // }
+  async function fetchWeeklyAlbumChart(from, to) {
+    if (!from || !to) {
+      return;
+    }
+    try {
+      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${ from }&to=${to}&api_key=86a5b41a85035739e32c576f027c4765&format=json&limit=18`;
+      return EleventyFetch(url, {
+        duration: "30d",
+        type: "json",
+      });
+    } catch (error) {
+      console.error(`Fetch failed for album. ${error}`);
+    }
+  }
 
   // 	--------------------- Custom shortcodes ---------------------
   eleventyConfig.addNunjucksAsyncShortcode('imagePlaceholder', imageShortcodePlaceholder);

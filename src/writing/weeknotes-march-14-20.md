@@ -31,3 +31,12 @@ templateEngineOverride: njk,md
 1. [Making dynamic Twitter header](https://blog.devgenius.io/making-dynamic-twitter-header-e7dcd5e08f4a)
 1. [How I made my Twitter header dynamic](https://daily-dev-tips.com/posts/how-i-made-my-twitter-header-dynamic)
 1. [Dynamic Color Manipulation with CSS Relative Colors](https://blog.jim-nielsen.com/2021/css-relative-colors/)
+
+### Music
+
+<div class="music-grid">
+  {% set results = musicDateFrom | apiCall(musicDateTo) %}
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>
