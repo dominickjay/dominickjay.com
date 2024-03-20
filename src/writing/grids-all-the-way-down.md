@@ -8,6 +8,7 @@ tags:
   - writing
 layout: post
 draft: true
+shareimage: "grids-way-down.jpg"
 ---
 
 {% caniuse "css-subgrid" %}

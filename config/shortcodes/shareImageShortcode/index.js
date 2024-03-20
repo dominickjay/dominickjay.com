@@ -5,7 +5,7 @@ async function shareImageShortcode(src) {
   // src might be small.png - taken from frontmatter
   const { url } = this.page;
   // url might be /blog/hello-world/
-  const imageSrc = "./src/assets/images/" + src;
+  const imageSrc = "./src/assets/images/share-images/" + src;
   let metadata = await Image(imageSrc, {
     widths: [600],
     formats: ["jpeg"],
