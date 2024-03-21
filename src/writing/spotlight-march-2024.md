@@ -10,8 +10,8 @@ musicDateFrom: '1709251200'
 musicDateTo: '1711843200'
 layout: weeknotes
 templateEngineOverride: njk,md
-shareimage: "spotlight-march-2024.jpg"
 draft: true
+shareimage: "spotlight-march-2024.jpg"
 ---
 
 ## Life...stuff
