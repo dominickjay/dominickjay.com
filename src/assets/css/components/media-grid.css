@@ -14,7 +14,7 @@
 }
 
 .music-grid[style='--layout: flex'] > * {
-    @apply min-w-[250px] md:min-w-[200px];
+    @apply min-w-[250px] md:min-w-[200px] aspect-square;
 }
 
 .music-grid[style='--layout: grid'] > * {

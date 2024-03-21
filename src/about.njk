@@ -51,18 +51,15 @@ bookCollections: CfctG
                     </a>
                 {% endfor %}
             </div>
-            {# <div class="fl-mt-xs">Currently reading:
-                <ul class="list-disc fl-pl-m fl-mt-s">
-                {% set books = 'p9twg' | booksApi %}
-                {% for item in books %}
+            <div class="fl-mt-xs">Currently reading:
+                <ul class="list-none flex gap-x-[16px] fl-mt-s">
+                {% for item in books | booksApi %}
                     <li>
-                        <span class="font-bold">{{ item.title }}</span>
-                        by
-                        <span class="font-bold">{{ item.authors }}</span>
+                        <img src="{{ item.cover}}" width="200" height="450" />
                     </li>
                 {% endfor %}
                 </ul>
-            </div> #}
+            </div>
         </div>
     </div>
 </div>

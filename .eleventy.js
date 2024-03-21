@@ -87,23 +87,60 @@ module.exports = eleventyConfig => {
     return array.slice(0, limit)
   })
 
-  // eleventyConfig.addAsyncFilter('booksApi', async function (collectionId) {
-  //   const books = await fetch(`https://oku.club/rss/collection/${collectionId}`)
-  //     .then(response => response.text())
-  //     .then(str => xml2json.toJson(str, { object: true }))
-  //     .then(data => {
-  //         return data.rss.channel.item.slice(0, 5).map(b => {
-  //             return {
-  //                 title: b.title,
-  //                 link: b.link,
-  //                 image: b['oku:cover'],
-  //                 authors: b['dc:creator']['$t'],
-  //             }
-  //         })
-  //     })
+  eleventyConfig.addAsyncFilter('booksApi', async function () {
+    const books = 'https://literal.club/graphql/';
+    const getAllBooks = /* Get books by reading state    */ `
+      fragment BookParts on Book {
+        id
+        slug
+        title
+        subtitle
+        description
+        isbn10
+        isbn13
+        language
+        pageCount
+        publishedDate
+        publisher
+        cover
+        authors {
+          id
+          name
+        }
+        gradientColors
+      }
 
-  //     return books
-  // })
+      query booksByReadingStateAndProfile {
+        booksByReadingStateAndProfile(
+          limit: 5
+          offset: 0
+          readingStatus: IS_READING
+          profileId: "cllld352811104650itu2jvq4ppp"
+        ) {
+          ...BookParts   # find fragments below
+        }
+      }
+    `
+    const { data } = await EleventyFetch(books, {
+      duration: '2s',
+      type: 'json',
+      fetchOptions: {
+        headers: {
+          'content-type': 'application/json',
+          'url': books,
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          query: getAllBooks,
+          variables: {
+            first: 100,
+            after: null,
+          },
+        }),
+      },
+    })
+    return data.booksByReadingStateAndProfile
+  })
 
   eleventyConfig.addAsyncFilter('apiCall', async function (from, to) {
     const res = await fetchWeeklyAlbumChart(from, to);
