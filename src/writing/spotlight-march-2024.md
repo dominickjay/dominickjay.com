@@ -11,7 +11,6 @@ musicDateTo: '1711843200'
 layout: weeknotes
 templateEngineOverride: njk,md
 draft: true
-shareimage: "spotlight-march-2024.jpg"
 ---
 
 ## Life...stuff
