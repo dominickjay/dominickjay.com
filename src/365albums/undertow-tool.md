@@ -1,13 +1,13 @@
 ---
-title: "Like Clockwork - Queens of the Stone Age"
-metaDesc: 'Day 140 of my album-a-day mini-project'
-date: 2024-03-23
-albumTitle: Like Clockwork
-albumArtist: Queens of the Stone Age
-albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/12610587bd7a4070c0e69cb5138fd37c.jpg#12610587bd7a4070c0e69cb5138fd37c
-albumTracks: 10 tracks, 45:59
-albumReleaseDate: June 3, 2013
-shareimage: "like-clockwork.png"
+title: "Undertow - TOOL"
+metaDesc: 'Day 141 of my album-a-day mini-project'
+date: 2024-03-24
+albumTitle: Undertow
+albumArtist: TOOL
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/c61a9abc345a125c536b26bfdc601a88.jpg#c61a9abc345a125c536b26bfdc601a88
+albumTracks: 10 tracks, 68:08
+albumReleaseDate: April 6, 1993
+shareimage: "undertow.jpg"
 tags:
   - music365
 layout: 'album-post.njk'
@@ -39,15 +39,14 @@ templateEngineOverride: njk,md
     <div class="singles">
       <span>Singles:</span>
       <ul>
-        <li>My God Is the Sun</li>
-        <li>I Sat by the Ocean</li>
-        <li>Smooth Sailing</li>
+        <li>Sober</li>
+        <li>Prison Sex</li>
       </ul>
     </div>
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1586476451&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1474185287&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
