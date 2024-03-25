@@ -7,7 +7,7 @@ albumArtist: Queens of the Stone Age
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/12610587bd7a4070c0e69cb5138fd37c.jpg#12610587bd7a4070c0e69cb5138fd37c
 albumTracks: 10 tracks, 45:59
 albumReleaseDate: June 3, 2013
-shareimage: "like-clockwork.png"
+shareimage: "like-clockwork.jpg"
 tags:
   - music365
 layout: 'album-post.njk'

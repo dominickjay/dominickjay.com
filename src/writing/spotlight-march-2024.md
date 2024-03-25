@@ -59,6 +59,7 @@ For d20;
   <div>{% imagePlaceholder "./src/assets/images/posts/bodies.jpg", "A row of cards with long content" %}</div>
   <div>{% imagePlaceholder "./src/assets/images/posts/airbender.jpeg", "A row of cards with long content" %}</div>
   <div>{% imagePlaceholder "./src/assets/images/posts/killing-eve.jpeg", "A row of cards with long content" %}</div>
+  <div>{% imagePlaceholder "./src/assets/images/posts/extraordinary.jpeg", "A row of cards with long content" %}</div>
 </div>
 
 ### Movies
