@@ -7,7 +7,7 @@ albumArtist: Deftones
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/858efffdf737c869e754c2f4dbe89f4c.jpg#858efffdf737c869e754c2f4dbe89f4c
 albumTracks: 11 tracks, 41:22
 albumReleaseDate: May 4, 2010
-shareimage: "diamond-eyes.jpg"
+# shareimage: "diamond-eyes.jpg"
 draft: true
 tags:
   - music365

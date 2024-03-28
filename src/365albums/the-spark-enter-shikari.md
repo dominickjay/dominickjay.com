@@ -7,7 +7,7 @@ albumArtist: Enter Shikari
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0b74c5f5d37b985842706b09992b0715.jpg#0b74c5f5d37b985842706b09992b0715
 albumTracks: 11 tracks, 40:36
 albumReleaseDate: 22 September, 2017
-shareimage: "the-spark.jpg"
+# shareimage: "the-spark.jpg"
 draft: true
 tags:
   - music365
