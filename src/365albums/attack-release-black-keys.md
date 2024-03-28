@@ -7,7 +7,7 @@ albumArtist: The Black Keys
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/cacd732b188542269d8e08d7153e8e28.jpg#cacd732b188542269d8e08d7153e8e28
 albumTracks: 14 tracks, 41:23
 albumReleaseDate: April 1, 2008
-# shareimage: 'attack-and-release.jpg'
+shareimage: 'attack-and-release.jpg'
 tags:
   - music365
 layout: 'album-post.njk'
