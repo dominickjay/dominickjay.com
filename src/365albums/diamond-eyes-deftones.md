@@ -1,14 +1,13 @@
 ---
 title: "Diamond Eyes - Deftones"
 metaDesc: 'Day 148 of my album-a-day mini-project'
-date: 2024-04-02
+date: 2024-03-31
 albumTitle: Diamond Eyes
 albumArtist: Deftones
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/858efffdf737c869e754c2f4dbe89f4c.jpg#858efffdf737c869e754c2f4dbe89f4c
 albumTracks: 11 tracks, 41:22
 albumReleaseDate: May 4, 2010
-# shareimage: "diamond-eyes.jpg"
-draft: true
+shareimage: "diamond-eyes.jpg"
 tags:
   - music365
 layout: 'album-post.njk'
