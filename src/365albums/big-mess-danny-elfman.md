@@ -7,8 +7,7 @@ albumArtist: Danny Elfman
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/822871d57c6ef684c0a9cf8ee11fe388.jpg#822871d57c6ef684c0a9cf8ee11fe388
 albumTracks: 18 tracks, 72:18
 albumReleaseDate: June 11, 2021
-# shareimage: "big-mess.jpg"
-draft: true
+shareimage: "big-mess.jpg"
 tags:
   - music365
 layout: 'album-post.njk'
