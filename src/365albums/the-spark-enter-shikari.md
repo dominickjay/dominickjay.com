@@ -1,14 +1,13 @@
 ---
 title: "The Spark - Enter Shikari"
 metaDesc: 'Day 149 of my album-a-day mini-project'
-date: 2024-04-03
+date: 2024-04-01
 albumTitle: The Spark
 albumArtist: Enter Shikari
 albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/0b74c5f5d37b985842706b09992b0715.jpg#0b74c5f5d37b985842706b09992b0715
 albumTracks: 11 tracks, 40:36
 albumReleaseDate: 22 September, 2017
-# shareimage: "the-spark.jpg"
-draft: true
+shareimage: "the-spark.jpg"
 tags:
   - music365
 layout: 'album-post.njk'
