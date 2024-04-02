@@ -1,7 +1,7 @@
 ---
 title: 'March Page Turners'
-description: 'A collection of articles I`ve read over March 2024, with the intention of posting monthly'
-intro: 'A collection of articles I`ve read over March 2024, with the intention of posting monthly'
+description: "A collection of articles I've read over March 2024, with the intention of posting monthly"
+intro: "A collection of articles I've read over March 2024, with the intention of posting monthly"
 date: 2024-03-31
 tags:
   - page turners
@@ -9,7 +9,7 @@ tags:
   - writing
 layout: post
 templateEngineOverride: njk,md
-draft: true
+shareimage: "march-page-turners.jpg"
 ---
 
 ## Links
@@ -18,6 +18,7 @@ draft: true
 [Retrofitting fluid typography](https://clagnut.com/blog/2428)
 [Margin considered harmful](https://mxstbr.com/thoughts/margin/)
 [The problem with data-attributes for text effects](https://textlab.dev/posts/data-attributes-and-text-effects)
+[How I shaved 1.5 minutes off my Eleventy build time](https://chrisburnell.com/article/memoizing-asset-bundles/)
 
 ## Demos
 [Gallery with View Transitions](https://codepen.io/argyleink/pen/dyLNgpX)
