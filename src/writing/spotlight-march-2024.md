@@ -23,11 +23,6 @@ draft: true
     - Bread
     - Begnets
     - Pizza
-- books
-    - Expanse 1
-    - Hitchhikers guide to the galaxy
-    - Restaurant at the end of the universe
-    - Murdle
 
 ## Web...stuff
 - blogging
@@ -38,6 +33,15 @@ draft: true
 
 
 ## Media
+
+### Books
+
+<div class="poster-grid">
+  <div>{% imagePlaceholder "./src/assets/images/posts/murdle.jpg", "A row of cards with long content" %}</div>
+  <div>{% imagePlaceholder "./src/assets/images/posts/hitchhikers-guide.jpg", "A row of cards with long content" %}</div>
+  <div>{% imagePlaceholder "./src/assets/images/posts/restaurant-end.jpg", "A row of cards with long content" %}</div>
+  <div>{% imagePlaceholder "./src/assets/images/posts/leviathan-wakes.jpg", "A row of cards with long content" %}</div>
+</div>
 
 ### Dropout/D&D
 
