@@ -1,5 +1,6 @@
 ---
 title: 'Spotlight: April 2024'
+metaDesc: 'Highlights from the month'
 description: Highlights from the month
 date: 2024-04-31
 tags:
