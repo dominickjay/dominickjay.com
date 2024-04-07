@@ -37,7 +37,7 @@ layout: 'default.njk'
                                     {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
                                     <a
                                         href="{{ tagUrl | url }}"
-                                        class="category topic topic--{{tag}}"
+                                        class="category topic topic--{{tag | slugify}}"
                                     >
                                         <span>{{ tag }}</span>
                                     </a>

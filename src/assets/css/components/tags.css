@@ -23,6 +23,14 @@
   --topic-color: theme('colors.green');
 }
 
+.topic--spotlight {
+  --topic-color: theme('colors.green');
+}
+
+.topic--page-turners {
+  --topic-color: theme('colors.green');
+}
+
 .topic--productivity {
   --topic-color: #404E7C;
 }

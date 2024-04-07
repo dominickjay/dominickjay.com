@@ -5,6 +5,8 @@ intro: 'This year has been crazy busy, both on a Personal and Professional Level
 date: 2024-12-31
 music: 2024
 language: 2024
+musicDateFrom: '1704067200'
+musicDateTo: '1735689599'
 tags:
   - personal
   - writing
@@ -16,7 +18,14 @@ draft: true
 ## notable points
 
 - I read x books - [goal](https://literal.club/dominickjay217/goal/dom-jays-2024-reading-goal-ujuz80y)
-- Listened to music
+
+{% set results = musicDateFrom | apiCall(musicDateTo) %}
+
+<div class="music-grid" style="--layout: grid">
+  {% for album in results %}
+    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
+  {% endfor %}
+</div>
 
 ## favourite books
 
