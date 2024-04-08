@@ -1,13 +1,13 @@
 ---
-title: "High Crimes - The Damned Things"
-metaDesc: 'Day 153 of my album-a-day mini-project'
-date: 2024-04-07
-albumTitle: High Crimes
-albumArtist: The Damned Things
-albumArt: https://m.media-amazon.com/images/I/A18pf6eG1FL._UF894,1000_QL80_.jpg
-albumTracks: 10 tracks, 38:24
-albumReleaseDate: 25 April 2019
-shareimage: "high-crimes.jpg"
+title: "Why Would I Watch - Hot Mulligan"
+metaDesc: 'Day 154 of my album-a-day mini-project'
+date: 2024-04-08
+albumTitle: Why Would I Watch
+albumArtist: Hot Mulligan
+albumArt: https://lastfm.freetls.fastly.net/i/u/770x0/21e3053a3faec5dd7a5bf65f6305f345.jpg#21e3053a3faec5dd7a5bf65f6305f345
+albumTracks: 12 tracks, 37:19
+albumReleaseDate: 12 May 2023
+shareimage: "why-would-i-watch.jpg"
 tags:
   - music365
 layout: 'album-post.njk'
@@ -28,6 +28,14 @@ templateEngineOverride: njk,md
         <dd><strong>Release Date:</strong></dd>
         <dt>{{ albumReleaseDate }}</dt>
       </div>
+      <div class="singles">
+        <span>Singles:</span>
+        <ul>
+          <li>Shhhh! Golf Is On</li>
+          <li>Gans Media Retro Game</li>
+          <li>No Shoes in the Coffee Shop (Or Socks)</li>
+        </ul>
+      </div>
     </dl>
     <div class="color-grid">
       <div class="color-grid__container">
@@ -39,7 +47,7 @@ templateEngineOverride: njk,md
   </div>
 </aside>
 
-<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1440755215&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
+<iframe width="100%" height="52" src="https://odesli.co/embed/?url=https%3A%2F%2Falbum.link%2Fi%2F1657848490&theme=light" frameborder="0" allowfullscreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write"></iframe>
 
 ### The current playlist:
 
