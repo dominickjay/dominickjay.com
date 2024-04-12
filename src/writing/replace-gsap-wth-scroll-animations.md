@@ -4,6 +4,7 @@ description: "I was interested in picking up some new CSS tricks, and there’s 
 intro: ""
 date: 2023-11-27
 updated: Last Modified
+layout: post
 tags:
   - css
   - javascript
