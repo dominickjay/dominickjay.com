@@ -4,7 +4,7 @@ metaDesc: 'Day 158 of my album-a-day mini-project'
 date: 2024-04-12
 albumTitle: f.e.a.r.
 albumArtist: Stand Atlantic
-albumArt: https://images.genius.com/6299e32dac441cd020ebcc39283b5aa9.1000x1000x1.jpg
+albumArt: https://i0.wp.com/wallofsoundau.com/wp-content/uploads/2022/01/StandAtlantic_FEAR_Cover.jpg?fit=3000%2C3000&ssl=1
 albumTracks: 14 tracks, 36:00
 albumReleaseDate: May 6, 2022
 shareimage: "fear.jpg"
