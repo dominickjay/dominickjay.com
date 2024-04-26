@@ -11,11 +11,14 @@
   opacity: 0.85;
 }
 
-.topic--javascript {
+.topic--javascript,
+.topic--alpine {
   --topic-color: theme('colors.red');
 }
 
-.topic--css {
+.topic--css,
+.topic--grid,
+.topic--pocket-css {
   --topic-color: theme('colors.orange');
 }
 
