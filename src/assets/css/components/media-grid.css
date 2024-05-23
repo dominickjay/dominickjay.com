@@ -36,3 +36,9 @@
 .poster-grid > * {
   @apply col-span-1 md:col-span-2;
 }
+
+.poster-grid figure,
+.poster-grid picture,
+.poster-grid img {
+  height: 100%;
+}
