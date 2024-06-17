@@ -1,7 +1,7 @@
 ---
-title: 'May Page Turners'
-description: "A collection of articles I've read over May 2024, with the intention of posting monthly"
-intro: "A collection of articles I've read over May 2024, with the intention of posting monthly"
+title: 'June Page Turners'
+description: "A collection of articles I've read over June 2024, with the intention of posting monthly"
+intro: "A collection of articles I've read over June 2024, with the intention of posting monthly"
 date: 2024-05-25
 tags:
   - page turners
@@ -9,7 +9,7 @@ tags:
   - writing
 layout: post
 templateEngineOverride: njk,md
-shareimage: "may-page-turners.jpg"
+shareimage: "june-page-turners.jpg"
 ---
 
 ## Links
@@ -20,3 +20,6 @@ shareimage: "may-page-turners.jpg"
 ## Demos
 [CSS only marquee with slow on hover](https://codepen.io/matthewmorete/pen/poBqvEQ)
 [PATTERNS - Quiz game](https://codepen.io/Pedro-Ondiviela/pen/jORgbbK)
+
+## Sites
+[eva.town](https://eva.town/)
