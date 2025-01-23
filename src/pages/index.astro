@@ -3,9 +3,11 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import NavLink from '../components/NavigationLink.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import profileImage1 from '../../public/images/profile-image.png';
+import profileImage2 from '../../public/images/kid-image.png';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
 
-const { time = new Date().toLocaleTimeString().replace("AM","").replace("PM","") } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,7 +24,19 @@ const { time = new Date().toLocaleTimeString().replace("AM","").replace("PM","")
                     style="--max-width: 1260px"
                 >{SITE_TAGLINE}</h1>
                 <div class="profile grid" style="--grid-placement: 12">
-                    <img class="profile__image" width="209" height="212" src='images/profile-image.png' alt=''/>
+                    <div
+                        class="profile__image-container"
+                        x-data="{
+                            active: Math.floor(Math.random() * 2),
+                            images: $el.querySelectorAll('img'),
+                            init() {
+                                console.log(this.images);
+                            }
+                        }"
+                    >
+                        <Image class="profile__image" src={profileImage2} alt="A bird sitting on a nest of eggs." />
+                        <Image class="profile__image" src={profileImage1} alt="A bird sitting on a nest of eggs." />
+                    </div>
                     <div class="profile__description">
                         {SITE_DESCRIPTION}
                     </div>
@@ -54,13 +68,57 @@ const { time = new Date().toLocaleTimeString().replace("AM","").replace("PM","")
                 </div>
             </div>
             <div class="container grid" style="--grid-placement: 12">
-                <div class="info-panel">
+                <div
+                    class="info-panel"
+                    x-data="{
+                        time: '',
+                        items: [],
+                        artist: '',
+                        visibleItems: 3
+                    }"
+                    x-init="
+                        const music = await fetch(
+							 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json',
+							  {
+								  method: 'GET',
+							  },
+						  )
+                          .then((response) => response.json())
+                          .then((responseJSON) => {
+                            this.items = responseJSON.recenttracks.track;
+                        });
+
+                        $el.querySelector('.music__artist').innerText = this.items[0].artist['#text'];
+                        $el.querySelector('.music__song').innerText = this.items[0].name;
+
+                        const weather = await fetch(
+							 'http://api.weatherapi.com/v1/current.json?q=Plymouth', {
+                                method: 'GET',
+                                headers: new Headers({
+                                    'Content-Type': 'application/json',
+                                    key: 'b0bf9aab45af4844b6e151838252301',
+                                }),
+                            })
+                          .then((response) => response.json())
+                          .then((responseJSON) => {
+                            $el.querySelector('.temp').innerText = responseJSON.current.temp_c + '°C';
+                        });
+
+                        setInterval(function () {
+                            const time = new Date().toLocaleTimeString();
+                            <!-- console.log(time); -->
+                            $el.querySelector('.time').innerText = time;
+                        }, 1000);
+
+                    "
+                    x-cloak
+                >
                     <!-- Song -->
-                     <div class="info-panel__detail">
+                     <div class="info-panel__detail music">
                         <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 11.1663V13.833M5 7.16634V17.833M9 9.83301V15.1663M13 5.83301V19.1663M17 1.83301V23.1663M21 8.49967V16.4997M25 11.1663V13.833" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>Have A G.O.O.D. Day! (feat. Emmy Mack) by Samurai Pizza Cats</span>
+                        <span><span x-cloak class="music__song"></span> by <span x-cloak class="music__artist"></span></span>
                      </div>
                      <!-- Book -->
                      <div class="info-panel__detail">
@@ -90,7 +148,7 @@ const { time = new Date().toLocaleTimeString().replace("AM","").replace("PM","")
                             </clipPath>
                             </defs>
                         </svg>
-                        <span>11 ° 7 °</span>
+                        <span class="temp">11 ° 7 °</span>
                      </div>
                      <!-- Time -->
                     <div class="info-panel__detail">
@@ -104,7 +162,7 @@ const { time = new Date().toLocaleTimeString().replace("AM","").replace("PM","")
                             </clipPath>
                             </defs>
                         </svg>
-                       <span>{time}</span>
+                       <span class="time"></span>
                     </div>
                 </div>
             </div>
