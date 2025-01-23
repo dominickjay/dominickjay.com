@@ -1,0 +1,9 @@
+
+:root {
+    --color-light: #FBF8EF;
+    --color-dark: #000000;
+    --font-base: "InknutAntiqua", serif;
+    --leading-standard: 1.5;
+
+    --color-primary: var(--color-dark, #000000);
+}

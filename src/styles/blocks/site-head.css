@@ -1,0 +1,12 @@
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    padding-block: var(--padding-block, 22px);
+
+    @media (min-width: 768px) {
+        --padding-block: 42px;
+    }
+}

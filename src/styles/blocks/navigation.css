@@ -1,0 +1,28 @@
+.navigation {
+    width: 100%;
+    border: 0.5px solid var(--color-dark);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.internal-links {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+.internal-links a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.external-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 12px;
+}

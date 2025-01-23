@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-Light.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-Light.woff") format("woff");
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-Regular.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-Regular.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-Medium.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-Medium.woff") format("woff");
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-SemiBold.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-Bold.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-Bold.woff") format("woff");
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-ExtraBold.woff2") format("woff2"),
+    url("/fonts/InknutAntiqua-ExtraBold.woff") format("woff");
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  src: url("/fonts/InknutAntiqua-Black.woff2") format("woff2"),
+    url("//fonts/InknutAntiqua-Black.woff") format("woff");
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}

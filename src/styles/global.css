@@ -1,0 +1,19 @@
+@import 'global/reset.css';
+@import 'global/fonts.css';
+@import 'global/typography.css';
+@import 'global/variables.css';
+@import 'global/global-styles.css';
+
+/* @import-glob 'blocks/*.css'; */
+@import 'blocks/site-head.css';
+@import 'blocks/navigation.css';
+@import 'blocks/profile.css';
+@import 'blocks/info-panel.css';
+
+/* @import-glob 'compositions/*.css'; */
+@import 'compositions/grid.css';
+@import 'compositions/container.css';
+@import 'compositions/centered.css';
+
+/* @import-glob 'utilities/*.css'; */
+@import 'utilities/visually-hidden.css'

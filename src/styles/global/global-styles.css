@@ -1,0 +1,29 @@
+/*
+  Global styles
+
+  Low-specificity, global styles that apply to the whole
+  project: https://cube.fyi/css.html
+*/
+
+body {
+    background: var(--color-light);
+    color: var(--color-primary);
+    font-size: var(--size-step-1);
+    font-family: var(--font-base);
+    line-height: var(--leading-standard);
+    font-size-adjust: from-font;
+    margin: 0;
+  }
+
+  main {
+    padding-block-start: 82px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+  }
