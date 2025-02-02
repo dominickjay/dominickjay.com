@@ -11,16 +11,20 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/alpinejs": "^0.4.2",
-    "@astrojs/mdx": "^4.0.7",
+    "@astrojs/alpinejs": "^0.4.3",
+    "@astrojs/mdx": "^4.0.8",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
+    "@tailwindcss/postcss": "^4.0.3",
+    "@tailwindcss/vite": "^4.0.3",
     "alpinejs": "^3.14.8",
-    "astro": "^5.1.8",
-    "postcss": "^8.4.31",
+    "astro": "^5.2.3",
+    "moment": "^2.30.1",
+    "postcss": "^8.5.1",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
     "postcss-import-ext-glob": "^2.1.1",
-    "postcss-js": "^4.0.1"
+    "postcss-js": "^4.0.1",
+    "tailwindcss": "^4.0.3"
   }
 }

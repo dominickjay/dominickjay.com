@@ -1,9 +1,11 @@
 ---
 import { SITE_TITLE, SITE_TAGLINE } from '../consts';
+import NavLink from '../components/NavigationLink.astro';
+
 ---
 
 <header class=>
-    <div class="container">
+    <div class="container flex justify-between items-center">
         <a href="/" aria-label="Link to Home">
             <svg width="84" height="81" viewBox="0 0 84 81" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect x="0.179688" y="18.5195" width="69" height="64" transform="rotate(-15.569 0.179688 18.5195)" fill="url(#pattern0_1378_1384)"/>
@@ -46,5 +48,10 @@ import { SITE_TITLE, SITE_TAGLINE } from '../consts';
                 >
             </a>
         </div> -->
+        <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
+            <NavLink class="nav-link" href="/writing">Writing</NavLink>
+            <NavLink class="nav-link" href="/about">About</NavLink>
+            <NavLink class="nav-link" href="/now">Now</NavLink>
+        </nav>
     </div>
 </header>

@@ -1,6 +1,5 @@
 module.exports = {
-  plugins: {
-    'postcss-import-ext-glob': {},
-    'postcss-import': {},
-  }
+    plugins: {
+        "@tailwindcss/postcss": {},
+      },
 };
