@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Footer from '../components/Footer.astro';
 import { Image } from 'astro:assets';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
@@ -27,14 +28,14 @@ const currentlyReading = await fetch("https://literal.club/graphql/",
             readingStatus: $readingStatus
             profileId: $profileId
         )
-        { id title authors {
+        { id title cover authors {
             name
         } } }`,
         variables: {
             "limit": 100,
             "offset": 0,
             "readingStatus": "IS_READING",
-            "profileId": "cllld352811104650itu2jvq4ppp"
+            "profileId": import.meta.env.profileId
         },
     }),
 }).then((response) =>
@@ -43,132 +44,86 @@ const currentlyReading = await fetch("https://literal.club/graphql/",
     currentBooks = data.data.booksByReadingStateAndProfile;
 });
 
-const finished = await fetch("https://literal.club/graphql/",
-  {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-        query: `
-        query booksByReadingStateAndProfile(
-            $limit: Int!
-            $offset: Int!
-            $readingStatus: ReadingStatus!
-            $profileId: String!
-        ) {
-            booksByReadingStateAndProfile(
-                limit: $limit
-                offset: $offset
-                readingStatus: $readingStatus
-                profileId: $profileId
-        ) {
-            id title authors {
-                name
-            } } }`,
+async function getBooks() {
+  const data = (
+    (await fetch("https://literal.club/graphql/", {
+      method: "POST",
+      body: JSON.stringify({
+        query: `query booksByReadingStateAndProfile(
+        $limit: Int!
+        $offset: Int!
+        $readingStatus: ReadingStatus!
+        $profileId: String!
+      ) {
+        booksByReadingStateAndProfile(
+            limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
+            id title cover authors { name } } }`,
         variables: {
-            "limit": 100,
-            "offset": 0,
-            "readingStatus": "FINISHED",
-            "profileId": "cllld352811104650itu2jvq4ppp"
+          limit: 100,
+          offset: 0,
+          readingStatus: "FINISHED",
+          profileId: import.meta.env.profileId,
         },
-    }),
-}).then((response) =>
-  response.json()
-).then((data) => {
-    finishedBooks = data.data.booksByReadingStateAndProfile;
-    // const books = new Map<number, any>();
-    // for (const book of finishedBooks) {
-    //     const dates = fetch("https://literal.club/graphql/", {
-    //         method: "POST",
-    //         body: JSON.stringify({
-    //             query: `query getReadDates($bookId: String!, $profileId: String!) {
-    //                 getReadDates(bookId: $bookId, profileId: $profileId) {
-    //                 started
-    //                 finished
-    //                 }
-    //             }`,
-    //             variables: {
-    //                 bookId: book.id,
-    //                 profileId: "cllld352811104650itu2jvq4ppp",
-    //             },
-    //         }),
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             authorization: process.env.LITERAL_TOKEN ?? "",
-    //         },
-    //     })
-    //     .then((res) => res.json())
-    //     .then((finishedData) => {
-    //         const date = finishedData?.data.getReadDates?.pop();
-    //         const b = {
-    //             ...book,
-    //             started: date?.started,
-    //             finished: date?.finished,
-    //         };
-    //         if (b.finished != null) {
-    //             const year = moment(b.finished).year();
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: import.meta.env.literalToken ?? "",
+      },
+    }).then((res) => res.json())) as any
+  );
 
-    //             let read = books.get(year);
-    //             if (read == null) {
-    //                 read = [b];
-    //                 books.set(year, read);
-    //             } else {
-    //                 read.push(b);
-    //             }
-    //         }
-    //         console.log(books)
-    //     });
-    // }
-});
+  const books = new Map<number, any>();
 
-await function getBooks() {
-    const books = new Map<number, any>();
-    for (const book of finishedBooks) {
-        const dates = fetch("https://literal.club/graphql/", {
-            method: "POST",
-            body: JSON.stringify({
-                query: `query getReadDates($bookId: String!, $profileId: String!) {
-                    getReadDates(bookId: $bookId, profileId: $profileId) {
-                    started
-                    finished
-                    }
-                }`,
-                variables: {
-                    bookId: book.id,
-                    profileId: "cllld352811104650itu2jvq4ppp",
-                },
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                authorization: process.env.LITERAL_TOKEN ?? "",
-            },
-        })
-        .then((res) => res.json())
-        .then((finishedData) => {
-            const date = finishedData?.data.getReadDates?.pop();
-            const b = {
-                ...book,
-                started: date?.started,
-                finished: date?.finished,
-            };
-            if (b.finished != null) {
-                const year = moment(b.finished).year();
-
-                let read = books.get(year);
-                if (read == null) {
-                    read = [b];
-                    books.set(year, read);
-                } else {
-                    read.push(b);
-                }
+  for (const book of data.data.booksByReadingStateAndProfile) {
+    const dates = (
+      (await fetch("https://literal.club/graphql/", {
+        method: "POST",
+        body: JSON.stringify({
+          query: `query getReadDates($bookId: String!, $profileId: String!) {
+            getReadDates(bookId: $bookId, profileId: $profileId) {
+              started
+              finished
             }
-        });
+          }`,
+          variables: {
+            bookId: book.id,
+            profileId: import.meta.env.profileId,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          authorization: import.meta.env.literalToken ?? "",
+        },
+      }).then((res) => res.json())) as any
+    ).data;
+
+    const date = dates?.getReadDates?.pop();
+
+    const b = {
+      ...book,
+      started: date?.started,
+      finished: date?.finished,
+    };
+
+    if (b.finished != null) {
+      const year = moment(b.finished).year();
+
+      let read = books.get(year);
+      if (read == null) {
+        read = [b];
+        books.set(year, read);
+      } else {
+        read.push(b);
+      }
     }
-    // console.log(finishedBooks)
-    return books;
+  }
+
+  return books;
 }
 
-getBooks();
-// await console.log(getBooks())
+const books = await getBooks();
+
+// await console.log(books);
 
 ---
 
@@ -181,12 +136,57 @@ getBooks();
 		<Header />
 		<main>
             <div class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]" style="--grid-placement: 12; --gutter: 43px;">
-                <ul>
-                    {currentBooks.map((book) => <li>{book.title}</li>)}
+                <ul class="col-span-full grid">
+                    <h2 class="h2 col-span-full">Currently Reading</h2>
+                    {currentBooks.map((book) =>
+                        <li class="col-span-2">
+                            <div class="group overflow-hidden flex flex-col gap-y-[12px]">
+                                <div class="overflow-hidden">
+                                    <Image class="group-hover:scale-[1.05] transition-all ease-in-out duration-300" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                </div>
+                                <div class="flex flex-col gap-y-[8px]">
+                                    <p class="text-[18px]">{book.title}</p>
+                                </div>
+                            </div>
+                        </li>
+                    )}
                 </ul>
-                <ul>
-                    {readBooks.map((book) => <li>{book.title}</li>)}
-                </ul>
+                {
+                    [...books].map((year, i) => (
+                        <ul class="col-span-full">
+                            <li>
+                                <div class="flex flex-col gap-y-[24px]">
+                                    <h2 class="h2">{year[0]}</h2>
+
+                                    <ul class="grid">
+                                        {
+                                            [...books][i][1].map((book) => (
+                                                <li class="col-span-2">
+                                                    <div class="group overflow-hidden flex flex-col gap-y-[12px]">
+                                                        <div class="overflow-hidden">
+                                                            <Image class="group-hover:scale-[1.05] transition-all ease-in-out duration-300" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                                        </div>
+                                                        <div class="flex flex-col gap-y-[8px]">
+                                                            <p class="text-[18px]">{book.title}</p>
+                                                            <div>
+                                                                {book.started != book.finished && (
+                                                                    // <p>{new Date(book.started)}</p>
+                                                                    <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>
+                                                                )}
+                                                                    <span class="text-[16px]">Finished: <FormattedDate date={new Date(book.finished)} /></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+
+                    ))
+                }
             </div>
 		</main>
 		<Footer />
