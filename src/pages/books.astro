@@ -136,15 +136,18 @@ const books = await getBooks();
 		<Header />
 		<main>
             <div class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]" style="--grid-placement: 12; --gutter: 43px;">
-                <ul class="col-span-full grid">
+                <button>
+                    List me
+                </button>
+                <ul class="col-span-full grid" style="--gutter: 0">
                     <h2 class="h2 col-span-full">Currently Reading</h2>
-                    {currentBooks.map((book) =>
-                        <li class="col-span-2">
-                            <div class="group overflow-hidden flex flex-col gap-y-[12px]">
-                                <div class="overflow-hidden">
-                                    <Image class="group-hover:scale-[1.05] transition-all ease-in-out duration-300" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                    {currentBooks.map((book, i) =>
+                        <li class="col-span-2 group">
+                            <div class="overflow-hidden flex flex-col gap-y-[12px] relative" class:list={i != 0 && 'md:translate-x-[-50%] group-hover:md:translate-x-0 transition-transform ease-in-out duration-300 z-[-1]'}>
+                                <div class="overflow-hidden aspect-[1/1.5]">
+                                    <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
                                 </div>
-                                <div class="flex flex-col gap-y-[8px]">
+                                <div class="flex flex-col gap-y-[8px] absolute bg-black bottom-0 w-full text-white py-[8px] px-[16px] opacity-0 group-hover:opacity-100">
                                     <p class="text-[18px]">{book.title}</p>
                                 </div>
                             </div>
@@ -158,15 +161,15 @@ const books = await getBooks();
                                 <div class="flex flex-col gap-y-[24px]">
                                     <h2 class="h2">{year[0]}</h2>
 
-                                    <ul class="grid">
+                                    <ul class="col-span-full grid" style="--gutter: 0">
                                         {
-                                            [...books][i][1].map((book) => (
-                                                <li class="col-span-2">
-                                                    <div class="group overflow-hidden flex flex-col gap-y-[12px]">
-                                                        <div class="overflow-hidden">
-                                                            <Image class="group-hover:scale-[1.05] transition-all ease-in-out duration-300" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                            [...books][i][1].map((book, i) => (
+                                            <li class="col-span-2 group" class:list={i != 0 && 'md:translate-x-[-100%] group-hover:md:translate-x-0 transition-transform ease-in-out duration-300 z-[-1]'}>
+                                                    <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
+                                                        <div class="overflow-hidden aspect-[1/1.5]">
+                                                            <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
                                                         </div>
-                                                        <div class="flex flex-col gap-y-[8px]">
+                                                        <div class="flex flex-col gap-y-[8px] absolute bg-black bottom-0 w-full text-white py-[8px] px-[16px] opacity-0 group-hover:opacity-100">
                                                             <p class="text-[18px]">{book.title}</p>
                                                             <div>
                                                                 {book.started != book.finished && (

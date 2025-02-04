@@ -2,20 +2,24 @@
 const today = new Date();
 ---
 
-<footer>
+<div class="w-full text-center translate-y-[30%] mt-[120px] pointer-events-none">
+    <span class="-top-1/2 h1 text-[300px]">Allonsy</span>
+</div>
+
+<footer class="relative bg-black text-white py-[120px]">
     <div class="container grid">
         <nav class="external-links col-span-full md:col-start-1 md:col-span-4" aria-label="External Site Links">
             <a class="nav-link nav-link--small" href="https://github.com/withastro/astro" target="_blank">
-                <span class="">Email</span>
+                <span class=" text-white">Email</span>
             </a>
             <a class="nav-link nav-link--small" href="https://m.webtoo.ls/@astro" target="_blank">
-                <span class="">Mastodon</span>
+                <span class=" text-white">Mastodon</span>
             </a>
             <a class="nav-link nav-link--small" href="https://twitter.com/astrodotbuild" target="_blank">
-                <span class="">LinkedIn</span>
+                <span class=" text-white">LinkedIn</span>
             </a>
             <a class="nav-link nav-link--small" href="https://github.com/withastro/astro" target="_blank">
-                <span class="">Bluesky</span>
+                <span class=" text-white">Bluesky</span>
             </a>
         </nav>
         <div class="col-span-full">&copy; {today.getFullYear()} Dom Jay. All rights reserved.</div>

@@ -1,5 +1,5 @@
 ---
-title: 'First post'
+title: 'Installing Tailwind 4 in Astro'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Jul 08 2022'
 heroImage: '/blog-placeholder-3.jpg'

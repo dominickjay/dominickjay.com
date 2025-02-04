@@ -26,6 +26,12 @@
     column-gap: 8px;
 }
 
+.internal-links a:hover,
+.external-links a:hover {
+    text-decoration: underline;
+    text-decoration-style: wavy;
+}
+
 .external-links {
     display: flex;
     justify-content: space-between;
