@@ -1,7 +1,8 @@
 ---
 title: 'Desert Island Discs post'
-description: 'Lorem ipsum dolor sit amet'
+description: 'I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across this pen from Ryan Mulligan (hexagoncircle).'
 pubDate: 'Jul 15 2022'
+tags: ['personal', 'music']
 heroImage: '/blog-placeholder-4.jpg'
 ---
 
