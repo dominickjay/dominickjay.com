@@ -12,7 +12,7 @@ const writing = defineCollection({
 		pubDate: z.coerce.date(),
 		updatedDate: z.coerce.date().optional(),
 		heroImage: z.string().optional(),
-		tags: z.array(z.string()),
+		tags: z.array(z.string())
 	}),
 });
 

@@ -8,7 +8,6 @@
     row-gap: 12px;
     position: relative;
     height: fit-content;
-    max-width: 345px;
     bottom: 36px;
     margin-inline: auto;
 }

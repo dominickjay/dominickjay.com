@@ -15,6 +15,9 @@ const posts = (await getCollection('writing')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
+const random = Math.floor(Math.random() * posts.length);
+const randomPost = posts[random];
+
 const response = await fetch("https://literal.club/graphql/",
   {
     method: 'POST',
@@ -1132,6 +1135,12 @@ const response = await fetch("https://literal.club/graphql/",
             </div>
             <section class="py-[80px]">
                 <div class="container grid" style="--grid-placement: 12">
+                    <div class="col-span-full md:col-span-4">
+                        <div class="flex flex-col gap-y-[24px] sticky top-[120px]">
+                            <h3 class="h3">Can't decide?</h3>
+                            <a class="py-[16px] px-[24px] border w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white" href={`/writing/${randomPost.id}/`}>Click here for a Random Post</a>
+                        </div>
+                    </div>
                     <div class="col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[48px]">
                         <div class="flex items-center justify-between">
                             <h2 class="h2">Latest Posts</h2>
@@ -1140,7 +1149,7 @@ const response = await fetch("https://literal.club/graphql/",
                         <div>
                             <ol class="flex flex-col gap-y-[32px]">
                                 {
-						            posts.map((post) => (
+						            posts.slice(0,5).map((post) => (
                                     <li>
                                             <div class="flex flex-col gap-y-[8px]">
                                                 <div class="flex gap-x-[16px]">
@@ -1154,7 +1163,7 @@ const response = await fetch("https://literal.club/graphql/",
                                                         </a>
                                                         <p class="opacity-[0.64] body-text">{post.data.description}</p>
                                                     </div>
-                                                    <p class="date">
+                                                    <p class="date shrink-0">
                                                         <FormattedDate date={post.data.pubDate} />
                                                     </p>
                                                 </div>
