@@ -1,7 +1,7 @@
 ---
 title: 'Installing Tailwind 4 in Astro'
 description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 08 2022'
+pubDate: 'February 10 2025'
 tags:
     - css
     - astro

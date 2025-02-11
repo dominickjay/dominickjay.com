@@ -1,7 +1,7 @@
 ---
 title: 'Switch VS If'
 description: "Using fancy CSS properties like opacity, transform and transition - along with intersection observers - we can create text reveals that are smoother than a buttered penguin sliding down an ice slope."
-pubDate: 'August 17 2021'
+pubDate: 'February 10 2025'
 tags:
     - css
 ---

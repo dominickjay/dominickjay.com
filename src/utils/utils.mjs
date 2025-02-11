@@ -1,3 +1,5 @@
+import Typewriter from 'typewriter-effect/dist/core';
+
 const WORDS_PER_MINUTE = 200;
 
 export function getReadingTime(content) {
@@ -5,6 +7,19 @@ export function getReadingTime(content) {
   const clean = content.replace(/<\/?[^>]+(>|$)/g, '');
   const numberOfWords = clean.split(/\s/g).length;
   return Math.ceil(numberOfWords / WORDS_PER_MINUTE);
+}
+
+export function typewriter() {
+
+    var app = this.$el.querySelectorAll(".heading-tagline")[0];
+    console.log(app);
+
+    var typewriter = new Typewriter(app, {
+        loop: false,
+        delay: 8
+    });
+
+    typewriter.start();
 }
 
 export function generateSlug(string) {

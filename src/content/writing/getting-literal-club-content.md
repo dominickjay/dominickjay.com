@@ -1,7 +1,7 @@
 ---
 title: 'Getting Literal.club Content'
 description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 15 2022'
+pubDate: 'February 10 2025'
 tags:
     - graphql
 ---

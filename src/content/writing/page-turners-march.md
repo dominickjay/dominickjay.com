@@ -1,11 +1,10 @@
 ---
 title: 'March Page Turners'
 description: "A collection of articles I've read over March 2024, with the intention of posting monthly"
-pubDate: 2024-03-31
+pubDate: '2024-03-31'
 tags:
   - page turners
   - css
-draft: false
 ---
 
 ## Links

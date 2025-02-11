@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { getReadingTime } from '../../utils/utils.mjs';
 
 const posts = (await getCollection('writing')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -19,22 +20,32 @@ const posts = (await getCollection('writing')).sort(
 	<body>
 		<Header />
 		<main>
-			<section class="container">
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/writing/${post.id}/`}>
-									<img width={720} height={360} src={post.data.heroImage} alt="" />
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+			<section class="container pt-[125px]">
+                <ol class="flex flex-col gap-y-[32px]">
+                    {
+                        posts.map((post) => (
+                        <li>
+                                <div class="flex flex-col gap-y-[8px]">
+                                    <div class="flex gap-x-[16px]">
+                                        <span>{getReadingTime(post.body)} min</span>
+                                    </div>
+                                    <div class="flex justify-between">
+
+                                        <div class="flex flex-col gap-y-[8px]">
+                                            <a class="text-[20px] tracking-[-0.02em] block mb-[4px]" href={`/writing/${post.id}/`}>
+                                                <h4>{post.data.title}</h4>
+                                            </a>
+                                            <p class="opacity-[0.64] body-text">{post.data.description}</p>
+                                        </div>
+                                        <p class="date shrink-0">
+                                            <FormattedDate date={post.data.pubDate} />
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        ))
+                    }
+                </ol>
 			</section>
 		</main>
 		<Footer />

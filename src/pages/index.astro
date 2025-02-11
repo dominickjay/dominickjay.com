@@ -9,6 +9,7 @@ import { getCollection } from 'astro:content';
 import profileImage1 from '../../public/images/profile-image.png';
 import profileImage2 from '../../public/images/kid-image.png';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
+
 let books = [];
 
 const posts = (await getCollection('writing')).sort(
@@ -991,7 +992,16 @@ const response = await fetch("https://literal.club/graphql/",
                 <h1
                     class="heading-tagline col-span-full md:col-start-1 md:col-span-7 row-start-1 row-span-3"
                     style="--max-width: 1260px"
-                >{SITE_TAGLINE}</h1>
+                >
+                    <!-- {SITE_TAGLINE} -->
+                    <!-- Build better, build forward -->
+                    <!-- Elevate what you create -->
+                    <!-- Better by design -->
+                    <!-- Small steps, lasting impact -->
+                    <!-- Making good stuff gooder -->
+                    <!-- Making yesterday jealous of tomorrow -->
+                    Making yesterday's best look basic
+                </h1>
 
                 <div class="profile grid col-span-full md:col-start-8 md:col-span-5 relative row-start-1 row-span-3" style="--grid-placement: 12">
                     <div
@@ -1180,3 +1190,45 @@ const response = await fetch("https://literal.club/graphql/",
 		<Footer />
 	</body>
 </html>
+
+<script>
+
+    import Typewriter from 'typewriter-effect/dist/core';
+    import { SITE_TAGLINE } from '../consts';
+
+    var taglines = [
+        'Build better, build forward',
+        'Elevate what you create',
+        'Better by design',
+        'Small steps, lasting impact',
+        'Making good stuff gooder',
+        'Making yesterday jealous of tomorrow'
+    ]
+
+    var app = document.querySelectorAll(".heading-tagline")[0];
+
+    var typewriter = new Typewriter(app, {
+        loop: true,
+        delay: 'natural',
+        devMode: true
+    })
+
+    let index = 0;
+
+    setInterval(() => {
+        const randomTagline = taglines[index];
+        console.log(randomTagline);
+        startTyping(randomTagline);
+        if (index <= taglines.length) {
+            index = index + 1;
+        }
+    }, 12000);
+
+    function startTyping(randomTagline) {
+        typewriter
+            .typeString(randomTagline)
+            .pauseFor(6000)
+            .start()
+            .deleteAll()
+    }
+</script>
