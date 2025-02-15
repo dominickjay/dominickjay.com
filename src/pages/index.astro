@@ -1083,7 +1083,6 @@ const response = await fetch("https://literal.club/graphql/",
 
                         setInterval(function () {
                             const time = new Date().toLocaleTimeString();
-                            <!-- console.log(time); -->
                             $el.querySelector('.time').innerText = time;
                         }, 1000);
 
@@ -1194,9 +1193,9 @@ const response = await fetch("https://literal.club/graphql/",
 <script>
 
     import Typewriter from 'typewriter-effect/dist/core';
-    import { SITE_TAGLINE } from '../consts';
 
     var taglines = [
+        'Leave it better than you found it',
         'Build better, build forward',
         'Elevate what you create',
         'Better by design',
@@ -1213,7 +1212,9 @@ const response = await fetch("https://literal.club/graphql/",
         devMode: true
     })
 
-    let index = 0;
+    let index = 1;
+
+    startTyping(taglines[0]);
 
     setInterval(() => {
         const randomTagline = taglines[index];

@@ -3,10 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "css": "npx postcss src/styles/*.css --dir dist/css",
     "clean": "rm -r -f dist && mkdir dist",
     "dev": "astro dev",
-    "build": "astro build && npm run css",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,19 +14,12 @@
     "@astrojs/mdx": "^4.0.8",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-    "@tailwindcss/postcss": "^4.0.3",
-    "@tailwindcss/vite": "^4.0.3",
+    "@tailwindcss/vite": "^4.0.0",
     "alpinejs": "^3.14.8",
     "astro": "^5.2.3",
     "mdast-util-to-string": "^4.0.0",
     "moment": "^2.30.1",
-    "postcss": "^8.5.1",
-    "postcss-cli": "^10.1.0",
-    "postcss-import": "^15.1.0",
-    "postcss-import-ext-glob": "^2.1.1",
-    "postcss-js": "^4.0.1",
     "reading-time": "^1.5.0",
-    "tailwindcss": "^4.0.3",
     "typewriter-effect": "^2.21.0"
   }
 }

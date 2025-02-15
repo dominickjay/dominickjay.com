@@ -11,6 +11,9 @@
 @import './blocks/navigation.css';
 @import './blocks/profile.css';
 @import './blocks/info-panel.css';
+@import './blocks/code.css';
+@import './blocks/prose.css';
+@import './blocks/toc.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';

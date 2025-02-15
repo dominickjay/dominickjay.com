@@ -123,8 +123,6 @@ async function getBooks() {
 
 const books = await getBooks();
 
-// await console.log(books);
-
 ---
 
 <!doctype html>
@@ -135,43 +133,87 @@ const books = await getBooks();
 	<body>
 		<Header />
 		<main>
-            <div class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]" style="--grid-placement: 12; --gutter: 43px;">
-                <button>
+            <div
+                class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]"
+                style="--grid-placement: 12; --gutter: 43px;"
+                x-data="{
+                    list: false
+                }"
+            >
+                <button class="cursor-pointer col-span-full max-w-fit py-[16px] px-[24px] border hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white" @click="list = ! list">
                     List me
                 </button>
-                <ul class="col-span-full grid" style="--gutter: 0">
-                    <h2 class="h2 col-span-full">Currently Reading</h2>
-                    {currentBooks.map((book, i) =>
-                        <li class="col-span-2 group">
-                            <div class="overflow-hidden flex flex-col gap-y-[12px] relative" class:list={i != 0 && 'md:translate-x-[-50%] group-hover:md:translate-x-0 transition-transform ease-in-out duration-300 z-[-1]'}>
-                                <div class="overflow-hidden aspect-[1/1.5]">
-                                    <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                <div
+                    class="col-span-full grid gap-y-[24px]"
+                    :class="{
+                        'flex flex-col': list,
+                        'grid': !list
+                    }"
+                >
+                    <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
+                    <ul class="col-span-full grid gap-y-[12px]"
+                        :class="{
+                            'flex flex-col': list,
+                            'grid': !list
+                        }"
+                    >
+                        {currentBooks.map((book, i) =>
+                            <li
+                                class="col-span-2 group"
+                                :class="{
+                                    'border-b'
+                                }"
+                            >
+                                <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
+                                    <div x-show="!list" class="overflow-hidden aspect-[1/1.5]">
+                                        <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                    </div>
+                                    <div
+                                        class="flex flex-col gap-[8px]w-full"
+                                        :class="{
+                                            'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
+                                        }"
+                                    >
+                                        <p class="text-[18px]">{book.title}</p>
+                                    </div>
                                 </div>
-                                <div class="flex flex-col gap-y-[8px] absolute bg-black bottom-0 w-full text-white py-[8px] px-[16px] opacity-0 group-hover:opacity-100">
-                                    <p class="text-[18px]">{book.title}</p>
-                                </div>
-                            </div>
-                        </li>
-                    )}
-                </ul>
+                            </li>
+                        )}
+                    </ul>
+                </div>
                 {
                     [...books].map((year, i) => (
                         <ul class="col-span-full">
                             <li>
                                 <div class="flex flex-col gap-y-[24px]">
                                     <h2 class="h2">{year[0]}</h2>
-
-                                    <ul class="col-span-full grid" style="--gutter: 0">
+                                    <ul
+                                        class="col-span-full grid gap-y-[12px]"
+                                        :class="{
+                                            'flex flex-col': list,
+                                            'grid': !list
+                                        }"
+                                    >
                                         {
-                                            [...books][i][1].map((book, i) => (
-                                            <li class="col-span-2 group" class:list={i != 0 && 'md:translate-x-[-100%] group-hover:md:translate-x-0 transition-transform ease-in-out duration-300 z-[-1]'}>
+                                            [...books][i][1].map((book, index) => (
+                                            <li
+                                                class="col-span-2 group"
+                                                :class="{
+                                                    'border-b'
+                                                }"
+                                            >
                                                     <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                                        <div class="overflow-hidden aspect-[1/1.5]">
+                                                        <div x-show="!list" class="overflow-hidden aspect-[1/1.5]">
                                                             <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
                                                         </div>
-                                                        <div class="flex flex-col gap-y-[8px] absolute bg-black bottom-0 w-full text-white py-[8px] px-[16px] opacity-0 group-hover:opacity-100">
+                                                        <div
+                                                            class="flex flex-col gap-[8px]w-full"
+                                                            :class="{
+                                                                'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
+                                                            }"
+                                                        >
                                                             <p class="text-[18px]">{book.title}</p>
-                                                            <div>
+                                                            <div class="mt-auto pb-[8px] flex flex-col">
                                                                 {book.started != book.finished && (
                                                                     // <p>{new Date(book.started)}</p>
                                                                     <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>

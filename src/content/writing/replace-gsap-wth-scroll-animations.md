@@ -10,8 +10,6 @@ tags: ['css', 'javascript']
     <p>There's some CSS properties used in this demo and in the featured Codepen that are experimental technologies - check your browser support for <a href="animation-range> <a href="https://caniuse.com/?search=animation-timeline">animation-timeline</a> and <a href="https://caniuse.com/?search=view-timeline-name">view-timeline-name</a> before venturing further and thinking I've broken something. I'm in <i>no</i> means an expert at this here, but I think I got it right!</p>
 </div>
 
-I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across this pen from [Ryan Mulligan](https://ryanmulligan.dev/) (hexagoncircle).
-
 <p class="codepen" data-height="600" data-theme-id="light" data-default-tab="result" data-slug-hash="gOPMwvd" data-user="hexagoncircle" style="height: 600px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/hexagoncircle/pen/gOPMwvd">
   ScrollTrigger - Highlight Text</a> by Ryan Mulligan (<a href="https://codepen.io/hexagoncircle">@hexagoncircle</a>)
@@ -25,7 +23,11 @@ After playing around with it and digging into the source code, pretty instantly 
 
 Let's start by breaking down Ryan's demo a bit. There’s very little functional magic actually in the HTML - although it's very pretty markup! We've got a header element containing options; dark mode & some underlining styles (background, underlined etc). The bulk of the content is in a main element, as expected, with some content wrapped in a mark element with a class of text-highlight. Easy stuff, apart from…what’s a mark element and what’s the point of it semantically?
 
-> The **`<mark>`** [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) element represents text which is **marked** or **highlighted** for reference or notation purposes due to the marked passage's relevance in the enclosing context.
+<div class="blockquote-container">
+
+> The `mark` [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) element represents text which is **marked** or **highlighted** for reference or notation purposes due to the marked passage's relevance in the enclosing context.
+
+</div>
 
 So, to rip a use case out of the mdn docs;
 

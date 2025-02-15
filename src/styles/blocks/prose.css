@@ -1,0 +1,44 @@
+.content {
+
+    a {
+        @apply underline decoration-wavy hover:no-underline;
+    }
+
+    ul, ol {
+        padding-left: 18px;
+    }
+
+    ul {
+        list-style: disc;
+        list-style-type: '-  ';
+    }
+
+    ol {
+        list-style: decimal;
+    }
+
+    h2 {
+        @apply text-[24px] tracking-[-0.04em] leading-[140%];
+    }
+
+    .blockquote-container {
+        @apply flex flex-col justify-end items-end;
+    }
+
+    blockquote {
+        @apply text-[24px] tracking-[-0.04em] leading-[140%];
+
+        float: right;
+        border: 1px solid var(--color-dark, #000000);
+        padding: 16px;
+    }
+
+    blockquote + p {
+        border: 1px solid var(--color-dark, #000000);
+        border-top: none;
+        max-width: fit-content;
+        padding-block: 4px;
+        padding-inline: 8px;
+    }
+
+}
