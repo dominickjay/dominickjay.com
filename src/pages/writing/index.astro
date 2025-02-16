@@ -7,9 +7,22 @@ import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { getReadingTime } from '../../utils/utils.mjs';
 
-const posts = (await getCollection('writing')).sort(
+
+
+let posts = [];
+
+if (import.meta.env.DEV && import.meta.env.DEV === true) {
+    posts = await getCollection("writing",
+        ({ data }) => !data?.draft
+    );
+} else {
+    posts = await getCollection("writing");
+}
+
+posts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
 ---
 
 <!doctype html>
@@ -20,11 +33,14 @@ const posts = (await getCollection('writing')).sort(
 	<body>
 		<Header />
 		<main>
-			<section class="container pt-[125px]">
+			<section class="container pt-[125px]" style="--container-width: 1024px">
                 <ol class="flex flex-col gap-y-[32px]">
                     {
                         posts.map((post) => (
-                        <li>
+                        <li
+                            class="reveal reveal--fade-in"
+                            style="`--delay: {i * 0.25}s`"
+                        >
                                 <div class="flex flex-col gap-y-[8px]">
                                     <div class="flex gap-x-[16px]">
                                         <span>{getReadingTime(post.body)} min</span>

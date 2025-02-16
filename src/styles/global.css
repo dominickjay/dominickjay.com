@@ -21,4 +21,5 @@
 @import './compositions/centered.css';
 
 /* @import-glob 'utilities/*.css'; */
-@import './utilities/visually-hidden.css'
+@import './utilities/visually-hidden.css';
+@import './utilities/reveal.css';

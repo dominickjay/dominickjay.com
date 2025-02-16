@@ -4,7 +4,7 @@ description: 'Preventing CSS tantrums and sibling rivalry. - A super quick insig
 pubDate: '2025-02-15'
 tags:
   - css
-
+draft: true
 ---
 
 As a parent of two, I've found writing CSS can be a bit like having toddlers (or really, kids in general), sometimes they throw tantrums and affect things they really shouldn't *at all*. You tell them to only use the red pens and then somehow, blue pen appears in a suddenly unexpected place ie sofa, wall, bed, toys, anything anywhere really (bonus points to them if it's something you haven't actually seen and/or won't see again for 6-12 months).

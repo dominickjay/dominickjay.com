@@ -1,0 +1,29 @@
+.reveal {
+    view-timeline: --subjectReveal block;
+    animation-timeline: --subjectReveal;
+    animation-range: cover 20% cover 50%;
+    animation-fill-mode: forwards;
+    animation-duration: 1ms;
+    animation-delay: var(--delay, 0);
+}
+
+.reveal--fade-in {
+    opacity: 0; /* Initially hidden */
+    transition-property: fadeIn;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Fallback for browsers that don't yet support scroll-driven animations */
+  @supports not (animation-timeline: scroll(vertical)) {
+    .reveal.reveal--revealed {
+        opacity: 1;
+    }
+  }

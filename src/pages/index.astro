@@ -12,9 +12,27 @@ import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
 
 let books = [];
 
-const posts = (await getCollection('writing')).sort(
+// const posts = (await getCollection('writing')).sort(
+// 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+// );
+
+let posts = [];
+
+if (import.meta.env.DEV && import.meta.env.DEV === true) {
+    posts = await getCollection("writing",
+        ({ data }) => !data?.draft
+    );
+} else {
+    posts = await getCollection("writing");
+}
+
+posts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// posts = (await getCollection('writing')).sort(
+// 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+// );
 
 const random = Math.floor(Math.random() * posts.length);
 const randomPost = posts[random];
@@ -1147,19 +1165,25 @@ const response = await fetch("https://literal.club/graphql/",
                     <div class="col-span-full md:col-span-4">
                         <div class="flex flex-col gap-y-[24px] sticky top-[120px]">
                             <h3 class="h3">Can't decide?</h3>
-                            <a class="py-[16px] px-[24px] border w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white" href={`/writing/${randomPost.id}/`}>Click here for a Random Post</a>
+                            <a
+                                class="py-[16px] px-[24px] border w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white"
+                                href={`/writing/${randomPost.id}/`}
+                            >Click here for a Random Post</a>
                         </div>
                     </div>
                     <div class="col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[48px]">
                         <div class="flex items-center justify-between">
-                            <h2 class="h2">Latest Posts</h2>
-                            <a href="/writing">View all</a>
+                            <h2 class="h2 reveal reveal--fade-in">Latest Posts</h2>
+                            <a class="reveal reveal--fade-in" style="--delay: 0.5s" href="/writing">View all</a>
                         </div>
                         <div>
                             <ol class="flex flex-col gap-y-[32px]">
                                 {
-						            posts.slice(0,5).map((post) => (
-                                    <li>
+						            posts.slice(0,5).map((post, i) => (
+                                    <li
+                                        class="reveal reveal--fade-in"
+                                        style="`--delay: {i * 0.25}s`"
+                                    >
                                             <div class="flex flex-col gap-y-[8px]">
                                                 <div class="flex gap-x-[16px]">
                                                     <span>{getReadingTime(post.body)} min</span>

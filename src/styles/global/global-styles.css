@@ -5,6 +5,17 @@
   project: https://cube.fyi/css.html
 */
 
+/* Styles for the transitions (customize these) */
+::view-transition-group(content) {
+    animation: fade-in-out 0.3s both ease-in-out; /* Example fade */
+}
+
+@keyframes fade-in-out {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
 body {
     background: var(--color-light);
     color: var(--color-primary);

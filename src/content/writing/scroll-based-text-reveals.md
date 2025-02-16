@@ -4,6 +4,7 @@ description: "Using fancy CSS properties like opacity, transform and transition 
 pubDate: 'February 10 2025'
 tags:
     - css
+draft: true
 ---
 
 ## So, What are CSS Variables?
