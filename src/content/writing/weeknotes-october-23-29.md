@@ -7,6 +7,7 @@ tags:
   - personal
 musicDateFrom: '1698048291'
 musicDateTo: '1698570291'
+layout: "../../layouts/About.astro"
 ---
 
 ### Personal

@@ -4,7 +4,25 @@ description: '8 albums - each from a point of my life.'
 pubDate: 'February 10 2025'
 tags: ['personal', 'music']
 draft: true
+# layout: "@layouts/About.astro"
+layout: "MusicGallery"
 ---
+
+<ul class="cards">
+	<li>
+		<img src="https://example.org/cover1.jpg"
+				width="600" height="600" alt="…" />
+	</li>
+	<li>
+		<img src="https://example.org/cover2.jpg"
+				width="600" height="600" alt="…" />
+	</li>
+	…
+	<li>
+		<img src="https://example.org/cover3.jpg"
+				width="600" height="600" alt="…" />
+	</li>
+</ul>
 
 ## The Fragile
 - Coming into rock in a big way in 2003, started with NIN March of the Pigs
@@ -32,7 +50,5 @@ draft: true
 ## Lateralus
 - Might be the best album I've ever heard, lyrically, conceptually and musically
 - Proud that I used to be able to play it through on guitar
-
-##
 
 What are your DID, let me know!

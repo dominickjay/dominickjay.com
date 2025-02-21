@@ -44,7 +44,7 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     </ol>
 </nav>
 
-<script is:inline>
+<!-- <script is:inline>
   // This script tag is useful only if you want to display the TOC alongside the blog post...
   // ... and highlight the section that the user is currently reading through.
   // Feel free to remove this tag if you don't need this type of functionality.
@@ -84,7 +84,47 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     console.log(heading);
     observer.observe(heading);
   }
-</script>
+</script> -->
+
+<script is:inline>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const headingFragment = `#${entry.target.id}`;
+          const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
+
+          if (!tocItem) return;
+
+          if (entry.isIntersecting) {
+            // Remove active class from any previously active items
+            document.querySelectorAll('.active-toc-item')
+              .forEach(item => item.classList.remove('active-toc-item'));
+
+            // Add active class to current item
+            tocItem.classList.add('active-toc-item');
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '-20% 0px -20% 0px', // Adds some margin to when the heading is considered "visible"
+        threshold: 0.5 // Trigger when heading is 50% visible
+      }
+    );
+
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get all h2 headings
+      const headings = document.querySelectorAll('h2');
+
+      // Observe each heading
+      headings.forEach(heading => {
+        if (heading.id) {  // Only observe headings with IDs
+          observer.observe(heading);
+        }
+      });
+    });
+  </script>
 
 <style>
     .active-toc-item {
