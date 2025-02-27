@@ -38,7 +38,7 @@
 @keyframes moveRight {
   to {
       /* Move horizontally so that right edge is aligned against the viewport */
-      transform: translateX(-25vw);
+      transform: translateX(100vw);
   }
 }
 
@@ -53,22 +53,24 @@
 
 .pin-wrap-sticky {
 	/* Stick to Top */
-	height: 60vh;
+	height: 100vh;
 	width: 100vw;
 	position: sticky;
 	top: 0;
 	width: 100vw;
 	overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
 }
 
 .pin-wrap {
-    height: 60vh;
     display: flex;
     gap: 50px;
     justify-content: flex-start;
     align-items: center;
     padding: 0 10vw 0 0;
-	height: 20vh;
+	height: fit-content;
 	width: 250vmax;
 
 	/* Hook animation */
@@ -84,7 +86,8 @@
 }
 
 .pin-wrap--right {
-    transform: translateX(-50vw);
+    flex-direction: row-reverse;
+    /* transform: translateX(-50vw); */
 	animation: ease-in-out moveRight forwards;
 
 	/* Link animation to view-timeline */
@@ -96,7 +99,11 @@
     min-width: fit-content;
 }
 
-.pinwrap:has( > *:hover ) {
+.pin-wrap span {
+    transition: opacity 0.3s ease;
+}
+
+.pin-wrap:has( *:hover ) > *:not(:hover) span {
     opacity: 0.64;
     transition: opacity 0.3s ease;
 }

@@ -1,13 +1,12 @@
 header:not(article > header) {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    margin-inline: auto;
-    padding-block: var(--padding-block, 22px);
+    padding-block: var(--padding-block, 42px);
+    padding-inline: var(--padding-inline, 22px);
     z-index: 1;
-
-    @media (min-width: 768px) {
-        --padding-block: 42px;
-    }
+    width: 72px;
+    backdrop-filter: blur(2px);
+    height: 100%;
+    border-right: 2px solid currentColor;
 }

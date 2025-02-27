@@ -9,7 +9,9 @@ import moment from "moment";
 
 let artists = [];
 
-const response = await fetch("http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyArtistChart&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json",
+const weekAgo = moment().subtract(1, 'weeks').unix();
+const now = moment().unix();
+const response = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyArtistChart&from=${weekAgo}&to=${now}&user=zerosandones217&api_key=86a5b41a85035739e32c576f027c4765&format=json`,
     {
         method: 'GET',
     },
@@ -29,22 +31,40 @@ const response = await fetch("http://ws.audioscrobbler.com/2.0/?method=user.getW
 	<body>
 		<Header />
 		<main>
-            <div id="sectionPin">
-                <div class="pin-wrap-sticky">
-                    <div class="pin-wrap pin-wrap--left">
-                        { artists.map(artist =>
-                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
-                        )}
-                        { artists.map(artist =>
-                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+            <div class="" id="sectionPin">
+                <div class="pin-wrap-sticky overflow-hidden">
+                    <div class="pin-wrap pin-wrap--left !pt-[25vh]">
+                        { artists.map((artist, i) =>
+                            i < 7 && (
+                                <div class="pin-wrap__container">
+                                    <span class="text-[80px] w-fit text-center tracking-[-0.04em]">{artist.name}</span>
+                                </div>
+                            )
                         )}
                     </div>
                     <div class="pin-wrap pin-wrap--right">
-                        { artists.map(artist =>
-                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        { artists.map((artist, i) =>
+                            i > 6 && i < 14 && (
+                                <div class="pin-wrap__container">
+                                    <span class="text-[80px] w-fit text-center tracking-[-0.04em]">{artist.name}</span>
+                                </div>
+                            )
                         )}
-                        { artists.map(artist =>
-                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        { artists.map((artist, i) =>
+                            i > 6 && i < 14 && (
+                                <div class="pin-wrap__container">
+                                    <span class="text-[80px] w-fit text-center tracking-[-0.04em]">{artist.name}</span>
+                                </div>
+                            )
+                        )}
+                    </div>
+                    <div class="pin-wrap pin-wrap--left">
+                        { artists.map((artist, i) =>
+                            i > 13 && i < 21 && (
+                                <div class="pin-wrap__container">
+                                    <span class="text-[80px] w-fit text-center tracking-[-0.04em]">{artist.name}</span>
+                                </div>
+                            )
                         )}
                     </div>
                 </div>

@@ -37,3 +37,29 @@
     align-items: center;
     column-gap: 12px;
 }
+
+.navigation-large {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 72px;
+    background-color: var(--color-light);
+    width: calc(100vw - 72px);
+    height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 25vh;
+    padding-left: 25vh;
+    justify-content: flex-start;
+}
+
+@scope (.navigation-large) {
+    .internal-links {
+        gap: 40px;
+
+    }
+    .nav-link {
+        font-size: 80px;
+    }
+}

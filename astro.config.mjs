@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import alpinejs from '@astrojs/alpinejs';
+import focus from '@alpinejs/focus';
 import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
