@@ -1,0 +1,55 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
+import moment from "moment";
+
+let artists = [];
+
+const response = await fetch("http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyArtistChart&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json",
+    {
+        method: 'GET',
+    },
+)
+.then((response) => response.json())
+.then((responseJSON) => {
+    artists = responseJSON.weeklyartistchart.artist;
+});
+
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+            <div id="sectionPin">
+                <div class="pin-wrap-sticky">
+                    <div class="pin-wrap pin-wrap--left">
+                        { artists.map(artist =>
+                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        )}
+                        { artists.map(artist =>
+                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        )}
+                    </div>
+                    <div class="pin-wrap pin-wrap--right">
+                        { artists.map(artist =>
+                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        )}
+                        { artists.map(artist =>
+                            <span class="text-[80px] w-fit text-center">{artist.name}</span>
+                        )}
+                    </div>
+                </div>
+            </div>
+		</main>
+		<Footer />
+	</body>
+</html>

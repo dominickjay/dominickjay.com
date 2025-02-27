@@ -67,3 +67,14 @@ posts.sort(
 		<Footer />
 	</body>
 </html>
+
+<script>
+
+    import { runOnce } from '@bramus/sda-utilities';
+
+    // Run the “fade-in” scroll-driven animation on the `#hero` element only once.
+    document.querySelectorAll(".reveal--fade-in").forEach(($el) => {
+        runOnce($el, "fadeIn");
+    });
+
+</script>

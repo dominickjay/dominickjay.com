@@ -137,7 +137,7 @@ const books = await getBooks();
                 class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]"
                 style="--grid-placement: 12; --gutter: 43px;"
                 x-data="{
-                    list: false
+                    list: true
                 }"
             >
                 <button class="cursor-pointer col-span-full max-w-fit py-[16px] px-[24px] border hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white" @click="list = ! list">
@@ -213,12 +213,17 @@ const books = await getBooks();
                                                             }"
                                                         >
                                                             <p class="text-[22px]">{book.title}</p>
-                                                            <div class="mt-auto pb-[8px] flex flex-col">
+                                                            <div
+                                                                class="mt-auto pb-[8px] flex flex-col"
+                                                                :class="{
+                                                                    'flex-row gap-x-[20px] items-center mt-[8px]': list,
+                                                                }"
+                                                            >
                                                                 {book.started != book.finished && (
                                                                     // <p>{new Date(book.started)}</p>
                                                                     <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>
                                                                 )}
-                                                                    <span class="text-[16px]">Finished: <FormattedDate date={new Date(book.finished)} /></span>
+                                                                    <span class="text-[16px] pt-[2px]">Finished: <FormattedDate date={new Date(book.finished)} /></span>
                                                             </div>
                                                         </div>
                                                     </div>

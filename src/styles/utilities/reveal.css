@@ -1,7 +1,7 @@
 .reveal {
     view-timeline: --subjectReveal block;
     animation-timeline: --subjectReveal;
-    animation-range: cover 20% cover 80%;
+    animation-range: cover 20% cover 50%;
     animation-fill-mode: forwards;
     animation-duration: 1ms;
     animation-delay: var(--delay, 0);
@@ -27,3 +27,76 @@
         opacity: 1;
     }
   }
+
+  @keyframes moveLeft {
+	to {
+		/* Move horizontally so that right edge is aligned against the viewport */
+		transform: translateX(-100vw);
+	}
+}
+
+@keyframes moveRight {
+  to {
+      /* Move horizontally so that right edge is aligned against the viewport */
+      transform: translateX(-25vw);
+  }
+}
+
+#sectionPin {
+	/* Stretch it out, so that we create room for the horizontal scroll animation */
+	height: 500vh;
+	overflow: visible; /* To make position sticky work … */
+
+	view-timeline-name: --section-pin-tl;
+	view-timeline-axis: block;
+}
+
+.pin-wrap-sticky {
+	/* Stick to Top */
+	height: 60vh;
+	width: 100vw;
+	position: sticky;
+	top: 0;
+	width: 100vw;
+	overflow-x: hidden;
+}
+
+.pin-wrap {
+    height: 60vh;
+    display: flex;
+    gap: 50px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10vw 0 0;
+	height: 20vh;
+	width: 250vmax;
+
+	/* Hook animation */
+	will-change: transform;
+}
+
+.pin-wrap--left {
+	animation: ease-in-out moveLeft forwards;
+
+	/* Link animation to view-timeline */
+	animation-timeline: --section-pin-tl;
+	animation-range: contain 0% contain 100%;
+}
+
+.pin-wrap--right {
+    transform: translateX(-50vw);
+	animation: ease-in-out moveRight forwards;
+
+	/* Link animation to view-timeline */
+	animation-timeline: --section-pin-tl;
+	animation-range: contain 0% contain 100%;
+}
+
+.pin-wrap > * {
+    min-width: fit-content;
+}
+
+.pinwrap:has( > *:hover ) {
+    opacity: 0.64;
+    transition: opacity 0.3s ease;
+}

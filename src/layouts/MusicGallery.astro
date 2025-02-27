@@ -478,8 +478,8 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                     </clipPath>
                     </defs>
                 </svg>
-				<div class="container prose grid pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
-                    <div class="content col-span-full md:col-start-2 md:col-span-9 flex flex-col gap-y-[24px]">
+				<div class="prose grid pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px; overflow: visible">
+                    <div class="content col-span-full flex flex-col gap-y-[24px]">
                         <div class="text-[28px] tracking-[-0.04em] leading-[140%]">{description}</div>
                         <slot />
                     </div>
