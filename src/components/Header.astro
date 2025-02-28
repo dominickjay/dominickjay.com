@@ -11,9 +11,11 @@ import NavLink from '../components/NavigationLink.astro';
     }"
 >
     <div class="flex justify-between items-center flex-col h-full">
-        <button class="w-full max-w-[100px]" @click="openMenu = ! openMenu">
-            <svg class="w-full" width="93" height="57" viewBox="0 0 93 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 5H56.875M5 28.5H88M36.125 52H88" stroke="#464455" stroke-width="8.33" stroke-linecap="round" stroke-linejoin="round"/>
+        <button class="w-full max-w-[100px] group h-[60px] cursor-pointer" @click="openMenu = ! openMenu">
+            <svg class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="group-hover:translate-x-[20%] transition-transform linear duration-[0.25s]"  d="M5 4.5H61" stroke="black" stroke-width="9" stroke-linecap="round"/>
+                <path class="group-hover:translate-x-[50%] transition-transform linear duration-[0.25s]" d="M7 29H90" stroke="black" stroke-width="9" stroke-linecap="round"/>
+                <path class="group-hover:translate-x-[-60%] transition-transform linear duration-[0.25s]" d="M38 52L90 52" stroke="black" stroke-width="9" stroke-linecap="round"/>
             </svg>
         </button>
         <div class="navigation-large" x-show="openMenu">
