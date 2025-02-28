@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import alpinejs from '@astrojs/alpinejs';
 import focus from '@alpinejs/focus';
 import tailwindcss from "@tailwindcss/vite";
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,4 +15,6 @@ export default defineConfig({
 		plugins: [tailwindcss()],
 		assetsInclude: ["**/*.glb"],
 	},
+    output: 'server',
+    adapter: netlify(),
 });
