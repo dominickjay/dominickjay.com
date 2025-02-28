@@ -104,6 +104,11 @@
 }
 
 .pin-wrap:has( *:hover ) > *:not(:hover) span {
-    opacity: 0.64;
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
+}
+
+.pin-wrap-sticky:has(*:hover) > * > *:not(:hover) span {
+    opacity: 0.25;
     transition: opacity 0.3s ease;
 }

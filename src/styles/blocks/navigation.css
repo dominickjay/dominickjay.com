@@ -52,6 +52,7 @@
     padding-top: 25vh;
     padding-left: 25vh;
     justify-content: flex-start;
+    z-index: 2;
 }
 
 @scope (.navigation-large) {
@@ -60,6 +61,6 @@
 
     }
     .nav-link {
-        font-size: 80px;
+        font-size: 100px;
     }
 }

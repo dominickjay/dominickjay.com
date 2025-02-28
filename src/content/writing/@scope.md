@@ -64,20 +64,20 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
 This just gives us this beautifully unstyled masterpiece.
 
 
-<div class="card">
-  <picture class="card__image-container">
+<div class="">
+  <picture class="">
     <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
     <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
     <img
-        class="card__image"
+        class=""
         src="http://placeskull.com/200"
         alt="Descriptive alt text"
     />
   </picture>
-  <div class="card__content">
-    <h3 class="card__heading">Card Title</h3>
-    <p class="card__text">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
-    <a class="card__link" href="#">Learn More</a>
+  <div class="">
+    <h3 class="">Card Title</h3>
+    <p class="">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
+    <a class="" href="#">Learn More</a>
   </div>
 </div>
 
@@ -126,6 +126,22 @@ This just gives us this beautifully unstyled masterpiece.
     margin-block-start: 8px;
 }
 </style>
+<div class="card">
+  <picture class="card__image-container">
+    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
+    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+    <img
+        class="card__image"
+        src="http://placeskull.com/200"
+        alt="Descriptive alt text"
+    />
+  </picture>
+  <div class="card__content">
+    <h3 class="card__heading">Card Title</h3>
+    <p class="card__text">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
+    <a class="card__link" href="#">Learn More</a>
+  </div>
+</div>
 
 ```css
 .card {
@@ -183,7 +199,7 @@ img {
     object-position: center;
 }
 
-@scope .card {
+@scope (.card-scoped) {
 
     /* Scoped variable only */
     --color-dark: grey;
@@ -197,13 +213,14 @@ img {
     /* Because this is scoped, the aspect-ratio here will only
     show on image's within the .card selector */
     img {
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 1;
     }
 
     h3 {
         font-size: 24px;
         letter-spacing: -0.04em;
         line-height: 140%;
+        text-align: center;
     }
 
     p {
@@ -239,7 +256,64 @@ img {
     object-position: center;
 }
 
-@scope .card {
+@scope (.card-scoped) {
+
+    /* Scoped variable only */
+    --color-dark: grey;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    border: 1px solid var(--color-dark, #000);
+    max-width: fit-content;
+
+    h3 {
+        font-size: 24px;
+        letter-spacing: -0.04em;
+        line-height: 140%;
+        text-align: center;
+    }
+
+    /* Because this is scoped, the aspect-ratio here will only
+    show on image's within the .card selector */
+    img {
+        aspect-ratio: 1;
+    }
+
+    p {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    a {
+        margin-inline-start: auto;
+        margin-block-start: 8px;
+    }
+
+    > div {
+        padding-block-end: 16px;
+        padding-inline: 16px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+    }
+
+
+}
+</style>
+
+<style>
+/* We're setting some global img styles here */
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+@scope .card-scoped {
 
     /* Scoped variable only */
     --color-dark: grey;
@@ -279,3 +353,20 @@ img {
 
 }
 </style>
+
+<div class="card-scoped">
+  <picture class="">
+    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
+    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+    <img
+        class=""
+        src="http://placeskull.com/200"
+        alt="Descriptive alt text"
+    />
+  </picture>
+  <div class="">
+    <h3 class="">Card Title</h3>
+    <p class="">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
+    <a class="" href="#">Learn More</a>
+  </div>
+</div>

@@ -5,16 +5,15 @@ import NavLink from '../components/NavigationLink.astro';
 ---
 
 <header class="site-header"
+    x-cloak
     x-data="{
         openMenu: false
     }"
 >
     <div class="flex justify-between items-center flex-col h-full">
-        <button class="max-w-[100px]" @click="openMenu = ! openMenu">
-            <svg class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.43005 6.89151C14.0006 1.32161 28.9379 1.88961 44.2959 3.43591C59.654 4.96651 75.4327 7.45951 89.791 5.38201C90.528 5.27681 91.001 4.59301 90.896 3.86191C90.791 3.13081 90.107 2.62601 89.371 2.73641C75.6431 4.80871 60.022 2.46291 44.5588 0.984913C29.0956 -0.477207 13.7377 -1.08204 0.483452 4.82971C-0.0424484 5.06121 -0.0951498 5.76591 0.11515 6.23931C0.32555 6.71791 0.904152 7.11761 1.43005 6.89151Z" fill="black"/>
-                <path d="M1.45793 28.377C15.8166 22.7334 33.5937 21.9339 51.8972 22.0075C70.2006 22.0759 88.925 23.0121 105.23 20.6295C106.176 20.4875 106.86 19.5881 106.702 18.6309C106.545 17.6736 105.651 17.0109 104.704 17.1582C88.925 19.667 70.2532 18.978 51.8972 19.1095C33.5412 19.2567 15.4483 20.2193 0.563634 26.2363C0.0377343 26.4572 -0.120266 27.1672 0.0901341 27.6774C0.300534 28.1823 0.879334 28.5979 1.45793 28.377Z" fill="black"/>
-                <path d="M2.35472 46.8801C22.499 42.683 41.9596 42.2569 61.6305 41.0209C81.3014 39.7797 101.13 37.7232 121.747 30.0705C123.115 29.5603 123.798 28.0245 123.272 26.6517C122.746 25.279 121.221 24.5794 119.854 25.1054C100.077 32.6739 80.8278 34.9145 61.3146 36.3399C41.8015 37.7757 22.0779 38.3912 1.51282 42.8986C0.460922 43.1301 -0.170078 44.2451 0.0403224 45.297C0.250622 46.3489 1.30282 47.1063 2.35472 46.8801Z" fill="black"/>
+        <button class="w-full max-w-[100px]" @click="openMenu = ! openMenu">
+            <svg class="w-full" width="93" height="57" viewBox="0 0 93 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 5H56.875M5 28.5H88M36.125 52H88" stroke="#464455" stroke-width="8.33" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
         <div class="navigation-large" x-show="openMenu">
@@ -36,6 +35,6 @@ import NavLink from '../components/NavigationLink.astro';
                 </defs>
             </svg>
         </a> -->
-        <h1 class="visually-hidden"><a href="/">{SITE_TITLE}</a></h1>
+        <a class="[writing-mode:vertical-lr] rotate-[-180deg] text-[30px] hover:!no-underline" href="/">{SITE_TITLE}</a>
     </div>
 </header>

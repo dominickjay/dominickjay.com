@@ -3,10 +3,11 @@ header:not(article > header) {
     top: 0;
     left: 0;
     padding-block: var(--padding-block, 42px);
-    padding-inline: var(--padding-inline, 22px);
+    padding-inline: var(--padding-inline, 12px);
     z-index: 1;
     width: 72px;
     backdrop-filter: blur(2px);
+    background-color: var(--color-light);
     height: 100%;
     border-right: 2px solid currentColor;
 }

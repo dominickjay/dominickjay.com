@@ -24,11 +24,11 @@ body {
     line-height: var(--leading-standard);
     font-size-adjust: from-font;
     margin: 0;
-  }
+}
 
-  main {
-    padding-block-start: 82px;
-  }
+main {
+    padding-inline-start: 70px;
+}
 
   a {
     text-decoration: none;
