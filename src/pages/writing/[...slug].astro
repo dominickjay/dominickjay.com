@@ -4,19 +4,25 @@ import BlogPost from '../../layouts/BlogPost.astro';
 import MusicGallery from '../../layouts/MusicGallery.astro';
 import { render } from 'astro:content';
 import { getReadingTime } from '../../utils/utils.mjs';
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
+const { slug } = Astro.params;
+const posts = await getCollection('writing');
+const post = posts.find((p) => p.id === slug);
+
+if (!post) {
+    return Astro.redirect('/404');
+}
+
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
 
-const layout = post.data.layout;
+const layout = post.data.layout || 'BlogPost';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('writing');
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: post
+		props: { post }
 	}));
 }
 

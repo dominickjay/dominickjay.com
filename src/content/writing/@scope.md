@@ -5,6 +5,7 @@ pubDate: '2025-02-15'
 tags:
   - css
 draft: true
+layout: BlogPost
 ---
 
 As a parent of two, I've found writing CSS can be a bit like having toddlers (or really, kids in general), sometimes they throw tantrums and affect things they really shouldn't *at all*. You tell them to only use the red pens and then somehow, blue pen appears in a suddenly unexpected place ie sofa, wall, bed, toys, anything anywhere really (bonus points to them if it's something you haven't actually seen and/or won't see again for 6-12 months).
@@ -14,10 +15,6 @@ While myself - as a human, adult parent - can *cough* attempt to *cough* wrangle
 *Enter @scope*
 
 @scope is *the* closest thing I've seen recently that really puts CSS styles in their place. Like actually.
-
-## Enough with the analogies, what is it?
-
-Okay okay. @scope is a CSS [at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_syntax/At-rule) that effectively limits the reach of your CSS styles to a specific part of your HTML. Now, this has been doable in other ways - mainly naming conventions (like good ol' BEM), or CSS-in-JS solutions - but this is **native in the browser**. Beautiful.
 
 <div class="blockquote-container">
 
@@ -370,3 +367,273 @@ img {
     <a class="" href="#">Learn More</a>
   </div>
 </div>
+
+## Browser Support and Progressive Enhancement
+
+As with any new CSS feature, browser support is crucial to consider. Currently, `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. For browsers that don't support it, you'll need a fallback strategy.
+
+<div class="browser-support-table">
+  <table>
+    <caption>Browser Support for @scope</caption>
+    <thead>
+      <tr>
+        <th scope="col">Browser</th>
+        <th scope="col">Version</th>
+        <th scope="col">Support</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Chrome</th>
+        <td>118+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Firefox</th>
+        <td>120+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Safari</th>
+        <td>17.2+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Edge</th>
+        <td>118+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Opera</th>
+        <td>104+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<style>
+.browser-support-table {
+  margin: 2rem 0;
+  overflow-x: auto;
+}
+
+.browser-support-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.browser-support-table caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.browser-support-table th,
+.browser-support-table td {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.browser-support-table th {
+  background-color: var(--color-bg-secondary);
+  font-weight: 600;
+}
+
+.browser-support-table .support-yes {
+  color: var(--color-success);
+  font-weight: 600;
+}
+</style>
+
+The most straightforward approach is to use feature queries with `@supports`:
+
+```css
+/* Fallback styles using BEM or other naming conventions */
+.card {
+    /* Your fallback styles here */
+}
+
+/* Modern browsers get the scoped version */
+@supports (selector(@scope)) {
+    @scope (.card) {
+        /* Your scoped styles here */
+    }
+}
+```
+
+## Advanced Scoping Techniques
+
+### Multiple Selectors
+
+You can scope multiple selectors together, which is particularly useful for shared component styles:
+
+```css
+@scope (.card, .article) {
+    /* These styles apply to both .card and .article */
+    img {
+        aspect-ratio: 16/9;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+```
+
+### Pseudo-classes and States
+
+`@scope` works seamlessly with pseudo-classes, allowing you to scope interactive states:
+
+```css
+@scope (.card) {
+    /* Base styles */
+    background: white;
+
+    /* Hover state */
+    &:hover {
+        background: #f5f5f5;
+        transform: translateY(-2px);
+    }
+
+    /* Focus state for accessibility */
+    &:focus-within {
+        outline: 2px solid blue;
+    }
+}
+```
+
+### Media Queries
+
+Media queries can be used within scoped styles to create responsive components:
+
+```css
+@scope (.card) {
+    display: grid;
+    gap: 1rem;
+
+    @media (min-width: 768px) {
+        grid-template-columns: 1fr 2fr;
+    }
+
+    @media (min-width: 1024px) {
+        grid-template-columns: 1fr 3fr;
+    }
+}
+```
+
+## CSS Variables and Inheritance
+
+Scoped CSS variables follow a specific inheritance pattern:
+
+```css
+:root {
+    --color-primary: blue;
+}
+
+@scope (.card) {
+    /* Override global variable within scope */
+    --color-primary: red;
+
+    /* Use the scoped variable */
+    border: 2px solid var(--color-primary);
+
+    /* Nested scopes inherit from parent scope */
+    .card__header {
+        color: var(--color-primary); /* Uses red from parent scope */
+    }
+}
+```
+
+## Performance and Specificity
+
+`@scope` affects CSS specificity in a unique way. It creates a new specificity layer that's more specific than regular CSS but less specific than `!important`. This can help reduce the need for overly specific selectors while maintaining predictable style application.
+
+```css
+/* This has higher specificity than regular CSS */
+@scope (.card) {
+    .title { /* Specificity: .card .title */
+        color: blue;
+    }
+}
+
+/* But lower than !important */
+.title {
+    color: red !important; /* This wins */
+}
+```
+
+## Common Pitfalls to Avoid
+
+1. **Over-nesting**: While `@scope` allows nesting, deep nesting can make styles harder to maintain:
+```css
+/* Avoid this */
+@scope (.card) {
+    .content {
+        .header {
+            .title {
+                /* Too deep! */
+            }
+        }
+    }
+}
+```
+
+2. **Global Style Leakage**: Remember that styles inside `@scope` can still affect global elements if not properly scoped:
+```css
+/* This affects ALL buttons on the page */
+@scope (.card) {
+    button {
+        /* Global effect! */
+    }
+}
+
+/* Better: scope to the card's buttons only */
+@scope (.card) {
+    :scope button {
+        /* Only affects buttons within .card */
+    }
+}
+```
+
+## Accessibility Considerations
+
+`@scope` can impact accessibility in several ways:
+
+1. **Focus Management**: Scoped styles can affect focus indicators:
+```css
+@scope (.card) {
+    /* Ensure focus styles are visible */
+    :focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+    }
+}
+```
+
+2. **Color Contrast**: When using scoped variables, maintain WCAG contrast requirements:
+```css
+@scope (.card) {
+    --text-color: #333;
+    --bg-color: #fff;
+
+    /* Ensure sufficient contrast */
+    color: var(--text-color);
+    background: var(--bg-color);
+}
+```
+
+## Debugging Scoped Styles
+
+Modern browser DevTools provide excellent support for debugging scoped styles:
+
+1. **Inspector Panel**: When inspecting elements, you'll see scoped styles clearly marked with the `@scope` icon
+2. **Specificity Visualization**: DevTools shows the specificity hierarchy of scoped styles
+3. **Style Override Tracking**: Easily identify which styles are being overridden by scoped rules
+
+To debug effectively:
+- Use the "Computed" tab to see final computed styles
+- Check the "Styles" panel to see which scoped rules are applying
+- Use the "Specificity" visualization to understand style precedence

@@ -1,18 +1,92 @@
 ---
 title: 'Getting Literal.club Content'
-description: 'Lorem ipsum dolor sit amet'
+description: 'A technical overview of integrating with the Literal.club API to display reading data'
 pubDate: 'February 10 2025'
 tags:
     - graphql
+    - api
+    - reading
 draft: true
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+# Integrating with Literal.club
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+## Overview
+This document outlines the process of retrieving and displaying reading data from Literal.club using their GraphQL API.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+## Authentication
+- Requires a Literal.club API token
+- Token is stored in environment variables
+- Profile ID is also required for user-specific data
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+## API Endpoints
+- Base URL: `https://literal.club/graphql/`
+- All requests use POST method
+- Content-Type: application/json
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## Main Queries
+
+### Currently Reading Books
+```graphql
+query booksByReadingStateAndProfile(
+  $limit: Int!
+  $offset: Int!
+  $readingStatus: ReadingStatus!
+  $profileId: String!
+) {
+  booksByReadingStateAndProfile(
+    limit: $limit
+    offset: $offset
+    readingStatus: $readingStatus
+    profileId: $profileId
+  ) {
+    id
+    title
+    cover
+    authors {
+      name
+    }
+  }
+}
+```
+
+### Reading History
+- Additional query to get read dates for each book
+- Returns start and finish dates
+- Used to organize books by year
+
+## Data Processing
+1. Fetch currently reading books
+2. Fetch finished books
+3. For each finished book:
+   - Query read dates
+   - Organize by year
+   - Store in a Map for efficient access
+
+## Display
+- Two view modes: list and grid
+- Currently reading section at top
+- Books organized by year below
+- Each book shows:
+  - Cover image (only displayed when cover path is available)
+  - Title
+  - Author
+  - Reading dates (if available)
+- Conditional rendering for cover images to prevent display issues
+
+## Implementation Notes
+- Uses Alpine.js for view toggling
+- Responsive grid layout
+- Hover effects for book details
+- Image optimization with Astro's Image component
+
+## Error Handling
+- API errors are caught and logged
+- Fallback displays for missing data
+- Graceful degradation if API is unavailable
+
+## Future Improvements
+- Caching strategy for API responses
+- Pagination for large book collections
+- Reading statistics and insights
+- Integration with other reading platforms

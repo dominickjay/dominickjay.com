@@ -1,122 +1,110 @@
 ---
 title: 'Switch VS If'
-description: "Using fancy CSS properties like opacity, transform and transition - along with intersection observers - we can create text reveals that are smoother than a buttered penguin sliding down an ice slope."
+description: "A practical guide to choosing between switch and if statements in JavaScript, focusing on everyday agency development scenarios."
 pubDate: 'February 10 2025'
 tags:
-    - css
+    - javascript
 draft: true
 ---
 
-## So, What are CSS Variables?
+## Introduction
 
-CSS variables - otherwise known as custom properties - are specific values that can be reused throughout a document, similar to how variables are used in other programming languages. Let's see a quick example and break the parts down.
+When working on agency websites, we often face decisions about which control flow structure to use. Both `switch` and `if` statements are fundamental to JavaScript, but they serve different purposes and have distinct use cases. Let's explore when and why you might choose one over the other.
 
-## Basic Usage
+## If Statements
 
-```css
-:root {
-  --primaryColour: hsla(4, 99%, 66%, 1);
-  --backgroundColour: hsla(207, 100%, 96%, 1);
-}
+If statements are the bread and butter of conditional logic. They're perfect for:
 
-main {
-  background-color: var(--backgroundColour);
-}
+- Simple true/false conditions
+- Range-based conditions
+- Multiple unrelated conditions
+- Complex logical operations
 
-h1 {
-  font-family: 'Atkinson Hyperlegible', sans-serif;
-  letter-spacing: -0.5px;
-  font-size: 3rem;
-  color: var(--primaryColour);
-  text-align: center;
-}
-```
+Here's a common agency scenario:
 
-There. Nice, quick example there - you can see this working below.
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage" src="https://codepen.io/dominickjay217/embed/abWMvGp?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/dominickjay217/pen/abWMvGp">
-  CSS Variables - Basic Usage</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-Now we've got that up, let's see how this is put together, so let's break this down.
-
-<div class="pull-quote pull-quote--left">
-
-  Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way
-
-</div>
-
-Firstly, the `:root` pseudo-class being used at the top of the example? That represents the root of the document tree (typically the `html` element) and is used to define custom properties in a way that will allow them to be used globally across your site. Neat! They can be defined elsewhere, but let's not go into that right now.
-
-Second, CSS custom properties are always prefixed with a `--`. Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way.
-
-After setting up the custom properties in `:root`, they can then be used within any CSS selector by using them alongside the `var()` function, which is what is being shown in the `background-color` and `color` properties in the example above.
-
-## Fallbacks
-
-If a custom property has been set, **but** is actually invalid or just hasn't been defined, for example, in both these cases;
-
-```css
-:root {
-  --primaryColour: hsla(4, 99%, 66%, 1);
-  --backgroundColour: hsla(207, 100%, 96%, 1);
-  --secondaryColour: hsla(155, 61%, 51%, 1);
-  --secondaryBackgroundColour: hsla(343, 6%, 21%, 1);
-}
-
-h2 {
-  color: var(--thisDoesntExist, lightgreen);
-  background-color: var(--thisDoesntExist, black);
+```javascript
+// Form validation example
+function validateForm(input) {
+    if (input.value === '') {
+        showError('Field cannot be empty');
+    } else if (input.value.length < 3) {
+        showError('Must be at least 3 characters');
+    } else if (!isValidEmail(input.value)) {
+        showError('Please enter a valid email');
+    } else {
+        return true;
+    }
 }
 ```
 
-I've declared my `secondaryColour` and `secondaryBackgroundColour` in `:root`, but for my `h2` element I've used a different custom property name (aptly titled "This Doesn't Exist" for obvious reasons). Notice, that rather the function closing after `--thisDoesntExist`, another parameter is passed. **That** is our fallback colours.
+## Switch Statements
 
-<iframe height="600" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage" src="https://codepen.io/dominickjay217/embed/PomLaBp?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/dominickjay217/pen/PomLaBp">
-  CSS Variables - Basic Usage</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+Switch statements shine when you need to:
 
-## Support?
+- Match exact values
+- Handle multiple cases cleanly
+- Manage state changes
+- Process different types of responses
 
-Support for CSS custom properties is excellent, you would have to be using a relatively old browser at this time of writing to **not** be able to use them.
+Consider this navigation example:
 
-![Can I use Support tables for CSS Custom Properties](//images.contentful.com/d44h62nxqp3d/2CacnERymSW3hpuUaRV0ug/0715640040f5f3b42b137f459d97e4c3/Screenshot_2021-08-12_at_15-51-50_CSS_Variables__Custom_Properties__Can_I_use_Support_tables_for_HTML5__CSS3__etc.png)
-
-_Source:_ [CanIUse](https://caniuse.com/css-variables 'CanIUse link for CSS Variable support')
-
-## Context Changing
-
-One of the benefits of custom properties, is that they can be changed based on the context of the element it is assigned to.
-
-<iframe height="600" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage with Fallbacks" src="https://codepen.io/dominickjay217/embed/eYWXPeL?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/dominickjay217/pen/eYWXPeL">
-  CSS Variables - Basic Usage with Fallbacks</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
-
-In this example, the first h2 element we see uses the custom properties for `color` and `background-color`;
-
-```css
-color: var(--changeColour, hotpink);
-background-color: var(--changeBgColour, black);
+```javascript
+// Navigation state management
+function handleNavigation(state) {
+    switch(state) {
+        case 'home':
+            showHomePage();
+            updateActiveNav('home');
+            break;
+        case 'about':
+            showAboutPage();
+            updateActiveNav('about');
+            break;
+        case 'contact':
+            showContactForm();
+            updateActiveNav('contact');
+            break;
+        default:
+            show404();
+    }
+}
 ```
 
-But, they are not defined yet so they use the fallback colours instead. On the second h2 element, we then use the `.add-styles` class to define these custom properties of `changeColour` and `changeBgColour`, which in turn, allows this element to fullfil where they were originally being used, rather than using the fallback. Clever, eh? A great example I've seen of this is [this post](https://piccalil.li/tutorial/create-a-user-controlled-dark-or-light-mode/ 'A post by Andy Bell for User Controlled Dark or Light Mode') by Andy Bell, where it is being used within the `prefers-color-scheme` media query.
+## When to Choose
 
-## Using With Javascript
+### Use If Statements When:
+- You have complex conditions
+- You need to check ranges
+- Conditions are unrelated
+- You need to evaluate multiple factors
 
-<iframe height="350" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage with Fallbacks and Context Changing" src="https://codepen.io/dominickjay217/embed/RwVmGQB?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/dominickjay217/pen/RwVmGQB">
-  CSS Variables - Basic Usage with Fallbacks and Context Changing</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+### Use Switch Statements When:
+- You're matching exact values
+- You have many cases to handle
+- Code readability is a priority
+- You're managing state changes
 
-In this example, inline custom properties are set to allow new values for the `max-width` and `color` properities. While `max-width` uses a fallback of 550px, the `--maxWidth` value is not passed anywhere in the stylesheet, allowing it to differ from the example in the previous section. With the value of the `color` property, it is not using a fallback, or a different custom property. Instead, it is overwriting the `--primaryColour` value with a new color, and using CSS specificity to allow for the color to be changed.
+## Best Practices
+
+1. **Readability First**
+   - Choose the structure that makes your code most readable
+   - Consider your team's familiarity with each approach
+
+2. **Maintainability**
+   - If statements are easier to modify for new conditions
+   - Switch statements are cleaner for adding new cases
+
+3. **Performance**
+   - For most agency sites, performance difference is negligible
+   - Focus on code clarity over micro-optimizations
+
+4. **Common Pitfalls**
+   - Forgetting `break` statements in switches
+   - Over-nesting if statements
+   - Using switch when if would be clearer
 
 ## Conclusion
 
-CSS custom properties are a great way to keep your styles controlled and consistent (because who wants to rely on a Find and Replace when a new branding colour comes along), and allows for _less_ CSS to be written overall.
+In agency development, the choice between `switch` and `if` often comes down to readability and maintainability. While `if` statements are more flexible, `switch` statements can make your code cleaner and more organized when dealing with multiple exact matches.
+
+Remember: The best choice is the one that makes your code most maintainable and understandable for your team.

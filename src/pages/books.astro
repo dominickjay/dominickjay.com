@@ -165,16 +165,16 @@ const books = await getBooks();
                                 }"
                             >
                                 <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                    <div x-show="!list" class="overflow-hidden aspect-[1/1.5]">
-                                        <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                    <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
+                                        {book.cover && <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />}
                                     </div>
                                     <div
-                                        class="flex flex-col gap-[8px]w-full"
+                                        class={`flex flex-col gap-[8px] w-full ${!book.cover ? 'absolute bg-black inset-0 text-white py-[8px] px-[16px] opacity-100' : ''}`}
                                         :class="{
-                                            'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
+                                            'opacity-0 absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                         }"
                                     >
-                                        <p class="text-[22px]">{book.title}</p>
+                                        <p class="text-[22px]">{ book.title }</p>
                                     </div>
                                 </div>
                             </li>
@@ -203,8 +203,8 @@ const books = await getBooks();
                                                 }"
                                             >
                                                     <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                                        <div x-show="!list" class="overflow-hidden aspect-[1/1.5]">
-                                                            <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />
+                                                        <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
+                                                            {book.cover && <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />}
                                                         </div>
                                                         <div
                                                             class="flex flex-col gap-[8px]w-full"
