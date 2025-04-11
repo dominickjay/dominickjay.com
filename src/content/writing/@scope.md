@@ -18,7 +18,7 @@ While myself - as a human, adult parent - can *cough* attempt to *cough* wrangle
 
 <div class="blockquote-container">
 
-> At-rules are CSS statements that instruct CSS how to behave. They begin with an at-sign, @ (U+0040 COMMERCIAL AT), followed by an identifier. They include everything from the at-keyword up to the next semicolon, ; (U+003B SEMICOLON), or the next CSS block, whichever comes first.
+> At-rules are CSS statements that instruct CSS how to behave. They begin with an at-sign, @, followed by an identifier. They include everything from the at-keyword up to the next semicolon, ; , or the next CSS block, whichever comes first.
 > Mozilla
 
 </div>
@@ -390,8 +390,8 @@ As with any new CSS feature, browser support is crucial to consider. Currently, 
       </tr>
       <tr>
         <th scope="row">Firefox</th>
-        <td>120+</td>
-        <td><span class="support-yes">Yes</span></td>
+        <td>-</td>
+        <td><span class="support-no">No</span></td>
       </tr>
       <tr>
         <th scope="row">Safari</th>
@@ -444,6 +444,11 @@ As with any new CSS feature, browser support is crucial to consider. Currently, 
 
 .browser-support-table .support-yes {
   color: var(--color-success);
+  font-weight: 600;
+}
+
+.browser-support-table .support-no {
+  color: var(--color-error);
   font-weight: 600;
 }
 </style>
@@ -597,43 +602,3 @@ Scoped CSS variables follow a specific inheritance pattern:
     }
 }
 ```
-
-## Accessibility Considerations
-
-`@scope` can impact accessibility in several ways:
-
-1. **Focus Management**: Scoped styles can affect focus indicators:
-```css
-@scope (.card) {
-    /* Ensure focus styles are visible */
-    :focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: 2px;
-    }
-}
-```
-
-2. **Color Contrast**: When using scoped variables, maintain WCAG contrast requirements:
-```css
-@scope (.card) {
-    --text-color: #333;
-    --bg-color: #fff;
-
-    /* Ensure sufficient contrast */
-    color: var(--text-color);
-    background: var(--bg-color);
-}
-```
-
-## Debugging Scoped Styles
-
-Modern browser DevTools provide excellent support for debugging scoped styles:
-
-1. **Inspector Panel**: When inspecting elements, you'll see scoped styles clearly marked with the `@scope` icon
-2. **Specificity Visualization**: DevTools shows the specificity hierarchy of scoped styles
-3. **Style Override Tracking**: Easily identify which styles are being overridden by scoped rules
-
-To debug effectively:
-- Use the "Computed" tab to see final computed styles
-- Check the "Styles" panel to see which scoped rules are applying
-- Use the "Specificity" visualization to understand style precedence

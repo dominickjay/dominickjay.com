@@ -26,7 +26,7 @@ Similar to background-size, the content is sized to completely fill the content 
 
 ### Contain
 
-When using `contain`, the content scales to keep its aspect ration while also fitting within the boundaries of the elements content box. Using this can make the object display gaps vertically or horizontally.
+When using `contain`, the content scales to keep its aspect ratio while also fitting within the boundaries of the elements content box. Using this can make the object display gaps vertically or horizontally.
 
 The entire object is made to fill the box, while preserving its aspect ratio, so the object will be "letterboxed" if its aspect ratio does not match the aspect ratio of the box.
 
@@ -42,15 +42,49 @@ This one is similar to `contain`, however, it will not "letterbox" the object to
 
 For `none`, the width and height of the content box is ignored by the object, which will maintain it's original size.
 
+## Practical Examples
+
+### Responsive Images with Picture Element
+
+`object-fit` works particularly well with the `<picture>` element for responsive images:
+
+```html
+<picture>
+  <source srcset="large.jpg" media="(min-width: 1200px)">
+  <source srcset="medium.jpg" media="(min-width: 768px)">
+  <img src="small.jpg" alt="Description" class="responsive-image">
+</picture>
+
+<style>
+.responsive-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+</style>
+```
+
+### Working with Different Aspect Ratios
+
+Here's how `object-fit` handles different aspect ratios:
+
 <p class="codepen" data-height="614" data-theme-id="dark" data-slug-hash="bGrNKRX" data-user="dominickjay217" style="height: 614px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"><span>See the Pen <a href="https://codepen.io/dominickjay217/pen/bGrNKRX">
 Object-Fit Example #1</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
 on <a href="https://codepen.io">CodePen</a>.</span></p>
 
-These values can also be used alongside the [[CSS Object Position]] property.
+## Performance Considerations
+
+When using `object-fit` with large images, consider these tips:
+
+1. Always specify both `width` and `height` attributes on your images to prevent layout shifts
+2. Use appropriate image formats and compression
+3. Consider using `loading="lazy"` for images below the fold
+4. Use `srcset` and `sizes` attributes for responsive images
 
 ## Support?
 
-Support is **very** good, with - typically - IE 11 being the outcast.
+Support is excellent across all modern browsers. Since IE11 has been officially retired by Microsoft, you can safely use `object-fit` without any fallbacks.
 
 !["Can I use" support tables for the object-fit property](/images/can-i-use-object-fit.png)
 

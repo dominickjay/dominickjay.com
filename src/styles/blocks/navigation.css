@@ -41,25 +41,33 @@
 .navigation-large {
     position: fixed;
     top: 0;
-    bottom: 0;
-    right: 0;
-    left: 72px;
-    background-color: var(--color-light);
-    width: calc(100vw - 72px);
+    left: 0;
+    width: auto;
     height: 100vh;
+    background-color: var(--color-light);
     display: flex;
+    padding: 170px 70px 120px;
     align-items: flex-start;
-    padding-top: 25vh;
-    padding-left: 25vh;
     justify-content: flex-start;
     z-index: 2;
+    transform: translateX(-100vw);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    border-right: 0.5px solid var(--color-dark);
+}
+
+.navigation-large--open {
+    transform: translateX(0);
 }
 
 @scope (.navigation-large) {
     .internal-links {
         gap: 40px;
-
+        display: flex;
+        flex-direction: column;
+        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .nav-link {
         font-size: 100px;
     }

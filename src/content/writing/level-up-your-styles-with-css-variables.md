@@ -117,6 +117,135 @@ But, they are not defined yet so they use the fallback colours instead. On the s
 
 In this example, inline custom properties are set to allow new values for the `max-width` and `color` properities. While `max-width` uses a fallback of 550px, the `--maxWidth` value is not passed anywhere in the stylesheet, allowing it to differ from the example in the previous section. With the value of the `color` property, it is not using a fallback, or a different custom property. Instead, it is overwriting the `--primaryColour` value with a new color, and using CSS specificity to allow for the color to be changed.
 
+## Modern Layouts with CSS Variables
+
+CSS variables really shine when used with modern layout techniques. Here's a practical example using a grid layout that adapts based on container width:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--grid-placement, auto-fill),
+    minmax(var(--grid-min-item-size, 14rem), 1fr)
+  );
+  gap: var(--gutter, var(--space-l));
+}
+
+/* Example usage with different layouts */
+.grid[data-layout="50-50"] {
+  --grid-placement: auto-fit;
+  --grid-min-item-size: clamp(16rem, 50vw, 33rem);
+}
+
+.grid[data-layout="thirds"] {
+  --grid-placement: auto-fit;
+  --grid-min-item-size: clamp(16rem, 33%, 20rem);
+}
+```
+
+This approach allows for flexible, responsive layouts without media queries. The variables can be adjusted per instance using data attributes or inline styles.
+
+## Scoped Variables with @scope
+
+The new `@scope` feature allows for more controlled variable scoping, preventing style leakage:
+
+```css
+/* Global variables */
+:root {
+  --color-primary: #000;
+  --spacing-base: 1rem;
+}
+
+/* Scoped variables */
+@scope (.card) {
+  --card-bg: #fff;
+  --card-padding: var(--spacing-base);
+
+  background: var(--card-bg);
+  padding: var(--card-padding);
+
+  /* Nested elements inherit scoped variables */
+  .card__header {
+    --card-bg: #f5f5f5;
+    background: var(--card-bg);
+  }
+}
+```
+
+This creates a new specificity layer and prevents variable leakage, making your styles more maintainable.
+
+## Theme Switching with CSS Variables
+
+CSS variables are perfect for implementing theme switching. Here's a practical example:
+
+```css
+/* Base theme */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-primary: #0066cc;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #ffffff;
+  --color-primary: #4dabf7;
+}
+
+/* Apply theme variables */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+button {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+```
+
+With AlpineJS, you can toggle the theme:
+
+```html
+<div x-data="{ isDark: false }">
+  <button
+    @click="isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')"
+    :class="{ 'dark': isDark }">
+    Toggle Theme
+  </button>
+</div>
+```
+
+## Dynamic Styling with :has()
+
+The `:has()` selector can be used with CSS variables for dynamic styling based on content:
+
+```css
+/* Default card styles */
+.card {
+  --card-border: 1px solid #ddd;
+  --card-padding: 1rem;
+  border: var(--card-border);
+  padding: var(--card-padding);
+}
+
+/* Enhanced styles for featured cards */
+.card:has(.featured-badge) {
+  --card-border: 2px solid var(--color-primary);
+  --card-padding: 1.5rem;
+}
+
+/* Different styles for cards with images */
+.card:has(img) {
+  --card-padding: 0;
+  --card-border: none;
+}
+```
+
+This allows for dynamic styling based on content without additional classes or JavaScript.
+
 ## Conclusion
 
 CSS custom properties are a great way to keep your styles controlled and consistent (because who wants to rely on a Find and Replace when a new branding colour comes along), and allows for _less_ CSS to be written overall.
