@@ -412,47 +412,6 @@ As with any new CSS feature, browser support is crucial to consider. Currently, 
   </table>
 </div>
 
-<style>
-.browser-support-table {
-  margin: 2rem 0;
-  overflow-x: auto;
-}
-
-.browser-support-table table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-.browser-support-table caption {
-  text-align: left;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.browser-support-table th,
-.browser-support-table td {
-  padding: 0.75rem;
-  border: 1px solid var(--color-border);
-  text-align: left;
-}
-
-.browser-support-table th {
-  background-color: var(--color-bg-secondary);
-  font-weight: 600;
-}
-
-.browser-support-table .support-yes {
-  color: var(--color-success);
-  font-weight: 600;
-}
-
-.browser-support-table .support-no {
-  color: var(--color-error);
-  font-weight: 600;
-}
-</style>
-
 The most straightforward approach is to use feature queries with `@supports`:
 
 ```css

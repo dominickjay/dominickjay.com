@@ -8,6 +8,12 @@
 }
 
 @font-face {
+  font-family: 'Rocher';
+  src: url("/fonts/RocherColorGX.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'InknutAntiqua';
   src: url("/fonts/InknutAntiqua-Regular.woff2") format("woff2"),
     url("/fonts/InknutAntiqua-Regular.woff") format("woff");

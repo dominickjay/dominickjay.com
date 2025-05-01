@@ -1,6 +1,9 @@
 .profile {
     position: relative;
-    margin-block-end: 66px;
+
+    @media (min-width: 768px) {
+        margin-block-end: 66px;
+    }
 }
 
 .profile__image {
@@ -49,6 +52,6 @@
     bottom: -20px;
 
     @screen mdw {
-        
+
     }
 }

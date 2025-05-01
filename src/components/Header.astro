@@ -14,7 +14,7 @@ import NavLink from '../components/NavigationLink.astro';
     }"
     @keydown.escape="openMenu = false"
 >
-    <div class="flex justify-between items-center flex-col h-full">
+    <div class="flex justify-between items-center flex-row-reverse md:flex-col h-full">
         <button class="w-full max-w-[100px] group h-[60px] cursor-pointer" @click="openMenu = ! openMenu">
             <svg class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path class="group-hover:translate-x-[20%] transition-transform linear duration-[0.25s]"  d="M5 4.5H61" stroke="black" stroke-width="9" stroke-linecap="round"/>
@@ -31,6 +31,6 @@ import NavLink from '../components/NavigationLink.astro';
             <button class="cursor-pointer absolute top-[24px] left-[24px] text-[30px] hover:!no-underline" @click="openMenu = false">Close</button>
         </div>
 
-        <a class="[writing-mode:vertical-lr] rotate-[-180deg] text-[30px] hover:!no-underline" href="/">{SITE_TITLE}</a>
+        <a class="md:[writing-mode:vertical-lr] md:rotate-[-180deg] md:text-[30px] hover:!no-underline" href="/">{SITE_TITLE}</a>
     </div>
 </header>

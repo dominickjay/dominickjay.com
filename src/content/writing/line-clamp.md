@@ -118,13 +118,50 @@ Using this property allows any text to be cut off, with the end of the visible t
 
 To break this down quickly, there's three properties being used to get this solution - `overflow: hidden`, `text-overflow: ellipsis` and `white-space: nowrap`. `white-space: nowrap` puts all the text on one line, disregarding the boundaries of the box, `text-overflow: ellipsis` puts the familiar '...' at the end of the text that is visible, and `overflow: hidden`...well...hides the overflow of the content. Due to this, it only works if you want one line of text, no more. Not ideal.
 
-<p class="ciu_embed" data-feature="css-line-clamp" data-periods="future_1,current,past_1" data-accessible-colours="false">
-  <picture>
-    <source type="image/webp" srcset="https://caniuse.bitsofco.de/image/css-line-clamp.webp">
-    <source type="image/png" srcset="https://caniuse.bitsofco.de/image/css-line-clamp.png">
-    <img src="https://caniuse.bitsofco.de/image/css-line-clamp.jpg" alt="Data on support for the css-line-clamp feature across the major browsers from caniuse.com">
-  </picture>
-</p>
+<div class="browser-support-table">
+  <table>
+    <caption>Browser Support for line-clamp</caption>
+    <thead>
+      <tr>
+        <th scope="col">Browser</th>
+        <th scope="col">Version</th>
+        <th scope="col">Support</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Chrome</th>
+        <td>14+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Firefox</th>
+        <td>69+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Safari</th>
+        <td>5.1+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Edge</th>
+        <td>79+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Opera</th>
+        <td>15+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Internet Explorer</th>
+        <td>All</td>
+        <td><span class="support-no">No</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 If you take a look at the above, currently `line-clamp` is supported in pretty much every major browser - except for that pesky IE - as long as we use it along with `display: -webkit-box` and a prefix of `-webkit-`. So we can use it like this:
 

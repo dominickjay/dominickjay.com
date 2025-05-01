@@ -8,8 +8,11 @@
     row-gap: 12px;
     position: relative;
     height: fit-content;
-    bottom: 36px;
     margin-inline: auto;
+
+    @media (min-width: 768px) {
+        bottom: 36px;
+    }
 }
 
 .internal-links {
@@ -33,9 +36,13 @@
 
 .external-links {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     column-gap: 12px;
+
+    @media (min-width: 768px) {
+        justify-content: space-between;
+    }
 }
 
 .navigation-large {

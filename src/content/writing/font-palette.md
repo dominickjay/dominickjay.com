@@ -10,7 +10,7 @@ tags:
 
 <link
   rel="preload"
-  href="/assets/fonts/rocher/RocherColorGX.woff2"
+  href="/fonts/RocherColorGX.woff2"
   as="font"
   type="font/woff2"
   crossorigin
@@ -24,7 +24,50 @@ tags:
 
 I went to put a warning _"Btw, this might only be supported if you only use XYZ browser"_, but it turns out that's not the case, check this support out! Looking at you **again**, IE.
 
-{% caniuse "css-font-palette" %}
+<div class="browser-support-table">
+  <table>
+    <caption>Browser Support for font-palette</caption>
+    <thead>
+      <tr>
+        <th scope="col">Browser</th>
+        <th scope="col">Version</th>
+        <th scope="col">Support</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Chrome</th>
+        <td>101+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Firefox</th>
+        <td>107+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Safari</th>
+        <td>15.4+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Edge</th>
+        <td>101+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Opera</th>
+        <td>87+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Internet Explorer</th>
+        <td>All</td>
+        <td><span class="support-no">No</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 Ok, so we've got our variable font in our project, and it looks cool, but it doesn't look 100%. The font style meets your expectations, but the colors....m'eh. Kind of works, but could be improved to go along with the color scheme being used. Here's our basic class `.variable-heading` that these examples are going to be worked around. Here's what it looks like.
 
@@ -60,6 +103,7 @@ Ok, so we've got our variable font in our project, and it looks cool, but it doe
 
   .variable-heading {
     font-size: 4.5rem;
+    line-height: 1;
     font-family: 'Rocher';
     letter-spacing: -3.5px;
     font-variation-settings: "SHDW" 0, "BVEL" 50;
@@ -154,7 +198,7 @@ But nothing, so we're stuck with the numbers, and needing a reference as to what
 
 <div class="pull-quote pull-quote--right">
 
-So there’s another propery we can use instead of font-palette, which is called override-colors. This gives you access to the individual colors used in each palette...
+So there's another propery we can use instead of font-palette, which is called override-colors. This gives you access to the individual colors used in each palette...
 
 </div>
 
@@ -200,11 +244,11 @@ To sum up, these are things you need to do to control a palette;
 
 <div class="pull-quote pull-quote--left">
 
-Despite a good bit of support, I _probably_ wouldn’t be using this on a client build as I think it’s got some limitations and is slightly difficult to predict.
+Despite a good bit of support, I _probably_ wouldn't be using this on a client build as I think it's got some limitations and is slightly difficult to predict.
 
 </div>
 
 At the very least, it's an interesting experiment to play around with. Despite a good bit of support, I _probably_ wouldn't be using this on a client build as I think it's got some limitations and is slightly difficult to predict. Some things also didn't seem to work for me that works with normal fonts, like transitioning between color palette changes on hover, or passing custom properties. So it's a bit of a trade-off between expectations - you can do some fancy things with colors, but in turn you lose some pretty standard things.
 
 <small>Bet the word palette is starting to look strange now, right?</small>
-<span class="variable-heading">Fin.</span>
+<span class="variable-heading blocks">Fin.</span>

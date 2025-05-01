@@ -1,14 +1,24 @@
 .info-panel {
+    grid-column: span 12 / span 12;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.info-panel__details {
     border: 0.5px solid var(--color-dark);
-    grid-column: 5 / span 8;
     padding: 16px;
     display: flex;
-    align-items: center;
     justify-content: flex-start;
-    column-gap: 24px;
-    width: fit-content;
+    gap: 12px 24px;
     height: fit-content;
-    margin-left: auto;
+    flex-direction: column;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+        width: fit-content;
+    }
 }
 
 .info-panel__detail {

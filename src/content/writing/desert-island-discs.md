@@ -8,7 +8,7 @@ draft: true
 layout: "MusicGallery"
 ---
 
-<div id="sectionPin">
+<div class="container" id="sectionPin">
 	<div class="pin-wrap-sticky">
 		<div class="pin-wrap">
             <img src="https://lastfm.freetls.fastly.net/i/u/770x0/8eaa9146fbad4b62bd5a489fc0651ec0.jpg#8eaa9146fbad4b62bd5a489fc0651ec0" alt="" width="200" height="200">

@@ -479,7 +479,7 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                     </defs>
                 </svg>
 				<div class="container prose grid pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
-                    <div class="col-start-1 col-span-3 h-fit sticky top-[120px] hidden md:flex flex-col gap-y-[16px] p-[16px] border w-fit tracking-[-0.02em]">
+                    <div class="col-start-1 col-span-full md:col-span-3 h-fit md:sticky top-[120px] flex flex-col gap-y-[16px] p-[16px] border w-full md:w-fit tracking-[-0.02em]">
                         <span>Duration: {timeToRead}min{timeToRead > 1 && 's'}</span>
                         <span>Published: <FormattedDate date={new Date(pubDate)} /></span>
                         <div class="flex gap-x-[8px]">
