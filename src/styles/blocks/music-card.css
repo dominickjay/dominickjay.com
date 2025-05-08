@@ -1,0 +1,11 @@
+.music-card {
+    padding: 16px;
+    background-color: #ffffff;
+    height: fit-content;
+    width: fit-content;
+}
+
+.music-card img {
+    object-fit: cover;
+    object-position: center;
+}

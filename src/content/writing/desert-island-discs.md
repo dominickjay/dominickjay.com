@@ -8,25 +8,49 @@ draft: true
 layout: "MusicGallery"
 ---
 
-<div class="container" id="sectionPin">
-	<div class="pin-wrap-sticky">
-		<div class="pin-wrap">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/8eaa9146fbad4b62bd5a489fc0651ec0.jpg#8eaa9146fbad4b62bd5a489fc0651ec0" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/55ac8f97bde6cbe5e9a8857b435457e9.jpg#55ac8f97bde6cbe5e9a8857b435457e9" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/1319ef46e1da47f5c7dd7afdfb11aa53.jpg#1319ef46e1da47f5c7dd7afdfb11aa53" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/92ccba192b614b9faeeffe6841ab5c6d.jpg#92ccba192b614b9faeeffe6841ab5c6d" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/3e7d2d8d2bc3ada06d1950c8fbfa43f9.jpg#3e7d2d8d2bc3ada06d1950c8fbfa43f9" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/a39e4dca10fbf0155a12c09724a7d20f.jpg#a39e4dca10fbf0155a12c09724a7d20f" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/b5a5721a08264207c2df36bf07454005.jpg#b5a5721a08264207c2df36bf07454005" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/8eaa9146fbad4b62bd5a489fc0651ec0.jpg#8eaa9146fbad4b62bd5a489fc0651ec0" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/55ac8f97bde6cbe5e9a8857b435457e9.jpg#55ac8f97bde6cbe5e9a8857b435457e9" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/1319ef46e1da47f5c7dd7afdfb11aa53.jpg#1319ef46e1da47f5c7dd7afdfb11aa53" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/92ccba192b614b9faeeffe6841ab5c6d.jpg#92ccba192b614b9faeeffe6841ab5c6d" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/3e7d2d8d2bc3ada06d1950c8fbfa43f9.jpg#3e7d2d8d2bc3ada06d1950c8fbfa43f9" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/a39e4dca10fbf0155a12c09724a7d20f.jpg#a39e4dca10fbf0155a12c09724a7d20f" alt="" width="200" height="200">
-            <img src="https://lastfm.freetls.fastly.net/i/u/770x0/b5a5721a08264207c2df36bf07454005.jpg#b5a5721a08264207c2df36bf07454005" alt="" width="200" height="200">
-        </div>
-	</div>
+<div class="music-gallery">
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/8eaa9146fbad4b62bd5a489fc0651ec0.jpg#8eaa9146fbad4b62bd5a489fc0651ec0" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/8eaa9146fbad4b62bd5a489fc0651ec0.jpg#8eaa9146fbad4b62bd5a489fc0651ec0" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/55ac8f97bde6cbe5e9a8857b435457e9.jpg#55ac8f97bde6cbe5e9a8857b435457e9" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/55ac8f97bde6cbe5e9a8857b435457e9.jpg#55ac8f97bde6cbe5e9a8857b435457e9" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/1319ef46e1da47f5c7dd7afdfb11aa53.jpg#1319ef46e1da47f5c7dd7afdfb11aa53" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/1319ef46e1da47f5c7dd7afdfb11aa53.jpg#1319ef46e1da47f5c7dd7afdfb11aa53" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/92ccba192b614b9faeeffe6841ab5c6d.jpg#92ccba192b614b9faeeffe6841ab5c6d" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/92ccba192b614b9faeeffe6841ab5c6d.jpg#92ccba192b614b9faeeffe6841ab5c6d" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/3e7d2d8d2bc3ada06d1950c8fbfa43f9.jpg#3e7d2d8d2bc3ada06d1950c8fbfa43f9" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/3e7d2d8d2bc3ada06d1950c8fbfa43f9.jpg#3e7d2d8d2bc3ada06d1950c8fbfa43f9" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/a39e4dca10fbf0155a12c09724a7d20f.jpg#a39e4dca10fbf0155a12c09724a7d20f" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/a39e4dca10fbf0155a12c09724a7d20f.jpg#a39e4dca10fbf0155a12c09724a7d20f" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
+<div class="music-card">
+<picture>
+  <source srcset="https://lastfm.freetls.fastly.net/i/u/770x0/b5a5721a08264207c2df36bf07454005.jpg#b5a5721a08264207c2df36bf07454005" type="image/jpeg">
+  <img src="https://lastfm.freetls.fastly.net/i/u/770x0/b5a5721a08264207c2df36bf07454005.jpg#b5a5721a08264207c2df36bf07454005" alt="" width="200" height="200" loading="lazy">
+</picture>
+</div>
 </div>
 
 ## The Fragile

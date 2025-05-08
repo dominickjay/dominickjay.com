@@ -8,18 +8,34 @@ import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
 import moment from "moment";
 
 let artists = [];
+let tracks = [];
+let lovedTracks = [];
 
 const weekAgo = moment().subtract(4, 'weeks').unix();
 const now = moment().unix();
-const response = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyArtistChart&from=${weekAgo}&to=${now}&user=zerosandones217&api_key=86a5b41a85035739e32c576f027c4765&format=json`,
-    {
-        method: 'GET',
-    },
-)
-.then((response) => response.json())
-.then((responseJSON) => {
-    artists = responseJSON.weeklyartistchart.artist;
-});
+
+const baseUrl = 'http://ws.audioscrobbler.com/2.0/';
+const apiKey = '86a5b41a85035739e32c576f027c4765';
+const user = 'zerosandones217';
+
+const artistResponse = await fetch(`${baseUrl}?method=user.getWeeklyArtistChart&from=${weekAgo}&to=${now}&user=${user}&api_key=${apiKey}&format=json&limit=10`)
+    .then(response => response.json())
+    .then(responseJSON => {
+        artists = responseJSON.weeklyartistchart.artist;
+    });
+
+const trackResponse = await fetch(`${baseUrl}?method=user.getWeeklyTrackChart&from=${weekAgo}&to=${now}&user=${user}&api_key=${apiKey}&format=json&limit=10`)
+    .then(response => response.json())
+    .then(responseJSON => {
+        tracks = responseJSON.weeklytrackchart.track;
+    });
+
+const lovedTracksResponse = await fetch(`${baseUrl}?method=user.getLovedTracks&user=${user}&api_key=${apiKey}&format=json&limit=1`)
+    .then(response => response.json())
+    .then(responseJSON => {
+        lovedTracks = responseJSON.lovedtracks.track;
+        console.log(lovedTracks);
+    });
 
 ---
 
@@ -30,17 +46,41 @@ const response = await fetch(`http://ws.audioscrobbler.com/2.0/?method=user.getW
 	</head>
 	<body>
 		<Header />
-		<main class="bg-black text-white">
-            <div class="" id="sectionPin">
-                <div class="flex pl-[20px]">
-                    <div class="flex flex-wrap gap-x-[50px]">
-                        { artists.map((artist, i) => (
-                                <div class="">
-                                    <span class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">{artist.name}</span>
-                                </div>
-                            )
-                        )}
+		<main class="relative overflow-clip pb-[64px]">
+            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
+                <div class="col-span-1">
+                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Recent Favorite</h1>
+                </div>
+                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
+                    <div class="col-span-1 flex gap-[6px]">
+                        <span class="">{lovedTracks[0].name}</span>-<span class="">{lovedTracks[0].artist.name}</span>
                     </div>
+                </div>
+            </div>
+            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
+                <div class="col-span-1">
+                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Recent Artists</h1>
+                </div>
+                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
+                    { artists.map((artist, i) => (
+                            <div class="col-span-1 flex gap-[6px]">
+                                <span class="">{artist.name}</span>
+                            </div>
+                        )
+                    )}
+                </div>
+            </div>
+            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
+                <div class="col-span-1">
+                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Top 10 Tracks</h1>
+                </div>
+                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
+                    { tracks.map((track, i) => (
+                            <div class="col-span-1 flex gap-[6px]">
+                                <span class="">{track.name}</span>-<span class="">{track.artist['#text']}</span>
+                            </div>
+                        )
+                    )}
                 </div>
             </div>
 		</main>

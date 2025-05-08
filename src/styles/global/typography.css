@@ -40,6 +40,10 @@
         font-weight: 400;
 
         @media (min-width: 768px) {
+            font-size: 80px;
+        }
+
+        @variant xl {
             font-size: 116px;
         }
     }

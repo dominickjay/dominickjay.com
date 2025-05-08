@@ -18,7 +18,8 @@ tags:
 
 <div class="fyi-block fyi-block--prerequisites">
 
-**Prerequisites**If you want to follow along here you can grab the font from the link in the 'More Information' section of this post. If you want to use a different font to experiment, you'll need one with a few different palettes - this one we're using has an astounding **11** different palettes. I've found that there isn't a whole lot of these types of variable fonts to choose from without going onto the range of 'quirky' ones.
+**Prerequisites**
+If you want to follow along here you can grab the font from the link in the 'More Information' section of this post. If you want to use a different font to experiment, you'll need one with a few different palettes - this one we're using has an astounding **11** different palettes. I've found that there isn't a whole lot of these types of variable fonts to choose from without going onto the range of 'quirky' ones.
 
 </div>
 

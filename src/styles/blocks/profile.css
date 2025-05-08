@@ -1,7 +1,7 @@
 .profile {
     position: relative;
 
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
         margin-block-end: 66px;
     }
 }
@@ -19,10 +19,13 @@
 
 .profile__image-container {
     position: relative;
-    margin-block-start: 7px;
     aspect-ratio: 1 / 1;
     border: 1px solid currentColor;
     overflow: hidden;
+
+    @media (min-width: 992px) {
+        margin-block-start: 7px;
+    }
 }
 
 .profile .navigation {
@@ -32,8 +35,7 @@
 }
 
 .profile__description {
-    width: fit-content;
-    max-width: 582px;
+    width: 100%;
     height: fit-content;
     background-color: var(--color-primary);
     color: var(--color-light);
@@ -51,7 +53,8 @@
     letter-spacing: -2.17px;
     bottom: -20px;
 
-    @screen mdw {
-
+    @variant lg {
+        width: fit-content;
+        max-width: 582px;
     }
 }

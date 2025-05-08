@@ -15,6 +15,7 @@
 @import './blocks/prose.css';
 @import './blocks/toc.css';
 @import './blocks/browser-support-table.css';
+@import './blocks/music-card.css';
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';
 @import './compositions/container.css';

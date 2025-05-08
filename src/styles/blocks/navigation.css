@@ -9,8 +9,9 @@
     position: relative;
     height: fit-content;
     margin-inline: auto;
+    container: navigation / inline-size;
 
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
         bottom: 36px;
     }
 }
@@ -38,10 +39,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 12px;
+    gap: 12px;
 
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
         justify-content: space-between;
+    }
+}
+
+@container navigation (max-width: 390px) {
+    .external-links {
+        flex-direction: column;
     }
 }
 

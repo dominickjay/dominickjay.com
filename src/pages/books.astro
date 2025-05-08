@@ -137,12 +137,28 @@ const books = await getBooks();
                 class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]"
                 style="--grid-placement: 12; --gutter: 43px;"
                 x-data="{
-                    list: true
+                    list: true,
+                    floatingCover: {
+                        show: false,
+                        x: 0,
+                        y: 0,
+                        src: '',
+                        title: ''
+                    }
                 }"
+                @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
             >
-                <button class="cursor-pointer col-span-full max-w-fit py-[16px] px-[24px] border hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white" @click="list = ! list">
-                    List me
-                </button>
+                <!-- Floating book cover -->
+                <div
+                    x-show="floatingCover.show && floatingCover.src"
+                    x-transition.opacity
+                    class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
+                    :style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
+                >
+                    <div x-show="floatingCover.src" class="relative w-full h-full">
+                        <img :src="floatingCover.src" :alt="floatingCover.title" class="w-full h-full object-cover" />
+                    </div>
+                </div>
                 <div
                     class="col-span-full grid gap-y-[24px]"
                     :class="{
@@ -163,6 +179,8 @@ const books = await getBooks();
                                 :class="{
                                     'border-b'
                                 }"
+                                @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+                                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
                             >
                                 <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
                                     <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
@@ -201,11 +219,10 @@ const books = await getBooks();
                                                 :class="{
                                                     'border-b'
                                                 }"
+                                                @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+                                                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
                                             >
                                                     <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                                        <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
-                                                            {book.cover && <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />}
-                                                        </div>
                                                         <div
                                                             class="flex flex-col gap-[8px]w-full"
                                                             :class="{
