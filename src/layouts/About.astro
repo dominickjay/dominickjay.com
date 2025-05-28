@@ -22,8 +22,9 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 		<main class="relative overflow-clip pb-[64px]">
 			<article>
                 <header class="!relative !pt-[92px] !pb-[56px]">
-                    <div class="container">
+                    <div class="container flex flex-col gap-y-[16px]">
                         <h1 class="h1">{title}</h1>
+                        <h2 class="h4">{description}</h2>
                     </div>
                 </header>
                 <svg width="2282" height="128" viewBox="0 0 2282 128" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -478,10 +479,8 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                     </clipPath>
                     </defs>
                 </svg>
-				<div class="container prose grid pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
-                    <div class="content col-span-full md:col-start-4 md:col-span-7 flex flex-col gap-y-[24px]">
-                        <slot />
-                    </div>
+				<div class="container pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
+                    <slot />
 				</div>
 			</article>
 		</main>

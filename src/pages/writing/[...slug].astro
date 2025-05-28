@@ -1,9 +1,12 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import MusicGallery from '../../layouts/MusicGallery.astro';
 import { render } from 'astro:content';
 import { getReadingTime } from '../../utils/utils.mjs';
+import MusicGrid from '../../components/MusicGrid.astro';
+import RaindropGrid from '../../components/RaindropGrid.astro';
+import { getRaindropBookmarks } from '../../lib/raindrop';
+import { getWeeklyAlbumChart, enrichAlbumsWithImages } from '../../lib/lastfm';
 
 const { slug } = Astro.params;
 const posts = await getCollection('writing');
@@ -16,7 +19,57 @@ if (!post) {
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
 
-const layout = post.data.layout || 'BlogPost';
+// Fetch music data in the frontmatter
+let musicData = null;
+try {
+    const { musicDateFrom, musicDateTo } = post.data;
+    const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
+
+    if (musicDateFrom && musicDateTo && lastFmApiKey) {
+        const data = await getWeeklyAlbumChart(musicDateFrom, musicDateTo, lastFmApiKey);
+        if (!data.error) {
+            // Enrich albums with images
+            if (data.weeklyalbumchart?.album) {
+                data.weeklyalbumchart.album = await enrichAlbumsWithImages(data.weeklyalbumchart.album, lastFmApiKey);
+            }
+            musicData = data;
+            console.log('Processed music data:', musicData);
+        } else {
+            console.error('Last.fm API error:', data.message);
+        }
+    } else {
+        console.log('Missing required data:', {
+            hasMusicDateFrom: !!musicDateFrom,
+            hasMusicDateTo: !!musicDateTo,
+            hasApiKey: !!lastFmApiKey
+        });
+    }
+} catch (error) {
+    console.error('Error fetching music data:', error);
+}
+
+// Fetch Raindrop bookmarks
+let raindropData = null;
+try {
+    const raindropApiKey = import.meta.env.RAINDROP_API_KEY;
+    const raindropBookmarks = import.meta.env.RAINDROP_BOOKMARKS;
+    const { linksFrom, linksTo } = post.data;
+
+    if (raindropApiKey && linksFrom && linksTo) {
+        raindropData = await getRaindropBookmarks(raindropBookmarks, raindropApiKey, linksFrom, linksTo);
+        console.log('Raindrop data:', raindropData);
+    } else {
+        console.error('Missing required data:', {
+            hasApiKey: !!raindropApiKey,
+            hasLinksFrom: !!linksFrom,
+            hasLinksTo: !!linksTo
+        });
+    }
+} catch (error) {
+    console.error('Error fetching Raindrop data:', error);
+}
+
+console.log('Final musicData being passed to BlogPost:', musicData);
 
 export async function getStaticPaths() {
 	const posts = await getCollection('writing');
@@ -27,12 +80,8 @@ export async function getStaticPaths() {
 }
 
 ---
-{layout === 'MusicGallery' ? (
-    <MusicGallery {...post.data} headings={headings} timeToRead={timeToRead}>
-        <Content />
-    </MusicGallery>
-) : (
-    <BlogPost {...post.data} headings={headings} timeToRead={timeToRead}>
-        <Content />
-    </BlogPost>
-)
+<BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
+    <Content />
+    <MusicGrid musicData={musicData} />
+    <RaindropGrid raindropData={raindropData} />
+</BlogPost>

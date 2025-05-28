@@ -1,8 +1,19 @@
-:root {
-    --color-light: #FBF8EF;
-    --color-dark: #000000;
-    --font-base: "InknutAntiqua", serif;
-    --leading-standard: 1.5;
+@layer core {
+    @layer tokens {
+        :root {
+            --color-light: #FBF8EF;
+            --color-dark: #000000;
+            --color-primary: var(--color-dark, #000000);
 
-    --color-primary: var(--color-dark, #000000);
+            --font-base: "InknutAntiqua", serif;
+            --leading-standard: 1.6;
+
+            --space-xs: 4px;
+            --space-s: 8px;
+            --space-m: 16px;
+            --space-l: 24px;
+            --space-xl: 32px;
+            --space-xxl: 48px;
+        }
+    }
 }

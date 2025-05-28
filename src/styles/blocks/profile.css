@@ -1,60 +1,75 @@
-.profile {
-    position: relative;
+@layer components {
+    .profile {
+        position: relative;
+        grid-column: span 12 / span 12;
+        container: profile / inline-size;
 
-    @media (min-width: 992px) {
-        margin-block-end: 66px;
+        @media (min-width: 768px) {
+            grid-column-end: 13;
+            grid-column-start: 8;
+            grid-row: 2 / span 1;
+        }
+
+        @media (min-width: 992px) {
+            margin-block-end: 66px;
+            grid-row: 1 / span 3;
+            grid-row-start: 1;
+
+        }
     }
-}
 
-.profile__image {
-    background: rgba(0, 0, 0, 0.8);
-    mix-blend-mode: luminosity;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
-    position: absolute;
-    inset: 0;
-}
-
-.profile__image-container {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    border: 1px solid currentColor;
-    overflow: hidden;
-
-    @media (min-width: 992px) {
-        margin-block-start: 7px;
+    .profile__image {
+        background: rgba(0, 0, 0, 0.8);
+        mix-blend-mode: luminosity;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        object-position: center;
+        position: absolute;
+        inset: 0;
     }
-}
 
-.profile .navigation {
-    grid-column: 9 / span 4;
-    grid-row: 1 / span 3;
-    width: fit-content;
-}
+    .profile__image-container {
+        grid-column: span 12 / span 12;
+        position: relative;
+        aspect-ratio: 1 / 1;
+        border: 1px solid currentColor;
+        overflow: hidden;
+    }
 
-.profile__description {
-    width: 100%;
-    height: fit-content;
-    background-color: var(--color-primary);
-    color: var(--color-light);
-    padding: 25px 38px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-base);
-    font-style: normal;
-    font-weight: 300;
-    font-size: 26px;
-    line-height: 120%;
-    letter-spacing: -2.17px;
-    bottom: -20px;
+    .profile__description {
+        width: 100%;
+        height: fit-content;
+        background-color: var(--color-primary);
+        color: var(--color-light);
+        padding: 25px 38px;
+        gap: 10px;
+        font-family: var(--font-base);
+        font-style: normal;
+        font-weight: 300;
+        font-size: 26px;
+        line-height: 120%;
+        letter-spacing: -2.17px;
+        text-align: left;
+        position: relative;
+        grid-column: span 12 / span 12;
 
-    @variant lg {
-        width: fit-content;
-        max-width: 582px;
+        @media (min-width: 768px) {
+            grid-row-start: 2;
+        }
+
+        @media (min-width: 992px) {
+            grid-column: span 5;
+            grid-row-start: 2;
+            grid-row-end: span 1;
+        }
+
+        @media (min-width: 1024px) {
+            width: fit-content;
+            max-width: 582px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
     }
 }

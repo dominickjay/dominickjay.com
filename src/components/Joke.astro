@@ -1,0 +1,36 @@
+<div class="joke w-fit" x-data="{
+    joke: '',
+    cacheTime: 3 * 60 * 60 * 1000, // 3 hours in milliseconds
+    async fetchJoke(forceRefresh = false) {
+        const cached = localStorage.getItem('dadJoke');
+        if (cached && !forceRefresh) {
+            const { joke, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp < this.cacheTime) {
+                this.joke = joke;
+                return;
+            }
+        }
+
+        const response = await fetch('https://icanhazdadjoke.com/', {
+            headers: {
+                'Accept': 'application/json',
+                'User-Agent': 'DominickJay Website (https://dominickjay.com)'
+            }
+        });
+        const data = await response.json();
+        this.joke = data.joke;
+        localStorage.setItem('dadJoke', JSON.stringify({
+            joke: data.joke,
+            timestamp: Date.now()
+        }));
+    }
+}" x-init="fetchJoke()">
+    <p class="joke__text" x-text="joke"></p>
+    <button
+        @click.prevent="fetchJoke(true)"
+        class="joke__button"
+        type="button"
+    >
+        Get another joke
+    </button>
+</div>

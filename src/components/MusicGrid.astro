@@ -1,48 +1,57 @@
 ---
-interface LastFmTrack {
-  name: string;
-  url: string;
-  image: Array<{ '#text': string; size: string }>;
-  artist: {
-    '#text': string;
-  };
-}
-
-interface LastFmResponse {
-  recenttracks?: {
-    track: LastFmTrack[];
-  };
-  weeklytrackchart?: {
-    track: LastFmTrack[];
-  };
-}
+import type { LastFmAlbum, LastFmResponse } from '../lib/lastfm';
 
 interface Props {
   musicData: LastFmResponse | null;
 }
 
 const { musicData } = Astro.props;
-console.log('MusicGrid received data:', musicData?.weeklytrackchart?.track[0].image);
 if (!musicData) {
   console.warn('MusicGrid: musicData is undefined or null');
 }
 
-const tracks = musicData?.weeklytrackchart?.track || musicData?.recenttracks?.track || [];
+const albums = musicData?.weeklyalbumchart?.album || [];
 ---
 
 <div class="music-grid">
-  {tracks.map((track: LastFmTrack) => (
-    <a href={track.url}>
-      <img height="174" width="174" src={track.image[2]['#text']} loading="lazy" alt={`Album art for ${track.name} by ${track.artist['#text']}`} />
+  {albums.map((album: LastFmAlbum) => (
+    <a href={album.url} class="relative">
+      {album.image?.[2]?.['#text'] ? (
+        <img
+          height="174"
+          width="174"
+          src={album.image[2]['#text']}
+          loading="lazy"
+          alt={`Album art for ${album.name} by ${album.artist['#text']}`}
+          onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+        />
+      ) : (
+        <div class="w-[174px] h-[174px] bg-gray-200 centered">
+          <span class="text-gray-500 text-sm text-center px-2">{album.name}</span>
+        </div>
+      )}
     </a>
   ))}
 </div>
 
 <style>
   .music-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 1rem;
     margin: 2rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .music-grid a {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .music-grid img {
+    width: 174px;
+    height: 174px;
+    object-fit: cover;
   }
 </style>

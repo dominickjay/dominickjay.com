@@ -31,9 +31,4 @@ musicDateTo: '1647773433'
 
 ### Music
 
-<div class="music-grid">
-  <!-- {% set results = musicDateFrom | apiCall(musicDateTo) %}
-  {% for album in results %}
-    <a href="{{ album.url }}"><img height="174" width="174" src="{{ album.art }}" loading="lazy" /></a>
-  {% endfor %} -->
-</div>
+<!-- Removed MusicGrid component as Astro components cannot be used directly in markdown files -->

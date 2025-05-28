@@ -1,7 +1,12 @@
 @import "tailwindcss";
+@import './global/fonts.css';
+
+@layer core, third-party, layout, components, utility;
+@layer core.reset, core.tokens, core.base;
+/* @layer third-party.imports, third-party.overrides; */
+@layer components.base, components.variations;
 
 @import './global/reset.css';
-@import './global/fonts.css';
 @import './global/typography.css';
 @import './global/variables.css';
 @import './global/global-styles.css';
@@ -10,18 +15,23 @@
 @import './blocks/site-head.css';
 @import './blocks/navigation.css';
 @import './blocks/profile.css';
+@import './blocks/bio.css';
 @import './blocks/info-panel.css';
 @import './blocks/code.css';
 @import './blocks/prose.css';
 @import './blocks/toc.css';
 @import './blocks/browser-support-table.css';
 @import './blocks/music-card.css';
+
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';
 @import './compositions/container.css';
 @import './compositions/centered.css';
+@import './components/joke.css';
+@import './components/song.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';
 @import './utilities/reveal.css';
 @import './utilities/sidebar.css';
+@import './utilities/region.css';

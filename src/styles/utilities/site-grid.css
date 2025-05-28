@@ -1,9 +1,0 @@
-.site-grid {
-    display: grid;
-    grid-column: repeat(12,minmax(0,1fr));
-    column-gap: 20px;
-
-    @media (min-width: 768px) {
-        grid-column: repeat(2,minmax(0,1fr));
-    }
-}

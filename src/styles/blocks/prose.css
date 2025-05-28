@@ -1,44 +1,117 @@
-.content {
+.prose {
+    --flow-space: var(--space-l);
+}
 
-    a {
-        @apply underline decoration-wavy hover:no-underline;
+.prose :is(h1, h2, h3) {
+    overflow-wrap: anywhere;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.prose :is(p, li, dl, figcaption, blockquote) {
+    text-wrap: pretty;
+}
+
+.prose :is(h1, h2, h3, h4, .body-s, .caption) + *:not([class]) {
+    --flow-space: var(--space-s);
+}
+
+.prose :is(h5, h6, .body-s) + *:not([class]) {
+    --flow-space: var(--space-m);
+}
+
+.prose p:has(strong:only-child) + p {
+    --flow-space: var(--space-xs);
+}
+
+/* .prose *:not([class]) + :is(h1, h2, h3, h4),
+.prose *:not([class]) + :is(h5, h6) {
+    --flow-space: var(--space-xl);
+} */
+
+/* Add more space on and around figures and tables */
+.prose :is(figure, table),
+.prose :is(figure, table) + * {
+    --flow-space: var(--space-l);
+}
+
+/* Add more space to headings on block start */
+.prose * + :is(h1, h2, h3, h4):not([class]) {
+    --flow-space: var(--space-xl);
+}
+
+.prose :is(ul, ol) {
+    --flow-space: var(--space-s);
+}
+
+.prose :is(ul, ol):not([class]) li + li,
+.prose :is(ul, ol):not([class]) li > :is(ol, ul) {
+    --flow-space: var(--space-xs);
+}
+
+.prose ol:not([class]) > li,
+.prose ul:not([class]) > li {
+    --flow-space: var(--space-xs);
+    &:first-child {
+        margin-top: var(--flow-space);
     }
+}
 
-    ul, ol {
-        padding-left: 18px;
+.prose .caption + .caption {
+    --flow-space: var(--space-s);
+}
+
+.prose hr {
+    --flow-space: var(--space-xl);
+}
+
+.prose h2 {
+    @apply text-[24px] tracking-[-0.04em] leading-[140%];
+}
+
+.prose h3 {
+    @apply text-[20px] tracking-[-0.04em] leading-[140%];
+}
+
+.prose h4 {
+    @apply text-[18px] tracking-[-0.04em] leading-[140%];
+}
+
+.prose h5 {
+    @apply text-[16px] tracking-[-0.04em] leading-[140%];
+}
+
+.prose table {
+    width: 100%;
+}
+
+.prose table th {
+    background: var(--color-grey-light);
+    border-right: 1px solid var(--color-white);
+    &:last-child {
+        border-right: none;
     }
+}
 
-    ul {
-        list-style: disc;
-        list-style-type: '-  ';
+.prose table td {
+    background: var(--color-white);
+    border: 1px solid var(--color-grey-light);
+    font-weight: 400;
+}
+
+.prose .blockquote {
+    padding-inline-start: 24px;
+    border-left: 2px solid var(--color-orange);
+
+    @variant md {
+        padding-inline-start: 40px;
     }
+}
 
-    ol {
-        list-style: decimal;
+@variant md {
+    .prose :is(h1, h2, h3) {
+        overflow-wrap: unset;
+        -webkit-hyphens: unset;
+        hyphens: unset;
     }
-
-    h2 {
-        @apply text-[24px] tracking-[-0.04em] leading-[140%];
-    }
-
-    .blockquote-container {
-        @apply flex flex-col justify-end items-end;
-    }
-
-    blockquote {
-        @apply text-[24px] tracking-[-0.04em] leading-[140%];
-
-        float: right;
-        border: 1px solid var(--color-dark, #000000);
-        padding: 16px;
-    }
-
-    blockquote + p {
-        border: 1px solid var(--color-dark, #000000);
-        border-top: none;
-        max-width: fit-content;
-        padding-block: 4px;
-        padding-inline: 8px;
-    }
-
 }

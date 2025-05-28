@@ -147,6 +147,7 @@ const books = await getBooks();
                     }
                 }"
                 @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
+                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
             >
                 <!-- Floating book cover -->
                 <div

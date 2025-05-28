@@ -12,7 +12,9 @@ const writing = defineCollection({
     draft: z.boolean().optional(),
     layout: z.string().optional(),
     musicDateFrom: z.string().optional(),
-    musicDateTo: z.string().optional()
+    musicDateTo: z.string().optional(),
+    linksFrom: z.string().optional(),
+    linksTo: z.string().optional()
   })
 });
 

@@ -1,88 +1,119 @@
-.navigation {
-    width: 100%;
-    border: 0.5px solid var(--color-dark);
-    background-color: var(--color-light);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 12px;
-    position: relative;
-    height: fit-content;
-    margin-inline: auto;
-    container: navigation / inline-size;
-
-    @media (min-width: 992px) {
-        bottom: 36px;
-    }
-}
-
-.internal-links {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-}
-
-.internal-links a {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    column-gap: 8px;
-}
-
-.internal-links a:hover,
-.external-links a:hover {
-    text-decoration: underline;
-    text-decoration-style: wavy;
-}
-
-.external-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-
-    @media (min-width: 992px) {
-        justify-content: space-between;
-    }
-}
-
-@container navigation (max-width: 390px) {
-    .external-links {
-        flex-direction: column;
-    }
-}
-
-.navigation-large {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: auto;
-    height: 100vh;
-    background-color: var(--color-light);
-    display: flex;
-    padding: 170px 70px 120px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    z-index: 2;
-    transform: translateX(-100vw);
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-    border-right: 0.5px solid var(--color-dark);
-}
-
-.navigation-large--open {
-    transform: translateX(0);
-}
-
-@scope (.navigation-large) {
-    .internal-links {
-        gap: 40px;
+@layer components {
+    .navigation {
+        border: 0.5px solid var(--color-dark);
+        background-color: var(--color-light);
+        padding: var(--space-m);
         display: flex;
         flex-direction: column;
-        transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-wrap: wrap;
+        row-gap: 12px;
+        position: relative;
+        height: fit-content;
+        margin-inline: auto;
+        width: 100%;
+
+        @media (min-width: 768px) {
+            width: fit-content;
+        }
+
+        @media (min-width: 1024px) {
+            bottom: var(--space-xl);
+        }
     }
 
-    .nav-link {
-        font-size: 100px;
+    @layer variations {
+        .profile + .navigation {
+
+            grid-column: span 12 / span 12;
+
+            @media (min-width: 768px) {
+                grid-column: 9 / span 4;
+                bottom: 0;
+            }
+
+            @media (min-width: 992px) {
+                grid-row: 1 / span 1;
+            }
+
+            @media (min-width: 1024px) {
+                grid-row: 2 / span 1;
+            }
+        }
+    }
+
+    .internal-links {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-m);
+
+        a {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            column-gap: var(--space-s);
+        }
+    }
+
+    .external-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--space-m);
+
+        @media (min-width: 992px) {
+            justify-content: space-between;
+        }
+
+        a {
+            &:hover {
+                text-decoration: underline;
+                text-decoration-style: wavy;
+            }
+        }
+    }
+
+    @container profile (max-width: 490px) {
+        .navigation {
+            width: 100%;
+        }
+
+        .external-links {
+            flex-direction: column;
+        }
+    }
+
+    .navigation-large {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: 100vh;
+        background-color: var(--color-light);
+        display: flex;
+        padding: 170px 70px 120px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        z-index: 2;
+        transform: translateX(-100vw);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform;
+        border-right: 0.5px solid var(--color-dark);
+
+        &--open {
+            transform: translateX(0);
+        }
+    }
+
+    @scope (.navigation-large) {
+        .internal-links {
+            gap: 40px;
+            display: flex;
+            flex-direction: column;
+            transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link {
+            font-size: 100px;
+        }
     }
 }

@@ -1,8 +1,9 @@
-.centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-inline: auto;
-    max-width: var(--max-width, none);
+@layer layout {
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--gutter, var(--space-s));
+        margin-inline: auto;
+    }
 }

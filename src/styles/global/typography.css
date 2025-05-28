@@ -10,48 +10,40 @@
 	}
 
 	.h1 {
-		font-size: 48px;
-		line-height: 53.76px;
+		font-size: clamp(3rem, 0.9783rem + 2.6087vw, 4.5rem);
+		line-height: 120%;
 		letter-spacing: -0.02em;
 	}
 
 	.h2 {
-        font-size: 42px;
+        font-size: clamp(1.375rem, 1.0707rem + 1.5217vw, 2.25rem);
         line-height: 150%;
         letter-spacing: -0.07em;
 	}
 
 	.h3 {
-		font-size: 32px;
-		line-height: 35.84px;
+		font-size: clamp(1.25rem, 1.163rem + 0.4348vw, 1.5rem);
+		line-height: 112%;
 		letter-spacing: -0.02em;
 	}
 
 	:is(.h4, .h5, .h6) {
-		font-size: 24px;
-		line-height: 28.8px;
+		font-size: clamp(1.125rem, 1.038rem + 0.4348vw, 1.375rem);
+		line-height: 120%;
 		letter-spacing: -0.02em;
 	}
 
     .heading-tagline {
-        font-size: 72px;
+        font-size: clamp(4.5rem, 3.5435rem + 4.7826vw, 7.25rem);
         line-height: 120%;
         letter-spacing: -0.45rem;
         font-weight: 400;
-
-        @media (min-width: 768px) {
-            font-size: 80px;
-        }
-
-        @variant xl {
-            font-size: 116px;
-        }
     }
 
     .nav-link {
         font-family: var(--font-base);
         font-weight: 400;
-        font-size: 24px;
+        font-size: clamp(1.125rem, 0.9946rem + 0.6522vw, 1.5rem);
         line-height: 120%;
         letter-spacing: -0.02em;
         color: var(--color-dark);
@@ -61,15 +53,7 @@
         font-family: var(--font-base);
         font-style: normal;
         font-weight: 300;
-        font-size: 18px;
-        line-height: 120%;
-        /* identical to box height, or 22px */
-        letter-spacing: -0.02em;
-    }
-
-    .body-text {
-        font-weight: 300;
-        font-size: 16px;
+        font-size: 1.125rem;
         line-height: 120%;
         letter-spacing: -0.02em;
     }
@@ -78,8 +62,15 @@
         padding-block-start: 16px;
     }
 
-    .body-text--large {
-        font-size: 19px;
+    .standfirst {
+        font-size: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
         line-height: 150%;
+    }
+
+    .current-job {
+        background: var(--color-primary);
+        color: var(--color-light);
+        padding-inline: 8px;
+        display: inline-block;
     }
 }

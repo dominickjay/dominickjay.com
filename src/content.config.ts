@@ -15,6 +15,10 @@ const writing = defineCollection({
 		tags: z.array(z.string()),
         draft: z.boolean().optional(),
         layout: z.string().optional(),
+        musicDateFrom: z.string().optional(),
+        musicDateTo: z.string().optional(),
+        linksFrom: z.string().optional(),
+        linksTo: z.string().optional()
 	}),
 });
 

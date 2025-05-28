@@ -11,7 +11,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 <a
     href={href}
-    class="relative hover:!no-underline group text-2xl md:text-3xl font-medium transition-all duration-300 ease-in-out"
+    class="nav-link relative hover:!no-underline group text-2xl md:text-3xl font-medium transition-all duration-300 ease-in-out"
     class:list={[className, { active: isActive }]}
     {...props}
 >
