@@ -1,0 +1,48 @@
+---
+interface LastFmTrack {
+  name: string;
+  url: string;
+  image: Array<{ '#text': string; size: string }>;
+  artist: {
+    '#text': string;
+  };
+}
+
+interface LastFmResponse {
+  recenttracks?: {
+    track: LastFmTrack[];
+  };
+  weeklytrackchart?: {
+    track: LastFmTrack[];
+  };
+}
+
+interface Props {
+  musicData: LastFmResponse | null;
+}
+
+const { musicData } = Astro.props;
+console.log('MusicGrid received data:', musicData?.weeklytrackchart?.track[0].image);
+if (!musicData) {
+  console.warn('MusicGrid: musicData is undefined or null');
+}
+
+const tracks = musicData?.weeklytrackchart?.track || musicData?.recenttracks?.track || [];
+---
+
+<div class="music-grid">
+  {tracks.map((track: LastFmTrack) => (
+    <a href={track.url}>
+      <img height="174" width="174" src={track.image[2]['#text']} loading="lazy" alt={`Album art for ${track.name} by ${track.artist['#text']}`} />
+    </a>
+  ))}
+</div>
+
+<style>
+  .music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+</style>
