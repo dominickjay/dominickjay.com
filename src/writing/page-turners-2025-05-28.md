@@ -15,3 +15,6 @@ tags:
 
 ## Demos
 * [Pressure Sensitive Tip Button [Webflow x GSAP]](https://codepen.io/jh3y/pen/GgJRXbL) - ...
+
+## Videos
+* [CSS Popover + Anchor Positioning is Magical](https://www.youtube.com/watch?v=DNXEORSk4GU) - If you’ve ever needed the positioning of an element to be connected (or anchored) to the position of another element, then you’ll be very excited about anchor positioning
