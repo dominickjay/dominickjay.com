@@ -2,8 +2,10 @@
 title: '@scope'
 description: 'Preventing CSS tantrums and sibling rivalry. - A super quick insight into the @scope property'
 pubDate: '2025-02-15'
+date: 2025-05-29
 tags:
   - css
+  - writing
 layout: post
 templateEngineOverride: njk,md
 ---
