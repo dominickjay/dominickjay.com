@@ -1,21 +1,3 @@
 {
-	"promptVSCodeSettings": true,
-	"geolocation": {
-		"data": {
-			"city": "Plymouth",
-			"country": {
-				"code": "GB",
-				"name": "United Kingdom"
-			},
-			"subdivision": {
-				"code": "ENG",
-				"name": "England"
-			},
-			"timezone": "Europe/London",
-			"latitude": 50.3881,
-			"longitude": -4.1324
-		},
-		"timestamp": 1676622041521
-	},
-	"siteId": "7ff0aeba-1ce6-4c84-ba51-31a053c6b3f0"
+	"siteId": "8a977716-705b-483e-8324-eb1912e18435"
 }
