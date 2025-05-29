@@ -66,11 +66,11 @@ This just gives us this beautifully unstyled masterpiece.
 
 <div class="">
   <picture class="">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
+    <source srcset="https://placeskull.com/200/200" media="(max-width: 600px)" />
     <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
     <img
         class=""
-        src="http://placeskull.com/200"
+        src="https://placeskull.com/200/200"
         alt="Descriptive alt text"
     />
   </picture>
@@ -128,11 +128,11 @@ This just gives us this beautifully unstyled masterpiece.
 </style>
 <div class="card">
   <picture class="card__image-container">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+    <source srcset="https://placeskull.com/200/200" media="(max-width: 600px)" />
+    <source srcset="https://placeskull.com/200/200" media="(max-width: 1200px)" />
     <img
         class="card__image"
-        src="http://placeskull.com/200"
+        src="https://placeskull.com/200/200"
         alt="Descriptive alt text"
     />
   </picture>
@@ -356,11 +356,11 @@ img {
 
 <div class="card-scoped">
   <picture class="">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+    <source srcset="https://placeskull.com/200/200" media="(max-width: 600px)" />
+    <source srcset="https://placeskull.com/200/200" media="(max-width: 1200px)" />
     <img
         class=""
-        src="http://placeskull.com/200"
+        src="https://placeskull.com/200/200"
         alt="Descriptive alt text"
     />
   </picture>
