@@ -31,7 +31,7 @@ A big problem that @scope can fix with CSS, that _totally_ hasn't happened to me
 
 ## How it works
 
-Let's get to the code. How do we set this up so that completely-made-up scenario doesn't even become a reality. Firstly, you use the `@scope` at-rule, following by your selector of choice - let's drag the infamous card example out here.
+Let's get to the code. How do we set this up so that completely-made-up scenario doesn't even become a reality? Firstly, you use the `@scope` at-rule, followed by your selector of choice - let's drag the infamous card example out here.
 
 ```css
 @scope .card {}
