@@ -1,20 +1,20 @@
 @layer components {
     .site-header {
         width: 100%;
-        position: fixed;
+        position: sticky;
         top: 0;
-        left: 0;
         z-index: 1;
-        background-color: var(--color-light);
-        border-right: 2px solid currentColor;
         padding-block: var(--padding-block, 21px);
         padding-inline: var(--padding-inline, 12px);
+        display: flex;
+        justify-content: center;
 
         @media (min-width: 768px) {
             --padding-block: 42px;
 
             height: 100%;
             width: 72px;
+            justify-content: flex-start;
         }
     }
 }

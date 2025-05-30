@@ -4,7 +4,7 @@ import NavLink from '../components/NavigationLink.astro';
 
 ---
 
-<header class="site-header"
+<header class="container site-header"
     x-cloak
     x-data="{
         openMenu: false
@@ -14,23 +14,25 @@ import NavLink from '../components/NavigationLink.astro';
     }"
     @keydown.escape="openMenu = false"
 >
-    <div class="flex justify-between items-center flex-row-reverse md:flex-col h-full">
-        <button class="w-full max-w-[100px] group h-[60px] cursor-pointer" @click="openMenu = ! openMenu">
-            <svg class="w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path class="group-hover:translate-x-[20%] transition-transform linear duration-[0.25s]"  d="M5 4.5H61" stroke="black" stroke-width="9" stroke-linecap="round"/>
-                <path class="group-hover:translate-x-[50%] transition-transform linear duration-[0.25s]" d="M7 29H90" stroke="black" stroke-width="9" stroke-linecap="round"/>
-                <path class="group-hover:translate-x-[-60%] transition-transform linear duration-[0.25s]" d="M38 52L90 52" stroke="black" stroke-width="9" stroke-linecap="round"/>
-            </svg>
-        </button>
-        <div class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
-            <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
-                <NavLink class="nav-link" href="/writing">Writing</NavLink>
-                <NavLink class="nav-link" href="/about">About</NavLink>
-                <NavLink class="nav-link" href="/now">Now</NavLink>
-            </nav>
-            <button class="cursor-pointer absolute top-[24px] left-[24px] text-[30px] hover:!no-underline" @click="openMenu = false">Close</button>
-        </div>
-
-        <a class="md:[writing-mode:vertical-lr] md:rotate-[-180deg] md:text-[30px] hover:!no-underline" href="/">{SITE_TITLE}</a>
+    <button popovertarget="navigation-large" class="menu-button">
+        <svg class="w-full" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1788_2272)">
+            <path d="M39.7759 7.60879C40.1038 6.96946 40.0486 6.24468 39.7614 5.64303C39.8423 4.95842 39.6631 4.26332 39.0152 3.73016C38.4119 3.2339 37.8087 2.73736 37.2058 2.241C36.1455 1.36863 34.4853 1.09328 33.4541 2.241C28.7701 7.45339 23.8718 12.4394 18.794 17.2438C15.0189 13.7173 11.1979 10.2385 7.40422 6.7553C6.07277 5.53243 4.14555 5.91616 3.30786 7.37294C2.08769 7.97855 1.09864 8.76807 0.280795 10.1156C-0.108619 10.7576 -0.0782709 11.5681 0.280795 12.2124C2.7299 16.6035 7.46376 20.4642 11.356 24.0171C10.8351 24.4833 10.3182 24.9539 9.78685 25.4103C4.54296 29.9135 1.00586 32.7707 7.56819 37.388C7.65673 37.4503 7.747 37.4365 7.83689 37.4729C7.96262 37.5309 8.08324 37.5718 8.22264 37.5947C8.266 37.5964 8.30646 37.6037 8.34914 37.6003C8.48421 37.6113 8.61639 37.6457 8.75329 37.6188C12.2814 36.9271 15.5625 34.1623 18.5393 31.1177C21.4392 33.976 24.5271 36.7067 27.9225 38.327C28.7309 38.7129 29.6947 38.488 30.3171 37.9483C31.3607 38.0271 32.3122 37.3786 32.7897 36.4467C32.8604 36.403 32.906 36.378 32.9826 36.3301C34.4998 35.3823 34.6384 33.4947 33.5158 32.1936C30.9807 29.2559 28.2859 26.4634 25.5388 23.7203C30.4851 18.8872 36.6613 13.6748 39.7759 7.60879Z" fill="black"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_1788_2272">
+            <rect width="40" height="40" fill="white"/>
+            </clipPath>
+            </defs>
+        </svg>
+    </button>
+    <div popover id="navigation-large" class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
+        <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
+            <ul>
+                <li><NavLink href="/writing">Writing</NavLink></li>
+                <li><NavLink href="/about">About</NavLink></li>
+                <li><NavLink href="/now">Now</NavLink></li>
+            </ul>
+        </nav>
     </div>
 </header>

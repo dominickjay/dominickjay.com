@@ -1,16 +1,17 @@
 @layer components {
     .profile {
         position: relative;
-        grid-column: span 12 / span 12;
         container: profile / inline-size;
+        grid-column: span 4 / span 4;
 
         @media (min-width: 768px) {
-            grid-column-end: 13;
-            grid-column-start: 8;
+            grid-column: span 6 / span 6;
             grid-row: 2 / span 1;
         }
 
         @media (min-width: 992px) {
+            grid-column-start: 8;
+            grid-column-end: 13;
             margin-block-end: 66px;
             grid-row: 1 / span 3;
             grid-row-start: 1;
@@ -30,11 +31,15 @@
     }
 
     .profile__image-container {
-        grid-column: span 12 / span 12;
+        grid-column: span 4 / span 4;
         position: relative;
         aspect-ratio: 1 / 1;
         border: 1px solid currentColor;
         overflow: hidden;
+
+        @media (min-width: 768px) {
+            grid-column: span 12 / span 12;
+        }
     }
 
     .profile__description {
@@ -52,10 +57,12 @@
         letter-spacing: -2.17px;
         text-align: left;
         position: relative;
-        grid-column: span 12 / span 12;
+        grid-column: span 4 / span 4;
 
         @media (min-width: 768px) {
+            grid-column: span 6 / span 6;
             grid-row-start: 2;
+            height: 100%;
         }
 
         @media (min-width: 992px) {

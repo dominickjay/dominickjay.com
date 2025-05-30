@@ -22,7 +22,7 @@ const monthYear = format(today, "MMMM yyyy");
 async function fetchLinks() {
   const url = new URL(`https://api.raindrop.io/rest/v1/raindrops/${collectionId}`);
   url.search = new URLSearchParams({
-    search: `created:>${formattedFirstOfMonth} created:${formattedToday}`,
+    search: `created:>${formattedFirstOfMonth} created:<${formattedToday}`,
   }).toString();
 
   console.log('Fetching from:', url.toString());

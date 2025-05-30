@@ -1,15 +1,53 @@
 ---
 title: 'Selecting all siblings with the :has() function'
-description: "It's been tricky to get to all an elements siblings before, but with :has() it's simple!"
+description: "Reaching an element's siblings in CSS used to be tough. :has() changes everything."
 intro: "I was experimenting with the :has() function recently, and put together a quick demonstration of how to select all an elements siblings and style them. It ended up being picked by CodePen, so this post is demonstrating how that was put together."
 pubDate: '2023-04-26'
 tags:
   - css
 ---
 
-{% caniuse "css-has" %}
+<div class="browser-support-table">
+  <table>
+    <caption>Browser Support for :has() Selector</caption>
+    <thead>
+      <tr>
+        <th scope="col">Browser</th>
+        <th scope="col">Version</th>
+        <th scope="col">Support</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Chrome</th>
+        <td>105+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Firefox</th>
+        <td>121+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Safari</th>
+        <td>15.4+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Edge</th>
+        <td>105+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Opera</th>
+        <td>91+</td>
+        <td><span class="support-yes">Yes</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-As always, I'm going to start with support for this feature first. For once it's not just IE being the awkward one, as Firefox doesn't have support here for it - unless you enable it through the `layout.css.has-selector.enabled` flag anyway. So if you're on Firefox and want to see this demo in all its glory, you'll need this flag enabled or jump onto another browser.
+As always, I'm going to start with support for this feature first. The good news is that all modern browsers now support the `:has()` selector, making it safe to use in production.
 
 <div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
   <span class="fl-text-step-2 heading">Update - 23rd December, 2024</span>
@@ -19,7 +57,7 @@ As always, I'm going to start with support for this feature first. For once it's
 
 <div class="pull-quote pull-quote--left">
 
-  It’s been notoriously difficult to select elements depending on their children
+  It's been notoriously difficult to select elements depending on their children
 
 </div>
 

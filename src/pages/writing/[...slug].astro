@@ -8,9 +8,13 @@ import RaindropGrid from '../../components/RaindropGrid.astro';
 import { getRaindropBookmarks } from '../../lib/raindrop';
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from '../../lib/lastfm';
 
+const baseUrl = import.meta.env.DEV
+  ? "http://localhost:4321"
+  : new URL(Astro.request.url).origin;
 const { slug } = Astro.params;
 const posts = await getCollection('writing');
 const post = posts.find((p) => p.id === slug);
+const ogImage = new URL(`/open-graph/${slug}.png`, baseUrl).toString();
 
 if (!post) {
     return Astro.redirect('/404');
@@ -80,6 +84,11 @@ export async function getStaticPaths() {
 }
 
 ---
+<head>
+    <meta property="og:image" content={ogImage} />
+    <meta property="twitter:image" content={ogImage} />
+</head>
+
 <BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
     <Content />
     <MusicGrid musicData={musicData} />

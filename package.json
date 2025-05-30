@@ -21,6 +21,7 @@
     "@tailwindcss/vite": "^4.0.0",
     "alpinejs": "^3.14.8",
     "astro": "^5.2.3",
+    "astro-og-canvas": "^0.7.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.5.0",
     "mdast-util-to-string": "^4.0.0",
