@@ -41,7 +41,7 @@ export interface LastFmResponse {
 
 export async function getWeeklyAlbumChart(from: string, to: string, apiKey: string, limit?: number): Promise<LastFmResponse> {
   const response = await fetch(
-    `http://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${from}&to=${to}&api_key=${apiKey}&limit=${limit || 20}&format=json`
+    `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${from}&to=${to}&api_key=${apiKey}&limit=${limit || 20}&format=json`
   );
   return response.json();
 }
@@ -49,7 +49,7 @@ export async function getWeeklyAlbumChart(from: string, to: string, apiKey: stri
 export async function getArtistInfo(artist: string, apiKey: string): Promise<LastFmArtist> {
   // First try to get artist info
   const response = await fetch(
-    `http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&autocorrect=1`
+    `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&autocorrect=1`
   );
   const data = await response.json();
   if (data.error) {
@@ -60,7 +60,7 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
   if (data.artist?.image?.[0]?.['#text']?.includes('2a96cbd8b46e442fc41c2b86b821562f')) {
     try {
       const imagesResponse = await fetch(
-        `http://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=1`
+        `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=1`
       );
       const imagesData = await imagesResponse.json();
       if (imagesData?.images?.image?.[0]?.['#text']) {
@@ -80,7 +80,7 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
 
 export async function getAlbumInfo(artist: string, album: string, apiKey: string): Promise<LastFmAlbum> {
   const response = await fetch(
-    `http://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
+    `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
   );
   const data = await response.json();
   return data.album;
@@ -105,7 +105,7 @@ export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
 
   // If no cache or expired, fetch new data
   const response = await fetch(
-    `http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${apiKey}&format=json`
+    `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${apiKey}&format=json`
   );
   const data = await response.json();
 

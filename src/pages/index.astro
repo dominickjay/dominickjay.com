@@ -141,7 +141,7 @@ const response = await fetch("https://literal.club/graphql/",
                     }"
                     x-init="
                         const music = await fetch(
-							 'http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json',
+							 'https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=86a5b41a85035739e32c576f027c4765&format=json',
 							  {
 								  method: 'GET',
 							  },
@@ -155,7 +155,7 @@ const response = await fetch("https://literal.club/graphql/",
                         $el.querySelector('.music__song').innerText = this.items[0].name;
 
                         const weather = await fetch(
-							 'http://api.weatherapi.com/v1/current.json?q=Plymouth', {
+							 'https://api.weatherapi.com/v1/current.json?q=Plymouth', {
                                 method: 'GET',
                                 headers: new Headers({
                                     'Content-Type': 'application/json',
