@@ -20,7 +20,7 @@
 
     a:not([class]) {
         text-decoration: underline;
-        text-decoration-style: wavy;
+        /* text-decoration-style: wavy; */
 
         &:hover {
             text-decoration: none;
