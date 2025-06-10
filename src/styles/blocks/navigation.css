@@ -119,7 +119,8 @@
         margin-block-start: 20px;
 
         @media (min-width: 992px) {
-            left: anchor(left);
+            left: auto;
+            right: anchor(left);
             margin-inline-start: 80px;
             width: fit-content;
         }
