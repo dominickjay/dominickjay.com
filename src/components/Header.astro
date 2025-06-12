@@ -52,9 +52,9 @@ import NavLink from '../components/NavigationLink.astro';
     <div popover id="navigation-large" class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
         <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
             <ul>
-                <li><NavLink href="/writing">Writing</NavLink></li>
-                <li><NavLink href="/about">About</NavLink></li>
-                <li><NavLink href="/now">Now</NavLink></li>
+                <li><NavLink href="/writing" class="[&_span]:translate-x-0">Writing</NavLink></li>
+                <li><NavLink href="/about" class="[&_span]:translate-x-0">About</NavLink></li>
+                <li><NavLink href="/now" class="[&_span]:translate-x-0">Now</NavLink></li>
             </ul>
         </nav>
     </div>

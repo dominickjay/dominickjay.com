@@ -22,6 +22,7 @@
 @import './blocks/toc.css';
 @import './blocks/browser-support-table.css';
 @import './blocks/music-card.css';
+@import './blocks/fyi-block.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';

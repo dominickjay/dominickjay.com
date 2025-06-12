@@ -124,24 +124,230 @@ We can see this starting to come together now, we've got our repeated text posit
 Almost there, but the colors along with the opacity are a bit hard on my eyes - almost look like it's out of focus. Let's apply a `stroke` around the `before` content, and also a small `text-shadow` just to push it out a bit into the foreground.
 
 <div class="fyi-block fyi-block--warning">
-  <span class="heading">Text Stroke</span>
+  <span class="fyi-block__title">Text Stroke</span>
   <p>The `-webkit-text-stroke` we use here is a non-standard CSS property that creates a stroke - or outline - around the text. It's a shorthand property that combines `-webkite-text-stroke-width` and `-webkite-text-stroke-color`. However, it is **only** available on Webkit-based browsers e.g. Safari and older versions of Chrome</p>
 </div>
 
+## Blend Modes and Isolation
+
+In the CodePen demo, we're using two additional properties that affect how our text layers interact:
+
+```css
+.demo {
+    isolation: isolate;
+}
+
+.demo::before {
+    mix-blend-mode: luminosity;
+}
+```
+
+The `isolation: isolate` property creates a new stacking context for our element. This is important because:
+
+1. It prevents the pseudo-element from blending with elements outside its parent
+2. It ensures the blend mode only affects the relationship between the main text and its pseudo-element
+3. It can improve performance by limiting the scope of blend mode calculations
+
+The `mix-blend-mode: luminosity` property then controls how the pseudo-element blends with the main text. In this case, it's creating a more subtle, integrated effect between the two text layers.
+
+Without `isolation: isolate`, the blend mode might interact with other elements on the page, potentially creating unexpected visual results. While you might not notice a difference in this specific demo (especially on a white/paler background), it's a good practice to include it when working with blend modes to ensure consistent behavior across different contexts.
+
 <p class="demo demo-pseudo step-2 pseudo-step-1 pseudo-step-2" data-text="leave it better than you found it">leave it better than you found it</p>
 
+As far as our original demo goes, that's how this was put together. Of course, there's alternative approaches to this, which we'll cover next.
 
+## Alternative Approaches
 
-## Resources
+While our pseudo-element approach works well, there are several other ways to achieve similar effects. Let's explore some alternatives:
 
-[https://scroll-driven-animations.style/](https://scroll-driven-animations.style/)
-[https://developer.chrome.com/articles/scroll-driven-animations](https://developer.chrome.com/articles/scroll-driven-animations/)
-[https://codepen.io/hexagoncircle/pen/gOPMwvd](https://codepen.io/hexagoncircle/pen/gOPMwvd)
-[https://codepen.io/dominickjay217/pen/ExrEdLX](https://codepen.io/dominickjay217/pen/ExrEdLX)
-[https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/mark)
-[https://gsap.com/docs/v3/Plugins/ScrollTrigger/](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
-[https://scroll-driven-animations.style](https://scroll-driven-animations.style/tools/view-timeline/ranges/#range-start-name=cover&range-start-percentage=0&range-end-name=cover&range-end-percentage=50&view-timeline-axis=block&view-timeline-inset=0&subject-size=smaller&subject-animation=none&interactivity=clicktodrag&show-areas=yes&show-fromto=yes&show-labels=yes)
-[https://ryanmulligan.dev/](https://ryanmulligan.dev/)
-[https://ryanmulligan.dev/blog/scroll-driven-animations/](https://ryanmulligan.dev/blog/scroll-driven-animations/)
-[https://developer.chrome.com/articles/scroll-driven-animations/](https://developer.chrome.com/articles/scroll-driven-animations/)
-[https://developer.mozilla.org/en-US/blog/scroll-progress-animations-in-css/](https://developer.mozilla.org/en-US/blog/scroll-progress-animations-in-css/)
+### SVG Approach
+SVG provides more control over text effects and better browser support. Here's how we could achieve a similar effect:
+
+```html
+<svg class="text-effect" viewBox="0 0 800 200">
+  <text x="50%" y="50%" text-anchor="middle" class="text-front">leave it better than you found it</text>
+  <text x="50%" y="50%" text-anchor="middle" class="text-back">leave it better than you found it</text>
+</svg>
+```
+
+<style>
+    .text-effect {
+        width: 100%;
+        height: auto;
+        font-family: "Poppins", sans-serif;
+        font-size: 100px;
+        line-height: 1.25;
+        position: relative;
+    }
+
+    .text-back {
+        fill: #FCB733;
+        opacity: 0.7;
+        transform: translate(-4px, -4px);
+        stroke: #000;
+    }
+
+    .text-front {
+        fill: #FC4A1A;
+    }
+</style>
+
+<svg class="text-effect" viewBox="0 0 800 200">
+  <text x="50%" y="50%" text-anchor="middle" class="text-front">leave it better than you found it</text>
+  <text x="50%" y="50%" text-anchor="middle" class="text-back">leave it better than you found it</text>
+</svg>
+
+```css
+.text-effect {
+  width: 100%;
+  height: auto;
+}
+
+.text-back {
+    fill: #FCB733;
+    opacity: 0.7;
+    transform: translate(-4px, -4px);
+    stroke: #000;
+}
+
+.text-front {
+  fill: #FC4A1A;
+}
+```
+
+So we can see *immediately* that this just won't work, not unless we want to force new text elements onto new lines to simulate the line breaks. I'm sure there's a good use case for doing this as an SVG, possibly as a logo with that effect, but in terms of something a bit more dynamic - like a heading on a page - the trade off between browser support and basic expectations here just isn't worth it.
+
+### Text Shadow Only Solution
+If you want to avoid pseudo-elements entirely, you can use multiple text shadows:
+
+```css
+.text-shadow-effect {
+  color: #FC4A1A;
+  text-shadow:
+    -7px -7px 0 #FCB733,
+    -7px -7px 2px rgba(0,0,0,0.2);
+}
+```
+
+<style>
+    .text-shadow-effect {
+        font-family: "Poppins", sans-serif;
+        font-size: 100px;
+        line-height: 1.25;
+        position: relative;
+        color: #FC4A1A;
+        text-shadow:
+            -7px -7px 0 #FCB733,
+            -7px -7px 2px rgba(0,0,0,0.2);
+    }
+</style>
+
+<p class="text-shadow-effect">Leave it better than you found it</p>
+
+## Interactive Examples
+
+Let's make our text effect more dynamic with some interactive elements:
+
+### Hover Effect
+```css
+.interactive-demo {
+  transition: transform 0.3s ease;
+}
+
+.interactive-demo:hover {
+  transform: translateY(-5px);
+}
+
+.interactive-demo:hover::before {
+  transform: translate(-12px, -12px);
+  opacity: 0.5;
+}
+```
+
+### Animation
+```css
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.animated-demo {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animated-demo::before {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 0.1s;
+}
+```
+
+## Code Optimization
+
+Let's make our code more maintainable and reusable:
+
+### CSS Custom Properties
+```css
+:root {
+  --text-primary: #FC4A1A;
+  --text-secondary: #FCB733;
+  --text-offset: -7px;
+  --text-opacity: 0.7;
+  --text-stroke: 1.5px #203140;
+}
+
+.optimized-demo {
+  color: var(--text-primary);
+  position: relative;
+}
+
+.optimized-demo::before {
+  content: attr(data-text);
+  position: absolute;
+  top: var(--text-offset);
+  left: var(--text-offset);
+  color: var(--text-secondary);
+  opacity: var(--text-opacity);
+  -webkit-text-stroke: var(--text-stroke);
+}
+```
+
+### Modular Approach
+Break down the effect into reusable classes:
+
+```css
+.text-effect {
+  position: relative;
+}
+
+.text-effect--offset::before {
+  content: attr(data-text);
+  position: absolute;
+  top: var(--text-offset);
+  left: var(--text-offset);
+}
+
+.text-effect--color::before {
+  color: var(--text-secondary);
+  opacity: var(--text-opacity);
+}
+
+.text-effect--stroke::before {
+  -webkit-text-stroke: var(--text-stroke);
+}
+```
+
+Usage:
+```html
+<p class="text-effect text-effect--offset text-effect--color text-effect--stroke"
+   data-text="leave it better than you found it">
+  leave it better than you found it
+</p>
+```
+
+This modular approach makes it easier to:
+- Mix and match effects
+- Maintain the code
+- Add new variations
+- Debug issues
+- Reuse across different projects

@@ -124,9 +124,24 @@
             margin-inline-start: 80px;
             width: fit-content;
         }
+
+        & a svg {
+            display: none;
+
+        }
+
+        & a span {
+            transform: translateX(0) !important;
+        }
     }
 
     .navigation-large:popover-open {
         display: flex;
+    }
+}
+
+@layer utilities {
+    .navigation-large a span {
+        transform: translateX(0) !important;
     }
 }

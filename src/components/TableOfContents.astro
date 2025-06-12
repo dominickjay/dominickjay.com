@@ -28,16 +28,17 @@ const grouppedHeadings = headings.reduce((array, heading) => {
         {
         grouppedHeadings.map((h) => (
             <li>
-                <a href={`#${h.slug}`}>{h.text}</a>
-                {h.subheadings.length > 0 && (
-                    <ol>
-                    {h.subheadings.map((sub) => (
-                        <li>
-                            <a href={`#${sub.slug}`}>{sub.text}</a>
-                        </li>
-                    ))}
-                    </ol>
-                )}
+                <a class="group relative flex items-start gap-2 w-fit overflow-hidden" href={`#${h.slug}`}>
+                    <svg class="shrink-0 opacity-[0.45] group-hover:opacity-100 transition-opacity duration-300 ease-in-out" width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_1844_1757" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="18">
+                        <path d="M20 17.9126L0 17.9126L-1.72333e-06 0.935303L20 0.935301L20 17.9126Z" fill="white"/>
+                        </mask>
+                        <g mask="url(#mask0_1844_1757)">
+                        <path d="M19.8958 14.6453C20.0597 14.9167 20.0321 15.2243 19.8885 15.4796C19.929 15.7702 19.8394 16.0652 19.5154 16.2915C19.2138 16.5022 18.9122 16.7129 18.6107 16.9236C18.0806 17.2938 17.2505 17.4107 16.7349 16.9236C14.3929 14.7113 11.9437 12.595 9.40481 10.5559C7.51726 12.0527 5.60676 13.5292 3.70992 15.0076C3.0442 15.5266 2.08059 15.3637 1.66174 14.7454C1.05166 14.4884 0.557132 14.1533 0.14821 13.5813C-0.0464972 13.3089 -0.0313232 12.9649 0.14821 12.6914C1.37276 10.8277 3.73969 9.18906 5.68581 7.6811C5.42536 7.48323 5.16691 7.28349 4.90124 7.08978C2.27929 5.17847 0.510741 3.96578 3.79191 2.00605C3.83618 1.97961 3.88131 1.98547 3.92626 1.97002C3.98912 1.9454 4.04943 1.92804 4.11913 1.91832C4.14081 1.9176 4.16104 1.9145 4.18238 1.91594C4.24992 1.91128 4.31601 1.89667 4.38446 1.90809C6.14851 2.20167 7.78906 3.37514 9.27746 4.66737C10.7274 3.45421 12.2714 2.29522 13.9691 1.60751C14.3733 1.44372 14.8552 1.53918 15.1664 1.76824C15.6882 1.7348 16.1639 2.01004 16.4027 2.40557C16.438 2.42412 16.4608 2.43473 16.4991 2.45506C17.2577 2.85733 17.327 3.65849 16.7657 4.21072C15.4982 5.45758 14.1508 6.64281 12.7772 7.80707C15.2504 9.85839 18.3385 12.0707 19.8958 14.6453Z" fill="black"/>
+                        </g>
+                    </svg>
+                    <span class="">
+                {h.text}</span></a>
             </li>
         ))
         }
@@ -127,8 +128,7 @@ const grouppedHeadings = headings.reduce((array, heading) => {
   </script>
 
 <style>
-    .active-toc-item {
-        text-decoration: underline;
-        text-decoration-style: wavy;
+    .active-toc-item svg {
+        opacity: 1;
     }
 </style>
