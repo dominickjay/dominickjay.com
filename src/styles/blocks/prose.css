@@ -2,16 +2,20 @@
     --flow-space: var(--space-l);
 }
 
-.prose :not(.topics__list):is(ul, ol) {
+.prose :is(ul, ol) {
     padding-inline-start: var(--space-xl);
 }
 
-.prose :not(.topics__list):is(ul) {
+.prose :is(ul) {
     list-style-type: disc;
 }
 
-.prose :not(.topics__list):is(ol) {
+.prose :is(ol) {
     list-style-type: decimal-leading-zero;
+}
+
+:is(.topics, .toc) :is(ul, ol) {
+    list-style-type: none;
 }
 
 .prose :is(h1, h2, h3) {

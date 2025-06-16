@@ -9,6 +9,8 @@ tags:
 draft: true
 ---
 
+import ReadingOrderDemo from '../../components/ReadingOrderDemo';
+
 ## The Accessibility Gap: When Visual Order Betrays Logical Order
 
 For a long time, developers have been able to put together the strangest of layouts that have come from the dark corners of the design team - with very little pushback. Properties like `flex-direction`, `grid-template-areas` and the `order` property have given us a monumental amount of control when dealing with the visual presentation of the elements on the screen, and we can rearrange content to adapt to different screen sizes and user preference with little effort.
@@ -172,3 +174,238 @@ So if we have `reading-flow` to do this, what does `reading-order` do differentl
 When using these properties, it's best to not overuse it. For accessibility, the default DOM order is always the best - referring back to our 'golden truth' comment earlier. If there was to be a recommendation, it would be to only use this when there's a justified reason for the reordering of elements and if the design absolutely couldn't be achieved without that reordering occurring - after all, it's an enhancement to solve specific layout challenges.
 
 When we look at the browser support table earlier, there's really not a lot of support here currently (as of June 2025 that is). As far as fallback's go, we should probably consider; a prioritisation of semantic HTML and embracing progressive enhancement. Testing the site thoroughly with assistive technologies should be at the forefront too, as without them, we're effectively just giving it a half-baked check that it should work by just looking at the code and the visuals on the screen. If we can test it visually, we should probably test it with screen readers too.
+
+
+## Example
+
+<ReadingOrderDemo client:load />
+
+<style>
+    .demo-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .controls {
+        flex: 1;
+        min-width: 300px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .controls h2 {
+        color: #0056b3;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        border: 1px solid #eee;
+    }
+
+    .input-group label {
+        flex-basis: 80px;
+        font-weight: bold;
+    }
+
+    .input-group input[type="number"] {
+        width: 60px;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+
+    .output-display {
+        flex: 2;
+        min-width: 400px;
+    }
+
+    .output-display h2 {
+        color: #007bff;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .interactive-flex-container {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        border: 2px dashed #007bff;
+        background-color: #e6f2ff;
+        min-height: 200px;
+        align-items: flex-start;
+        reading-flow: flex-visual;
+    }
+
+    .flex-item {
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #b3d9ff;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .item-a {
+        order: 2;
+        reading-order: 1;
+    }
+
+    .item-b {
+        order: 3;
+        reading-order: 2;
+    }
+
+    .item-c {
+        order: 1;
+        reading-order: 3;
+    }
+
+    .screen-reader-output {
+        margin-top: 30px;
+        padding: 15px;
+        border: 1px solid #2ecc71;
+        background-color: #e8f9e8;
+        border-radius: 5px;
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #27ae60;
+    }
+
+    .screen-reader-output span {
+        display: block;
+        margin-top: 5px;
+        font-weight: normal;
+        color: #333;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM Content Loaded');
+
+        const orderForm = document.getElementById('orderForm');
+        const flexContainer = document.getElementById('flexContainer');
+        const srOutput = document.getElementById('sr-output');
+
+        if (!orderForm || !flexContainer || !srOutput) {
+            console.error('Required elements not found:', {
+                orderForm: !!orderForm,
+                flexContainer: !!flexContainer,
+                srOutput: !!srOutput
+            });
+            return;
+        }
+
+        const orderInputs = orderForm.querySelectorAll('input[type="number"]');
+        console.log('Found input elements:', orderInputs.length);
+
+        function updateCssProperties() {
+            console.log('Updating CSS properties');
+
+            orderInputs.forEach(input => {
+                const itemClass = input.dataset.item;
+                const propType = input.dataset.prop;
+                const value = input.value;
+                const itemElement = flexContainer.querySelector(`.${itemClass}`);
+
+                console.log('Processing input:', {
+                    itemClass,
+                    propType,
+                    value,
+                    elementFound: !!itemElement
+                });
+
+                if (itemElement) {
+                    if (propType === 'order') {
+                        itemElement.style.order = value;
+                        console.log(`Set order to ${value} for ${itemClass}`);
+                    } else if (propType === 'reading-order') {
+                        itemElement.style.readingOrder = value;
+                        console.log(`Set reading-order to ${value} for ${itemClass}`);
+                    }
+                }
+            });
+
+            // Force a reflow to ensure changes are applied
+            flexContainer.offsetHeight;
+
+            simulateScreenReaderOrder();
+        }
+
+        function simulateScreenReaderOrder() {
+            console.log('Simulating screen reader order');
+
+            const items = Array.from(flexContainer.children);
+            console.log('Found flex items:', items.length);
+
+            const itemsWithReadingOrder = items.map(item => {
+                const readingOrder = parseInt(item.style.readingOrder || '0', 10);
+                console.log('Item reading order:', {
+                    name: item.querySelector('h3')?.textContent.trim(),
+                    readingOrder,
+                    style: item.style.readingOrder
+                });
+
+                return {
+                    name: item.querySelector('h3').textContent.trim(),
+                    readingOrder,
+                    ariaLabel: item.getAttribute('aria-label')
+                };
+            });
+
+            itemsWithReadingOrder.sort((a, b) => a.readingOrder - b.readingOrder);
+            console.log('Sorted items:', itemsWithReadingOrder);
+
+            const outputHtml = itemsWithReadingOrder.map(item => {
+                const label = item.ariaLabel || item.name;
+                return `<span>- ${label} (Reading Order: ${item.readingOrder})</span>`;
+            }).join('');
+
+            srOutput.innerHTML = outputHtml;
+            console.log('Updated screen reader output');
+        }
+
+        // Add both input and change event listeners
+        orderInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                console.log('Input event:', {
+                    type: e.type,
+                    value: e.target.value,
+                    dataset: e.target.dataset
+                });
+                updateCssProperties();
+            });
+
+            input.addEventListener('change', (e) => {
+                console.log('Change event:', {
+                    type: e.type,
+                    value: e.target.value,
+                    dataset: e.target.dataset
+                });
+                updateCssProperties();
+            });
+        });
+
+        // Initial update
+        console.log('Performing initial update');
+        updateCssProperties();
+    });
+</script>
