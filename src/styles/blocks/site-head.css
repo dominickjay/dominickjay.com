@@ -1,21 +1,40 @@
 @layer components {
     .site-header {
         width: 100%;
-        position: sticky;
+        position: fixed;
         top: 0;
+        height: fit-content;
+        left: 0;
+        right: 0;
+        width: 100%;
         z-index: 1;
         padding-block: var(--padding-block, 21px);
         padding-inline: var(--padding-inline, 12px);
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        background-color: var(--color-light);
+        transition: padding-block 0.3s ease-in-out;
+        will-change: padding-block;
 
         @media (min-width: 768px) {
             --padding-block: 42px;
 
-            height: 100%;
             width: 72px;
-            justify-content: space-between;
         }
+    }
+}
+
+@supports (animation-timeline: scroll()) {
+    .site-header {
+        animation: header-size ease-in-out both;
+        animation-timeline: scroll();
+        animation-range: 0 500px;
+    }
+}
+
+@keyframes header-size {
+    to {
+        --padding-block: 10px;
     }
 }

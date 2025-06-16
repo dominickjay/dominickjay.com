@@ -15,7 +15,15 @@
         margin: 0;
         font-weight: 300;
         font-size: clamp(1rem, 0.9565rem + 0.2174vw, 1.125rem);
-        line-height: 120%;
+        line-height: 145%;
+    }
+
+    main {
+        padding-block-start: 100px;
+    }
+
+    * {
+        margin-scroll-top: 150px;
     }
 
     a:not([class]) {

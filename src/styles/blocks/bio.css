@@ -8,6 +8,8 @@
         @media (min-width: 992px) {
             --padding-block: 62px;
             --gutter: 43px;
+
+            padding-block-start: 0;
         }
     }
 
@@ -16,7 +18,7 @@
         grid-column: span 12 / span 12;
 
         @media (min-width: 1024px) {
-            grid-column: span 5 / span 5;
+            grid-column: span 7 / span 7;
         }
     }
 }

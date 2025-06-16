@@ -2,6 +2,18 @@
     --flow-space: var(--space-l);
 }
 
+.prose :not(.topics__list):is(ul, ol) {
+    padding-inline-start: var(--space-xl);
+}
+
+.prose :not(.topics__list):is(ul) {
+    list-style-type: disc;
+}
+
+.prose :not(.topics__list):is(ol) {
+    list-style-type: decimal-leading-zero;
+}
+
 .prose :is(h1, h2, h3) {
     overflow-wrap: anywhere;
     -webkit-hyphens: auto;
@@ -83,20 +95,6 @@
 
 .prose table {
     width: 100%;
-}
-
-.prose table th {
-    background: var(--color-grey-light);
-    border-right: 1px solid var(--color-white);
-    &:last-child {
-        border-right: none;
-    }
-}
-
-.prose table td {
-    background: var(--color-white);
-    border: 1px solid var(--color-grey-light);
-    font-weight: 400;
 }
 
 .prose .blockquote {
