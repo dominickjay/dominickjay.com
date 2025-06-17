@@ -16,6 +16,7 @@
 
 :is(.topics, .toc) :is(ul, ol) {
     list-style-type: none;
+    padding-inline-start: 0;
 }
 
 .prose :is(h1, h2, h3) {

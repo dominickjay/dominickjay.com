@@ -23,13 +23,14 @@
 @import './blocks/browser-support-table.css';
 @import './blocks/music-card.css';
 @import './blocks/fyi-block.css';
+@import './blocks/joke.css';
+@import './blocks/song.css';
+@import './blocks/demos.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';
 @import './compositions/container.css';
 @import './compositions/centered.css';
-@import './components/joke.css';
-@import './components/song.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';

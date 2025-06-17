@@ -10,7 +10,14 @@ import netlify from '@astrojs/netlify';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://dominickjay.com',
-	integrations: [mdx(), sitemap(), alpinejs()],
+	integrations: [
+		mdx({
+			extendMarkdownConfig: true,
+			smartypants: true,
+		}),
+		sitemap(),
+		alpinejs()
+	],
 	vite: {
 		plugins: [tailwindcss()],
 		assetsInclude: ["**/*.glb"],
