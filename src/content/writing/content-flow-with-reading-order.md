@@ -311,6 +311,7 @@ When we look at the browser support table earlier, there's really not a lot of s
         gap: var(--reading-order-demo-gap);
         display: flex;
         flex-direction: column;
+        container: output / inline-size;
 
         h2 {
             margin-top: 0;
@@ -322,13 +323,20 @@ When we look at the browser support table earlier, there's really not a lot of s
 
     .reading-order-demo-flex-container {
         display: flex;
+        flex-direction: row;
         gap: var(--reading-order-demo-padding);
         padding: var(--reading-order-demo-padding);
         border: 2px dashed var(--reading-order-demo-secondary);
         background-color: var(--reading-order-demo-container-bg);
         min-height: var(--reading-order-demo-min-height);
-        align-items: flex-start;
+        align-items: flex-start;k
         reading-flow: flex-visual;
+    }
+
+    @container output (max-width: 750px) {
+        .reading-order-demo-flex-container {
+            flex-direction: column;
+        }
     }
 
     .reading-order-demo-flex-item {
