@@ -8,6 +8,7 @@ tags:
   - writing
 layout: post
 templateEngineOverride: njk,md
+shareimage: "may-2025-page-turners.jpg"
 ---
 
 ## Articles
