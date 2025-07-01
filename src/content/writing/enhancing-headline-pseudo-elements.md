@@ -248,14 +248,27 @@ If you want to avoid pseudo-elements entirely, you can use multiple text shadows
 
 Let's make our text effect more dynamic with some interactive elements:
 
+<style>
+    .interactive-demo {
+        transition: transform 0.3s ease;
+    }
+
+    .interactive-demo::before {
+        transform: translate(0);
+        transition: .3s ease-in-out transform;
+    }
+
+    .interactive-demo:hover::before {
+        transform: translate(-12px, -12px);
+    }
+</style>
+
+<p class="demo demo-pseudo step-2 pseudo-step-1 pseudo-step-2 interactive-demo"  data-text="leave it better than you found it">Leave it better than you found it</p>
+
 ### Hover Effect
 ```css
 .interactive-demo {
   transition: transform 0.3s ease;
-}
-
-.interactive-demo:hover {
-  transform: translateY(-5px);
 }
 
 .interactive-demo:hover::before {
