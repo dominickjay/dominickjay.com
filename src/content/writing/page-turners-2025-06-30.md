@@ -1,7 +1,7 @@
 ---
-title: "Page Turners - July 2025"
-pubDate: 2025-07-01
-description: "A list of links and demos I've collected over July 2025, with the intention of posting monthly"
+title: "Page Turners - June 2025"
+pubDate: 2025-06-30
+description: "A list of links and demos I've collected over June 2025, with the intention of posting monthly"
 tags:
   - page turners
 ---
