@@ -22,4 +22,32 @@ const writing = defineCollection({
 	}),
 });
 
-export const collections = { writing };
+const tools = defineCollection({
+	// Load Markdown and MDX files in the `src/content/blog/` directory.
+	loader: glob({ base: './src/content/tools', pattern: '**/*.{md,mdx}' }),
+	// Type-check frontmatter using a schema
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+        hardware: z.array(z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          link: z.string().optional()
+        })),
+        software: z.array(z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          link: z.string().optional()
+        })),
+        other: z.array(z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          link: z.string().optional()
+        })).optional()
+	}),
+});
+
+export const collections = {
+  writing,
+  tools
+};

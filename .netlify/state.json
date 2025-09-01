@@ -1,3 +1,21 @@
 {
-	"siteId": "8a977716-705b-483e-8324-eb1912e18435"
+	"siteId": "8a977716-705b-483e-8324-eb1912e18435",
+	"geolocation": {
+		"data": {
+			"city": "Plymouth",
+			"country": {
+				"code": "GB",
+				"name": "United Kingdom"
+			},
+			"subdivision": {
+				"code": "ENG",
+				"name": "England"
+			},
+			"timezone": "Europe/London",
+			"latitude": 50.368,
+			"longitude": -4.1329,
+			"postalCode": "PL4"
+		},
+		"timestamp": 1755163488908
+	}
 }

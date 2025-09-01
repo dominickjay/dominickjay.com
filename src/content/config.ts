@@ -18,6 +18,18 @@ const writing = defineCollection({
   })
 });
 
+const tools = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    hardware: z.array(z.string()),
+    software: z.array(z.string()),
+    other: z.array(z.string()).optional()
+  })
+});
+
 export const collections = {
-  writing
+  writing,
+  tools
 };
