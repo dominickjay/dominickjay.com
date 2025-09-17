@@ -1,0 +1,57 @@
+---
+export interface Props {
+    track: {
+        name: string;
+        artist: {
+            '#text': string;
+        };
+        image?: Array<{
+            '#text': string;
+        }>;
+        '@attr'?: {
+            nowplaying?: boolean;
+        };
+    };
+    tags: Array<{
+        name: string;
+    }>;
+    trackColor?: string;
+}
+
+const { track, tags, trackColor = '#000000' } = Astro.props;
+---
+
+<div class="col-span-2 md:col-span-4 flex music-card" style={`--track-color: ${trackColor}`}>
+    <div class="music-card__image">
+        {track.image && track.image[3] && (
+            <img
+                src={track.image[3]['#text']}
+                alt={`${track.name} album cover`}
+                loading="lazy"
+            />
+        )}
+        {track['@attr']?.nowplaying && (
+        <div class="now-playing-indicator">
+            <div class="now-playing-dot"></div>
+            <div class="now-playing-dot"></div>
+            <div class="now-playing-dot"></div>
+        </div>
+        )}
+    </div>
+    <div class="music-card__content">
+        <div class="flex justify-between">
+            {tags.length > 0 && (
+                <div class="music-card__tags">
+                    <span class="music-card__tag">
+                        {tags[0].name}
+                    </span>
+                </div>
+            )}
+            {track['@attr']?.nowplaying && (
+                <span class="now-playing-tag">Now Playing</span>
+            )}
+        </div>
+        <span class="music-card__title">{track.name}</span>
+        <span class="music-card__artist">{track.artist['#text']}</span>
+    </div>
+</div>

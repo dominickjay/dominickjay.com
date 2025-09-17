@@ -22,6 +22,7 @@
     "alpinejs": "^3.14.8",
     "astro": "^5.12.9",
     "astro-og-canvas": "^0.7.0",
+    "colorthief": "^2.6.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.5.0",
     "mdast-util-to-string": "^4.0.0",

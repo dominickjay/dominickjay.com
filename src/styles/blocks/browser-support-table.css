@@ -6,12 +6,10 @@
   .browser-support-table table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.875rem;
   }
 
   .browser-support-table caption {
     text-align: left;
-    font-weight: 600;
     margin-bottom: 0.5rem;
   }
 
@@ -24,7 +22,6 @@
 
   .browser-support-table th {
     background-color: var(--color-bg-secondary);
-    font-weight: 700;
   }
 
   .browser-support-table thead th {

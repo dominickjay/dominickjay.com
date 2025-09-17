@@ -3,6 +3,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Footer from '../components/Footer.astro';
+import MusicCard from '../components/MusicCard.astro';
+import ArtistCard from '../components/ArtistCard.astro';
 import { Image } from 'astro:assets';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
 import moment from "moment";
@@ -10,6 +12,9 @@ import moment from "moment";
 let artists = [];
 let tracks = [];
 let lovedTracks = [];
+let recentTracks = [];
+let recentTrackTags = [];
+let trackColor = '#000000'; // Default color
 
 const weekAgo = moment().subtract(4, 'weeks').unix();
 const now = moment().unix();
@@ -18,23 +23,147 @@ const baseUrl = 'https://ws.audioscrobbler.com/2.0/';
 const apiKey = '86a5b41a85035739e32c576f027c4765';
 const user = 'zerosandones217';
 
-const artistResponse = await fetch(`${baseUrl}?method=user.getWeeklyArtistChart&from=${weekAgo}&to=${now}&user=${user}&api_key=${apiKey}&format=json&limit=10`)
+// Function to enrich artist data with getInfo
+async function enrichArtistsWithInfo(artistList) {
+    const enrichedArtists = await Promise.all(
+        artistList.map(async (artist) => {
+            try {
+                const artistInfoResponse = await fetch(
+                    `${baseUrl}?method=artist.getinfo&artist=${encodeURIComponent(artist.name)}&username=${user}&api_key=${apiKey}&format=json`
+                );
+                const artistInfo = await artistInfoResponse.json();
+
+                return {
+                    ...artist,
+                    info: artistInfo.artist || null
+                };
+            } catch (error) {
+                console.error(`Error fetching info for artist ${artist.name}:`, error);
+                return {
+                    ...artist,
+                    info: null
+                };
+            }
+        })
+    );
+    return enrichedArtists;
+}
+
+// Function to get track info including tags
+async function getTrackInfo(artistName, trackName) {
+    try {
+        const url = `${baseUrl}?method=track.getinfo&artist=${encodeURIComponent(artistName)}&track=${encodeURIComponent(trackName)}&user=${user}&api_key=${apiKey}&format=json`;
+        // console.log('Fetching track info from:', url);
+
+        const trackResponse = await fetch(url);
+        const trackData = await trackResponse.json();
+
+        // console.log('Track info response:', trackData);
+
+        // Check if there's an error in the response
+        if (trackData.error) {
+            console.error('Last.fm API error:', trackData.message);
+            return { tags: [] };
+        }
+
+        // Extract tags from track info
+        let tags = [];
+        if (trackData.track && trackData.track.toptags) {
+            if (Array.isArray(trackData.track.toptags.tag)) {
+                tags = trackData.track.toptags.tag;
+            } else if (trackData.track.toptags.tag) {
+                tags = [trackData.track.toptags.tag];
+            }
+        }
+
+        return {
+            tags: tags,
+            info: trackData.track || null
+        };
+    } catch (error) {
+        console.error(`Error fetching track info for ${artistName} - ${trackName}:`, error);
+        return { tags: [] };
+    }
+}
+
+// Function to get artist top tags as fallback
+async function getArtistTopTags(artistName) {
+    try {
+        const url = `${baseUrl}?method=artist.gettoptags&artist=${encodeURIComponent(artistName)}&api_key=${apiKey}&format=json`;
+        // console.log('Fetching artist top tags from:', url);
+
+        const artistResponse = await fetch(url);
+        const artistData = await artistResponse.json();
+
+        // console.log('Artist top tags response:', artistData);
+
+        // Check if there's an error in the response
+        if (artistData.error) {
+            // console.error('Last.fm API error:', artistData.message);
+            return [];
+        }
+
+        // Extract tags from artist response
+        let tags = [];
+        if (artistData.toptags && artistData.toptags.tag) {
+            if (Array.isArray(artistData.toptags.tag)) {
+                tags = artistData.toptags.tag;
+            } else {
+                tags = [artistData.toptags.tag];
+            }
+        }
+
+        return tags;
+    } catch (error) {
+        console.error(`Error fetching artist tags for ${artistName}:`, error);
+        return [];
+    }
+}
+
+const artistResponse = await fetch(`${baseUrl}?method=user.getWeeklyArtistChart&from=${weekAgo}&to=${now}&user=${user}&api_key=${apiKey}&format=json&limit=20`)
     .then(response => response.json())
-    .then(responseJSON => {
-        artists = responseJSON.weeklyartistchart.artist;
+    .then(async (responseJSON) => {
+        const basicArtists = responseJSON.weeklyartistchart.artist;
+
+        // Enrich artists with additional info
+        artists = await enrichArtistsWithInfo(basicArtists);
     });
 
 const trackResponse = await fetch(`${baseUrl}?method=user.getWeeklyTrackChart&from=${weekAgo}&to=${now}&user=${user}&api_key=${apiKey}&format=json&limit=10`)
     .then(response => response.json())
     .then(responseJSON => {
         tracks = responseJSON.weeklytrackchart.track;
+        // console.log(tracks);
     });
 
-const lovedTracksResponse = await fetch(`${baseUrl}?method=user.getLovedTracks&user=${user}&api_key=${apiKey}&format=json&limit=1`)
+// const lovedTracksResponse = await fetch(`${baseUrl}?method=user.getLovedTracks&user=${user}&api_key=${apiKey}&format=json&limit=1`)
+//     .then(response => response.json())
+//     .then(responseJSON => {
+//         lovedTracks = responseJSON.lovedtracks.track;
+//         // console.log(lovedTracks);
+//     });
+
+const recentTracksResponse = await fetch(`${baseUrl}?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=5`)
     .then(response => response.json())
-    .then(responseJSON => {
-        lovedTracks = responseJSON.lovedtracks.track;
-        console.log(lovedTracks);
+    .then(async (responseJSON) => {
+        recentTracks = responseJSON.recenttracks.track[0];
+        // console.log(recentTracks);
+
+        // Fetch track info including tags for the recent track
+        if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && recentTracks.name) {
+            const trackInfo = await getTrackInfo(recentTracks.artist['#text'], recentTracks.name);
+            recentTrackTags = trackInfo.tags;
+            // console.log('Recent track tags:', recentTrackTags);
+
+            // If no track tags found, try artist tags as fallback
+            if (recentTrackTags.length === 0) {
+                // console.log('No track tags found, trying artist tags...');
+                recentTrackTags = await getArtistTopTags(recentTracks.artist['#text']);
+                // console.log('Artist tags:', recentTrackTags);
+            }
+
+            // Color extraction will be handled client-side
+        }
     });
 
 ---
@@ -47,43 +176,158 @@ const lovedTracksResponse = await fetch(`${baseUrl}?method=user.getLovedTracks&u
 	<body>
 		<Header />
 		<main class="relative overflow-clip pb-[64px]">
-            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
-                <div class="col-span-1">
-                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Recent Favorite</h1>
-                </div>
-                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
-                    <div class="col-span-1 flex gap-[6px]">
-                        <span class="">{lovedTracks[0].name}</span>-<span class="">{lovedTracks[0].artist.name}</span>
+            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px]">
+                <div class="md:sticky top-[240px] h-fit shrink-0">
+                    <span class="h3 mb-[24px] block">Top 10 Tracks</span>
+                    <div class="flex flex-col gap-[12px]">
+                        { tracks.map((track, i) => (
+                            <div class="col-span-1 flex flex-col gap-[3px]">
+                                <span class="font-semibold">{track.name}</span>
+                                <span class="text-[1rem]">{track.artist['#text']}</span>
+                            </div>
+                            )
+                        )}
                     </div>
                 </div>
-            </div>
-            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
-                <div class="col-span-1">
-                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Recent Artists</h1>
-                </div>
-                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
-                    { artists.map((artist, i) => (
+                <div class="flex flex-col gap-[20px] w-full">
+                    <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
+                        <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
+                            <h1 class="h2 col-span-full">Currently Playing</h1>
+                            <MusicCard
+                                track={recentTracks}
+                                tags={recentTrackTags}
+                                trackColor={trackColor}
+                            />
+                            <!-- <div class="col-span-1 flex flex-col gap-[6px] p-4 border">
+                                {recentTracks.image && recentTracks.image[2] && (
+                                    <img
+                                        src={recentTracks.image[2]['#text']}
+                                        alt={`${recentTracks.name} album cover`}
+                                        class="w-full h-fit aspect-square object-cover mb-2"
+                                        loading="lazy"
+                                    />
+                                )}
+                                <span class="">{recentTracks.name}</span>
+                                <span class="">{recentTracks.artist['#text']}</span>
+                                {recentTracks['@attr']?.nowplaying && (
+                                    <span class="rounded-full border border-dotted px-4 py-2 flex items-center justify-center text-center font-semibold">Now Playing</span>
+                                )}
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- <div class="grid !grid-cols-4 gap-[20px] pt-[137px] container">
+                        <div class="col-span-1">
+                            <h1 class="h2">Recent Favorite</h1>
+                        </div>
+                        <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
                             <div class="col-span-1 flex gap-[6px]">
-                                <span class="">{artist.name}</span>
+                                <span class="">{lovedTracks[0].name}</span>-<span class="">{lovedTracks[0].artist.name}</span>
                             </div>
-                        )
-                    )}
-                </div>
-            </div>
-            <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
-                <div class="col-span-1">
-                    <h1 class="text-[80px] w-fit break-words font-bold text-center tracking-[-0.04em] hover:scale-110 transition-all duration-300">Top 10 Tracks</h1>
-                </div>
-                <div class="col-start-2 col-span-3 grid !grid-cols-2 gap-[20px]">
-                    { tracks.map((track, i) => (
-                            <div class="col-span-1 flex gap-[6px]">
-                                <span class="">{track.name}</span>-<span class="">{track.artist['#text']}</span>
-                            </div>
-                        )
-                    )}
+                        </div>
+                    </div> -->
+                    <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
+                        <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
+                            <h1 class="h2 col-span-full">Recent Artists</h1>
+                            { artists
+                                .sort((a, b) => {
+                                    // Check if recentTracks exists and has the required structure
+                                    if (!recentTracks || !recentTracks.artist || !recentTracks.artist['#text']) {
+                                        return 0; // No sorting if no recent track data
+                                    }
+
+                                    const aIsNowPlaying = recentTracks.artist['#text'] === a.name && recentTracks['@attr']?.nowplaying;
+                                    const bIsNowPlaying = recentTracks.artist['#text'] === b.name && recentTracks['@attr']?.nowplaying;
+
+                                    // Return 1 if b should come first, -1 if a should come first, 0 if equal
+                                    if (aIsNowPlaying && !bIsNowPlaying) return -1;
+                                    if (!aIsNowPlaying && bIsNowPlaying) return 1;
+                                    return 0;
+                                })
+                                .map((artist, i) => {
+                                const isNowPlaying = recentTracks.artist['#text'] === artist.name && recentTracks['@attr']?.nowplaying;
+                                return (
+                                    <ArtistCard
+                                        artist={artist}
+                                        isNowPlaying={isNowPlaying}
+                                        trackColor={trackColor}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
                 </div>
             </div>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+
+<script>
+    import ColorThief from 'colorthief';
+    console.log('ColorThief loaded');
+
+    // Function to extract dominant color from image
+    function extractImageColor(imageUrl) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            img.onload = function() {
+                try {
+                    const colorThief = new ColorThief();
+                    const dominantColor = colorThief.getColor(img);
+                    const rgbColor = `rgb(${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]})`;
+                    console.log('Successfully extracted color:', rgbColor);
+                    resolve(rgbColor);
+                } catch (error) {
+                    console.error('Error extracting color:', error);
+                    resolve('#000000');
+                }
+            };
+
+            img.onerror = function() {
+                console.error('Error loading image for color extraction:', imageUrl);
+                resolve('#000000');
+            };
+
+            img.src = imageUrl;
+        });
+    }
+
+    // Extract color from all track images when component loads
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('DOM loaded, looking for music cards...');
+        const musicCards = document.querySelectorAll('.music-card');
+        console.log(`Found ${musicCards.length} music cards`);
+
+        if (musicCards.length === 0) {
+            console.log('No music cards found');
+            return;
+        }
+
+        // Process each music card
+        for (let i = 0; i < musicCards.length; i++) {
+            const musicCard = musicCards[i];
+            const trackImage = musicCard.querySelector('img');
+
+            console.log(`Processing music card ${i + 1}:`, musicCard);
+            console.log(`Track image found:`, trackImage);
+            console.log(`Track image src:`, trackImage?.src);
+
+            if (trackImage && trackImage.src) {
+                console.log(`Starting color extraction for card ${i + 1}...`);
+                try {
+                    const trackColor = await extractImageColor(trackImage.src);
+                    console.log(`Extracted track color for card ${i + 1}:`, trackColor);
+                    musicCard.style.setProperty('--track-color', trackColor);
+                    console.log(`CSS variable updated for card ${i + 1}`);
+                } catch (error) {
+                    console.error(`Error extracting track color for card ${i + 1}:`, error);
+                }
+            } else {
+                console.log(`Missing image for music card ${i + 1}`);
+            }
+        }
+    });
+</script>

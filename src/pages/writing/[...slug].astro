@@ -23,6 +23,33 @@ if (!post) {
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
 
+// import BlogPostPreviewLite from "./BlogPostPreviewLite.astro";
+
+const { tags } = post.data;
+
+const excludedTags = ["update", "blog", "writing", "tutorial", "news", "announcement"];
+const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
+
+const allPosts1 = posts
+  .filter(
+    (post: CollectionEntry<"writing">) =>
+      post.slug != slug && post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0
+  )
+  .map((post: CollectionEntry<"writing">) => ({
+    ...post,
+    sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag)).length,
+  }))
+  .sort((a, b) => {
+    if (a.sameTagCount > b.sameTagCount) return -1;
+    if (b.sameTagCount > a.sameTagCount) return 1;
+
+    if (a.data.date > b.data.date) return -1;
+    if (a.data.date < b.data.date) return 1;
+
+    return 0;
+  })
+  .slice(0, 2);
+
 // Fetch music data in the frontmatter
 let musicData = null;
 try {
@@ -92,6 +119,23 @@ export async function getStaticPaths() {
 
 <BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
     <Content />
+    {musicData && (
     <MusicGrid musicData={musicData} />
-    <RaindropGrid raindropData={raindropData} />
+    )}
+    {raindropData && (
+        <RaindropGrid raindropData={raindropData} />
+    )}
+     <div class="prose mt-5 p-5 flex flex-col gap-y-[32px]">
+         <h2 class="">You might also like...</h2>
+         <div class="flex gap-[16px] w-full">
+            {allPosts1.map((post) => (
+                <div key={post.id} class="border p-4 md:max-w-1/2">
+                    <a href={`/writing/${post.id}`} class="flex flex-col gap-y-[8px]">
+                        <span class="h3">{post.data.title}</span>
+                        <div class="">{post.data.description}</div>
+                    </a>
+                </div>
+            ))}
+         </div>
+     </div>
 </BlogPost>

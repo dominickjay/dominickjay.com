@@ -23,7 +23,7 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 			<article>
                 <header class="!relative pt-[130px] md:pt-[92px] !pb-[56px]">
                     <div class="container">
-                        <h1 class="h1">{title}</h1>
+                        <h1 class="h1 md:max-w-[1024px]">{title}</h1>
                     </div>
                 </header>
                 <svg width="2282" height="128" viewBox="0 0 2282 128" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -495,7 +495,7 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                         <TableOfContents headings={headings} />
                     </div>
                     <div class="content col-span-full md:col-start-3 md:col-span-8 flex flex-col gap-y-[24px]">
-                        <div class="text-[28px] tracking-[-0.04em] leading-[140%]">{description}</div>
+                        <div class="text-[32px] leading-[130%]">{description}</div>
                         <slot />
                     </div>
 				</div>

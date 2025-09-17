@@ -2,10 +2,11 @@
     @layer tokens {
         :root {
             --color-light: #FBF8EF;
-            --color-dark: #000000;
-            --color-primary: var(--color-dark, #000000);
+            --color-dark: #222222;
+            --color-primary: var(--color-dark, #222222);
 
-            --font-base: "InknutAntiqua", serif;
+            --font-base: "Garamond", serif;
+            --font-heading: "Gentle", serif;
             --leading-standard: 1.6;
 
             --space-xs: 4px;
