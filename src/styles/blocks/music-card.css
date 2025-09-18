@@ -111,6 +111,17 @@
     animation: now-playing-bounce 1.4s infinite ease-in-out both;
 }
 
+.now-playing-indicator--small {
+    margin-right: 5px;
+    gap: 2px;
+}
+
+.now-playing-indicator--small .now-playing-dot {
+    block-size: 20px;
+    inline-size: 5px;
+    background-color: var(--color-dark);
+}
+
 .now-playing-dot:nth-child(1) {
     animation-delay: -0.32s;
 }

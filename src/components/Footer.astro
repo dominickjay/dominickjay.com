@@ -17,13 +17,9 @@ const today = new Date();
 
 <footer class="relative border-t border-dark region [--region-space:var(--space-xxl)]">
     <div class="container grid !grid-cols-6">
-        <nav class="col-span-full md:col-span-1 internal-links !flex-col" aria-label="Internal Site Links">
+        <nav class="col-span-full md:col-span-1 internal-links" aria-label="Internal Site Links">
             <NavLink class="nav-link nav-link--small" href="/writing">Writing</NavLink>
             <NavLink class="nav-link nav-link--small" href="/about">About</NavLink>
-        </nav>
-        <nav class="col-span-full md:col-span-1 internal-links !flex-col" aria-label="Internal Site More Links">
-            <NavLink class="nav-link nav-link--small" href="/now">Now</NavLink>
-            <NavLink class="nav-link nav-link--small" href="/uses">Uses</NavLink>
         </nav>
         <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-8 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
             <a class="nav-link nav-link--small" href="https://m.webtoo.ls/@astro" target="_blank">

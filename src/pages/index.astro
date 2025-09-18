@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Pattern from '../components/Pattern.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import ArtistCard from '../components/ArtistCard.astro';
 import { getReadingTime } from '../utils/utils.mjs';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
@@ -11,7 +12,9 @@ import profileImage1 from '../../public/images/profile-image.png';
 import profileImage2 from '../../public/images/kid-image.png';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE, CURRENT_COMPANY, CURRENT_POSITION } from '../consts';
 
-let books = [];
+let books: any[] = [];
+let recentTracks: any[] = [];
+let recentArtists: any[] = [];
 
 // const posts = (await getCollection('writing')).sort(
 // 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -67,6 +70,53 @@ const response = await fetch("https://literal.club/graphql/",
     books = data.data.booksByReadingStateAndProfile;
 });
 
+// Function to enrich artist data with getInfo
+async function enrichArtistsWithInfo(artistList) {
+    const enrichedArtists = await Promise.all(
+        artistList.map(async (artist) => {
+            try {
+                const artistInfoResponse = await fetch(
+                    `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artist.name)}&username=zerosandones217&api_key=86a5b41a85035739e32c576f027c4765&format=json`
+                );
+                const artistInfo = await artistInfoResponse.json();
+
+                return {
+                    ...artist,
+                    info: artistInfo.artist || null
+                };
+            } catch (error) {
+                console.error(`Error fetching info for artist ${artist.name}:`, error);
+                return {
+                    ...artist,
+                    info: null
+                };
+            }
+        })
+    );
+    return enrichedArtists;
+}
+
+// Fetch recent tracks data
+const recentTracksResponse = await fetch('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=5&api_key=86a5b41a85035739e32c576f027c4765&format=json')
+  .then((response) => response.json())
+  .then(async (responseJSON) => {
+    recentTracks = responseJSON.recenttracks.track;
+    // Extract unique artists from recent tracks
+    const artistMap = new Map();
+    recentTracks.forEach((track: any) => {
+      const artistName = track.artist['#text'];
+      if (!artistMap.has(artistName)) {
+        artistMap.set(artistName, {
+          name: artistName,
+          isCurrentlyPlaying: track['@attr']?.nowplaying === 'true'
+        });
+      }
+    });
+    const basicArtists = Array.from(artistMap.values());
+    // Enrich artists with additional info
+    recentArtists = await enrichArtistsWithInfo(basicArtists);
+  });
+
 ---
 
 <!doctype html>
@@ -96,8 +146,8 @@ const response = await fetch("https://literal.club/graphql/",
                             images: $el.querySelectorAll('img'),
                         }"
                     >
-                        <Image x-data="{ id: 0 }" x-show="id == active" class="profile__image" src={profileImage2} alt="A bird sitting on a nest of eggs." />
-                        <Image x-data="{ id: 1 }" x-show="id == active" class="profile__image" src={profileImage1} alt="A bird sitting on a nest of eggs." />
+                        <Image loading="eager" x-data="{ id: 0 }" x-show="id == active" class="profile__image" src={profileImage2} alt="A bird sitting on a nest of eggs." />
+                        <Image loading="eager" x-data="{ id: 1 }" x-show="id == active" class="profile__image" src={profileImage1} alt="A bird sitting on a nest of eggs." />
                     </div>
                     <div class="navigation">
                         <svg class="center" width="51" height="23" viewBox="0 0 51 23" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,6 +200,18 @@ const response = await fetch("https://literal.club/graphql/",
                         $el.querySelector('.music__artist').innerText = this.items[0].artist['#text'];
                         $el.querySelector('.music__song').innerText = this.items[0].name;
 
+                        // Check if currently playing
+                        const isNowPlaying = this.items[0]['@attr']?.nowplaying === 'true';
+                        const nowPlayingIndicator = $el.querySelector('.now-playing-indicator');
+                        const staticIndicator = $el.querySelector('.static-indicator');
+                        if (nowPlayingIndicator) {
+                            nowPlayingIndicator.style.display = isNowPlaying ? 'flex' : 'none';
+                            staticIndicator.style.display = isNowPlaying ? 'none' : 'flex'
+                        } else {
+                            staticIndicator.style.display = 'flex'
+                            nowPlayingIndicator.style.display = isNowPlaying ? 'none' : 'flex';
+                        }
+
                         const weather = await fetch(
 							 'https://api.weatherapi.com/v1/current.json?q=Plymouth', {
                                 method: 'GET',
@@ -173,8 +235,13 @@ const response = await fetch("https://literal.club/graphql/",
                 >
                     <div class="info-panel__details">
                         <!-- Song -->
-                        <div class="info-panel__detail music">
-                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div class="info-panel__detail music relative">
+                            <div class="now-playing-indicator now-playing-indicator--small !relative !bottom-0 !right-0">
+                                <div class="now-playing-dot"></div>
+                                <div class="now-playing-dot"></div>
+                                <div class="now-playing-dot"></div>
+                            </div>
+                            <svg class="static-indicator" width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1 11.1663V13.833M5 7.16634V17.833M9 9.83301V15.1663M13 5.83301V19.1663M17 1.83301V23.1663M21 8.49967V16.4997M25 11.1663V13.833" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span><span x-cloak class="music__song"></span> by <span x-cloak class="music__artist"></span></span>

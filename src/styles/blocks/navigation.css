@@ -128,13 +128,14 @@
         inset-inline: 0;
         anchor-name: --menu-button;
         position: fixed;
-        bottom: 0;
+        bottom: -2px;
         padding-block: var(--space-s);
         border-top: 1px solid var(--color-dark);
         height: fit-content;
         transition: .25s ease-in-out all;
         background-color: var(--color-dark);
         color: var(--color-light);
+        z-index: 100;
 
         &:has(+ .navigation-large:popover-open) {
             top: calc(100dvh - 32%);
@@ -167,6 +168,7 @@
         transition: .25s ease-in-out all;
         background-color: var(--color-dark);
         color: var(--color-light);
+        z-index: 100;
 
         @media (min-width: 992px) {
             width: 100%;
@@ -193,7 +195,7 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
-        top: calc(100dvh - 28%);
+        top: calc(100dvh - 29%);
 
         .internal-links {
             padding-inline-start: 25px;
