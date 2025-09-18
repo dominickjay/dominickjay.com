@@ -46,11 +46,28 @@
         flex-direction: row;
         gap: var(--space-m);
 
+        li::marker {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            line-height: 1.25rem;
+            letter-spacing: -0.02em;
+            font-weight: 400;
+            font-style: normal;
+            padding-inline-end: var(--space-s);
+        }
+
         a {
             display: flex;
             justify-content: flex-start;
             align-items: center;
             column-gap: var(--space-s);
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            line-height: 2rem;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            font-weight: 400;
+            font-style: normal;
         }
     }
 
@@ -89,6 +106,7 @@
             gap: 20px;
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
 
         .internal-links ul:has(>li:hover) > li:not(:hover) {
@@ -102,27 +120,63 @@
     }
 
     .menu-button {
-        width: 60px;
-        height: 60px;
+        background-color: var(--color-white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
+        inset-inline: 0;
         anchor-name: --menu-button;
+        position: fixed;
+        bottom: 0;
+        padding-block: var(--space-s);
+        border-top: 1px solid var(--color-dark);
+        height: fit-content;
+        transition: .25s ease-in-out all;
+        background-color: var(--color-dark);
+        color: var(--color-light);
+
+        &:has(+ .navigation-large:popover-open) {
+            top: calc(100dvh - 32%);
+        }
+
+        svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        @media (min-width: 992px) {
+            background-color: transparent;
+            border: none;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            position: relative;
+            color: var(--color-dark);
+        }
     }
 
     .navigation-large {
-        position: absolute;
-        top: anchor(bottom);
+        position: fixed;
+        height: fit-content;
+        top: calc(100dvh - 60px);
         left: 0;
-        background-color: var(--color-dark);
-        padding: 40px 70px;
-        color: white !important;
+        right: 0;
+        padding: 25px;
         width: 100%;
-        margin-block-start: 20px;
+        transition: .25s ease-in-out all;
+        background-color: var(--color-dark);
+        color: var(--color-light);
 
         @media (min-width: 992px) {
+            width: 100%;
+            top: anchor(bottom);
+            margin-block-start: 20px;
             left: auto;
             right: anchor(left);
             margin-inline-start: 80px;
-            width: fit-content;
+            width: 100%;
+            max-width: 528px;
         }
 
         & a svg {
@@ -137,6 +191,18 @@
 
     .navigation-large:popover-open {
         display: flex;
+        flex-direction: column;
+        gap: 20px;
+        top: calc(100dvh - 28%);
+
+        .internal-links {
+            padding-inline-start: 25px;
+            gap: 16px;
+        }
+
+        @media (min-width: 992px) {
+            top: anchor(bottom);
+        }
     }
 }
 

@@ -19,7 +19,9 @@
     }
 
     main {
-        padding-block-start: 100px;
+        @media (min-width: 768px) {
+            padding-block-start: 100px;
+        }
     }
 
     * {

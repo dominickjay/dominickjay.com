@@ -31,10 +31,6 @@ posts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-// posts = (await getCollection('writing')).sort(
-// 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-// );
-
 const random = Math.floor(Math.random() * posts.length);
 const randomPost = posts[random];
 
