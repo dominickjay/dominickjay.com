@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+let posts = [];
+
+if (import.meta.env.DEV && import.meta.env.DEV === true) {
+    posts = (await getCollection("writing",
+        ({ data }) => !data?.draft
+    )).slice(0, 1);
+} else {
+    posts = (await getCollection("writing")).slice(0, 1);
+}
+
+posts.sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<article class="latest-card">
+    <div class="latest-card__content">
+        <span>Latest Article</span>
+        <a href={`/writing/${posts[0].id}/`}>{posts[0].data.title}</a>
+    </div>
+</article>
+
+<style>
+
+    .latest-card {
+        container: latest-card / inline-size;
+        margin-top: 16px;
+    }
+
+    .latest-card__content {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        background-color: var(--color-light);
+        color: var(--color-dark);
+        padding: 16px;
+        position: relative;
+        transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background-color: color-mix(in srgb, var(--color-white) 80%, transparent);
+        }
+
+        span {
+            font-size: 0.85rem;
+            line-height: 1.25rem;
+            text-transform: uppercase;
+        }
+
+        a {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            line-height: 2rem;
+            letter-spacing: -0.02em;
+            font-weight: 400;
+            font-style: normal;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        @container latest-card (max-width: 425px) {
+            a {
+                font-size: 1.5rem;
+                line-height: 1.5rem;
+            }
+        }
+    }
+</style>
