@@ -21,13 +21,13 @@ export interface Props {
 const { track, tags, trackColor = '#000000' } = Astro.props;
 ---
 
-<div class="col-span-2 md:col-span-4 flex music-card" style={`--track-color: ${trackColor}`}>
+<div class="col-span-full md:col-span-4 flex music-card" style={`--track-color: ${trackColor}`}>
     <div class="music-card__image">
         {track.image && track.image[3] && (
             <img
                 src={track.image[3]['#text']}
                 alt={`${track.name} album cover`}
-                loading="lazy"
+                loading="eager"
             />
         )}
         {track['@attr']?.nowplaying && (

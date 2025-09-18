@@ -12,6 +12,15 @@
 		letter-spacing: -0.02em;
 	}
 
+    @supports (:heading) {
+        :heading {
+            font-family: var(--font-heading);
+            text-wrap: pretty;
+            line-height: 1.85;
+            letter-spacing: -0.02em;
+        }
+    }
+
 	.h1 {
 		font-size: clamp(3rem, 0.9783rem + 2.6087vw, 4.5rem);
 	}

@@ -75,7 +75,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: var(--space-m);
+        gap: var(--space-s);
 
         @media (min-width: 992px) {
             justify-content: space-between;

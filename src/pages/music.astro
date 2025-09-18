@@ -190,7 +190,7 @@ const recentTracksResponse = await fetch(`${baseUrl}?method=user.getrecenttracks
                     </div>
                 </div>
                 <div class="flex flex-col gap-[20px] w-full">
-                    <div class="grid !grid-cols-4 gap-[20px] pt-[137px]">
+                    <div class="grid !grid-cols-4 gap-[20px] pt-0 md:pt-[137px]">
                         <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
                             <h1 class="h2 col-span-full">Currently Playing</h1>
                             <MusicCard
@@ -226,7 +226,7 @@ const recentTracksResponse = await fetch(`${baseUrl}?method=user.getrecenttracks
                         </div>
                     </div> -->
                     <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
-                        <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
+                        <div class="col-start-1 col-span-4 grid !grid-cols-4 !gap-[8px] md:!gap-[20px]">
                             <h1 class="h2 col-span-full">Recent Artists</h1>
                             { artists
                                 .sort((a, b) => {

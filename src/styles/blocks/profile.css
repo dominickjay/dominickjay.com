@@ -47,7 +47,7 @@
         height: fit-content;
         background-color: var(--color-primary);
         color: var(--color-light);
-        padding: 25px 38px;
+        padding: 16px;
         gap: 10px;
         font-family: var(--font-base);
         font-style: normal;
@@ -63,6 +63,7 @@
             grid-column: span 6 / span 6;
             grid-row-start: 2;
             height: 100%;
+            padding: 25px 38px;
         }
 
         @media (min-width: 992px) {

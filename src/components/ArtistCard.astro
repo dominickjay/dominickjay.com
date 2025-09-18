@@ -18,26 +18,27 @@ export interface Props {
 const { artist, isNowPlaying = false, trackColor = '#000000' } = Astro.props;
 ---
 
-<div class="col-span-2 flex music-card" style={`--track-color: ${trackColor}`}>
-
-    <div class="music-card__image">
-        {artist.info?.image && artist.info.image[2] && (
-            <img
-                src={artist.info.image[2]['#text']}
-                alt={`${artist.name} artist image`}
-                class="w-full h-fit aspect-square object-cover mb-2"
-                loading="lazy"
-            />
-        )}
-        {isNowPlaying && (
-            <div class="now-playing-indicator">
-                <div class="now-playing-dot"></div>
-                <div class="now-playing-dot"></div>
-                <div class="now-playing-dot"></div>
-            </div>
-        )}
-    </div>
-    <div class="music-card__content">
-        <span class="music-card__title">{artist.name}</span>
+<div class="col-span-full md:col-span-2 flex" style={`--track-color: ${trackColor}`}>
+    <div class="music-card">
+        <div class="music-card__image">
+            {artist.info?.image && artist.info.image[4] && (
+                <img
+                    src={artist.info.image[4]['#text']}
+                    alt={`${artist.name} artist image`}
+                    class="w-full h-fit aspect-square object-cover mb-2"
+                    loading="lazy"
+                />
+            )}
+            {isNowPlaying && (
+                <div class="now-playing-indicator">
+                    <div class="now-playing-dot"></div>
+                    <div class="now-playing-dot"></div>
+                    <div class="now-playing-dot"></div>
+                </div>
+            )}
+        </div>
+        <div class="music-card__content">
+            <span class="music-card__title">{artist.name}</span>
+        </div>
     </div>
 </div>
