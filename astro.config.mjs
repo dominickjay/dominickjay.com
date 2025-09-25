@@ -6,6 +6,7 @@ import alpinejs from '@astrojs/alpinejs';
 import focus from '@alpinejs/focus';
 import tailwindcss from "@tailwindcss/vite";
 import netlify from '@astrojs/netlify';
+import db from '@astrojs/db';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,7 +17,8 @@ export default defineConfig({
 			smartypants: true,
 		}),
 		sitemap(),
-		alpinejs()
+		alpinejs(),
+		db()
 	],
 	vite: {
 		plugins: [tailwindcss()],

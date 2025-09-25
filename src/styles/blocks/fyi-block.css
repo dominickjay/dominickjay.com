@@ -1,45 +1,15 @@
 .fyi-block {
     position: relative;
-    border: 1px solid #000;
-    padding: 0 16px 16px;
-    &::before {
-        content: var(--title);
-        padding: 16px;
-        display: inline-block;
-        color: #fff;
-        background-color: var(--type-color);
-        margin-bottom: 32px;
-        left: -16px;
-        position: relative;
-        border-right: inherit;
-        border-bottom: inherit;
+    /* border: 1px solid #000; */
+    padding: 32px 16px;
+    background-color: color-mix(in srgb, var(--color-light) 25%, var(--color-dark) 25%);
+
+    & .fyi-block__title {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 16px;
+        display: block;
     }
-    &::after {
-        content: url('data:image/svg+xml,<svg width="30" height="26" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_1844_1757" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="26"><path d="M30 25.9126L0 25.9126L-2.58499e-06 0.446655L30 0.446653L30 25.9126Z" fill="white"/></mask><g mask="url(%23mask0_1844_1757)"><path d="M29.8436 21.0112C30.0896 21.4182 30.0482 21.8796 29.8328 22.2627C29.8934 22.6985 29.759 23.1411 29.2731 23.4805C28.8206 23.7965 28.3682 24.1126 27.9161 24.4286C27.1208 24.984 25.8757 25.1593 25.1023 24.4286C21.5893 21.1101 17.9156 17.9358 14.1072 14.8771C11.2759 17.1222 8.41014 19.337 5.56488 21.5546C4.5663 22.3331 3.12088 22.0888 2.49261 21.1613C1.57749 20.7758 0.835698 20.2731 0.222315 19.4152C-0.0697458 19.0065 -0.0469848 18.4905 0.222315 18.0803C2.05914 15.2847 5.60954 12.8268 8.52872 10.5649C8.13804 10.2681 7.75037 9.96845 7.35185 9.67788C3.41894 6.81092 0.766112 4.99189 5.68786 2.05229C5.75426 2.01263 5.82197 2.02141 5.88938 1.99824C5.98368 1.96131 6.07415 1.93527 6.1787 1.9207C6.21122 1.91961 6.24156 1.91497 6.27357 1.91713C6.37487 1.91013 6.47401 1.88823 6.57668 1.90535C9.22277 2.34572 11.6836 4.10593 13.9162 6.04427C16.0911 4.22454 18.407 2.48604 20.9536 1.45448C21.5599 1.20879 22.2827 1.35198 22.7495 1.69558C23.5322 1.64541 24.2459 2.05827 24.604 2.65157C24.657 2.67939 24.6912 2.6953 24.7487 2.7258C25.8866 3.32921 25.9905 4.53095 25.1486 5.3593C23.2472 7.22958 21.2261 9.00742 19.1658 10.7538C22.8755 13.8308 27.5077 17.1493 29.8436 21.0112Z" fill="black"/></g></svg>');
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        transform: rotate(32.5deg);
-    }
-}
-
-.fyi-block__title {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 32px;
-    display: block;
-}
-
-.fyi-block--warning {
-    --title: "Warning";
-    --type-color: red;
-}
-
-.fyi-block--info {
-    --title: "Info";
-    --type-color: green;
-}
-
-.fyi-block--success {
-    --title: "Success";
 }

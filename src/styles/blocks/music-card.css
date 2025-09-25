@@ -1,4 +1,4 @@
-*:has(.music-card) {
+*:not(.song):has(.music-card) {
     container: music-card / inline-size;
 }
 

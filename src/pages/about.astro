@@ -2,27 +2,77 @@
 import Layout from '../layouts/Default.astro';
 import profileImage1 from '../../public/images/profile-image.png';
 import profileImage2 from '../../public/images/kid-image.png';
+import MusicCard from '../components/MusicCard.astro';
 import { Image } from 'astro:assets';
-import { ABOUT_CONTENT } from '../consts';
+import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
 import Joke from '../components/Joke.astro';
 import Song from '../components/Song.astro';
 import GitHubContributions from '../components/GitHubContributions.astro';
+import type { LastFmResponse, LastFmTrack, LastFmAlbum, LastFmTag } from '../lib/lastfm';
+import { getWeeklyAlbumChart, enrichAlbumsWithImages, getRecentTracksWithTags } from '../lib/lastfm';
+import moment from 'moment';
+
+interface Props {
+  musicData?: LastFmResponse | null;
+}
+
+let musicData = Astro.props.musicData;
+
+const contentIntro = {
+    short: ABOUT_INTRO.short.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
+    medium: ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
+    long: ABOUT_INTRO.long.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>')
+}
+
 // Convert line breaks to <br> tags
 const contentWithBreaks = {
 	short: ABOUT_CONTENT.short.replace(/\n/g, '<br>'),
 	medium: ABOUT_CONTENT.medium.replace(/\n/g, '<br>'),
 	long: ABOUT_CONTENT.long.replace(/\n/g, '<br>')
 };
+
+let recentTracks: LastFmTrack | null = null;
+let recentTrackTags: LastFmTag[] = [];
+let trackColor = '#000000'; // Default color
+let albumCovers: LastFmAlbum[] = [];
+
+const weekAgo = moment().subtract(4, 'week').unix();
+const now = moment().unix();
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+
+// Fetch album data
+const albumData = await getWeeklyAlbumChart(weekAgo.toString(), now.toString(), apiKey, 60);
+if (albumData?.error) {
+  console.error('Last.fm API error:', albumData.message);
+} else if (albumData?.weeklyalbumchart?.album) {
+  // Enrich albums with images
+  albumData.weeklyalbumchart.album = await enrichAlbumsWithImages(albumData.weeklyalbumchart.album, apiKey);
+  albumCovers = albumData.weeklyalbumchart.album;
+  console.log('album covers:', albumCovers.length, 'albums found');
+}
+
+// Fetch recent tracks with tags using consolidated utility
+const recentTracksData = await getRecentTracksWithTags(apiKey, 5);
+if (recentTracksData.recentTracks) {
+  recentTracks = recentTracksData.recentTracks;
+  recentTrackTags = recentTracksData.recentTrackTags;
+}
+
 ---
 
-<Layout
-	title="About Me"
-	description="creative front end developer, writer, music nerd."
-	pubDate={new Date('August 08 2021')}
->
+{/* @ts-ignore */}
+<Layout {...({
+	title: "About Me",
+	description: "creative front end developer, writer, music nerd.",
+	pubDate: new Date('August 08 2021'),
+	tags: [],
+	headings: [],
+	timeToRead: 0
+} as any)}>
 	<div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;"
 		x-data={`{
 			selected: 'short',
+            intro: ${JSON.stringify(contentIntro)},
 			content: ${JSON.stringify(contentWithBreaks)},
 			options: [
 				{
@@ -41,7 +91,7 @@ const contentWithBreaks = {
 		}`}
 	>
 		<div class="profile col-span-full md:col-span-2 !mb-0">
-			<div class="profile__image-container h-fit w-full aspect-square">
+			<div class="profile__image-container h-fit w-full aspect-square md:sticky top-[240px] mix-blend-luminosity">
 				<Image
 					x-show="selected === 'short'"
 					class="profile__image !h-full"
@@ -62,9 +112,8 @@ const contentWithBreaks = {
 				/>
 			</div>
 		</div>
-		<div class="col-span-full md:col-span-4">
-
-			<fieldset class="border border-b-0 border-dark w-fit pl-[24px] pr-[48px] pb-[24px]">
+		<div class="col-span-full md:col-span-4 flex flex-col gap-[24px]">
+			<fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px]">
 				<legend class="h5 mb-[16px]">Choose your length</legend>
 				<div class="flex gap-4">
 					<template x-for="option in options" :key="option.id">
@@ -82,22 +131,74 @@ const contentWithBreaks = {
 				</div>
 			</fieldset>
 
-			<div class="space-y-4 border-t-[2px] border-t-dark pt-[36px]">
+			<div class="flex flex-col gap-[24px]">
+                <h2 class="h2 mb-[24px]" x-html="intro[selected]"></h2>
 				<template x-for="option in options" :key="option.id">
 					<div x-show="selected === option.id" class="prose md:max-w-[700px]">
 						<div x-html="content[option.id]"></div>
 					</div>
 				</template>
 			</div>
+
+            <Joke />
+
 		</div>
         <div class="col-span-full region [--region-space:var(--space-xxl)]">
-            <Joke />
+            <h2 class="h3 mb-[24px]">Recent Albums</h2>
+            <div class="grid !grid-cols-3 md:!grid-cols-12 gap-0 relative" style="--gutter: 8px">
+                {albumCovers.slice(0, 12).map(async (album: LastFmAlbum) => {
+                    const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
+                    if (!hasValidImage) {
+                        return null;
+                    }
+
+                    return (
+                        <div class="col-span-1 opacity-[0.7] bg-album-cover">
+                            <img
+                                src={album.image[2]['#text']}
+                                alt={`Cover for ${album.name}`}
+                                class="w-full h-auto aspect-square object-cover"
+                                onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+                                width="200"
+                                height="200"
+                                loading="lazy"
+                            />
+                        </div>
+                    );
+                })}
+                <div class="song col-span-full">
+                    {recentTracks && (
+                        <MusicCard
+                            track={recentTracks}
+                            tags={recentTrackTags}
+                            trackColor={trackColor}
+                        />
+                    )}
+                </div>
+            </div>
         </div>
         <div class="col-span-full region [--region-space:var(--space-xxl)]">
-            <Song />
         </div>
         <div class="col-span-full region [--region-space:var(--space-xxl)]">
             <GitHubContributions />
         </div>
 	</div>
 </Layout>
+
+<script>
+    import ColorThief from 'colorthief';
+    import { initializeColorExtraction } from '../lib/colorExtraction';
+
+    // Make ColorThief available globally
+    (window as any).ColorThief = ColorThief;
+
+    // Initialize color extraction
+    initializeColorExtraction();
+</script>
+
+<style>
+    .bg-album-cover:hover {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+    }
+</style>

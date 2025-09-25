@@ -32,9 +32,9 @@ const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
 
 const allPosts1 = posts
   .filter(
-    (post: CollectionEntry<"writing">) => {
+    (post1: CollectionEntry<"writing">) => {
       // Exclude the current article
-      if (post.slug === slug) return false;
+      if (post.data.title === post1.data.title) return false;
 
       // Only include posts that have matching tags
       return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;

@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Default.astro';
+import ClickCounter from '../components/ClickCounter.astro';
+---
+
+<Layout title="Click Counter Demo">
+  <main class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-8">Click Counter Demo</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-center">
+        <h2 class="text-xl font-semibold mb-4">Laugh</h2>
+        <ClickCounter buttonName="laugh" buttonText="😂" className="text-4xl p-4 rounded-full hover:bg-yellow-100 dark:hover:bg-yellow-900 transition-colors" />
+      </div>
+
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-center">
+        <h2 class="text-xl font-semibold mb-4">Love</h2>
+        <ClickCounter buttonName="love" buttonText="❤️" className="text-4xl p-4 rounded-full hover:bg-red-100 dark:hover:bg-red-900 transition-colors" />
+      </div>
+
+      <div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg text-center">
+        <h2 class="text-xl font-semibold mb-4">Facepalm</h2>
+        <ClickCounter buttonName="facepalm" buttonText="🤦‍♂️" className="text-4xl p-4 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 transition-colors" />
+      </div>
+    </div>
+
+    <div class="mt-8 p-6 bg-gray-100 dark:bg-gray-700 rounded-lg">
+      <h3 class="text-lg font-semibold mb-4">How it works:</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li>Each button has a unique name stored in the database</li>
+        <li>Click counts are persisted using Astro DB</li>
+        <li>Counts are displayed in real-time</li>
+        <li>Data persists across page refreshes</li>
+      </ul>
+    </div>
+  </main>
+</Layout>

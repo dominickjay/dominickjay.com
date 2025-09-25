@@ -11,9 +11,9 @@ draft: true
 
 ## The Accessibility Gap: When Visual Order Betrays Logical Order
 
-For a long time, developers have been able to put together the strangest of layouts that have come from the dark corners of the design team - with very little pushback. Properties like `flex-direction`, `grid-template-areas` and the `order` property have given us a monumental amount of control when dealing with the visual presentation of the elements on the screen, and we can rearrange content to adapt to different screen sizes and user preference with little effort.
+For a long time, developers have been able to put together the strangest of layouts that have come from the dark corners of the design team with very little pushback. Properties like `flex-direction`, `grid-template-areas` and the `order` property have given us a monumental amount of control when dealing with the visual presentation of the elements on the screen, and we can rearrange content to adapt to different screen sizes and user preference with little effort.
 
-Sometimes however, that ability comes with a sidestep of accessibility and performance concerns  *[Extra note: add also - pride - to this].*, and that really isn't acceptable at all. We would warn that a layout *might* affect accessibility, but in some cases it can largely met with a shrug, depending on how much the team cares about providing accessible solutions in the first place. In my current position at [Series Eight](//serieseight.com), accessibility concerns are met with a lot of discussion and push back to find a better path - so the prior 'shrug' example is not a reflection of how our projects are dealt with there. The main challenge has been that while we can change how elements look on the screen, their true order in the DOM is the 'golden truth'.
+Sometimes however, that ability comes with a sidestep of accessibility and performance concerns  *[Extra note: add also - pride - to this].*, and that really isn't acceptable at all. We would warn that a layout *might* affect accessibility, but in the worst cases it can met with a shrug, depending on how much the team cares about providing accessible solutions in the first place. In my current position at [Series Eight](//serieseight.com), accessibility concerns are met with a lot of discussion and push back to find a better path - so the prior 'shrug' example is not a reflection of how our projects are dealt with there. The main challenge has been that while we can change how elements look on the screen, their true order in the DOM is the 'golden truth'.
 
 If we have for example, a layout that is 3 elements (A, B and C) in that order in the DOM, and we've used CSS to reorder them differently (let's say; C, A and B). We would have this;
 
@@ -306,12 +306,10 @@ When we look at the browser support table earlier, there's really not a lot of s
     }
 
     .reading-order-demo-output {
-        flex: 2;
         min-width: var(--reading-order-demo-output-min-width);
         gap: var(--reading-order-demo-gap);
         display: flex;
         flex-direction: column;
-        container: output / inline-size;
 
         h2 {
             margin-top: 0;

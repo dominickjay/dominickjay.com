@@ -1,36 +1,168 @@
-<div class="joke w-fit" x-data="{
-    joke: '',
+<div class="joke" x-data="{
+    setup: '',
+    punchline: '',
+    jokeId: '',
+    laughCount: 0,
+    loveCount: 0,
+    facepalmCount: 0,
     cacheTime: 3 * 60 * 60 * 1000, // 3 hours in milliseconds
     async fetchJoke(forceRefresh = false) {
         const cached = localStorage.getItem('dadJoke');
         if (cached && !forceRefresh) {
-            const { joke, timestamp } = JSON.parse(cached);
+            const { setup, punchline, jokeId, timestamp } = JSON.parse(cached);
             if (Date.now() - timestamp < this.cacheTime) {
-                this.joke = joke;
+                this.setup = setup;
+                this.punchline = punchline;
+                this.jokeId = jokeId;
+                await this.loadReactionCounts();
                 return;
             }
         }
 
-        const response = await fetch('https://icanhazdadjoke.com/', {
+        const response = await fetch('https://official-joke-api.appspot.com/random_joke', {
             headers: {
-                'Accept': 'application/json',
-                'User-Agent': 'DominickJay Website (https://dominickjay.com)'
+                'Accept': 'application/json'
             }
         });
         const data = await response.json();
-        this.joke = data.joke;
+        this.setup = data.setup;
+        this.punchline = data.punchline;
+        this.jokeId = data.id.toString(); // Use joke ID as unique identifier
         localStorage.setItem('dadJoke', JSON.stringify({
-            joke: data.joke,
+            setup: data.setup,
+            punchline: data.punchline,
+            jokeId: this.jokeId,
             timestamp: Date.now()
         }));
+        await this.loadReactionCounts();
+    },
+    isRevealed: false,
+    async revealPunchline() {
+        this.isRevealed = !this.isRevealed;
+    },
+    async loadReactionCounts() {
+        if (!this.jokeId) return;
+
+        try {
+            const response = await fetch('/api/click-counter');
+            const counters = await response.json();
+
+            const laughCounter = counters.find(c => c.buttonName === `joke-${this.jokeId}-laugh`);
+            const loveCounter = counters.find(c => c.buttonName === `joke-${this.jokeId}-love`);
+            const facepalmCounter = counters.find(c => c.buttonName === `joke-${this.jokeId}-facepalm`);
+
+            this.laughCount = laughCounter ? laughCounter.clickCount : 0;
+            this.loveCount = loveCounter ? loveCounter.clickCount : 0;
+            this.facepalmCount = facepalmCounter ? facepalmCounter.clickCount : 0;
+        } catch (error) {
+            console.error('Error loading reaction counts:', error);
+        }
     }
 }" x-init="fetchJoke()">
-    <p class="joke__text" x-text="joke"></p>
-    <button
-        @click.prevent="fetchJoke(true)"
-        class="joke__button"
-        type="button"
-    >
-        Get another joke
-    </button>
+    <div class="joke__content mb-[24px] flex flex-col gap-[8px]">
+        <p class="joke__setup h3" x-text="setup"></p>
+        <div class="joke__punchline" x-text="punchline" :class="{ 'revealed': isRevealed }"></div>
+    </div>
+
+    <div class="joke__reactions flex gap-2">
+        <button
+            @click="async (event) => {
+                try {
+                    const response = await fetch('/api/click-counter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ buttonName: `joke-${jokeId}-laugh` })
+                    });
+                    if (response.ok) {
+                        // Add visual feedback
+                        event.target.style.transform = 'scale(1.1)';
+                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                        // Reload counts to get updated values
+                        await loadReactionCounts();
+                    }
+                } catch (error) {
+                    console.error('Error incrementing laugh count:', error);
+                }
+            }"
+            class="joke__reaction-btn"
+            type="button"
+            title="This joke made me laugh"
+        >
+            😂
+            <span class="joke__reaction-count" x-text="laughCount"></span>
+        </button>
+
+        <button
+            @click="async (event) => {
+                try {
+                    const response = await fetch('/api/click-counter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ buttonName: `joke-${jokeId}-love` })
+                    });
+                    if (response.ok) {
+                        // Add visual feedback
+                        event.target.style.transform = 'scale(1.1)';
+                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                        // Reload counts to get updated values
+                        await loadReactionCounts();
+                    }
+                } catch (error) {
+                    console.error('Error incrementing love count:', error);
+                }
+            }"
+            class="joke__reaction-btn"
+            type="button"
+            title="I love this joke"
+        >
+            ❤️
+            <span class="joke__reaction-count" x-text="loveCount"></span>
+        </button>
+
+        <button
+            @click="async (event) => {
+                try {
+                    const response = await fetch('/api/click-counter', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ buttonName: `joke-${jokeId}-facepalm` })
+                    });
+                    if (response.ok) {
+                        // Add visual feedback
+                        event.target.style.transform = 'scale(1.1)';
+                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                        // Reload counts to get updated values
+                        await loadReactionCounts();
+                    }
+                } catch (error) {
+                    console.error('Error incrementing facepalm count:', error);
+                }
+            }"
+            class="joke__reaction-btn"
+            type="button"
+            title="This joke is so bad it's good"
+        >
+            🤦‍♂️
+            <span class="joke__reaction-count" x-text="facepalmCount"></span>
+        </button>
+
+        <div class="joke__actions">
+            <button
+                @click.prevent="revealPunchline()"
+                class="joke__button"
+                type="button"
+                x-show="!isRevealed"
+            >
+                <span>Click to reveal</span>
+            </button>
+
+            <button
+                @click.prevent="fetchJoke(true)"
+                class="joke__button"
+                type="button"
+            >
+                Get another joke
+            </button>
+        </div>
+    </div>
 </div>

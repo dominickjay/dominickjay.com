@@ -13,6 +13,7 @@
   "dependencies": {
     "@alpinejs/focus": "^3.14.8",
     "@astrojs/alpinejs": "^0.4.8",
+    "@astrojs/db": "^0.18.0",
     "@astrojs/mdx": "^4.3.3",
     "@astrojs/netlify": "^6.5.6",
     "@astrojs/rss": "^4.0.12",

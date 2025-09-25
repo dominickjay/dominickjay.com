@@ -164,7 +164,7 @@ While our pseudo-element approach works well, there are several other ways to ac
 SVG provides more control over text effects and better browser support. Here's how we could achieve a similar effect:
 
 ```html
-<svg class="text-effect" viewBox="0 0 800 200">
+<svg class="text-effect">
   <text x="50%" y="50%" text-anchor="middle" class="text-front">leave it better than you found it</text>
   <text x="50%" y="50%" text-anchor="middle" class="text-back">leave it better than you found it</text>
 </svg>
@@ -192,7 +192,7 @@ SVG provides more control over text effects and better browser support. Here's h
     }
 </style>
 
-<svg class="text-effect" viewBox="0 0 800 200">
+<svg class="text-effect">
   <text x="50%" y="50%" text-anchor="middle" class="text-front">leave it better than you found it</text>
   <text x="50%" y="50%" text-anchor="middle" class="text-back">leave it better than you found it</text>
 </svg>
