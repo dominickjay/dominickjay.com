@@ -3,7 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Pattern from '../components/Pattern.astro';
+import PatternBanner from '../components/Pattern-Banner.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import {generateCategoryData} from '../utils/utils.mjs';
 import TableOfContents from '../components/TableOfContents.astro';
@@ -27,7 +27,7 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                         <h1 class="h1 md:max-w-[1024px]">{title}</h1>
                     </div>
                 </header>
-                <Pattern />
+                <PatternBanner />
 				<div class="container prose flex flex-col md:grid pt-[32px] md:pt-[64px] gap-[43px]" style="--grid-placement: 12; --gutter: 43px;">
                     <div class="col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[120px] flex flex-col gap-y-[16px] p-[16px] border w-full md:w-fit tracking-[-0.02em]">
                         <span>Duration: {timeToRead}min{timeToRead > 1 && 's'}</span>
