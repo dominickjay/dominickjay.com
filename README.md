@@ -62,24 +62,37 @@ All commands are run from the root of the project, from a terminal:
 
 ## 🚀 Deployment to Netlify
 
-This project is configured for deployment to Netlify with Astro DB integration. The build process uses the `--remote` flag to connect to a remote database during build time.
+This project is configured for deployment to Netlify with direct Turso database integration. The API endpoints connect directly to your Turso database.
 
 ### Required Environment Variables
 
 Set these environment variables in your Netlify dashboard:
 
-- `ASTRO_DB_REMOTE_URL`: Your libSQL database URL
-- `ASTRO_DB_APP_TOKEN`: Your libSQL authentication token
+- `TURSO_DATABASE_URL`: Your Turso database URL (e.g., `libsql://joke-counter-[your-org].turso.io`)
+- `TURSO_AUTH_TOKEN`: Your Turso authentication token
 
 ### Database Configuration
 
-The project uses Astro DB with a `ClickCounter` table for tracking user interactions. The database is configured to work with both local development and remote production environments.
+The project uses direct Turso connection with a `ClickCounter` table for tracking user interactions. The API endpoints (`/api/click-counter`) connect directly to your Turso database.
+
+### Database Schema
+
+Make sure your Turso database has the following table:
+
+```sql
+CREATE TABLE ClickCounter (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  buttonName TEXT NOT NULL UNIQUE,
+  clickCount INTEGER DEFAULT 0,
+  lastClicked TEXT DEFAULT (datetime('now'))
+);
+```
 
 ### Build Process
 
-- **Local Development**: Uses local SQLite database
-- **Production Build**: Uses remote libSQL database via `--remote` flag
-- **Netlify Deploy**: Automatically configured via `netlify.toml`
+- **Local Development**: Uses local environment variables for Turso connection
+- **Production Build**: Uses remote Turso database via environment variables
+- **Netlify Deploy**: Connects directly to Turso database
 
 ## 👀 Want to learn more?
 
