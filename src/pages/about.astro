@@ -141,10 +141,8 @@ if (recentTracksData.recentTracks) {
 			</div>
 
             <Joke />
-
-		</div>
-        <div class="col-span-full region [--region-space:var(--space-xxl)]">
-            <h2 class="h3 mb-[24px]">Recent Albums</h2>
+			<div class="flex flex-col gap-[24px]">
+                <h2 class="h3 mb-[24px]">Recent Albums</h2>
             <div class="grid !grid-cols-3 md:!grid-cols-12 gap-0 relative" style="--gutter: 8px">
                 {albumCovers.slice(0, 12).map(async (album: LastFmAlbum) => {
                     const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
@@ -176,12 +174,11 @@ if (recentTracksData.recentTracks) {
                     )}
                 </div>
             </div>
-        </div>
-        <div class="col-span-full region [--region-space:var(--space-xxl)]">
-        </div>
-        <div class="col-span-full region [--region-space:var(--space-xxl)]">
+            </div>
+
             <GitHubContributions />
-        </div>
+
+		</div>
 	</div>
 </Layout>
 

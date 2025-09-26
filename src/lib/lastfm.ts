@@ -109,11 +109,36 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
 }
 
 export async function getAlbumInfo(artist: string, album: string, apiKey: string): Promise<LastFmAlbum> {
-  const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
-  );
-  const data = await response.json();
-  return data.album;
+  try {
+    const response = await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
+    );
+
+    // Check if response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Non-JSON response received:', text.substring(0, 200));
+      throw new Error('Last.fm API returned non-JSON response. Check your API key and rate limits.');
+    }
+
+    const data = await response.json();
+
+    // Check for Last.fm API errors
+    if (data.error) {
+      throw new Error(`Last.fm API error: ${data.message}`);
+    }
+
+    return data.album;
+  } catch (error) {
+    console.error(`Failed to fetch album info for ${artist} - ${album}:`, error);
+    throw error;
+  }
 }
 
 let recentTracksCache: {
@@ -222,7 +247,7 @@ export async function enrichArtistsWithInfo(artistList: LastFmArtist[], apiKey: 
 export async function getTrackInfo(artistName: string, trackName: string, apiKey: string): Promise<LastFmTrackInfo> {
   try {
     const url = `https://ws.audioscrobbler.com/2.0/?method=track.getinfo&artist=${encodeURIComponent(artistName)}&track=${encodeURIComponent(trackName)}&user=zerosandones217&api_key=${apiKey}&format=json`;
-
+    console.log(url)
     const trackResponse = await fetch(url);
     const trackData = await trackResponse.json();
 
