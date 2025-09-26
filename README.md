@@ -54,10 +54,32 @@ All commands are run from the root of the project, from a terminal:
 | :------------------------ | :----------------------------------------------- |
 | `npm install`             | Installs dependencies                            |
 | `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run build`           | Build your production site to `./dist/` (with remote DB) |
+| `npm run build:local`     | Build your production site to `./dist/` (local DB) |
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## 🚀 Deployment to Netlify
+
+This project is configured for deployment to Netlify with Astro DB integration. The build process uses the `--remote` flag to connect to a remote database during build time.
+
+### Required Environment Variables
+
+Set these environment variables in your Netlify dashboard:
+
+- `ASTRO_DB_REMOTE_URL`: Your libSQL database URL
+- `ASTRO_DB_APP_TOKEN`: Your libSQL authentication token
+
+### Database Configuration
+
+The project uses Astro DB with a `ClickCounter` table for tracking user interactions. The database is configured to work with both local development and remote production environments.
+
+### Build Process
+
+- **Local Development**: Uses local SQLite database
+- **Production Build**: Uses remote libSQL database via `--remote` flag
+- **Netlify Deploy**: Automatically configured via `netlify.toml`
 
 ## 👀 Want to learn more?
 

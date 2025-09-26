@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "rm -r -f dist && mkdir dist",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build --remote",
+    "build:local": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate-links": "node scripts/links.js"

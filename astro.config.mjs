@@ -18,7 +18,9 @@ export default defineConfig({
 		}),
 		sitemap(),
 		alpinejs(),
-		db()
+		db({
+			studio: false
+		})
 	],
 	vite: {
 		plugins: [tailwindcss()],
