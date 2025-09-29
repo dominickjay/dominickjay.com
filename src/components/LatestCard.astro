@@ -2,17 +2,18 @@
 import { getCollection } from 'astro:content';
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === true) {
+if (import.meta.env.DEV && import.meta.env.DEV === "false") {
     posts = (await getCollection("writing",
         ({ data }) => !data?.draft
-    )).slice(0, 1);
+    ));
 } else {
-    posts = (await getCollection("writing")).slice(0, 1);
+    posts = (await getCollection("writing"));
 }
 
 posts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
 ---
 
 <article class="latest-card">
@@ -23,7 +24,7 @@ posts.sort(
 </article>
 
 <style>
-
+‰
     .latest-card {
         container: latest-card / inline-size;
         margin-top: 16px;

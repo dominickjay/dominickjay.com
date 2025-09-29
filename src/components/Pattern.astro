@@ -1,4 +1,4 @@
-<svg class="opacity-[0.64]" width="2559" height="2246" viewBox="0 0 2559 2246" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg class="opacity-[0.64] pattern" width="2559" height="2246" viewBox="0 0 2559 2246" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_1427_53679)">
     <path d="M725.384 637.654C716.068 658.038 706.759 678.429 697.443 698.813C697.168 699.406 698.213 699.91 698.51 699.323C708.635 679.332 718.759 659.334 728.884 639.343C729.374 638.383 728.944 637.21 727.978 636.741C727.012 636.28 725.831 636.674 725.384 637.654Z" fill="black" fill-opacity="0.64"/>
     <path d="M759.512 664.792C749.408 681.444 739.311 698.095 729.208 714.752C728.819 715.398 729.91 716.128 730.356 715.51C741.823 699.769 753.291 684.029 764.751 668.281C765.775 666.88 765.326 664.883 763.876 663.917C762.426 662.951 760.413 663.308 759.512 664.792Z" fill="black" fill-opacity="0.64"/>
@@ -922,3 +922,55 @@
     </clipPath>
     </defs>
 </svg>
+
+<script is:inline>
+    function randomizePathPositions(svgSelector: string, maxMovement: number) {
+    // 1. Select the SVG and all target path elements
+    const svg = document.querySelector('.pattern');
+    console.log(svg);
+    if (!svg) {
+        console.error("SVG element not found for selector:", svgSelector);
+        return;
+    }
+
+    // Get all path elements within the SVG (excluding those in the clip-path definitions)
+    const paths = svg.querySelectorAll('path');
+
+    // Helper function to generate a random number within a range
+    // Range: [-maxMovement, +maxMovement]
+    function getRandomTranslation(max) {
+        return Math.floor(Math.random() * (2 * max + 1)) - max;
+    }
+
+    // 2. Iterate over each path element
+    paths.forEach((path) => {
+        // Generate random X and Y translation values (e.g., between -50 and 50)
+        const translateX = getRandomTranslation(maxMovement);
+        const translateY = getRandomTranslation(maxMovement);
+
+        // 3. Apply the translation transformation
+        path.setAttribute('transform', `translate(${translateX}, ${translateY})`);
+
+        // NOTE: If the original SVG paths already had transforms,
+        // you would need to read the existing transform and append/prepend
+        // the new translate. Since your provided SVG paths don't have transforms,
+        // directly setting the attribute is simpler and sufficient.
+    });
+    }
+
+    // --- USAGE ---
+
+    // Define the maximum distance (in SVG units) a path can move in any direction
+    const MAX_MOVEMENT = 150;
+
+    // Run the function on your SVG. Use the class or ID to target it.
+    // Assuming your SVG is the only one or you can use its class:
+    randomizePathPositions('.opacity-\\[0\\.64\\]', MAX_MOVEMENT);
+
+    // To make it run periodically for a continuously moving effect:
+    /*
+    setInterval(() => {
+    randomizePathPositions('.opacity-\\[0\\.64\\]', MAX_MOVEMENT);
+    }, 1000); // Update every 1000 milliseconds (1 second)
+    */
+</script>

@@ -1,0 +1,136 @@
+---
+import Layout from '../layouts/Default.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE, CURRENT_COMPANY, CURRENT_POSITION } from '../consts';
+import {
+    getTopTracks,
+    type LastFmTopTrack
+} from '../lib/lastfm';
+import moment from "moment";
+
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+
+let topTrack: LastFmTopTrack[] = [];
+let currentBooks = [];
+
+// Fetch all data using consolidated utilities
+const topTracks = await Promise.all([
+    getTopTracks(apiKey, 1)
+]);
+
+if (topTracks[0].toptracks?.track) {
+    topTrack = topTracks[0].toptracks.track;
+}
+
+const currentlyReading = await fetch("https://literal.club/graphql/",
+  {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+        query: `query booksByReadingStateAndProfile(
+        $limit: Int!
+        $offset: Int!
+        $readingStatus: ReadingStatus!
+        $profileId: String!
+      ) {
+        booksByReadingStateAndProfile(
+            limit: $limit
+            offset: $offset
+            readingStatus: $readingStatus
+            profileId: $profileId
+        )
+        { id title cover authors {
+            name
+        } } }`,
+        variables: {
+            "limit": 100,
+            "offset": 0,
+            "readingStatus": "IS_READING",
+            "profileId": import.meta.env.profileId
+        },
+    }),
+}).then((response) =>
+  response.json()
+).then((data) => {
+    currentBooks = data.data.booksByReadingStateAndProfile;
+});
+
+async function getBooks() {
+  const data = (
+    (await fetch("https://literal.club/graphql/", {
+      method: "POST",
+      body: JSON.stringify({
+        query: `query booksByReadingStateAndProfile(
+        $limit: Int!
+        $offset: Int!
+        $readingStatus: ReadingStatus!
+        $profileId: String!
+      ) {
+        booksByReadingStateAndProfile(
+            limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
+            id title cover authors { name } } }`,
+        variables: {
+          limit: 100,
+          offset: 0,
+          readingStatus: "FINISHED",
+          profileId: import.meta.env.profileId,
+        },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: import.meta.env.literalToken ?? "",
+      },
+    }).then((res) => res.json())) as any
+  );
+
+  const books = data.data.booksByReadingStateAndProfile;
+
+  // Process books and include all regardless of dates
+  const processedBooks = books.map(book => {
+    const dates = book?.getReadDates?.pop();
+
+    return {
+      ...book,
+      started: dates?.started ? dates?.started : 'unknown',
+      finished: dates?.finished ? dates?.finished : 'unknown',
+    };
+  });
+
+  return processedBooks;
+}
+
+const books = await getBooks();
+
+---
+
+<Layout
+	title="Now"
+	description="What I'm doing right /now"
+>
+	<div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;">
+        <ul class="col-span-full">
+            {topTrack[0] && (
+                <li>
+                    {topTrack[0].name} by {topTrack[0].artist['name']}
+                </li>
+            )}
+
+                <li
+                    class="col-span-2 group"
+                >
+                    Currently reading {currentBooks.map((book, i) => book.title).join(', ')} books
+                </li>
+            <li>
+                As of now, I've read {books.length} books
+            </li>
+            <li>
+                Currently learning 'Overcompensate' by twenty one pilots on the drums
+            </li>
+            <li>
+                Living in Plymouth, UK with my partner and our two kids.
+            </li>
+            <li>
+                Currently watching 'Coffin Run' on Dropout.tv
+            </li>
+        </ul>
+	</div>
+</Layout>

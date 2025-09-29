@@ -22,7 +22,7 @@ let recentArtists: any[] = [];
 
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === true) {
+if (import.meta.env.DEV && import.meta.env.DEV === "false") {
     posts = await getCollection("writing",
         ({ data }) => !data?.draft
     );
@@ -299,7 +299,7 @@ const recentTracksResponse = await fetch('https://ws.audioscrobbler.com/2.0/?met
                         <div class="flex flex-col gap-y-[24px] sticky top-[120px]">
                             <h3 class="h3">Can't decide?</h3>
                             <a
-                                class="py-[16px] px-[24px] border w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white"
+                                class="pb-[16px] pt-[18px] px-[24px] border w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white"
                                 href={`/writing/${randomPost.id}/`}
                             >Click here for a Random Post</a>
                         </div>

@@ -101,13 +101,24 @@ async function getBooks() {
 
     const b = {
       ...book,
-      started: date?.started,
-      finished: date?.finished,
+      started: date?.started ? date?.started : 'unknown',
+      finished: date?.finished ? date?.finished : 'unknown',
     };
 
-    if (b.finished != null) {
+    // Include all books regardless of dates
+    if (b.finished != null && b.finished !== 'unknown') {
       const year = moment(b.finished).year();
 
+      let read = books.get(year);
+      if (read == null) {
+        read = [b];
+        books.set(year, read);
+      } else {
+        read.push(b);
+      }
+    } else {
+      // For books without finished dates, use a special year (e.g., 0 or current year)
+      const year = 2023; // or new Date().getFullYear() if you prefer current year
       let read = books.get(year);
       if (read == null) {
         read = [b];
@@ -230,6 +241,7 @@ const books = await getBooks();
                                                                 'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                                             }"
                                                         >
+                                                            <i>{index}</i>
                                                             <p class="text-[22px]">{book.title}</p>
                                                             <div
                                                                 class="mt-auto pb-[8px] flex flex-col"
@@ -237,11 +249,13 @@ const books = await getBooks();
                                                                     'flex-row gap-x-[20px] items-center mt-[8px]': list,
                                                                 }"
                                                             >
-                                                                {book.started != book.finished && (
+                                                                {book.started != book.finished && book.started !== 'unknown' && book.finished !== 'unknown' && (
                                                                     // <p>{new Date(book.started)}</p>
                                                                     <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>
                                                                 )}
-                                                                    <span class="text-[16px] pt-[2px]">Finished: <FormattedDate date={new Date(book.finished)} /></span>
+                                                                    <span class="text-[16px] pt-[2px]">
+                                                                        Finished: {book.finished !== 'unknown' ? <FormattedDate date={new Date(book.finished)} /> : 'Unknown date'}
+                                                                    </span>
                                                             </div>
                                                         </div>
                                                     </div>

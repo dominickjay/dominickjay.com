@@ -38,6 +38,11 @@ export interface LastFmArtist {
   };
 }
 
+export interface LastFmTopTrack {
+  name: string;
+  url: string;
+}
+
 export interface LastFmTag {
   name: string;
   url: string;
@@ -75,6 +80,13 @@ export async function getWeeklyAlbumChart(from: string, to: string, apiKey: stri
   );
   return response.json();
 }
+
+export async function getTopTracks(apiKey: string, limit?: number): Promise<LastFmResponse> {
+    const response = await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=7day&api_key=${apiKey}&limit=${limit || 20}&format=json`
+    );
+    return response.json();
+};
 
 export async function getArtistInfo(artist: string, apiKey: string): Promise<LastFmArtist> {
   // First try to get artist info

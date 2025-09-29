@@ -2,16 +2,17 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import PatternBanner from '../../components/Pattern-Banner.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { getReadingTime } from '../../utils/utils.mjs';
 
 
-
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === true) {
+if (import.meta.env.DEV && import.meta.env.DEV === "false") {
+    console.log('DEV');
     posts = await getCollection("writing",
         ({ data }) => !data?.draft
     );
@@ -32,9 +33,14 @@ posts.sort(
 	</head>
 	<body>
 		<Header />
-		<main>
-			<section class="container pt-[125px]" style="--container-width: 1024px">
-                <h1 class="h1 !pt-[64px] !pb-[56px]">Writing</h1>
+		<main class="relative overflow-clip pb-[64px]">
+            <header class="!relative pt-[130px] md:pt-[92px] !pb-[56px]">
+                <div class="container">
+                    <h1 class="h1 md:max-w-[1024px]">Writing</h1>
+                </div>
+            </header>
+            <PatternBanner />
+			<section class="container" style="--container-width: 1024px">
                 <ol class="flex flex-col gap-y-[32px] !pt-[64px] !pb-[56px]">
                     {
                         posts.map((post) => (
