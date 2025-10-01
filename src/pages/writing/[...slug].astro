@@ -135,7 +135,7 @@ export async function getStaticPaths() {
          <div class="flex gap-[16px] w-full">
             {allPosts1.map((post) => (
                 <div key={post.id} class="border p-4 md:max-w-1/2">
-                    <a href={`/writing/${post.id}`} class="flex flex-col gap-y-[8px]">
+                    <a href={`/writing/${post.id}`} class="flex flex-col gap-y-[8px] h-full">
                         <span class="h3">{post.data.title}</span>
                         <div class="">{post.data.description}</div>
                     </a>

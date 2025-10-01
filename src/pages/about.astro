@@ -143,37 +143,37 @@ if (recentTracksData.recentTracks) {
             <Joke />
 			<div class="flex flex-col gap-[24px]">
                 <h2 class="h3 mb-[24px]">Recent Albums</h2>
-            <div class="grid !grid-cols-3 md:!grid-cols-12 gap-0 relative" style="--gutter: 8px">
-                {albumCovers.slice(0, 12).map(async (album: LastFmAlbum) => {
-                    const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
-                    if (!hasValidImage) {
-                        return null;
-                    }
+                <div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
+                    {albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
+                        const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
+                        if (!hasValidImage) {
+                            return null;
+                        }
 
-                    return (
-                        <div class="col-span-1 opacity-[0.7] bg-album-cover">
-                            <img
-                                src={album.image[2]['#text']}
-                                alt={`Cover for ${album.name}`}
-                                class="w-full h-auto aspect-square object-cover"
-                                onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
-                                width="200"
-                                height="200"
-                                loading="lazy"
+                        return (
+                            <div class="col-span-1 opacity-[0.7] bg-album-cover">
+                                <img
+                                    src={album.image[2]['#text']}
+                                    alt={`Cover for ${album.name}`}
+                                    class="w-full h-auto aspect-square object-cover"
+                                    onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+                                    width="200"
+                                    height="200"
+                                    loading="lazy"
+                                />
+                            </div>
+                        );
+                    })}
+                    <div class="col-span-full">
+                        {recentTracks && (
+                            <MusicCard
+                                track={recentTracks}
+                                tags={recentTrackTags}
+                                trackColor={trackColor}
                             />
-                        </div>
-                    );
-                })}
-                <div class="song col-span-full">
-                    {recentTracks && (
-                        <MusicCard
-                            track={recentTracks}
-                            tags={recentTrackTags}
-                            trackColor={trackColor}
-                        />
-                    )}
+                        )}
+                    </div>
                 </div>
-            </div>
             </div>
 
             <GitHubContributions />

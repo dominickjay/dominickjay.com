@@ -10,6 +10,40 @@ import moment from "moment";
 let currentBooks = [];
 let finishedBooks = [];
 let readBooks = [];
+let toReadBooks = [];
+
+const toRead = await fetch("https://literal.club/graphql/",
+  {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+        query: `query booksByReadingStateAndProfile(
+        $limit: Int!
+        $offset: Int!
+        $readingStatus: ReadingStatus!
+        $profileId: String!
+      ) {
+        booksByReadingStateAndProfile(
+            limit: $limit
+            offset: $offset
+            readingStatus: $readingStatus
+            profileId: $profileId
+        )
+        { id title cover authors {
+            name
+        } } }`,
+        variables: {
+            "limit": 100,
+            "offset": 0,
+            "readingStatus": "WANTS_TO_READ",
+            "profileId": import.meta.env.profileId
+        },
+    }),
+}).then((response) =>
+  response.json()
+).then((data) => {
+    toReadBooks = data.data.booksByReadingStateAndProfile;
+});
 
 const currentlyReading = await fetch("https://literal.club/graphql/",
   {
@@ -143,9 +177,8 @@ const books = await getBooks();
 	</head>
 	<body>
 		<Header />
-		<main>
-            <div
-                class="container grid grid-rows-[repeat(3, minmax(0, auto))] pt-[137px] pb-[62px]"
+		<main class="relative overflow-clip pb-[64px]">
+            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px]"
                 style="--grid-placement: 12; --gutter: 43px;"
                 x-data="{
                     list: true,
@@ -171,104 +204,119 @@ const books = await getBooks();
                         <img :src="floatingCover.src" :alt="floatingCover.title" class="w-full h-full object-cover" />
                     </div>
                 </div>
-                <div
-                    class="col-span-full grid gap-y-[24px]"
-                    :class="{
-                        'flex flex-col': list,
-                        'grid': !list
-                    }"
-                >
-                    <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
-                    <ul class="col-span-full grid gap-y-[12px]"
+                <div class="md:sticky top-[240px] h-fit shrink-0">
+                    <span class="h3 mb-[24px] block">To Read List</span>
+                    <div class="flex flex-col gap-[12px] overflow-auto">
+                        { toReadBooks.map((book, i) => (
+                            <div class="flex flex-col gap-[3px]">
+                                <span class="font-semibold">{book.title}</span>
+                                {/* <span class="text-[1rem]">{book.author['name']}</span> */}
+                            </div>
+                            )
+                        )}
+                    </div>
+                </div>
+                <div class="flex flex-col gap-[20px] w-full">
+                    <div
+                        class="grid !grid-cols-4 gap-[20px] pt-0 md:pt-[137px]"
                         :class="{
                             'flex flex-col': list,
                             'grid': !list
                         }"
                     >
-                        {currentBooks.map((book, i) =>
-                            <li
-                                class="col-span-2 group"
-                                :class="{
-                                    'border-b'
-                                }"
-                                @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-                                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-                            >
-                                <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                    <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
-                                        {book.cover && <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />}
+                        <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
+                        <ul
+                            class="col-span-full grid gap-y-[12px]"
+                            :class="{
+                                'flex flex-col': list,
+                                'grid': !list
+                            }"
+                        >
+                            {currentBooks.map((book, i) =>
+                                <li
+                                    class="col-span-2 group"
+                                    :class="{
+                                        'border-b'
+                                    }"
+                                    @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+                                    @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+                                >
+                                    <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
+                                        <div x-show="!list" class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? 'border' : ''}`}>
+                                            {book.cover && <Image class="w-full" src={book.cover} alt={'Cover for ' + book.title} width="200" height="100" />}
+                                        </div>
+                                        <div
+                                            class={`flex flex-col gap-[8px] w-full ${!book.cover ? 'absolute bg-black inset-0 text-white py-[8px] px-[16px] opacity-100' : ''}`}
+                                            :class="{
+                                                'opacity-0 absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
+                                            }"
+                                        >
+                                            <p class="text-[22px]">{ book.title }</p>
+                                        </div>
                                     </div>
-                                    <div
-                                        class={`flex flex-col gap-[8px] w-full ${!book.cover ? 'absolute bg-black inset-0 text-white py-[8px] px-[16px] opacity-100' : ''}`}
-                                        :class="{
-                                            'opacity-0 absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
-                                        }"
-                                    >
-                                        <p class="text-[22px]">{ book.title }</p>
-                                    </div>
-                                </div>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-                {
-                    [...books].map((year, i) => (
-                        <ul class="col-span-full">
-                            <li>
-                                <div class="flex flex-col gap-y-[24px]">
-                                    <h2 class="h2">{year[0]}</h2>
-                                    <ul
-                                        class="col-span-full grid gap-y-[12px]"
-                                        :class="{
-                                            'flex flex-col': list,
-                                            'grid': !list
-                                        }"
-                                    >
-                                        {
-                                            [...books][i][1].map((book, index) => (
-                                            <li
-                                                class="col-span-2 group"
-                                                :class="{
-                                                    'border-b'
-                                                }"
-                                                @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-                                                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-                                            >
-                                                    <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                                        <div
-                                                            class="flex flex-col gap-[8px]w-full"
-                                                            :class="{
-                                                                'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
-                                                            }"
-                                                        >
-                                                            <i>{index}</i>
-                                                            <p class="text-[22px]">{book.title}</p>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                    {
+                        [...books].map((year, i) => (
+                            <ul class="col-span-full">
+                                <li>
+                                    <div class="flex flex-col gap-y-[24px]">
+                                        <h2 class="h2">Books read in {year[0]} <span class="text-[20px] opacity-75">({year[1].length})</span></h2>
+                                        <ul
+                                            class="col-span-full grid gap-y-[12px]"
+                                            :class="{
+                                                'flex flex-col': list,
+                                                'grid': !list
+                                            }"
+                                        >
+                                            {
+                                                [...books][i][1].map((book, index) => (
+                                                <li
+                                                    class="col-span-2 group"
+                                                    :class="{
+                                                        'border-b'
+                                                    }"
+                                                    @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+                                                    @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+                                                >
+                                                        <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
                                                             <div
-                                                                class="mt-auto pb-[8px] flex flex-col"
+                                                                class="flex flex-col gap-[8px]w-full"
                                                                 :class="{
-                                                                    'flex-row gap-x-[20px] items-center mt-[8px]': list,
+                                                                    'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                                                 }"
                                                             >
-                                                                {book.started != book.finished && book.started !== 'unknown' && book.finished !== 'unknown' && (
-                                                                    // <p>{new Date(book.started)}</p>
-                                                                    <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>
-                                                                )}
-                                                                    <span class="text-[16px] pt-[2px]">
-                                                                        Finished: {book.finished !== 'unknown' ? <FormattedDate date={new Date(book.finished)} /> : 'Unknown date'}
-                                                                    </span>
+                                                                <p class="text-[22px]">{book.title}</p>
+                                                                <div
+                                                                    class="mt-auto pb-[8px] flex flex-col"
+                                                                    :class="{
+                                                                        'flex-row gap-x-[20px] items-center mt-[8px]': list,
+                                                                    }"
+                                                                >
+                                                                    {book.started != book.finished && book.started !== 'unknown' && book.finished !== 'unknown' && (
+                                                                        // <p>{new Date(book.started)}</p>
+                                                                        <span class="text-[16px]">Started: <FormattedDate date={new Date(book.started)} /></span>
+                                                                    )}
+                                                                        <span class="text-[16px] pt-[2px]">
+                                                                            Finished: {book.finished !== 'unknown' ? <FormattedDate date={new Date(book.finished)} /> : 'Unknown date'}
+                                                                        </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                            ))
-                                        }
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
 
-                    ))
-                }
+                        ))
+                    }
+                    </div>
+                </div>
             </div>
 		</main>
 		<Footer />

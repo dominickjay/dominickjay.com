@@ -1,5 +1,6 @@
 ---
 import NavLink from '../components/NavigationLink.astro';
+import PatternBanner from '../components/Pattern-Banner.astro';
 const today = new Date();
 ---
 
@@ -15,23 +16,40 @@ const today = new Date();
     </span>
 </div> -->
 
-<footer class="relative border-t border-dark region [--region-space:var(--space-xxl)]">
-    <div class="container grid !grid-cols-6">
-        <nav class="col-span-full md:col-span-1 internal-links flex flex-col" aria-label="Internal Site Links">
-            <NavLink class="nav-link nav-link--small translate-x-[-10px]" href="/writing">Writing</NavLink>
-            <NavLink class="nav-link nav-link--small translate-x-[-10px]" href="/about">About</NavLink>
-        </nav>
-        <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-8 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
-            <a class="nav-link nav-link--small" href="https://m.webtoo.ls/@astro" target="_blank">
-                <span class="">Mastodon</span>
-            </a>
-            <a class="nav-link nav-link--small" href="https://twitter.com/astrodotbuild" target="_blank">
-                <span class="">LinkedIn</span>
-            </a>
-            <a class="nav-link nav-link--small" href="https://github.com/withastro/astro" target="_blank">
-                <span class="">Bluesky</span>
-            </a>
-        </nav>
-        <div class="col-span-full">&copy; {today.getFullYear()} Dom Jay. All rights reserved.</div>
+<footer class="relative py-[20px] bg-black text-white overflow-hidden">
+    <PatternBanner fill="white" />
+    <div class="relative container grid !grid-cols-3 place-content-center pb-[8px]">
+        <div class="flex flex-col justify-center gap-y-[16px]">
+            <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-4 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
+                <a class="nav-link" href="//mastodon.social/@dominickjay" target="_blank">
+                    <span class="text-white">Mastodon</span>
+                </a>
+                <a class="nav-link" href="//github.com/dominickjay" target="_blank">
+                    <span class="text-white">GitHub</span>
+                </a>
+                <a class="nav-link" href="//linkedin.com/in/dominickjay/" target="_blank">
+                    <span class="text-white">LinkedIn</span>
+                </a>
+                <a class="nav-link" href="//bsky.app/profile/dominickjay.bsky.social" target="_blank">
+                    <span class="text-white">Bluesky</span>
+                </a>
+                <a class="nav-link" href="//last.fm/user/zerosandones217" target="_blank">
+                    <span class="text-white">Last.fm</span>
+                </a>
+            </nav>
+        </div>
+        <div class="col-span-full md:col-start-3 md:col-span-1 flex items-center justify-end gap-x-[16px]">
+            <nav class="internal-links flex gap-x-[32px]" aria-label="Internal Site Links">
+                <a class="nav-link translate-x-[-10px] text-white" href="/writing">Writing</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/about">About</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/books">Reading List</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/music">Music</a>
+            </nav>
+        </div>
+    </div>
+    <div class="py-[8px]">
+        <div class="container flex justify-end">
+            &copy; {today.getFullYear()} Dom Jay. All rights reserved.
+        </div>
     </div>
 </footer>

@@ -5,7 +5,7 @@ pubDate: '2023-11-27'
 tags: ['css', 'javascript']
 ---
 
-<div class="fyi-block fyi-block--warning font-medium rounded-br-[80px] border py-[16px] px-[24px] body-text leading-[140%]">
+<div class="fyi-block fyi-block--warning">
     <span class="standfirst">Warning</span>
     <p>There's some CSS properties used in this demo and in the featured Codepen that are experimental technologies - check your browser support for <a href="animation-range> <a href="https://caniuse.com/?search=animation-timeline">animation-timeline</a> and <a href="https://caniuse.com/?search=view-timeline-name">view-timeline-name</a> before venturing further and thinking I've broken something. I'm in <i>no</i> means an expert at this here, but I think I got it right!</p>
 </div>

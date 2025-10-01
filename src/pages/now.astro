@@ -110,7 +110,7 @@ const books = await getBooks();
         <ul class="col-span-full">
             {topTrack[0] && (
                 <li>
-                    {topTrack[0].name} by {topTrack[0].artist['name']}
+                    My top track this week is {topTrack[0].name} by {topTrack[0].artist['name']}
                 </li>
             )}
 
@@ -120,7 +120,7 @@ const books = await getBooks();
                     Currently reading {currentBooks.map((book, i) => book.title).join(', ')} books
                 </li>
             <li>
-                As of now, I've read {books.length} books
+                As of now, I've read {books.length} books, my complete reading list is <a href="/books">here</a>
             </li>
             <li>
                 Currently learning 'Overcompensate' by twenty one pilots on the drums

@@ -56,7 +56,7 @@
             padding-inline-end: var(--space-s);
         }
 
-        a {
+        a:not(.nav-link) {
             display: flex;
             justify-content: flex-start;
             align-items: center;
@@ -85,6 +85,7 @@
             &:hover {
                 text-decoration: underline;
                 text-decoration-style: wavy;
+                text-decoration-color: currentColor;
             }
         }
     }
