@@ -12,7 +12,6 @@
         @media (min-width: 992px) {
             grid-column-start: 8;
             grid-column-end: 13;
-            margin-block-end: 66px;
             grid-row: 1 / span 3;
             grid-row-start: 1;
 

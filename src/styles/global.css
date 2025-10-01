@@ -26,6 +26,7 @@
 @import './blocks/joke.css';
 @import './blocks/song.css';
 @import './blocks/demos.css';
+@import './blocks/latest-card.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';
