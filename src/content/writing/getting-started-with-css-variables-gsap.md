@@ -4,7 +4,7 @@ description: "Dive into the exciting world of GSAP's latest feature - direct CSS
 pubDate: '2024-06-12'
 draft: true
 tags:
-  - js
+  - javascript
   - css
   - CSSentials
   - ByteSize

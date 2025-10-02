@@ -3,7 +3,7 @@ title: "Flexbox Safe and Unsafe Values: A Complete Guide"
 description: "Understanding safe and unsafe values in CSS flexbox properties and their impact on layout behavior."
 pubDate: 2025-01-27
 draft: true
-tags: ["css", "flexbox", "layout", "responsive-design"]
+tags: ["css"]
 ---
 
 ## Understanding Safe vs Unsafe Values

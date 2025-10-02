@@ -5,6 +5,10 @@
     @media (width >= 768px) {
         --grid-placement: 4;
     }
+
+    & > .latest-card {
+        grid-column: span 2;
+    }
 }
 
 .latest-card {

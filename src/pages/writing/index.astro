@@ -24,6 +24,10 @@ posts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
+// Extract all unique tags from posts
+const allTags = posts.flatMap(post => post.data.tags);
+const categories = [...new Set(allTags)].sort();
+
 ---
 
 <!doctype html>
@@ -34,52 +38,110 @@ posts.sort(
 	<body>
 		<Header />
 		<main class="relative overflow-clip pb-[64px]">
-            <header class="!relative pt-[130px] md:pt-[92px] !pb-[56px]">
+            <header class="!relative pt-[45px] md:pt-[92px] !pb-[56px]">
                 <div class="container">
                     <h1 class="h1 md:max-w-[1024px]">Writing</h1>
                 </div>
             </header>
             <PatternBanner />
-			<section class="container" style="--container-width: 1024px">
-                <ol class="flex flex-col gap-y-[32px] !pt-[64px] !pb-[56px]">
+			<section class="container">
+                <div class="flex flex-col gap-y-[32px] posts-categories pt-[32px] md:max-w-[66%] ml-auto align-end justify-end">
+                    <div class="overflow-auto flex md:flex-wrap gap-x-[8px] gap-y-[8px] md:ml-auto md:justify-end">
+                        <span
+                            class="category-filter border py-1 px-4 cursor-pointer hover:bg-gray-100 transition-colors active"
+                            data-category=""
+                        >
+                            All
+                        </span>
+                        {categories.map((category) => (
+                            <span
+                                class="category-filter border py-1 px-4 cursor-pointer hover:bg-gray-100 transition-colors min-w-fit"
+                                data-category={category}
+                            >
+                                {category}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                <ol class="flex flex-col gap-y-[32px] !pt-[64px] !pb-[56px] post-list">
                     {
                         posts.map((post) => (
-                        <li style="`--delay: {i * 0.25}s`">
-                                <div class="flex flex-col gap-y-[8px]">
-                                    <div class="flex gap-x-[16px]">
-                                        <span>{getReadingTime(post.body)} min</span>
-                                        <span>{getReadingTime(post.body)} min</span>
-                                    </div>
-                                    <div class="flex justify-between">
-
-                                        <div class="flex flex-col gap-y-[8px]">
-                                            <a class="text-[20px] tracking-[-0.02em] block mb-[4px]" href={`/writing/${post.id}/`}>
-                                                <h4>{post.data.title}</h4>
-                                            </a>
-                                            <p class="opacity-[0.64] body-text">{post.data.description}</p>
-                                        </div>
-                                        <p class="date shrink-0">
-                                            <FormattedDate date={post.data.pubDate} />
-                                        </p>
+                        <li
+                            class="border-b border-black pb-[32px] post-item"
+                            data-tags={JSON.stringify(post.data.tags)}
+                        >
+                            <div class="flex flex-col gap-y-[12px] group relative opacity-[0.5] hover:opacity-100 transition-opacity duration-300">
+                                <div class="flex gap-x-[16px] group-hover:opacity-100 opacity-[0.5] transition-opacity duration-300 mb-[4px]">
+                                    <ul class="flex gap-x-[8px]">
+                                        {post.data.tags.map((tag) => (
+                                            <li>
+                                                <span class="border py-1 px-4">{tag}</span></li>
+                                        ))}
+                                    </ul>
+                                    <span>{getReadingTime(post.body)} min</span>
+                                    <FormattedDate date={post.data.pubDate} />
+                                </div>
+                                <div class="flex justify-between">
+                                    <div class="flex flex-col gap-y-[8px]">
+                                        <a class="h2 block mb-[4px] box-link" href={`/writing/${post.id}/`}>
+                                            <h4>{post.data.title}</h4>
+                                        </a>
+                                        <p class="opacity-[0.85] body-text">{post.data.description}</p>
                                     </div>
                                 </div>
-                            </li>
+                            </div>
+                        </li>
                         ))
                     }
                 </ol>
 			</section>
 		</main>
-		<Footer />
+		<PatternBanner />
 	</body>
 </html>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryFilters = document.querySelectorAll('.category-filter');
+        const postItems = document.querySelectorAll('.post-item');
 
-    import { runOnce } from '@bramus/sda-utilities';
+        categoryFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                const selectedCategory = this.getAttribute('data-category');
+                console.log('Selected category:', selectedCategory);
 
-    // Run the “fade-in” scroll-driven animation on the `#hero` element only once.
-    document.querySelectorAll(".reveal--fade-in").forEach(($el) => {
-        runOnce($el, "fadeIn");
+                // Update active state
+                categoryFilters.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter posts
+                postItems.forEach(post => {
+                    const tagsAttr = post.getAttribute('data-tags');
+                    const postTags = tagsAttr ? JSON.parse(tagsAttr) : [];
+                    console.log('Post tags:', postTags);
+
+                    if (selectedCategory === '' || postTags.includes(selectedCategory)) {
+                        post.style.display = 'flex';
+                        console.log('Showing post');
+                    } else {
+                        post.style.display = 'none';
+                        console.log('Hiding post');
+                    }
+                });
+            });
+        });
     });
-
 </script>
+
+<style>
+    .post-list {
+        li:first-of-type > .post-item {
+            opacity: 1;
+        }
+    }
+
+    .category-filter.active {
+        background-color: black;
+        color: white;
+    }
+</style>

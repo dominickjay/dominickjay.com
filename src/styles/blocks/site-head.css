@@ -15,7 +15,6 @@
         will-change: padding-block;
 
         @media (min-width: 768px) {
-            --padding-block: 42px;
             position: fixed;
             top: 0;
 
