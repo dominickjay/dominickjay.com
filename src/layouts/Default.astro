@@ -7,6 +7,7 @@ import PatternBanner from '../components/Pattern-Banner.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import {generateCategoryData} from '../utils/utils.mjs';
 import TableOfContents from '../components/TableOfContents.astro';
+import DefaultHero from '../components/DefaultHero.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -22,18 +23,13 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 		<Header />
 		<main class="relative overflow-clip pb-[64px]">
 			<article>
-                <header class="!relative !pt-[64px] !pb-[56px]">
-                    <div class="container flex flex-col gap-y-[16px]">
-                        <h1 class="h1">{title}</h1>
-                        <h2 class="h4">{description}</h2>
-                    </div>
-                </header>
+                <DefaultHero title={title} description={description} />
                 <PatternBanner fill="white" />
 				<div class="container pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
                     <slot />
 				</div>
 			</article>
 		</main>
-		<Footer />
+		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
 </html>

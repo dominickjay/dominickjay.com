@@ -7,6 +7,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { getReadingTime } from '../../utils/utils.mjs';
+import DefaultHero from '../../components/DefaultHero.astro';
 
 
 let posts = [];
@@ -38,39 +39,33 @@ const categories = [...new Set(allTags)].sort();
 	<body>
 		<Header />
 		<main class="relative overflow-clip pb-[64px]">
-            <header class="!relative pt-[45px] md:pt-[92px] !pb-[56px]">
-                <div class="container">
-                    <h1 class="h1 md:max-w-[1024px]">Writing</h1>
-                </div>
-            </header>
+            <DefaultHero title="Writing" description="I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these {posts.length} posts, I go through problems, solutions and how I am - infact - not Batman." />
             <PatternBanner />
 			<section class="container">
-                <div class="flex flex-col gap-y-[32px] posts-categories pt-[32px] md:max-w-[66%] ml-auto align-end justify-end">
-                    <div class="overflow-auto flex md:flex-wrap gap-x-[8px] gap-y-[8px] md:ml-auto md:justify-end">
+                <div class="overflow-auto cluster md:ml-auto pt-[32px] md:max-w-[66%]" style="--gutter: 8px; --cluster-horizontal-alignment: flex-end">
+                    <span
+                        class="category-filter border py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors active"
+                        data-category=""
+                    >
+                        All
+                    </span>
+                    {categories.map((category) => (
                         <span
-                            class="category-filter border py-1 px-4 cursor-pointer hover:bg-gray-100 transition-colors active"
-                            data-category=""
+                            class="category-filter border py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
+                            data-category={category}
                         >
-                            All
+                            {category}
                         </span>
-                        {categories.map((category) => (
-                            <span
-                                class="category-filter border py-1 px-4 cursor-pointer hover:bg-gray-100 transition-colors min-w-fit"
-                                data-category={category}
-                            >
-                                {category}
-                            </span>
-                        ))}
-                    </div>
+                    ))}
                 </div>
-                <ol class="flex flex-col gap-y-[32px] !pt-[64px] !pb-[56px] post-list">
+                <ol class="!pt-[64px] !pb-[56px] post-list flow" style="--flow-space: 32px;">
                     {
                         posts.map((post) => (
                         <li
-                            class="border-b border-black pb-[32px] post-item"
+                            class="post-item"
                             data-tags={JSON.stringify(post.data.tags)}
                         >
-                            <div class="flex flex-col gap-y-[12px] group relative opacity-[0.5] hover:opacity-100 transition-opacity duration-300">
+                            <div class="border-b border-black pb-[32px] flex flex-col gap-y-[12px] group relative opacity-[0.5] hover:opacity-100 transition-opacity duration-300">
                                 <div class="flex gap-x-[16px] group-hover:opacity-100 opacity-[0.5] transition-opacity duration-300 mb-[4px]">
                                     <ul class="flex gap-x-[8px]">
                                         {post.data.tags.map((tag) => (
@@ -96,7 +91,7 @@ const categories = [...new Set(allTags)].sort();
                 </ol>
 			</section>
 		</main>
-		<PatternBanner />
+		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
 </html>
 
@@ -104,6 +99,11 @@ const categories = [...new Set(allTags)].sort();
     document.addEventListener('DOMContentLoaded', function() {
         const categoryFilters = document.querySelectorAll('.category-filter');
         const postItems = document.querySelectorAll('.post-item');
+
+        // Add opacity-100 to first post on initial load
+        if (postItems.length > 0) {
+            postItems[0].classList.add('opacity-100');
+        }
 
         categoryFilters.forEach(filter => {
             filter.addEventListener('click', function() {
@@ -116,12 +116,21 @@ const categories = [...new Set(allTags)].sort();
 
                 // Filter posts
                 postItems.forEach(post => {
+                    post.classList.remove('opacity-100');
+                });
+
+                let firstVisible = true;
+                postItems.forEach(post => {
                     const tagsAttr = post.getAttribute('data-tags');
                     const postTags = tagsAttr ? JSON.parse(tagsAttr) : [];
                     console.log('Post tags:', postTags);
 
                     if (selectedCategory === '' || postTags.includes(selectedCategory)) {
                         post.style.display = 'flex';
+                        if (firstVisible) {
+                            post.classList.add('opacity-100');
+                            firstVisible = false;
+                        }
                         console.log('Showing post');
                     } else {
                         post.style.display = 'none';
@@ -134,10 +143,8 @@ const categories = [...new Set(allTags)].sort();
 </script>
 
 <style>
-    .post-list {
-        li:first-of-type > .post-item {
-            opacity: 1;
-        }
+    .post-item.opacity-100:first-of-type {
+        opacity: 1 !important;
     }
 
     .category-filter.active {

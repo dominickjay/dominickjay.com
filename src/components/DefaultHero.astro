@@ -1,0 +1,10 @@
+---
+const { title, description } = Astro.props;
+---
+
+<header class="!relative !pt-[64px] !pb-[56px]">
+    <div class="container flex flex-col gap-y-[16px]">
+        <h1 class="h1">{title}</h1>
+        <h2 class="intro">{description}</h2>
+    </div>
+</header>
