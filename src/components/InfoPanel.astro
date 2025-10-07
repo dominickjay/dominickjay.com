@@ -16,38 +16,46 @@ let trackColor = '#000000'; // Default color
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 
-const response = await fetch("https://literal.club/graphql/",
-  {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-        query: `query booksByReadingStateAndProfile(
-        $limit: Int!
-        $offset: Int!
-        $readingStatus: ReadingStatus!
-        $profileId: String!
-      ) {
-        booksByReadingStateAndProfile(
-            limit: $limit
-            offset: $offset
-            readingStatus: $readingStatus
-            profileId: $profileId
-        )
-        { id title authors {
-            name
-        } } }`,
-        variables: {
-            "limit": 100,
-            "offset": 0,
-            "readingStatus": "IS_READING",
-            "profileId": import.meta.env.profileId
-        },
-    }),
-}).then((response) =>
-  response.json()
-).then((data) => {
-    books = data.data.booksByReadingStateAndProfile;
-});
+try {
+  const response = await fetch("https://literal.club/graphql/",
+    {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+          query: `query booksByReadingStateAndProfile(
+          $limit: Int!
+          $offset: Int!
+          $readingStatus: ReadingStatus!
+          $profileId: String!
+        ) {
+          booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+          )
+          { id title authors {
+              name
+          } } }`,
+          variables: {
+              "limit": 100,
+              "offset": 0,
+              "readingStatus": "IS_READING",
+              "profileId": import.meta.env.profileId
+          },
+      }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  books = data.data?.booksByReadingStateAndProfile || [];
+} catch (error) {
+  console.error('Error fetching books from Literal.club:', error);
+  books = [];
+}
 
 // Fetch all data using consolidated utilities
 const [recentTracksData] = await Promise.all([
@@ -93,7 +101,7 @@ console.log(recentTracks.artist['#text'])
     <div class="info-panel__details">
         <!-- Song -->
         <div class="info-panel__detail music relative">
-            {recentTracks['@attr']?.nowplaying ?
+            {recentTracks?.['@attr']?.nowplaying ?
                 <div class="now-playing-indicator now-playing-indicator--small !relative !bottom-0 !right-0 shrink-0">
                     <div class="now-playing-dot"></div>
                     <div class="now-playing-dot"></div>
@@ -104,7 +112,7 @@ console.log(recentTracks.artist['#text'])
                 <path d="M1 11.1663V13.833M5 7.16634V17.833M9 9.83301V15.1663M13 5.83301V19.1663M17 1.83301V23.1663M21 8.49967V16.4997M25 11.1663V13.833" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             }
-            <span><span class="music__song">{recentTracks.name}</span> by <span class="music__artist">{recentTracks.artist['#text']}</span></span>
+            <span><span class="music__song">{recentTracks?.name || 'No track playing'}</span> by <span class="music__artist">{recentTracks?.artist?.['#text'] || 'Unknown artist'}</span></span>
         </div>
         <!-- Book -->
         <div class="info-panel__detail book">
@@ -120,7 +128,7 @@ console.log(recentTracks.artist['#text'])
                 </clipPath>
                 </defs>
             </svg>
-            <span><span class="music__song">{books[0].title}</span> by <span class="music__artist">{books[0].authors[0].name}</span></span>
+            <span><span class="music__song">{books[0]?.title || 'No book currently reading'}</span> by <span class="music__artist">{books[0]?.authors?.[0]?.name || 'Unknown author'}</span></span>
         </div>
         <!-- Weather -->
         <div class="info-panel__detail weather">

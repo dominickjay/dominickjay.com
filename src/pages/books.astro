@@ -12,75 +12,91 @@ let finishedBooks = [];
 let readBooks = [];
 let toReadBooks = [];
 
-const toRead = await fetch("https://literal.club/graphql/",
-  {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-        query: `query booksByReadingStateAndProfile(
-        $limit: Int!
-        $offset: Int!
-        $readingStatus: ReadingStatus!
-        $profileId: String!
-      ) {
-        booksByReadingStateAndProfile(
-            limit: $limit
-            offset: $offset
-            readingStatus: $readingStatus
-            profileId: $profileId
-        )
-        { id title cover authors {
-            name
-        } } }`,
-        variables: {
-            "limit": 100,
-            "offset": 0,
-            "readingStatus": "WANTS_TO_READ",
-            "profileId": import.meta.env.profileId
-        },
-    }),
-}).then((response) =>
-  response.json()
-).then((data) => {
-    toReadBooks = data.data.booksByReadingStateAndProfile;
-});
+try {
+  const response = await fetch("https://literal.club/graphql/",
+    {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+          query: `query booksByReadingStateAndProfile(
+          $limit: Int!
+          $offset: Int!
+          $readingStatus: ReadingStatus!
+          $profileId: String!
+        ) {
+          booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+          )
+          { id title cover authors {
+              name
+          } } }`,
+          variables: {
+              "limit": 100,
+              "offset": 0,
+              "readingStatus": "WANTS_TO_READ",
+              "profileId": import.meta.env.profileId
+          },
+      }),
+  });
 
-const currentlyReading = await fetch("https://literal.club/graphql/",
-  {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-        query: `query booksByReadingStateAndProfile(
-        $limit: Int!
-        $offset: Int!
-        $readingStatus: ReadingStatus!
-        $profileId: String!
-      ) {
-        booksByReadingStateAndProfile(
-            limit: $limit
-            offset: $offset
-            readingStatus: $readingStatus
-            profileId: $profileId
-        )
-        { id title cover authors {
-            name
-        } } }`,
-        variables: {
-            "limit": 100,
-            "offset": 0,
-            "readingStatus": "IS_READING",
-            "profileId": import.meta.env.profileId
-        },
-    }),
-}).then((response) =>
-  response.json()
-).then((data) => {
-    currentBooks = data.data.booksByReadingStateAndProfile;
-});
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  toReadBooks = data.data?.booksByReadingStateAndProfile || [];
+} catch (error) {
+  console.error('Error fetching to-read books from Literal.club:', error);
+  toReadBooks = [];
+}
+
+try {
+  const response = await fetch("https://literal.club/graphql/",
+    {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+          query: `query booksByReadingStateAndProfile(
+          $limit: Int!
+          $offset: Int!
+          $readingStatus: ReadingStatus!
+          $profileId: String!
+        ) {
+          booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+          )
+          { id title cover authors {
+              name
+          } } }`,
+          variables: {
+              "limit": 100,
+              "offset": 0,
+              "readingStatus": "IS_READING",
+              "profileId": import.meta.env.profileId
+          },
+      }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  currentBooks = data.data?.booksByReadingStateAndProfile || [];
+} catch (error) {
+  console.error('Error fetching currently reading books from Literal.club:', error);
+  currentBooks = [];
+}
 
 async function getBooks() {
-  const data = (
-    (await fetch("https://literal.club/graphql/", {
+  try {
+    const response = await fetch("https://literal.club/graphql/", {
       method: "POST",
       body: JSON.stringify({
         query: `query booksByReadingStateAndProfile(
@@ -103,67 +119,96 @@ async function getBooks() {
         "Content-Type": "application/json",
         authorization: import.meta.env.literalToken ?? "",
       },
-    }).then((res) => res.json())) as any
-  );
+    });
 
-  const books = new Map<number, any>();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-  for (const book of data.data.booksByReadingStateAndProfile) {
-    const dates = (
-      (await fetch("https://literal.club/graphql/", {
-        method: "POST",
-        body: JSON.stringify({
-          query: `query getReadDates($bookId: String!, $profileId: String!) {
-            getReadDates(bookId: $bookId, profileId: $profileId) {
-              started
-              finished
-            }
-          }`,
-          variables: {
-            bookId: book.id,
-            profileId: import.meta.env.profileId,
+    const data = await response.json() as any;
+    const books = new Map<number, any>();
+
+    for (const book of data.data?.booksByReadingStateAndProfile || []) {
+      try {
+        const datesResponse = await fetch("https://literal.club/graphql/", {
+          method: "POST",
+          body: JSON.stringify({
+            query: `query getReadDates($bookId: String!, $profileId: String!) {
+              getReadDates(bookId: $bookId, profileId: $profileId) {
+                started
+                finished
+              }
+            }`,
+            variables: {
+              bookId: book.id,
+              profileId: import.meta.env.profileId,
+            },
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: import.meta.env.literalToken ?? "",
           },
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: import.meta.env.literalToken ?? "",
-        },
-      }).then((res) => res.json())) as any
-    ).data;
+        });
 
-    const date = dates?.getReadDates?.pop();
+        if (!datesResponse.ok) {
+          throw new Error(`HTTP error! status: ${datesResponse.status}`);
+        }
 
-    const b = {
-      ...book,
-      started: date?.started ? date?.started : 'unknown',
-      finished: date?.finished ? date?.finished : 'unknown',
-    };
+        const dates = await datesResponse.json() as any;
+        const date = dates?.data?.getReadDates?.pop();
 
-    // Include all books regardless of dates
-    if (b.finished != null && b.finished !== 'unknown') {
-      const year = moment(b.finished).year();
+        const b = {
+          ...book,
+          started: date?.started ? date?.started : 'unknown',
+          finished: date?.finished ? date?.finished : 'unknown',
+        };
 
-      let read = books.get(year);
-      if (read == null) {
-        read = [b];
-        books.set(year, read);
-      } else {
-        read.push(b);
-      }
-    } else {
-      // For books without finished dates, use a special year (e.g., 0 or current year)
-      const year = 2023; // or new Date().getFullYear() if you prefer current year
-      let read = books.get(year);
-      if (read == null) {
-        read = [b];
-        books.set(year, read);
-      } else {
-        read.push(b);
+        // Include all books regardless of dates
+        if (b.finished != null && b.finished !== 'unknown') {
+          const year = moment(b.finished).year();
+
+          let read = books.get(year);
+          if (read == null) {
+            read = [b];
+            books.set(year, read);
+          } else {
+            read.push(b);
+          }
+        } else {
+          // For books without finished dates, use a special year (e.g., 0 or current year)
+          const year = 2023; // or new Date().getFullYear() if you prefer current year
+          let read = books.get(year);
+          if (read == null) {
+            read = [b];
+            books.set(year, read);
+          } else {
+            read.push(b);
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching read dates for book ${book.id}:`, error);
+        // Continue processing other books even if one fails
+        const b = {
+          ...book,
+          started: 'unknown',
+          finished: 'unknown',
+        };
+        const year = 2023;
+        let read = books.get(year);
+        if (read == null) {
+          read = [b];
+          books.set(year, read);
+        } else {
+          read.push(b);
+        }
       }
     }
-  }
 
-  return books;
+    return books;
+  } catch (error) {
+    console.error('Error fetching finished books from Literal.club:', error);
+    return new Map<number, any>();
+  }
 }
 
 const books = await getBooks();

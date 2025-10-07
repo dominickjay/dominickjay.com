@@ -26,30 +26,58 @@ import LatestCard from './LatestCard.astro';
                 </g>
             </svg>
         </a>
-        <button popovertarget="navigation-large" class="menu-button">
-            <svg width="143" height="143" viewBox="0 0 143 143" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_1840_2004)">
-                <path d="M121.769 38.7454C88.332 36.4208 57.8064 39.8338 25.1708 45.6316C22.1526 46.1621 23.0665 51.5798 26.09 51.0998C58.623 45.9045 88.6215 43.1087 121.213 45.9417C123.194 46.1164 124.934 44.6145 125.087 42.6256C125.242 40.6427 123.761 38.885 121.769 38.7454Z" fill="currentColor"/>
-                <path d="M137.401 62.3421C111.485 60.4703 84.9915 60.3835 58.6372 62.4456C40.2656 63.8869 22.0427 67.1215 4.2775 71.4075C-0.580087 72.5801 0.86153 80.6593 5.79893 79.9178C23.4746 77.2708 41.35 75.7093 59.2473 74.3105C84.9315 72.3018 110.815 72.1814 136.18 73.814C142.737 74.2383 143.955 62.8144 137.401 62.3421Z" fill="currentColor"/>
-                <path d="M101.868 91.4293C84.4753 91.7977 67.0864 92.1571 49.6944 92.5252C43.6044 92.6515 43.8181 103.664 49.9113 103.549C67.3019 103.229 84.6925 102.908 102.085 102.595C105.172 102.536 107.616 99.9848 107.559 96.9038C107.495 93.8194 104.947 91.367 101.868 91.4293Z" fill="currentColor"/>
-                </g>
-                <defs>
-                <clipPath id="clip0_1840_2004">
-                <rect width="143" height="143" fill="currentColor"/>
-                </clipPath>
-                </defs>
-            </svg>
-        </button>
-        <div popover id="navigation-large" class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
-            <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
-                <ul>
-                    <li><NavLink href="/writing" class="[&_span]:translate-x-0">Writing</NavLink></li>
-                    <li><NavLink href="/about" class="[&_span]:translate-x-0">About</NavLink></li>
-                    <li><NavLink href="/now" class="[&_span]:translate-x-0">Now</NavLink></li>
-                </ul>
-            </nav>
-            <div class="">
-                <LatestCard />
+        <div>
+            <button popovertarget="navigation-large" class="menu-button">
+                <svg width="143" height="143" viewBox="0 0 143 143" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_1840_2004)">
+                    <path d="M121.769 38.7454C88.332 36.4208 57.8064 39.8338 25.1708 45.6316C22.1526 46.1621 23.0665 51.5798 26.09 51.0998C58.623 45.9045 88.6215 43.1087 121.213 45.9417C123.194 46.1164 124.934 44.6145 125.087 42.6256C125.242 40.6427 123.761 38.885 121.769 38.7454Z" fill="currentColor"/>
+                    <path d="M137.401 62.3421C111.485 60.4703 84.9915 60.3835 58.6372 62.4456C40.2656 63.8869 22.0427 67.1215 4.2775 71.4075C-0.580087 72.5801 0.86153 80.6593 5.79893 79.9178C23.4746 77.2708 41.35 75.7093 59.2473 74.3105C84.9315 72.3018 110.815 72.1814 136.18 73.814C142.737 74.2383 143.955 62.8144 137.401 62.3421Z" fill="currentColor"/>
+                    <path d="M101.868 91.4293C84.4753 91.7977 67.0864 92.1571 49.6944 92.5252C43.6044 92.6515 43.8181 103.664 49.9113 103.549C67.3019 103.229 84.6925 102.908 102.085 102.595C105.172 102.536 107.616 99.9848 107.559 96.9038C107.495 93.8194 104.947 91.367 101.868 91.4293Z" fill="currentColor"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_1840_2004">
+                    <rect width="143" height="143" fill="currentColor"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+            </button>
+            <div popover id="navigation-large" class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
+                <div class="navigation-large__content">
+                    <div class="links">
+                        <div class="flex flex-col gap-y-[20px]">
+                            <nav class="internal-links flex flex-row" aria-label="Internal Site Links">
+                                <ul>
+                                    <li><NavLink href="/writing" class="[&_span]:translate-x-0">Writing</NavLink></li>
+                                    <li><NavLink href="/about" class="[&_span]:translate-x-0">About</NavLink></li>
+                                    <li><NavLink href="/now" class="[&_span]:translate-x-0">Now</NavLink></li>
+                                </ul>
+                            </nav>
+                            <!-- <div class="">
+                                <LatestCard />
+                            </div> -->
+                        </div>
+                        <div class="flex flex-col gap-y-[20px]">
+                            <span class="text-white font-heading">Socials</span>
+                            <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-4 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
+                                <a class="nav-link" href="//mastodon.social/@dominickjay" target="_blank">
+                                    <span class="text-white">Mastodon</span>
+                                </a>
+                                <a class="nav-link" href="//github.com/dominickjay" target="_blank">
+                                    <span class="text-white">GitHub</span>
+                                </a>
+                                <a class="nav-link" href="//linkedin.com/in/dominickjay/" target="_blank">
+                                    <span class="text-white">LinkedIn</span>
+                                </a>
+                                <a class="nav-link" href="//bsky.app/profile/dominickjay.bsky.social" target="_blank">
+                                    <span class="text-white">Bluesky</span>
+                                </a>
+                                <a class="nav-link" href="//last.fm/user/zerosandones217" target="_blank">
+                                    <span class="text-white">Last.fm</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

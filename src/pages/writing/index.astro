@@ -44,14 +44,14 @@ const categories = [...new Set(allTags)].sort();
 			<section class="container">
                 <div class="overflow-auto cluster md:ml-auto pt-[32px] md:max-w-[66%]" style="--gutter: 8px; --cluster-horizontal-alignment: flex-end">
                     <span
-                        class="category-filter border py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors active"
+                        class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors active"
                         data-category=""
                     >
                         All
                     </span>
                     {categories.map((category) => (
                         <span
-                            class="category-filter border py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
+                            class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
                             data-category={category}
                         >
                             {category}

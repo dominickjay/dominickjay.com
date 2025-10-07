@@ -3,6 +3,10 @@
     --gutter: 20px;
 
     @media (width >= 768px) {
+        --grid-placement: 2;
+    }
+
+    @media (width >= 992px) {
         --grid-placement: 4;
     }
 

@@ -36,7 +36,7 @@ If we have for example, a layout that is 3 elements (A, B and C) in that order i
 
     .reading-order-example article,
     .reading-order-example a {
-        border: 1px solid;
+        border: 4px dotted;
         padding: 8px;
         flex-grow: 1;
     }
