@@ -19,17 +19,19 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 		<BaseHead title={title} description={description} />
 	</head>
 
-	<body>
+	<body class="pb-[128px]">
 		<Header />
-		<main class="relative overflow-clip pb-[64px]">
+		<main class="relative overflow-clip pb-[64px] z-[1]" style="background-color: var(--color-light)">
 			<article>
                 <DefaultHero title={title} description={description} />
-                <PatternBanner fill="white" />
+                <PatternBanner />
 				<div class="container pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
                     <slot />
 				</div>
 			</article>
 		</main>
-		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+        <div class="fixed bottom-0 left-0 right-0">
+            <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+        </div>
 	</body>
 </html>

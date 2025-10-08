@@ -7,7 +7,6 @@ import { Image } from 'astro:assets';
 import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
 import Joke from '../components/Joke.astro';
 import Song from '../components/Song.astro';
-import GitHubContributions from '../components/GitHubContributions.astro';
 import type { LastFmResponse, LastFmTrack, LastFmAlbum, LastFmTag } from '../lib/lastfm';
 import { getWeeklyAlbumChart, enrichAlbumsWithImages, getRecentTracksWithTags } from '../lib/lastfm';
 import moment from 'moment';
@@ -112,10 +111,10 @@ if (recentTracksData.recentTracks) {
 				/>
 			</div>
 		</div>
-		<div class="col-span-full md:col-span-4 flex flex-col gap-[24px]">
-			<fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px]">
-				<legend class="h5 mb-[16px]">Choose your length</legend>
-				<div class="flex gap-4">
+		<div class="col-span-full md:col-span-4 flow">
+			<fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
+				<legend class="h5">Choose your length</legend>
+				<div class="repel" data-nowrap>
 					<template x-for="option in options" :key="option.id">
 						<label class="centered relative" :class="{ 'checked': selected === option.id }">
 							<input
@@ -131,10 +130,10 @@ if (recentTracksData.recentTracks) {
 				</div>
 			</fieldset>
 
-			<div class="flex flex-col gap-[24px]">
-                <h2 class="h2 mb-[24px]" x-html="intro[selected]"></h2>
+			<div class="bio-card flow">
+                <h2 class="h2" x-html="intro[selected]"></h2>
 				<template x-for="option in options" :key="option.id">
-					<div x-show="selected === option.id" class="prose md:max-w-[700px]">
+					<div x-show="selected === option.id" class="prose">
 						<div x-html="content[option.id]"></div>
 					</div>
 				</template>
@@ -153,7 +152,7 @@ if (recentTracksData.recentTracks) {
                         return (
                             <div class="col-span-1 opacity-[0.7] bg-album-cover">
                                 <img
-                                    src={album.image[2]['#text']}
+                                    src={album.image[3]['#text']}
                                     alt={`Cover for ${album.name}`}
                                     class="w-full h-auto aspect-square object-cover"
                                     onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
@@ -175,8 +174,6 @@ if (recentTracksData.recentTracks) {
                     </div>
                 </div>
             </div>
-
-            <GitHubContributions />
 
 		</div>
 	</div>

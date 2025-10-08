@@ -34,6 +34,7 @@
 @import './compositions/centered.css';
 @import './compositions/cluster.css';
 @import './compositions/flow.css';
+@import './compositions/repel.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';
