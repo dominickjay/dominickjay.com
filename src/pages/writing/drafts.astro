@@ -13,12 +13,13 @@ import DefaultHero from '../../components/DefaultHero.astro';
 let posts = [];
 
 if (import.meta.env.DEV && import.meta.env.DEV === "false") {
-    console.log('DEV');
     posts = await getCollection("writing",
         ({ data }) => !data?.draft
     );
 } else {
-    posts = await getCollection("writing");
+    posts = await getCollection("writing",
+        ({ data }) => data?.draft
+    );
 }
 
 posts.sort(

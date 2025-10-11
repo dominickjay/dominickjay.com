@@ -178,6 +178,14 @@
       margin-inline: 0;
       max-width: none;
       height: 100dvh;
+
+      .menu-button {
+        color: var(--color-light);
+        position: absolute;
+        top: var(--space-m);
+        right: var(--space-m);
+        left: auto;
+      }
     }
 
     & a svg {

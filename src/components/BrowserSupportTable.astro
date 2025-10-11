@@ -1,0 +1,16 @@
+---
+const { browserSupport } = Astro.props;
+---
+
+<div class="prose">
+    <h2 class="sr-only">Browser Support</h2>
+    <div class="flex gap-x-[16px]">
+        {browserSupport.map((item) => (
+            <div class="flow" style="--flow-space: var(--space-s)">
+                <h3 class="h4">{item.browser}</h3>
+                <p class="body-s">{item.version}</p>
+                <p class="body-s">{item.support}</p>
+            </div>
+        ))}
+    </div>
+</div>

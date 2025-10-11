@@ -27,6 +27,8 @@
 @import './blocks/song.css';
 @import './blocks/demos.css';
 @import './blocks/latest-card.css';
+@import './blocks/post.css';
+@import './blocks/category-filters.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';

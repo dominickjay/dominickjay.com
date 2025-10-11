@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/Default.astro';
-import profileImage1 from '../../public/images/profile-image.png';
-import profileImage2 from '../../public/images/kid-image.png';
 import MusicCard from '../components/MusicCard.astro';
-import { Image } from 'astro:assets';
+import Profile from '../components/Profile.astro';
 import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
 import Joke from '../components/Joke.astro';
 import Song from '../components/Song.astro';
@@ -89,27 +87,8 @@ if (recentTracksData.recentTracks) {
 			]
 		}`}
 	>
-		<div class="profile col-span-full md:col-span-2 !mb-0">
-			<div class="profile__image-container h-fit w-full aspect-square md:sticky top-[240px] mix-blend-luminosity">
-				<Image
-					x-show="selected === 'short'"
-					class="profile__image !h-full"
-					src={profileImage2}
-					alt="A young version of me, showing my early years and development"
-				/>
-				<Image
-					x-show="selected === 'medium'"
-					class="profile__image !h-full"
-					src={profileImage1}
-					alt="My current professional headshot, representing my present self"
-				/>
-				<Image
-					x-show="selected === 'long'"
-					class="profile__image !h-full"
-					src={profileImage2}
-					alt="A nostalgic photo from my childhood, showing my journey from then to now"
-				/>
-			</div>
+		<div class="col-span-full md:col-span-2">
+            <Profile />
 		</div>
 		<div class="col-span-full md:col-span-4 flow">
 			<fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">

@@ -15,6 +15,7 @@ export const ABOUT_INTRO = {
     medium: ABOUT_INTRO_MEDIUM,
     long: ABOUT_INTRO_LONG
 }
+
 export const ABOUT_CONTENT = {
 	short: `I have a background in crafting thoughtful user experiences gained from working in various design agencies and the private sector. This site serves as my personal space to explore new web technologies, which I actively share through my blog and hands-on projects on CodePen.`,
 	medium: `My diverse background has shaped my focus on creating intuitive and engaging user experiences. This website is my space to explore new technologies and processes, which you can see in my blog and on my CodePen projects.`,
@@ -24,3 +25,14 @@ export const ABOUT_CONTENT = {
 
     This site truly embodies my continuous commitment to growth and my enthusiasm for sharing what I discover in the ever-evolving world of front-end development.`
 };
+
+export const PROFILE_IMAGES = [
+  {
+    src: '/images/profile-image.png',
+    alt: 'My current professional headshot, representing my present self'
+  },
+  {
+    src: '/images/kid-image.png',
+    alt: 'A young version of me, showing my early years and development'
+  }
+];

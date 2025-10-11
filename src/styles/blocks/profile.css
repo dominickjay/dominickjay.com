@@ -35,6 +35,7 @@
         aspect-ratio: 1 / 1;
         border: 1px solid currentColor;
         overflow: hidden;
+        mix-blend-mode: luminosity;
 
         @media (min-width: 768px) {
             grid-column: span 12 / span 12;

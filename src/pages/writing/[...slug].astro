@@ -1,4 +1,5 @@
 ---
+import bcd from '@mdn/browser-compat-data';
 import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { render } from 'astro:content';
@@ -7,6 +8,7 @@ import MusicGrid from '../../components/MusicGrid.astro';
 import RaindropGrid from '../../components/RaindropGrid.astro';
 import { getRaindropBookmarks } from '../../lib/raindrop';
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from '../../lib/lastfm';
+import BrowserSupportTable from '../../components/BrowserSupportTable.astro';
 
 const baseUrl = import.meta.env.DEV
   ? "http://localhost:4321"
@@ -22,11 +24,7 @@ if (!post) {
 
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
-
-// import BlogPostPreviewLite from "./BlogPostPreviewLite.astro";
-
-const { tags } = post.data;
-
+const { tags, supported } = post.data;
 const excludedTags = ["update", "blog", "writing", "tutorial", "news", "announcement"];
 const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
 
@@ -115,6 +113,42 @@ export async function getStaticPaths() {
 	}));
 }
 
+let compatData = null;
+try {
+	if (supported) {
+		const path = supported.replace('bcd.', '').replace(/\["/g, '.').replace(/"\]/g, '');
+		const keys = path.split('.');
+
+		let current = bcd;
+		for (const key of keys) {
+			if (current && current[key]) {
+				current = current[key];
+			} else {
+				console.warn(`Browser compat data not found at path: ${supported}`);
+				current = null;
+				break;
+			}
+		}
+		compatData = current;
+	}
+} catch (error) {
+	console.error('Error accessing browser compat data:', error);
+}
+
+const allowedBrowsers = ['chrome', 'firefox', 'safari', 'edge'];
+
+const browserSupport = compatData?.support
+	? Object.entries(compatData.support)
+		.filter(([browser]) => allowedBrowsers.includes(browser))
+		.map(([browser, data]) => ({
+			browser,
+			version: data.version_added || 'Unknown',
+			support: data.version_added ? 'Supported' : 'Not supported'
+		}))
+	: [];
+
+console.log('Browser support:', browserSupport);
+
 ---
 <head>
     <meta charset="utf-8" />
@@ -123,6 +157,9 @@ export async function getStaticPaths() {
 </head>
 
 <BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
+    {browserSupport.length > 0 && (
+        <BrowserSupportTable browserSupport={browserSupport} />
+    )}
     <Content />
     {musicData && (
     <MusicGrid musicData={musicData} />
@@ -135,7 +172,7 @@ export async function getStaticPaths() {
          <div class="flex gap-[16px] w-full">
             {allPosts1.map((post) => (
                 <div key={post.id} class="border p-4 md:max-w-1/2">
-                    <a href={`/writing/${post.id}`} class="flex flex-col gap-y-[8px] h-full">
+                    <a href={`/writing/${post.id}`} class="flow h-full" style="--flow-space: var(--space-s)">
                         <span class="h3">{post.data.title}</span>
                         <div class="">{post.data.description}</div>
                     </a>

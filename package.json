@@ -21,6 +21,7 @@
     "@astrojs/sitemap": "^3.4.2",
     "@bramus/sda-utilities": "^1.1.1",
     "@libsql/client": "^0.15.15",
+    "@mdn/browser-compat-data": "^7.1.12",
     "@tailwindcss/vite": "^4.0.0",
     "alpinejs": "^3.14.8",
     "astro": "^5.12.9",
