@@ -4,21 +4,23 @@
         height: fit-content;
         left: 0;
         right: 0;
-        width: 100%;
+        width: calc(100% - 32px);
         z-index: 1;
-        padding-block: var(--padding-block, 21px);
+        border-top: 2px solid var(--color-dark);
+        margin-block-start: var(--padding-block, 8px);
+        margin-inline: auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: var(--color-light);
+        /* background-color: var(--color-light); */
         transition: padding-block 0.3s ease-in-out;
         will-change: padding-block;
 
         @media (min-width: 768px) {
+            padding-block: var(--padding-block, var(--space-m));
             position: fixed;
             top: 0;
             z-index: 100;
-            width: 72px;
         }
     }
 }
@@ -27,7 +29,19 @@
     .site-header {
         animation: header-size ease-in-out both;
         animation-timeline: scroll();
-        animation-range: 0 500px;
+        animation-range: 0 25vh;
+    }
+
+    .logo-text {
+        animation: logo-text-visibility ease-in-out both;
+        animation-timeline: scroll();
+        animation-range: 0 25vh;
+    }
+}
+
+@keyframes logo-text-visibility {
+    to {
+        opacity: 0;
     }
 }
 

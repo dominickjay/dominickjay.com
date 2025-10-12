@@ -5,6 +5,9 @@ import Pattern from '../components/Pattern.astro';
 import InfoPanel from '../components/InfoPanel.astro';
 import LatestCard from '../components/LatestCard.astro';
 import { Image } from 'astro:assets';
+import { getReadingTime } from '../utils/utils.mjs';
+import PatternBanner from '../components/Pattern-Banner.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { getCollection } from 'astro:content';
 import Profile from '../components/Profile.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE, CURRENT_COMPANY, CURRENT_POSITION } from '../consts';
@@ -39,9 +42,9 @@ const randomPost = posts[random];
             <div class="absolute left-[-612px] mx-auto top-[92px] opacity-[0.2] pointer-events-none">
                 <Pattern></Pattern>
             </div>
-            <div class="container grid pt-[32px] md:pt-[64px] pb-0 [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
+            <div class="container md:min-h-[85dvh] grid py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
                 <h1
-                    class="heading-tagline col-span-full md:col-start-1 md:col-span-8 lg:col-span-7 md:row-start-1"
+                    class="heading-tagline col-span-full lg:col-span-7 md:row-start-1"
                     style="--max-width: 1260px"
                 >
                     { SITE_TAGLINE }
@@ -52,20 +55,14 @@ const randomPost = posts[random];
                 <div class="profile__description center h3 lg:col-span-5 relative md:row-start-2 lg:row-start-2 lg:row-span-1">
                     {SITE_DESCRIPTION}
                 </div>
-            </div>
-            <div class="container grid">
-                <LatestCard />
-            </div>
-            <div class="container grid">
-                <!-- <div class="bio__content standfirst">
-                    <p>Working in design agencies and the private sector has given me a pretty good handle on user experience, and I've really learned to bake creativity into everything I do, it's just how I work. </p>
-                    <p>You can check out my resume for the full story on my experience. Day-to-day, I'm a <span class="bg-black py-[0] leading-[1.75] inline-block text-white px-[8px]">{CURRENT_POSITION}</span> at <span class="bg-black py-[0] leading-[1.75] inline-block text-white px-[8px]">{CURRENT_COMPANY}</span>, and that means I get to dive into a whole range of different technologies and processes, which keeps things really interesting.</p>
-                </div> -->
                 <InfoPanel>
             </div>
-            <!-- <section class="py-[80px]">
-                <div class="container grid [--gutter:43px] [--grid-placement:1] md:[--grid-placement:12]">
-                    <div class="col-span-full md:col-span-4 row-start-2 md:row-start-1">
+            <!-- <div class="container grid">
+                <LatestCard />
+            </div> -->
+            <section class="py-[80px] md:py-[160px] text-white relative" style="background-color: var(--color-dark)">
+                <div class="container flex flex-col gap-y-[64px] justify-center">
+                    <!-- <div class="col-span-full md:col-span-4 row-start-2 md:row-start-1">
                         <div class="flex flex-col gap-y-[24px] sticky top-[120px]">
                             <h3 class="h3">Can't decide?</h3>
                             <a
@@ -73,49 +70,50 @@ const randomPost = posts[random];
                                 href={`/writing/${randomPost.id}/`}
                             >Click here for a Random Post</a>
                         </div>
-                    </div>
-                    <div class="col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[48px] row-start-1 md:row-start-1">
-                        <div class="flex items-center justify-between">
-                            <h2 class="h2">Latest Posts</h2>
-                            <a class="relative" style="--delay: 0.5s" href="/writing">
-                                View all
-                            </a>
-                        </div>
-                        <div>
-                            <ol class="flex flex-col gap-y-[32px]">
-                                {
-						            posts.slice(0,5).map((post, i) => (
-                                    <li
-                                        class=""
-                                    >
-                                            <div class="flex flex-col gap-y-[8px]">
-                                                <div class="flex gap-x-[16px]">
-                                                    <span>{getReadingTime(post.body)} min</span>
-                                                </div>
-                                                <div class="flex justify-between md:flex-col-reverse md:gap-[8px] lg:flex-row">
+                    </div> -->
+                    <!-- <div class="flex justify-center text-center"> -->
+                        <!-- <h2 class="heading-tagline">Latest Posts</h2> -->
+                        <!-- <a class="relative" style="--delay: 0.5s" href="/writing">
+                            View all
+                        </a> -->
+                    <!-- </div> -->
+                    <div>
+                        <ol class="flex flex-col gap-y-[32px]">
+                            {
+                                posts.slice(0,5).map((post, i) => (
+                                <li
+                                    class="flex justify-center text-center"
+                                >
+                                        <div class="flex flex-col items-center text-centergap-y-[8px]">
+                                            {/* <div class="flex gap-x-[16px]">
+                                                <span>{getReadingTime(post.body)} min</span>
+                                            </div> */}
+                                            <div class="flex justify-between md:flex-col-reverse md:gap-[8px] lg:flex-row">
 
-                                                    <div class="flex flex-col gap-y-[8px]">
-                                                        <a class="text-[30px] tracking-[-0.02em] block" href={`/writing/${post.id}/`}>
-                                                            <h4>{post.data.title}</h4>
-                                                        </a>
-                                                        <p class="opacity-[0.64] body-text">{post.data.description}</p>
-                                                    </div>
-                                                    <p class="date shrink-0">
-                                                        <FormattedDate date={post.data.pubDate} />
-                                                    </p>
+                                                <div class="flex flex-col gap-y-[8px] md:gap-y-[4px]">
+                                                    <FormattedDate date={post.data.pubDate} />
+                                                    <a class="text-[30px] tracking-[-0.02em] block relative group" href={`/writing/${post.id}/`}>
+                                                        <h4 class="h1">{post.data.title}</h4>
+                                                        <svg class="w-full absolute top-0 left-0 right-0 opacity-0 group-hover:opacity-100" width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" id="Scribble-15.svg" onclick="copyToClipboard(this)">
+                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M107.522 70.029C110.327 69.7413 112.896 71.6224 113.468 74.384L116.881 90.8482C117.03 90.7619 117.183 90.6823 117.341 90.6096C119.036 89.8284 121.013 89.9607 122.589 90.9608L122.739 91.0562L123.865 86.6914C124.444 84.4488 126.365 82.809 128.671 82.59C130.976 82.3709 133.172 83.6197 134.162 85.7132L134.698 86.8454C135.632 86.0713 136.817 85.6107 138.081 85.5814C140.279 85.5306 142.296 86.7936 143.21 88.7932L147.051 97.194L154.772 78.6619C155.667 76.5147 157.816 75.1625 160.139 75.285C162.462 75.4075 164.457 76.9781 165.121 79.2075L169.098 92.5647L170.328 90.9785C171.196 89.8586 172.449 89.1326 173.812 88.9159V83.0397C173.812 80.4699 175.592 78.2425 178.098 77.6754C180.605 77.1082 183.17 78.3523 184.276 80.6718L194.465 102.031C195.773 104.773 194.61 108.056 191.868 109.363C189.127 110.671 185.844 109.509 184.536 106.767L184.402 106.485C183.733 108.116 182.298 109.375 180.492 109.771C177.969 110.325 175.4 109.049 174.318 106.703L173.474 104.875L171.231 107.769C169.968 109.398 167.899 110.185 165.873 109.805C163.846 109.426 162.201 107.945 161.613 105.969L158.986 97.1488L152.361 113.049C151.52 115.067 149.564 116.395 147.378 116.432C145.192 116.469 143.191 115.208 142.282 113.22L138.106 104.084C137.201 104.791 136.078 105.213 134.882 105.248C133.144 105.3 131.512 104.528 130.448 103.216C129.86 103.94 129.09 104.513 128.198 104.865C126.797 105.419 125.242 105.371 123.891 104.753L122.07 117.491C121.692 120.136 119.468 122.127 116.797 122.21C114.127 122.294 111.783 120.446 111.24 117.829L110.425 113.899C110.118 114.043 109.793 114.161 109.455 114.248C107.025 114.874 104.479 113.776 103.267 111.579L95.4135 97.3452L84.8152 112.127C83.7384 113.629 81.9793 114.49 80.1327 114.418C78.2861 114.347 76.5988 113.353 75.6413 111.772L72.4707 106.539L71.0458 115.56C70.6732 117.919 68.8211 119.768 66.4617 120.136C64.1023 120.504 61.7747 119.308 60.7007 117.175L49.8948 95.7157L44.0767 120.243C43.4763 122.774 41.185 124.538 38.5847 124.472C35.9843 124.405 33.7861 122.526 33.3158 119.968L31.1694 108.292L27.6615 120.044C26.927 122.505 24.5871 124.13 22.0246 123.958C19.4621 123.787 17.3592 121.865 16.9586 119.329L16.2205 114.654L14.9575 124.686C14.5781 127.7 11.8274 129.835 8.81362 129.456C5.79985 129.077 3.66426 126.326 4.04366 123.312L10.1491 74.8134C10.4912 72.0957 12.7809 70.044 15.5197 70.001C18.2585 69.958 20.6114 71.9369 21.0387 74.6425L24.0471 93.6945L27.1724 83.2244C27.8996 80.7883 30.2017 79.168 32.7403 79.3056C35.2789 79.4432 37.3923 81.3027 37.852 83.8032L39.4078 92.2663L42.6727 78.5024C43.2061 76.2538 45.0882 74.5785 47.3834 74.3092C49.6785 74.04 51.8973 75.2342 52.9366 77.2982L62.8448 96.9751L63.9511 89.9706C64.3113 87.69 66.0577 85.8771 68.3233 85.4319C70.589 84.9867 72.8914 86.004 74.0878 87.9788L80.7314 98.9448L91.5505 83.8551C92.6503 82.3212 94.46 81.4583 96.3442 81.5695C98.2285 81.6806 99.9241 82.7503 100.836 84.4029L102.583 87.5688V75.5003C102.583 72.68 104.716 70.3167 107.522 70.029Z" fill="currentColor"/>
+                                                        </svg>
+                                                    </a>
+                                                    {/* <p class="opacity-[0.64] body-text">{post.data.description}</p> */}
                                                 </div>
+                                                {/* <p class="date shrink-0">
+                                                    <FormattedDate date={post.data.pubDate} />
+                                                </p> */}
                                             </div>
-                                        </li>
-                                    ))
-                                }
-                            </ol>
-                        </div>
+                                        </div>
+                                    </li>
+                                ))
+                            }
+                        </ol>
                     </div>
                 </div>
-            </section> -->
+            </section>
 		</main>
-		<!-- <PatternBanner fill="rgba(0, 0, 0, 0.64)" /> -->
-         <!-- <PatternBanner> -->
+        <PatternBanner fill="rgba(0, 0, 0, 0.8)" />
 	</body>
 </html>
 

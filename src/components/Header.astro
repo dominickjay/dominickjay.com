@@ -5,7 +5,7 @@ import LatestCard from './LatestCard.astro';
 
 ---
 
-<header class="site-header w-full"
+<header class="site-header"
     x-cloak
     x-data="{
         openMenu: false
@@ -16,8 +16,8 @@ import LatestCard from './LatestCard.astro';
     @keydown.escape="openMenu = false"
 >
     <div class="container flex justify-between items-center w-full">
-        <a class="h-fit" href="/" aria-label="Home">
-            <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a class="h-fit flex items-center gap-x-[8px]" style="font-family: var(--font-heading)" href="/" aria-label="Home">
+            <svg width="29" height="24" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_2130_2802" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="39" height="34">
                 <path d="M0.570316 33.257H38.367V0.785156L0.570312 0.785159L0.570316 33.257Z" fill="white"/>
                 </mask>
@@ -25,21 +25,11 @@ import LatestCard from './LatestCard.astro';
                 <path d="M0.766488 27.0081C0.45665 27.5271 0.508814 28.1155 0.780194 28.6039C0.703751 29.1597 0.873076 29.7239 1.48528 30.1568C2.05535 30.5596 2.62532 30.9627 3.19501 31.3657C4.19691 32.0739 5.76567 32.2974 6.74006 31.3657C11.166 27.1343 15.7945 23.0866 20.5926 19.1864C24.1598 22.0492 27.7703 24.8733 31.355 27.701C32.6131 28.6937 34.4342 28.3822 35.2257 27.1996C36.3787 26.7079 37.3132 26.067 38.086 24.9731C38.454 24.4519 38.4253 23.7939 38.086 23.2709C35.7718 19.7062 31.2987 16.5721 27.6209 13.6879C28.1131 13.3094 28.6015 12.9274 29.1036 12.5569C34.0586 8.90117 37.4009 6.5817 31.2 2.83339C31.1164 2.78281 31.0311 2.79402 30.9462 2.76447C30.8273 2.71738 30.7134 2.68418 30.5816 2.66559C30.5407 2.66421 30.5024 2.65828 30.4621 2.66104C30.3345 2.65211 30.2096 2.62419 30.0802 2.64602C26.7465 3.20755 23.6461 5.452 20.8333 7.9236C18.0931 5.60324 15.1753 3.38647 11.9669 2.07111C11.2031 1.75784 10.2924 1.94041 9.70425 2.37854C8.71814 2.31457 7.81906 2.84102 7.36786 3.59753C7.30105 3.63301 7.25797 3.6533 7.18559 3.69219C5.75196 4.46161 5.621 5.99396 6.68176 7.05019C9.07722 9.43501 11.6236 11.702 14.2193 13.9288C9.54552 17.8523 3.70952 22.0837 0.766488 27.0081Z" fill="black"/>
                 </g>
             </svg>
+            <span class="logo-text" style="font-family: var(--font-heading)">DOMINICK JAY</span>
         </a>
         <div>
             <button popovertarget="navigation-large" class="menu-button">
-                <svg width="143" height="143" viewBox="0 0 143 143" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_1840_2004)">
-                    <path d="M121.769 38.7454C88.332 36.4208 57.8064 39.8338 25.1708 45.6316C22.1526 46.1621 23.0665 51.5798 26.09 51.0998C58.623 45.9045 88.6215 43.1087 121.213 45.9417C123.194 46.1164 124.934 44.6145 125.087 42.6256C125.242 40.6427 123.761 38.885 121.769 38.7454Z" fill="currentColor"/>
-                    <path d="M137.401 62.3421C111.485 60.4703 84.9915 60.3835 58.6372 62.4456C40.2656 63.8869 22.0427 67.1215 4.2775 71.4075C-0.580087 72.5801 0.86153 80.6593 5.79893 79.9178C23.4746 77.2708 41.35 75.7093 59.2473 74.3105C84.9315 72.3018 110.815 72.1814 136.18 73.814C142.737 74.2383 143.955 62.8144 137.401 62.3421Z" fill="currentColor"/>
-                    <path d="M101.868 91.4293C84.4753 91.7977 67.0864 92.1571 49.6944 92.5252C43.6044 92.6515 43.8181 103.664 49.9113 103.549C67.3019 103.229 84.6925 102.908 102.085 102.595C105.172 102.536 107.616 99.9848 107.559 96.9038C107.495 93.8194 104.947 91.367 101.868 91.4293Z" fill="currentColor"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_1840_2004">
-                    <rect width="143" height="143" fill="currentColor"/>
-                    </clipPath>
-                    </defs>
-                </svg>
+                <span class="" style="font-family: var(--font-heading)">MENU</span>
             </button>
             <div popover id="navigation-large" class="navigation-large" :class="{ 'navigation-large--open' : openMenu }">
                 <button popovertarget="navigation-large" class="menu-button">

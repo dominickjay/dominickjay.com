@@ -115,7 +115,7 @@
     }
   }
 
-  div:has(.menu-button) {
+  div:has(.menu-button):not(.navigation-large) {
     @media (width <= 768px) {
       display: flex;
       position: fixed;
@@ -136,7 +136,6 @@
     align-items: center;
     justify-content: center;
     height: fit-content;
-    padding-block: var(--space-s);
     border-top: 1px solid var(--color-dark);
     background-color: var(--color-dark);
     color: var(--color-light);
@@ -144,20 +143,22 @@
     cursor: pointer;
     transition: 0.25s ease-in-out all;
     z-index: 100;
+    padding-block: var(--space-m);
 
     svg {
       width: 35px;
       height: 35px;
     }
 
-    @media (min-width: 992px) {
+    @media (width >= 992px) {
       position: relative;
       width: 60px;
-      height: 60px;
+      height: fit-content;
       border: none;
       background-color: transparent;
       color: var(--color-dark);
       anchor-name: --menu-button;
+      padding-block: 0;
     }
   }
 

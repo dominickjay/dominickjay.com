@@ -1,8 +1,8 @@
 .grid:has( > .info-panel) {
-    --grid-placement: auto-fit;
     --gutter: 20px;
+    --grid-placement: 4;
     @media (width >= 768px) {
-        margin-block-start: auto;
+        --grid-placement: auto-fit;
     }
 }
 
@@ -10,6 +10,14 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 5;
+
+    @media (width >= 768px) {
+        grid-column-start: 1;
+        grid-column-end: 10;
+        margin-block-start: auto;
+    }
 }
 
 .info-panel--stuck {
