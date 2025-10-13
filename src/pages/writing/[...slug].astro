@@ -168,9 +168,9 @@ console.log('Compat data status:', compatDataStatus);
     {raindropData && (
         <RaindropGrid raindropData={raindropData} />
     )}
-     <div class="prose mt-5 p-5 flex flex-col gap-y-[32px]">
+     <div class="prose mt-5 md:p-5 flex flex-col gap-y-[32px]">
          <h2 class="">You might also like...</h2>
-         <div class="flex gap-[16px] w-full">
+         <div class="flex flex-col md:flex-row gap-[16px] w-full">
             {allPosts1.map((post) => (
                 <div key={post.id} class="border p-4 md:max-w-1/2">
                     <a href={`/writing/${post.id}`} class="flow h-full" style="--flow-space: var(--space-s)">
