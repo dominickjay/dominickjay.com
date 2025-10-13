@@ -147,7 +147,8 @@ const browserSupport = compatData?.support
 		}))
 	: [];
 
-console.log('Browser support:', browserSupport);
+const compatDataStatus = compatData?.status;
+console.log('Compat data status:', compatDataStatus);
 
 ---
 <head>
@@ -158,7 +159,7 @@ console.log('Browser support:', browserSupport);
 
 <BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
     {browserSupport.length > 0 && (
-        <BrowserSupportTable browserSupport={browserSupport} />
+        <BrowserSupportTable browserSupport={browserSupport} compatDataStatus={compatDataStatus} />
     )}
     <Content />
     {musicData && (

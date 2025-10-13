@@ -3,6 +3,7 @@ title: 'Controlling Content Flow with reading-order'
 description: "Ever wondered how users navigate your content, even when the visual layout is complex? Let's dive into the CSS reading-order property and discover how it gives you control."
 intro: ""
 pubDate: 'June 16 2025'
+supported: bcd.css["properties"].reading-flow.__compat
 tags:
   - css
 
