@@ -169,7 +169,7 @@
     }
 
     .music-card:has(.music-card__artist) .music-card__image {
-        max-width: 250px;
+        max-width: none;
     }
 
     .music-card__content {

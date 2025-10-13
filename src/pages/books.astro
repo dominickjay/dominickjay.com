@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import PatternBanner from '../components/Pattern-Banner.astro';
 import Footer from '../components/Footer.astro';
 import { Image } from 'astro:assets';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from '../consts';
@@ -223,7 +224,7 @@ const books = await getBooks();
 	<body>
 		<Header />
 		<main>
-            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px]"
+            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-0 md:py-[90px]"
                 style="--grid-placement: 12; --gutter: 43px;"
                 x-data="{
                     list: true,
@@ -235,21 +236,8 @@ const books = await getBooks();
                         title: ''
                     }
                 }"
-                @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
-                @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
             >
-                <!-- Floating book cover -->
-                <div
-                    x-show="floatingCover.show && floatingCover.src"
-                    x-transition.opacity
-                    class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
-                    :style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
-                >
-                    <div x-show="floatingCover.src" class="relative w-full h-full">
-                        <img :src="floatingCover.src" :alt="floatingCover.title" class="w-full h-full object-cover" />
-                    </div>
-                </div>
-                <div class="md:sticky top-[240px] h-fit shrink-0">
+                <div class="md:sticky top-[185px] h-fit shrink-0">
                     <span class="h3 mb-[24px] block">To Read List</span>
                     <div class="flex flex-col gap-[12px] overflow-auto">
                         { toReadBooks.map((book, i) => (
@@ -261,9 +249,24 @@ const books = await getBooks();
                         )}
                     </div>
                 </div>
-                <div class="flex flex-col gap-[20px] w-full">
+                <div
+                    class="flex flex-col gap-[20px] w-full relative"
+                    @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
+                    @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+                >
+                    <!-- Floating book cover -->
                     <div
-                        class="grid !grid-cols-4 gap-[20px] pt-0 md:pt-[137px]"
+                        x-show="floatingCover.show && floatingCover.src"
+                        x-transition.opacity
+                        class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
+                        :style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
+                    >
+                        <div x-show="floatingCover.src" class="relative w-full h-full">
+                            <img :src="floatingCover.src" :alt="floatingCover.title" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                    <div
+                        class="grid !grid-cols-4 gap-[20px]"
                         :class="{
                             'flex flex-col': list,
                             'grid': !list

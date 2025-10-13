@@ -69,87 +69,89 @@ import { turso } from '../turso';
         <div class="joke__punchline" x-text="punchline" :class="{ 'revealed': isRevealed }"></div>
     </div>
 
-    <div class="joke__reactions flex gap-2">
-        <button
-            @click="async (event) => {
-                try {
-                    const response = await fetch('/api/click-counter', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ buttonName: `joke-${jokeId}-laugh` })
-                    });
-                    if (response.ok) {
-                        // Add visual feedback
-                        event.target.style.transform = 'scale(1.1)';
-                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
-                        // Reload counts to get updated values
-                        await loadReactionCounts();
+    <div class="joke__reactions flex flex-col md:flex-row gap-2">
+        <div class="flex gap-2">
+            <button
+                @click="async (event) => {
+                    try {
+                        const response = await fetch('/api/click-counter', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ buttonName: `joke-${jokeId}-laugh` })
+                        });
+                        if (response.ok) {
+                            // Add visual feedback
+                            event.target.style.transform = 'scale(1.1)';
+                            setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                            // Reload counts to get updated values
+                            await loadReactionCounts();
+                        }
+                    } catch (error) {
+                        console.error('Error incrementing laugh count:', error);
                     }
-                } catch (error) {
-                    console.error('Error incrementing laugh count:', error);
-                }
-            }"
-            class="joke__reaction-btn"
-            type="button"
-            title="This joke made me laugh"
-        >
-            😂
-            <span class="joke__reaction-count" x-text="laughCount"></span>
-        </button>
+                }"
+                class="joke__reaction-btn"
+                type="button"
+                title="This joke made me laugh"
+            >
+                😂
+                <span class="joke__reaction-count" x-text="laughCount"></span>
+            </button>
 
-        <button
-            @click="async (event) => {
-                try {
-                    const response = await fetch('/api/click-counter', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ buttonName: `joke-${jokeId}-love` })
-                    });
-                    if (response.ok) {
-                        // Add visual feedback
-                        event.target.style.transform = 'scale(1.1)';
-                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
-                        // Reload counts to get updated values
-                        await loadReactionCounts();
+            <button
+                @click="async (event) => {
+                    try {
+                        const response = await fetch('/api/click-counter', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ buttonName: `joke-${jokeId}-love` })
+                        });
+                        if (response.ok) {
+                            // Add visual feedback
+                            event.target.style.transform = 'scale(1.1)';
+                            setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                            // Reload counts to get updated values
+                            await loadReactionCounts();
+                        }
+                    } catch (error) {
+                        console.error('Error incrementing love count:', error);
                     }
-                } catch (error) {
-                    console.error('Error incrementing love count:', error);
-                }
-            }"
-            class="joke__reaction-btn"
-            type="button"
-            title="I love this joke"
-        >
-            ❤️
-            <span class="joke__reaction-count" x-text="loveCount"></span>
-        </button>
+                }"
+                class="joke__reaction-btn"
+                type="button"
+                title="I love this joke"
+            >
+                ❤️
+                <span class="joke__reaction-count" x-text="loveCount"></span>
+            </button>
 
-        <button
-            @click="async (event) => {
-                try {
-                    const response = await fetch('/api/click-counter', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ buttonName: `joke-${jokeId}-facepalm` })
-                    });
-                    if (response.ok) {
-                        // Add visual feedback
-                        event.target.style.transform = 'scale(1.1)';
-                        setTimeout(() => event.target.style.transform = 'scale(1)', 200);
-                        // Reload counts to get updated values
-                        await loadReactionCounts();
+            <button
+                @click="async (event) => {
+                    try {
+                        const response = await fetch('/api/click-counter', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ buttonName: `joke-${jokeId}-facepalm` })
+                        });
+                        if (response.ok) {
+                            // Add visual feedback
+                            event.target.style.transform = 'scale(1.1)';
+                            setTimeout(() => event.target.style.transform = 'scale(1)', 200);
+                            // Reload counts to get updated values
+                            await loadReactionCounts();
+                        }
+                    } catch (error) {
+                        console.error('Error incrementing facepalm count:', error);
                     }
-                } catch (error) {
-                    console.error('Error incrementing facepalm count:', error);
-                }
-            }"
-            class="joke__reaction-btn"
-            type="button"
-            title="This joke is so bad it's good"
-        >
-            🤦‍♂️
-            <span class="joke__reaction-count" x-text="facepalmCount"></span>
-        </button>
+                }"
+                class="joke__reaction-btn"
+                type="button"
+                title="This joke is so bad it's good"
+            >
+                🤦‍♂️
+                <span class="joke__reaction-count" x-text="facepalmCount"></span>
+            </button>
+        </div>
 
         <div class="joke__actions">
             <button
