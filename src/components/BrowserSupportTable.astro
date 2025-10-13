@@ -15,6 +15,11 @@ const { browserSupport, compatDataStatus } = Astro.props;
                 <strong class="font-bold">Deprecated</strong>
             </p>
         )}
+        {compatDataStatus?.standard_track && !compatDataStatus?.experimental && !compatDataStatus?.deprecated && (
+            <p class="h2 text-[20px] pt-[5px]">
+                <strong class="font-bold">Fully supported</strong>
+            </p>
+        )}
         {browserSupport.map((item) => (
             <div class="flow" style="--flow-space: var(--space-s)">
                 {item.browser === 'chrome' && (

@@ -106,46 +106,6 @@ Now we've got our goal and understand why a difference between visual and logica
 
 ## Understanding the Core Concepts: reading-flow and reading-order
 
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for reading-flow and reading-order</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>123+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>Not yet</td>
-        <td><span class="support-no">No</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>Not yet</td>
-        <td><span class="support-no">No</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>123+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>Not yet</td>
-        <td><span class="support-no">No</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 <div class="fyi-block fyi-block--warning">
 	<p>Currently, `reading-flow` is supported in Chrome 123+ and Edge 123+. For other browsers, you'll need to wait for implementation or provide alternative solutions. You can track the implementation status in the <a href="https://drafts.csswg.org/css-display-4/#reading-flow">CSS Display Module Level 4 specification</a>. If you're not using those browsers, then demos in this post won't work, so you might have to switch to a browser that •does• have support, or visualise with your mind's eye.</p>
 </div>

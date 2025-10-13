@@ -4,6 +4,7 @@ description: "Explore the CSS env() function and its practical applications for 
 pubDate: 2025-01-27
 tags: ["css"]
 draft: true
+supported: bcd.css["types"].env.__compat
 ---
 
 ## What is `env()`?

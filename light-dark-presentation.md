@@ -114,14 +114,6 @@ body {
 }
 ```
 
-## Browser Support Status
-- **Chrome**: Version 123+ (March 2024)
-- **Firefox**: Version 120+ (November 2023)
-- **Safari**: Version 17.2+ (December 2023)
-- **Edge**: Version 123+ (March 2024)
-- **Opera**: Version 109+ (November 2023)
-- **Status**: Ready for production use in modern browsers
-
 ## Simple Examples
 - **Basic Syntax**: `color: light-dark(<light-color>, <dark-color>);`
 - **Text Colors**: Automatic text color switching

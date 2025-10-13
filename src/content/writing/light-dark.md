@@ -8,6 +8,7 @@ tags:
   - CSSentials
 draft: true
 layout: BlogPost
+supported: bcd.css["types"].color.light-dark.__compat
 ---
 
 # light-dark(): CSS's New Color Function
@@ -337,48 +338,6 @@ Here's how a complete theme system works with system preferences:
 - Border color management
 - Icon color adaptation
 - Form element styling
-
-## Browser Support
-
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for light-dark()</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>123+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>120+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>17.2+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>123+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>109+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
 ## Simple Examples
 
