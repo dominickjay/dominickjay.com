@@ -6,7 +6,6 @@
         right: 0;
         width: calc(100% - 32px);
         z-index: 1;
-        border-top: 2px solid var(--color-dark);
         margin-block-start: var(--padding-block, 8px);
         margin-inline: auto;
         display: flex;
@@ -21,6 +20,7 @@
             position: fixed;
             top: 0;
             z-index: 100;
+            border-top: 2px solid var(--color-dark);
         }
     }
 }

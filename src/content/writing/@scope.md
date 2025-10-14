@@ -303,8 +303,8 @@ img {
 </style>
 
 <style>
-/* We're setting some global img styles here */
-img {
+/* We're setting some img styles that affect all images within the post here */
+.prose img {
     width: 100%;
     height: 100%;
     object-fit: cover;

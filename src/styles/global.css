@@ -16,7 +16,6 @@
 @import './blocks/navigation.css';
 @import './blocks/profile.css';
 @import './blocks/bio.css';
-@import './blocks/info-panel.css';
 @import './blocks/code.css';
 @import './blocks/prose.css';
 @import './blocks/toc.css';
@@ -30,6 +29,8 @@
 @import './blocks/post.css';
 @import './blocks/category-filters.css';
 @import './blocks/marquee.css';
+@import './blocks/info-panel.css';
+@import './blocks/animated-link.css';
 
 /* @import-glob 'compositions/*.css'; */
 @import './compositions/grid.css';

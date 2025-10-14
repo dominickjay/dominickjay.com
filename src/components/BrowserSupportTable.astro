@@ -23,26 +23,26 @@ const { browserSupport, compatDataStatus } = Astro.props;
         {browserSupport.map((item) => (
             <div class="flow" style="--flow-space: var(--space-s)">
                 {item.browser === 'chrome' && (
-                    <div class={`h4 ${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/chrome.svg" alt="Chrome" class="size-[20px]" />
+                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
+                        <img src="/images/icons/chrome.svg" alt="Chrome" class="!size-[20px]" />
                         <span class="sr-only">{item.browser}</span>
                     </div>
                 )}
                 {item.browser === 'firefox' && (
-                    <div class={`h4 ${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/firefox.svg" alt="Firefox" class="size-[20px]" />
+                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
+                        <img src="/images/icons/firefox.svg" alt="Firefox" class="!size-[20px]" />
                         <span class="sr-only">{item.browser}</span>
                     </div>
                 )}
                 {item.browser === 'safari' && (
-                    <div class={`h4 ${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/safari.svg" alt="Safari" class="size-[20px]" />
+                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
+                        <img src="/images/icons/safari.svg" alt="Safari" class="!size-[20px]" />
                         <span class="sr-only">{item.browser}</span>
                     </div>
                 )}
                 {item.browser === 'edge' && (
-                    <div class={`h4 ${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/edge.svg" alt="Edge" class="size-[20px]" />
+                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
+                        <img src="/images/icons/edge.svg" alt="Edge" class="!size-[20px]" />
                         <span class="sr-only">{item.browser}</span>
                     </div>
                 )}
