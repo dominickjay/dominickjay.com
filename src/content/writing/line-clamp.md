@@ -5,6 +5,7 @@ intro: "There's a couple of different ways to nicely hide overflowing content, b
 pubDate: '2023-02-23'
 tags:
   - css
+supported: bcd.css["properties"].line-clamp.__compat
 ---
 
 Let's take a general card layout, we've all seen this before right? Standard image (provided by [placeskull.com](placeskull.com)), heading and text content. I'm leaving out a link, because how that is placed is a _whole_ other thing.

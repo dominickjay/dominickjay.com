@@ -189,10 +189,6 @@
       }
     }
 
-    & a svg {
-      display: none;
-    }
-
     & a span {
       transform: translateX(0) !important;
     }

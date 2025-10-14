@@ -54,6 +54,10 @@
     font-family: var(--font-heading);
     font-size: 1.85rem;
     line-height: 1.85rem;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
 }
 
 .music-card:has(.music-card__artist) .music-card__title {
@@ -72,6 +76,10 @@
     margin-block-start: auto;
     display: flex;
     align-items: flex-end;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
 }
 
 @keyframes pulse {

@@ -7,6 +7,7 @@ tags:
   - css
 
 draft: true
+supported: bcd.css["types"].color.color-mix.__compat
 ---
 <style>
 
@@ -42,10 +43,6 @@ draft: true
   }
 
 </style>
-
-<div class="fyi-block fyi-block--warning fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
-	<p>Reader beware - this feature is experimental, and not supported in most browsers! There's a bit below that is going through support and how to set it up to use it.</p>
-</div>
 
 We're going to toe the line of browser support with this one, so as usual, let's check out the support first.
 

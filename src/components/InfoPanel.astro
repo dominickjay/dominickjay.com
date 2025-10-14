@@ -7,6 +7,7 @@ import InfoPanelDetails from './InfoPanelDetails.astro';
     x-data="{
         time: '',
     }"
+    x-cloak
     x-init="
         const weather = await fetch(
             'https://api.weatherapi.com/v1/current.json?q=Plymouth', {

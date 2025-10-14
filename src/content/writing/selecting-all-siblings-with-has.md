@@ -5,6 +5,7 @@ intro: "I was experimenting with the :has() function recently, and put together 
 pubDate: '2023-04-26'
 tags:
   - css
+supported: bcd.css["selectors"].has.__compat
 ---
 
 <div class="browser-support-table">

@@ -26,27 +26,18 @@
 }
 
 @supports (animation-timeline: scroll()) {
-    .site-header {
-        animation: header-size ease-in-out both;
-        animation-timeline: scroll();
-        animation-range: 0 25vh;
-    }
 
     .logo-text {
+        transition: opacity 0.3s ease-in-out;
         animation: logo-text-visibility ease-in-out both;
         animation-timeline: scroll();
-        animation-range: 0 25vh;
+        animation-range: 0 50vh;
+        overflow: hidden;
     }
 }
 
 @keyframes logo-text-visibility {
     to {
         opacity: 0;
-    }
-}
-
-@keyframes header-size {
-    to {
-        --padding-block: 10px;
     }
 }
