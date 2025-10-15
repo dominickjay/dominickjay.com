@@ -2,12 +2,14 @@
 import Layout from '../layouts/Default.astro';
 import MusicCard from '../components/MusicCard.astro';
 import Profile from '../components/Profile.astro';
-import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
+import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from '../consts';
 import Joke from '../components/Joke.astro';
 import Song from '../components/Song.astro';
+import MarqueeHeading from '../components/MarqueeHeading.astro';
 import type { LastFmResponse, LastFmTrack, LastFmAlbum, LastFmTag } from '../lib/lastfm';
 import { getWeeklyAlbumChart, enrichAlbumsWithImages, getRecentTracksWithTags } from '../lib/lastfm';
 import moment from 'moment';
+import { Image } from 'astro:assets';
 
 interface Props {
   musicData?: LastFmResponse | null;
@@ -15,18 +17,24 @@ interface Props {
 
 let musicData = Astro.props.musicData;
 
-const contentIntro = {
-    short: ABOUT_INTRO.short.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
-    medium: ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
-    long: ABOUT_INTRO.long.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>')
-}
+// const contentIntro = {
+//     short: ABOUT_INTRO.short.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
+//     medium: ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
+//     long: ABOUT_INTRO.long.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>')
+// }
+
+const contentIntro = ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
 
 // Convert line breaks to <br> tags
-const contentWithBreaks = {
-	short: ABOUT_CONTENT.short.replace(/\n/g, '<br>'),
-	medium: ABOUT_CONTENT.medium.replace(/\n/g, '<br>'),
-	long: ABOUT_CONTENT.long.replace(/\n/g, '<br>')
-};
+// const contentWithBreaks = {
+// 	short: ABOUT_CONTENT.short.replace(/\n/g, '<br>'),
+// 	medium: ABOUT_CONTENT.medium.replace(/\n/g, '<br>'),
+// 	long: ABOUT_CONTENT.long.replace(/\n/g, '<br>')
+// };
+
+const contentWithBreaks = ABOUT_CONTENT.long.replace(/\n/g, '<br>');
+
+const companies = ABOUT_COMPANIES;
 
 let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
@@ -66,96 +74,171 @@ if (recentTracksData.recentTracks) {
 	headings: [],
 	timeToRead: 0
 } as any)}>
-	<div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;"
-		x-data={`{
-			selected: 'short',
-            intro: ${JSON.stringify(contentIntro)},
-			content: ${JSON.stringify(contentWithBreaks)},
-			options: [
-				{
-					id: 'short',
-					label: 'Short'
-				},
-				{
-					id: 'medium',
-					label: 'Medium'
-				},
-				{
-					id: 'long',
-					label: 'Long'
-				}
-			]
-		}`}
-	>
-		<div class="col-span-full md:col-span-2">
-            <Profile />
-		</div>
-		<div class="col-span-full md:col-span-4 flow">
-			<fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
-				<legend class="h5">Choose your length</legend>
-				<div class="repel" data-nowrap>
-					<template x-for="option in options" :key="option.id">
-						<label class="centered relative" :class="{ 'checked': selected === option.id }">
-							<input
-								type="radio"
-								name="content-length"
-								:value="option.id"
-								x-model="selected"
-								class="mr-2"
-							>
-							<span x-text="option.label"></span>
-						</label>
-					</template>
-				</div>
-			</fieldset>
+    <div class="flow" style="--flow-space: 64px;">
+        <div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;"
+            x-data={`{
+                selected: 'short',
+                intro: ${JSON.stringify(contentIntro)},
+                content: ${JSON.stringify(contentWithBreaks)}
+            }`}
+        >
+            <div class="col-span-full md:col-span-2">
+                <Profile />
+            </div>
+            <div class="col-span-full md:col-span-4 flow">
+                <!-- <fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
+                    <legend class="h5">Choose your length</legend>
+                    <div class="repel" data-nowrap>
+                        <template x-for="option in options" :key="option.id">
+                            <label class="centered relative" :class="{ 'checked': selected === option.id }">
+                                <input
+                                    type="radio"
+                                    name="content-length"
+                                    :value="option.id"
+                                    x-model="selected"
+                                    class="mr-2"
+                                >
+                                <span x-text="option.label"></span>
+                            </label>
+                        </template>
+                    </div>
+                </fieldset> -->
 
-			<div class="bio-card flow">
-                <h2 class="h2" x-html="intro[selected]"></h2>
-				<template x-for="option in options" :key="option.id">
-					<div x-show="selected === option.id" class="prose">
-						<div x-html="content[option.id]"></div>
-					</div>
-				</template>
-			</div>
+                <div class="flow">
+                    <MarqueeHeading title="About" />
+                    <h2 class="h2" set:html={contentIntro}></h2>
+                    <div class="" set:html={contentWithBreaks}></div>
+                    <!-- <template x-for="option in options" :key="option.id">
+                        <div x-show="selected === option.id" class="prose">
+                            <div x-html="content[option.id]"></div>
+                        </div>
+                    </template> -->
+                </div>
 
-            <Joke />
-			<div class="flex flex-col gap-[24px]">
-                <h2 class="h3 mb-[24px]">Recent Albums</h2>
-                <div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
-                    {albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
-                        const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
-                        if (!hasValidImage) {
-                            return null;
-                        }
+                <!-- <Joke />
+                <div class="flex flex-col gap-[24px]">
+                    <h2 class="h3 mb-[24px]">Recent Albums</h2>
+                    <div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
+                        {albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
+                            const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
+                            if (!hasValidImage) {
+                                return null;
+                            }
 
-                        return (
-                            <div class="col-span-1 opacity-[0.7] bg-album-cover">
-                                <img
-                                    src={album.image[3]['#text']}
-                                    alt={`Cover for ${album.name}`}
-                                    class="w-full h-auto aspect-square object-cover"
-                                    onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
-                                    width="200"
-                                    height="200"
-                                    loading="lazy"
+                            return (
+                                <div class="col-span-1 opacity-[0.7] bg-album-cover">
+                                    <img
+                                        src={album.image[3]['#text']}
+                                        alt={`Cover for ${album.name}`}
+                                        class="w-full h-auto aspect-square object-cover"
+                                        onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+                                        width="200"
+                                        height="200"
+                                        loading="lazy"
+                                    />
+                                </div>
+                            );
+                        })}
+                        <div class="col-span-full">
+                            {recentTracks && (
+                                <MusicCard
+                                    track={recentTracks}
+                                    tags={recentTrackTags}
+                                    trackColor={trackColor}
                                 />
-                            </div>
-                        );
-                    })}
-                    <div class="col-span-full">
-                        {recentTracks && (
-                            <MusicCard
-                                track={recentTracks}
-                                tags={recentTrackTags}
-                                trackColor={trackColor}
-                            />
-                        )}
+                            )}
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+        <div
+            class="max-w-[1089px] mx-auto flow"
+            style="--flow-space: 32px"
+            x-data={`{
+                selected: 'short',
+                selectedCompany: 'series-eight',
+                intro: ${JSON.stringify(contentIntro)},
+                content: ${JSON.stringify(contentWithBreaks)},
+                options: ${JSON.stringify(companies)}
+            }`}
+        >
+            <h2 class="sr-only">Experience</h2>
+            <form class="">
+                <fieldset class="w-fit flow">
+                    <legend class="h5 sr-only">Choose your company</legend>
+                    <div class="grid" style="--grid-placement: 5">
+                        <template x-for="option in options" :key="option.id">
+                            <label class="relative aspect-[16/9] w-[205px]" :class="{ 'checked': selectedCompany === option.id }">
+                                <input
+                                    type="radio"
+                                    name="company"
+                                    :value="option.id"
+                                    x-model="selectedCompany"
+                                    class="mr-2"
+                                >
+                                <img
+                                    :src="`/images/companies/${option.id}.png`"
+                                    :alt="`Logo for ${option.label}`"
+                                    :class="{ 'border-dark border-2': selectedCompany === option.id }"
+                                    width="100"
+                                    height="100"
+                                    loading="lazy"
+                                    class="inset-0 absolute w-full h-full object-cover object-center"
+                                />
+                                <span class="sr-only" x-text="option.label"></span>
+                            </label>
+                        </template>
+                    </div>
+                </fieldset>
+            </form>
+            <template x-for="option in options" :key="option.id">
+                <div
+                    x-show="selectedCompany === option.id"
+                    x-transition:enter="transition-all duration-300"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-data={`{
+                        selectedTab: 'what-i-do'
+                    }`}
+                    class="border border-dark p-[16px] bg-white flex gap-[16px] justify-between"
+                >
+                    <div class="flex flex-col gap-[8px] shrink-0">
+                        <h3 class="h3" x-text="option.label"></h3>
+                        <date class="text-sm text-gray-500" x-text="option.date"></date>
+                        <p class="text-sm text-gray-500" x-text="option.jobTitle"></p>
+                    </div>
+                    <div class="flex flex-col justify-start items-start flex-1 gap-[8px]">
+                        <div class="flex-1 justify-start items-start flex gap-[16px]" x-show="option.featuredWork.length > 0">
+                            <button
+                                class="h3"
+                                :class="{ 'opacity-[64]': selectedTab !== 'what-i-do' }"
+                                @click="selectedTab = 'what-i-do'">What I Do</button>
+                            <button
+                                class="h3"
+                                :class="{ 'opacity-[64]': selectedTab !== 'featured-work' }"
+                                @click="selectedTab = 'featured-work'">Featured Work</button>
+                        </div>
+                        <div x-show="selectedTab === 'what-i-do'">
+                            <div x-html="option.content"></div>
+                        </div>
+                        <div class="overflow-hidden" x-show="selectedTab === 'featured-work'">
+                            <ul class="relative flex w-full snap-x snap-mandatory gap-[6px] overflow-x-auto scrollbar-hide">
+                                <template x-for="work in option.featuredWork" :key="work.id">
+                                    <li class="shrink-0 snap-center">
+                                        <a :href="work.link" target="_blank">
+                                            <img :src="`/images/featured-work/${work.id}.png`" :alt="`Website for ${work.title}`" width="427" height="224" loading="lazy" class="h-auto aspect-video w-[350px] object-cover object-center" />
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-		</div>
-	</div>
+            </template>
+        </div>
+    </div>
 </Layout>
 
 <script>

@@ -6,7 +6,7 @@ export const SITE_DESCRIPTION = 'Explore this blog for practical guides, insight
 export const SITE_TAGLINE = 'Leave it better than you found it';
 export const CURRENT_POSITION = 'Front-End Developer';
 export const CURRENT_COMPANY = 'Series Eight';
-export const ABOUT_INTRO_SHORT = `Hi, I'm Dom, a [${CURRENT_POSITION}] at [${CURRENT_COMPANY}].`;
+export const ABOUT_INTRO_SHORT = `Hi, I'm Dom, a [${CURRENT_POSITION}] `;
 export const ABOUT_INTRO_MEDIUM = `${ABOUT_INTRO_SHORT} from Plymouth, UK.`;
 export const ABOUT_INTRO_LONG = `${ABOUT_INTRO_SHORT} from Plymouth, UK. I am passionate about crafting great user experiences and sharing web development insights through my blog and CodePen experiments`;
 
@@ -15,6 +15,70 @@ export const ABOUT_INTRO = {
     medium: ABOUT_INTRO_MEDIUM,
     long: ABOUT_INTRO_LONG
 }
+
+export const ABOUT_COMPANIES = [
+    {
+        id: 'series-eight',
+        label: 'Series Eight',
+        date: '2022 - Present',
+        jobTitle: 'Front-End Developer',
+        content: `At Series Eight, my professional journey has taken me through a variety of dynamic environments, including public and private sector companies like Rowe IT, GOSS Interactive, n9Design, and Logo CCP. These experiences have been instrumental in shaping my holistic understanding of user experience, where thoughtful design and creative solutions are always top of mind.`,
+        featuredWork: [
+            {
+                id: 'run-payments',
+                title: 'Run Payments',
+                description: 'A payment gateway for Run',
+                link: 'https://runpayments.io'
+            },
+            {
+                id: 'dimo',
+                title: 'DIMO Shop',
+                description: 'A shop for DIMO',
+                link: 'https://dimo.co'
+            },
+            {
+                id: 'run-payments-3',
+                title: 'Run Payments',
+                description: 'A payment gateway for Run',
+                link: 'https://runpayments.io'
+            },
+            {
+                id: 'run-payments-4',
+                title: 'Run Payments',
+                description: 'A payment gateway for Run',
+                link: 'https://runpayments.io'
+            }
+        ]
+    },
+    {
+        id: 'rowe-it',
+        label: 'Rowe IT',
+        date: '2019 - 2022',
+        jobTitle: 'Software Developer',
+        content: `At Rowe IT, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`
+    },
+    {
+        id: 'goss-interactive',
+        label: 'GOSS Interactive',
+        date: '2018 - 2019',
+        jobTitle: 'Creative Developer',
+        content: `At GOSS Interactive, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`
+    },
+    {
+        id: 'n9-design',
+        label: 'n9 Design',
+        date: '2017 - 2018',
+        jobTitle: 'JuniorFront-End Developer',
+        content: `At n9 Design, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`
+    },
+    {
+        id: 'logo-ccp',
+        label: 'Logo CCP',
+        date: '2015 - 2017',
+        jobTitle: 'Junior Front-End Developer',
+        content: `At Logo CCP, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`
+    }
+]
 
 export const ABOUT_CONTENT = {
 	short: `I have a background in crafting thoughtful user experiences gained from working in various design agencies and the private sector. This site serves as my personal space to explore new web technologies, which I actively share through my blog and hands-on projects on CodePen.`,

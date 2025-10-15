@@ -28,7 +28,7 @@
 @import './blocks/latest-card.css';
 @import './blocks/post.css';
 @import './blocks/category-filters.css';
-@import './blocks/marquee.css';
+@import './blocks/marquee-heading.css';
 @import './blocks/info-panel.css';
 @import './blocks/animated-link.css';
 
@@ -39,6 +39,7 @@
 @import './compositions/cluster.css';
 @import './compositions/flow.css';
 @import './compositions/repel.css';
+@import './compositions/marquee.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';
