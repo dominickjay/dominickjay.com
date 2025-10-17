@@ -22,10 +22,15 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 	<body class="pb-[128px]">
 		<Header />
 		<main class="relative overflow-clip pb-[64px] z-[1]" style="background-color: var(--color-light)">
+            <div class="fixed top-[250px] left-0 right-0 h-fit w-screen flex place-items-center place-content-center z-[-1] opacity-[0.5]">
+                <span
+                    class="h1 text-[22vw] uppercase tracking-[-0.02em]"
+                    style="font-family: var(--font-heading); color: #ffffff; text-stroke: 1px rgba(0, 0, 0, 0.25); -webkit-text-stroke: 1px rgba(0, 0, 0, 0.25);">{title}</span>
+            </div>
 			<article>
-                <DefaultHero title={title} description={description} />
-                <PatternBanner />
-				<div class="container pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
+                <!-- <DefaultHero title={title} description={description} /> -->
+                <!-- <PatternBanner /> -->
+				<div class="pt-[32px] md:pt-[64px]" style="--grid-placement: 12; --gutter: 43px;">
                     <slot />
 				</div>
 			</article>

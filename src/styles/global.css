@@ -2,7 +2,6 @@
 @import './global/fonts.css';
 
 @layer core, third-party, layout, components, utility;
-@layer core.reset, core.tokens, core.base;
 /* @layer third-party.imports, third-party.overrides; */
 @layer components, components.base, components.variations;
 
@@ -10,6 +9,16 @@
 @import './global/typography.css';
 @import './global/variables.css';
 @import './global/global-styles.css';
+
+/* @import-glob 'compositions/*.css'; */
+@import './compositions/grid.css';
+@import './compositions/container.css';
+@import './compositions/centered.css';
+@import './compositions/cluster.css';
+@import './compositions/flow.css';
+@import './compositions/repel.css';
+@import './compositions/marquee.css';
+@import './compositions/sidebar.css';
 
 /* @import-glob 'blocks/*.css'; */
 @import './blocks/site-head.css';
@@ -29,20 +38,13 @@
 @import './blocks/post.css';
 @import './blocks/category-filters.css';
 @import './blocks/marquee-heading.css';
+@import './blocks/scroll-heading.css';
 @import './blocks/info-panel.css';
 @import './blocks/animated-link.css';
-
-/* @import-glob 'compositions/*.css'; */
-@import './compositions/grid.css';
-@import './compositions/container.css';
-@import './compositions/centered.css';
-@import './compositions/cluster.css';
-@import './compositions/flow.css';
-@import './compositions/repel.css';
-@import './compositions/marquee.css';
+@import './blocks/companies.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';
 @import './utilities/reveal.css';
-@import './utilities/sidebar.css';
 @import './utilities/region.css';
+@import './utilities/scroll-hide.css';

@@ -4,10 +4,11 @@ const { title } = Astro.props;
 
 {title && (
 <div class="
-    marquee marquee-heading [--gap: 32px]
+    scroll-heading
+    [--gap: 32px]
 ">
-    {Array.from({ length: 6 }).map(() => (
-      <div class="marquee__content">
+    {Array.from({ length: 8 }).map(() => (
+      <div class="scroll-heading__content">
         <svg class="size-[29px] shrink-0" width="29" height="24" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_2130_2802" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="39" height="34">
                 <path d="M0.570316 33.257H38.367V0.785156L0.570312 0.785159L0.570316 33.257Z" fill="white"/>

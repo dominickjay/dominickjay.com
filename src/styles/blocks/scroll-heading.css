@@ -1,0 +1,36 @@
+
+@layer components {
+    .scroll-heading {
+        --gap: 32px;
+        --scroll-range: 50vh;
+        display: flex;
+        user-select: none;
+        gap: var(--gap);
+
+        & .scroll-heading__content {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            min-width: 0;
+            gap: var(--gap);
+            padding-inline: var(--inline-spacing, 0);
+            animation: scroll linear forwards;
+            animation-timeline: scroll();
+            animation-range: 0vh var(--scroll-range);
+        }
+
+        @media (width <= 768px) {
+            --scroll-range: 25vh;
+        }
+    }
+
+    @keyframes scroll {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(calc(-100% - var(--gap)));
+        }
+    }
+}

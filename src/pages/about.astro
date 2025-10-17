@@ -2,39 +2,26 @@
 import Layout from '../layouts/Default.astro';
 import MusicCard from '../components/MusicCard.astro';
 import Profile from '../components/Profile.astro';
-import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from '../consts';
 import Joke from '../components/Joke.astro';
-import Song from '../components/Song.astro';
+import Companies from '../components/Companies.astro';
+import Testimonials from '../components/Testimonials.astro';
 import MarqueeHeading from '../components/MarqueeHeading.astro';
+import ScrollHeading from '../components/ScrollHeading.astro';
 import type { LastFmResponse, LastFmTrack, LastFmAlbum, LastFmTag } from '../lib/lastfm';
 import { getWeeklyAlbumChart, enrichAlbumsWithImages, getRecentTracksWithTags } from '../lib/lastfm';
 import moment from 'moment';
 import { Image } from 'astro:assets';
+import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
+
+const showMarquee = false;
+const contentIntro = ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
+const contentWithBreaks = ABOUT_CONTENT.long.replace(/\n/g, '<br>').replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
 
 interface Props {
   musicData?: LastFmResponse | null;
 }
 
 let musicData = Astro.props.musicData;
-
-// const contentIntro = {
-//     short: ABOUT_INTRO.short.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
-//     medium: ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>'),
-//     long: ABOUT_INTRO.long.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>')
-// }
-
-const contentIntro = ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
-
-// Convert line breaks to <br> tags
-// const contentWithBreaks = {
-// 	short: ABOUT_CONTENT.short.replace(/\n/g, '<br>'),
-// 	medium: ABOUT_CONTENT.medium.replace(/\n/g, '<br>'),
-// 	long: ABOUT_CONTENT.long.replace(/\n/g, '<br>')
-// };
-
-const contentWithBreaks = ABOUT_CONTENT.long.replace(/\n/g, '<br>');
-
-const companies = ABOUT_COMPANIES;
 
 let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
@@ -75,13 +62,7 @@ if (recentTracksData.recentTracks) {
 	timeToRead: 0
 } as any)}>
     <div class="flow" style="--flow-space: 64px;">
-        <div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;"
-            x-data={`{
-                selected: 'short',
-                intro: ${JSON.stringify(contentIntro)},
-                content: ${JSON.stringify(contentWithBreaks)}
-            }`}
-        >
+        <div class="grid grid-cols-6 container" style="--grid-placement: 6; --gutter: 43px;">
             <div class="col-span-full md:col-span-2">
                 <Profile />
             </div>
@@ -105,7 +86,14 @@ if (recentTracksData.recentTracks) {
                 </fieldset> -->
 
                 <div class="flow">
-                    <MarqueeHeading title="About" />
+                    <div class="overflow-clip">
+                        {showMarquee && (
+                            <MarqueeHeading title="About" />
+                        )}
+                        {!showMarquee && (
+                            <ScrollHeading title="About" />
+                        )}
+                    </div>
                     <h2 class="h2" set:html={contentIntro}></h2>
                     <div class="" set:html={contentWithBreaks}></div>
                     <!-- <template x-for="option in options" :key="option.id">
@@ -153,91 +141,10 @@ if (recentTracksData.recentTracks) {
 
             </div>
         </div>
-        <div
-            class="max-w-[1089px] mx-auto flow"
-            style="--flow-space: 32px"
-            x-data={`{
-                selected: 'short',
-                selectedCompany: 'series-eight',
-                intro: ${JSON.stringify(contentIntro)},
-                content: ${JSON.stringify(contentWithBreaks)},
-                options: ${JSON.stringify(companies)}
-            }`}
-        >
-            <h2 class="sr-only">Experience</h2>
-            <form class="">
-                <fieldset class="w-fit flow">
-                    <legend class="h5 sr-only">Choose your company</legend>
-                    <div class="grid" style="--grid-placement: 5">
-                        <template x-for="option in options" :key="option.id">
-                            <label class="relative aspect-[16/9] w-[205px]" :class="{ 'checked': selectedCompany === option.id }">
-                                <input
-                                    type="radio"
-                                    name="company"
-                                    :value="option.id"
-                                    x-model="selectedCompany"
-                                    class="mr-2"
-                                >
-                                <img
-                                    :src="`/images/companies/${option.id}.png`"
-                                    :alt="`Logo for ${option.label}`"
-                                    :class="{ 'border-dark border-2': selectedCompany === option.id }"
-                                    width="100"
-                                    height="100"
-                                    loading="lazy"
-                                    class="inset-0 absolute w-full h-full object-cover object-center"
-                                />
-                                <span class="sr-only" x-text="option.label"></span>
-                            </label>
-                        </template>
-                    </div>
-                </fieldset>
-            </form>
-            <template x-for="option in options" :key="option.id">
-                <div
-                    x-show="selectedCompany === option.id"
-                    x-transition:enter="transition-all duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-data={`{
-                        selectedTab: 'what-i-do'
-                    }`}
-                    class="border border-dark p-[16px] bg-white flex gap-[16px] justify-between"
-                >
-                    <div class="flex flex-col gap-[8px] shrink-0">
-                        <h3 class="h3" x-text="option.label"></h3>
-                        <date class="text-sm text-gray-500" x-text="option.date"></date>
-                        <p class="text-sm text-gray-500" x-text="option.jobTitle"></p>
-                    </div>
-                    <div class="flex flex-col justify-start items-start flex-1 gap-[8px]">
-                        <div class="flex-1 justify-start items-start flex gap-[16px]" x-show="option.featuredWork.length > 0">
-                            <button
-                                class="h3"
-                                :class="{ 'opacity-[64]': selectedTab !== 'what-i-do' }"
-                                @click="selectedTab = 'what-i-do'">What I Do</button>
-                            <button
-                                class="h3"
-                                :class="{ 'opacity-[64]': selectedTab !== 'featured-work' }"
-                                @click="selectedTab = 'featured-work'">Featured Work</button>
-                        </div>
-                        <div x-show="selectedTab === 'what-i-do'">
-                            <div x-html="option.content"></div>
-                        </div>
-                        <div class="overflow-hidden" x-show="selectedTab === 'featured-work'">
-                            <ul class="relative flex w-full snap-x snap-mandatory gap-[6px] overflow-x-auto scrollbar-hide">
-                                <template x-for="work in option.featuredWork" :key="work.id">
-                                    <li class="shrink-0 snap-center">
-                                        <a :href="work.link" target="_blank">
-                                            <img :src="`/images/featured-work/${work.id}.png`" :alt="`Website for ${work.title}`" width="427" height="224" loading="lazy" class="h-auto aspect-video w-[350px] object-cover object-center" />
-                                        </a>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
+
+        <Companies />
+        <Testimonials />
+
     </div>
 </Layout>
 

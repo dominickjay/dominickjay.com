@@ -1,0 +1,112 @@
+---
+import { ABOUT_COMPANIES } from '../consts';
+import { Image } from 'astro:assets';
+const companies = ABOUT_COMPANIES;
+
+---
+<div
+    class="flow companies container"
+    x-data={JSON.stringify({
+        selectedCompany: 'series-eight',
+        options: companies,
+        translateX: 0,
+    })}
+    x-init="
+    $nextTick(() => {
+        updatePosition = () => {
+            const container = $refs.companyContainer;
+            const targetElement = container.querySelector(`#${selectedCompany}`);
+            if (container && targetElement) {
+                translateX = -(targetElement.offsetLeft);
+            }
+        };
+        $watch('selectedCompany', () => {
+            updatePosition();
+        });
+    })"
+    @resize.window.debounce.150ms="updatePosition()"
+>
+    <h2 class="sr-only">Experience</h2>
+    <form class="">
+        <fieldset class="w-full flow">
+            <legend class="h5 sr-only">Choose your company</legend>
+            <div class="grid company-grid">
+                <template x-for="option in options" :key="option.id">
+                    <label
+                        class="company-option-label"
+                        :class="{ 'company-option-label--active': selectedCompany === option.id }"
+                    >
+                        <input
+                            type="radio"
+                            name="company"
+                            :value="option.id"
+                            x-model="selectedCompany"
+                        >
+                        <img
+                            :src="`/images/companies/${option.id}.png`"
+                            :alt="`Logo for ${option.label}`"
+                            :class="{ 'border-dark border-2': selectedCompany === option.id }"
+                            width="100"
+                            height="100"
+                            loading="lazy"
+                        />
+                        <span class="sr-only" x-text="option.label"></span>
+                    </label>
+                </template>
+            </div>
+        </fieldset>
+    </form>
+    <div
+        class="repel company-container"
+        x-ref="companyContainer"
+        :style="`transform: translateX(${translateX}px)`"
+        data-nowrap
+    >
+        <template x-for="option in options" :key="option.id">
+            <div
+                x-transition:enter="transition-all duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-data={`{
+                    selectedTab: 'what-i-do'
+                }`}
+                class="company-card"
+                :class="{ 'company-card--active': selectedCompany === option.id }"
+                :id="option.id"
+            >
+                <div class="company-card__details">
+                    <h3 class="h3" x-text="option.label"></h3>
+                    <date class="h4" x-text="option.date"></date>
+                    <p class="h4" x-text="option.jobTitle"></p>
+                </div>
+                <div class="company-card__content">
+                    <div
+                        class="company-card__options" x-show="option.featuredWork.length > 0">
+                        <button
+                            class="h3 company-option"
+                            :class="{ 'company-option--active': selectedTab === 'what-i-do' }"
+                            @click="selectedTab = 'what-i-do'">What I Do</button>
+                        <button
+                            class="h3 company-option"
+                            :class="{ 'company-option--active': selectedTab === 'featured-work' }"
+                            @click="selectedTab = 'featured-work'">Featured Work</button>
+                    </div>
+                    <div x-show="selectedTab === 'what-i-do'">
+                        <div x-html="option.content"></div>
+                    </div>
+                    <div class="overflow-hidden" x-show="selectedTab === 'featured-work'">
+                        <ul class="hide-scroll featured-work-list">
+                            <template x-for="work in option.featuredWork" :key="work.id">
+                                <li class="shrink-0 snap-center">
+                                    <a :href="work.link" target="_blank">
+                                        <img :src="`/images/featured-work/${work.id}.png`" :alt="`Website for ${work.title}`" width="427" height="224" loading="lazy" class="h-auto aspect-video w-[350px] object-cover object-center" />
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
