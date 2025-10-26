@@ -111,5 +111,17 @@ export const TESTIMONIALS = [
         name: 'Terri Lamerton',
         company: 'Rowe IT',
         description: 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
+    },
+    {
+        id: 'testimonial-2',
+        name: 'Terri Lamerton',
+        company: 'Rowe IT',
+        description: 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
+    },
+    {
+        id: 'testimonial-3',
+        name: 'Terri Lamerton',
+        company: 'Rowe IT',
+        description: 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
     }
 ]

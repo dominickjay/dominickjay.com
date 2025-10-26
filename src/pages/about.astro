@@ -13,7 +13,7 @@ import moment from 'moment';
 import { Image } from 'astro:assets';
 import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
 
-const showMarquee = false;
+const showMarquee = true;
 const contentIntro = ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
 const contentWithBreaks = ABOUT_CONTENT.long.replace(/\n/g, '<br>').replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
 
@@ -61,7 +61,7 @@ if (recentTracksData.recentTracks) {
 	headings: [],
 	timeToRead: 0
 } as any)}>
-    <div class="flow" style="--flow-space: 64px;">
+    <div class="about flow">
         <div class="grid grid-cols-6 container" style="--grid-placement: 6; --gutter: 43px;">
             <div class="col-span-full md:col-span-2">
                 <Profile />

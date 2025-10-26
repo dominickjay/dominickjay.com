@@ -19,8 +19,9 @@
 @import './compositions/repel.css';
 @import './compositions/marquee.css';
 @import './compositions/sidebar.css';
-
 /* @import-glob 'blocks/*.css'; */
+
+@import './blocks/pages.css';
 @import './blocks/site-head.css';
 @import './blocks/navigation.css';
 @import './blocks/profile.css';

@@ -5,7 +5,7 @@ const testimonials = TESTIMONIALS;
 
 ---
 <section
-    class="flow testimonials container h-[200vh]"
+    class="flow testimonials container"
 >
     <h2 class="sr-only">Testimonials</h2>
     <div class="sidebar h-full" style="--gutter: 24px;">
@@ -14,11 +14,11 @@ const testimonials = TESTIMONIALS;
         </div>
         <div class="h-full" style="--sidebar-target-width: 558px">
             {testimonials.map((testimonial, index) => (
-                <div class="testimonial flex gap-[16px] py-[32px] px-[20px]" id={testimonial.id}>
-                    <span class="">{index + 1}</span>
-                    <div class="testimonial__content flex flex-col gap-[8px]">
-                        <p class="testimonial__text text-[18px] leading-[1.6]">{testimonial.description}</p>
-                        <div class="self-end flex gap-[8px] uppercase">
+                <div class="testimonial flex md:justify-end gap-[16px] py-[32px] px-[20px]" id={testimonial.id}>
+                    <span class="flex-1 max-w-[100px]">{index + 1}</span>
+                    <div class="testimonial__content flex flex-col gap-[8px] max-w-[558px]">
+                        <p class="testimonial__text text-[18px] leading-[1.6] font-light">{testimonial.description}</p>
+                        <div class="self-end flex gap-[8px] uppercase font-bold">
                             <span>{testimonial.name}</span>
                             <span>{testimonial.company}</span>
                         </div>
