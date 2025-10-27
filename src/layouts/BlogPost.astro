@@ -10,9 +10,12 @@ import TableOfContents from '../components/TableOfContents.astro';
 import DefaultHero from '../components/DefaultHero.astro';
 import Tags from '../components/Tags.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<'writing'>['data'] & {
+  headings?: any[];
+  timeToRead?: number;
+};
 
-const { title, description, pubDate, updatedDate, tags, headings, timeToRead } = Astro.props;
+const { title, description, pubDate, updatedDate, tags } = Astro.props;
 ---
 
 <html lang="en">
@@ -26,8 +29,8 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 			<article>
                 <DefaultHero title={title} description={description} />
                 <PatternBanner />
-				<div class="container prose flex flex-col md:grid pt-[32px] md:pt-[64px] gap-[43px]" style="--grid-placement: 12; --gutter: 43px;">
-                    <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[120px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">
+				<div class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px]" style="--grid-placement: 12; --gutter: 43px;">
+                    <!-- <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[120px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">
                         <span class="block">Duration: {timeToRead}min{timeToRead > 1 && 's'}</span>
                         <span class="block">Published: <FormattedDate date={new Date(pubDate)} /></span>
                         <div class="flex gap-x-[8px] topics">
@@ -35,8 +38,11 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
                             <Tags tags={tags} />
                         </div>
                         <TableOfContents headings={headings} />
+                    </div> -->
+                    <div class="pin-rail col-start-1 col-span-full md:col-span-4 flow">
+                        <div id="pin-container" class="pin-container"></div>
                     </div>
-                    <div class="content col-span-full md:col-start-3 md:col-span-8 flex flex-col gap-y-[24px] overflow-auto">
+                    <div class="content-flow content col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[24px] overflow-auto">
                         <!-- <div class="text-[32px] leading-[130%]">{description}</div> -->
                         <slot />
                     </div>
@@ -46,3 +52,229 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
 		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
 </html>
+
+<script is:inline>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const contentFlow = document.querySelector('.content-flow');
+    const pinContainer = document.getElementById('pin-container');
+
+    // --- 1. PREPARATION: Add the required CSS class dynamically ---
+    // This handles content generated via Markdown or other dynamic means.
+    if (contentFlow) {
+        const potentialTargets = contentFlow.querySelectorAll('aside, pre, .blockquote-container');
+        potentialTargets.forEach((element, index) => {
+            // Apply the class that hides the original element and identifies it for cloning
+            element.classList.add('embedded-pin-target');
+            element.id = `pin-target-${index}`;
+            console.log(element.id);
+
+            // Find the nearest element that precedes this target
+            const precedingElement = element.previousElementSibling;
+
+            if (precedingElement) {
+                // Assign the content's ID to the trigger's data-target-pin attribute
+                precedingElement.setAttribute('data-target-pin', element.id);
+                console.log(`Assigned data-target-pin='${element.id}' to element:`, precedingElement);
+            } else {
+                console.warn(`Could not find a preceding trigger element for content with ID: ${element.id}`);
+            }
+        });
+        console.log(`✅ Preparation: Added .embedded-pin-target to ${potentialTargets.length} elements.`);
+    }
+
+    // --- 🚨 DEBUG CHECK 1: Ensure containers exist ---
+    if (!pinContainer) {
+        console.error("DEBUG ERROR: #pin-container not found. The fixed sidebar structure is missing.");
+        return;
+    }
+
+    // Now we query the targets using the class we just added
+    const embeddedTargets = document.querySelectorAll('.embedded-pin-target');
+    const triggerElements = document.querySelectorAll('[data-target-pin]');
+
+    if (embeddedTargets.length === 0) {
+        console.error("DEBUG ERROR: No elements identified as targets (aside or pre) for pinning.");
+        return;
+    }
+
+    const targetMap = new Map();
+    let lastPinnedId = null;
+
+    // 2. CLONING AND MAPPING STEP
+    console.log(`Starting clone process for ${embeddedTargets.length} target elements.`);
+
+    embeddedTargets.forEach(originalTarget => {
+        const originalId = originalTarget.id;
+
+        if (!originalId) {
+            console.warn(`Skipping embedded target: Missing required 'id' attribute.`);
+            return;
+        }
+
+        try {
+            const clone = originalTarget.cloneNode(true);
+
+            clone.id = `cloned-${originalId}`;
+            clone.classList.add('cloned-pin');
+
+            pinContainer.appendChild(clone);
+            targetMap.set(originalId, clone);
+
+            // console.log(`✅ Cloned: Original ID: ${originalId} -> Cloned ID: ${clone.id}`);
+
+        } catch (error) {
+            console.error(`❌ ERROR during cloning for ID ${originalId}:`, error);
+        }
+    });
+
+    // 3. OBSERVER SETUP AND LOGIC
+    if (targetMap.size === 0) {
+        console.error("DEBUG ERROR: Target map is empty. Cloning failed or no IDs found.");
+        return;
+    }
+
+    const options = {
+        // Creates a thin horizontal line at 20% from the top of the viewport
+        rootMargin: '-40% 0px -59.9% 0px',
+        threshold: 0
+    };
+
+    const deactivateAllPins = () => {
+        pinContainer.querySelectorAll('.cloned-pin').forEach(pin => {
+            pin.classList.remove('active-pin');
+        });
+    };
+
+    const observerCallback = (entries) => {
+        let currentIntersectingId = null;
+
+        // Iterate backward (last one wins)
+        for (let i = entries.length - 1; i >= 0; i--) {
+            const entry = entries[i];
+
+            if (entry.isIntersecting) {
+                // Get the ID of the content to pin from the heading's attribute (e.g., "aside-1")
+                const pinId = entry.target.getAttribute('data-target-pin');
+                console.log(pinId);
+
+                if (pinId && targetMap.has(pinId)) {
+                    currentIntersectingId = pinId;
+                    break;
+                }
+            }
+        }
+
+        // --- State Management: Handle transitions (gaps) ---
+        deactivateAllPins();
+
+        let pinToActivateId = null;
+
+        if (currentIntersectingId) {
+            pinToActivateId = currentIntersectingId;
+            lastPinnedId = currentIntersectingId; // Update cache
+
+        } else if (lastPinnedId && targetMap.has(lastPinnedId)) {
+            // If in a gap, use the last successfully pinned content
+            pinToActivateId = lastPinnedId;
+        }
+
+        // Apply the state change
+        if (pinToActivateId) {
+            console.log(pinToActivateId);
+            const targetPinClone = targetMap.get(pinToActivateId);
+            if (targetPinClone) {
+                targetPinClone.classList.add('active-pin');
+            }
+        }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, options);
+
+    triggerElements.forEach(trigger => {
+        observer.observe(trigger);
+    });
+
+    // Initial check to pin the content for the first section
+    observerCallback(observer.takeRecords());
+});
+</script>
+
+<style is:inline>
+
+    @media (width >= 1024px) {
+    .embedded-pin-target {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: opacity 0.3s;
+            display: none;
+        }
+
+        /* 2. PIN RAIL (The Fixed Sidebar) */
+        .pin-rail {
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            left: 0;
+            /* Offset to the right of the content flow */
+            margin-right: -480px;
+            width: 100%;
+            height: 100vh;
+            padding: 50px 20px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        /* 3. PIN CONTAINER: Where the visible content is placed */
+        .pin-container {
+            position: relative;
+            height: 90vh;
+        }
+
+        /* 4. BASE STYLES for the CLONED Pinned Content */
+        .pin-container > .cloned-pin {
+            position: absolute;
+            top: 50%;
+            /* transform: scale(0.95); */
+
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+
+            /* CRITICAL: Default state is invisible */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, transform 0.4s, visibility 0.4s;
+        }
+
+        /* 5. ACTIVE STATE: Applied by JS */
+        .pin-container > .cloned-pin.active-pin {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) scale(1);
+            z-index: 10;
+        }
+
+        .cloned-pin blockquote {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            font-style: italic;
+            font-weight: 400;
+            padding-inline-start: 0;
+            border-left: none;
+        }
+
+        pre.cloned-pin {
+            padding: var(--space-s);
+        }
+
+        .cloned-pin {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+        }
+    }
+</style>

@@ -5,6 +5,7 @@ pubDate: 'August 17 2021'
 tags:
     - css
     - javascript
+supported: bcd.css["properties"].custom-property.__compat
 ---
 
 ## So, What are CSS Variables?
@@ -79,14 +80,6 @@ I've declared my `secondaryColour` and `secondaryBackgroundColour` in `:root`, b
   CSS Variables - Basic Usage</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
-
-## Support?
-
-Support for CSS custom properties is excellent, you would have to be using a relatively old browser at this time of writing to **not** be able to use them.
-
-![Can I use Support tables for CSS Custom Properties](//images.contentful.com/d44h62nxqp3d/2CacnERymSW3hpuUaRV0ug/0715640040f5f3b42b137f459d97e4c3/Screenshot_2021-08-12_at_15-51-50_CSS_Variables__Custom_Properties__Can_I_use_Support_tables_for_HTML5__CSS3__etc.png)
-
-_Source:_ [CanIUse](https://caniuse.com/css-variables 'CanIUse link for CSS Variable support')
 
 ## Context Changing
 

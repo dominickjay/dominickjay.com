@@ -96,9 +96,10 @@ What's the correct order? Visually, yes that is correct - it's done what we want
 
 The issue of 'how do we make both sides true' has been somewhat of a persistent pain point. There is either an outcome where visual design flexibility is put aside in favor of accessibility, or we over engineer a solution to look to sync the DOM with the visual order, leading to some complex and fragile solutions. Even worse, the difference between visual order and DOM order isn't just an massive inconvience, it also directly goes against web accessibility principles, specifically these two key guidlines;
 
-[WCAG 1.3.2: Meaningful Sequence (Level A)](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html) - "When the sequence in which content is presented affects its meaning, a correct reading sequence can be programmatically determined."
-
-[WCAG 2.4.3: Focus Order (Level A)](https://www.w3.org/WAI/WCAG20/Understanding/focus-order) - "If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operability."
+<aside>
+    <div><i>"When the sequence in which content is presented affects its meaning, a correct reading sequence can be programmatically determined."</i> - <a href="[https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html">WCAG 1.3.2: Meaningful Sequence (Level A)</a></div>
+    <div><i>"If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operability."</i> - <a href="[https://www.w3.org/WAI/WCAG20/Understanding/focus-order">WCAG 2.4.3: Focus Order (Level A)</a></div>
+</aside>
 
 Keeping in mind both of these primary accessibility principles, we can surely conclude that a consistent and predictable experience of all users should be the number 1 goal. Breaking this, if it wasn't clear enough by now which hopefully it is, can lead to confusion, frustration and ultimately exclusion.
 
