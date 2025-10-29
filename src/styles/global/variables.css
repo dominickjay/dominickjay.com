@@ -4,6 +4,7 @@
             --color-light: #FBF8EF;
             --color-dark: #222222;
             --color-primary: var(--color-dark, #222222);
+            --color-gradient: linear-gradient(in oklch 151deg, #222222 0.0%, var(--feature-color, #2c5364) 100.0%);
 
             --font-base: "Garamond", serif;
             --font-heading: "Gentle", serif;

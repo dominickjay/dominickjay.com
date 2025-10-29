@@ -98,9 +98,14 @@ const companies = ABOUT_COMPANIES;
                         <ul class="hide-scroll featured-work-list">
                             <template x-for="work in option.featuredWork" :key="work.id">
                                 <li class="shrink-0 snap-center">
-                                    <a :href="work.link" target="_blank">
+                                    <button class="box-link" @click="selectedWork = work.id" popovertarget="work-popover">
                                         <img :src="`/images/featured-work/${work.id}.png`" :alt="`Website for ${work.title}`" width="427" height="224" loading="lazy" class="h-auto aspect-video w-[350px] object-cover object-center" />
-                                    </a>
+                                    </button>
+                                    <div popover id="work-popover">
+                                        <div class="fixed inset-0 bg-black/50 z-50 center">
+                                            <iframe :src="work.link" class="max-h-[85vh] aspect-square w-[85vw]"></iframe>
+                                        </div>
+                                    </div>
                                 </li>
                             </template>
                         </ul>

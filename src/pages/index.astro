@@ -3,6 +3,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Pattern from '../components/Pattern.astro';
 import InfoPanel from '../components/InfoPanel.astro';
+import FeaturePanel from '../components/FeaturePanel.astro';
+import PostGrid from '../components/PostGrid.astro';
 import LatestCard from '../components/LatestCard.astro';
 import { Image } from 'astro:assets';
 import { getReadingTime } from '../utils/utils.mjs';
@@ -43,29 +45,39 @@ const randomPost = posts[random];
                 <Pattern></Pattern>
             </div>
             <div class="bg-[var(--color-light)]">
-                <div class="container md:min-h-[85dvh] grid py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
-                    <h1
-                        class="heading-tagline col-span-full lg:col-span-7 md:row-start-1"
-                        style="--max-width: 1260px"
-                    >
-                        { SITE_TAGLINE }
-                    </h1>
+                <div class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
+                    <div class="flex justify-between items-end h-fit row-start-1">
+                        <h1
+                            class="heading-tagline gradient-text"
+                            style="background-image: var(--color-gradient);"
+                        >
+                            { SITE_TAGLINE }
+                        </h1>
 
-                    <Profile random="true" />
-
-                    <div class="profile__description center h3 lg:col-span-5 relative md:row-start-2 lg:row-start-2 lg:row-span-1">
-                        {SITE_DESCRIPTION}
+                        <div class="h3 max-w-[450px] md:pb-[20px]">
+                            {SITE_DESCRIPTION}
+                        </div>
                     </div>
+
+                    <div class="flex justify-between items-end h-fit">
+                        <div class="w-full flex">
+                            <Profile random="true" class="h-fit w-full max-w-[450px]" />
+                        </div>
+                        <div class="">
+                           <FeaturePanel />
+                        </div>
+                    </div>
+
                     <InfoPanel>
                 </div>
                 <!-- <div class="container grid">
                     <LatestCard />
                 </div> -->
             </div>
-            <section class="py-[80px] md:py-[160px] text-white relative" style="background-color: var(--color-dark)">
+            <section class="py-[80px] md:py-[160px] relative">
                 <div class="container flex flex-col gap-y-[64px] justify-center">
                     <!-- <div class="col-span-full md:col-span-4 row-start-2 md:row-start-1">
-                        <div class="flex flex-col gap-y-[24px] sticky top-[120px]">
+                        <div class="flex flex-col gap-y-[24px] sticky top-[60px]">
                             <h3 class="h3">Can't decide?</h3>
                             <a
                                 class="pb-[16px] pt-[18px] px-[24px] border border-solid w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white"
@@ -79,42 +91,8 @@ const randomPost = posts[random];
                             View all
                         </a> -->
                     <!-- </div> -->
-                    <div>
-                        <ol class="flex flex-col gap-y-[24px] md:gap-y-[32px]">
-                            {
-                                posts.slice(0,5).map((post, i) => (
-                                <li
-                                    class="flex justify-center text-center"
-                                >
-                                        <div class="flex flex-col items-center text-centergap-y-[8px]">
-                                            {/* <div class="flex gap-x-[16px]">
-                                                <span>{getReadingTime(post.body)} min</span>
-                                            </div> */}
-                                            <div class="flex justify-between md:flex-col-reverse md:gap-[8px] lg:flex-row">
-
-                                                <div class="flex flex-col gap-y-[3px] md:gap-y-[5px]">
-                                                    <FormattedDate date={post.data.pubDate} />
-                                                    <a
-                                                        data-link-title={post.data.title}
-                                                        class="animated-link h1 h-[82px] relative group overflow-clip px-[10px]"
-                                                        href={`/writing/${post.id}/`}
-                                                    >
-                                                        <span class="relative group-hover:translate-y-[-100%] transition-transform duration-700 ease-in-out delay-[0.05s]">
-                                                            {post.data.title}
-                                                        </span>
-                                                    </a>
-                                                    {/* <p class="opacity-[0.64] body-text">{post.data.description}</p> */}
-                                                </div>
-                                                {/* <p class="date shrink-0">
-                                                    <FormattedDate date={post.data.pubDate} />
-                                                </p> */}
-                                            </div>
-                                        </div>
-                                    </li>
-                                ))
-                            }
-                        </ol>
-                    </div>
+                    <h2 class="h2">Latest Posts</h2>
+                    <PostGrid posts={posts.slice(0,5)} />
                 </div>
             </section>
 		</main>

@@ -2,6 +2,7 @@
 title: 'CSS Object-Fit Property'
 description: 'A super quick insight into the object-fit property'
 pubDate: '2021-10-20'
+supported: bcd.css["properties"].object-fit.__compat
 tags:
   - css
 

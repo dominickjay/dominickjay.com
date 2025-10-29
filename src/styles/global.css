@@ -19,6 +19,7 @@
 @import './compositions/repel.css';
 @import './compositions/marquee.css';
 @import './compositions/sidebar.css';
+@import './compositions/switcher.css';
 /* @import-glob 'blocks/*.css'; */
 
 @import './blocks/pages.css';
@@ -43,9 +44,13 @@
 @import './blocks/info-panel.css';
 @import './blocks/animated-link.css';
 @import './blocks/companies.css';
+@import './blocks/post-grid.css';
+@import './blocks/statistic-grid.css';
 
 /* @import-glob 'utilities/*.css'; */
 @import './utilities/visually-hidden.css';
 @import './utilities/reveal.css';
 @import './utilities/region.css';
 @import './utilities/scroll-hide.css';
+@import './utilities/gradient-text.css';
+@import './utilities/box-link.css';

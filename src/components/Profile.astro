@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { PROFILE_IMAGES } from '../consts';
 
 const random = Astro.props.random ? Astro.props.random : false;
+const classes = Astro.props.class ? Astro.props.class : '';
 
 function getRandom() {
     return Math.floor(Math.random() * PROFILE_IMAGES.length);
@@ -13,7 +14,7 @@ const selectedImage = PROFILE_IMAGES[active];
 ---
 
 <div
-    class="profile"
+    class={`profile ${classes}`}
 >
     <div class="profile__image-container">
         <Image

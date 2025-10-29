@@ -581,7 +581,7 @@ Here's how a complete theme system works with system preferences:
 
   <details class="mt-4">
     <summary class="cursor-pointer text-black hover:text-black/80">View Complete CSS Code</summary>
-    <pre class="mt-2 p-4 bg-gray-100 rounded text-sm overflow-x-auto"><code>:root {
+    <pre class=""><code>:root {
   color-scheme: light dark;
 
   /* CSS Custom Properties with light-dark() */
@@ -920,7 +920,7 @@ Here's a live example showing how high-contrast mode affects your `light-dark()`
 
   <details class="mt-4">
     <summary class="cursor-pointer text-black hover:text-black/80">View High-Contrast CSS Code</summary>
-    <pre class="mt-2 p-4 bg-gray-100 rounded text-sm overflow-x-auto"><code>/* Detect high-contrast mode */
+    <pre class=""><code>/* Detect high-contrast mode */
 @media (prefers-contrast: high) {
   /* High-contrast mode is active */
   body {

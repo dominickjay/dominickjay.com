@@ -45,3 +45,17 @@ const { title, description, image = '/seo-image.png' } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<script>
+  import collapse from '@alpinejs/collapse';
+  import focus from '@alpinejs/focus';
+
+  document.addEventListener('alpine:init', () => {
+    // @ts-ignore
+    const Alpine = window.Alpine;
+    if (Alpine) {
+      Alpine.plugin(collapse);
+      Alpine.plugin(focus);
+    }
+  });
+</script>

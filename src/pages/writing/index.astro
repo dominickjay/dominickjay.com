@@ -67,15 +67,15 @@ const postLength = posts.length;
                             data-tags={JSON.stringify(post.data.tags)}
                         >
                             <div class="post">
-                                <div class="flex gap-x-[16px] transition-opacity duration-300 mb-[4px]">
-                                    <ul class="flex gap-x-[8px]">
+                                <div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 mb-[4px] flex-wrap">
+                                    <ul class="flex gap-x-[8px] w-full order-2 md:order-1">
                                         {post.data.tags.map((tag) => (
                                             <li>
-                                                <span class="border py-1 px-4">{tag}</span></li>
+                                                <span class="border py-1 px-4 min-w-fit">{tag}</span></li>
                                         ))}
                                     </ul>
-                                    <span>{getReadingTime(post.body)} min</span>
-                                    <FormattedDate date={post.data.pubDate} />
+                                    <span class="w-fit md:w-auto">{getReadingTime(post.body)} min</span>
+                                    <span class="w-fit md:w-auto"><FormattedDate date={post.data.pubDate} /></span>
                                 </div>
                                 <div class="flex justify-between">
                                     <div class="flow" style="--flow-space: var(--space-s)">

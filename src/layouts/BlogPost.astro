@@ -30,14 +30,14 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props;
                 <DefaultHero title={title} description={description} />
                 <PatternBanner />
 				<div class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]" style="">
-                    <!-- <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[120px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">
+                    <!-- <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[60px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">
                         <span class="block">Duration: {timeToRead}min{timeToRead > 1 && 's'}</span>
                         <span class="block">Published: <FormattedDate date={new Date(pubDate)} /></span>
                         <div class="flex gap-x-[8px] topics">
                             <span>Topics: </span>
                             <Tags tags={tags} />
                         </div>
-                        <TableOfContents headings={headings} />
+                    <TableOfContents headings={headings} />
                     </div> -->
                     <div class="hidden md:flex pin-rail col-start-1 col-span-full md:col-span-4 flow">
                         <div id="pin-container" class="pin-container"></div>
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /* 2. PIN RAIL (The Fixed Sidebar) */
         .pin-rail {
-            overflow-x: auto;
+            overflow: hidden;
             position: sticky;
             top: 0;
             left: 0;
@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .pin-container {
             position: relative;
             height: 90vh;
+            width: 100%;
         }
 
         /* 4. BASE STYLES for the CLONED Pinned Content */

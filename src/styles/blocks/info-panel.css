@@ -17,7 +17,6 @@
         @media (width >= 768px) {
             grid-column-start: 1;
             grid-column-end: 10;
-            margin-block-start: auto;
         }
     }
 

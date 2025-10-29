@@ -72,7 +72,7 @@ const postLength = posts.length;
                                     <ul class="flex gap-x-[8px]">
                                         {post.data.tags.map((tag) => (
                                             <li>
-                                                <span class="border py-1 px-4">{tag}</span></li>
+                                                <span class="border py-1 px-4 min-w-fit">{tag}</span></li>
                                         ))}
                                     </ul>
                                     <span>{getReadingTime(post.body)} min</span>

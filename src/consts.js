@@ -1,6 +1,51 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+export const MAIN_NAVIGATION = [
+    {
+        href: '/writing',
+        label: 'Writing'
+    },
+    {
+        href: '/about',
+        label: 'About'
+    },
+    {
+        href: '/now',
+        label: 'Now'
+    },
+    {
+        href: '/books',
+        label: 'Reading List'
+    },
+    {
+        href: '/music',
+        label: 'Music'
+    }
+];
+
+export const EXTERNAL_NAVIGATION = [
+    {
+        href: 'https://github.com/dominickjay',
+        label: 'GitHub'
+    },
+    {
+        href: 'https://linkedin.com/in/dominickjay/',
+        label: 'LinkedIn'
+    },
+    {
+        href: 'https://bsky.app/profile/dominickjay.bsky.social',
+        label: 'Bluesky'
+    },
+    {
+        href: 'https://last.fm/user/zerosandones217',
+        label: 'Last.fm'
+    },
+    {
+        href: 'https://mastodon.social/@dominickjay',
+        label: 'Mastodon'
+    }
+];
 export const SITE_TITLE = 'Dominick Jay';
 export const SITE_DESCRIPTION = 'Explore this blog for practical guides, insightful articles, and continuous growth in your front-end expertise to aid you on your web development path.';
 export const SITE_TAGLINE = 'Leave it better than you found it';

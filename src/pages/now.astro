@@ -1,11 +1,15 @@
 ---
 import Layout from '../layouts/Default.astro';
+import MarqueeHeading from '../components/MarqueeHeading.astro';
+import ScrollHeading from '../components/ScrollHeading.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE, CURRENT_COMPANY, CURRENT_POSITION } from '../consts';
 import {
     getTopTracks,
     type LastFmTopTrack
 } from '../lib/lastfm';
 import moment from "moment";
+
+const showMarquee = true;
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 
@@ -122,31 +126,76 @@ const books = await getBooks();
 	title="Now"
 	description="What I'm doing right /now"
 >
-	<div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;">
-        <ul class="col-span-full">
-            {topTrack[0] && (
-                <li>
-                    My top track this week is {topTrack[0].name} by {topTrack[0].artist['name']}
-                </li>
+	<div class="container grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;">
+        <div class="overflow-clip col-span-full md:col-span-4">
+            {showMarquee && (
+                <MarqueeHeading title="Now" />
             )}
+            {!showMarquee && (
+                <ScrollHeading title="Now" />
+            )}
+        </div>
+        <ul class="col-span-full">
 
-                <li
-                    class="col-span-2 group"
-                >
-                    Currently reading {currentBooks.map((book, i) => book.title).join(', ')} books
-                </li>
-            <li>
-                As of now, I've read {books.length} books, my complete reading list is <a href="/books">here</a>
+            <li
+                class="col-span-2 group"
+            >
+                Currently reading {currentBooks.map((book, i) => book.title).join(', ')}
             </li>
             <li>
-                Currently learning 'Overcompensate' by twenty one pilots on the drums
+                As of 2023, I've read {books.length} books, my complete reading list is <a href="/books">here</a>
+            </li>
+            <li>
+                Currently learning 'Jumpsuit' by twenty one pilots on the drums
             </li>
             <li>
                 Living in Plymouth, UK with my partner and our two kids.
             </li>
-            <li>
-                Currently watching 'Coffin Run' on Dropout.tv
-            </li>
         </ul>
+        <div class="statistics-grid col-span-full">
+            <div class="statistics-grid__item statistics-grid__item-1" style="grid-area: item1">
+                <div class="statistics-grid__content flex flex-col gap-[16px]">
+                    <span class="statistics-grid__title h4">Books read</span>
+                    <span
+                      class="statistics-grid__value h1 leading-[1]"
+                      x-data={JSON.stringify({
+                        count: 0,
+                        target: books.length,
+                        duration: 2000,
+                      })}
+                      x-init="
+                        const startTime = Date.now();
+                        const animate = () => {
+                          const elapsed = Date.now() - startTime;
+                          const progress = Math.min(elapsed / duration, 1);
+                          const eased = progress < 0.85
+                            ? 2 * progress * progress
+                            : -1 + (4 - 2 * progress) * progress;
+                          count = Math.floor(eased * target);
+                          if (progress < 1) {
+                            requestAnimationFrame(animate);
+                          } else {
+                            count = target;
+                          }
+                        };
+                        requestAnimationFrame(animate);
+                      "
+                      x-text="count"
+                    ></span>
+                </div>
+            </div>
+            <div class="statistics-grid__item statistics-grid__item-2" style="grid-area: item2">
+                <div class="statistics-grid__content flex flex-col gap-[16px]">
+                    <span class="statistics-grid__title h4 ">Top track this week</span>
+                    <span class="statistics-grid__value h1 leading-[1]">{topTrack[0].name}</span>
+                </div>
+            </div>
+            <div class="statistics-grid__item statistics-grid__item-3" style="grid-area: item3">
+                <div class="statistics-grid__content flex flex-col gap-[16px]">
+                    <span class="statistics-grid__value h4">Currently watching</span>
+                    <span class="statistics-grid__title h1 leading-[1]">Peacemaker</span>
+                </div>
+            </div>
+        </div>
 	</div>
 </Layout>

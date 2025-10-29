@@ -167,12 +167,12 @@ const compatDataStatus = compatData?.status;
     {raindropData && (
         <RaindropGrid raindropData={raindropData} />
     )}
-     <div class="prose mt-5 md:p-5 flex flex-col gap-y-[32px]">
+     <div class="prose flex flex-col gap-y-[32px]">
          <h2 class="">You might also like...</h2>
          <div class="flex flex-col md:flex-row gap-[16px] w-full">
             {allPosts1.map((post) => (
-                <div key={post.id} class="border p-4 md:max-w-1/2">
-                    <a href={`/writing/${post.id}`} class="flow h-full" style="--flow-space: var(--space-s)">
+                <div key={post.id} class="border p-4 md:max-w-1/2 relative">
+                    <a href={`/writing/${post.id}`} class="flow h-full box-link" style="--flow-space: var(--space-s)">
                         <span class="h3">{post.data.title}</span>
                         <div class="">{post.data.description}</div>
                     </a>
