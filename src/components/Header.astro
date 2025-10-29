@@ -33,7 +33,7 @@ const externalNavigation = EXTERNAL_NAVIGATION;
             </button>
         </div>
         <div class="menubar switcher" x-collapse.duration.500ms x-cloak x-show="openMenu">
-            <nav class="internal-links pt-[var(--space-s] md:pt-[var(--space-m)]" aria-label="Internal Site Links">
+            <nav class="internal-links pt-[var(--space-m)]" aria-label="Internal Site Links">
                 <ul class="cluster">
                     {navigation.map((item, index) => (
                         <li>
@@ -43,7 +43,7 @@ const externalNavigation = EXTERNAL_NAVIGATION;
                     ))}
                 </ul>
             </nav>
-            <nav class="external-links pt-[var(--space-s] md:pt-[var(--space-m)]" aria-label="External Site Links">
+            <nav class="external-links pt-[var(--space-xs)] md:pt-[var(--space-m)]" aria-label="External Site Links">
                 <ul class="cluster">
                     {externalNavigation.map((item, index) => (
                         <li>
