@@ -77,15 +77,10 @@ export async function extractMusicCardColors(): Promise<void> {
           // Set on the music card itself
           musicCard.style.setProperty('--track-color', result.color);
 
-          // Also set a global fallback so siblings (e.g., artist cards) can inherit
+          // Also set a global fallback
           document.documentElement.style.setProperty('--track-color', result.color);
 
-          // And push to any artist cards currently on the page
-          document.querySelectorAll('.artist-card').forEach((el) => {
-            (el as HTMLElement).style.setProperty('--track-color', result.color);
-          });
-
-          console.log(`Extracted color for card ${i + 1}:`, result.color);
+          console.log(`Extracted color for music card ${i + 1}:`, result.color);
         } else {
           console.warn(`Failed to extract color for card ${i + 1}:`, result.error);
         }
@@ -107,6 +102,7 @@ export function initializeColorExtraction(): void {
   document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOM loaded, initializing color extraction...');
     await extractMusicCardColors();
+    await extractArtistCardColors();
   });
 }
 
@@ -114,4 +110,27 @@ export function initializeColorExtraction(): void {
 export async function reExtractColors(): Promise<void> {
   console.log('Re-extracting colors for music cards...');
   await extractMusicCardColors();
+  await extractArtistCardColors();
+}
+
+// Extract dominant colors for each artist card using its embedded image
+async function extractArtistCardColors(): Promise<void> {
+  const artistCards = document.querySelectorAll('.artist-card');
+  if (artistCards.length === 0) return;
+
+  for (let i = 0; i < artistCards.length; i++) {
+    const card = artistCards[i] as HTMLElement;
+    const img = card.querySelector('img') as HTMLImageElement | null;
+    if (!img || !img.src) continue;
+
+    try {
+      const result = await extractImageColor(img.src);
+      if (result.success) {
+        card.style.setProperty('--track-color', result.color);
+        // do not set global; keep color per card
+      }
+    } catch (_) {
+      // ignore
+    }
+  }
 }
