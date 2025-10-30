@@ -291,15 +291,15 @@ const books = await getBooks();
                         x-show="floatingCover.show && floatingCover.src"
                         x-transition.opacity
                         class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
-                        :style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
+                        x-bind:style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
                     >
                         <div x-show="floatingCover.src" class="relative w-full h-full">
-                            <img :src="floatingCover.src" :alt="floatingCover.title" class="w-full h-full object-cover" />
+                            <img x-bind:src="floatingCover.src" x-bind:alt="floatingCover.title" class="w-full h-full object-cover" />
                         </div>
                     </div>
                     <div
                         class="grid !grid-cols-4 gap-[20px]"
-                        :class="{
+                        x-bind:class="{
                             'flex flex-col': list,
                             'grid': !list
                         }"
@@ -307,7 +307,7 @@ const books = await getBooks();
                         <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
                         <ul
                             class="col-span-full grid gap-y-[12px]"
-                            :class="{
+                            x-bind:class="{
                                 'flex flex-col': list,
                                 'grid': !list
                             }"
@@ -315,7 +315,7 @@ const books = await getBooks();
                             {currentBooks.map((book, i) =>
                                 <li
                                     class="col-span-2 group"
-                                    :class="{
+                                    x-bind:class="{
                                         'border-b'
                                     }"
                                     @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
@@ -327,7 +327,7 @@ const books = await getBooks();
                                         </div>
                                         <div
                                             class={`flex flex-col gap-[8px] w-full ${!book.cover ? 'absolute bg-black inset-0 text-white py-[8px] px-[16px] opacity-100' : ''}`}
-                                            :class="{
+                                            x-bind:class="{
                                                 'opacity-0 absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                             }"
                                         >
@@ -347,7 +347,7 @@ const books = await getBooks();
                                             <h2 class="h2">Books read in {year[0]} <span class="text-[20px] opacity-75">({year[1].length})</span></h2>
                                             <ul
                                                 class="col-span-full grid gap-y-[12px]"
-                                                :class="{
+                                                x-bind:class="{
                                                     'flex flex-col': list,
                                                     'grid': !list
                                                 }"
@@ -356,7 +356,7 @@ const books = await getBooks();
                                                     [...books][i][1].map((book, index) => (
                                                     <li
                                                         class="col-span-2 group"
-                                                        :class="{
+                                                        x-bind:class="{
                                                             'border-b'
                                                         }"
                                                         @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
@@ -365,14 +365,14 @@ const books = await getBooks();
                                                             <div class="overflow-hidden flex flex-col gap-y-[16px] md:gap-y-[12px] relative">
                                                                 <div
                                                                     class="flex flex-col md:flex-row md:items-center md:gap-[32px] w-full"
-                                                                    :class="{
+                                                                    x-bind:class="{
                                                                         'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                                                     }"
                                                                 >
                                                                     <p class="text-[22px]">{book.title}</p>
                                                                     <div
                                                                         class="mt-auto flex flex-col"
-                                                                        :class="{
+                                                                        x-bind:class="{
                                                                             'flex-row gap-x-[8px] items-center': list,
                                                                         }"
                                                                     >
@@ -408,23 +408,23 @@ const books = await getBooks();
                                                     [...books][i][1].map((book, index) => (
                                                     <li
                                                         class="col-span-2 group"
-                                                        :class="{
+                                                        x-bind:class="{
                                                             'border-b'
                                                         }"
                                                         @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
                                                         @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
                                                     >
                                                             <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-                                                                <div
-                                                                    class="flex flex-col gap-[8px] w-full"
-                                                                    :class="{
+                                                                    <div
+                                                                        class="flex flex-col gap-[8px] w-full"
+                                                                        x-bind:class="{
                                                                         'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                                                     }"
                                                                 >
                                                                     <p class="text-[22px]">{book.title}</p>
                                                                     <div
                                                                         class="mt-auto pb-[8px] flex flex-col"
-                                                                        :class="{
+                                                                        x-bind:class="{
                                                                             'flex-row gap-x-[20px] items-center': list,
                                                                         }"
                                                                     >

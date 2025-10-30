@@ -66,7 +66,7 @@ import { turso } from '../turso';
 }" x-init="fetchJoke()">
     <div class="joke__content mb-[24px] flex flex-col gap-[8px]">
         <p class="joke__setup h3" x-text="setup"></p>
-        <div class="joke__punchline" x-text="punchline" :class="{ 'revealed': isRevealed }"></div>
+        <div class="joke__punchline" x-text="punchline" x-bind:class="{ 'revealed': isRevealed }"></div>
     </div>
 
     <div class="joke__reactions flex flex-col md:flex-row gap-2">

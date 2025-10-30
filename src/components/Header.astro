@@ -38,7 +38,7 @@ const externalNavigation = EXTERNAL_NAVIGATION;
                     {navigation.map((item, index) => (
                         <li>
                             <NavLink href={item.href}>{item.label}</NavLink>
-                            {index < navigation.length - 1 && <span class="separator">/</span>}
+                            <span class={`${index < navigation.length - 1 ? 'separator' : 'opacity-0'}`}>/</span>
                         </li>
                     ))}
                 </ul>

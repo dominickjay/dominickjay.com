@@ -1,0 +1,355 @@
+---
+title: 'Reclaiming the Flow: Mastering Visual vs. DOM Order with @reading-order'
+description: "Ever wondered how users navigate your content, even when the visual layout is complex? Let's dive into the CSS reading-order property and discover how it gives you control."
+intro: ""
+pubDate: 'June 16 2025'
+supported: bcd.css["properties"].reading-flow.__compat
+tags:
+  - css
+  - accessibility
+draft: true
+---
+
+import ReadingOrderDemo from '../../components/demos/ReadingOrderDemo.astro';
+import FYIBlock from '../../components/FYIBlock.astro';
+
+## The Accessibility Gap: When Visual Order Betrays Logical Order
+
+For a long time, developers have been able to put together the strangest of layouts that have come from the dark corners of the design team with very little pushback. Properties like `flex-direction`, `grid-template-areas` and the `order` property have given us a monumental amount of control when dealing with the visual presentation of the elements on the screen, and we can rearrange content to adapt to different screen sizes and user preference with little effort.
+
+Sometimes however, that ability comes with a sidestep of accessibility and performance concerns  *[Extra note: add also - pride - to this].*, and that really isn't acceptable at all. We would warn that a layout *might* affect accessibility, but in the worst cases it can met with a shrug, depending on how much the team cares about providing accessible solutions in the first place. In my current position at [Series Eight](//serieseight.com), accessibility concerns are met with a lot of discussion and push back to find a better path - so the prior 'shrug' example is not a reflection of how our projects are dealt with there. The main challenge has been that while we can change how elements look on the screen, their true order in the DOM is the 'golden truth'. We'll go through a couple of examples to help illustrate this.
+
+### Example 1: Our card layout
+
+If we have for example, a traditional card layout that has 3 elements; a date (the highest semantic priority), a title, and an image (the lowest semantic priority), and we've used CSS to reorder them differently (let's say; the image, then the date, then the title). We would have this;
+
+<style>{`
+    .reading-order-card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid var(--color-dark);
+        padding: 16px;
+        max-width: fit-content;
+    }
+
+    @media (width <= 768px) {
+        .reading-order-card {
+            max-width: none;
+        }
+    }
+
+    .reading-order-card date {
+        order: 2;
+    }
+
+    .reading-order-card span,
+    .reading-order-card > a {
+        order: 3;
+        font-family: var(--font-heading);
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.04em;
+        text-decoration: none;
+    }
+
+    .reading-order-card img {
+        order: 1;
+    }
+
+`}</style>
+
+```css
+.reading-order-card date {
+    order: 2;
+}
+
+.reading-order-card span,
+.reading-order-card > a {
+    order: 3;
+}
+
+.reading-order-card img {
+    order: 1;
+}
+```
+
+<article class="reading-order-card">
+    <date datetime="2025-10-30">20th October 2025</date>
+    <span>Card title</span>
+    <img src="https://placehold.co/600x400" alt="Card image" />
+</article>
+
+Visually, we've got our card layout looking like this; an image, then a date, then a title. Pretty generic stuff, but when a screen reader user traverses this layout, the order of the content is not what we would expect. The image is announced first, then the date, then the title. This is because the screen reader is reading the content in the order of the DOM, not the visual order.
+
+### Example 2: Our list layout
+
+If we have for example, a layout that is 3 elements (Article A, Article B and a CTA) in that order in the DOM, and we've used CSS to reorder them differently (let's say; the CTA, Article A and Article B). We would have this;
+
+<style>{`
+    .reading-order-example {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        container: reading-order-example / inline-size;
+    }
+
+    @container reading-order-example (max-width: 560px) {
+        article {
+            width: 100%;
+        }
+    }
+
+    .reading-order-example article,
+    .reading-order-example > a {
+        border: 4px dotted;
+        padding: 8px;
+        flex-grow: 1;
+    }
+
+    .reading-order-example > a {
+        background-color: var(--color-dark);
+        color: var(--color-light);
+        cursor: pointer;
+    }
+
+    .reading-order-example > a:focus-within {
+        outline: 1px solid var(--color-dark);
+        outline-offset: 2px;
+    }
+
+    .reading-order-example a:hover {
+        opacity: 0.85;
+    }
+
+    .reading-order-example .reading-order-card--1 {
+        order: 3;
+    }
+
+    .reading-order-example .reading-order-card--2 {
+        order: 1;
+    }
+
+    .reading-order-example .reading-order-card--3 {
+        order: 2;
+    }
+
+`}</style>
+
+```css
+.reading-order-example .reading-order-card--1 {
+    order: 3;
+}
+
+.reading-order-example .reading-order-card--2 {
+    order: 1;
+}
+
+.reading-order-example .reading-order-card--3 {
+    order: 2;
+}
+```
+
+<div class="reading-order-example">
+    <article class="reading-order-card reading-order-card--1">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the first item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <article class="reading-order-card reading-order-card--2">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the second item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <a href="#" class="item item--3" tabindex="0" aria-label="Read more about this article">
+        <img src="https://placehold.co/600x800" alt="Card image" />
+    </a>
+</div>
+
+## Example 3: Our grid layout
+
+If we have for example, a layout that is 3 elements (Article A, Article B and a CTA) in that order in the DOM, and we've used CSS to reorder them differently (let's say; the CTA, Article A and Article B). We would have this;
+
+<style>{`
+    .reading-order-example-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+        "cta article-a article-b"
+        "article-c cta-2 article-d"
+    }
+
+    @media (width <= 768px) {
+        .reading-order-example-2 {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                "cta"
+                "article-a"
+                "article-b"
+                "article-c"
+                "cta-2"
+                "article-d"
+        }
+    }
+
+    .reading-order-example-2 .reading-order-card--1 {
+        grid-area: article-a;
+    }
+
+    .reading-order-example-2 .reading-order-card--2 {
+        grid-area: article-b;
+    }
+
+    .reading-order-example-2 .reading-order-card--3 {
+        grid-area: cta;
+    }
+
+    .reading-order-example-2 .reading-order-card--4 {
+        grid-area: article-c;
+    }
+
+    .reading-order-example-2 .reading-order-card--5 {
+        grid-area: article-d;
+    }
+
+    .reading-order-example-2 .reading-order-card--6 {
+        grid-area: cta-2;
+    }
+`}</style>
+
+
+```css
+.reading-order-example-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        "cta article-a article-b"
+        "article-c cta-2 article-d"
+}
+
+@media (width <= 768px) {
+    .reading-order-example-2 {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "cta"
+            "article-a"
+            "article-b"
+            "article-c"
+            "cta-2"
+            "article-d"
+    }
+}
+
+.reading-order-example-2 .reading-order-card--1 {
+    grid-area: article-a;
+}
+
+.reading-order-example-2 .reading-order-card--2 {
+    grid-area: article-b;
+}
+
+.reading-order-example-2 .reading-order-card--3 {
+    grid-area: cta;
+}
+
+.reading-order-example-2 .reading-order-card--4 {
+    grid-area: article-c;
+}
+
+.reading-order-example-2 .reading-order-card--5 {
+    grid-area: article-d;
+}
+
+.reading-order-example-2 .reading-order-card--6 {
+    grid-area: cta-2;
+}
+
+```
+
+<div class="reading-order-example reading-order-example-2">
+    <article class="reading-order-card reading-order-card--1">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the first item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <article class="reading-order-card reading-order-card--2">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the second item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <a href="#" class="item item--3" tabindex="0" aria-label="Read more about this article">
+        <img src="https://placehold.co/600x800" alt="Card image" />
+    </a>
+
+    <article class="reading-order-card reading-order-card--4">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the first item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <article class="reading-order-card reading-order-card--5">
+        <date datetime="2025-10-30">20th October 2025</date>
+        <a href="#"><span>This is the card that is the second item in the DOM</span></a>
+        <img src="https://placehold.co/600x400" alt="Card image" />
+    </article>
+
+    <a href="#" class="item item--6" tabindex="0" aria-label="Read more about this article">
+        <img src="https://placehold.co/600x800" alt="Card image" />
+    </a>
+</div>
+
+What's the correct order for these examples? Visually they are correct - they've done what we want it to do in that specific order to appease our designer overlords. However, for a user navigating the site through the use of a screen reader or a keyboard, this might be a bit of a contradiction. Typically screen readers such as NVDA, JAWS or Voiceover traverse the DOM and read out the content as it is set there, disregarding any extra information that might be in place to reorder it, announcing the CTA, then the Article A, then the Article B in that order. If we use the `tab` key to traverse the DOM, it will once again follow the DOM order, rather than our re-ordered items. Try using the `tab` key on this page to navigate through the section above, and notice that the focus outline is applied to Article A before the CTA. So we can see by attempting to replicate our design and using `order` or `grid-template-areas`, that we've actually broken the accessibility of the page and left behind come accessibility debt to fix later on, and that debt increases with every time we use `order` or `grid-template-areas` and don't account for the accessibility implications. That's also just from a developer's perspective, considering the user experience is even worse - users who rely on keyboard navigation or screen readers only have the DOM as their map and our CSS decisions often discard that map entirely.
+
+## The Solution: reading-flow and reading-order
+
+So how do we fix this? This design isn't exactly a new trend, but being able to fix it whilst also being able to maintain the visual order of the elements is a bit of a challenge. There is either;
+- an outcome where visual design flexibility is put aside in favor of accessibility leading to a less than ideal user experience/ugly design decision, or
+- we over-engineer a solution to look to sync the DOM with the visual order to aid with our accessibility efforts, leading to some complex and fragile solutions.
+
+Bit of a no-win situation really. Even worse, the difference between visual order and DOM order isn't just an massive inconvenience, it's also a W3C-recognized accessibility violation, specifically the WCAG 1.3.2: Meaningful Sequence and WCAG 2.4.3: Focus Order guidelines.
+
+<aside>
+    <div><i>"When the sequence in which content is presented affects its meaning, a correct reading sequence can be programmatically determined."</i> - <a href="[https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html">WCAG 1.3.2: Meaningful Sequence (Level A)</a></div>
+    <div><i>"If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operability."</i> - <a href="[https://www.w3.org/WAI/WCAG20/Understanding/focus-order">WCAG 2.4.3: Focus Order (Level A)</a></div>
+</aside>
+
+With these two principles in mind, it's clear that our number one goal should be the consistency and predictability of the experience for all users. Breaking this, if it wasn't clear enough by now which hopefully it is, can lead to confusion, frustration and ultimately exclusion. By using `reading-flow` and `reading-order`, we can allow for content that is presented the way our design is put together, and also meets the accessibility principles that we outlined above. All the while avoiding the pitfalls of using `order` or `grid-template-areas`, their accessibility implications and focus on only **visually** rearranging content.
+
+It's important to note at this stage that this isn't to replace the use of `order` or `grid-template-areas`, if anything, it allows us to use them for purely visual purposes and still maintain the accessibility of the page knowing that they won't fail WCAG guidelines.
+
+### reading-flow (on the container):
+
+So, what is `reading-flow`? This property controls how the browser determines the default reading order of children that are with a `flex`, `grid` or block container. There are seperate applicable values that can be used on this property, depending on whether the container has one of those `display` properties set. These values are;
+
+- normal (default): Follows DOM order.
+- flex-visual: Prioritizes the visual order of flex items.
+- flex-flow: Follows the logical flow of flex items (e.g., flex-direction: row-reverse would reverse the reading order).
+- grid-rows: Reads grid items row by row.
+- grid-columns: Reads grid items column by column.
+- grid-order: Follows the explicit order values on grid items.
+- source-order: Explicitly forces DOM order, even in grid/flex.
+
+### reading-order (on the items):
+
+So if we have `reading-flow` to do this, what does `reading-order` do differently? Well `reading-order` provides an integer value - similar to how `order` is used - that allows a manual override of the reading order of individual items that are inside a `reading-flow` container. The lower the value, the higher the priority of reading order. If `reading-flow` is not set on the parent then any `reading-order` values set are not taken into account, and is also disregarded if the `reading-flow` container is set to `normal` or `source-order`. This is where the power of `reading-order` comes in, as it directly instructs the browser's Accessibility Tree to follow the visual order, rather than the static DOM order. This means that for interactive elements, the keyboard focus order is automatically fixed, eliminating the need for fragile JavaScript solutions or manually setting tabindex values.
+
+## Best Practices and Considerations
+
+When using these properties, it's best to not overuse it. For accessibility, the default DOM order is always the best - referring back to our 'golden truth' comment earlier. If there was to be a recommendation, it would be to only use this when there's a justified reason for the reordering of elements and if the design absolutely couldn't be achieved without that reordering occurring - after all, it's an enhancement to solve specific layout challenges.
+
+When we look at the support at the top of this page, support is still sparse, but it's getting better. As of October 2025, Chrome and Firefox have support for `reading-flow` and `reading-order`, and Safari has support for `reading-flow`. Edge is still in progress, but it's expected to be supported in the future. If we consider fallbacks, it's a bit of a tricky one, as there's no real fallback for these properties. We can probably get away with using `order` and `grid-template-areas` as a fallback, but it's not a perfect solution for the reasons outlined above, and accessibility is still a concern. If this looks to be the only way forward, it's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
+
+## Example
+
+<ReadingOrderDemo />
+
+Summary: The proposal represents a critical evolution in CSS, shifting our focus from merely rendering pixels to managing the entire user experience. It turns a technical conflict into an elegant, standards-based solution.
+
+Final Call to Action: This is a working group proposal—it needs developer feedback and advocacy to become a standard. Share this post and advocate for its implementation with your teams to accelerate its adoption.
+
+Resource: Link to the official CSS Working Group draft/explainer document.

@@ -45,16 +45,18 @@ function writePost(raindrops) {
   const formatLink = ({ link, title, excerpt, note }) =>
     `* [${title}](${link}) - ${note || excerpt}`;
 
-  const { articles, demos } = raindrops.reduce((acc, item) => {
-    const category = item.tags?.includes('demos') ? 'demos' : 'articles';
+  const { articles, demos, sites, videos } = raindrops.reduce((acc, item) => {
+    const category = item.tags?.includes('demos') ? 'demos' : item.tags?.includes('sites') ? 'sites' : item.tags?.includes('videos') ? 'videos' : 'articles';
     acc[category].push(formatLink(item));
     return acc;
-  }, { articles: [], demos: [] });
+  }, { articles: [], demos: [], sites: [], videos: [] });
 
   const postContent = fs.readFileSync("./scripts/link_template.md", "utf8")
     .replace(/{{monthYear}}/g, monthYear)
     .replace(/{{date}}/g, formattedToday)
     .replace("{{articles}}", articles.join("\n") || "No articles this month")
+    .replace("{{sites}}", sites.join("\n") || "No sites this month")
+    .replace("{{videos}}", videos.join("\n") || "No videos this month")
     .replace("{{demos}}", demos.join("\n") || "No demos this month");
 
   if (process.env.DEBUG) {

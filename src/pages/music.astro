@@ -87,7 +87,7 @@ if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && artis
                     </div>
                 </div>
                 <div class="flex flex-col gap-[20px] w-full">
-                    <div class="grid !grid-cols-1 md:!grid-cols-2 mdw:grid-cols-4 gap-[20px]">
+                    <div class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 gap-[20px]">
                         <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
                             <h1 class="h2 col-span-full">Currently Playing</h1>
                             {recentTracks && (
@@ -129,7 +129,7 @@ if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && artis
                         </div>
                     </div> -->
                     <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
-                        <div class="col-start-1 col-span-4 grid !grid-cols-4 !gap-[8px] md:!gap-[20px]">
+                        <div class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]">
                             <h1 class="h2 col-span-full">Recent Artists</h1>
                             { artists
                                 .sort((a, b) => {

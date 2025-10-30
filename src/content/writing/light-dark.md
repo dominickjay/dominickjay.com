@@ -288,27 +288,27 @@ Here's how a complete theme system works with system preferences:
       }
     }
   }"
-  :style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
+  x-bind:style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
   x-init="init()">
 
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      :class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      :class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      :class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
     >
       System (<span x-text="systemPreference"></span>)
@@ -363,27 +363,27 @@ Here's how a complete theme system works with system preferences:
       }
     }
   }"
-  :style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
+  x-bind:style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
   x-init="init()">
 
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      :class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      :class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      :class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
     >
       System (<span x-text="systemPreference"></span>)
@@ -419,27 +419,27 @@ Here's how a complete theme system works with system preferences:
       }
     }
   }"
-  :style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
+  x-bind:style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
   x-init="init()">
 
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      :class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      :class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      :class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
     >
       System (<span x-text="systemPreference"></span>)
@@ -499,27 +499,27 @@ Here's how a complete theme system works with system preferences:
       }
     }
   }"
-  :style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
+  x-bind:style="`color-scheme: ${colorScheme === 'system' ? systemPreference : colorScheme}`"
   x-init="init()">
 
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      :class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      :class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      :class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
+      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
       class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
     >
       System (<span x-text="systemPreference"></span>)

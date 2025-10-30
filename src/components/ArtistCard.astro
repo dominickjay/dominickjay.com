@@ -56,8 +56,8 @@ const fallbackColor = hashStringToHsl(artist.name);
             <span class="music-card__title">{artist.name}</span>
         </div>
     </div> -->
-<div class="flex flex-col gap-[3px] flex-1 pb-[8px] relative artist-card music-card" style={`--track-color: ${fallbackColor}`}>
-    <div class="flex justify-between items-baseline gap-[8px] relative">
+<div class="artist-card music-card" style={`--track-color: ${fallbackColor}`}>
+    <div class="music-card__contents">
         {artist.info?.image && artist.info.image[4] && (
             <img
                 src={artist.info.image[4]['#text']}
@@ -66,28 +66,12 @@ const fallbackColor = hashStringToHsl(artist.name);
                 loading="lazy"
             />
         )}
-        <span class="justify-self-end">{index + 1}</span>
+        <span class="counter">{index + 1}</span>
         {artist.playcount && (
-            <span class="opacity-70">
+            <span class="play-count">
                 {Number(artist.playcount).toLocaleString()} plays
             </span>
         )}
     </div>
-    <span class="standfirst relative">{artist.name}</span>
+    <span class="standfirst music-card__title">{artist.name}</span>
 </div>
-
-<style>
-    .artist-card {
-        --color: color-mix(in srgb, var(--track-color) 95%, var(--color-light));
-        padding: 8px;
-        &::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            block-size: 4px;
-            inline-size: 100%;
-            background-image: linear-gradient(in oklch 45deg, var(--color) 0.0%, var(--color-light) 100.0%);
-        }
-    }
-</style>
