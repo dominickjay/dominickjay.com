@@ -25,7 +25,7 @@ let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
 let trackColor = '#000000'; // Default color
 
-const weekAgo = moment().subtract(7, 'days').unix();
+const weekAgo = moment().subtract(4, 'weeks').unix();
 const now = moment().unix();
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 
@@ -134,7 +134,7 @@ if (recentTracksData.recentTracks) {
                                 .map((artist, i) => {
                                 const isNowPlaying = Boolean(recentTracks && recentTracks.artist && recentTracks.artist['#text'] === artist.name && recentTracks['@attr']?.nowplaying);
                                 return (
-                                    <div class="col-span-full md:col-span-1 flex" style={`--track-color: ${trackColor}`}>
+                                    <div class="col-span-full md:col-span-1 flex">
                                         <ArtistCard
                                             artist={artist}
                                             isNowPlaying={isNowPlaying}

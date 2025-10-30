@@ -42,12 +42,27 @@ const { artist, isNowPlaying = false, trackColor = '#000000', index } = Astro.pr
             <span class="music-card__title">{artist.name}</span>
         </div>
     </div> -->
-<div class="flex flex-col gap-[3px] flex-1 border-b pb-[8px]">
-    <span class="justify-self-end">{index + 1}</span>
+<div class="flex flex-col gap-[3px] flex-1 border-b pb-[8px] relative artist-card">
+    <div class="flex justify-between items-baseline gap-[8px]">
+        <span class="justify-self-end">{index + 1}</span>
+        {artist.playcount && (
+            <span class="opacity-70">
+                {Number(artist.playcount).toLocaleString()} plays
+            </span>
+        )}
+    </div>
     <span class="standfirst">{artist.name}</span>
-    {artist.playcount && (
-        <span class="text-[1rem] opacity-70">
-            {Number(artist.playcount).toLocaleString()} plays
-        </span>
-    )}
 </div>
+
+<style>
+    .artist-card {
+        &::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            block-size: 100%;
+            inline-size: 100%;
+            background-image: linear-gradient(in oklch 151deg, var(--track-color) 0.0%, var(--color-dark) 100.0%);;
+        }
+    }
+</style>

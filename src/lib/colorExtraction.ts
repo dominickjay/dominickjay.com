@@ -74,7 +74,17 @@ export async function extractMusicCardColors(): Promise<void> {
         const result = await extractImageColor(trackImage.src);
 
         if (result.success) {
+          // Set on the music card itself
           musicCard.style.setProperty('--track-color', result.color);
+
+          // Also set a global fallback so siblings (e.g., artist cards) can inherit
+          document.documentElement.style.setProperty('--track-color', result.color);
+
+          // And push to any artist cards currently on the page
+          document.querySelectorAll('.artist-card').forEach((el) => {
+            (el as HTMLElement).style.setProperty('--track-color', result.color);
+          });
+
           console.log(`Extracted color for card ${i + 1}:`, result.color);
         } else {
           console.warn(`Failed to extract color for card ${i + 1}:`, result.error);
