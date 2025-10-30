@@ -56,7 +56,6 @@ const fallbackColor = hashStringToHsl(track.name);
             <div class="now-playing-dot"></div>
         </div>
         )}
-        <span class="justify-self-end">{index + 1}</span>
         {(track as any).playcount || artistPlaycount ? (
             <span class="music-card__playcount">
                 {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
