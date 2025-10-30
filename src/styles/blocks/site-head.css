@@ -5,7 +5,7 @@
         left: 0;
         right: 0;
         z-index: 1;
-        margin-block-start: var(--padding-block, 8px);
+        margin-block-start: var(--padding-block, 16px);
         margin-inline: auto;
         display: flex;
         justify-content: space-between;
@@ -20,6 +20,7 @@
             padding-block: var(--padding-block, var(--space-m));
             z-index: 100;
             border-top: 2px solid var(--color-dark);
+            margin-block-start: 0;
         }
     }
 }

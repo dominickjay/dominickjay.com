@@ -11,15 +11,15 @@ export interface Props {
             };
         };
     };
+    index: number;
     isNowPlaying?: boolean;
     trackColor?: string;
 }
 
-const { artist, isNowPlaying = false, trackColor = '#000000' } = Astro.props;
+const { artist, isNowPlaying = false, trackColor = '#000000', index } = Astro.props;
 ---
 
-<div class="col-span-full md:col-span-2 flex" style={`--track-color: ${trackColor}`}>
-    <div class="music-card">
+    <!-- <div class="music-card">
         <div class="music-card__image">
             {artist.info?.image && artist.info.image[4] && (
                 <img
@@ -40,5 +40,13 @@ const { artist, isNowPlaying = false, trackColor = '#000000' } = Astro.props;
         <div class="music-card__content">
             <span class="music-card__title">{artist.name}</span>
         </div>
-    </div>
+    </div> -->
+<div class="flex flex-col gap-[3px] flex-1 border-b pb-[8px]">
+    <span class="justify-self-end">{index + 1}</span>
+    <span class="standfirst">{artist.name}</span>
+    {artist.info?.stats?.userplaycount && (
+        <span class="text-[1rem] opacity-70">
+            {Number(artist.info.stats.userplaycount).toLocaleString()} plays
+        </span>
+    )}
 </div>
