@@ -46,12 +46,8 @@
         }
 
         .heading-tagline {
-            font-size: clamp(2.25rem, 5.5435rem + 1.7826vw, 8.5rem);
-            line-height: 0.85 !important;
-
-            @media (width >= 768px) {
-                line-height: 0.95 !important;
-            }
+            font-size: clamp(2rem, 2.5435rem + 2.7826vw, 8.5rem);
+            line-height: 1 !important;
         }
 
         .intro {

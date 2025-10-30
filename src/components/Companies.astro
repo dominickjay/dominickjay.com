@@ -102,8 +102,11 @@ const companies = ABOUT_COMPANIES;
                                         <img :src="`/images/featured-work/${work.id}.png`" :alt="`Website for ${work.title}`" width="427" height="224" loading="lazy" class="h-auto aspect-video w-[350px] object-cover object-center" />
                                     </button>
                                     <div popover id="work-popover">
-                                        <div class="fixed inset-0 bg-black/50 z-50 center">
-                                            <iframe :src="work.link" class="max-h-[85vh] aspect-square w-[85vw]"></iframe>
+                                        <div class="fixed inset-0 bg-black/85 z-50 center">
+                                            <button class="absolute top-[16px] right-[16px] h3 text-white" @click="selectedWork = work.id" popovertarget="work-popover">
+                                                Close
+                                            </button>
+                                            <iframe :src="work.link" class="max-h-[85svh] h-svh md:aspect-square w-[85svw]"></iframe>
                                         </div>
                                     </div>
                                 </li>

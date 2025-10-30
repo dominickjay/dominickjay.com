@@ -115,4 +115,13 @@
             --view-transition-name: auto;
         }
     }
+
+    [x-cloak] {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	[x-cloak="hidden"] {
+		display: none;
+	}
 }

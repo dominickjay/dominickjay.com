@@ -14,25 +14,25 @@
         li {
             display: flex;
             gap: var(--space-m);
-            align-items: center;
+            align-items: baseline;
         }
 
         .external-links,
         .internal-links {
+            --gutter: var(--space-s);
             flex: 1;
             display: flex;
+
+            & li {
+                gap: var(--space-s);
+            }
         }
 
         .external-links {
-            --gutter: var(--space-s);
             opacity: 0.75;
 
             @media (width >= 768px) {
                 justify-content: flex-end;
-            }
-
-            li {
-                gap: var(--space-s);
             }
         }
 

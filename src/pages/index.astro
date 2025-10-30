@@ -46,9 +46,9 @@ const randomPost = posts[random];
             </div>
             <div class="bg-[var(--color-light)]">
                 <div class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
-                    <div class="flex flex-col md:flex-row justify-between items-end h-fit row-start-1 gap-y-[32px]">
+                    <div class="flex flex-col md:flex-row justify-between items-end h-fit row-start-1 gap-[32px]">
                         <h1
-                            class="heading-tagline gradient-text"
+                            class="heading-tagline gradient-text px-[2px] md:px-[4px]"
                             style="background-image: var(--color-gradient);"
                         >
                             { SITE_TAGLINE }
@@ -61,7 +61,7 @@ const randomPost = posts[random];
 
                     <div class="flex justify-between items-end h-fit">
                         <div class="w-full flex">
-                            <Profile random="true" class="h-fit w-full mx-auto md:mx-0 max-w-[450px]" />
+                            <Profile random="true" class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]" />
                         </div>
                         <div class="">
                            <FeaturePanel />

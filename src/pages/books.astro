@@ -256,7 +256,7 @@ const books = await getBooks();
 	<body>
 		<Header />
 		<main>
-            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-0 md:py-[90px]"
+            <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
                 style="--grid-placement: 12; --gutter: 43px;"
                 x-data="{
                     list: true,
@@ -362,9 +362,9 @@ const books = await getBooks();
                                                         @mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
                                                         @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
                                                     >
-                                                            <div class="overflow-hidden flex flex-col gap-y-[12px] relative">
+                                                            <div class="overflow-hidden flex flex-col gap-y-[16px] md:gap-y-[12px] relative">
                                                                 <div
-                                                                    class="flex items-center gap-[32px] w-full"
+                                                                    class="flex flex-col md:flex-row md:items-center md:gap-[32px] w-full"
                                                                     :class="{
                                                                         'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
                                                                     }"
