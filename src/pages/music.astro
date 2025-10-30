@@ -25,7 +25,7 @@ let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
 let trackColor = '#000000'; // Default color
 
-const weekAgo = moment().subtract(4, 'weeks').unix();
+const weekAgo = moment().subtract(7, 'days').unix();
 const now = moment().unix();
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 

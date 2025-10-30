@@ -22,6 +22,7 @@ export interface LastFmArtist {
   name: string;
   image: Array<{ '#text': string; size: string }>;
   url: string;
+  playcount?: string; // present in weekly charts for the selected period
   bio: {
     summary: string;
   };
