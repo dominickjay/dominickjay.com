@@ -24,6 +24,7 @@ let tracks: LastFmTrack[] = [];
 let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
 let trackColor = '#000000'; // Default color
+let currentArtistPlaycount: string | null = null;
 
 const weekAgo = moment().subtract(4, 'weeks').unix();
 const now = moment().unix();
@@ -50,6 +51,16 @@ if (trackResponse.weeklytrackchart?.track) {
 if (recentTracksData.recentTracks) {
   recentTracks = recentTracksData.recentTracks;
   recentTrackTags = recentTracksData.recentTrackTags;
+}
+
+// Derive the total playcount for the current artist if available
+if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && artists.length > 0) {
+  const match = artists.find(a => a.name === recentTracks!.artist['#text']);
+  if (match) {
+    currentArtistPlaycount = (match.info?.stats?.userplaycount
+      || (match as any).stats?.userplaycount
+      || null) as string | null;
+  }
 }
 
 ---
@@ -80,11 +91,15 @@ if (recentTracksData.recentTracks) {
                         <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
                             <h1 class="h2 col-span-full">Currently Playing</h1>
                             {recentTracks && (
-                                <MusicCard
-                                    track={recentTracks}
-                                    tags={recentTrackTags}
-                                    trackColor={trackColor}
-                                />
+                                <div class="col-span-full md:col-span-2 flex" style={`--track-color: ${trackColor}`}>
+                                    <MusicCard
+                                        track={recentTracks}
+                                        tags={recentTrackTags}
+                                        trackColor={trackColor}
+                                        index={0}
+                                        artistPlaycount={currentArtistPlaycount ?? undefined}
+                                    />
+                                </div>
                             )}
                             <!-- <div class="col-span-1 flex flex-col gap-[6px] p-4 border">
                                 {recentTracks.image && recentTracks.image[2] && (

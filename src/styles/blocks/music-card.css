@@ -167,6 +167,13 @@
     text-transform: uppercase;
 }
 
+/* Playcount meta, styled similarly to tags */
+.music-card__playcount {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    opacity: 0.8;
+}
+
 @container music-card (min-width: 350px) {
     .music-card {
         flex-direction: row;

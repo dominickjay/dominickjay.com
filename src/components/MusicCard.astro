@@ -12,22 +12,41 @@ export interface Props {
             nowplaying?: boolean;
         };
     };
+    index: number;
     tags: Array<{
         name: string;
     }>;
     trackColor?: string;
+    artistPlaycount?: string | number;
 }
 
-const { track, tags, trackColor = '#000000' } = Astro.props;
+const { track, tags, trackColor = '#000000', index, artistPlaycount } = Astro.props;
+
+function hashStringToHsl(input: string): string {
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+        hash = input.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    const hue = Math.abs(hash) % 360;
+    const saturation = 65; // percent
+    const lightness = 40; // percent
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+const fallbackColor = hashStringToHsl(track.name);
 ---
 
-<div class="col-span-full md:col-span-4 flex music-card" style={`--track-color: ${trackColor}`}>
-    <div class="music-card__image">
-        {track.image && track.image[3] && (
+<div class="artist-card flex w-full gap-[8px]">
+    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[150px]">
+        {track?.image && track.image[3] && (
             <img
                 src={track.image[3]['#text']}
-                alt={`${track.name} album cover`}
-                loading="eager"
+                alt={`${track.name} artist image`}
+                class="size-[150px] object-cover object-center aspect-square"
+                width="150"
+                height="150"
+                loading="lazy"
             />
         )}
         {track['@attr']?.nowplaying && (
@@ -37,12 +56,18 @@ const { track, tags, trackColor = '#000000' } = Astro.props;
             <div class="now-playing-dot"></div>
         </div>
         )}
+        <span class="justify-self-end">{index + 1}</span>
+        {(track as any).playcount || artistPlaycount ? (
+            <span class="music-card__playcount">
+                {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
+            </span>
+        ) : null}
     </div>
-    <div class="music-card__content">
+    <div class="w-full">
         <div class="flex justify-between">
             {tags.length > 0 && (
-                <div class="music-card__tags">
-                    <span class="music-card__tag">
+                <div class="">
+                    <span class="">
                         {tags[0].name}
                     </span>
                 </div>
@@ -51,7 +76,26 @@ const { track, tags, trackColor = '#000000' } = Astro.props;
                 <span class="now-playing-tag">Now Playing</span>
             )}
         </div>
-        <span class="music-card__title">{track.name}</span>
-        <span class="music-card__artist">{track.artist['#text']}</span>
+        <div class="flex flex-col">
+            <span class="h4 relative">{track.name}</span>
+            <span class="standfirst relative">{track.artist['#text']}</span>
+        </div>
     </div>
 </div>
+
+
+<style>
+    .artist-card {
+        --color: color-mix(in srgb, var(--track-color) 95%, var(--color-light));
+        padding: 8px;
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            block-size: 4px;
+            inline-size: 100%;
+            background-image: linear-gradient(in oklch 45deg, var(--color) 0.0%, var(--color-light) 100.0%);
+        }
+    }
+</style>
