@@ -55,7 +55,7 @@ export function extractImageColor(imageUrl: string): Promise<ColorExtractionResu
 
 // Function to extract colors from all music cards on the page
 export async function extractMusicCardColors(): Promise<void> {
-  const musicCards = document.querySelectorAll('.music-card');
+  const musicCards = document.querySelectorAll('.artist-card');
 
   if (musicCards.length === 0) {
     console.log('No music cards found for color extraction');
