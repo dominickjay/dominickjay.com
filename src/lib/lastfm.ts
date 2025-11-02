@@ -260,7 +260,6 @@ export async function enrichArtistsWithInfo(artistList: LastFmArtist[], apiKey: 
 export async function getTrackInfo(artistName: string, trackName: string, apiKey: string): Promise<LastFmTrackInfo> {
   try {
     const url = `https://ws.audioscrobbler.com/2.0/?method=track.getinfo&artist=${encodeURIComponent(artistName)}&track=${encodeURIComponent(trackName)}&user=zerosandones217&api_key=${apiKey}&format=json`;
-    console.log(url)
     const trackResponse = await fetch(url);
     const trackData = await trackResponse.json();
 

@@ -30,6 +30,15 @@ const allTags = posts.flatMap(post => post.data.tags);
 const categories = [...new Set(allTags)].sort();
 const postLength = posts.length;
 
+const growthOptions = [
+    { value: '', label: 'All', description: 'All posts' },
+    { value: 'evergreen', label: 'Evergreen', description: 'Fully vetted, production-ready guides. These features are stable across major browsers and are safe to implement in production today.' },
+    { value: 'growing', label: 'Growing', description: 'Working drafts and stable concepts that are ready for early adoption. Code samples have been tested but are subject to minor changes as specs finalize.' },
+    { value: 'seedling', label: 'Seedling', description: 'Ideas on the edge of the specification. Highly experimental, rough code, and often dependent on browser flags.' },
+];
+
+const growth = Astro.url.searchParams.get('growth') || '';
+
 ---
 
 <!doctype html>
@@ -42,28 +51,63 @@ const postLength = posts.length;
 		<main>
             <DefaultHero title="Writing" description={`I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these ${postLength} posts, I go through problems, solutions and how I am - infact - not Batman.`} />
             <PatternBanner />
-			<section class="container">
-                <div class="category-filters cluster" style="--gutter: 8px; --cluster-horizontal-alignment: flex-end">
-                    <span
-                        class="category-filter active"
-                        data-category=""
-                    >
-                        All
-                    </span>
-                    {categories.map((category) => (
+			<section
+                class="container flow"
+                x-data={`{
+                    growth: '${growth}',
+                    growthDescription: '${growthOptions.find(option => option.value === growth)?.description || ''}',
+                    growthOptions: ${JSON.stringify(growthOptions)}
+                }`}
+            >
+                <div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[16px] md:gap-[32px]">
+                    <div class="category-filters hide-scroll">
                         <span
-                            class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
-                            data-category={category}
+                            class="h3"
+                            data-category=""
                         >
-                            {category}
+                            Topics
                         </span>
-                    ))}
+                        <span
+                            class="category-filter active"
+                            data-category=""
+                        >
+                            All
+                        </span>
+                        {categories.map((category) => (
+                            <span
+                                class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
+                                data-category={category}
+                            >
+                                {category}
+                            </span>
+                        ))}
+                    </div>
+                    <div class="max-md:w-full">
+                        <select
+                            class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer
+                                hover:bg-black hover:text-white transition-colors
+                                min-w-fit max-md:w-full"
+                            x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log(growth);"
+                        >
+                            {growthOptions.map((option) => (
+                                <option value={option.value}
+                                    x-bind:selected={`growth === '${option.value}'`}
+                                >
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-                <ol class="!pt-[64px] !pb-[56px] post-list flow" style="--flow-space: 32px;">
+                <div class="mt-[64px] flex" style="--flow-space: 32px;">
+                    <div x-text="growthDescription || ''"></div>
+                </div>
+                <ol class="!pb-[56px] post-list flow" style="--flow-space: 32px;">
                     {
                         posts.map((post) => (
                         <li
                             class="post-item"
+                            x-show={`growth === '${post.data.growth || ''}'`}
                             data-tags={JSON.stringify(post.data.tags)}
                         >
                             <div class="post">

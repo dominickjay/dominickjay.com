@@ -15,7 +15,7 @@ type Props = CollectionEntry<'writing'>['data'] & {
   timeToRead?: number;
 };
 
-const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 ---
 
 <html lang="en">
@@ -27,7 +27,7 @@ const { title, description, pubDate, updatedDate, tags } = Astro.props;
 		<Header />
 		<main>
 			<article>
-                <DefaultHero title={title} description={description} />
+                <DefaultHero title={title} description={description} growth={growth} />
                 <PatternBanner />
 				<div class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]" style="">
                     <!-- <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[60px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">

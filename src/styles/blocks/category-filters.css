@@ -1,14 +1,35 @@
 .category-filters {
     padding-block-start: var(--space-xl);
+    padding-inline-end: var(--space-m);
+    display: flex;
+    overflow: auto;
+    align-items: center;
+    gap: var(--space-s);
+    scroll-snap-type: x mandatory;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    scroll-snap-align: start;
+    scroll-snap-align: start;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 64px;
+        height: 100%;
+        background: linear-gradient(to right, transparent, var(--color-light));
+    }
 
     @media (width >= 768px) {
-        max-width: 66%;
+        /* max-width: 66%; */
         margin-inline-start: auto;
     }
 
     .category-filter {
         padding-inline: var(--space-m);
-        padding-block: var(--space-xs);
+        padding-block: var(--space-s) var(--space-xs);
         border: 1px solid var(--color-dark);
         background-color: var(--color-light);
         cursor: pointer;
@@ -20,4 +41,7 @@
         }
     }
 
+    .h3 {
+        margin-inline-end: var(--space-s);
+    }
 }

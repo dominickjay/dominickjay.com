@@ -1,10 +1,15 @@
 ---
-const { title, description } = Astro.props;
+const { title, description, growth } = Astro.props;
 ---
 
 <header class="!relative !pt-[64px] !pb-[56px]">
-    <div class="container flow">
-        <h1 class="h1">{title}</h1>
-        <h2 class="intro">{description}</h2>
+    <div class="container cluster relative" style="--cluster-vertical-alignment: flex-end; --gutter: 32px;">
+        <div class="flow" style="--flow-space: 16px;">
+            {growth && (
+                <div class="h-fit h4 flex">Current Growth Stage: <span class="h-fit block gradient-text px-[2px] md:px-[4px]" style="background-image: var(--color-gradient);">{growth.charAt(0).toUpperCase() + growth.slice(1)}</span></div>
+            )}
+            <h1 class="h1">{title}</h1>
+            <h2 class="intro">{description}</h2>
+        </div>
     </div>
 </header>

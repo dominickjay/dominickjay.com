@@ -5,6 +5,7 @@ pubDate: 'August 17 2021'
 tags:
     - css
     - javascript
+growth: evergreen
 supported: bcd.css["properties"].custom-property.__compat
 ---
 

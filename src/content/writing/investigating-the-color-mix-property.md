@@ -7,6 +7,7 @@ tags:
   - css
 
 draft: true
+growth: growing
 supported: bcd.css["types"].color.color-mix.__compat
 ---
 <style>

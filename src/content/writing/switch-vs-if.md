@@ -4,6 +4,7 @@ description: "A practical guide to choosing between switch and if statements in 
 pubDate: 'February 10 2025'
 tags:
     - javascript
+growth: seedling
 draft: true
 ---
 

@@ -8,6 +8,7 @@ tags:
   - web
 draft: true
 layout: BlogPost
+growth: growing
 ---
 
 # Temporal API: JavaScript's New Time Machine

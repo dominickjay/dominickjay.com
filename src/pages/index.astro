@@ -5,6 +5,7 @@ import Pattern from '../components/Pattern.astro';
 import InfoPanel from '../components/InfoPanel.astro';
 import FeaturePanel from '../components/FeaturePanel.astro';
 import PostGrid from '../components/PostGrid.astro';
+import GrowthPanel from '../components/GrowthPanel.astro';
 import LatestCard from '../components/LatestCard.astro';
 import { Image } from 'astro:assets';
 import { getReadingTime } from '../utils/utils.mjs';
@@ -44,8 +45,8 @@ const randomPost = posts[random];
             <div class="absolute left-[-612px] mx-auto top-[92px] opacity-[0.2] pointer-events-none">
                 <Pattern></Pattern>
             </div>
-            <div class="bg-[var(--color-light)]">
-                <div class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12]" style="">
+            <div class="bg-[var(--color-light)] relative">
+                <div class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12] relative" style="">
                     <div class="flex flex-col md:flex-row justify-between items-end h-fit row-start-1 gap-[32px]">
                         <h1
                             class="heading-tagline gradient-text px-[2px] md:px-[4px]"
@@ -59,16 +60,19 @@ const randomPost = posts[random];
                         </div>
                     </div>
 
-                    <div class="flex justify-between items-end h-fit">
+                    <div class="flex flex-col md:flex-row justify-between md:items-end h-fit gap-[16px] md:gap-[32px]">
                         <div class="w-full flex">
                             <Profile random="true" class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]" />
+
                         </div>
                         <div class="">
-                           <FeaturePanel />
+                           <FeaturePanel posts={posts.slice(0, 3)} />
                         </div>
                     </div>
 
-                    <InfoPanel>
+                    <div>
+                        <InfoPanel />
+                    </div>
                 </div>
                 <!-- <div class="container grid">
                     <LatestCard />
@@ -76,23 +80,8 @@ const randomPost = posts[random];
             </div>
             <section class="py-[80px] md:py-[160px] relative">
                 <div class="container flex flex-col gap-y-[64px] justify-center">
-                    <!-- <div class="col-span-full md:col-span-4 row-start-2 md:row-start-1">
-                        <div class="flex flex-col gap-y-[24px] md:sticky top-[60px]">
-                            <h3 class="h3">Can't decide?</h3>
-                            <a
-                                class="pb-[16px] pt-[18px] px-[24px] border border-solid w-fit hover:!no-underline hover:bg-black duration-300 ease-in-out transition-colors hover:text-white"
-                                href={`/writing/${randomPost.id}/`}
-                            >Click here for a Random Post</a>
-                        </div>
-                    </div> -->
-                    <!-- <div class="flex justify-center text-center"> -->
-                        <!-- <h2 class="heading-tagline">Latest Posts</h2> -->
-                        <!-- <a class="relative" style="--delay: 0.5s" href="/writing">
-                            View all
-                        </a> -->
-                    <!-- </div> -->
-                    <h2 class="h2">Latest Posts</h2>
-                    <PostGrid posts={posts.slice(0,5)} />
+                    <!-- <PostGrid posts={posts.slice(0,5)} /> -->
+                    <GrowthPanel />
                 </div>
             </section>
 		</main>

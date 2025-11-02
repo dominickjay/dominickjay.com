@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+
+const evergreen = await getCollection("writing",
+    ({ data }) => data.growth === "evergreen"
+);
+const growing = await getCollection("writing",
+    ({ data }) => data.growth === "growing"
+);
+const seedling = await getCollection("writing",
+    ({ data }) => data.growth === "seedling"
+);
+---
+
+<div class="growth-panel flow">
+    <h2 class="h2">My Digital Garden</h2>
+    <div class="growth-panel__content flex flex-col md:flex-row gap-[32px] md:gap-[32px]">
+        <div class="flex flex-col gap-[32px] md:gap-[64px]">
+            <div class="growth-panel__item flow">
+                <h3 class="h3 gradient-text px-[2px] md:px-[4px]" style="background-image: var(--color-gradient);">🌳 Evergreen (Stable Knowledge)</h3>
+                <p class="p">Fully vetted, production-ready guides. These features are stable across major browsers and are safe to implement in production today.</p>
+                <ul class="list-none flow">
+                    {evergreen.slice(0, 5).map((post) => (
+                        <li>
+                            <a href={`/writing/${post.id}`}>{post.data.title}</a>
+                        </li>
+                    ))}
+                    <li>
+                        <a class="" href={`/writing?growth=evergreen`}>See all evergreen posts</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="growth-panel__item flow">
+                <h3 class="h3 gradient-text px-[2px] md:px-[4px]" style="background-image: var(--color-gradient);">🌿 Growing (Under Active Cultivation)</h3>
+                <p class="p">Working drafts and stable concepts that are ready for early adoption. Code samples have been tested but are subject to minor changes as specs finalize.</p>
+                <ul class="list-none flow">
+                    {growing.slice(0, 5).map((post) => (
+                        <li>
+                            <a href={`/writing/${post.id}`}>{post.data.title}</a>
+                        </li>
+                    ))}
+                    <li>
+                        <a class="" href={`/writing?growth=growing`}>See all growing posts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="growth-panel__item flow shrink-0 max-w-[300px] h-full">
+            <h3 class="h3 gradient-text px-[2px] md:px-[4px]" style="background-image: var(--color-gradient);">🌱 Seedlings (Future Research)</h3>
+            <p class="p">Ideas on the edge of the specification. Highly experimental, rough code, and often dependent on browser flags.</p>
+            <ul class="list-none flow">
+                {seedling.slice(0, 5).map((post) => (
+                    <li>
+                        <a class="italic" href={`/writing/${post.id}`}>{post.data.title}</a>
+                    </li>
+                ))}
+                <li>
+                    <a class="" href={`/writing?growth=seedling`}>See all seedling posts</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
