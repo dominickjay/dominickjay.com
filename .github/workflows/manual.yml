@@ -2,6 +2,9 @@ name: "Generate and publish weekly link post"
 on:
   schedule:
     - cron: 0 0 1 * *
+  push:
+    branches:
+      - astro
 jobs:
   generate-post:
     name: "Run script to generate post"
