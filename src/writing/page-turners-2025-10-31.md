@@ -33,4 +33,4 @@ No demos this month
 
 ## Videos
 * [Remix needs to fix this…](https://youtube.com/watch?v=eMODaqGWjyQ&si=SchkI4zcwGxsb1JV) - React and Remix are breaking up, Vite is bulking up, and React just got faster.Welcome to Episode 0 of The Callback, a new weekly show where we look at what’...
-* [AI Coding Sucks](https://youtube.com/watch?v=0ZUkQF6boNg&si=RYOrB9K5PuPDDunO) - AI coding tools suck and are not at all what was promised. I'm done.00:00 - intro00:15 - i used to enjoy programming01:05 - why did I become a programmer
+* [AI Coding Sucks](https://youtube.com/watch?v=0ZUkQF6boNg&si=RYOrB9K5PuPDDunO) - AI coding tools suck and are not at all what was promised. I'm done.
