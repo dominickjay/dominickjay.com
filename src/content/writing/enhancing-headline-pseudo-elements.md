@@ -1,12 +1,13 @@
 ---
-title: 'Enhancing a headline with pseudo-elements'
-description: "I've had this demo kicking around in the dusty corners of my Codepen account for a while, let's see how it's put together"
+title: 'The Two-Line Typography Hack: Get Custom Headline Decorations Without Touching Your HTML'
+description: "You shouldn't have to wrap every headline in an extra <span> just to add a decorative stroke or underline. That's messy HTML and painful to maintain. This article reveals the simple, two-line CSS trick using pseudo-elements that lets you customize every pixel of your typography's look, keeping your markup squeaky clean and your designs highly custom. Stop polluting your document—start designing with pure CSS magic."
 intro: ""
 pubDate: 'February 10 2025'
 tags:
   - css
 
 draft: true
+growth: evergreen
 ---
 
 <link

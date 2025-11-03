@@ -1,11 +1,12 @@
 ---
-title: '@scope'
-description: 'Preventing CSS tantrums and sibling rivalry. - A super quick insight into the @scope property'
+title: 'The End of BEM? Why Native @scope Is the Future of CSS Components'
+description: "For years, CSS styles have behaved like toddlers with marker pens: their influence inevitably leaks outside the play area, affecting things they shouldn't. This article explores how the new @scope at-rule gives developers the parent-level control they've always needed, allowing us to enforce strict style boundaries and finally retire complex naming conventions designed only to prevent global style tantrums."
 pubDate: '2025-02-15'
 tags:
   - css
 supported: bcd.css["at-rules"].scope.__compat
 layout: BlogPost
+growth: evergreen
 
 ---
 

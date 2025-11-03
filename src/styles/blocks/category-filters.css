@@ -1,6 +1,17 @@
+*:has(>.category-filters) {
+    &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 64px;
+        height: 100%;
+        background: linear-gradient(to right, transparent, var(--color-light));
+        pointer-events: none;
+    }
+}
+
 .category-filters {
-    padding-block-start: var(--space-xl);
-    padding-inline-end: var(--space-m);
     display: flex;
     overflow: auto;
     align-items: center;
@@ -12,19 +23,8 @@
     scroll-snap-align: start;
     position: relative;
 
-    &::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 64px;
-        height: 100%;
-        background: linear-gradient(to right, transparent, var(--color-light));
-    }
-
-    @media (width >= 768px) {
-        /* max-width: 66%; */
-        margin-inline-start: auto;
+    .category-filter:last-child {
+        margin-inline-end: var(--space-l);
     }
 
     .category-filter {

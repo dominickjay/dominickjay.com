@@ -60,29 +60,31 @@ const growth = Astro.url.searchParams.get('growth') || '';
                 }`}
             >
                 <div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[16px] md:gap-[32px]">
-                    <div class="category-filters hide-scroll">
+                    <div class="flex gap-[16px] items-center max-w-[100%] md:max-w-[80%] pt-[var(--space-xl)] relative">
                         <span
                             class="h3"
                             data-category=""
                         >
                             Topics
                         </span>
-                        <span
-                            class="category-filter active"
-                            data-category=""
-                        >
-                            All
-                        </span>
-                        {categories.map((category) => (
-                            <span
-                                class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
-                                data-category={category}
+                        <div class="category-filters hide-scroll">
+                            <button
+                                class="category-filter active"
+                                data-category=""
                             >
-                                {category}
-                            </span>
-                        ))}
+                                All
+                            </button>
+                            {categories.map((category) => (
+                                <button
+                                    class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
+                                    data-category={category}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                    <div class="max-md:w-full">
+                    <div class="max-md:w-full shrink-0">
                         <select
                             class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer
                                 hover:bg-black hover:text-white transition-colors
@@ -139,7 +141,7 @@ const growth = Astro.url.searchParams.get('growth') || '';
 		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
 </html>
-
+<!--
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const categoryFilters = document.querySelectorAll('.category-filter');
@@ -166,8 +168,8 @@ const growth = Astro.url.searchParams.get('growth') || '';
             });
         });
     });
-</script>
-
+</script> -->
+<!--
 <style>
     .post-item.opacity-100:first-of-type {
         opacity: 1 !important;
@@ -177,4 +179,4 @@ const growth = Astro.url.searchParams.get('growth') || '';
         background-color: black;
         color: white;
     }
-</style>
+</style> -->
