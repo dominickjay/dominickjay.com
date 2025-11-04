@@ -2,7 +2,7 @@
   class="reading-order-demo-wrapper"
   x-data="readingOrderDemo()"
 >
-  <div class="reading-order-demo-controls">
+  <div class="reading-order-demo-controls flow">
     <h2>Adjust Order Properties</h2>
     <form id="orderForm">
       <div class="reading-order-demo-input-group">
@@ -122,90 +122,6 @@
       <p>Order: <span id="sr-output" x-html="screenReaderOutput"></span></p>
     </div>
   </div>
-
-  <div class="reading-order-demo-container reverse-demo">
-    <div class="reading-order-demo-controls">
-      <h2>Reverse Order Demo</h2>
-      <p>
-        Toggle numeric <code>reading-order</code> values on child elements to
-        flip the logical reading order without heavy JavaScript workarounds.
-      </p>
-      <div class="reading-order-demo-input-group">
-        <label for="reverseToggle">
-          <input
-            type="checkbox"
-            id="reverseToggle"
-            x-model="reverseEnabled"
-            @change="updateReverseDemo()"
-          />
-          Reverse reading order (flip values)
-        </label>
-      </div>
-    </div>
-    <div class="reading-order-demo-output">
-      <h2>Notification & Content Demo</h2>
-      <div
-        class="reading-order-demo-reverse-container"
-      >
-        <div
-          class="reading-order-demo-notification"
-          aria-label="Important notification"
-          x-bind:style="`reading-order: ${reverseEnabled ? 3 : 1};`"
-        >
-          <h3>⚠️ Important Notification</h3>
-          <p>
-            This notification appears first visually (for sighted users)
-            but should be read last logically (for screen readers).
-          </p>
-          <p>
-            Without adjusting <code>reading-order</code> values, screen readers
-            would read this first, disrupting the content flow.
-          </p>
-        </div>
-        <div
-          class="reading-order-demo-main-content"
-          aria-label="Main article content"
-          x-bind:style="`reading-order: ${reverseEnabled ? 1 : 2};`"
-        >
-          <h3>📄 Main Article Content</h3>
-          <p>
-            This is the primary content that should be read first by screen
-            readers, even though it appears after the notification visually.
-          </p>
-          <p>
-            The notification is dynamically inserted at the top of the DOM
-            for visual prominence, but numeric <code>reading-order</code>
-            values ensure logical reading order is maintained.
-          </p>
-        </div>
-        <div
-          class="reading-order-demo-footer"
-          aria-label="Article footer"
-          x-bind:style="`reading-order: ${reverseEnabled ? 2 : 3};`"
-        >
-          <h3>📝 Article Footer</h3>
-          <p>
-            Footer content that should be read after the main content but
-            before the notification (when reverse is enabled).
-          </p>
-        </div>
-      </div>
-      <h2>Simulated Screen Reader Output:</h2>
-      <div
-        class="reading-order-demo-screen-reader-output"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <p>
-          Reading Order:
-          <span
-            id="reverse-sr-output"
-            x-html="reverseScreenReaderOutput"
-          ></span>
-        </p>
-      </div>
-    </div>
-  </div>
 </div>
 
 <style>
@@ -213,11 +129,11 @@
   :root {
     /* Colors */
     --reading-order-demo-secondary: #007bff;
-    --reading-order-demo-success: #27ae60;
-    --reading-order-demo-success-bg: #e8f9e8;
-    --reading-order-demo-success-border: #2ecc71;
+    --reading-order-demo-success: var(--color-dark);
+    --reading-order-demo-success-bg: var(--color-light);
+    --reading-order-demo-success-border: var(--color-dark);
     --reading-order-demo-light-bg: #f9f9f9;
-    --reading-order-demo-border: #eee;
+    --reading-order-demo-border: var(--color-dark);
     --reading-order-demo-input-border: #ccc;
     --reading-order-demo-container-bg: #e6f2ff;
     --reading-order-demo-item-border: #b3d9ff;
@@ -262,14 +178,20 @@
   .reading-order-demo-controls {
     flex: 1;
     min-width: var(--reading-order-demo-min-width);
-    background-color: var(--reading-order-demo-white);
-    padding: var(--reading-order-demo-padding);
-    border-radius: var(--reading-order-demo-border-radius);
+    padding: var(--space-m) var(--space-l);
+    border: 1px solid var(--color-dark);
+    container: controls / inline-size;
 
     h2 {
       margin-top: 0;
-      border-bottom: 1px solid var(--reading-order-demo-border);
+      border-bottom: 1px solid var(--color-dark);
       padding-bottom: var(--reading-order-demo-small-padding);
+    }
+  }
+
+  @container output (max-width: 750px) {
+    .reading-order-demo-flex-container {
+      flex-direction: column;
     }
   }
 
@@ -280,19 +202,16 @@
     gap: var(--reading-order-demo-small-padding);
     padding: var(--reading-order-demo-small-padding);
     background-color: var(--reading-order-demo-light-bg);
-    border-radius: var(--reading-order-demo-small-radius);
-    border: 1px solid var(--reading-order-demo-border);
+    border: 1px solid var(--color-dark);
 
     label {
       flex-basis: var(--reading-order-demo-label-width);
-      font-weight: bold;
     }
 
     input[type="number"] {
       width: var(--reading-order-demo-input-width);
       padding: var(--reading-order-demo-input-padding);
       border: 1px solid var(--reading-order-demo-input-border);
-      border-radius: var(--reading-order-demo-input-radius);
       font-size: 1em;
     }
   }
@@ -302,6 +221,7 @@
     gap: var(--reading-order-demo-gap);
     display: flex;
     flex-direction: column;
+    container: output / inline-size;
 
     h2 {
       margin-top: 0;
@@ -315,8 +235,8 @@
     flex-direction: row;
     gap: var(--reading-order-demo-padding);
     padding: var(--reading-order-demo-padding);
-    border: 2px dashed var(--reading-order-demo-secondary);
-    background-color: var(--reading-order-demo-container-bg);
+    border: 1px solid var(--color-dark);
+    background-color: var(--color-light);
     min-height: var(--reading-order-demo-min-height);
     align-items: flex-start;
     reading-flow: flex-visual;
@@ -329,10 +249,10 @@
   }
 
   .reading-order-demo-flex-item {
+    height: 100%;
     background-color: var(--reading-order-demo-white);
     padding: var(--reading-order-demo-padding);
-    border: 1px solid var(--reading-order-demo-item-border);
-    border-radius: var(--reading-order-demo-small-radius);
+    border: 1px solid var(--color-dark);
     flex: 1;
     min-width: var(--reading-order-demo-item-min-width);
     gap: var(--reading-order-demo-padding);
@@ -344,9 +264,7 @@
     padding: var(--reading-order-demo-margin);
     border: 1px solid var(--reading-order-demo-success-border);
     background-color: var(--reading-order-demo-success-bg);
-    border-radius: var(--reading-order-demo-small-radius);
     font-size: var(--reading-order-demo-font-size);
-    font-weight: bold;
     color: var(--reading-order-demo-success);
 
     span {
@@ -362,16 +280,14 @@
     flex-direction: column;
     gap: var(--reading-order-demo-padding);
     padding: var(--reading-order-demo-padding);
-    border: 2px dashed var(--reading-order-demo-secondary);
-    background-color: var(--reading-order-demo-container-bg);
-    border-radius: var(--reading-order-demo-border-radius);
+    border: 1px solid var(--reading-order-demo-secondary);
+    background-color: var(--color-light);
     reading-flow: source-order;
   }
 
   .reading-order-demo-notification {
     background-color: #fff3cd;
-    border: 2px solid #ffc107;
-    border-radius: var(--reading-order-demo-small-radius);
+    border: 1px solid var(--color-dark);
     padding: var(--reading-order-demo-padding);
     order: 1;
 
@@ -388,7 +304,6 @@
   .reading-order-demo-main-content {
     background-color: var(--reading-order-demo-white);
     border: 1px solid var(--reading-order-demo-item-border);
-    border-radius: var(--reading-order-demo-small-radius);
     padding: var(--reading-order-demo-padding);
     order: 2;
 
@@ -404,7 +319,6 @@
   .reading-order-demo-footer {
     background-color: var(--reading-order-demo-light-bg);
     border: 1px solid var(--reading-order-demo-border);
-    border-radius: var(--reading-order-demo-small-radius);
     padding: var(--reading-order-demo-padding);
     order: 3;
 
@@ -446,7 +360,6 @@
 
       init() {
         this.updateScreenReaderOutput();
-        this.updateReverseDemo();
       },
 
       updateCssProperties() {
@@ -470,29 +383,6 @@
               `<span>- ${item.name} (Reading Order: ${item.readingOrder})</span>`
           )
           .join('');
-      },
-
-      updateReverseDemo() {
-        this.$nextTick(() => {
-          const items = this.reverseEnabled
-            ? [
-                { name: 'Main article content', readingOrder: 1 },
-                { name: 'Article footer', readingOrder: 2 },
-                { name: 'Important notification', readingOrder: 3 }
-              ]
-            : [
-                { name: 'Important notification', readingOrder: 1 },
-                { name: 'Main article content', readingOrder: 2 },
-                { name: 'Article footer', readingOrder: 3 }
-              ];
-
-          this.reverseScreenReaderOutput = items
-            .map(
-              (item) =>
-                `<span>- ${item.name} (reading-order: ${item.readingOrder})</span>`
-            )
-            .join('');
-        });
       }
     };
   }

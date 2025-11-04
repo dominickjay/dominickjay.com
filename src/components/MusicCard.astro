@@ -56,11 +56,6 @@ const fallbackColor = hashStringToHsl(track.name);
             <div class="now-playing-dot"></div>
         </div>
         )}
-        {(track as any).playcount || artistPlaycount ? (
-            <span class="music-card__playcount">
-                {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
-            </span>
-        ) : null}
     </div>
     <div class="w-full">
         <div class="flex justify-between">
@@ -78,6 +73,11 @@ const fallbackColor = hashStringToHsl(track.name);
         <div class="flex flex-col">
             <span class="h4 relative">{track.name}</span>
             <span class="standfirst relative">{track.artist['#text']}</span>
+            {(track as any).playcount || artistPlaycount ? (
+                <span class="music-card__playcount">
+                    {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
+                </span>
+            ) : null}
         </div>
     </div>
 </div>
@@ -87,7 +87,8 @@ const fallbackColor = hashStringToHsl(track.name);
     .artist-card {
         --color: color-mix(in srgb, var(--track-color) 95%, var(--color-light));
         padding: 8px;
-        &::before {
+        position: relative;
+        /* &::before {
             content: '';
             position: absolute;
             bottom: 0;
@@ -95,6 +96,6 @@ const fallbackColor = hashStringToHsl(track.name);
             block-size: 4px;
             inline-size: 100%;
             background-image: linear-gradient(in oklch 45deg, var(--color) 0.0%, var(--color-light) 100.0%);
-        }
+        } */
     }
 </style>

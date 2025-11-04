@@ -76,7 +76,7 @@ if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && artis
             <div class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]">
                 <div class="md:sticky top-[185px] h-fit shrink-0">
                     <span class="h3 mb-[24px] block">Top 10 Tracks</span>
-                    <div class="flex flex-col gap-[12px]">
+                    <div class="grid !grid-cols-2 md:flex flex-col gap-[6px] md:gap-[12px] [--gutter:8px]">
                         { tracks.map((track, i) => (
                             <div class="flex flex-col gap-[3px]">
                                 <span class="font-semibold">{track.name}</span>

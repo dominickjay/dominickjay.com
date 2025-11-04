@@ -171,7 +171,7 @@ const compatDataStatus = compatData?.status;
          <h2 class="">You might also like...</h2>
          <div class="flex flex-col md:flex-row gap-[16px] w-full">
             {allPosts1.map((post) => (
-                <div key={post.id} class="border p-4 md:max-w-1/2 relative">
+                <div key={post.id} class="border p-4 md:max-w-1/2 relative hover:bg-[var(--color-gradient)]">
                     <a href={`/writing/${post.id}`} class="flow h-full box-link" style="--flow-space: var(--space-s)">
                         <span class="h3">{post.data.title}</span>
                         <div class="">{post.data.description}</div>

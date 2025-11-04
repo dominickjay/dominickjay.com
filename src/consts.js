@@ -153,9 +153,9 @@ export const PROFILE_IMAGES = [
 export const TESTIMONIALS = [
     {
         id: 'testimonial-1',
-        name: 'Terri Lamerton',
+        name: 'Tristan Young',
         company: 'Rowe IT',
-        description: 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
+        description: 'Dom was a great line manager. He would always check up on me and would try his hardest to address any issues or answer any questions I may have. Great person to work with.',
     },
     {
         id: 'testimonial-2',
@@ -165,8 +165,14 @@ export const TESTIMONIALS = [
     },
     {
         id: 'testimonial-3',
-        name: 'Terri Lamerton',
-        company: 'Rowe IT',
-        description: 'I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.',
+        name: 'Ben Saul',
+        company: 'Knowthis',
+        description: 'Dom is a pleasure to have around. A friendly, passionate, motivated individual who will stop at nothing to help if needed. Dom is a self driven guy who works equally well on his own as he does as part of a team. He is always looking for better ways to create solutions to problems and is great at dissecting code to create innovative creative. Highly recommended.',
+    },
+    {
+        id: 'testimonial-4',
+        name: 'Nick Warren',
+        company: 'N9 Design',
+        description: "During Dom's time with us at N9 Design, he delivered on every task thrown at him. He fitted in really well within our team and wasn't phased by our need for a very mixed skill-set, including full tech' responsibility on projects. Dom brings an air of calm and can-do with him and will be an asset to any team."
     }
 ]
