@@ -1,18 +1,18 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import PatternBanner from '../components/Pattern-Banner.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import {generateCategoryData} from '../utils/utils.mjs';
-import TableOfContents from '../components/TableOfContents.astro';
-import DefaultHero from '../components/DefaultHero.astro';
-import Tags from '../components/Tags.astro';
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { generateCategoryData } from "../utils/utils.mjs";
+import TableOfContents from "../components/TableOfContents.astro";
+import DefaultHero from "../components/DefaultHero.astro";
+import Tags from "../components/Tags.astro";
 
-type Props = CollectionEntry<'writing'>['data'] & {
-  headings?: any[];
-  timeToRead?: number;
+type Props = CollectionEntry<"writing">["data"] & {
+	headings?: any[];
+	timeToRead?: number;
 };
 
 const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
@@ -27,24 +27,23 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 		<Header />
 		<main>
 			<article>
-                <DefaultHero title={title} description={description} growth={growth} />
-                <PatternBanner />
-				<div class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]" style="">
-                    <!-- <div class="post-details col-start-1 col-span-full md:col-span-2 h-fit md:sticky top-[60px] flow p-[16px] border border-solid w-full md:w-fit tracking-[-0.02em]" style="--flow-space: 16px;">
-                        <span class="block">Duration: {timeToRead}min{timeToRead > 1 && 's'}</span>
-                        <span class="block">Published: <FormattedDate date={new Date(pubDate)} /></span>
-                        <div class="flex gap-x-[8px] topics">
-                            <span>Topics: </span>
-                            <Tags tags={tags} />
-                        </div>
-                    <TableOfContents headings={headings} />
-                    </div> -->
-                    <div class="hidden md:flex pin-rail col-start-1 col-span-full md:col-span-4 flow">
-                        <div id="pin-container" class="pin-container"></div>
-                    </div>
-                    <div class="content-flow content col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[24px] overflow-auto">
-                        <slot />
-                    </div>
+				<DefaultHero title={title} description={description} growth={growth} />
+				<PatternBanner />
+				<div
+					class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]"
+					style=""
+				>
+					<div
+						class="hidden md:flex pin-rail col-start-1 col-span-full md:col-span-4 flow"
+						id=""
+					>
+						<div id="pin-container" class="pin-container"></div>
+					</div>
+					<div
+						class="content-flow content col-span-full md:col-start-5 md:col-span-8 flex flex-col gap-y-[24px] overflow-auto"
+					>
+						<slot />
+					</div>
 				</div>
 			</article>
 		</main>
@@ -53,224 +52,232 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 </html>
 
 <script is:inline>
+	document.addEventListener("DOMContentLoaded", () => {
+		const contentFlow = document.querySelector(".content-flow");
+		const pinContainer = document.getElementById("pin-container");
 
-document.addEventListener('DOMContentLoaded', () => {
-    const contentFlow = document.querySelector('.content-flow');
-    const pinContainer = document.getElementById('pin-container');
+		// --- 1. PREPARATION: Add the required CSS class dynamically ---
+		// This handles content generated via Markdown or other dynamic means.
+		if (contentFlow) {
+			const potentialTargets = contentFlow.querySelectorAll(
+				"aside, pre, .blockquote-container",
+			);
+			potentialTargets.forEach((element, index) => {
+				// Apply the class that hides the original element and identifies it for cloning
+				element.classList.add("embedded-pin-target");
+				element.id = `pin-target-${index}`;
 
-    // --- 1. PREPARATION: Add the required CSS class dynamically ---
-    // This handles content generated via Markdown or other dynamic means.
-    if (contentFlow) {
-        const potentialTargets = contentFlow.querySelectorAll('aside, pre, .blockquote-container');
-        potentialTargets.forEach((element, index) => {
-            // Apply the class that hides the original element and identifies it for cloning
-            element.classList.add('embedded-pin-target');
-            element.id = `pin-target-${index}`;
+				// Find the nearest visible element that precedes this target.
+				// Skip non-visual nodes (e.g., STYLE/SCRIPT) or zero-height elements.
+				let precedingElement = element.previousElementSibling;
+				while (
+					precedingElement &&
+					(precedingElement.tagName === "STYLE" ||
+						precedingElement.tagName === "SCRIPT" ||
+						precedingElement.getBoundingClientRect().height === 0)
+				) {
+					precedingElement = precedingElement.previousElementSibling;
+				}
 
-            // Find the nearest visible element that precedes this target.
-            // Skip non-visual nodes (e.g., STYLE/SCRIPT) or zero-height elements.
-            let precedingElement = element.previousElementSibling;
-            while (
-                precedingElement && (
-                    precedingElement.tagName === 'STYLE' ||
-                    precedingElement.tagName === 'SCRIPT' ||
-                    precedingElement.getBoundingClientRect().height === 0
-                )
-            ) {
-                precedingElement = precedingElement.previousElementSibling;
-            }
+				// Use the found preceding element, or fall back to the target itself
+				const triggerElement = precedingElement || element;
+				triggerElement.setAttribute("data-target-pin", element.id);
+			});
+		}
 
-            // Use the found preceding element, or fall back to the target itself
-            const triggerElement = precedingElement || element;
-            triggerElement.setAttribute('data-target-pin', element.id);
-        });
-    }
+		// --- 🚨 DEBUG CHECK 1: Ensure containers exist ---
+		if (!pinContainer) {
+			return;
+		}
 
-    // --- 🚨 DEBUG CHECK 1: Ensure containers exist ---
-    if (!pinContainer) {
-        return;
-    }
+		// Now we query the targets using the class we just added
+		const embeddedTargets = document.querySelectorAll(".embedded-pin-target");
+		const triggerElements = document.querySelectorAll("[data-target-pin]");
 
-    // Now we query the targets using the class we just added
-    const embeddedTargets = document.querySelectorAll('.embedded-pin-target');
-    const triggerElements = document.querySelectorAll('[data-target-pin]');
+		if (embeddedTargets.length === 0) {
+			pinContainer.parentElement.remove();
+			contentFlow.classList.add("col-span-full");
+			contentFlow.classList.remove("col-span-8");
+			contentFlow.classList.remove("md:col-start-5");
+			contentFlow.classList.remove("md:col-span-8");
+			contentFlow.classList.remove("md:col-start-5");
+			return;
+		}
 
-    if (embeddedTargets.length === 0) {
-        return;
-    }
+		const targetMap = new Map();
+		let lastPinnedId = null;
 
-    const targetMap = new Map();
-    let lastPinnedId = null;
+		// 2. CLONING AND MAPPING STEP
 
-    // 2. CLONING AND MAPPING STEP
+		embeddedTargets.forEach((originalTarget) => {
+			const originalId = originalTarget.id;
 
-    embeddedTargets.forEach(originalTarget => {
-        const originalId = originalTarget.id;
+			if (!originalId) {
+				return;
+			}
 
-        if (!originalId) {
-            return;
-        }
+			try {
+				const clone = originalTarget.cloneNode(true);
 
-        try {
-            const clone = originalTarget.cloneNode(true);
+				clone.id = `cloned-${originalId}`;
+				clone.classList.add("cloned-pin");
 
-            clone.id = `cloned-${originalId}`;
-            clone.classList.add('cloned-pin');
+				pinContainer.appendChild(clone);
+				targetMap.set(originalId, clone);
+			} catch (error) {
+				console.error(`ERROR during cloning for ID ${originalId}:`, error);
+			}
+		});
 
-            pinContainer.appendChild(clone);
-            targetMap.set(originalId, clone);
+		// 3. OBSERVER SETUP AND LOGIC
+		if (targetMap.size === 0) {
+			console.error(
+				"DEBUG ERROR: Target map is empty. Cloning failed or no IDs found.",
+			);
+			return;
+		}
 
-        } catch (error) {
-            console.error(`ERROR during cloning for ID ${originalId}:`, error);
-        }
-    });
+		const options = {
+			// Creates a thin horizontal line at 20% from the top of the viewport
+			rootMargin: "-50% 0px -49.9% 0px",
+			threshold: 0,
+		};
 
-    // 3. OBSERVER SETUP AND LOGIC
-    if (targetMap.size === 0) {
-        console.error("DEBUG ERROR: Target map is empty. Cloning failed or no IDs found.");
-        return;
-    }
+		const deactivateAllPins = () => {
+			pinContainer.querySelectorAll(".cloned-pin").forEach((pin) => {
+				pin.classList.remove("active-pin");
+			});
+		};
 
-    const options = {
-        // Creates a thin horizontal line at 20% from the top of the viewport
-        rootMargin: '-50% 0px -49.9% 0px',
-        threshold: 0
-    };
+		const observerCallback = (entries) => {
+			let currentIntersectingId = null;
 
-    const deactivateAllPins = () => {
-        pinContainer.querySelectorAll('.cloned-pin').forEach(pin => {
-            pin.classList.remove('active-pin');
-        });
-    };
+			// Iterate backward (last one wins)
+			for (let i = entries.length - 1; i >= 0; i--) {
+				const entry = entries[i];
 
-    const observerCallback = (entries) => {
-        let currentIntersectingId = null;
+				if (entry.isIntersecting) {
+					// Get the ID of the content to pin from the heading's attribute (e.g., "aside-1")
+					const pinId = entry.target.getAttribute("data-target-pin");
 
-        // Iterate backward (last one wins)
-        for (let i = entries.length - 1; i >= 0; i--) {
-            const entry = entries[i];
+					if (pinId && targetMap.has(pinId)) {
+						currentIntersectingId = pinId;
+						break;
+					}
+				}
+			}
 
-            if (entry.isIntersecting) {
-                // Get the ID of the content to pin from the heading's attribute (e.g., "aside-1")
-                const pinId = entry.target.getAttribute('data-target-pin');
+			// --- State Management: Handle transitions (gaps) ---
+			deactivateAllPins();
 
-                if (pinId && targetMap.has(pinId)) {
-                    currentIntersectingId = pinId;
-                    break;
-                }
-            }
-        }
+			let pinToActivateId = null;
 
-        // --- State Management: Handle transitions (gaps) ---
-        deactivateAllPins();
+			if (currentIntersectingId) {
+				pinToActivateId = currentIntersectingId;
+				lastPinnedId = currentIntersectingId; // Update cache
+			} else if (lastPinnedId && targetMap.has(lastPinnedId)) {
+				// If in a gap, use the last successfully pinned content
+				pinToActivateId = lastPinnedId;
+			}
 
-        let pinToActivateId = null;
+			// Apply the state change
+			if (pinToActivateId) {
+				const targetPinClone = targetMap.get(pinToActivateId);
+				if (targetPinClone) {
+					targetPinClone.classList.add("active-pin");
+				}
+			}
+		};
 
-        if (currentIntersectingId) {
-            pinToActivateId = currentIntersectingId;
-            lastPinnedId = currentIntersectingId; // Update cache
+		const observer = new IntersectionObserver(observerCallback, options);
 
-        } else if (lastPinnedId && targetMap.has(lastPinnedId)) {
-            // If in a gap, use the last successfully pinned content
-            pinToActivateId = lastPinnedId;
-        }
+		triggerElements.forEach((trigger) => {
+			observer.observe(trigger);
+		});
 
-        // Apply the state change
-        if (pinToActivateId) {
-            const targetPinClone = targetMap.get(pinToActivateId);
-            if (targetPinClone) {
-                targetPinClone.classList.add('active-pin');
-            }
-        }
-    };
-
-    const observer = new IntersectionObserver(observerCallback, options);
-
-    triggerElements.forEach(trigger => {
-        observer.observe(trigger);
-    });
-
-    // Initial check to pin the content for the first section
-    observerCallback(observer.takeRecords());
-});
+		// Initial check to pin the content for the first section
+		observerCallback(observer.takeRecords());
+	});
 </script>
 
 <style is:inline>
+	@media (width >= 1024px) {
+		.embedded-pin-target {
+			opacity: 0;
+			height: 0;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			transition: opacity 0.3s;
+			display: none;
+		}
 
-    @media (width >= 1024px) {
-    .embedded-pin-target {
-            opacity: 0;
-            height: 0;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            transition: opacity 0.3s;
-            display: none;
-        }
+		/* 2. PIN RAIL (The Fixed Sidebar) */
+		.pin-rail {
+			overflow: hidden;
+			position: sticky;
+			top: 0;
+			left: 0;
+			/* Offset to the right of the content flow */
+			margin-right: -480px;
+			width: 100%;
+			height: 100vh;
+			padding: 50px 20px;
+			box-sizing: border-box;
+			z-index: 1;
+		}
 
-        /* 2. PIN RAIL (The Fixed Sidebar) */
-        .pin-rail {
-            overflow: hidden;
-            position: sticky;
-            top: 0;
-            left: 0;
-            /* Offset to the right of the content flow */
-            margin-right: -480px;
-            width: 100%;
-            height: 100vh;
-            padding: 50px 20px;
-            box-sizing: border-box;
-            z-index: 1;
-        }
+		/* 3. PIN CONTAINER: Where the visible content is placed */
+		.pin-container {
+			position: relative;
+			height: 90vh;
+			width: 100%;
+		}
 
-        /* 3. PIN CONTAINER: Where the visible content is placed */
-        .pin-container {
-            position: relative;
-            height: 90vh;
-            width: 100%;
-        }
+		/* 4. BASE STYLES for the CLONED Pinned Content */
+		.pin-container > .cloned-pin {
+			position: absolute;
+			top: 50%;
+			/* transform: scale(0.95); */
 
-        /* 4. BASE STYLES for the CLONED Pinned Content */
-        .pin-container > .cloned-pin {
-            position: absolute;
-            top: 50%;
-            /* transform: scale(0.95); */
+			width: 100%;
+			height: auto;
+			box-sizing: border-box;
 
-            width: 100%;
-            height: auto;
-            box-sizing: border-box;
+			/* CRITICAL: Default state is invisible */
+			opacity: 0;
+			visibility: hidden;
+			transition:
+				opacity 0.4s,
+				transform 0.4s,
+				visibility 0.4s;
+		}
 
-            /* CRITICAL: Default state is invisible */
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s, transform 0.4s, visibility 0.4s;
-        }
+		/* 5. ACTIVE STATE: Applied by JS */
+		.pin-container > .cloned-pin.active-pin {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(-50%) scale(1);
+			z-index: 10;
+		}
 
-        /* 5. ACTIVE STATE: Applied by JS */
-        .pin-container > .cloned-pin.active-pin {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(-50%) scale(1);
-            z-index: 10;
-        }
+		.cloned-pin blockquote {
+			font-size: 1.25rem;
+			line-height: 1.5;
+			font-style: italic;
+			font-weight: 400;
+			padding-inline-start: 0;
+			border-left: none;
+		}
 
-        .cloned-pin blockquote {
-            font-size: 1.25rem;
-            line-height: 1.5;
-            font-style: italic;
-            font-weight: 400;
-            padding-inline-start: 0;
-            border-left: none;
-        }
+		pre.cloned-pin {
+			padding: var(--space-s);
+		}
 
-        pre.cloned-pin {
-            padding: var(--space-s);
-        }
-
-        .cloned-pin {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-m);
-        }
-    }
+		.cloned-pin {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-m);
+		}
+	}
 </style>

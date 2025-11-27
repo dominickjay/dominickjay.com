@@ -8,13 +8,7 @@ import GrowthPanel from "../components/GrowthPanel.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
 import { getCollection } from "astro:content";
 import Profile from "../components/Profile.astro";
-import {
-	SITE_TITLE,
-	SITE_DESCRIPTION,
-	SITE_TAGLINE,
-	CURRENT_COMPANY,
-	CURRENT_POSITION,
-} from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
 let posts = [];
 
@@ -25,6 +19,10 @@ if (import.meta.env.DEV && import.meta.env.DEV === "false") {
 }
 
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const random = Math.floor(Math.random() * posts.length);
+const randomPost = posts[random];
+console.log(randomPost.id);
 ---
 
 <!doctype html>
@@ -36,58 +34,30 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 		<Header />
 		<main>
 			<div
-				class="absolute left-[-612px] mx-auto top-[92px] opacity-[0.2] pointer-events-none"
+				class="bg-[var(--color-light)] relative min-h-[calc(100svh-260px)] flex items-center justify-center"
 			>
-				<Pattern />
-			</div>
-			<div class="bg-[var(--color-light)] relative">
 				<div
-					class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12] relative"
+					class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
 					style=""
 				>
-					<div
-						class="flex flex-col md:flex-row justify-between items-end h-fit row-start-1 gap-[32px]"
+					<h1
+						class="heading-tagline !text-[250px] gradient-text px-[2px] md:px-[4px]"
+						style="background-image: var(--color-gradient);"
 					>
-						<h1
-							class="heading-tagline gradient-text px-[2px] md:px-[4px]"
-							style="background-image: var(--color-gradient);"
+						404
+					</h1>
+
+					<div class="intro md:max-w-[450px] md:pb-[20px]">
+						{SITE_DESCRIPTION}
+					</div>
+
+					<div class="">
+						Want something random? Try this <a
+							href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
 						>
-							{SITE_TAGLINE}
-						</h1>
-
-						<div class="intro md:max-w-[450px] md:pb-[20px]">
-							{SITE_DESCRIPTION}
-						</div>
-					</div>
-
-					<div
-						class="flex flex-col md:flex-row justify-between md:items-end h-fit gap-[16px] md:gap-[32px]"
-					>
-						<div class="w-full flex">
-							<Profile
-								random="true"
-								class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]"
-							/>
-						</div>
-						<div class="">
-							<FeaturePanel posts={posts.slice(0, 3)} />
-						</div>
-					</div>
-
-					<div>
-						<InfoPanel />
 					</div>
 				</div>
-				<!-- <div class="container grid">
-                    <LatestCard />
-                </div> -->
 			</div>
-			<section class="py-[var(--space-xxl)] relative">
-				<div class="container flex flex-col gap-y-[64px] justify-center">
-					<!-- <PostGrid posts={posts.slice(0,5)} /> -->
-					<GrowthPanel />
-				</div>
-			</section>
 		</main>
 		<PatternBanner fill="rgba(0, 0, 0, 0.8)" />
 	</body>

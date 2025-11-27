@@ -1,44 +1,44 @@
 .prose {
-    --flow-space: var(--space-l);
+	--flow-space: var(--space-l);
 }
 
 .prose :is(ul, ol) {
-    padding-inline-start: var(--space-xl);
+	padding-inline-start: var(--space-xl);
 }
 
 .prose :is(ul) {
-    list-style-type: disc;
+	list-style-type: disc;
 }
 
 .prose :is(ol) {
-    list-style-type: decimal-leading-zero;
+	list-style-type: decimal-leading-zero;
 }
 
 :is(.topics, .toc) :is(ul, ol) {
-    list-style-type: none;
-    padding-inline-start: 0;
+	list-style-type: none;
+	padding-inline-start: 0;
 }
 
 .prose :is(h1, h2, h3) {
-    overflow-wrap: anywhere;
-    -webkit-hyphens: auto;
-    hyphens: auto;
+	overflow-wrap: anywhere;
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }
 
 .prose :is(p, li, dl, figcaption, blockquote) {
-    text-wrap: pretty;
+	text-wrap: pretty;
 }
 
 .prose :is(h1, h2, h3, h4, .body-s, .caption) + *:not([class]) {
-    --flow-space: var(--space-s);
+	--flow-space: var(--space-s);
 }
 
 .prose :is(h5, h6, .body-s) + *:not([class]) {
-    --flow-space: var(--space-m);
+	--flow-space: var(--space-m);
 }
 
 .prose p:has(strong:only-child) + p {
-    --flow-space: var(--space-xs);
+	--flow-space: var(--space-xs);
 }
 
 /* .prose *:not([class]) + :is(h1, h2, h3, h4),
@@ -49,76 +49,60 @@
 /* Add more space on and around figures and tables */
 .prose :is(figure, table),
 .prose :is(figure, table) + * {
-    --flow-space: var(--space-l);
+	--flow-space: var(--space-l);
 }
 
 /* Add more space to headings on block start */
 .prose * + :is(h1, h2, h3, h4):not([class]) {
-    --flow-space: var(--space-xl);
+	--flow-space: var(--space-xl);
 }
 
 .prose :is(ul, ol) {
-    --flow-space: var(--space-s);
+	--flow-space: var(--space-s);
 }
 
 .prose :is(ul, ol):not([class]) li + li,
 .prose :is(ul, ol):not([class]) li > :is(ol, ul) {
-    --flow-space: var(--space-xs);
+	--flow-space: var(--space-xs);
 }
 
 .prose ol:not([class]) > li,
 .prose ul:not([class]) > li {
-    --flow-space: var(--space-xs);
-    &:first-child {
-        margin-top: var(--flow-space);
-    }
+	--flow-space: var(--space-xs);
+	&:first-child {
+		margin-top: var(--flow-space);
+	}
 }
 
 .prose .caption + .caption {
-    --flow-space: var(--space-s);
+	--flow-space: var(--space-s);
 }
 
 .prose hr {
-    --flow-space: var(--space-xl);
-}
-
-.prose h2 {
-    @apply text-[24px] tracking-[-0.04em] leading-[140%];
-}
-
-.prose h3 {
-    @apply text-[20px] tracking-[-0.04em] leading-[140%];
-}
-
-.prose h4 {
-    @apply text-[18px] tracking-[-0.04em] leading-[140%];
-}
-
-.prose h5 {
-    @apply text-[16px] tracking-[-0.04em] leading-[140%];
+	--flow-space: var(--space-xl);
 }
 
 .prose table {
-    width: 100%;
+	width: 100%;
 }
 
 .prose .blockquote,
 blockquote {
-    padding-inline-start: 24px;
-    border-left: 4px solid var(--color-dark);
-    font-style: italic;
-    font-size: 1.5rem;
-    line-height: 1.5;
+	padding-inline-start: 24px;
+	border-left: 4px solid var(--color-dark);
+	font-style: italic;
+	font-size: 1.5rem;
+	line-height: 1.5;
 
-    @variant md {
-        padding-inline-start: 40px;
-    }
+	@variant md {
+		padding-inline-start: 40px;
+	}
 }
 
 @variant md {
-    .prose :is(h1, h2, h3) {
-        overflow-wrap: unset;
-        -webkit-hyphens: unset;
-        hyphens: unset;
-    }
+	.prose :is(h1, h2, h3) {
+		overflow-wrap: unset;
+		-webkit-hyphens: unset;
+		hyphens: unset;
+	}
 }

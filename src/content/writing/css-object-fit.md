@@ -12,10 +12,54 @@ tags:
 
 By using the object-fit property, we can define how an element responds to its parent containers height and width. This property is mainly used alongside images and videos, and can let us have further control over how it allows an inline image to be displayed.
 
-<p class="codepen" data-height="537" data-theme-id="dark" data-slug-hash="zYdxjQB" data-user="dominickjay217" style="height: 537px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"><span>See the Pen <a href="https://codepen.io/dominickjay217/pen/zYdxjQB">
-Object-Fit Example #1</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)on <a href="https://codepen.io">CodePen</a>.</span></p>
+<style>
+	.object-fit-example {
+		max-inline-size: 800px;
+		max-block-size: 600px;
+		border: 1px solid var(--color-dark);
+	}
+	
+	.object-fit-example picture {
+		block-size: 100%;
+		inline-size: 100%;
+	}
+	
+	.object-fit-example img {
+		object-position: center;
+		object-fit: var(--fit, cover);
+		width: 100%;
+		height: 100%;
+	}
+</style>
 
-Looking at the example above, the inline image can be adjusted to the size of it's parent container. There are a number of values that can be used to set `object-fit`.
+```
+.object-fit-example {
+	max-inline-size: 800px;
+	max-block-size: 600px;
+	border: 1px solid var(--color-dark);
+}
+
+.object-fit-example picture {
+	block-size: 100%;
+	inline-size: 100%;
+}
+
+.object-fit-example img {
+	object-position: center;
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+```
+
+<div class="object-fit-example">
+	<picture>
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/800/600">
+		<img src="https://picsum.photos/400/300" alt="A placeholder image for use with our Object Fit blog post">
+	</picture>
+</div>
+
+Looking at the example above, the inline image can be adjusted to the size of it's parent container - try resizing the window - it will always fit the box. There are a number of values that can be used to set `object-fit`.
 
 ## What values can be used?
 
@@ -23,7 +67,14 @@ There are 5 values that can be used for this property; `fill`, `contain`, `cover
 
 ### Fill
 
-Similar to background-size, the content is sized to completely fill the content box of the element, regardless of the height and width. If the aspect ratio of the content does not match the aspect ratio of the element, then it will stretch to fit.
+Similar to background-size, the content is sized to completely fill the content box of the element, regardless of the height and width. If the aspect ratio of the content does not match the aspect ratio of the element, then it will stretch to fit. The image below is horrifically stretched to really show this style.
+
+<div class="object-fit-example" style="--fit: fill;">
+	<picture>
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/25/800">
+		<img src="https://picsum.photos/25/300" alt="A placeholder image for use with our Object Fit blog post">
+	</picture>
+</div>
 
 ### Contain
 
@@ -31,9 +82,24 @@ When using `contain`, the content scales to keep its aspect ratio while also fit
 
 The entire object is made to fill the box, while preserving its aspect ratio, so the object will be "letterboxed" if its aspect ratio does not match the aspect ratio of the box.
 
+<div class="object-fit-example" style="--fit: contain;">
+	<picture>
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/300/800">
+		<img src="https://picsum.photos/100/300" alt="A placeholder image for use with our Object Fit blog post">
+	</picture>
+</div>
+
 ### Cover
 
-This one is similar to `contain`, however, it will not "letterbox" the object to keep it's aspect ratio. Instead it will continue to expand the content to fit the content box, often cropping the content as a result.
+This is using `cover`, which is what we are using at the top of this post, however, it will not "letterbox" the object to keep it's aspect ratio. Instead it will continue to expand the content to fit the content box, often cropping the content as a result.
+
+<div class="object-fit-example" style="--fit: cover;">
+	<picture>
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/600/800">
+		<img src="https://picsum.photos/200/300" alt="A placeholder image for use with our Object Fit blog post">
+	</picture>
+</div>
+
 
 ### Scale-Down
 

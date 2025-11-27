@@ -37,7 +37,7 @@ function writePost(raindrops) {
   postContent = postContent.replace("{{links}}", formattedLinks.join("\n"));
   const filename = `./src/blog/links/${formattedToday}.md`;
   if (process.env.DEBUG) {
-    console.log(postContent);
+    // console.log(postContent);
     return;
   }
   fs.writeFileSync(`./src/blog/links/${formattedToday}.md`, postContent);
@@ -47,7 +47,7 @@ async function main() {
   fetchLinks().then((res) => {
     debugger;
     if (res.items.length === 0) {
-      console.log("No links found, exiting");
+      // console.log("No links found, exiting");
       return;
     }
     writePost(res.items);

@@ -1,44 +1,53 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import PatternBanner from '../../components/Pattern-Banner.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
-import { getReadingTime } from '../../utils/utils.mjs';
-import DefaultHero from '../../components/DefaultHero.astro';
-
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PatternBanner from "../../components/Pattern-Banner.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../../components/FormattedDate.astro";
+import { getReadingTime } from "../../utils/utils.mjs";
+import DefaultHero from "../../components/DefaultHero.astro";
 
 let posts = [];
 
 if (import.meta.env.DEV && import.meta.env.DEV === "false") {
-    console.log('DEV');
-    posts = await getCollection("writing",
-        ({ data }) => !data?.draft
-    );
+	console.log("DEV");
+	posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-    posts = await getCollection("writing");
+	posts = await getCollection("writing");
 }
 
-posts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Extract all unique tags from posts
-const allTags = posts.flatMap(post => post.data.tags);
+const allTags = posts.flatMap((post) => post.data.tags);
 const categories = [...new Set(allTags)].sort();
 const postLength = posts.length;
 
 const growthOptions = [
-    { value: '', label: 'All', description: 'All posts' },
-    { value: 'evergreen', label: 'Evergreen', description: 'Fully vetted, production-ready guides. These features are stable across major browsers and are safe to implement in production today.' },
-    { value: 'growing', label: 'Growing', description: 'Working drafts and stable concepts that are ready for early adoption. Code samples have been tested but are subject to minor changes as specs finalize.' },
-    { value: 'seedling', label: 'Seedling', description: 'Ideas on the edge of the specification. Highly experimental, rough code, and often dependent on browser flags.' },
+	{ value: "", label: "All", description: "All posts" },
+	{
+		value: "evergreen",
+		label: "Evergreen",
+		description:
+			"Fully vetted, production-ready guides. These features are stable across major browsers and are safe to implement in production today.",
+	},
+	{
+		value: "growing",
+		label: "Growing",
+		description:
+			"Working drafts and stable concepts that are ready for early adoption. Code samples have been tested but are subject to minor changes as specs finalize.",
+	},
+	{
+		value: "seedling",
+		label: "Seedling",
+		description:
+			"Ideas on the edge of the specification. Highly experimental, rough code, and often dependent on browser flags.",
+	},
 ];
 
-const growth = Astro.url.searchParams.get('growth') || '';
-
+const growth = Astro.url.searchParams.get("growth") || "";
 ---
 
 <!doctype html>
@@ -49,134 +58,111 @@ const growth = Astro.url.searchParams.get('growth') || '';
 	<body>
 		<Header />
 		<main>
-            <DefaultHero title="Writing" description={`I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these ${postLength} posts, I go through problems, solutions and how I am - infact - not Batman.`} />
-            <PatternBanner />
+			<DefaultHero
+				title="Writing"
+				description={`I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these ${postLength} posts, I go through problems, solutions and how I am - infact - not Batman.`}
+			/>
+			<PatternBanner />
 			<section
-                class="container flow"
-                x-data={`{
+				class="container flow"
+				x-data={`{
                     growth: '${growth}',
-                    growthDescription: '${growthOptions.find(option => option.value === growth)?.description || ''}',
+                    growthDescription: '${growthOptions.find((option) => option.value === growth)?.description || ""}',
                     growthOptions: ${JSON.stringify(growthOptions)}
                 }`}
-            >
-                <div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[16px] md:gap-[32px]">
-                    <div class="flex gap-[16px] items-center max-w-[100%] md:max-w-[80%] pt-[var(--space-xl)] relative">
-                        <span
-                            class="h3"
-                            data-category=""
-                        >
-                            Topics
-                        </span>
-                        <div class="category-filters hide-scroll">
-                            <button
-                                class="category-filter active"
-                                data-category=""
-                            >
-                                All
-                            </button>
-                            {categories.map((category) => (
-                                <button
-                                    class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
-                                    data-category={category}
-                                >
-                                    {category}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                    <div class="max-md:w-full shrink-0">
-                        <select
-                            class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer
+			>
+				<div
+					class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[16px] md:gap-[32px]"
+				>
+					<div
+						class="flex gap-[16px] items-center max-w-[100%] md:max-w-[80%] pt-[var(--space-xl)] relative"
+					>
+						<span class="h3" data-category=""> Topics </span>
+						<div class="category-filters hide-scroll">
+							<button class="category-filter active" data-category="">
+								All
+							</button>
+							{
+								categories.map((category) => (
+									<button
+										class="category-filter border border-solid py-1 px-4 cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit"
+										data-category={category}
+									>
+										{category}
+									</button>
+								))
+							}
+						</div>
+					</div>
+					<div class="max-md:w-full shrink-0">
+						<select
+							class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer
                                 hover:bg-black hover:text-white transition-colors
                                 min-w-fit max-md:w-full"
-                            x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log(growth);"
-                        >
-                            {growthOptions.map((option) => (
-                                <option value={option.value}
-                                    x-bind:selected={`growth === '${option.value}'`}
-                                >
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div class="mt-[64px] flex" style="--flow-space: 32px;">
-                    <div x-text="growthDescription || ''"></div>
-                </div>
-                <ol class="!pb-[56px] post-list flow" style="--flow-space: 32px;">
-                    {
-                        posts.map((post) => (
-                        <li
-                            class="post-item"
-                            x-show={`growth === '${post.data.growth || ''}'`}
-                            data-tags={JSON.stringify(post.data.tags)}
-                        >
-                            <div class="post">
-                                <div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 mb-[4px] flex-wrap">
-                                    <ul class="flex gap-x-[8px] w-full order-2 md:order-1">
-                                        {post.data.tags.map((tag) => (
-                                            <li>
-                                                <span class="border py-1 px-4 min-w-fit">{tag}</span></li>
-                                        ))}
-                                    </ul>
-                                    <span class="w-fit md:w-auto">{getReadingTime(post.body)} min</span>
-                                    <span class="w-fit md:w-auto"><FormattedDate date={post.data.pubDate} /></span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <div class="flow" style="--flow-space: var(--space-s)">
-                                        <a class="h2 block mb-[4px] box-link" href={`/writing/${post.id}/`}>
-                                            <h4>{post.data.title}</h4>
-                                        </a>
-                                        <p class="opacity-[0.85] body-text">{post.data.description}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        ))
-                    }
-                </ol>
+							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log(growth);"
+						>
+							{
+								growthOptions.map((option) => (
+									<option
+										value={option.value}
+										x-bind:selected={`growth === '${option.value}'`}
+									>
+										{option.label}
+									</option>
+								))
+							}
+						</select>
+					</div>
+				</div>
+				<div class="mt-[64px] flex" style="--flow-space: 32px;">
+					<div x-text="growthDescription || ''"></div>
+				</div>
+				<ol class="!pb-[56px] post-list flow" style="--flow-space: 32px;">
+					{
+						posts.map((post) => (
+							<li
+								class="post-item"
+								x-show={`growth === '${post.data.growth || ""}'`}
+								data-tags={JSON.stringify(post.data.tags)}
+							>
+								<div class="post">
+									<div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 flex-wrap">
+										<div class="flex gap-x-[var(--space-m)]">
+											<span class="w-fit md:w-auto">
+												{getReadingTime(post.body)} min
+											</span>
+											<span class="w-fit md:w-auto">
+												<FormattedDate date={post.data.pubDate} />
+											</span>
+										</div>
+										<ul class="flex gap-x-[var(--space-s)] md:ml-auto">
+											{post.data.tags.map((tag) => (
+												<li>
+													<span class="border py-1 px-4 min-w-fit">{tag}</span>
+												</li>
+											))}
+										</ul>
+									</div>
+									<div class="flex justify-between">
+										<div class="flow" style="--flow-space: var(--space-s)">
+											<a
+												class="h2 block mb-[4px] box-link opacity-[0.85]"
+												href={`/writing/${post.id}/`}
+											>
+												<h4>{post.data.title}</h4>
+											</a>
+											<p class="opacity-[0.85] body-text">
+												{post.data.description}
+											</p>
+										</div>
+									</div>
+								</div>
+							</li>
+						))
+					}
+				</ol>
 			</section>
 		</main>
 		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
 </html>
-<!--
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryFilters = document.querySelectorAll('.category-filter');
-        const postItems = document.querySelectorAll('.post-item');
-
-        categoryFilters.forEach(filter => {
-            filter.addEventListener('click', function() {
-                const selectedCategory = this.getAttribute('data-category');
-
-                let firstVisible = true;
-                postItems.forEach(post => {
-                    const tagsAttr = post.getAttribute('data-tags');
-                    const postTags = tagsAttr ? JSON.parse(tagsAttr) : [];
-
-                    if (selectedCategory === '' || postTags.includes(selectedCategory)) {
-                        post.style.display = 'flex';
-                        if (firstVisible) {
-                            const postElement = post.querySelector('.post');
-                        }
-                    } else {
-                        post.style.display = 'none';
-                    }
-                });
-            });
-        });
-    });
-</script> -->
-<!--
-<style>
-    .post-item.opacity-100:first-of-type {
-        opacity: 1 !important;
-    }
-
-    .category-filter.active {
-        background-color: black;
-        color: white;
-    }
-</style> -->

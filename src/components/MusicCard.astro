@@ -18,9 +18,10 @@ export interface Props {
     }>;
     trackColor?: string;
     artistPlaycount?: string | number;
+    percentage?: number;
 }
 
-const { track, tags, trackColor = '#000000', index, artistPlaycount } = Astro.props;
+const { track, tags, trackColor = '#000000', index, artistPlaycount, percentage } = Astro.props;
 
 function hashStringToHsl(input: string): string {
     let hash = 0;
@@ -37,15 +38,15 @@ function hashStringToHsl(input: string): string {
 const fallbackColor = hashStringToHsl(track.name);
 ---
 
-<div class="artist-card flex w-full gap-[8px]">
-    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[150px]">
+<div class="artist-card flex w-full gap-[16px]">
+    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[250px]">
         {track?.image && track.image[3] && (
             <img
                 src={track.image[3]['#text']}
                 alt={`${track.name} artist image`}
-                class="size-[150px] object-cover object-center aspect-square"
-                width="150"
-                height="150"
+                class="size-[250px] object-cover object-center aspect-square"
+                width="250"
+                height="250"
                 loading="lazy"
             />
         )}
@@ -57,45 +58,29 @@ const fallbackColor = hashStringToHsl(track.name);
         </div>
         )}
     </div>
-    <div class="w-full">
-        <div class="flex justify-between">
-            {tags.length > 0 && (
-                <div class="">
-                    <span class="">
-                        {tags[0].name}
-                    </span>
-                </div>
-            )}
-            {track['@attr']?.nowplaying && (
-                <span class="now-playing-tag">Now Playing</span>
-            )}
-        </div>
-        <div class="flex flex-col">
-            <span class="h4 relative">{track.name}</span>
-            <span class="standfirst relative">{track.artist['#text']}</span>
-            {(track as any).playcount || artistPlaycount ? (
+    <div class="w-full py-[16px]">
+        <div class="flex flex-col gap-[var(--space-s)]">
+            <span class="h2 relative">{track.name}</span>
+            <span class="h3 relative lowercase">{track.artist['#text']}</span>
+            <!-- {(track as any).playcount || artistPlaycount ? (
                 <span class="music-card__playcount">
                     {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
                 </span>
-            ) : null}
+            ) : null} -->
         </div>
     </div>
 </div>
 
-
-<style>
+<style is:global>
     .artist-card {
         --color: color-mix(in srgb, var(--track-color) 95%, var(--color-light));
-        padding: 8px;
+        --percentage: {percentage ?? 0};
+        /*padding: 8px;*/
         position: relative;
-        /* &::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            block-size: 4px;
-            inline-size: 100%;
-            background-image: linear-gradient(in oklch 45deg, var(--color) 0.0%, var(--color-light) 100.0%);
-        } */
+    }
+
+    .artist-card::before {
+        background-color: var(--color);
+        inline-size: var(--percentage)%;
     }
 </style>

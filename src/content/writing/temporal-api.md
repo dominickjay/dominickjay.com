@@ -1,5 +1,5 @@
 ---
-title: 'Temporal API'
+title: 'Temporal API: JavaScript’s New Time Machine'
 description: 'A modern approach to handling dates and times in JavaScript'
 pubDate: '2024-03-15'
 tags:
@@ -9,11 +9,8 @@ tags:
 draft: true
 layout: BlogPost
 growth: growing
+supported: bcd.javascript["builtins"].Temporal.__compat
 ---
-
-# Temporal API: JavaScript's New Time Machine
-
-The Temporal API is JavaScript's modern solution to date and time handling, addressing many of the pain points of the traditional `Date` object.
 
 ## Key Features
 

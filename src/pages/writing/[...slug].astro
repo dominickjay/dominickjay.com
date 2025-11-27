@@ -1,123 +1,144 @@
 ---
-import bcd from '@mdn/browser-compat-data';
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
-import { render } from 'astro:content';
-import { getReadingTime } from '../../utils/utils.mjs';
-import MusicGrid from '../../components/MusicGrid.astro';
-import RaindropGrid from '../../components/RaindropGrid.astro';
-import { getRaindropBookmarks } from '../../lib/raindrop';
-import { getWeeklyAlbumChart, enrichAlbumsWithImages } from '../../lib/lastfm';
-import BrowserSupportTable from '../../components/BrowserSupportTable.astro';
+import bcd from "@mdn/browser-compat-data";
+import { type CollectionEntry, getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import { render } from "astro:content";
+import { getReadingTime } from "../../utils/utils.mjs";
+import MusicGrid from "../../components/MusicGrid.astro";
+import RaindropGrid from "../../components/RaindropGrid.astro";
+import { getRaindropBookmarks } from "../../lib/raindrop";
+import { getWeeklyAlbumChart, enrichAlbumsWithImages } from "../../lib/lastfm";
+import BrowserSupportTable from "../../components/BrowserSupportTable.astro";
 
 const baseUrl = import.meta.env.DEV
-  ? "http://localhost:4321"
-  : new URL(Astro.request.url).origin;
+	? "http://localhost:4321"
+	: new URL(Astro.request.url).origin;
 const { slug } = Astro.params;
-const posts = await getCollection('writing');
+const posts = await getCollection("writing");
 const post = posts.find((p) => p.id === slug);
 const ogImage = new URL(`/open-graph/${slug}.png`, baseUrl).toString();
 
 if (!post) {
-    return Astro.redirect('/404');
+	return Astro.redirect("/404");
 }
 
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
 const { tags, supported } = post.data;
-const excludedTags = ["update", "blog", "writing", "tutorial", "news", "announcement"];
+const excludedTags = [
+	"update",
+	"blog",
+	"writing",
+	"tutorial",
+	"news",
+	"announcement",
+];
 const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
 
 const allPosts1 = posts
-  .filter(
-    (post1: CollectionEntry<"writing">) => {
-      // Exclude the current article
-      if (post.data.title === post1.data.title) return false;
+	.filter((post1: CollectionEntry<"writing">) => {
+		// Exclude the current article
+		if (post.data.title === post1.data.title) return false;
 
-      // Only include posts that have matching tags
-      return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;
-    }
-  )
-  .map((post: CollectionEntry<"writing">) => ({
-    ...post,
-    sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag)).length,
-  }))
-  .sort((a, b) => {
-    if (a.sameTagCount > b.sameTagCount) return -1;
-    if (b.sameTagCount > a.sameTagCount) return 1;
+		// Only include posts that have matching tags
+		return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;
+	})
+	.map((post: CollectionEntry<"writing">) => ({
+		...post,
+		sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag))
+			.length,
+	}))
+	.sort((a, b) => {
+		if (a.sameTagCount > b.sameTagCount) return -1;
+		if (b.sameTagCount > a.sameTagCount) return 1;
 
-    if (a.data.date > b.data.date) return -1;
-    if (a.data.date < b.data.date) return 1;
+		if (a.data.date > b.data.date) return -1;
+		if (a.data.date < b.data.date) return 1;
 
-    return 0;
-  })
-  .slice(0, 2);
+		return 0;
+	})
+	.slice(0, 2);
 
 // Fetch music data in the frontmatter
 let musicData = null;
 try {
-    const { musicDateFrom, musicDateTo } = post.data;
-    const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
+	const { musicDateFrom, musicDateTo } = post.data;
+	const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
 
-    if (musicDateFrom && musicDateTo && lastFmApiKey) {
-        const data = await getWeeklyAlbumChart(musicDateFrom, musicDateTo, lastFmApiKey);
-        if (!data.error) {
-            // Enrich albums with images
-            if (data.weeklyalbumchart?.album) {
-                data.weeklyalbumchart.album = await enrichAlbumsWithImages(data.weeklyalbumchart.album, lastFmApiKey);
-            }
-            musicData = data;
-            console.log('Processed music data:', musicData);
-        } else {
-            console.error('Last.fm API error:', data.message);
-        }
-    } else {
-        console.log('Missing required data:', {
-            hasMusicDateFrom: !!musicDateFrom,
-            hasMusicDateTo: !!musicDateTo,
-            hasApiKey: !!lastFmApiKey
-        });
-    }
+	if (musicDateFrom && musicDateTo && lastFmApiKey) {
+		const data = await getWeeklyAlbumChart(
+			musicDateFrom,
+			musicDateTo,
+			lastFmApiKey,
+		);
+		if (!data.error) {
+			// Enrich albums with images
+			if (data.weeklyalbumchart?.album) {
+				data.weeklyalbumchart.album = await enrichAlbumsWithImages(
+					data.weeklyalbumchart.album,
+					lastFmApiKey,
+				);
+			}
+			musicData = data;
+			// console.log("Processed music data:", musicData);
+		} else {
+			console.error("Last.fm API error:", data.message);
+		}
+	} else {
+		console.log("Missing required data:", {
+			hasMusicDateFrom: !!musicDateFrom,
+			hasMusicDateTo: !!musicDateTo,
+			hasApiKey: !!lastFmApiKey,
+		});
+	}
 } catch (error) {
-    console.error('Error fetching music data:', error);
+	console.error("Error fetching music data:", error);
 }
 
 // Fetch Raindrop bookmarks
 let raindropData = null;
 try {
-    const raindropApiKey = import.meta.env.RAINDROP_API_KEY;
-    const raindropBookmarks = import.meta.env.RAINDROP_BOOKMARKS;
-    const { linksFrom, linksTo } = post.data;
+	const raindropApiKey = import.meta.env.RAINDROP_API_KEY;
+	const raindropBookmarks = import.meta.env.RAINDROP_BOOKMARKS;
+	const { linksFrom, linksTo } = post.data;
 
-    if (raindropApiKey && linksFrom && linksTo) {
-        raindropData = await getRaindropBookmarks(raindropBookmarks, raindropApiKey, linksFrom, linksTo);
-        console.log('Raindrop data:', raindropData);
-    } else {
-        console.error('Missing required data:', {
-            hasApiKey: !!raindropApiKey,
-            hasLinksFrom: !!linksFrom,
-            hasLinksTo: !!linksTo
-        });
-    }
+	if (raindropApiKey && linksFrom && linksTo) {
+		raindropData = await getRaindropBookmarks(
+			raindropBookmarks,
+			raindropApiKey,
+			linksFrom,
+			linksTo,
+		);
+		console.log("Raindrop data:", raindropData);
+	} else {
+		console.error("Missing required data:", {
+			hasApiKey: !!raindropApiKey,
+			hasLinksFrom: !!linksFrom,
+			hasLinksTo: !!linksTo,
+		});
+	}
 } catch (error) {
-    console.error('Error fetching Raindrop data:', error);
+	console.error("Error fetching Raindrop data:", error);
 }
 
-console.log('Final musicData being passed to BlogPost:', musicData);
+console.log("Final musicData being passed to BlogPost:", musicData);
 
 export async function getStaticPaths() {
-	const posts = await getCollection('writing');
+	const posts = await getCollection("writing");
 	return posts.map((post) => ({
 		params: { slug: post.id },
-		props: { post }
+		props: { post },
 	}));
 }
 
 let compatData = null;
 try {
 	if (supported) {
-		const path = supported.replace('bcd.', '').replace(/\["/g, '.').replace(/"\]/g, '');
-		const keys = path.split('.');
+		const path = supported
+			.replace("bcd.", "")
+			.replace(/\["/g, ".")
+			.replace(/"\]/g, "");
+		const keys = path.split(".");
 
 		let current = bcd;
 		for (const key of keys) {
@@ -132,52 +153,71 @@ try {
 		compatData = current;
 	}
 } catch (error) {
-	console.error('Error accessing browser compat data:', error);
+	console.error("Error accessing browser compat data:", error);
 }
 
-const allowedBrowsers = ['chrome', 'firefox', 'safari', 'edge'];
+const allowedBrowsers = ["chrome", "firefox", "safari", "edge"];
 
 const browserSupport = compatData?.support
 	? Object.entries(compatData.support)
-		.filter(([browser]) => allowedBrowsers.includes(browser))
-		.map(([browser, data]) => ({
-			browser,
-			version: data.version_added || 'Unknown',
-			support: data.version_added ? 'Supported' : 'Not supported'
-		}))
+			.filter(([browser]) => allowedBrowsers.includes(browser))
+			.map(([browser, data]) => ({
+				browser,
+				version: data.version_added || "Unknown",
+				support: data.version_added ? "Supported" : "Not supported",
+			}))
 	: [];
 
 const compatDataStatus = compatData?.status;
-
 ---
+
 <head>
-    <meta charset="utf-8" />
-    <meta property="og:image" content={ogImage} />
-    <meta property="twitter:image" content={ogImage} />
+	<meta charset="utf-8" />
+	<meta property="og:image" content={ogImage} />
+	<meta property="twitter:image" content={ogImage} />
 </head>
 
-<BlogPost {...post.data} headings={headings} timeToRead={timeToRead} musicData={musicData} raindropData={raindropData}>
-    {browserSupport.length > 0 && (
-        <BrowserSupportTable browserSupport={browserSupport} compatDataStatus={compatDataStatus} />
-    )}
-    <Content />
-    {musicData && (
-    <MusicGrid musicData={musicData} />
-    )}
-    {raindropData && (
-        <RaindropGrid raindropData={raindropData} />
-    )}
-     <div class="prose flex flex-col gap-y-[32px]">
-         <h2 class="">You might also like...</h2>
-         <div class="flex flex-col md:flex-row gap-[16px] w-full">
-            {allPosts1.map((post) => (
-                <div key={post.id} class="border p-4 md:max-w-1/2 relative hover:bg-[var(--color-gradient)]">
-                    <a href={`/writing/${post.id}`} class="flow h-full box-link" style="--flow-space: var(--space-s)">
-                        <span class="h3">{post.data.title}</span>
-                        <div class="">{post.data.description}</div>
-                    </a>
-                </div>
-            ))}
-         </div>
-     </div>
+<BlogPost
+	{...post.data}
+	headings={headings}
+	timeToRead={timeToRead}
+	musicData={musicData}
+	raindropData={raindropData}
+>
+	{
+		browserSupport.length > 0 && (
+			<BrowserSupportTable
+				browserSupport={browserSupport}
+				compatDataStatus={compatDataStatus}
+			/>
+		)
+	}
+	<Content />
+	{musicData && <MusicGrid musicData={musicData} />}
+	{raindropData && <RaindropGrid raindropData={raindropData} />}
+	<div class="prose flex flex-col gap-y-[32px]">
+		<h2 class="">You might also like...</h2>
+		<div
+			class="grid grid-cols-2 !gap-[var(--space-s)] w-full"
+			style="--grid-placement: auto-fit"
+		>
+			{
+				allPosts1.map((post) => (
+					<div
+						key={post.id}
+						class="col-span-full md:col-span-1 border p-4 relative hover:bg-[var(--color-gradient)]"
+					>
+						<a
+							href={`/writing/${post.id}`}
+							class="flow h-full box-link"
+							style="--flow-space: var(--space-s)"
+						>
+							<span class="h3">{post.data.title}</span>
+							<div class="">{post.data.description}</div>
+						</a>
+					</div>
+				))
+			}
+		</div>
+	</div>
 </BlogPost>

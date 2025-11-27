@@ -1,31 +1,48 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import FormattedDate from '../components/FormattedDate.astro';
-import { getReadingTime } from '../utils/utils.mjs';
+import type { CollectionEntry } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+import { getReadingTime } from "../utils/utils.mjs";
 
 interface Props {
-    posts: CollectionEntry<"writing">[];
+	posts: CollectionEntry<"writing">[];
 }
 
 const { posts } = Astro.props;
 ---
+
 <div class="post-grid">
-    {posts.map((post, index) => (
-        <div class={`post-grid__item border p-4 ${`post-grid__item-${index + 1}`}`} style={`grid-area: item${index + 1}`}>
-            <div class="post-grid__content flex flex-col h-full justify-between gap-y-[16px] group">
-                <div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 mb-[4px] flex-wrap">
-                    <span class="w-fit md:w-auto">{getReadingTime(post.body)} min</span>
-                    <span class="w-fit md:w-auto"><FormattedDate date={post.data.pubDate} /></span>
-                    <ul class="flex gap-x-[8px] w-full order-2 md:order-1">
-                        {post.data.tags.map((tag) => (
-                            <li>
-                                <span class="border py-1 px-4 min-w-fit">{tag}</span></li>
-                        ))}
-                    </ul>
-                </div>
-                <a href={`/writing/${post.id}`} class="box-link post-grid__title mt-[16px] h3">
-                    {post.data.title}
-                </a>
-            </div>
-        </div>
-    ))}
+	{
+		posts.map((post, index) => (
+			<div
+				class={`post-grid__item border p-4 ${`post-grid__item-${index + 1}`}`}
+				style={`grid-area: item${index + 1}`}
+			>
+				<div class="post-grid__content flex flex-col h-full justify-between gap-y-[16px] group">
+					<div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 flex-wrap">
+						<div class="flex gap-x-[var(--space-m)]">
+							<span class="w-fit md:w-auto">
+								{getReadingTime(post.body)} min
+							</span>
+							<span class="w-fit md:w-auto">
+								<FormattedDate date={post.data.pubDate} />
+							</span>
+						</div>
+						<ul class="flex gap-x-[var(--space-s)] md:ml-auto">
+							{post.data.tags.map((tag) => (
+								<li>
+									<span class="border py-1 px-4 min-w-fit">{tag}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+					<a
+						href={`/writing/${post.id}`}
+						class="box-link post-grid__title mt-[16px] h3 opacity-[0.85]"
+					>
+						{post.data.title}
+					</a>
+				</div>
+			</div>
+		))
+	}
+</div>

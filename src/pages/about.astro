@@ -1,73 +1,99 @@
 ---
-import Layout from '../layouts/Default.astro';
-import MusicCard from '../components/MusicCard.astro';
-import Profile from '../components/Profile.astro';
-import Joke from '../components/Joke.astro';
-import Companies from '../components/Companies.astro';
-import Testimonials from '../components/Testimonials.astro';
-import MarqueeHeading from '../components/MarqueeHeading.astro';
-import ScrollHeading from '../components/ScrollHeading.astro';
-import type { LastFmResponse, LastFmTrack, LastFmAlbum, LastFmTag } from '../lib/lastfm';
-import { getWeeklyAlbumChart, enrichAlbumsWithImages, getRecentTracksWithTags } from '../lib/lastfm';
-import moment from 'moment';
-import { Image } from 'astro:assets';
-import { ABOUT_INTRO, ABOUT_CONTENT } from '../consts';
+import Layout from "../layouts/Default.astro";
+import MusicCard from "../components/MusicCard.astro";
+import Profile from "../components/Profile.astro";
+import Joke from "../components/Joke.astro";
+import Companies from "../components/Companies.astro";
+import Testimonials from "../components/Testimonials.astro";
+import MarqueeHeading from "../components/MarqueeHeading.astro";
+import ScrollHeading from "../components/ScrollHeading.astro";
+import type {
+	LastFmResponse,
+	LastFmTrack,
+	LastFmAlbum,
+	LastFmTag,
+} from "../lib/lastfm";
+import {
+	getWeeklyAlbumChart,
+	enrichAlbumsWithImages,
+	getRecentTracksWithTags,
+} from "../lib/lastfm";
+import moment from "moment";
+import { Image } from "astro:assets";
+import { ABOUT_INTRO, ABOUT_CONTENT } from "../consts";
 
 const showMarquee = true;
-const contentIntro = ABOUT_INTRO.medium.replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
-const contentWithBreaks = ABOUT_CONTENT.long.replace(/\n/g, '<br>').replaceAll('[', '<span class="current-job">').replaceAll(']', '</span>');
+const contentIntro = ABOUT_INTRO.medium
+	.replaceAll("[", '<span class="current-job">')
+	.replaceAll("]", "</span>");
+const contentWithBreaks = ABOUT_CONTENT.long
+	.replace(/\n/g, "<br>")
+	.replaceAll("[", '<span class="current-job">')
+	.replaceAll("]", "</span>");
 
 interface Props {
-  musicData?: LastFmResponse | null;
+	musicData?: LastFmResponse | null;
 }
 
 let musicData = Astro.props.musicData;
 
 let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
-let trackColor = '#000000'; // Default color
+let trackColor = "#000000"; // Default color
 let albumCovers: LastFmAlbum[] = [];
 
-const weekAgo = moment().subtract(4, 'week').unix();
+const weekAgo = moment().subtract(4, "week").unix();
 const now = moment().unix();
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 
 // Fetch album data
-const albumData = await getWeeklyAlbumChart(weekAgo.toString(), now.toString(), apiKey, 60);
+const albumData = await getWeeklyAlbumChart(
+	weekAgo.toString(),
+	now.toString(),
+	apiKey,
+	60,
+);
 if (albumData?.error) {
-  console.error('Last.fm API error:', albumData.message);
+	console.error("Last.fm API error:", albumData.message);
 } else if (albumData?.weeklyalbumchart?.album) {
-  // Enrich albums with images
-  albumData.weeklyalbumchart.album = await enrichAlbumsWithImages(albumData.weeklyalbumchart.album, apiKey);
-  albumCovers = albumData.weeklyalbumchart.album;
-  console.log('album covers:', albumCovers.length, 'albums found');
+	// Enrich albums with images
+	albumData.weeklyalbumchart.album = await enrichAlbumsWithImages(
+		albumData.weeklyalbumchart.album,
+		apiKey,
+	);
+	albumCovers = albumData.weeklyalbumchart.album;
+	// console.log('album covers:', albumCovers.length, 'albums found');
 }
 
 // Fetch recent tracks with tags using consolidated utility
 const recentTracksData = await getRecentTracksWithTags(apiKey, 5);
 if (recentTracksData.recentTracks) {
-  recentTracks = recentTracksData.recentTracks;
-  recentTrackTags = recentTracksData.recentTrackTags;
+	recentTracks = recentTracksData.recentTracks;
+	recentTrackTags = recentTracksData.recentTrackTags;
 }
-
 ---
 
 {/* @ts-ignore */}
-<Layout {...({
-	title: "About Me",
-	description: "creative front end developer, writer, music nerd.",
-	pubDate: new Date('August 08 2021'),
-	tags: [],
-	headings: [],
-	timeToRead: 0
-} as any)}>
-    <div class="about flow">
-        <div class="grid grid-cols-6 container" style="--grid-placement: 6; --gutter: 43px;">
-            <div class="col-span-full md:col-span-2">
-                <Profile />
-            </div>
-            <div class="col-span-full md:col-span-4 flow">
-                <!-- <fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
+<Layout
+	{...{
+		title: "About Me",
+		description: "creative front end developer, writer, music nerd.",
+		pubDate: new Date("August 08 2021"),
+		tags: [],
+		headings: [],
+		timeToRead: 0,
+	} as any}
+>
+	<div class="about flow">
+		<div
+			class="grid grid-cols-6 container"
+			style="--grid-placement: 6; --gutter: 43px;"
+		>
+			<div class="col-span-full md:col-span-2">
+				<Profile />
+			</div>
+			<div class="col-span-full md:col-span-4 flow">
+				<!-- <fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
                     <legend class="h5">Choose your length</legend>
                     <div class="repel" data-nowrap>
                         <template x-for="option in options" :key="option.id">
@@ -85,25 +111,21 @@ if (recentTracksData.recentTracks) {
                     </div>
                 </fieldset> -->
 
-                <div class="flow">
-                    <div class="overflow-clip">
-                        {showMarquee && (
-                            <MarqueeHeading title="About" />
-                        )}
-                        {!showMarquee && (
-                            <ScrollHeading title="About" />
-                        )}
-                    </div>
-                    <h2 class="h2" set:html={contentIntro}></h2>
-                    <div class="" set:html={contentWithBreaks}></div>
-                    <!-- <template x-for="option in options" :key="option.id">
+				<div class="flow">
+					<div class="overflow-clip">
+						{showMarquee && <MarqueeHeading title="About" />}
+						{!showMarquee && <ScrollHeading title="About" />}
+					</div>
+					<h2 class="h2" set:html={contentIntro} />
+					<div class="" set:html={contentWithBreaks} />
+					<!-- <template x-for="option in options" :key="option.id">
                         <div x-show="selected === option.id" class="prose">
                             <div x-html="content[option.id]"></div>
                         </div>
                     </template> -->
-                </div>
+				</div>
 
-                <!-- <Joke />
+				<!-- <Joke />
                 <div class="flex flex-col gap-[24px]">
                     <h2 class="h3 mb-[24px]">Recent Albums</h2>
                     <div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
@@ -138,30 +160,28 @@ if (recentTracksData.recentTracks) {
                         </div>
                     </div>
                 </div> -->
+			</div>
+		</div>
 
-            </div>
-        </div>
-
-        <Companies />
-        <Testimonials />
-
-    </div>
+		<Companies />
+		<Testimonials />
+	</div>
 </Layout>
 
 <script>
-    import ColorThief from 'colorthief';
-    import { initializeColorExtraction } from '../lib/colorExtraction';
+	import ColorThief from "colorthief";
+	import { initializeColorExtraction } from "../lib/colorExtraction";
 
-    // Make ColorThief available globally
-    (window as any).ColorThief = ColorThief;
+	// Make ColorThief available globally
+	(window as any).ColorThief = ColorThief;
 
-    // Initialize color extraction
-    initializeColorExtraction();
+	// Initialize color extraction
+	initializeColorExtraction();
 </script>
 
 <style>
-    .bg-album-cover:hover {
-        opacity: 1;
-        transition: opacity 0.3s ease-in-out;
-    }
+	.bg-album-cover:hover {
+		opacity: 1;
+		transition: opacity 0.3s ease-in-out;
+	}
 </style>
