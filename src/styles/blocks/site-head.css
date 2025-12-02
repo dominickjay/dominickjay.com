@@ -31,7 +31,6 @@
 		animation: logo-text-visibility ease-in-out both;
 		animation-timeline: scroll();
 		animation-range: 0 50vh;
-		overflow: hidden;
 	}
 }
 

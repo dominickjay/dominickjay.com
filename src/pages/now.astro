@@ -11,6 +11,18 @@ import {
 } from "../consts";
 import { getTopTracks, type LastFmTopTrack } from "../lib/lastfm";
 import moment from "moment";
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+
+let nowPosts = [];
+
+if (import.meta.env.DEV && import.meta.env.DEV === "false") {
+	nowPosts = await getCollection("now", ({ data }) => !data?.draft);
+} else {
+	nowPosts = await getCollection("now");
+}
+
+console.log(nowPosts);
 
 const showMarquee = true;
 
@@ -133,18 +145,6 @@ const books = await getBooks();
 			{showMarquee && <MarqueeHeading title="Now" />}
 			{!showMarquee && <ScrollHeading title="Now" />}
 		</div>
-		<ul class="col-span-full">
-			<li class="col-span-2 group">
-				Currently reading {currentBooks.map((book, i) => book.title).join(", ")}
-			</li>
-			<li>
-				As of 2023, I've read {books.length} books, my complete reading list is <a
-					href="/books">here</a
-				>
-			</li>
-			<li>Currently learning 'Jumpsuit' by twenty one pilots on the drums</li>
-			<li>Living in Plymouth, UK with my partner and our two kids.</li>
-		</ul>
 		<div class="statistics-grid col-span-full">
 			<div
 				class="statistics-grid__item statistics-grid__item-1"
@@ -185,9 +185,13 @@ const books = await getBooks();
 			>
 				<div class="statistics-grid__content flex flex-col gap-[16px]">
 					<span class="statistics-grid__title h4">Top track this week</span>
-					<span class="statistics-grid__value h2 leading-[1]"
-						>{topTrack[0].name}</span
-					>
+					{
+						topTrack[0] && (
+							<span class="statistics-grid__value h2 leading-[1]">
+								{topTrack[0].name}
+							</span>
+						)
+					}
 				</div>
 			</div>
 			<div
@@ -200,5 +204,18 @@ const books = await getBooks();
 				</div>
 			</div>
 		</div>
+		<ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
+			{
+				nowPosts.map((post) => (
+					<li class="">
+						<FormattedDate date={post.data.pubDate} />
+						<div class="post__content">
+							<h3 class="post__title h3">{post.data.title}</h3>
+							<p class="post__description">{post.body}</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
 	</div>
 </Layout>

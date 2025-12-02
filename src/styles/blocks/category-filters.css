@@ -35,8 +35,14 @@
 		background-color: var(--color-light);
 		cursor: pointer;
 		transition: all 0.3s ease-in-out;
+		min-width: fit-content;
 
 		&:hover {
+			background-color: var(--color-dark);
+			color: var(--color-light);
+		}
+
+		&.active {
 			background-color: var(--color-dark);
 			color: var(--color-light);
 		}

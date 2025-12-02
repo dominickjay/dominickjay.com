@@ -6,6 +6,8 @@ tags:
   - self-improvement
   - productivity
   - imposter syndrome
+growth: seedling
+draft: true
 
 ---
 

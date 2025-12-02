@@ -1,5 +1,4 @@
 {
-	"siteId": "8a977716-705b-483e-8324-eb1912e18435",
 	"geolocation": {
 		"data": {
 			"city": "Plymouth",
@@ -16,6 +15,6 @@
 			"longitude": -4.1329,
 			"postalCode": "PL4"
 		},
-		"timestamp": 1764682062051
+		"timestamp": 1764707902539
 	}
 }

@@ -1,29 +1,37 @@
 ---
-import { TESTIMONIALS } from '../consts';
-import { Image } from 'astro:assets';
+import { TESTIMONIALS } from "../consts";
+import { Image } from "astro:assets";
 const testimonials = TESTIMONIALS;
-
 ---
-<section
-    class="flow testimonials container"
->
-    <h2 class="sr-only">Testimonials</h2>
-    <div class="sidebar h-full" style="--gutter: 24px;">
-        <div class="h-fit md:sticky top-[60px] pt-[32px]">
-            <h2 class="h3">Kind words from peers</h2>
-        </div>
-        <div class="h-full" style="--sidebar-target-width: 558px">
-            {testimonials.map((testimonial, index) => (
-                <div class="testimonial flex md:justify-end gap-[16px] py-[32px] px-[20px]" id={testimonial.id}>
-                    <span class="flex-1 max-w-[100px]">{index > 9 ? '' : '0' } {index + 1}</span>
-                    <div class="testimonial__content flex flex-col gap-[8px] max-w-[558px]">
-                        <p class="testimonial__text text-[18px] leading-[1.6] font-light">{testimonial.description}</p>
-                        <div class="self-end flex gap-[8px] uppercase font-bold">
-                            <span>{testimonial.name}</span> / <span>{testimonial.company}</span>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </div>
+
+<section class="flow testimonials">
+	<h2 class="sr-only">Testimonials</h2>
+	<div class="flex flex-col h-full" style="--gutter: 24px;">
+		<div class="">
+			<h2 class="h3">Kind words from peers</h2>
+		</div>
+		<div class="h-full" style="--sidebar-target-width: 558px">
+			{
+				testimonials.map((testimonial, index) => (
+					<div
+						class="testimonial flex gap-[16px] py-[32px]"
+						id={testimonial.id}
+					>
+						<span class="flex-1 max-w-[100px] h4 opacity-[0.85]">
+							{index > 9 ? "" : "0"} {index + 1}
+						</span>
+						<div class="testimonial__content flex flex-col gap-[8px] max-w-[558px]">
+							<p class="testimonial__text text-[18px] leading-[1.6] font-light">
+								{testimonial.description}
+							</p>
+							<div class="self-end flex gap-[8px] uppercase font-bold">
+								<span>{testimonial.name}</span> /{" "}
+								<span>{testimonial.company}</span>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
 </section>
