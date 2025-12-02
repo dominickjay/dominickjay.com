@@ -16,7 +16,7 @@
 		button {
 			font-family: var(--font-heading);
 			text-wrap: pretty;
-			/*line-height: 0.85rem;*/
+			line-height: 0.85rem;
 			letter-spacing: -0.02em;
 		}
 
@@ -54,7 +54,7 @@
 
 		.heading-tagline {
 			font-size: clamp(2rem, 2.5435rem + 2.7826vw, 8.5rem);
-			line-height: 1 !important;
+			/*line-height: 1 !important;*/
 		}
 
 		.intro {

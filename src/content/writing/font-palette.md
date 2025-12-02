@@ -5,6 +5,7 @@ description: "Don't like some of the colors used on a variable font? Don't stand
 pubDate: '2023-03-09'
 tags:
   - css
+supported: bcd.css["properties"].font-palette.__compat
 
 ---
 
@@ -15,60 +16,6 @@ tags:
   type="font/woff2"
   crossorigin
 />
-
-<div class="fyi-block fyi-block--prerequisites">
-
-**Prerequisites**
-If you want to follow along here you can grab the font from the link in the 'More Information' section of this post. If you want to use a different font to experiment, you'll need one with a few different palettes - this one we're using has an astounding **11** different palettes. I've found that there isn't a whole lot of these types of variable fonts to choose from without going onto the range of 'quirky' ones.
-
-</div>
-
-I went to put a warning _"Btw, this might only be supported if you only use XYZ browser"_, but it turns out that's not the case, check this support out! Looking at you **again**, IE.
-
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for font-palette</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>101+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>107+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>15.4+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>101+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>87+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Internet Explorer</th>
-        <td>All</td>
-        <td><span class="support-no">No</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
 Ok, so we've got our variable font in our project, and it looks cool, but it doesn't look 100%. The font style meets your expectations, but the colors....m'eh. Kind of works, but could be improved to go along with the color scheme being used. Here's our basic class `.variable-heading` that these examples are going to be worked around. Here's what it looks like.
 

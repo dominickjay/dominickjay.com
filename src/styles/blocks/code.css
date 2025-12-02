@@ -9,7 +9,7 @@ pre,
 
 pre span,
 .astro-code span {
-	color: var(--color-dark, #000000);
+	color: var(--color-dark, #000000) !important;
 }
 
 :not(pre) > code {

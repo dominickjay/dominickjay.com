@@ -1,6 +1,7 @@
 .gradient-text {
-    background-image: var(--color-gradient);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+	background-image: var(--color-gradient);
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	padding-block-end: 20px;
 }

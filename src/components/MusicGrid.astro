@@ -1,57 +1,64 @@
 ---
-import type { LastFmAlbum, LastFmResponse } from '../lib/lastfm';
+import type { LastFmAlbum, LastFmResponse } from "../lib/lastfm";
 
 interface Props {
-  musicData: LastFmResponse | null;
+	musicData: LastFmResponse | null;
 }
 
 const { musicData } = Astro.props;
 if (!musicData) {
-  console.warn('MusicGrid: musicData is undefined or null');
+	console.warn("MusicGrid: musicData is undefined or null");
 }
 
 const albums = musicData?.weeklyalbumchart?.album || [];
 ---
 
-<div class="music-grid">
-  {albums.map((album: LastFmAlbum) => (
-    <a href={album.url} class="relative">
-      {album.image?.[2]?.['#text'] ? (
-        <img
-          height="174"
-          width="174"
-          src={album.image[2]['#text']}
-          loading="lazy"
-          alt={`Album art for ${album.name} by ${album.artist['#text']}`}
-          onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
-        />
-      ) : (
-        <div class="w-[174px] h-[174px] bg-gray-200 centered">
-          <span class="text-gray-500 text-sm text-center px-2">{album.name}</span>
-        </div>
-      )}
-    </a>
-  ))}
+<div
+	class="flex gap-[6px] snap-x overflow-auto snap-mandatory accent-dark card-row"
+>
+	{
+		albums.map((album: LastFmAlbum) => (
+			<a href={album.url} class="relative">
+				{album.image?.[2]?.["#text"] ? (
+					<img
+						class="flex-1 min-w-[250px] snap-start"
+						height="250"
+						width="250"
+						src={album.image[2]["#text"]}
+						loading="lazy"
+						alt={`Album art for ${album.name} by ${album.artist["#text"]}`}
+						onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+					/>
+				) : (
+					<div class="w-[174px] h-[174px] bg-gray-200 centered">
+						<span class="text-gray-500 text-sm text-center px-2">
+							{album.name}
+						</span>
+					</div>
+				)}
+			</a>
+		))
+	}
 </div>
 
 <style>
-  .music-grid {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    margin: 2rem 0;
-    -webkit-overflow-scrolling: touch;
-  }
+	.music-grid {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		gap: 1rem;
+		margin: 2rem 0;
+		-webkit-overflow-scrolling: touch;
+	}
 
-  .music-grid a {
-    flex-shrink: 0;
-    scroll-snap-align: start;
-  }
+	.music-grid a {
+		flex-shrink: 0;
+		scroll-snap-align: start;
+	}
 
-  .music-grid img {
-    width: 174px;
-    height: 174px;
-    object-fit: cover;
-  }
+	.music-grid img {
+		width: 174px;
+		height: 174px;
+		object-fit: cover;
+	}
 </style>
