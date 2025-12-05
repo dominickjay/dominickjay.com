@@ -62,10 +62,13 @@ const now = defineCollection({
 	loader: glob({ base: "./src/content/now", pattern: "**/*.{md,mdx}" }),
 	// Type-check frontmatter using a schema
 	schema: z.object({
-		title: z.string(),
-		description: z.string(),
+		title: z.string().optional(),
+		description: z.string().optional(),
 		// Transform string to Date object
 		pubDate: z.coerce.date(),
+		tracks: z
+			.array(z.object({ title: z.string(), artist: z.string() }))
+			.optional(),
 	}),
 });
 

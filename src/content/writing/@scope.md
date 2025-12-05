@@ -44,11 +44,11 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
 ```html
 <div class="card">
   <picture class="card__image-container">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
+    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
     <img
         class="card__image"
-        src="http://placeskull.com/200"
+        src="https://picsum.photos/900"
         alt="Descriptive alt text"
     />
   </picture>
@@ -64,12 +64,12 @@ This just gives us this beautifully unstyled masterpiece.
 
 
 <div class="">
-  <picture class="">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+	<picture class="card__image-container">
+    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
+    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
     <img
-        class=""
-        src="http://placeskull.com/200"
+        class="card__image"
+        src="https://picsum.photos/900"
         alt="Descriptive alt text"
     />
   </picture>
@@ -126,12 +126,12 @@ This just gives us this beautifully unstyled masterpiece.
 }
 </style>
 <div class="card">
-  <picture class="card__image-container">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+	<picture class="card__image-container">
+    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
+    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
     <img
         class="card__image"
-        src="http://placeskull.com/200"
+        src="https://picsum.photos/900"
         alt="Descriptive alt text"
     />
   </picture>
@@ -354,12 +354,12 @@ img {
 </style>
 
 <div class="card-scoped">
-  <picture class="">
-    <source srcset="http://placeskull.com/200" media="(max-width: 600px)" />
-    <source srcset="http://placeskull.com/200" media="(max-width: 1200px)" />
+	<picture class="card__image-container">
+    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
+    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
     <img
-        class=""
-        src="http://placeskull.com/200"
+        class="card__image"
+        src="https://picsum.photos/900"
         alt="Descriptive alt text"
     />
   </picture>
@@ -373,46 +373,6 @@ img {
 ## Browser Support and Progressive Enhancement
 
 As with any new CSS feature, browser support is crucial to consider. Currently, `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. For browsers that don't support it, you'll need a fallback strategy.
-
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for @scope</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>118+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>-</td>
-        <td><span class="support-no">No</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>17.2+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>118+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>104+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
 
 The most straightforward approach is to use feature queries with `@supports`:
 

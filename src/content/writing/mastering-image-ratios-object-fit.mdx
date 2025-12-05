@@ -1,6 +1,6 @@
 ---
 title: 'Mastering image ratios with object-fit'
-description: 'Stop the jumps: Master responsive aspect ratios and kill cls with one line of css'
+description: 'Stop the jumps: Master responsive aspect ratios and kill CLS with one line of css'
 pubDate: '2025-11-26'
 supported: bcd.css["properties"].object-fit.__compat
 tags:
@@ -9,105 +9,112 @@ tags:
 
 ---
 
-Tagline: Stop the Jumps: Master Responsive Aspect Ratios and Kill CLS with One Line of CSS.
-Target Word Count: 1050-1200 Words
+## The Silent Killer of Web Performance
 
-## Introduction: The Silent Killer of Web Performance (150 Words)
+Imagine a scenario where you're reading content on a website, when suddenly, an image appears out of nowhere, causing the layout to shift and disrupt your reading flow. In modern web development, there's enough tools at our disposal to prevent suboptimal layouts, especially when it comes to images causing reflow issues. Using Object-Fit, we can ensure that images not only maintain their respective aspect-ratio as the browser responds to the screen width, but also that while the page loads, the layout remains stable and predictable. This prevents Cumulative Layout Shift (CLS), which is a key metric in Google's Core Web Vitals, and ensures a smooth user experience. It is, by far, the most effective way to ensure that performance is not affected negatively by image loading.
 
-We'll start with a strong hook: the frustration of dealing with shifting layouts. This section will define Cumulative Layout Shift (CLS) and assert that images without guaranteed dimensions are its primary cause. We will frame object-fit not as a simple styling utility, but as a mandatory performance tool that works in tandem with modern CSS techniques to achieve perfect, stable, and responsive layouts. The goal is to immediately elevate the reader's understanding of this property's importance.
+## The Problem
 
-## The Core Problem: Images Gone Wild (100 Words)
-
-This short, punchy section will set up the visual conflict. We'll describe and implicitly reference the "bad behavior" demo: a simple grid of cards where images stretch awkwardly or, worse, load in late and cause the layout to jump and shatter the component structure. This creates immediate urgency for the solution that follows.
+This is the problem we're trying to solve	with Object-Fit. It's quite prevalent on older sites, or ones that haven't yet adopted effective responsive design practices. By refreshing the page, if it wasn't noticeable on page load, the example below - our 'bad behavior' demo - will highlight exactly the issue that Object-Fit solves. These images have none of these practices, nor size attributes which means that not only do we have a decreased Cumulative Layout Shift (CLS) score, but a poor user experience. The card content will appear first at the top of the row, until the image loads, where it will then shift down to its expected position. Pretty nasty, right? Couple this with a slow internet connection, and it can become a real nightmare, and fast.
 
 <style>{`
-/* --- STYLES FOR CLS SIMULATION --- */
-.bad-image-wrapper {
-    background-color: var(--color-dark);
-    border: 1px dashed var(--color-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-light);
-    font-size: 0.8rem;
-    transition: all 0.5s ease-out;
-    overflow: hidden;
-    width: 100%;
+	
+.bad-example,
+.good-example {
+	background-color: var(--color-dark);
+	color: var(--color-light);
+	padding: 1rem;
+	
+	img {
+		border: 1px solid var(--color-light);
+	}
 }
-.bad-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-/* --- END STYLES FOR CLS SIMULATION --- */
 
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-m);
+}
 
-/* --- STYLES FOR GOOD EXAMPLE (ZERO CLS) --- */
-.aspect-ratio-16-9 {
-    aspect-ratio: 16 / 9;
+.card__contents {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-s);
+	padding-inline: var(--space-xs);
 }
-.good-image-wrapper {
-    @apply aspect-ratio-16-9; 
-    overflow: hidden;
-    width: 100%;
-}
-.good-image-wrapper img {
+
+.good-image {
+	aspect-ratio: 16 / 9;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-/* --- END STYLES FOR GOOD EXAMPLE --- */
+
 `}</style>
 
-<div class="">
-  <h3 class="h3 text-center">
-      `object-fit` in Action: The Good vs. The Bad
-  </h3>
-  <p class="text-lg text-gray-600 mb-8 text-center">
-      This demo showcases two core issues: **Cumulative Layout Shift (CLS)** and image distortion.
-  </p>
+<div class="grid [--grid-placement-2] lg:[--grid-placement:4] gap-10 bad-example">
+  <div class="card">
+      <img class="bad-image" src="https://picsum.photos/450/800" alt="Image 1" />
+      <div class="card__contents">
+        <span class="h3">Card Title (Will Jump)</span>
+        <p>This text and all content below it will visibly jump down when the image with a 9/16 image ratio is loaded.</p>
+      </div>
+  </div>
+  <div class="card">
+      <img class="bad-image" src="https://picsum.photos/1000/1000" alt="Image 2" />
+      <div class="card__contents">
+        <span class="h3">Card Title (Will Jump)</span>
+        <p>This text and all content below it will visibly jump down when the image with a 1/1 image ratio is loaded.</p>
+      </div>
+  </div>
+  <div class="card">
+      <img class="bad-image" src="https://picsum.photos/650/300" alt="Image 1" />
+      <div class="card__contents">
+          <span class="h3">Card Title (Will Jump)</span>
+          <p>This text and all content below it will visibly jump down when the image with a 13/6 image ratio is loaded.</p>
+      </div>
+  </div>
+  <div class="card">
+      <img class="bad-image" src="https://picsum.photos/400/700" alt="Image 2" />
+      <div class="card__contents">
+          <span class="h3">Card Title (Will Jump)</span>
+          <p>This text and all content below it will visibly jump down when the image with a 4/7 image ratio is loaded.</p>
+      </div>
+  </div>
+</div>
+  
+Gross isn't it, and not what we expect in 2025. The lack of consistent image ratios not only causes some pretty nasty layout shifts, but also makes it just look bad. Let's compare the same card grid, but with a consistent image ratio of 16/9 set on the image class name `good-image`.
 
-  {/* The Comparison Grid */}
-  <div class="grid [--grid-placement-1] lg:[--grid-placement:2] gap-10">
-	  <h2 class="text-2xl font-bold text-red-600 border-b-2 border-red-300 pb-2">❌ The Bad Example: Layout Shifts & Distortion</h2>
-	  <p class="text-gray-700">Images using fixed pixel heights or no size attributes cause **Cumulative Layout Shift (CLS)**, making the page content jump when they finally load.</p>
-      {/* BAD EXAMPLE COLUMN (Active CLS Demo) */}
-    <div class="card space-y-4">
-        <img class="bad-image-wrapper" src="https://picsum.photos/450/800" alt="Image 1" />
-        <div class="p-2">
-            <h3 class="font-semibold text-lg">Card Title (Will Jump)</h3>
-            <p class="text-sm text-gray-500">This text and all content below it will visibly jump down when the image's dimensions are forcibly set by JavaScript after a 1-second delay.</p>
+<div class="grid [--grid-placement-2] lg:[--grid-placement:4] gap-10 good-example">
+    {/* GOOD EXAMPLE COLUMN (Zero CLS Demo) */}
+    <div class="card">
+        <img class="good-image" src="https://picsum.photos/450/800" alt="Image 1" />
+        <div class="card__contents">
+          <span class="h3">Card Title (Will Jump)</span>
+          <p>This text and all content below it will visibly jump down when the image with a 9/16 image ratio is loaded.</p>
         </div>
     </div>
-    <div class="card space-y-4">
-        <img class="bad-image-wrapper" src="https://picsum.photos/1000/1000" alt="Image 2" />
-        <div class="p-2">
-            <h3 class="font-semibold text-lg">Card Title (Will Jump)</h3>
-            <p class="text-sm text-gray-500">This card shows how a late-loading 1:1 image gets severely stretched to meet the fixed height, along with causing CLS.</p>
+    <div class="card">
+        <img class="good-image" src="https://picsum.photos/1000/1000" alt="Image 2" />
+        <div class="card__contents">
+          <span class="h3">Card Title (Will Jump)</span>
+          <p>This text and all content below it will visibly jump down when the image with a 1/1 image ratio is loaded.</p>
         </div>
     </div>
-  </div>
-  <div class="grid [--grid-placement-1] lg:[--grid-placement:2] gap-10">
-      {/* GOOD EXAMPLE COLUMN (Zero CLS Demo) */}
-      <div class="card space-y-4">
-          <div class="good-image-wrapper">
-              <img src="https://placehold.co/1000x1000/ef4444/ffffff?text=Image+2+%281:1+CROPPED%29" alt="Square image cropped to fit" class="rounded-t-lg" />
-          </div>
-          <div class="p-2">
-              <h3 class="font-semibold text-lg">Square Image Cropped</h3>
-              <p class="text-sm text-gray-500">The 1:1 image is cropped (via `cover`) to fill the 16:9 container without any distortion. Visual integrity is preserved.</p>
-          </div>
-      </div>
-      <div class="card space-y-4">
-          <div class="good-image-wrapper">
-              <img src="https://placehold.co/900x1600/10b981/ffffff?text=Image+3+%28PORTRAIT+CROPPED%29" alt="Portrait image cropped to fit" class="rounded-t-lg" />
-          </div>
-          <div class="p-2">
-              <h3 class="font-semibold text-lg">Portrait Image Cropped</h3>
-              <p class="text-sm text-gray-500">The portrait image is cropped to fill the horizontal 16:9 space. All cards now look uniform and professional.</p>
-          </div>
-      </div>
-  </div>
+    <div class="card">
+        <img class="good-image" src="https://picsum.photos/650/300" alt="Image 1" />
+        <div class="card__contents">
+            <span class="h3">Card Title (Will Jump)</span>
+            <p>This text and all content below it will visibly jump down when the image with a 13/6 image ratio is loaded.</p>
+        </div>
+    </div>
+    <div class="card">
+        <img class="good-image" src="https://picsum.photos/400/700" alt="Image 2" />
+        <div class="card__contents">
+            <span class="h3">Card Title (Will Jump)</span>
+            <p>This text and all content below it will visibly jump down when the image with a 4/7 image ratio is loaded.</p>
+        </div>
+    </div>
 </div>
 
 ## Section 1: The One-Line Savior: object-fit Explained (350 Words)

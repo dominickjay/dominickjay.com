@@ -1,56 +1,57 @@
 @import "tailwindcss";
-@import './global/fonts.css';
+@import "./global/fonts.css";
 
 @layer core, third-party, layout, components, utility;
 /* @layer third-party.imports, third-party.overrides; */
 @layer components, components.base, components.variations;
 
-@import './global/reset.css';
-@import './global/typography.css';
-@import './global/variables.css';
-@import './global/global-styles.css';
+@import "./global/reset.css";
+@import "./global/typography.css";
+@import "./global/variables.css";
+@import "./global/global-styles.css";
 
 /* @import-glob 'compositions/*.css'; */
-@import './compositions/grid.css';
-@import './compositions/container.css';
-@import './compositions/centered.css';
-@import './compositions/cluster.css';
-@import './compositions/flow.css';
-@import './compositions/repel.css';
-@import './compositions/marquee.css';
-@import './compositions/sidebar.css';
-@import './compositions/switcher.css';
+@import "./compositions/grid.css";
+@import "./compositions/container.css";
+@import "./compositions/centered.css";
+@import "./compositions/cluster.css";
+@import "./compositions/flow.css";
+@import "./compositions/repel.css";
+@import "./compositions/marquee.css";
+@import "./compositions/sidebar.css";
+@import "./compositions/switcher.css";
 /* @import-glob 'blocks/*.css'; */
 
-@import './blocks/pages.css';
-@import './blocks/site-head.css';
-@import './blocks/navigation.css';
-@import './blocks/profile.css';
-@import './blocks/bio.css';
-@import './blocks/code.css';
-@import './blocks/prose.css';
-@import './blocks/toc.css';
-@import './blocks/browser-support-table.css';
-@import './blocks/music-card.css';
-@import './blocks/fyi-block.css';
-@import './blocks/joke.css';
-@import './blocks/song.css';
-@import './blocks/demos.css';
-@import './blocks/latest-card.css';
-@import './blocks/post.css';
-@import './blocks/category-filters.css';
-@import './blocks/marquee-heading.css';
-@import './blocks/scroll-heading.css';
-@import './blocks/info-panel.css';
-@import './blocks/animated-link.css';
-@import './blocks/companies.css';
-@import './blocks/post-grid.css';
-@import './blocks/statistic-grid.css';
+@import "./blocks/pages.css";
+@import "./blocks/site-head.css";
+@import "./blocks/navigation.css";
+@import "./blocks/profile.css";
+@import "./blocks/bio.css";
+@import "./blocks/code.css";
+@import "./blocks/prose.css";
+@import "./blocks/toc.css";
+@import "./blocks/browser-support-table.css";
+@import "./blocks/music-card.css";
+@import "./blocks/fyi-block.css";
+@import "./blocks/joke.css";
+@import "./blocks/song.css";
+@import "./blocks/demos.css";
+@import "./blocks/latest-card.css";
+@import "./blocks/post.css";
+@import "./blocks/category-filters.css";
+@import "./blocks/marquee-heading.css";
+@import "./blocks/scroll-heading.css";
+@import "./blocks/info-panel.css";
+@import "./blocks/animated-link.css";
+@import "./blocks/companies.css";
+@import "./blocks/post-grid.css";
+@import "./blocks/statistic-grid.css";
+@import "./blocks/inline-heading-text.css";
 
 /* @import-glob 'utilities/*.css'; */
-@import './utilities/visually-hidden.css';
-@import './utilities/reveal.css';
-@import './utilities/region.css';
-@import './utilities/scroll-hide.css';
-@import './utilities/gradient-text.css';
-@import './utilities/box-link.css';
+@import "./utilities/visually-hidden.css";
+@import "./utilities/reveal.css";
+@import "./utilities/region.css";
+@import "./utilities/scroll-hide.css";
+@import "./utilities/gradient-text.css";
+@import "./utilities/box-link.css";

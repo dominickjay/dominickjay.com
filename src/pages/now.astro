@@ -11,7 +11,7 @@ import {
 } from "../consts";
 import { getTopTracks, type LastFmTopTrack } from "../lib/lastfm";
 import moment from "moment";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 
 let nowPosts = [];
@@ -21,8 +21,6 @@ if (import.meta.env.DEV && import.meta.env.DEV === "false") {
 } else {
 	nowPosts = await getCollection("now");
 }
-
-console.log(nowPosts);
 
 const showMarquee = true;
 
@@ -206,12 +204,21 @@ const books = await getBooks();
 		</div>
 		<ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
 			{
-				nowPosts.map((post) => (
+				(
+					await Promise.all(
+						nowPosts.map(async (post) => {
+							const { Content } = await render(post);
+							return { post, Content };
+						}),
+					)
+				).map(({ post, Content }) => (
 					<li class="">
 						<FormattedDate date={post.data.pubDate} />
-						<div class="post__content">
-							<h3 class="post__title h3">{post.data.title}</h3>
-							<p class="post__description">{post.body}</p>
+						<div class="post__content flex flex-col gap-[var(--space-m)]">
+							<h3 class="post__title h3 mb-[20px]">{post.data.title}</h3>
+							<div class="post__description">
+								<Content tracks={post.data.tracks} />
+							</div>
 						</div>
 					</li>
 				))

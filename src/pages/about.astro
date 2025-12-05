@@ -41,7 +41,6 @@ let musicData = Astro.props.musicData;
 
 let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
-let trackColor = "#000000"; // Default color
 let albumCovers: LastFmAlbum[] = [];
 
 const weekAgo = moment().subtract(4, "week").unix();
@@ -95,24 +94,6 @@ if (recentTracksData.recentTracks) {
 				<Profile />
 			</div>
 			<div class="col-span-full md:col-span-4 flow">
-				<!-- <fieldset class="border border-b-[2px] border-dark w-fit pl-[24px] pr-[48px] pb-[24px] flow">
-                    <legend class="h5">Choose your length</legend>
-                    <div class="repel" data-nowrap>
-                        <template x-for="option in options" :key="option.id">
-                            <label class="centered relative" :class="{ 'checked': selected === option.id }">
-                                <input
-                                    type="radio"
-                                    name="content-length"
-                                    :value="option.id"
-                                    x-model="selected"
-                                    class="mr-2"
-                                >
-                                <span x-text="option.label"></span>
-                            </label>
-                        </template>
-                    </div>
-                </fieldset> -->
-
 				<div class="flow">
 					<div class="overflow-clip">
 						{showMarquee && <MarqueeHeading title="About" />}
@@ -144,17 +125,23 @@ if (recentTracksData.recentTracks) {
 								class="flex flex-col gap-[var(--space-m)] mt-[var(--space-m)]"
 							>
 								{
-									companies.map((company) => (
-										<li>
-											<div class="flow [--flow-space:var(--space-s)]">
-												<span class="">
-													<span class="h4">{company.jobTitle}</span> at
-													<span class="intro">{company.label}</span>
-												</span>
-												<div class="">{company.content}</div>
-											</div>
-										</li>
-									))
+									companies.map((company) => {
+										let { jobTitle, label, content } = company;
+										let formattedContent = content
+											.replaceAll("[", "<span class='current-job'>")
+											.replaceAll("]", "</span>");
+										return (
+											<li>
+												<div class="flow [--flow-space:var(--space-s)]">
+													<span class="">
+														<span class="h4">{jobTitle}</span> at
+														<span class="intro">{label}</span>
+													</span>
+													<div class="" set:html={formattedContent} />
+												</div>
+											</li>
+										);
+									})
 								}
 							</ul>
 						</p>
@@ -178,40 +165,40 @@ if (recentTracksData.recentTracks) {
 					</div>
 
 					<!-- <Joke />
-                <div class="flex flex-col gap-[24px]">
-                    <h2 class="h3 mb-[24px]">Recent Albums</h2>
-                    <div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
-                        {albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
-                            const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
-                            if (!hasValidImage) {
-                                return null;
-                            }
+								<div class="flex flex-col gap-[24px]">
+										<h2 class="h3 mb-[24px]">Recent Albums</h2>
+										<div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
+												{albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
+														const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
+														if (!hasValidImage) {
+																return null;
+														}
 
-                            return (
-                                <div class="col-span-1 opacity-[0.7] bg-album-cover">
-                                    <img
-                                        src={album.image[3]['#text']}
-                                        alt={`Cover for ${album.name}`}
-                                        class="w-full h-auto aspect-square object-cover"
-                                        onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
-                                        width="200"
-                                        height="200"
-                                        loading="lazy"
-                                    />
-                                </div>
-                            );
-                        })}
-                        <div class="col-span-full">
-                            {recentTracks && (
-                                <MusicCard
-                                    track={recentTracks}
-                                    tags={recentTrackTags}
-                                    trackColor={trackColor}
-                                />
-                            )}
-                        </div>
-                    </div>
-                </div> -->
+														return (
+																<div class="col-span-1 opacity-[0.7] bg-album-cover">
+																		<img
+																				src={album.image[3]['#text']}
+																				alt={`Cover for ${album.name}`}
+																				class="w-full h-auto aspect-square object-cover"
+																				onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
+																				width="200"
+																				height="200"
+																				loading="lazy"
+																		/>
+																</div>
+														);
+												})}
+												<div class="col-span-full">
+														{recentTracks && (
+																<MusicCard
+																		track={recentTracks}
+																		tags={recentTrackTags}
+																		trackColor={trackColor}
+																/>
+														)}
+												</div>
+										</div>
+								</div> -->
 					<Testimonials />
 				</div>
 			</div>

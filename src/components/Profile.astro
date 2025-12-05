@@ -1,27 +1,25 @@
 ---
-import { Image } from 'astro:assets';
-import { PROFILE_IMAGES } from '../consts';
+import { Picture } from "astro:assets";
+import { PROFILE_IMAGES } from "../consts";
 
 const random = Astro.props.random ? Astro.props.random : false;
-const classes = Astro.props.class ? Astro.props.class : '';
+const classes = Astro.props.class ? Astro.props.class : "";
 
 function getRandom() {
-    return Math.floor(Math.random() * PROFILE_IMAGES.length);
+	return Math.floor(Math.random() * PROFILE_IMAGES.length);
 }
 
 const active = random ? getRandom() : 0;
 const selectedImage = PROFILE_IMAGES[active];
 ---
 
-<div
-    class={`profile ${classes}`}
->
-    <div class="profile__image-container">
-        <Image
-            class="profile__image"
-            src={selectedImage.src}
-            alt={selectedImage.alt}
-            loading="eager"
-        />
-    </div>
+<div class={`profile ${classes}`}>
+	<div class="profile__image-container">
+		<Picture
+			layout="full-width"
+			src={selectedImage.src}
+			formats={["avif", "webp"]}
+			alt="{selectedImage.alt}"
+		/>
+	</div>
 </div>
