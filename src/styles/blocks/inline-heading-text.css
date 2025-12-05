@@ -1,0 +1,19 @@
+@layer blocks {
+	.inline-heading-text {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		@media (width > 992px) {
+			flex-direction: row;
+			align-items: flex-end;
+		}
+
+		.intro {
+			@media (width > 768px) {
+				inline-size: 500px;
+				padding-block-end: 20px;
+			}
+		}
+	}
+}
