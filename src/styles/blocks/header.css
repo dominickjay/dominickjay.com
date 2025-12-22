@@ -1,0 +1,25 @@
+@layer components {
+	.header {
+		background-color: var(--color-dark);
+		color: var(--color-light);
+		margin-inline: auto;
+		max-width: min(992px, calc(100svw - var(--space-m)));
+		min-block-size: 50px;
+		padding-block: var(--space-m);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: fixed;
+		top: var(--space-s);
+		left: var(--space-m);
+		right: var(--space-m);
+		isolation: isolate;
+		z-index: 2;
+
+		@media (width >= 768px) {
+			min-block-size: 55px;
+			left: 0;
+			right: 0;
+		}
+	}
+}
