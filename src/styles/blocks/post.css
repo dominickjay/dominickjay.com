@@ -1,12 +1,11 @@
 .post {
-	/* opacity: 0.5; */
 	transition: opacity 0.3s ease-in-out;
 	border-bottom: 1px solid var(--color-dark);
-	padding-bottom: var(--space-xl);
-	margin-bottom: var(--space-xl);
+	padding-block: var(--space-m);
+	padding-inline: var(--space-m);
 	display: flex;
 	flex-direction: column;
-	row-gap: var(--space-s);
+	row-gap: var(--space-m);
 	position: relative;
 
 	& a {
@@ -14,8 +13,10 @@
 	}
 
 	&:hover {
+		background: var(--color-dark);
+		color: var(--color-light);
 		& a {
-			transform: translateX(10px);
+			/*transform: translateX(10px);*/
 			&::after {
 				content: "";
 				position: absolute;

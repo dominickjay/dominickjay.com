@@ -120,10 +120,10 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 						</select>
 					</div>
 				</div>
-				<div class="mt-[64px] flex" style="--flow-space: 32px;">
+				<div class="my-[var(--space-m)] flex" style="--flow-space: 32px;">
 					<div x-text="growthDescription || ''"></div>
 				</div>
-				<ol class="!pb-[56px] post-list flow" style="--flow-space: 32px;">
+				<ol class="!pb-[56px] post-list flow" style="--flow-space: 0;">
 					{
 						posts.map((post) => (
 							<li
@@ -132,34 +132,34 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 								data-tags={JSON.stringify(post.data.tags)}
 							>
 								<div class="post">
-									<div class="flex gap-x-[16px] gap-y-[8px] transition-opacity duration-300 flex-wrap">
-										<div class="flex gap-x-[var(--space-m)]">
-											<span class="w-fit md:w-auto">
-												{getReadingTime(post.body)} min
-											</span>
-											<span class="w-fit md:w-auto">
-												<FormattedDate date={post.data.pubDate} />
-											</span>
-										</div>
-										<ul class="flex gap-x-[var(--space-s)] md:ml-auto">
-											{post.data.tags.map((tag) => (
-												<li>
-													<span class="border py-1 px-4 min-w-fit">{tag}</span>
-												</li>
-											))}
-										</ul>
-									</div>
-									<div class="flex justify-between">
-										<div class="flow" style="--flow-space: var(--space-s)">
+									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+										<!-- <div class="flow" style="--flow-space: var(--space-s)"> -->
 											<a
-												class="h2 block mb-[4px] box-link opacity-[0.85]"
+												class="block mb-[4px] box-link opacity-[0.85] shrink-0 max-w-[65%]"
 												href={`/writing/${post.id}/`}
 											>
-												<h4>{post.data.title}</h4>
+												<h4 class="h3">{post.data.title}</h4>
 											</a>
-											<p class="opacity-[0.85] body-text">
+											<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
+												<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">
+													{post.data.tags.map((tag) => (
+														<li>
+															<span class="border py-1 px-4 min-w-fit">{tag}</span>
+														</li>
+													))}
+												</ul> -->
+												<div class="flex gap-x-[var(--space-m)]">
+													<!-- <span class="w-fit md:w-auto">
+														{getReadingTime(post.body)} min
+													</span> -->
+													<span class="w-fit md:w-auto italic">
+														<FormattedDate date={post.data.pubDate} />
+													</span>
+												</div>
+											<!-- </div> -->
+											<!-- <p class="opacity-[0.85] body-text">
 												{post.data.description}
-											</p>
+											</p> -->
 										</div>
 									</div>
 								</div>

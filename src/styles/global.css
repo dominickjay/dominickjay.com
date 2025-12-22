@@ -24,6 +24,7 @@
 
 @import "./blocks/pages.css";
 @import "./blocks/site-head.css";
+@import "./blocks/header.css";
 @import "./blocks/navigation.css";
 @import "./blocks/profile.css";
 @import "./blocks/bio.css";

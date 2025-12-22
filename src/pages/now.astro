@@ -22,6 +22,8 @@ if (import.meta.env.DEV && import.meta.env.DEV === "false") {
 	nowPosts = await getCollection("now");
 }
 
+nowPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
 const showMarquee = true;
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
