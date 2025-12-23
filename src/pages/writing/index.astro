@@ -123,7 +123,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 				<div class="my-[var(--space-m)] flex" style="--flow-space: 32px;">
 					<div x-text="growthDescription || ''"></div>
 				</div>
-				<ol class="!pb-[56px] post-list flow" style="--flow-space: 0;">
+				<ol class="!pb-[56px] post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
 					{
 						posts.map((post) => (
 							<li
@@ -135,7 +135,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
 										<!-- <div class="flow" style="--flow-space: var(--space-s)"> -->
 											<a
-												class="block mb-[4px] box-link opacity-[0.85] shrink-0 max-w-[65%]"
+												class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 												href={`/writing/${post.id}/`}
 											>
 												<h4 class="h3">{post.data.title}</h4>

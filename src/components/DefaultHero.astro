@@ -2,12 +2,12 @@
 const { title, description, growth } = Astro.props;
 ---
 
-<header class="!relative !pt-[64px] !pb-[56px]">
+<header class="relative py-[32px] md:pt-[64px] md:pb-[56px]">
 	<div
 		class="container cluster relative"
 		style="--cluster-vertical-alignment: flex-end; --gutter: 32px;"
 	>
-		<div class="flow" style="--flow-space: 16px;">
+		<div class="flow [--flow-space:0] md:[--flow-space:16px]">
 			{
 				growth && (
 					<div class="h-fit h4 flex">

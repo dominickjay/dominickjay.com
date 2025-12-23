@@ -32,6 +32,7 @@
 		z-index: 1;
 		padding-block-end: 64px;
 		background-color: var(--color-light);
+		padding-block-start: 65px;
 
 		@media (width >= 768px) {
 			padding-block-start: 90px;

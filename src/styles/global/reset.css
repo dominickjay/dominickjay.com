@@ -58,7 +58,9 @@
 		h2,
 		h3,
 		h4 {
-			text-wrap: balance;
+			@variant md {
+				text-wrap: balance;
+			}
 		}
 
 		/* A elements that don't have a class get default styles */
@@ -104,7 +106,10 @@
 		figure,
 		blockquote {
 			hanging-punctuation: first last;
-			text-wrap: pretty;
+
+			@screen md {
+				text-wrap: pretty;
+			}
 		}
 
 		@view-transition {

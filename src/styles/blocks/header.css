@@ -4,8 +4,7 @@
 		color: var(--color-light);
 		margin-inline: auto;
 		max-width: min(992px, calc(100svw - var(--space-m)));
-		min-block-size: 50px;
-		padding-block: var(--space-m);
+		padding-block: 9px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -20,6 +19,7 @@
 			min-block-size: 55px;
 			left: 0;
 			right: 0;
+			padding-block: var(--space-m);
 		}
 	}
 }
