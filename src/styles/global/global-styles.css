@@ -45,12 +45,43 @@
 	}
 
 	a:not([class]) {
-		text-decoration: underline;
-		text-decoration-color: currentColor;
-		/* text-decoration-style: wavy; */
+		--size-block: 2px;
+		--size-inline: calc(var(--size-block) * 2);
+
+		text-decoration: none;
+		position: relative;
+
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: -1px;
+			border-bottom: var(--size-block) solid currentColor;
+			height: var(--size-block);
+			border-radius: var(--size-block);
+			transition: 0.5s ease-in-out all;
+		}
+
+		&::before {
+			width: var(--size-inline);
+		}
+
+		&::after {
+			width: calc(100% - calc(var(--size-inline) * 2));
+			left: calc(var(--size-inline) * 2);
+		}
 
 		&:hover {
 			text-decoration: none;
+
+			&::before {
+				width: calc(100% - calc(var(--size-inline) * 2));
+			}
+
+			&::after {
+				left: 100%;
+				width: var(--size-inline);
+			}
 		}
 	}
 

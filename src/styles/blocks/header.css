@@ -5,6 +5,7 @@
 		margin-inline: auto;
 		max-width: min(992px, calc(100svw - var(--space-m)));
 		padding-block: 9px;
+		padding-inline: var(--space-s);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -21,5 +22,9 @@
 			right: 0;
 			padding-block: var(--space-m);
 		}
+	}
+
+	.header--open {
+		padding-block-end: var(--space-m);
 	}
 }

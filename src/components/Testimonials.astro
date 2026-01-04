@@ -2,36 +2,25 @@
 import { TESTIMONIALS } from "../consts";
 import { Image } from "astro:assets";
 const testimonials = TESTIMONIALS;
+const randomTestimonial =
+	testimonials[Math.floor(Math.random() * testimonials.length)];
 ---
 
-<section class="flow testimonials">
+<section class="testimonials border md:p-[var(--space-m)] bg-black text-white">
 	<h2 class="sr-only">Testimonials</h2>
 	<div class="flex flex-col h-full" style="--gutter: 24px;">
-		<div class="">
-			<h2 class="h3">Kind words from peers</h2>
-		</div>
-		<div class="h-full" style="--sidebar-target-width: 558px">
-			{
-				testimonials.map((testimonial, index) => (
-					<div
-						class="testimonial flex gap-[16px] py-[32px]"
-						id={testimonial.id}
-					>
-						<span class="flex-1 max-w-[100px] h4 opacity-[0.85]">
-							{index > 9 ? "" : "0"} {index + 1}
-						</span>
-						<div class="testimonial__content flex flex-col gap-[8px] max-w-[558px]">
-							<p class="testimonial__text text-[18px] leading-[1.6] font-light">
-								{testimonial.description}
-							</p>
-							<div class="self-end flex gap-[8px] uppercase font-bold">
-								<span>{testimonial.name}</span> /{" "}
-								<span>{testimonial.company}</span>
-							</div>
-						</div>
+		<div class="h-full">
+			<div class="testimonial flex gap-[16px]" id={randomTestimonial.id}>
+				<div class="testimonial__content flex flex-col gap-[var(--space-m)]">
+					<p class="testimonial__text text-[18px] leading-[1.6] font-light">
+						{randomTestimonial.description}
+					</p>
+					<div class="flex gap-[8px] uppercase font-bold">
+						<span>{randomTestimonial.name}</span> /{" "}
+						<span>{randomTestimonial.company}</span>
 					</div>
-				))
-			}
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

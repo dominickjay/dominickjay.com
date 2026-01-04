@@ -104,32 +104,60 @@ if (recentTracksData.recentTracks) {
 						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
 					>
 						<p>
-							I sit at the intersection of design, anthropology, and web
-							development. These three are at the core of everything I make.
-							Combining them into a coherent career is a weird and ongoing
-							challenge.
-						</p>
-						<p>
-							Titles and disciplines are fickle and fleeting. But my work fits
-							under the umbrellas of design engineering, product design, and
-							visual interface design. With some cultural analysis, writing, and
-							visual illustration sprinkled on top.
+							I am a Front-End Developer currently based in the UK, working with
+							the team at Series Eight. My work sits at the intersection of
+							accessibility, user experience, and creative experimentation.
 						</p>
 					</div>
-					<div class="[--flow-space:var(--space-m)]">
+					<div
+						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
+					>
+						<h3>Professional</h3>
 						<p>
-							I currently work at {companies[0].label}, exploring the many,
-							messy, murky problems around how AI is changing software
-							engineering. Here's what I've been up to for the last few years:
+							Throughout my career, I’ve navigated the worlds of design agencies
+							and the private sector, holding roles at Rowe IT, GOSS
+							Interactive, n9Design, and Logo CCP. These experiences have shaped
+							my approach to building for the web: I believe in creating digital
+							experiences that are as inclusive as they are visually engaging.
+							In my current role at Series Eight, I work across a diverse range
+							of technologies and processes. I’m constantly refining my craft
+							and advocating for web standards that don't sacrifice creativity
+							for function.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<h3>This Site</h3>
+						<p>
+							I treat this corner of the internet as a digital playground. It’s
+							a space where I can break things, try out new CSS techniques, and
+							document what I’m learning. Whether it’s a small project on
+							CodePen or a deep dive on my blog, this site is a living
+							reflection of my professional and personal evolution.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<h3 class="h3">Personal Interests</h3>
+						<p>
+							When I’m not staring at a code editor, I’m likely deep in a rabbit
+							hole of new music. I am a self-proclaimed music nerd with a
+							penchant for everything from Nils Frahm and Radiohead to IDLES and
+							Nine Inch Nails.
+						</p>
+						<p>
+							I’m currently challenging myself to post an album a day for a
+							year—a project born out of my love for discovery and curation. You
+							can usually find me reading a new book (check my "Page Turners"
+							posts) or sharing my latest "Now" updates via Last.FM.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<p>
 							<ul
 								class="flex flex-col gap-[var(--space-m)] mt-[var(--space-m)]"
 							>
 								{
 									companies.map((company) => {
 										let { jobTitle, label, content } = company;
-										let formattedContent = content
-											.replaceAll("[", "<span class='current-job'>")
-											.replaceAll("]", "</span>");
 										return (
 											<li>
 												<div class="flow [--flow-space:var(--space-s)]">
@@ -137,30 +165,12 @@ if (recentTracksData.recentTracks) {
 														<span class="h4">{jobTitle}</span> at
 														<span class="intro">{label}</span>
 													</span>
-													<div class="" set:html={formattedContent} />
 												</div>
 											</li>
 										);
 									})
 								}
 							</ul>
-						</p>
-					</div>
-					<div class="">
-						<p>
-							On the side I create illustrated essays and visual explanations
-							about programming and culture. I'm an advocate of digital
-							gardening , end-user programming , and expanding our use of
-							embodied cognition and conceptual metaphors in digital interfaces.
-						</p>
-					</div>
-					<div class="">
-						<h3 class="h3">Personal Interests</h3>
-						<p>
-							Outside of work I like <a href="/books">reading</a>, listening to <a
-								href="/music">music</a
-							> and playing either the guitar, the ukulele, or the drums - having
-							self taught them all. I try to hit the gym as often as I can.
 						</p>
 					</div>
 
