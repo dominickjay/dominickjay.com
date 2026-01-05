@@ -153,16 +153,11 @@ When using `object-fit` with large images, consider these tips:
 
 Support is excellent across all modern browsers. Since IE11 has been officially retired by Microsoft, you can safely use `object-fit` without any fallbacks.
 
-!["Can I use" support tables for the object-fit property](/images/can-i-use-object-fit.png)
-
-_Source:_ [CanIUse](https://caniuse.com/object-fit 'CanIUse link for CSS3 object-fit')
-
 So, what are you waiting for? Go try it out!
 
-<div>
-
-![Do It Now Gif](/images/gifs/do-it-now.gif)
-
-</div>
-
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<div class="further-reading relative p-[var(--space-m)] border flex flex-col gap-y-[var(--space-s)] hover:bg-[var(--color-dark)]/25 transition-colors duration-500 ease-in-out">
+	<h3 class="h3">Want to learn more about this topic?</h3>
+	<a class="box-link" href="/writing/mastering-image-ratios-object-fit/">Mastering Image Ratios with Object-Fit</a>
+</div>
