@@ -1,17 +1,17 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import FormattedDate from "../components/FormattedDate.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
+import BookItem from "../components/BookItem.astro";
 import Footer from "../components/Footer.astro";
 import { Image } from "astro:assets";
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import moment from "moment";
 
-let currentBooks = [];
-let finishedBooks = [];
-let readBooks = [];
-let toReadBooks = [];
+let currentBooks: any[] = [];
+let finishedBooks: any[] = [];
+let readBooks: any[] = [];
+let toReadBooks: any[] = [];
 
 // Fetch shelf book IDs first to filter them out
 let shelfBookIds = new Set();
@@ -246,21 +246,39 @@ async function getShelf() {
 					console.error(`Error fetching review for book ${book.id}:`, error);
 				}
 
+				// Determine reading status
+				const isCurrentlyReading = currentBooks.some(
+					(currentBook: any) => currentBook.id === book.id,
+				);
+				const hasStarted = date?.started && date?.started !== "unknown";
+				const hasFinished = date?.finished && date?.finished !== "unknown";
+				const status =
+					isCurrentlyReading || (hasStarted && !hasFinished)
+						? "IS_READING"
+						: hasFinished
+							? "FINISHED"
+							: "WANTS_TO_READ";
+
 				const bookWithDetails = {
 					...book,
 					started: date?.started ? date?.started : "unknown",
 					finished: date?.finished ? date?.finished : "unknown",
 					rating: rating,
+					status: status,
 				};
 
 				booksWithDetails.push(bookWithDetails);
 			} catch (error) {
 				console.error(`Error fetching read dates for book ${book.id}:`, error);
+				const isCurrentlyReading = currentBooks.some(
+					(currentBook: any) => currentBook.id === book.id,
+				);
 				const bookWithDetails = {
 					...book,
 					started: "unknown",
 					finished: "unknown",
 					rating: null,
+					status: isCurrentlyReading ? "IS_READING" : "WANTS_TO_READ",
 				};
 				booksWithDetails.push(bookWithDetails);
 			}
@@ -271,9 +289,12 @@ async function getShelf() {
 			books: booksWithDetails,
 		};
 
+		console.log(shelfWithBooks);
+
 		return booksWithDetails;
 	} catch (error) {
 		console.error("Error fetching shelf from Literal.club:", error);
+		return [];
 	}
 }
 
@@ -444,11 +465,11 @@ const books = await getBooks();
 				x-data="{
 					list: true,
 					floatingCover: {
-							show: false,
-							x: 0,
-							y: 0,
-							src: '',
-							title: ''
+						show: false,
+						x: 0,
+						y: 0,
+						src: '',
+						title: ''
 					}
 				}"
 			>
@@ -473,52 +494,30 @@ const books = await getBooks();
 							/>
 						</div>
 					</div>
-					<div
-						class="flex flex-col gap-[20px]"
-					>
-						<h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
-						<ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
-							{
-								shelf.map((book, i) => (
 
-									<li class="post-item">
-										<div class="post [--block-space:var(--space-s)]">
-											<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-												<div class={`flex max-md:flex-col items-baseline gap-[4px] ${book.finished !== "unknown" ? "line-through" : ""}`}>
-													<span>{book.title}</span>
-													<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
-												</div>
-												<div class="flex flex-row gap-x-[8px] items-center">
-													{book.started != book.finished &&
-														book.started !== "unknown" &&
-														book.finished !== "unknown" && (
-															// <p>{new Date(book.started)}</p>
-															<span class="text-[16px]">
-																Started:{" "}
-																<FormattedDate date={new Date(book.started)} />
-															</span>
-															<span class="text-[16px] pt-[2px]">
-														Finished:{" "}
-														{book.finished !== "unknown" ? (
-															<FormattedDate date={new Date(book.finished)} />
-														) : (
-															"Unknown date"
-														)}
-															</span>
-														)}
-													{book.rating && (
-														<span class="text-[16px] pt-[2px]">
-															Rating: {book.rating}/5
-														</span>
-													)}
-												</div>
-											</div>
-										</div>
-									</li>
+					<div class="flex flex-col gap-[20px]">
+						<h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
+						<ol
+							class="post-list flow max-md:mx-[-16px]"
+							style="--flow-space: 0;"
+						>
+							{
+								shelf?.map((book: any, i: number) => (
+									<BookItem
+										title={book.title}
+										author={book.authors[0]["name"]}
+										rating={book.rating}
+										cover={book.cover}
+										started={book.started}
+										finished={book.finished}
+										status={book.status}
+										showStrikethrough=true
+									/>
 								))
 							}
 						</ol>
 					</div>
+
 					{
 						[...books].map((year, i) => (
 							<ul class="col-span-full">
@@ -531,31 +530,19 @@ const books = await getBooks();
 													({year[1].length})
 												</span>
 											</h2>
-											<ol class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]" style="--flow-space: 0;">
-												{[...books][i][1].map((book) => (
-													<li
-														class="col-span-2 group post-item"
-														@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-														@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-													>
-														<div class="post [--block-space:var(--space-s)]">
-															<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-																<div class="flex max-md:flex-col items-baseline gap-[4px]">
-																	<span>{book.title}</span>
-																	<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
-																</div>
-																<div class="flex flex-row gap-x-[8px] items-center">
-																	{book.rating && (
-																		<span class="text-[16px] pt-[2px]">
-																			Rating: {book.rating}/5
-																		</span>
-																	)}
-																</div>
-															</div>
-														</div>
-													</li>
+											<ol
+												class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
+												style="--flow-space: 0;"
+											>
+												{[...books][i][1].map((book: any) => (
+													<BookItem
+														title={book.title}
+														author={book.authors[0]["name"]}
+														rating={book.rating}
+														cover={book.cover}
+													/>
 												))}
-											</ul>
+											</ol>
 										</div>
 									) : (
 										<details class="flex flex-col">
@@ -567,29 +554,18 @@ const books = await getBooks();
 													</span>
 												</span>
 											</summary>
-											<ol class="post-list flow max-md:mx-[-16px] mt-[var(--space-m)]" style="--flow-space: 0;">
-												{[...books][i][1].map((book, index) => (
-												<li
-													class="col-span-2 group post-item"
-													@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-													@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-												>
-													<div class="post [--block-space:var(--space-s)]">
-														<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-															<div class="flex max-md:flex-col items-baseline gap-[4px]">
-																<span>{book.title}</span>
-																<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
-															</div>
-															<div class="flex flex-row gap-x-[8px] items-center">
-																{book.rating && (
-																	<span class="text-[16px] pt-[2px]">
-																		Rating: {book.rating}/5
-																	</span>
-																)}
-															</div>
-														</div>
-													</div>
-												</li>
+											<ol
+												class="post-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
+												style="--flow-space: 0;"
+											>
+												{[...books][i][1].map((book: any, index: number) => (
+													<BookItem
+														key={index}
+														title={book.title}
+														author={book.authors[0]["name"]}
+														rating={book.rating}
+														cover={book.cover}
+													/>
 												))}
 											</ol>
 										</details>
@@ -600,27 +576,24 @@ const books = await getBooks();
 					}
 					<ul class="col-span-full">
 						<li>
-							<div class="flex flex-col gap-y-[var(--space-s)] md:gap-y-[var(--space-m)]">
+							<div
+								class="flex flex-col gap-y-[var(--space-s)] md:gap-y-[var(--space-m)]"
+							>
 								<h2 class="h2">
 									Backlog{" "}
 								</h2>
-								<ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
-									{toReadBooks.map((book) => (
-										<li
-											class="col-span-2 group post-item"
-											@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-											@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-										>
-											<div class="post [--block-space:var(--space-s)]">
-												<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-													<div class="flex max-md:flex-col items-baseline gap-[4px] md:gap-[8px]">
-														<span>{book.title}</span>
-														<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
-													</div>
-												</div>
-											</div>
-										</li>
-									))}
+								<ol
+									class="post-list flow max-md:mx-[-16px]"
+									style="--flow-space: 0;"
+								>
+									{
+										toReadBooks.map((book) => (
+											<BookItem
+												title={book.title}
+												author={book.authors[0]["name"]}
+											/>
+										))
+									}
 								</ol>
 							</div>
 						</li>

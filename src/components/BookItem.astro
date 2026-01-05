@@ -1,0 +1,50 @@
+---
+import FormattedDate from "../components/FormattedDate.astro";
+
+const { title, author, rating, cover, started, finished, status, showStrikethrough } =
+  Astro.props;
+---
+
+<li
+	class="col-span-2 group post-item"
+	@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(cover)}; floatingCover.title = ${JSON.stringify(title)}`}
+	@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+>
+	<div class="post [--block-space:var(--space-s)]">
+		<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+			<div class={`flex max-md:flex-col items-baseline gap-[4px] ${finished !== "unknown" && showStrikethrough ? "line-through" : ""}`}>
+				<div class="flex items-baseline gap-[8px]">
+					<span>{title}</span>
+				</div>
+				{author && <span class="opacity-[0.85]">by {author}</span>}
+			</div>
+			<div class="flex flex-row gap-x-[8px] items-center">
+				{started != finished &&
+					started !== "unknown" &&
+					finished !== "unknown" && (
+						// <p>{new Date(book.started)}</p>
+						<span class="text-[16px]">
+							Started:{" "}
+							<FormattedDate date={new Date(started)} />
+						</span>
+						<span class="text-[16px] pt-[2px]">
+					Finished:{" "}
+					{finished !== "unknown" ? (
+						<FormattedDate date={new Date(finished)} />
+					) : (
+						"Unknown date"
+					)}
+						</span>
+				)}
+				{status === "IS_READING" && (
+					<span
+						class="px-[8px] pt-[2px] bg-[var(--color-dark)] text-white"
+					>
+						Currently Reading
+					</span>
+				)}
+				{rating && <span class="text-[16px] pt-[2px]">Rating: {rating}/5</span>}
+			</div>
+		</div>
+	</div>
+</li>
