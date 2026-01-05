@@ -41,9 +41,7 @@ const seedling = await getCollection(
 						))
 					}
 					<li>
-						<a class="" href={`/writing?growth=evergreen`}
-							>See all evergreen posts</a
-						>
+						<a href={`/writing?growth=evergreen`}>See all evergreen posts</a>
 					</li>
 				</ul>
 			</div>
@@ -68,9 +66,7 @@ const seedling = await getCollection(
 						))
 					}
 					<li>
-						<a class="" href={`/writing?growth=growing`}
-							>See all growing posts</a
-						>
+						<a href={`/writing?growth=growing`}>See all growing posts</a>
 					</li>
 				</ul>
 			</div>
@@ -90,16 +86,12 @@ const seedling = await getCollection(
 				{
 					seedling.slice(0, 5).map((post) => (
 						<li>
-							<a class="italic" href={`/writing/${post.id}`}>
-								{post.data.title}
-							</a>
+							<a href={`/writing/${post.id}`}>{post.data.title}</a>
 						</li>
 					))
 				}
 				<li>
-					<a class="" href={`/writing?growth=seedling`}
-						>See all seedling posts</a
-					>
+					<a href={`/writing?growth=seedling`}>See all seedling posts</a>
 				</li>
 			</ul>
 		</div>

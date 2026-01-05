@@ -13,26 +13,55 @@ let finishedBooks = [];
 let readBooks = [];
 let toReadBooks = [];
 
+// Fetch shelf book IDs first to filter them out
+let shelfBookIds = new Set();
+try {
+	const shelfResponse = await fetch("https://literal.club/graphql/", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			query: `query getShelfBySlug($shelfSlug: String!) {
+				shelf(where: { slug: $shelfSlug }) {
+					books {
+						id
+					}
+				}
+			}`,
+			variables: {
+				shelfSlug: "2026-vg7vfq1",
+			},
+		}),
+	});
+
+	if (shelfResponse.ok) {
+		const shelfData = await shelfResponse.json();
+		const shelfBooks = shelfData.data?.shelf?.books || [];
+		shelfBookIds = new Set(shelfBooks.map((book: any) => book.id));
+	}
+} catch (error) {
+	console.error("Error fetching shelf for filtering:", error);
+}
+
 try {
 	const response = await fetch("https://literal.club/graphql/", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
 			query: `query booksByReadingStateAndProfile(
-          $limit: Int!
-          $offset: Int!
-          $readingStatus: ReadingStatus!
-          $profileId: String!
-        ) {
-          booksByReadingStateAndProfile(
-              limit: $limit
-              offset: $offset
-              readingStatus: $readingStatus
-              profileId: $profileId
-          )
-          { id title cover authors {
-              name
-          } } }`,
+					$limit: Int!
+					$offset: Int!
+					$readingStatus: ReadingStatus!
+					$profileId: String!
+				) {
+					booksByReadingStateAndProfile(
+							limit: $limit
+							offset: $offset
+							readingStatus: $readingStatus
+							profileId: $profileId
+					)
+					{ id title cover authors {
+							name
+					} } }`,
 			variables: {
 				limit: 100,
 				offset: 0,
@@ -47,7 +76,10 @@ try {
 	}
 
 	const data = await response.json();
-	toReadBooks = data.data?.booksByReadingStateAndProfile || [];
+	const allToReadBooks = data.data?.booksByReadingStateAndProfile || [];
+	toReadBooks = allToReadBooks.filter(
+		(book: any) => !shelfBookIds.has(book.id),
+	);
 } catch (error) {
 	console.error("Error fetching to-read books from Literal.club:", error);
 	toReadBooks = [];
@@ -59,20 +91,20 @@ try {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
 			query: `query booksByReadingStateAndProfile(
-          $limit: Int!
-          $offset: Int!
-          $readingStatus: ReadingStatus!
-          $profileId: String!
-        ) {
-          booksByReadingStateAndProfile(
-              limit: $limit
-              offset: $offset
-              readingStatus: $readingStatus
-              profileId: $profileId
-          )
-          { id title cover authors {
-              name
-          } } }`,
+					$limit: Int!
+					$offset: Int!
+					$readingStatus: ReadingStatus!
+					$profileId: String!
+				) {
+					booksByReadingStateAndProfile(
+							limit: $limit
+							offset: $offset
+							readingStatus: $readingStatus
+							profileId: $profileId
+					)
+					{ id title cover authors {
+							name
+					} } }`,
 			variables: {
 				limit: 100,
 				offset: 0,
@@ -96,20 +128,169 @@ try {
 	currentBooks = [];
 }
 
+async function getShelf() {
+	try {
+		const response = await fetch("https://literal.club/graphql/", {
+			method: "POST",
+			body: JSON.stringify({
+				query: `query getShelfBySlug($shelfSlug: String!) {
+					shelf(where: { slug: $shelfSlug }) {
+						id
+						slug
+						title
+						description
+						profileId
+						owner {
+							id
+							handle
+							name
+							bio
+							image
+							invitedByProfileId
+						}
+						books {
+							id
+							slug
+							title
+							subtitle
+							description
+							isbn10
+							isbn13
+							language
+							pageCount
+							publishedDate
+							publisher
+							cover
+							authors {
+								id
+								name
+							}
+							gradientColors
+						}
+					}
+				}`,
+				variables: {
+					shelfSlug: "2026-vg7vfq1",
+				},
+			}),
+			headers: {
+				"Content-Type": "application/json",
+				authorization: import.meta.env.literalToken ?? "",
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const data = (await response.json()) as any;
+		const shelf = data.data?.shelf;
+		const booksWithDetails = [];
+
+		for (const book of shelf?.books || []) {
+			try {
+				const datesResponse = await fetch("https://literal.club/graphql/", {
+					method: "POST",
+					body: JSON.stringify({
+						query: `query getReadDates($bookId: String!, $profileId: String!) {
+							getReadDates(bookId: $bookId, profileId: $profileId) {
+								started
+								finished
+							}
+						}`,
+						variables: {
+							bookId: book.id,
+							profileId: import.meta.env.profileId,
+						},
+					}),
+					headers: {
+						"Content-Type": "application/json",
+						authorization: import.meta.env.literalToken ?? "",
+					},
+				});
+
+				if (!datesResponse.ok) {
+					throw new Error(`HTTP error! status: ${datesResponse.status}`);
+				}
+
+				const dates = (await datesResponse.json()) as any;
+				const date = dates?.data?.getReadDates?.pop();
+
+				// Fetch rating from reviews
+				let rating = null;
+				try {
+					const reviewResponse = await fetch("https://literal.club/graphql/", {
+						method: "POST",
+						body: JSON.stringify({
+							query: `query getReview($bookId: String!, $profileId: String!) {
+								review(bookId: $bookId, profileId: $profileId) {
+									rating
+								}
+							}`,
+							variables: {
+								bookId: book.id,
+								profileId: import.meta.env.profileId,
+							},
+						}),
+						headers: {
+							"Content-Type": "application/json",
+							authorization: import.meta.env.literalToken ?? "",
+						},
+					});
+
+					if (reviewResponse.ok) {
+						const reviewData = (await reviewResponse.json()) as any;
+						rating = reviewData?.data?.review?.rating ?? null;
+					}
+				} catch (error) {
+					console.error(`Error fetching review for book ${book.id}:`, error);
+				}
+
+				const bookWithDetails = {
+					...book,
+					started: date?.started ? date?.started : "unknown",
+					finished: date?.finished ? date?.finished : "unknown",
+					rating: rating,
+				};
+
+				booksWithDetails.push(bookWithDetails);
+			} catch (error) {
+				console.error(`Error fetching read dates for book ${book.id}:`, error);
+				const bookWithDetails = {
+					...book,
+					started: "unknown",
+					finished: "unknown",
+					rating: null,
+				};
+				booksWithDetails.push(bookWithDetails);
+			}
+		}
+
+		const shelfWithBooks = {
+			...shelf,
+			books: booksWithDetails,
+		};
+
+		return booksWithDetails;
+	} catch (error) {
+		console.error("Error fetching shelf from Literal.club:", error);
+	}
+}
+
 async function getBooks() {
 	try {
 		const response = await fetch("https://literal.club/graphql/", {
 			method: "POST",
 			body: JSON.stringify({
 				query: `query booksByReadingStateAndProfile(
-        $limit: Int!
-        $offset: Int!
-        $readingStatus: ReadingStatus!
-        $profileId: String!
-      ) {
-        booksByReadingStateAndProfile(
-            limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
-            id title cover authors { name } } }`,
+				$limit: Int!
+				$offset: Int!
+				$readingStatus: ReadingStatus!
+				$profileId: String!
+			) {
+				booksByReadingStateAndProfile(
+						limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
+						id title cover authors { name } } }`,
 				variables: {
 					limit: 100,
 					offset: 0,
@@ -136,11 +317,11 @@ async function getBooks() {
 					method: "POST",
 					body: JSON.stringify({
 						query: `query getReadDates($bookId: String!, $profileId: String!) {
-              getReadDates(bookId: $bookId, profileId: $profileId) {
-                started
-                finished
-              }
-            }`,
+							getReadDates(bookId: $bookId, profileId: $profileId) {
+								started
+								finished
+							}
+						}`,
 						variables: {
 							bookId: book.id,
 							profileId: import.meta.env.profileId,
@@ -166,10 +347,10 @@ async function getBooks() {
 						method: "POST",
 						body: JSON.stringify({
 							query: `query getReview($bookId: String!, $profileId: String!) {
-                review(bookId: $bookId, profileId: $profileId) {
-                  rating
-                }
-              }`,
+								review(bookId: $bookId, profileId: $profileId) {
+									rating
+								}
+							}`,
 							variables: {
 								bookId: book.id,
 								profileId: import.meta.env.profileId,
@@ -245,6 +426,7 @@ async function getBooks() {
 	}
 }
 
+const shelf = await getShelf();
 const books = await getBooks();
 ---
 
@@ -257,42 +439,30 @@ const books = await getBooks();
 		<Header />
 		<main>
 			<div
-				class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
+				class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px] md:!max-w-[992px]"
 				style="--grid-placement: 12; --gutter: 43px;"
 				x-data="{
-                    list: true,
-                    floatingCover: {
-                        show: false,
-                        x: 0,
-                        y: 0,
-                        src: '',
-                        title: ''
-                    }
-                }"
+					list: true,
+					floatingCover: {
+							show: false,
+							x: 0,
+							y: 0,
+							src: '',
+							title: ''
+					}
+				}"
 			>
-				<div class="md:sticky top-0 h-fit shrink-0">
-					<span class="h3 mb-[24px] block">To Read List</span>
-					<div class="flex flex-col gap-[12px] overflow-auto">
-						{
-							toReadBooks.map((book, i) => (
-								<div class="flex flex-col gap-[3px]">
-									<span class="font-semibold">{book.title}</span>
-									{/* <span class="text-[1rem]">{book.author['name']}</span> */}
-								</div>
-							))
-						}
-					</div>
-				</div>
 				<div
 					class="flex flex-col gap-[32px] w-full relative"
 					@mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
-					@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+					@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''; console.log('floating cover is', typeof(floatingCover.src))"
 				>
 					<!-- Floating book cover -->
 					<div
 						x-show="floatingCover.show && floatingCover.src"
 						x-transition.opacity
 						class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
+						:class="{ 'opacity-100': floatingCover.show && floatingCover.src, 'opacity-0': !floatingCover.show || !floatingCover.src }"
 						x-bind:style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
 					>
 						<div x-show="floatingCover.src" class="relative w-full h-full">
@@ -304,122 +474,77 @@ const books = await getBooks();
 						</div>
 					</div>
 					<div
-						class="grid !grid-cols-4 gap-[20px]"
-						x-bind:class="{
-                            'flex flex-col': list,
-                            'grid': !list
-                        }"
+						class="flex flex-col gap-[20px]"
 					>
-						<h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
-						<ul
-							class="col-span-full grid gap-y-[12px]"
-							x-bind:class="{
-                                'flex flex-col': list,
-                                'grid': !list
-                            }"
-						>
+						<h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
+						<ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
 							{
-								currentBooks.map((book, i) => (
-									<li
-										class="col-span-2 group"
-										x-bind:class="{
-                                        'border-b'
-                                    }"
-										@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-										@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-									>
-										<div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-											<div
-												x-show="!list"
-												class={`overflow-hidden aspect-[1/1.5] ${!book.cover ? "border" : ""}`}
-											>
-												{book.cover && (
-													<Image
-														class="w-full"
-														src={book.cover}
-														alt={"Cover for " + book.title}
-														width="200"
-														height="100"
-													/>
-												)}
-											</div>
-											<div
-												class={`flex flex-col gap-[8px] w-full ${!book.cover ? "absolute bg-black inset-0 text-white py-[8px] px-[16px] opacity-100" : ""}`}
-												x-bind:class="{
-                                                'opacity-0 absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
-                                            }"
-											>
-												<p class="text-[22px]">{book.title}</p>
+								shelf.map((book, i) => (
+
+									<li class="post-item">
+										<div class="post [--block-space:var(--space-s)]">
+											<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+												<div class={`flex max-md:flex-col items-baseline gap-[4px] ${book.finished !== "unknown" ? "line-through" : ""}`}>
+													<span>{book.title}</span>
+													<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
+												</div>
+												<div class="flex flex-row gap-x-[8px] items-center">
+													{book.started != book.finished &&
+														book.started !== "unknown" &&
+														book.finished !== "unknown" && (
+															// <p>{new Date(book.started)}</p>
+															<span class="text-[16px]">
+																Started:{" "}
+																<FormattedDate date={new Date(book.started)} />
+															</span>
+															<span class="text-[16px] pt-[2px]">
+														Finished:{" "}
+														{book.finished !== "unknown" ? (
+															<FormattedDate date={new Date(book.finished)} />
+														) : (
+															"Unknown date"
+														)}
+															</span>
+														)}
+													{book.rating && (
+														<span class="text-[16px] pt-[2px]">
+															Rating: {book.rating}/5
+														</span>
+													)}
+												</div>
 											</div>
 										</div>
 									</li>
 								))
 							}
-						</ul>
+						</ol>
 					</div>
 					{
 						[...books].map((year, i) => (
 							<ul class="col-span-full">
 								<li>
 									{i === 0 ? (
-										<div class="flex flex-col gap-y-[32px]">
+										<div class="flex flex-col mt-[var(--space-xs)]">
 											<h2 class="h2">
 												Books read in {year[0]}{" "}
 												<span class="text-[20px] opacity-75">
 													({year[1].length})
 												</span>
 											</h2>
-											<ul
-												class="col-span-full grid gap-y-[12px]"
-												x-bind:class="{
-                                                    'flex flex-col': list,
-                                                    'grid': !list
-                                                }"
-											>
-												{[...books][i][1].map((book, index) => (
+											<ol class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]" style="--flow-space: 0;">
+												{[...books][i][1].map((book) => (
 													<li
-														class="col-span-2 group"
-														x-bind:class="{
-                                                            'border-b'
-                                                        }"
+														class="col-span-2 group post-item"
 														@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
 														@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
 													>
-														<div class="overflow-hidden flex flex-col gap-y-[16px] md:gap-y-[12px] relative">
-															<div
-																class="flex flex-col md:flex-row md:items-center md:gap-[32px] w-full"
-																x-bind:class="{
-                                                                        'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
-                                                                    }"
-															>
-																<p class="text-[22px]">{book.title}</p>
-																<div
-																	class="mt-auto flex flex-col"
-																	x-bind:class="{
-                                                                            'flex-row gap-x-[8px] items-center': list,
-                                                                        }"
-																>
-																	{book.started != book.finished &&
-																		book.started !== "unknown" &&
-																		book.finished !== "unknown" && (
-																			// <p>{new Date(book.started)}</p>
-																			<span class="text-[16px]">
-																				Started:{" "}
-																				<FormattedDate
-																					date={new Date(book.started)}
-																				/>
-																			</span>
-																		)}
-																	<span class="text-[16px] pt-[2px]">
-																		Finished:{" "}
-																		{book.finished !== "unknown" ? (
-																			<FormattedDate
-																				date={new Date(book.finished)}
-																			/>
-																		) : (
-																			"Unknown date"
-																		)}
-																	</span>
+														<div class="post [--block-space:var(--space-s)]">
+															<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+																<div class="flex max-md:flex-col items-baseline gap-[4px]">
+																	<span>{book.title}</span>
+																	<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
+																</div>
+																<div class="flex flex-row gap-x-[8px] items-center">
 																	{book.rating && (
 																		<span class="text-[16px] pt-[2px]">
 																			Rating: {book.rating}/5
@@ -433,7 +558,7 @@ const books = await getBooks();
 											</ul>
 										</div>
 									) : (
-										<details class="flex flex-col gap-y-[24px]">
+										<details class="flex flex-col">
 											<summary class="h2 cursor-pointer list-none">
 												<span>
 													Books read in {year[0]}{" "}
@@ -442,68 +567,64 @@ const books = await getBooks();
 													</span>
 												</span>
 											</summary>
-											<ul class="col-span-full flex flex-col gap-y-[12px]">
+											<ol class="post-list flow max-md:mx-[-16px] mt-[var(--space-m)]" style="--flow-space: 0;">
 												{[...books][i][1].map((book, index) => (
-													<li
-														class="col-span-2 group"
-														x-bind:class="{
-                                                            'border-b'
-                                                        }"
-														@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
-														@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
-													>
-														<div class="overflow-hidden flex flex-col gap-y-[12px] relative">
-															<div
-																class="flex flex-col gap-[8px] w-full"
-																x-bind:class="{
-                                                                        'opacity-0  absolute bg-black inset-0 text-white py-[8px] px-[16px] group-hover:opacity-100': !list
-                                                                    }"
-															>
-																<p class="text-[22px]">{book.title}</p>
-																<div
-																	class="mt-auto pb-[8px] flex flex-col"
-																	x-bind:class="{
-                                                                            'flex-row gap-x-[20px] items-center': list,
-                                                                        }"
-																>
-																	{book.started != book.finished &&
-																		book.started !== "unknown" &&
-																		book.finished !== "unknown" && (
-																			// <p>{new Date(book.started)}</p>
-																			<span class="text-[16px]">
-																				Started:{" "}
-																				<FormattedDate
-																					date={new Date(book.started)}
-																				/>
-																			</span>
-																		)}
+												<li
+													class="col-span-2 group post-item"
+													@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+													@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+												>
+													<div class="post [--block-space:var(--space-s)]">
+														<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+															<div class="flex max-md:flex-col items-baseline gap-[4px]">
+																<span>{book.title}</span>
+																<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
+															</div>
+															<div class="flex flex-row gap-x-[8px] items-center">
+																{book.rating && (
 																	<span class="text-[16px] pt-[2px]">
-																		Finished:{" "}
-																		{book.finished !== "unknown" ? (
-																			<FormattedDate
-																				date={new Date(book.finished)}
-																			/>
-																		) : (
-																			"Unknown date"
-																		)}
+																		Rating: {book.rating}/5
 																	</span>
-																	{book.rating && (
-																		<span class="text-[16px] pt-[2px]">
-																			Rating: {book.rating}/5
-																		</span>
-																	)}
-																</div>
+																)}
 															</div>
 														</div>
-													</li>
+													</div>
+												</li>
 												))}
-											</ul>
+											</ol>
 										</details>
 									)}
 								</li>
 							</ul>
 						))
 					}
+					<ul class="col-span-full">
+						<li>
+							<div class="flex flex-col gap-y-[var(--space-s)] md:gap-y-[var(--space-m)]">
+								<h2 class="h2">
+									Backlog{" "}
+								</h2>
+								<ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
+									{toReadBooks.map((book) => (
+										<li
+											class="col-span-2 group post-item"
+											@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(book.cover)}; floatingCover.title = ${JSON.stringify(book.title)}`}
+											@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+										>
+											<div class="post [--block-space:var(--space-s)]">
+												<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+													<div class="flex max-md:flex-col items-baseline gap-[4px] md:gap-[8px]">
+														<span>{book.title}</span>
+														<span class="opacity-[0.85]">by {book.authors[0]['name']}</span>
+													</div>
+												</div>
+											</div>
+										</li>
+									))}
+								</ol>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</main>
