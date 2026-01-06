@@ -12,7 +12,7 @@ const monthYear = format(today, "MMMM yyyy");
 
 async function getTopTracks(apiKey, limit) {
 	const response = await fetch(
-		`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=7day&api_key=${apiKey}&limit=${limit || 20}&format=json`,
+		`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=1month&api_key=${apiKey}&limit=${limit || 20}&format=json`,
 	);
 	const data = await response.json();
 	return data.toptracks.track;
@@ -37,7 +37,7 @@ function writePost(tracks) {
 		return;
 	}
 
-	fs.writeFileSync(`./src/content/now/${formattedToday}.mdx`, postContent);
+	fs.writeFileSync(`./src/content/now/now.mdx`, postContent);
 }
 
 async function main() {

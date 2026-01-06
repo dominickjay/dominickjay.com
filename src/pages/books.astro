@@ -4,452 +4,378 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
 import BookItem from "../components/BookItem.astro";
-import Footer from "../components/Footer.astro";
-import { Image } from "astro:assets";
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import moment from "moment";
+import { fetchWithCache } from "../lib/cache";
 
-let currentBooks: any[] = [];
-let finishedBooks: any[] = [];
-let readBooks: any[] = [];
-let toReadBooks: any[] = [];
+const profileId = import.meta.env.profileId;
+const literalToken = import.meta.env.literalToken ?? "";
+
+// Helper function to make GraphQL requests
+async function literalGraphQL(
+  query: string,
+  variables: any,
+  useAuth = false
+) {
+  const response = await fetch("https://literal.club/graphql/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(useAuth && { authorization: literalToken }),
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+}
 
 // Fetch shelf book IDs first to filter them out
 let shelfBookIds = new Set();
 try {
-	const shelfResponse = await fetch("https://literal.club/graphql/", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			query: `query getShelfBySlug($shelfSlug: String!) {
-				shelf(where: { slug: $shelfSlug }) {
-					books {
-						id
-					}
-				}
-			}`,
-			variables: {
-				shelfSlug: "2026-vg7vfq1",
-			},
-		}),
-	});
+  const shelfData = await fetchWithCache(
+    `shelf-ids-2026-vg7vfq1`,
+    () =>
+      literalGraphQL(
+        `query getShelfBySlug($shelfSlug: String!) {
+          shelf(where: { slug: $shelfSlug }) {
+            books {
+              id
+            }
+          }
+        }`,
+        { shelfSlug: "2026-vg7vfq1" }
+      )
+  );
 
-	if (shelfResponse.ok) {
-		const shelfData = await shelfResponse.json();
-		const shelfBooks = shelfData.data?.shelf?.books || [];
-		shelfBookIds = new Set(shelfBooks.map((book: any) => book.id));
-	}
+  const shelfBooks = shelfData.data?.shelf?.books || [];
+  shelfBookIds = new Set(shelfBooks.map((book: any) => book.id));
 } catch (error) {
-	console.error("Error fetching shelf for filtering:", error);
+  console.error("Error fetching shelf for filtering:", error);
 }
 
+// Fetch to-read and currently reading books in parallel
+let currentBooks: any[] = [];
+let toReadBooks: any[] = [];
+
 try {
-	const response = await fetch("https://literal.club/graphql/", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			query: `query booksByReadingStateAndProfile(
-					$limit: Int!
-					$offset: Int!
-					$readingStatus: ReadingStatus!
-					$profileId: String!
-				) {
-					booksByReadingStateAndProfile(
-							limit: $limit
-							offset: $offset
-							readingStatus: $readingStatus
-							profileId: $profileId
-					)
-					{ id title cover authors {
-							name
-					} } }`,
-			variables: {
-				limit: 100,
-				offset: 0,
-				readingStatus: "WANTS_TO_READ",
-				profileId: import.meta.env.profileId,
-			},
-		}),
-	});
+  const [toReadData, currentData] = await Promise.all([
+    fetchWithCache(
+      `books-wants-to-read-${profileId}`,
+      () =>
+        literalGraphQL(
+          `query booksByReadingStateAndProfile(
+            $limit: Int!
+            $offset: Int!
+            $readingStatus: ReadingStatus!
+            $profileId: String!
+          ) {
+            booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+            ) {
+              id
+              title
+              cover
+              authors {
+                name
+              }
+            }
+          }`,
+          {
+            limit: 100,
+            offset: 0,
+            readingStatus: "WANTS_TO_READ",
+            profileId,
+          }
+        )
+    ),
+    fetchWithCache(
+      `books-is-reading-${profileId}`,
+      () =>
+        literalGraphQL(
+          `query booksByReadingStateAndProfile(
+            $limit: Int!
+            $offset: Int!
+            $readingStatus: ReadingStatus!
+            $profileId: String!
+          ) {
+            booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+            ) {
+              id
+              title
+              cover
+              authors {
+                name
+              }
+            }
+          }`,
+          {
+            limit: 100,
+            offset: 0,
+            readingStatus: "IS_READING",
+            profileId,
+          }
+        )
+    ),
+  ]);
 
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
+  const allToReadBooks = toReadData.data?.booksByReadingStateAndProfile || [];
+  toReadBooks = allToReadBooks.filter(
+    (book: any) => !shelfBookIds.has(book.id)
+  );
 
-	const data = await response.json();
-	const allToReadBooks = data.data?.booksByReadingStateAndProfile || [];
-	toReadBooks = allToReadBooks.filter(
-		(book: any) => !shelfBookIds.has(book.id),
-	);
+  currentBooks = currentData.data?.booksByReadingStateAndProfile || [];
 } catch (error) {
-	console.error("Error fetching to-read books from Literal.club:", error);
-	toReadBooks = [];
+  console.error("Error fetching books:", error);
+  toReadBooks = [];
+  currentBooks = [];
 }
 
-try {
-	const response = await fetch("https://literal.club/graphql/", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			query: `query booksByReadingStateAndProfile(
-					$limit: Int!
-					$offset: Int!
-					$readingStatus: ReadingStatus!
-					$profileId: String!
-				) {
-					booksByReadingStateAndProfile(
-							limit: $limit
-							offset: $offset
-							readingStatus: $readingStatus
-							profileId: $profileId
-					)
-					{ id title cover authors {
-							name
-					} } }`,
-			variables: {
-				limit: 100,
-				offset: 0,
-				readingStatus: "IS_READING",
-				profileId: import.meta.env.profileId,
-			},
-		}),
-	});
+// Helper to fetch book details (dates and rating) in parallel
+async function fetchBookDetails(bookId: string) {
+  const [datesData, reviewData] = await Promise.all([
+    fetchWithCache(
+      `book-dates-${bookId}-${profileId}`,
+      () =>
+        literalGraphQL(
+          `query getReadDates($bookId: String!, $profileId: String!) {
+            getReadDates(bookId: $bookId, profileId: $profileId) {
+              started
+              finished
+            }
+          }`,
+          { bookId, profileId },
+          true
+        )
+    ),
+    fetchWithCache(
+      `book-review-${bookId}-${profileId}`,
+      async () => {
+        try {
+          return await literalGraphQL(
+            `query getReview($bookId: String!, $profileId: String!) {
+              review(bookId: $bookId, profileId: $profileId) {
+                rating
+              }
+            }`,
+            { bookId, profileId },
+            true
+          );
+        } catch {
+          return { data: { review: { rating: null } } };
+        }
+      }
+    ),
+  ]);
 
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
+  const dates = datesData?.data?.getReadDates || [];
+  const date = dates.pop();
+  const rating = reviewData?.data?.review?.rating ?? null;
 
-	const data = await response.json();
-	currentBooks = data.data?.booksByReadingStateAndProfile || [];
-} catch (error) {
-	console.error(
-		"Error fetching currently reading books from Literal.club:",
-		error,
-	);
-	currentBooks = [];
+  return {
+    started: date?.started || "unknown",
+    finished: date?.finished || "unknown",
+    rating,
+  };
 }
 
 async function getShelf() {
-	try {
-		const response = await fetch("https://literal.club/graphql/", {
-			method: "POST",
-			body: JSON.stringify({
-				query: `query getShelfBySlug($shelfSlug: String!) {
-					shelf(where: { slug: $shelfSlug }) {
-						id
-						slug
-						title
-						description
-						profileId
-						owner {
-							id
-							handle
-							name
-							bio
-							image
-							invitedByProfileId
-						}
-						books {
-							id
-							slug
-							title
-							subtitle
-							description
-							isbn10
-							isbn13
-							language
-							pageCount
-							publishedDate
-							publisher
-							cover
-							authors {
-								id
-								name
-							}
-							gradientColors
-						}
-					}
-				}`,
-				variables: {
-					shelfSlug: "2026-vg7vfq1",
-				},
-			}),
-			headers: {
-				"Content-Type": "application/json",
-				authorization: import.meta.env.literalToken ?? "",
-			},
-		});
+  try {
+    const shelfData = await fetchWithCache(
+      `shelf-full-2026-vg7vfq1`,
+      () =>
+        literalGraphQL(
+          `query getShelfBySlug($shelfSlug: String!) {
+            shelf(where: { slug: $shelfSlug }) {
+              id
+              slug
+              title
+              description
+              profileId
+              owner {
+                id
+                handle
+                name
+                bio
+                image
+                invitedByProfileId
+              }
+              books {
+                id
+                slug
+                title
+                subtitle
+                description
+                isbn10
+                isbn13
+                language
+                pageCount
+                publishedDate
+                publisher
+                cover
+                authors {
+                  id
+                  name
+                }
+                gradientColors
+              }
+            }
+          }`,
+          { shelfSlug: "2026-vg7vfq1" },
+          true
+        )
+    );
 
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
-		}
+    const shelf = shelfData.data?.shelf;
+    if (!shelf?.books) return [];
 
-		const data = (await response.json()) as any;
-		const shelf = data.data?.shelf;
-		const booksWithDetails = [];
+    // Fetch all book details in parallel
+    const booksWithDetails = await Promise.all(
+      shelf.books.map(async (book: any) => {
+        try {
+          const details = await fetchBookDetails(book.id);
+          const isCurrentlyReading = currentBooks.some(
+            (currentBook: any) => currentBook.id === book.id
+          );
+          const hasStarted =
+            details.started && details.started !== "unknown";
+          const hasFinished =
+            details.finished && details.finished !== "unknown";
+          const status =
+            isCurrentlyReading || (hasStarted && !hasFinished)
+              ? "IS_READING"
+              : hasFinished
+                ? "FINISHED"
+                : "WANTS_TO_READ";
 
-		for (const book of shelf?.books || []) {
-			try {
-				const datesResponse = await fetch("https://literal.club/graphql/", {
-					method: "POST",
-					body: JSON.stringify({
-						query: `query getReadDates($bookId: String!, $profileId: String!) {
-							getReadDates(bookId: $bookId, profileId: $profileId) {
-								started
-								finished
-							}
-						}`,
-						variables: {
-							bookId: book.id,
-							profileId: import.meta.env.profileId,
-						},
-					}),
-					headers: {
-						"Content-Type": "application/json",
-						authorization: import.meta.env.literalToken ?? "",
-					},
-				});
+          return {
+            ...book,
+            ...details,
+            status,
+          };
+        } catch (error) {
+          console.error(`Error fetching details for book ${book.id}:`, error);
+          const isCurrentlyReading = currentBooks.some(
+            (currentBook: any) => currentBook.id === book.id
+          );
+          return {
+            ...book,
+            started: "unknown",
+            finished: "unknown",
+            rating: null,
+            status: isCurrentlyReading ? "IS_READING" : "WANTS_TO_READ",
+          };
+        }
+      })
+    );
 
-				if (!datesResponse.ok) {
-					throw new Error(`HTTP error! status: ${datesResponse.status}`);
-				}
-
-				const dates = (await datesResponse.json()) as any;
-				const date = dates?.data?.getReadDates?.pop();
-
-				// Fetch rating from reviews
-				let rating = null;
-				try {
-					const reviewResponse = await fetch("https://literal.club/graphql/", {
-						method: "POST",
-						body: JSON.stringify({
-							query: `query getReview($bookId: String!, $profileId: String!) {
-								review(bookId: $bookId, profileId: $profileId) {
-									rating
-								}
-							}`,
-							variables: {
-								bookId: book.id,
-								profileId: import.meta.env.profileId,
-							},
-						}),
-						headers: {
-							"Content-Type": "application/json",
-							authorization: import.meta.env.literalToken ?? "",
-						},
-					});
-
-					if (reviewResponse.ok) {
-						const reviewData = (await reviewResponse.json()) as any;
-						rating = reviewData?.data?.review?.rating ?? null;
-					}
-				} catch (error) {
-					console.error(`Error fetching review for book ${book.id}:`, error);
-				}
-
-				// Determine reading status
-				const isCurrentlyReading = currentBooks.some(
-					(currentBook: any) => currentBook.id === book.id,
-				);
-				const hasStarted = date?.started && date?.started !== "unknown";
-				const hasFinished = date?.finished && date?.finished !== "unknown";
-				const status =
-					isCurrentlyReading || (hasStarted && !hasFinished)
-						? "IS_READING"
-						: hasFinished
-							? "FINISHED"
-							: "WANTS_TO_READ";
-
-				const bookWithDetails = {
-					...book,
-					started: date?.started ? date?.started : "unknown",
-					finished: date?.finished ? date?.finished : "unknown",
-					rating: rating,
-					status: status,
-				};
-
-				booksWithDetails.push(bookWithDetails);
-			} catch (error) {
-				console.error(`Error fetching read dates for book ${book.id}:`, error);
-				const isCurrentlyReading = currentBooks.some(
-					(currentBook: any) => currentBook.id === book.id,
-				);
-				const bookWithDetails = {
-					...book,
-					started: "unknown",
-					finished: "unknown",
-					rating: null,
-					status: isCurrentlyReading ? "IS_READING" : "WANTS_TO_READ",
-				};
-				booksWithDetails.push(bookWithDetails);
-			}
-		}
-
-		const shelfWithBooks = {
-			...shelf,
-			books: booksWithDetails,
-		};
-
-		console.log(shelfWithBooks);
-
-		return booksWithDetails;
-	} catch (error) {
-		console.error("Error fetching shelf from Literal.club:", error);
-		return [];
-	}
+    return booksWithDetails;
+  } catch (error) {
+    console.error("Error fetching shelf from Literal.club:", error);
+    return [];
+  }
 }
 
 async function getBooks() {
-	try {
-		const response = await fetch("https://literal.club/graphql/", {
-			method: "POST",
-			body: JSON.stringify({
-				query: `query booksByReadingStateAndProfile(
-				$limit: Int!
-				$offset: Int!
-				$readingStatus: ReadingStatus!
-				$profileId: String!
-			) {
-				booksByReadingStateAndProfile(
-						limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
-						id title cover authors { name } } }`,
-				variables: {
-					limit: 100,
-					offset: 0,
-					readingStatus: "FINISHED",
-					profileId: import.meta.env.profileId,
-				},
-			}),
-			headers: {
-				"Content-Type": "application/json",
-				authorization: import.meta.env.literalToken ?? "",
-			},
-		});
+  try {
+    const finishedData = await fetchWithCache(
+      `books-finished-${profileId}`,
+      () =>
+        literalGraphQL(
+          `query booksByReadingStateAndProfile(
+            $limit: Int!
+            $offset: Int!
+            $readingStatus: ReadingStatus!
+            $profileId: String!
+          ) {
+            booksByReadingStateAndProfile(
+              limit: $limit
+              offset: $offset
+              readingStatus: $readingStatus
+              profileId: $profileId
+            ) {
+              id
+              title
+              cover
+              authors {
+                name
+              }
+            }
+          }`,
+          {
+            limit: 100,
+            offset: 0,
+            readingStatus: "FINISHED",
+            profileId,
+          },
+          true
+        )
+    );
 
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
-		}
+    const finishedBooks = finishedData.data?.booksByReadingStateAndProfile || [];
 
-		const data = (await response.json()) as any;
-		const books = new Map<number, any>();
+    // Fetch all book details in parallel
+    const bookDetailsPromises = finishedBooks.map(async (book: any) => {
+      try {
+        const details = await fetchBookDetails(book.id);
+        return {
+          ...book,
+          ...details,
+        };
+      } catch (error) {
+        console.error(`Error fetching details for book ${book.id}:`, error);
+        return {
+          ...book,
+          started: "unknown",
+          finished: "unknown",
+          rating: null,
+        };
+      }
+    });
 
-		for (const book of data.data?.booksByReadingStateAndProfile || []) {
-			try {
-				const datesResponse = await fetch("https://literal.club/graphql/", {
-					method: "POST",
-					body: JSON.stringify({
-						query: `query getReadDates($bookId: String!, $profileId: String!) {
-							getReadDates(bookId: $bookId, profileId: $profileId) {
-								started
-								finished
-							}
-						}`,
-						variables: {
-							bookId: book.id,
-							profileId: import.meta.env.profileId,
-						},
-					}),
-					headers: {
-						"Content-Type": "application/json",
-						authorization: import.meta.env.literalToken ?? "",
-					},
-				});
+    const booksWithDetails = await Promise.all(bookDetailsPromises);
+    const books = new Map<number, any>();
 
-				if (!datesResponse.ok) {
-					throw new Error(`HTTP error! status: ${datesResponse.status}`);
-				}
+    for (const b of booksWithDetails) {
+      if (b.finished != null && b.finished !== "unknown") {
+        const year = moment(b.finished).year();
+        let read = books.get(year);
+        if (read == null) {
+          read = [b];
+          books.set(year, read);
+        } else {
+          read.push(b);
+        }
+      } else {
+        const year = 2023;
+        let read = books.get(year);
+        if (read == null) {
+          read = [b];
+          books.set(year, read);
+        } else {
+          read.push(b);
+        }
+      }
+    }
 
-				const dates = (await datesResponse.json()) as any;
-				const date = dates?.data?.getReadDates?.pop();
-
-				// Fetch rating from reviews
-				let rating = null;
-				try {
-					const reviewResponse = await fetch("https://literal.club/graphql/", {
-						method: "POST",
-						body: JSON.stringify({
-							query: `query getReview($bookId: String!, $profileId: String!) {
-								review(bookId: $bookId, profileId: $profileId) {
-									rating
-								}
-							}`,
-							variables: {
-								bookId: book.id,
-								profileId: import.meta.env.profileId,
-							},
-						}),
-						headers: {
-							"Content-Type": "application/json",
-							authorization: import.meta.env.literalToken ?? "",
-						},
-					});
-
-					if (reviewResponse.ok) {
-						const reviewData = (await reviewResponse.json()) as any;
-						rating = reviewData?.data?.review?.rating ?? null;
-					}
-				} catch (error) {
-					console.error(`Error fetching review for book ${book.id}:`, error);
-				}
-
-				const b = {
-					...book,
-					started: date?.started ? date?.started : "unknown",
-					finished: date?.finished ? date?.finished : "unknown",
-					rating: rating,
-				};
-
-				// Include all books regardless of dates
-				if (b.finished != null && b.finished !== "unknown") {
-					const year = moment(b.finished).year();
-
-					let read = books.get(year);
-					if (read == null) {
-						read = [b];
-						books.set(year, read);
-					} else {
-						read.push(b);
-					}
-				} else {
-					// For books without finished dates, use a special year (e.g., 0 or current year)
-					const year = 2023; // or new Date().getFullYear() if you prefer current year
-					let read = books.get(year);
-					if (read == null) {
-						read = [b];
-						books.set(year, read);
-					} else {
-						read.push(b);
-					}
-				}
-			} catch (error) {
-				console.error(`Error fetching read dates for book ${book.id}:`, error);
-				// Continue processing other books even if one fails
-				const b = {
-					...book,
-					started: "unknown",
-					finished: "unknown",
-					rating: null,
-				};
-				const year = 2023;
-				let read = books.get(year);
-				if (read == null) {
-					read = [b];
-					books.set(year, read);
-				} else {
-					read.push(b);
-				}
-			}
-		}
-
-		return books;
-	} catch (error) {
-		console.error("Error fetching finished books from Literal.club:", error);
-		return new Map<number, any>();
-	}
+    return books;
+  } catch (error) {
+    console.error("Error fetching finished books from Literal.club:", error);
+    return new Map<number, any>();
+  }
 }
 
-const shelf = await getShelf();
-const books = await getBooks();
+const [shelf, books] = await Promise.all([getShelf(), getBooks()]);
 ---
 
 <!doctype html>

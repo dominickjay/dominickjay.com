@@ -1,7 +1,7 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
 	title: string;
@@ -11,7 +11,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/seo-image.png' } = Astro.props;
+const { title, description, image = "/seo-image.png" } = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -21,14 +21,26 @@ const { title, description, image = '/seo-image.png' } = Astro.props;
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font preloads -->
-<link rel="preload" href="/fonts/InknutAntiqua-Regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/InknutAntiqua-Light.woff" as="font" type="font/woff" crossorigin />
+<link
+	rel="preload"
+	href="/fonts/InknutAntiqua-Regular.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
+<link
+	rel="preload"
+	href="/fonts/InknutAntiqua-Light.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
+<title>{title} | Dom Jay</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
@@ -47,15 +59,15 @@ const { title, description, image = '/seo-image.png' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <script>
-  import collapse from '@alpinejs/collapse';
-  import focus from '@alpinejs/focus';
+	import collapse from "@alpinejs/collapse";
+	import focus from "@alpinejs/focus";
 
-  document.addEventListener('alpine:init', () => {
-    // @ts-ignore
-    const Alpine = window.Alpine;
-    if (Alpine) {
-      Alpine.plugin(collapse);
-      Alpine.plugin(focus);
-    }
-  });
+	document.addEventListener("alpine:init", () => {
+		// @ts-ignore
+		const Alpine = window.Alpine;
+		if (Alpine) {
+			Alpine.plugin(collapse);
+			Alpine.plugin(focus);
+		}
+	});
 </script>

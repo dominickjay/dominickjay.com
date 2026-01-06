@@ -1,4 +1,9 @@
 ---
+// Astro.response.headers.set(
+// 	"Cache-Control",
+// 	"public, max-age=300, s-maxage=86400",
+// );
+
 import Layout from "../layouts/Default.astro";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
@@ -24,7 +29,7 @@ if (import.meta.env.DEV && import.meta.env.DEV === "false") {
 
 nowPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const showMarquee = true;
+const showMarquee = false;
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 
@@ -218,7 +223,7 @@ const books = await getBooks();
 						<FormattedDate date={post.data.pubDate} />
 						<div class="post__content flex flex-col gap-[var(--space-m)]">
 							<h3 class="post__title h3 mb-[20px]">{post.data.title}</h3>
-							<div class="post__description">
+							<div class="post__description flow prose">
 								<Content tracks={post.data.tracks} />
 							</div>
 						</div>

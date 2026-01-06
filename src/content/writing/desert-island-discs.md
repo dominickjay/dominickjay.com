@@ -2,10 +2,10 @@
 title: 'Desert Island Discs post'
 description: '8 albums - each from a point of my life.'
 pubDate: 'February 10 2025'
-tags: ['personal', 'music']
+tags:
+  - personal
+  - music
 draft: true
-# layout: "@layouts/About.astro"
-layout: "MusicGallery"
 ---
 
 <div class="music-gallery">
