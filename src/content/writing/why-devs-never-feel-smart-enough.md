@@ -5,6 +5,8 @@ draft: true
 layout: BlogPost
 pubDate: '2025-10-26'
 tags:
+    - imposter syndrome
+    - opinions
     - professional development
     - learning
 ---

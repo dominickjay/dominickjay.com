@@ -14,7 +14,7 @@
 	list-style-type: decimal-leading-zero;
 }
 
-:is(.topics, .toc) :is(ul, ol) {
+:is(.topics, .toc, .post-list) :is(ul, ol) {
 	list-style-type: none;
 	padding-inline-start: 0;
 }

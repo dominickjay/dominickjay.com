@@ -19,18 +19,16 @@ async function getTopTracks(apiKey, limit) {
 }
 
 function writePost(tracks) {
-	const formatTrack = ({ name, artist }) =>
-		`- "${name.replace(/"/g, '\\"')}" by "${artist.name.replace(/"/g, '\\"')}"`;
+	const tracksData = tracks.map(({ name, artist }) => ({
+		title: name,
+		artist: artist.name,
+	}));
 
-	const tracksFormatted = tracks.map(formatTrack);
-	const tracksYaml = tracksFormatted.length
-		? `${tracksFormatted.join("\n")}`
-		: "tracks: []";
+	const tracksJson = JSON.stringify(tracksData, null, 2);
 	const postContent = fs
 		.readFileSync("./scripts/now_template.mdx", "utf8")
-		.replace()
 		.replace(/{{date}}/g, formattedToday)
-		.replace("{{tracks}}", tracksYaml);
+		.replace("{{tracks}}", tracksJson);
 
 	if (process.env.DEBUG) {
 		// console.log(postContent);

@@ -7,24 +7,16 @@
 import Layout from "../layouts/Default.astro";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
-import {
-	SITE_TITLE,
-	SITE_DESCRIPTION,
-	SITE_TAGLINE,
-	CURRENT_COMPANY,
-	CURRENT_POSITION,
-} from "../consts";
 import { getTopTracks, type LastFmTopTrack } from "../lib/lastfm";
-import moment from "moment";
 import { getCollection, render } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 
 let nowPosts = [];
 
 if (import.meta.env.DEV && import.meta.env.DEV === "false") {
-	nowPosts = await getCollection("now", ({ data }) => !data?.draft);
+  nowPosts = await getCollection("now", ({ data }) => !data?.draft);
 } else {
-	nowPosts = await getCollection("now");
+  nowPosts = await getCollection("now");
 }
 
 nowPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -40,15 +32,15 @@ let currentBooks = [];
 const topTracks = await Promise.all([getTopTracks(apiKey, 1)]);
 
 if (topTracks[0].toptracks?.track) {
-	topTrack = topTracks[0].toptracks.track;
+  topTrack = topTracks[0].toptracks.track;
 }
 
 try {
-	const response = await fetch("https://literal.club/graphql/", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			query: `query booksByReadingStateAndProfile(
+  const response = await fetch("https://literal.club/graphql/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `query booksByReadingStateAndProfile(
 					$limit: Int!
 					$offset: Int!
 					$readingStatus: ReadingStatus!
@@ -63,35 +55,35 @@ try {
 					{ id title cover authors {
 							name
 					} } }`,
-			variables: {
-				limit: 100,
-				offset: 0,
-				readingStatus: "IS_READING",
-				profileId: import.meta.env.profileId,
-			},
-		}),
-	});
+      variables: {
+        limit: 100,
+        offset: 0,
+        readingStatus: "IS_READING",
+        profileId: import.meta.env.profileId,
+      },
+    }),
+  });
 
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 
-	const data = await response.json();
-	currentBooks = data.data?.booksByReadingStateAndProfile || [];
+  const data = await response.json();
+  currentBooks = data.data?.booksByReadingStateAndProfile || [];
 } catch (error) {
-	console.error(
-		"Error fetching currently reading books from Literal.club:",
-		error,
-	);
-	currentBooks = [];
+  console.error(
+    "Error fetching currently reading books from Literal.club:",
+    error
+  );
+  currentBooks = [];
 }
 
 async function getBooks() {
-	try {
-		const response = await fetch("https://literal.club/graphql/", {
-			method: "POST",
-			body: JSON.stringify({
-				query: `query booksByReadingStateAndProfile(
+  try {
+    const response = await fetch("https://literal.club/graphql/", {
+      method: "POST",
+      body: JSON.stringify({
+        query: `query booksByReadingStateAndProfile(
 				$limit: Int!
 				$offset: Int!
 				$readingStatus: ReadingStatus!
@@ -100,71 +92,71 @@ async function getBooks() {
 				booksByReadingStateAndProfile(
 						limit: $limit offset: $offset readingStatus: $readingStatus profileId: $profileId) {
 						id title cover authors { name } } }`,
-				variables: {
-					limit: 100,
-					offset: 0,
-					readingStatus: "FINISHED",
-					profileId: import.meta.env.profileId,
-				},
-			}),
-			headers: {
-				"Content-Type": "application/json",
-				authorization: import.meta.env.literalToken ?? "",
-			},
-		});
+        variables: {
+          limit: 100,
+          offset: 0,
+          readingStatus: "FINISHED",
+          profileId: import.meta.env.profileId,
+        },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        authorization: import.meta.env.literalToken ?? "",
+      },
+    });
 
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
-		}
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-		const data = (await response.json()) as any;
-		const books = data.data?.booksByReadingStateAndProfile || [];
+    const data = (await response.json()) as any;
+    const books = data.data?.booksByReadingStateAndProfile || [];
 
-		// Process books and include all regardless of dates
-		const processedBooks = books.map((book) => {
-			const dates = book?.getReadDates?.pop();
+    // Process books and include all regardless of dates
+    const processedBooks = books.map((book) => {
+      const dates = book?.getReadDates?.pop();
 
-			return {
-				...book,
-				started: dates?.started ? dates?.started : "unknown",
-				finished: dates?.finished ? dates?.finished : "unknown",
-			};
-		});
+      return {
+        ...book,
+        started: dates?.started ? dates?.started : "unknown",
+        finished: dates?.finished ? dates?.finished : "unknown",
+      };
+    });
 
-		return processedBooks;
-	} catch (error) {
-		console.error("Error fetching finished books from Literal.club:", error);
-		return [];
-	}
+    return processedBooks;
+  } catch (error) {
+    console.error("Error fetching finished books from Literal.club:", error);
+    return [];
+  }
 }
 
 const books = await getBooks();
 ---
 
 <Layout title="Now" description="What I'm doing right /now">
-	<div
-		class="container grid grid-cols-6"
-		style="--grid-placement: 6; --gutter: 43px;"
-	>
-		<div class="overflow-clip col-span-full md:col-span-4">
-			{showMarquee && <MarqueeHeading title="Now" />}
-			{!showMarquee && <ScrollHeading title="Now" />}
-		</div>
-		<div class="statistics-grid col-span-full">
-			<div
-				class="statistics-grid__item statistics-grid__item-1"
-				style="grid-area: item1"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__title h4">Books read</span>
-					<span
-						class="statistics-grid__value h2 leading-[1]"
-						x-data={JSON.stringify({
-							count: 0,
-							target: books.length,
-							duration: 2000,
-						})}
-						x-init="
+  <div
+    class="container grid grid-cols-6"
+    style="--grid-placement: 6; --gutter: 43px;"
+  >
+    <div class="overflow-clip col-span-full md:col-span-4">
+      {showMarquee && <MarqueeHeading title="Now" />}
+      {!showMarquee && <ScrollHeading title="Now" />}
+    </div>
+    <div class="statistics-grid col-span-full">
+      <div
+        class="statistics-grid__item statistics-grid__item-1"
+        style="grid-area: item1"
+      >
+        <div class="statistics-grid__content flex flex-col gap-[16px]">
+          <span class="statistics-grid__title h4">Books read</span>
+          <span
+            class="statistics-grid__value h2 leading-[1]"
+            x-data={JSON.stringify({
+              count: 0,
+              target: books.length,
+              duration: 2000,
+            })}
+            x-init="
 							const startTime = Date.now();
 							const animate = () => {
 								const elapsed = Date.now() - startTime;
@@ -181,55 +173,56 @@ const books = await getBooks();
 							};
 							requestAnimationFrame(animate);
 						"
-						x-text="count"></span>
-				</div>
-			</div>
-			<div
-				class="statistics-grid__item statistics-grid__item-2"
-				style="grid-area: item2"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__title h4">Top track this week</span>
-					{
-						topTrack[0] && (
-							<span class="statistics-grid__value h2 leading-[1]">
-								{topTrack[0].name}
-							</span>
-						)
-					}
-				</div>
-			</div>
-			<div
-				class="statistics-grid__item statistics-grid__item-3"
-				style="grid-area: item3"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__value h4">Currently watching</span>
-					<span class="statistics-grid__title h2 leading-[1]">Inside No.9</span>
-				</div>
-			</div>
-		</div>
-		<ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
-			{
-				(
-					await Promise.all(
-						nowPosts.map(async (post) => {
-							const { Content } = await render(post);
-							return { post, Content };
-						}),
-					)
-				).map(({ post, Content }) => (
-					<li class="">
-						<FormattedDate date={post.data.pubDate} />
-						<div class="post__content flex flex-col gap-[var(--space-m)]">
-							<h3 class="post__title h3 mb-[20px]">{post.data.title}</h3>
-							<div class="post__description flow prose">
-								<Content tracks={post.data.tracks} />
-							</div>
-						</div>
-					</li>
-				))
-			}
-		</ol>
-	</div>
+            x-text="count"></span>
+        </div>
+      </div>
+      <div
+        class="statistics-grid__item statistics-grid__item-2"
+        style="grid-area: item2"
+      >
+        <div class="statistics-grid__content flex flex-col gap-[16px]">
+          <span class="statistics-grid__title h4">Top track this week</span>
+          {
+            topTrack[0] && (
+              <span class="statistics-grid__value h2 leading-[1]">
+                {topTrack[0].name}
+              </span>
+            )
+          }
+        </div>
+      </div>
+      <div
+        class="statistics-grid__item statistics-grid__item-3"
+        style="grid-area: item3"
+      >
+        <div class="statistics-grid__content flex flex-col gap-[16px]">
+          <span class="statistics-grid__value h4">Currently watching</span>
+          <span class="statistics-grid__title h2 leading-[1]">Inside No.9</span>
+        </div>
+      </div>
+    </div>
+    <ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
+      {
+        (
+          await Promise.all(
+            nowPosts.map(async (post) => {
+              const { Content } = await render(post);
+              return { post, Content };
+            })
+          )
+        ).map(({ post, Content }) => (
+          <li class="flow">
+            <div class="h3">
+              <FormattedDate date={post.data.pubDate} />
+            </div>
+            <div class="post__content flex flex-col gap-[var(--space-m)]">
+              <div class="post__description flow prose">
+                <Content tracks={post.data.tracks} />
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
 </Layout>

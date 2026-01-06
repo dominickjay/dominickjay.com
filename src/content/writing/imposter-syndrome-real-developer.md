@@ -4,11 +4,14 @@ description: "Why does an industry full of creative, successful professionals ma
 intro: "In web development, the technology stack changes faster than you can hit refresh. From mastering new JavaScript frameworks every few months to juggling front-end trends and backend updates, the pressure to know absolutely everything is intense—and frankly, exhausting. This constant chase makes it super easy to feel like you're faking it and aren't truly a 'Real Web Developer™'. This common feeling is Imposter Syndrome, and a survey showed a massive 58% of people in tech experience it. So, why does an industry full of creative, successful professionals make so many of them feel like they're just getting away with a con?"
 pubDate: '2025-11-26'
 tags:
-  - personal
+    - imposter syndrome
+    - opinions
+    - professional development
+    - learning
+
 growth: evergreen
 layout: BlogPost
 ---
-
 
 The world of software engineering always seems to surprise us with new technologies or workflows that can cause a need for engineers across all levels to feel pressure to keep up-to-date constantly. Whether it be a code language that has existed for a long time or the new cutting-edge framework, it’s a juggle to decide on what should be used whilst also being able to ***do*** the work. From that, along with feeling overwhelmed by these situations, engineers can struggle with feeling like an “Actual, Real, Engineer”™. This feeling can be associated with what has been coined as “Imposter Syndrome”. In a survey conducted by [TeamBlind](https://web.archive.org/web/20220214135621/https://www.teamblind.com/blog/index.php/2018/09/05/58-percent-of-tech-workers-feel-like-impostors/), it was reported that 58% of tech employees considered themselves to have experienced Imposter Syndrome. But why? Apart from what was noted in our introduction, what could make over half of employees think that they are – effectively – frauds, and don’t belong doing what they have been employed to do?
 
