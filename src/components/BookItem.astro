@@ -12,10 +12,8 @@ const { title, author, rating, cover, started, finished, status, showStrikethrou
 >
 	<div class="post [--block-space:var(--space-s)]">
 		<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-			<div class={`flex max-md:flex-col items-baseline gap-[4px] ${finished !== "unknown" && showStrikethrough ? "line-through" : ""}`}>
-				<div class="flex items-baseline gap-[8px]">
-					<span>{title}</span>
-				</div>
+			<div class={`${finished !== "unknown" && showStrikethrough ? "line-through" : ""}`}>
+				<span>{title}</span>
 				{author && <span class="opacity-[0.85]">by {author}</span>}
 			</div>
 			<div class="flex flex-row gap-x-[8px] items-center">
@@ -23,11 +21,11 @@ const { title, author, rating, cover, started, finished, status, showStrikethrou
 					started !== "unknown" &&
 					finished !== "unknown" && (
 						// <p>{new Date(book.started)}</p>
-						<span class="text-[16px]">
+						<span class="text-[16px] max-md:hidden">
 							Started:{" "}
 							<FormattedDate date={new Date(started)} />
 						</span>
-						<span class="text-[16px] pt-[2px]">
+						<span class="text-[16px] pt-[2px] max-md:hidden">
 					Finished:{" "}
 					{finished !== "unknown" ? (
 						<FormattedDate date={new Date(finished)} />
@@ -37,9 +35,7 @@ const { title, author, rating, cover, started, finished, status, showStrikethrou
 						</span>
 				)}
 				{status === "IS_READING" && (
-					<span
-						class="px-[8px] pt-[2px] bg-[var(--color-dark)] text-white"
-					>
+					<span class="px-[8px] pt-[2px] bg-[var(--color-dark)] text-white max-md:mb-[var(--space-s)]">
 						Currently Reading
 					</span>
 				)}
