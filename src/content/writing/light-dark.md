@@ -1,5 +1,5 @@
 ---
-title: 'light-dark()'
+title: 'Stop Using Media Queries: Effortless Dark Mode with CSS light-dark()'
 description: 'A new CSS color function for effortless light/dark mode theming'
 pubDate: '2025-09-25'
 tags:
