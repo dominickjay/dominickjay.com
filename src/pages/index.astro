@@ -19,7 +19,7 @@ import {
 
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === "false") {
+if (import.meta.env.ENVIRONMENT === "production") {
 	posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
 	posts = await getCollection("writing");
@@ -68,14 +68,10 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 						<InfoPanel />
 					</div>
 				</div>
-				<!-- <div class="container grid">
-                    <LatestCard />
-                </div> -->
 			</div>
 			<section class="py-[var(--space-xxl)] relative">
 				<div class="container flex flex-col gap-y-[64px] justify-center">
-					<!-- <PostGrid posts={posts.slice(0,5)} /> -->
-					<GrowthPanel />
+					<GrowthPanel posts={posts} />
 				</div>
 			</section>
 		</main>
@@ -84,45 +80,6 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 </html>
 
 <script>
-	// import Typewriter from 'typewriter-effect/dist/core';
 	import splt from "spltjs";
 	splt({});
-
-	// var taglines = [
-	//     'Leave it better than you found it',
-	//     'Build better, build forward',
-	//     'Elevate what you create',
-	//     'Better by design',
-	//     'Small steps, lasting impact',
-	//     'Making good stuff gooder',
-	//     'Making yesterday jealous of tomorrow'
-	// ]
-
-	// var app = document.querySelectorAll(".heading-tagline")[0];
-
-	// var typewriter = new Typewriter(app, {
-	//     loop: true,
-	//     delay: 'natural',
-	//     devMode: true
-	// })
-
-	// let index = 1;
-
-	// startTyping(taglines[0]);
-
-	// setInterval(() => {
-	//     const randomTagline = taglines[index];
-	//     startTyping(randomTagline);
-	//     if (index <= taglines.length) {
-	//         index = index + 1;
-	//     }
-	// }, 12000);
-
-	// function startTyping(randomTagline) {
-	//     typewriter
-	//         .typeString(randomTagline)
-	//         .pauseFor(6000)
-	//         .start()
-	//         .deleteAll()
-	// }
 </script>

@@ -12,7 +12,7 @@ import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === "false") {
+if (import.meta.env.ENVIRONMENT === "production") {
 	posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
 	posts = await getCollection("writing");

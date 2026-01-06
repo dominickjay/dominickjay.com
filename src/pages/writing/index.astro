@@ -1,17 +1,15 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
-import { getReadingTime } from "../../utils/utils.mjs";
 import DefaultHero from "../../components/DefaultHero.astro";
 
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === "false") {
+if (import.meta.env.ENVIRONMENT === "production") {
 	posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
 	posts = await getCollection("writing");
@@ -133,7 +131,6 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 							>
 								<div class="post">
 									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-										<!-- <div class="flow" style="--flow-space: var(--space-s)"> -->
 											<a
 												class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 												href={`/writing/${post.id}/`}

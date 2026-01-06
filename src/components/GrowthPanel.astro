@@ -1,18 +1,9 @@
 ---
-import { getCollection } from "astro:content";
+const { posts } = Astro.props;
 
-const evergreen = await getCollection(
-	"writing",
-	({ data }) => data.growth === "evergreen",
-);
-const growing = await getCollection(
-	"writing",
-	({ data }) => data.growth === "growing",
-);
-const seedling = await getCollection(
-	"writing",
-	({ data }) => data.growth === "seedling",
-);
+const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
+const growing = posts.filter((post: any) => post.data.growth === "growing");
+const seedling = posts.filter((post: any) => post.data.growth === "seedling");
 ---
 
 <div class="growth-panel flow">
@@ -34,7 +25,7 @@ const seedling = await getCollection(
 				</p>
 				<ul class="list-none flow">
 					{
-						evergreen.slice(0, 5).map((post) => (
+						evergreen.slice(0, 5).map((post: any) => (
 							<li>
 								<a href={`/writing/${post.id}`}>{post.data.title}</a>
 							</li>
@@ -59,7 +50,7 @@ const seedling = await getCollection(
 				</p>
 				<ul class="list-none flow">
 					{
-						growing.slice(0, 5).map((post) => (
+						growing.slice(0, 5).map((post: any) => (
 							<li>
 								<a href={`/writing/${post.id}`}>{post.data.title}</a>
 							</li>
@@ -84,7 +75,7 @@ const seedling = await getCollection(
 			</p>
 			<ul class="list-none flow">
 				{
-					seedling.slice(0, 5).map((post) => (
+					seedling.slice(0, 5).map((post: any) => (
 						<li>
 							<a href={`/writing/${post.id}`}>{post.data.title}</a>
 						</li>

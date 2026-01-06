@@ -1,30 +1,25 @@
 ---
-import { getCollection } from 'astro:content';
-import { getReadingTime } from '../utils/utils.mjs';
+import { getCollection } from "astro:content";
+import { getReadingTime } from "../utils/utils.mjs";
 let posts = [];
 
-if (import.meta.env.DEV && import.meta.env.DEV === "false") {
-    posts = (await getCollection("writing",
-        ({ data }) => !data?.draft
-    ));
+if (import.meta.env.ENVIRONMENT === "production") {
+	posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-    posts = (await getCollection("writing"));
+	posts = await getCollection("writing");
 }
 
-posts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <article class="latest-card">
-    <div class="latest-card__content">
-        <span>Latest Article</span>
-        <div class="latest-card__details flex justify-between items-baseline">
-            <span>{posts[0].data.pubDate.toLocaleDateString()}</span>
-            <span>{getReadingTime(posts[0].body)} min</span>
-        </div>
-        <a href={`/writing/${posts[0].id}/`}>{posts[0].data.title}</a>
-        <div>{posts[0].data.description}</div>
-    </div>
+	<div class="latest-card__content">
+		<span>Latest Article</span>
+		<div class="latest-card__details flex justify-between items-baseline">
+			<span>{posts[0].data.pubDate.toLocaleDateString()}</span>
+			<span>{getReadingTime(posts[0].body)} min</span>
+		</div>
+		<a href={`/writing/${posts[0].id}/`}>{posts[0].data.title}</a>
+		<div>{posts[0].data.description}</div>
+	</div>
 </article>

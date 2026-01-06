@@ -1,17 +1,20 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { CollectionEntry } from "astro:content";
 
 const { posts } = Astro.props;
 ---
+
 <ul class="flow">
-    {posts.map((post, index) => (
-        <li>
-            <a
-                href={`/writing/${post.id}/`}
-                class={`block transition-opacity duration-300 border border-solid p-4 feature-panel__item ${`feature-panel__item-${index + 1}`}`}
-            >
-                <h3 class="h3 relative">{post.data.title}</h3>
-            </a>
-        </li>
-    ))}
+	{
+		posts.map((post, index) => (
+			<li>
+				<a
+					href={`/writing/${post.id}/`}
+					class={`block transition-opacity duration-300 border border-solid p-4 feature-panel__item ${`feature-panel__item-${index + 1}`}`}
+				>
+					<h3 class="h3 relative">{post.data.title}</h3>
+				</a>
+			</li>
+		))
+	}
 </ul>
