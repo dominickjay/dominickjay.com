@@ -6,7 +6,7 @@ import PatternBanner from "../components/Pattern-Banner.astro";
 import BookItem from "../components/BookItem.astro";
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import moment from "moment";
-import { fetchWithCache } from "../lib/cache";
+import { fetchWithCache } from "./api/cache.js";
 
 const profileId = import.meta.env.profileId;
 const literalToken = import.meta.env.literalToken ?? "";
@@ -135,6 +135,7 @@ try {
   );
 
   currentBooks = currentData.data?.booksByReadingStateAndProfile || [];
+  console.log(currentBooks)
 } catch (error) {
   console.error("Error fetching books:", error);
   toReadBooks = [];
