@@ -1,241 +1,145 @@
 ---
 import Layout from "../layouts/Default.astro";
-import MusicCard from "../components/MusicCard.astro";
 import Profile from "../components/Profile.astro";
-import Joke from "../components/Joke.astro";
-import Companies from "../components/Companies.astro";
 import Testimonials from "../components/Testimonials.astro";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
-import type {
-  LastFmResponse,
-  LastFmTrack,
-  LastFmAlbum,
-  LastFmTag,
-} from "../lib/lastfm";
-import {
-  getWeeklyAlbumChart,
-  enrichAlbumsWithImages,
-  getRecentTracksWithTags,
-} from "../lib/lastfm";
-import moment from "moment";
-import { Image } from "astro:assets";
 import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from "../consts";
 
 const showMarquee = true;
 const contentIntro = ABOUT_INTRO.medium
-  .replaceAll("[", '<span class="current-job">')
-  .replaceAll("]", "</span>");
-const contentWithBreaks = ABOUT_CONTENT.long
-  .replace(/\n/g, "<br>")
-  .replaceAll("[", '<span class="current-job">')
-  .replaceAll("]", "</span>");
+	.replaceAll("[", '<span class="current-job">')
+	.replaceAll("]", "</span>");
 
 const companies = ABOUT_COMPANIES;
-
-interface Props {
-  musicData?: LastFmResponse | null;
-}
-
-let musicData = Astro.props.musicData;
-
-let recentTracks: LastFmTrack | null = null;
-let recentTrackTags: LastFmTag[] = [];
-let albumCovers: LastFmAlbum[] = [];
-
-const weekAgo = moment().subtract(4, "week").unix();
-const now = moment().unix();
-const apiKey = import.meta.env.LAST_FM_API_KEY;
-
-// Fetch album data
-const albumData = await getWeeklyAlbumChart(
-  weekAgo.toString(),
-  now.toString(),
-  apiKey,
-  60
-);
-if (albumData?.error) {
-  console.error("Last.fm API error:", albumData.message);
-} else if (albumData?.weeklyalbumchart?.album) {
-  // Enrich albums with images
-  albumData.weeklyalbumchart.album = await enrichAlbumsWithImages(
-    albumData.weeklyalbumchart.album,
-    apiKey
-  );
-  albumCovers = albumData.weeklyalbumchart.album;
-  // console.log('album covers:', albumCovers.length, 'albums found');
-}
-
-// Fetch recent tracks with tags using consolidated utility
-const recentTracksData = await getRecentTracksWithTags(apiKey, 5);
-if (recentTracksData.recentTracks) {
-  recentTracks = recentTracksData.recentTracks;
-  recentTrackTags = recentTracksData.recentTrackTags;
-}
 ---
 
 {/* @ts-ignore */}
 <Layout
-  {...{
-    title: "About Me",
-    description: "creative front end developer, writer, music nerd.",
-    pubDate: new Date("August 08 2021"),
-    tags: [],
-    headings: [],
-    timeToRead: 0,
-  } as any}
+	{...{
+		title: "About Me",
+		description: "creative front end developer, writer, music nerd.",
+		pubDate: new Date("August 08 2021"),
+		tags: [],
+		headings: [],
+		timeToRead: 0,
+	} as any}
 >
-  <div class="about flow">
-    <div
-      class="grid grid-cols-6 container"
-      style="--grid-placement: 6; --gutter: 43px;"
-    >
-      <div class="col-span-full md:col-span-2">
-        <Profile />
-      </div>
-      <div class="col-span-full md:col-span-4 flow">
-        <div class="flow">
-          <div class="overflow-clip">
-            {showMarquee && <MarqueeHeading title="About" />}
-            {!showMarquee && <ScrollHeading title="About" />}
-          </div>
-          <h2 class="h2" set:html={contentIntro} />
-          <div
-            class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
-          >
-            <p>
-              I am a Front-End Developer currently based in the UK, working with
-              the team at Series Eight. My work sits at the intersection of
-              accessibility, user experience, and creative experimentation.
-            </p>
-          </div>
-          <div
-            class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
-          >
-            <h3>Professional</h3>
-            <p>
-              Throughout my career, I’ve navigated the worlds of design agencies
-              and the private sector, holding roles at Rowe IT, GOSS
-              Interactive, n9Design, and Logo CCP. These experiences have shaped
-              my approach to building for the web: I believe in creating digital
-              experiences that are as inclusive as they are visually engaging.
-              In my current role at Series Eight, I work across a diverse range
-              of technologies and processes. I’m constantly refining my craft
-              and advocating for web standards that don't sacrifice creativity
-              for function.
-            </p>
-          </div>
-          <div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
-            <h3>This Site</h3>
-            <p>
-              I treat this corner of the internet as a digital playground. It’s
-              a space where I can break things, try out new CSS techniques, and
-              document what I’m learning. Whether it’s a small project on
-              CodePen or a deep dive on my blog, this site is a living
-              reflection of my professional and personal evolution.
-            </p>
-          </div>
-          <div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
-            <h3 class="h3">Personal Interests</h3>
-            <p>
-              When I’m not staring at a code editor, I’m likely deep in a rabbit
-              hole of new music. I am a self-proclaimed music nerd with a
-              penchant for everything from Nils Frahm and Radiohead to IDLES and
-              Nine Inch Nails.
-            </p>
-            <p>
-              I’m currently challenging myself to post an album a day for a
-              year—a project born out of my love for discovery and curation. You
-              can usually find me reading a new book (check my "Page Turners"
-              posts) or sharing my latest "Now" updates via Last.FM.
-            </p>
-          </div>
-          <div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
-            <p>
-              <ol
-                class="post-list flow max-md:mx-[-16px]"
-                style="--flow-space: 0;"
-              >
-                {
-                  companies.map((company) => {
-                    let { jobTitle, label, date } = company;
-                    return (
-                      <li class="post-item">
-                        <div class="post">
-                          <div class="flex max-md:flex-col-reverse justify-between md:items-center">
-                            <span class="">
-                              <span class="h4">{jobTitle}</span> at
-                              <span class="intro">{label}</span>
-                            </span>
-                            <span>{date}</span>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })
-                }
-              </ol>
-            </p>
-          </div>
-
-          <!-- <Joke />
-								<div class="flex flex-col gap-[24px]">
-										<h2 class="h3 mb-[24px]">Recent Albums</h2>
-										<div class="grid !grid-cols-3 md:!grid-cols-6 gap-0 relative" style="--gutter: 8px">
-												{albumCovers.slice(0, 5).map(async (album: LastFmAlbum) => {
-														const hasValidImage = album.image?.length > 0 && album.image[0]['#text'] && album.image[0]['#text'].length > 0;
-														if (!hasValidImage) {
-																return null;
-														}
-
-														return (
-																<div class="col-span-1 opacity-[0.7] bg-album-cover">
-																		<img
-																				src={album.image[3]['#text']}
-																				alt={`Cover for ${album.name}`}
-																				class="w-full h-auto aspect-square object-cover"
-																				onerror="this.onerror=null; this.src='/images/album-placeholder.png';"
-																				width="200"
-																				height="200"
-																				loading="lazy"
-																		/>
-																</div>
-														);
-												})}
-												<div class="col-span-full">
-														{recentTracks && (
-																<MusicCard
-																		track={recentTracks}
-																		tags={recentTrackTags}
-																		trackColor={trackColor}
-																/>
-														)}
+	<div class="about flow">
+		<div
+			class="grid grid-cols-6 container"
+			style="--grid-placement: 6; --gutter: 43px;"
+		>
+			<div class="col-span-full md:col-span-2">
+				<Profile />
+			</div>
+			<div class="col-span-full md:col-span-4 flow">
+				<div class="flow">
+					<div class="overflow-clip">
+						{showMarquee && <MarqueeHeading title="About" />}
+						{!showMarquee && <ScrollHeading title="About" />}
+					</div>
+					<h2 class="h2" set:html={contentIntro} />
+					<div
+						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
+					>
+						<p>
+							I am a Front-End Developer currently based in the UK, working with
+							the team at Series Eight. My work sits at the intersection of
+							accessibility, user experience, and creative experimentation.
+						</p>
+					</div>
+					<div
+						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
+					>
+						<h3>Professional</h3>
+						<p>
+							Throughout my career, I’ve navigated the worlds of design agencies
+							and the private sector, holding roles at Rowe IT, GOSS
+							Interactive, n9Design, and Logo CCP. These experiences have shaped
+							my approach to building for the web: I believe in creating digital
+							experiences that are as inclusive as they are visually engaging.
+							In my current role at Series Eight, I work across a diverse range
+							of technologies and processes. I’m constantly refining my craft
+							and advocating for web standards that don't sacrifice creativity
+							for function.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<h3>This Site</h3>
+						<p>
+							I treat this corner of the internet as a digital playground. It’s
+							a space where I can break things, try out new CSS techniques, and
+							document what I’m learning. Whether it’s a small project on
+							CodePen or a deep dive on my blog, this site is a living
+							reflection of my professional and personal evolution.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<h3 class="h3">Personal Interests</h3>
+						<p>
+							When I’m not staring at a code editor, I’m likely deep in a rabbit
+							hole of new music. I am a self-proclaimed music nerd with a
+							penchant for everything from Nils Frahm and Radiohead to IDLES and
+							Nine Inch Nails.
+						</p>
+						<p>
+							I’m currently challenging myself to post an album a day for a
+							year—a project born out of my love for discovery and curation. You
+							can usually find me reading a new book (check my "Page Turners"
+							posts) or sharing my latest "Now" updates via Last.FM.
+						</p>
+					</div>
+					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+						<p>
+							<ol
+								class="post-list flow max-md:mx-[-16px]"
+								style="--flow-space: 0;"
+							>
+								{
+									companies.map((company) => {
+										let { jobTitle, label, date } = company;
+										return (
+											<li class="post-item">
+												<div class="post">
+													<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+														<span class="">
+															<span class="h4">{jobTitle}</span> at
+															<span class="intro">{label}</span>
+														</span>
+														<span>{date}</span>
+													</div>
 												</div>
-										</div>
-								</div> -->
-          <Testimonials />
-        </div>
-      </div>
+											</li>
+										);
+									})
+								}
+							</ol>
+						</p>
+					</div>
+					<Testimonials />
+				</div>
+			</div>
 
-      <!-- <Companies /> -->
-    </div>
-  </div>
+			<!-- <Companies /> -->
+		</div>
+	</div>
 
-  <script>
-    import ColorThief from "colorthief";
-    import { initializeColorExtraction } from "../lib/colorExtraction";
+	<script>
+		import ColorThief from "colorthief";
+		import { initializeColorExtraction } from "../lib/colorExtraction";
 
-    // Make ColorThief available globally
-    (window as any).ColorThief = ColorThief;
+		// Make ColorThief available globally
+		(window as any).ColorThief = ColorThief;
 
-    // Initialize color extraction
-    initializeColorExtraction();
-  </script>
+		// Initialize color extraction
+		initializeColorExtraction();
+	</script>
 
-  <style>
-    .bg-album-cover:hover {
-      opacity: 1;
-      transition: opacity 0.3s ease-in-out;
-    }
-  </style>
+	<style>
+		.bg-album-cover:hover {
+			opacity: 1;
+			transition: opacity 0.3s ease-in-out;
+		}
+	</style>
 </Layout>
