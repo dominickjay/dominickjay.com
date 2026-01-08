@@ -1,10 +1,10 @@
 ---
-Astro.response.headers.set("Cache-Control", "public, max-age=300, s-maxage=86400");
+// Astro.response.headers.set("Cache-Control", "p currently ublic, max-age=300, s-maxage=86400");
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
 import BookItem from "../components/BookItem.astro";
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import moment from "moment";
 import { fetchWithCache } from "./api/cache.js";
 
@@ -95,37 +95,33 @@ try {
           }
         )
     ),
-    fetchWithCache(
-      `books-is-reading-${profileId}`,
-      () =>
-        literalGraphQL(
-          `query booksByReadingStateAndProfile(
-            $limit: Int!
-            $offset: Int!
-            $readingStatus: ReadingStatus!
-            $profileId: String!
-          ) {
-            booksByReadingStateAndProfile(
-              limit: $limit
-              offset: $offset
-              readingStatus: $readingStatus
-              profileId: $profileId
-            ) {
-              id
-              title
-              cover
-              authors {
-                name
-              }
-            }
-          }`,
-          {
-            limit: 100,
-            offset: 0,
-            readingStatus: "IS_READING",
-            profileId,
+    literalGraphQL(
+      `query booksByReadingStateAndProfile(
+        $limit: Int!
+        $offset: Int!
+        $readingStatus: ReadingStatus!
+        $profileId: String!
+      ) {
+        booksByReadingStateAndProfile(
+          limit: $limit
+          offset: $offset
+          readingStatus: $readingStatus
+          profileId: $profileId
+        ) {
+          id
+          title
+          cover
+          authors {
+            name
           }
-        )
+        }
+      }`,
+      {
+        limit: 100,
+        offset: 0,
+        readingStatus: "IS_READING",
+        profileId,
+      }
     ),
   ]);
 
@@ -135,7 +131,6 @@ try {
   );
 
   currentBooks = currentData.data?.booksByReadingStateAndProfile || [];
-  console.log(currentBooks)
 } catch (error) {
   console.error("Error fetching books:", error);
   toReadBooks = [];
@@ -248,16 +243,13 @@ async function getShelf() {
           const isCurrentlyReading = currentBooks.some(
             (currentBook: any) => currentBook.id === book.id
           );
-          const hasStarted =
-            details.started && details.started !== "unknown";
           const hasFinished =
             details.finished && details.finished !== "unknown";
-          const status =
-            isCurrentlyReading || (hasStarted && !hasFinished)
-              ? "IS_READING"
-              : hasFinished
-                ? "FINISHED"
-                : "WANTS_TO_READ";
+          const status = isCurrentlyReading
+            ? "IS_READING"
+            : hasFinished
+              ? "FINISHED"
+              : "WANTS_TO_READ";
 
           return {
             ...book,
