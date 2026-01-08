@@ -24,6 +24,8 @@ function writePost(tracks) {
 		artist: artist.name,
 	}));
 
+	console.log(formattedToday);
+
 	const tracksJson = JSON.stringify(tracksData, null, 2);
 	const postContent = fs
 		.readFileSync("./scripts/now_template.mdx", "utf8")
@@ -46,7 +48,6 @@ async function main() {
 			console.log("No links found for this period, exiting");
 			process.exit(0);
 		}
-		console.log(items);
 		writePost(items);
 	} catch (error) {
 		console.error("Failed to generate links:", error.message);
