@@ -416,7 +416,7 @@ const [shelf, books] = await Promise.all([getShelf(), getBooks()]);
 					</div>
 
 					<div class="flex flex-col gap-[20px]">
-						<h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
+						<h2 class="h2 col-span-full mb-[24px]">2026 Reading List <span class="text-[20px] opacity-75">({shelf?.length})</span></h2>
 						<ol
 							class="post-list flow max-md:mx-[-16px]"
 							style="--flow-space: 0;"
