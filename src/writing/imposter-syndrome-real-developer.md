@@ -52,7 +52,7 @@ From the outside perspective it could be tricky to identify when someone is expe
 
 Making note of your successes can help steer away from these feelings. One idea would be to create a collection of positive client feedback, statistics or screenshots of things that **have** gone well. Then, when this mindset starts to begin, there is something in place to remind you that, yes, you are capable of this.
 
-### Keep in touch with your manager**
+### Keep in touch with your manager
 
 Being able to move away from the mindset of “being a fraud” can be expedited by regular 1-to-1s to allow feedback from your peers and senior developers. Knowing where you stand – whether it be good or bad – is massively helpful when it comes to resolving the mindset of not being good enough. As stated earlier, having a 2-way conversation about this is also beneficial, as it allows the feeling of not belonging to be confronted. Having goals or deliverables set can help by showing progression and providing focus on growing/improving your skillset.
 

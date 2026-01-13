@@ -7,13 +7,13 @@ import ArtistCard from "../components/ArtistCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import moment from "moment";
 import {
-  getWeeklyArtistChart,
-  getWeeklyTrackChart,
-  enrichArtistsWithInfo,
-  getRecentTracksWithTags,
-  type LastFmArtist,
-  type LastFmTrack,
-  type LastFmTag,
+	getWeeklyArtistChart,
+	getWeeklyTrackChart,
+	enrichArtistsWithInfo,
+	getRecentTracksWithTags,
+	type LastFmArtist,
+	type LastFmTrack,
+	type LastFmTag,
 } from "../lib/lastfm";
 
 let artists: LastFmArtist[] = [];
@@ -29,205 +29,207 @@ const apiKey = import.meta.env.LAST_FM_API_KEY;
 
 // Fetch all data using consolidated utilities
 const [artistResponse, trackResponse, recentTracksData] = await Promise.all([
-  getWeeklyArtistChart(weekAgo.toString(), now.toString(), apiKey, 20),
-  getWeeklyTrackChart(weekAgo.toString(), now.toString(), apiKey, 10),
-  getRecentTracksWithTags(apiKey, 5),
+	getWeeklyArtistChart(weekAgo.toString(), now.toString(), apiKey, 20),
+	getWeeklyTrackChart(weekAgo.toString(), now.toString(), apiKey, 10),
+	getRecentTracksWithTags(apiKey, 5),
 ]);
 
 // Process artist data
 if (artistResponse.weeklyartistchart?.artist) {
-  artists = await enrichArtistsWithInfo(
-    artistResponse.weeklyartistchart.artist,
-    apiKey
-  );
+	artists = await enrichArtistsWithInfo(
+		artistResponse.weeklyartistchart.artist,
+		apiKey,
+	);
 }
 
 // Calculate total playcount and percentages
 const totalPlaycount = artists.reduce((sum, artist) => {
-  const playcount = artist.playcount ? Number(artist.playcount) : 0;
-  return sum + playcount;
+	const playcount = artist.playcount ? Number(artist.playcount) : 0;
+	return sum + playcount;
 }, 0);
 
 // Process track data
 if (trackResponse.weeklytrackchart?.track) {
-  tracks = trackResponse.weeklytrackchart.track;
+	tracks = trackResponse.weeklytrackchart.track;
 }
 
 // Process recent tracks data
 if (recentTracksData.recentTracks) {
-  recentTracks = recentTracksData.recentTracks;
-  recentTrackTags = recentTracksData.recentTrackTags;
+	recentTracks = recentTracksData.recentTracks;
+	recentTrackTags = recentTracksData.recentTrackTags;
 }
 
 // Derive the total playcount for the current artist if available
 if (
-  recentTracks &&
-  recentTracks.artist &&
-  recentTracks.artist["#text"] &&
-  artists.length > 0
+	recentTracks &&
+	recentTracks.artist &&
+	recentTracks.artist["#text"] &&
+	artists.length > 0
 ) {
-  const match = artists.find((a) => a.name === recentTracks!.artist["#text"]);
-  if (match) {
-    currentArtistPlaycount = (match.info?.stats?.userplaycount ||
-      (match as any).stats?.userplaycount ||
-      null) as string | null;
-  }
+	const match = artists.find((a) => a.name === recentTracks!.artist["#text"]);
+	if (match) {
+		currentArtistPlaycount = (match.info?.stats?.userplaycount ||
+			(match as any).stats?.userplaycount ||
+			null) as string | null;
+	}
 }
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <BaseHead title="Music" description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <div
-        class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
-      >
-        <div class="md:sticky top-0 h-fit shrink-0">
-          <span class="h3 mb-[24px] block">Top 10 Tracks</span>
-          <div
-            class="grid !grid-cols-1 md:flex flex-col gap-[6px] md:gap-[12px] [--gutter:8px]"
-          >
-            {
-              tracks.map((track, i) => (
-                <div class="flex flex-col gap-[3px]">
-                  <span class="font-semibold">{track.name}</span>
-                  <span class="text-[1rem]">{track.artist["#text"]}</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-        <div class="flex flex-col gap-[20px] w-full">
-          <div
-            class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 gap-[20px]"
-          >
-            <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
-              <h1 class="h2 col-span-full">Currently Playing</h1>
-              {
-                recentTracks && (
-                  <div
-                    class="col-span-full"
-                    style={`--track-color: ${trackColor}`}
-                  >
-                    <MusicCard
-                      track={recentTracks}
-                      tags={recentTrackTags}
-                      trackColor={trackColor}
-                      index={0}
-                      artistPlaycount={currentArtistPlaycount ?? undefined}
-                    />
-                  </div>
-                )
-              }
-            </div>
-          </div>
-          <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
-            <div
-              class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
-            >
-              <h1 class="h2 col-span-full">Recent Artists</h1>
-              <div
-                class="col-span-full flex gap-[6px] snap-x overflow-auto snap-mandatory accent-dark card-row"
-              >
-                {
-                  artists
-                    .sort((a, b) => {
-                      // Check if recentTracks exists and has the required structure
-                      if (
-                        !recentTracks ||
-                        !recentTracks.artist ||
-                        !recentTracks.artist["#text"]
-                      ) {
-                        return 0; // No sorting if no recent track data
-                      }
+	<head>
+		<BaseHead title="Music" description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div
+				class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
+			>
+				<div class="md:sticky top-0 h-fit shrink-0">
+					<span class="h3 mb-[var(--space-s)] md:mb-[var(--space-m)] block"
+						>Top 10 Tracks</span
+					>
+					<ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
+						{
+							tracks.map((track, i) => (
+								<li class="post flex flex-col gap-[3px] !py-[6px] md:!px-[6px]">
+									<div class="post-item flex flex-col gap-0">
+										<span class="font-semibold">{track.name}</span>
+										<span class="text-[1rem]">{track.artist["#text"]}</span>
+									</div>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+				<div class="flex flex-col gap-[20px] w-full">
+					<div
+						class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 gap-[20px]"
+					>
+						<div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
+							<h1 class="h2 col-span-full">Currently Playing</h1>
+							{
+								recentTracks && (
+									<div
+										class="col-span-full"
+										style={`--track-color: ${trackColor}`}
+									>
+										<MusicCard
+											track={recentTracks}
+											tags={recentTrackTags}
+											trackColor={trackColor}
+											index={0}
+											artistPlaycount={currentArtistPlaycount ?? undefined}
+										/>
+									</div>
+								)
+							}
+						</div>
+					</div>
+					<div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
+						<div
+							class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
+						>
+							<h1 class="h2 col-span-full">Recent Artists</h1>
+							<div
+								class="col-span-full flex gap-[6px] snap-x overflow-auto snap-mandatory accent-dark card-row"
+							>
+								{
+									artists
+										.sort((a, b) => {
+											// Check if recentTracks exists and has the required structure
+											if (
+												!recentTracks ||
+												!recentTracks.artist ||
+												!recentTracks.artist["#text"]
+											) {
+												return 0; // No sorting if no recent track data
+											}
 
-                      const aIsNowPlaying =
-                        recentTracks.artist["#text"] === a.name &&
-                        recentTracks["@attr"]?.nowplaying;
-                      const bIsNowPlaying =
-                        recentTracks.artist["#text"] === b.name &&
-                        recentTracks["@attr"]?.nowplaying;
+											const aIsNowPlaying =
+												recentTracks.artist["#text"] === a.name &&
+												recentTracks["@attr"]?.nowplaying;
+											const bIsNowPlaying =
+												recentTracks.artist["#text"] === b.name &&
+												recentTracks["@attr"]?.nowplaying;
 
-                      // Return 1 if b should come first, -1 if a should come first, 0 if equal
-                      if (aIsNowPlaying && !bIsNowPlaying) return -1;
-                      if (!aIsNowPlaying && bIsNowPlaying) return 1;
-                      return 0;
-                    })
-                    .map((artist, i) => {
-                      const isNowPlaying = Boolean(
-                        recentTracks &&
-                        recentTracks.artist &&
-                        recentTracks.artist["#text"] === artist.name &&
-                        recentTracks["@attr"]?.nowplaying
-                      );
-                      const playcount = artist.playcount
-                        ? Number(artist.playcount)
-                        : 0;
-                      const percentage =
-                        totalPlaycount > 0
-                          ? (playcount / totalPlaycount) * 100
-                          : 0;
-                      return (
-                        <div class="flex-1 min-w-[250px] snap-start">
-                          <div
-                            class="flex"
-                            style={`--track-color: ${trackColor}`}
-                          >
-                            <ArtistCard
-                              artist={artist}
-                              isNowPlaying={isNowPlaying}
-                              trackColor={trackColor}
-                              index={i}
-                              percentage={percentage}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
-  </body>
+											// Return 1 if b should come first, -1 if a should come first, 0 if equal
+											if (aIsNowPlaying && !bIsNowPlaying) return -1;
+											if (!aIsNowPlaying && bIsNowPlaying) return 1;
+											return 0;
+										})
+										.map((artist, i) => {
+											const isNowPlaying = Boolean(
+												recentTracks &&
+												recentTracks.artist &&
+												recentTracks.artist["#text"] === artist.name &&
+												recentTracks["@attr"]?.nowplaying,
+											);
+											const playcount = artist.playcount
+												? Number(artist.playcount)
+												: 0;
+											const percentage =
+												totalPlaycount > 0
+													? (playcount / totalPlaycount) * 100
+													: 0;
+											return (
+												<div class="flex-1 min-w-[250px] snap-start">
+													<div
+														class="flex"
+														style={`--track-color: ${trackColor}`}
+													>
+														<ArtistCard
+															artist={artist}
+															isNowPlaying={isNowPlaying}
+															trackColor={trackColor}
+															index={i}
+															percentage={percentage}
+														/>
+													</div>
+												</div>
+											);
+										})
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+	</body>
 </html>
 
 <script>
-  import ColorThief from "colorthief";
-  import { initializeColorExtraction } from "../lib/colorExtraction";
+	import ColorThief from "colorthief";
+	import { initializeColorExtraction } from "../lib/colorExtraction";
 
-  // Make ColorThief available globally
-  (window as any).ColorThief = ColorThief;
+	// Make ColorThief available globally
+	(window as any).ColorThief = ColorThief;
 
-  // Initialize color extraction
-  initializeColorExtraction();
+	// Initialize color extraction
+	initializeColorExtraction();
 </script>
 
 <style is:global>
-  .card-row::-webkit-scrollbar {
-    /*width: 50px;*/
-    height: 10px;
-  }
+	.card-row::-webkit-scrollbar {
+		/*width: 50px;*/
+		height: 10px;
+	}
 
-  .card-row::-webkit-scrollbar-track {
-    border-radius: 100vh;
-  }
+	.card-row::-webkit-scrollbar-track {
+		border-radius: 100vh;
+	}
 
-  .card-row::-webkit-scrollbar-thumb {
-    background: var(--color-dark);
-    border-radius: 100vh;
-    border: 1px solid var(--color-dark);
-    transition: all 0.25s ease-in-out;
-  }
+	.card-row::-webkit-scrollbar-thumb {
+		background: var(--color-dark);
+		border-radius: 100vh;
+		border: 1px solid var(--color-dark);
+		transition: all 0.25s ease-in-out;
+	}
 
-  .card-row::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in srgb, var(--color-dark) 85%, transparent);
-  }
+	.card-row::-webkit-scrollbar-thumb:hover {
+		background: color-mix(in srgb, var(--color-dark) 85%, transparent);
+	}
 </style>
