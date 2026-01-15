@@ -1,31 +1,47 @@
 ---
 import { TESTIMONIALS } from "../consts";
-import { Image } from "astro:assets";
 const testimonials = TESTIMONIALS;
 const randomTestimonial =
   testimonials[Math.floor(Math.random() * testimonials.length)];
 ---
 
 <section
-  class="testimonials border p-[var(--space-l)] border-[var(--color-dark)]"
+  class="testimonials border border-[var(--color-dark)]"
+  x-data="{
+		testimonials: JSON.parse($el.dataset.testimonials),
+		currentTestimonial: JSON.parse($el.dataset.initial),
+		getRandomTestimonial() {
+			const randomIndex = Math.floor(Math.random() * this.testimonials.length);
+			this.currentTestimonial = this.testimonials[randomIndex];
+		}
+	}"
+  data-testimonials={JSON.stringify(testimonials)}
+  data-initial={JSON.stringify(randomTestimonial)}
 >
   <h2 class="sr-only">Testimonials</h2>
   <div class="flex flex-col h-full" style="--gutter: 24px;">
-    <div class="h-full">
+    <div class="h-full p-[var(--space-l)] pb-0">
       <div
         class="testimonial flex flex-col gap-[var(--space-l)]"
-        id={randomTestimonial.id}
+        x-bind:id="currentTestimonial.id"
       >
         <div
           class="testimonial__text intro border-l-2 border-dark/20 pl-[var(--space-m)]"
         >
-          {randomTestimonial.description}
+          <span x-text="currentTestimonial.description"></span>
         </div>
         <div class="flex gap-[8px] uppercase font-bold">
-          <span>{randomTestimonial.name}</span> /{" "}
-          <span>{randomTestimonial.company}</span>
+          <span x-text="currentTestimonial.name"></span> /{" "}
+          <span x-text="currentTestimonial.company"></span>
         </div>
       </div>
     </div>
+    <button
+      @click="getRandomTestimonial()"
+      class="mt-[var(--space-m)] self-start hover:bg-black hover:text-white ml-auto px-[var(--space-l)] py-[var(--space-s)] border-t border-l cursor-pointer"
+      aria-label="Load a new testimonial"
+    >
+      Refresh
+    </button>
   </div>
 </section>

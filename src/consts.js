@@ -127,6 +127,13 @@ export const PROFILE_IMAGES = [
 
 export const TESTIMONIALS = [
 	{
+		id: "testimonial-6",
+		name: "Nate Holland",
+		company: "Series Eight",
+		description:
+			"Working with Dom is always a pleasure. He’s incredibly knowledgeable, calm under pressure, and always willing to go the extra mile to get things right. As a designer, it’s refreshing to work with a developer who really understands the intent behind designs and executes them flawlessly. Couldn’t recommend him more.",
+	},
+	{
 		id: "testimonial-5",
 		name: "Kieran Halford",
 		company: "Series Eight",
