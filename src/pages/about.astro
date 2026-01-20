@@ -5,6 +5,7 @@ import Testimonials from "../components/Testimonials.astro";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
 import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from "../consts";
+import BigLink from "../components/BigLink.astro";
 
 const showMarquee = true;
 const contentIntro = ABOUT_INTRO.medium
@@ -118,29 +119,32 @@ const companies = ABOUT_COMPANIES;
 							</ol>
 						</p>
 					</div>
-					<Testimonials />
+					<div>
+						<BigLink text="View my resume." href="/resume.pdf" />
+						<Testimonials />
+					</div>
+
+					<!-- <Companies /> -->
 				</div>
 			</div>
 
-			<!-- <Companies /> -->
+			<script>
+				import ColorThief from "colorthief";
+				import { initializeColorExtraction } from "../lib/colorExtraction";
+
+				// Make ColorThief available globally
+				(window as any).ColorThief = ColorThief;
+
+				// Initialize color extraction
+				initializeColorExtraction();
+			</script>
+
+			<style>
+				.bg-album-cover:hover {
+					opacity: 1;
+					transition: opacity 0.3s ease-in-out;
+				}
+			</style>
 		</div>
-	</div>
-
-	<script>
-		import ColorThief from "colorthief";
-		import { initializeColorExtraction } from "../lib/colorExtraction";
-
-		// Make ColorThief available globally
-		(window as any).ColorThief = ColorThief;
-
-		// Initialize color extraction
-		initializeColorExtraction();
-	</script>
-
-	<style>
-		.bg-album-cover:hover {
-			opacity: 1;
-			transition: opacity 0.3s ease-in-out;
-		}
-	</style>
-</Layout>
+	</div></Layout
+>

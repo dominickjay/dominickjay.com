@@ -97,6 +97,7 @@
 			color: var(--color-light);
 			padding-inline: 8px;
 			display: inline-block;
+			align-items: center;
 		}
 	}
 }

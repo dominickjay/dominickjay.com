@@ -1,0 +1,62 @@
+@layer components {
+	.big-link {
+		font-size: clamp(1.125rem, 1.038rem + 0.4348vw, 1.275rem);
+		font-weight: 500;
+		color: var(--color-light);
+		position: relative;
+		width: fit-content;
+		min-width: 0;
+		height: fit-content;
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		cursor: pointer;
+		pointer-events: auto;
+		touch-action: manipulation; /* remove delay on touch devices */
+		user-select: none; /* prevents text selection */
+		isolation: isolate;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-decoration: none;
+		outline-offset: 0px;
+		transition: all 0.5s ease-in-out;
+		backdrop-filter: blur(17.847px);
+		gap: var(--space-xs);
+
+		/* capitalize works only inside the span child */
+		span {
+			background-color: var(--color-dark);
+			padding-block: var(--space-s);
+			padding-inline: var(--space-m);
+			transition: all 0.5s ease-in-out;
+		}
+
+		&::before {
+			content: "";
+			position: relative;
+			width: 8px;
+			height: 44px;
+			left: 0;
+			border-radius: inherit;
+			background-color: var(--color-dark);
+			transform: scale(1.05);
+			transition: all 0.5s ease-in-out;
+			will-change: left;
+		}
+
+		&:hover {
+			span {
+				transform: translateX(-12px);
+				transition: all 0.5s ease-in-out;
+			}
+
+			&::before {
+				left: calc(100% - 16px);
+				transition: all 0.5s ease-in-out;
+			}
+		}
+	}
+}
