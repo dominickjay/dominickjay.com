@@ -1,5 +1,6 @@
 ---
 import FormattedDate from "../components/FormattedDate.astro";
+import BigLink from "../components/BigLink.astro";
 
 const { posts } = Astro.props;
 const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
@@ -27,7 +28,7 @@ const seedling = posts.filter((post: any) => post.data.growth === "seedling");
 							across major browsers and are safe to implement in production today.
 						</div>
 					</div>
-					<a class="h-fit md:w-fit py-[6px] px-[12px] border mt-auto hover:bg-black hover:text-white max-md:order-2 max-md:mt-[var(--space-m)] max-md:mx-[-16px]" href={`/writing?growth=evergreen`}>See all evergreen posts</a>
+					<BigLink href={`/writing?growth=evergreen`} text="See all evergreen posts"></BigLink>
 				</div>
 				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
@@ -109,7 +110,7 @@ const seedling = posts.filter((post: any) => post.data.growth === "seedling");
 							specs finalize.
 						</div>
 					</div>
-					<a class="h-fit md:w-fit py-[6px] px-[12px] border mt-auto hover:bg-black hover:text-white max-md:order-2 max-md:mt-[var(--space-m)] max-md:mx-[-16px]" href={`/writing?growth=growing`}>See all growing posts</a>
+					<BigLink href={`/writing?growth=growing`} text="See all growing posts"></BigLink>
 				</div>
 				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
@@ -190,7 +191,7 @@ const seedling = posts.filter((post: any) => post.data.growth === "seedling");
 							and often dependent on browser flags.
 						</div>
 					</div>
-					<a class="h-fit md:w-fit py-[6px] px-[12px] border mt-auto hover:bg-black hover:text-white max-md:order-2 max-md:mt-[var(--space-m)] max-md:mx-[-16px]" href={`/writing?growth=seedling`}>See all seedling posts</a>
+					<BigLink href={`/writing?growth=seedling`} text="See all seedling posts"></BigLink>
 				</div>
 				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
