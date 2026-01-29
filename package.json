@@ -10,7 +10,8 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"generate-links": "node scripts/links.js",
-		"generate-now": "node scripts/now.js"
+		"generate-now": "node scripts/now.js",
+		"generate-books": "node scripts/books.js"
 	},
 	"dependencies": {
 		"@alpinejs/collapse": "^3.14.8",
