@@ -14,8 +14,7 @@
 		font-size-adjust: from-font;
 		margin: 0;
 		font-weight: 300;
-		font-size: clamp(1rem, 0.9565rem + 0.2174vw, 1.15rem);
-		line-height: 1.4;
+		font-size: clamp(0.5rem, 0.9565rem + 0.2174vw, 1.05rem);
 		display: flex;
 		flex-direction: column;
 		min-height: 100svh;

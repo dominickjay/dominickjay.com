@@ -48,11 +48,15 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
     .reading-order-card > a {
         order: 3;
         font-family: var(--font-heading);
-        font-size: 32px;
+        font-size: 24px;
         font-weight: 700;
         line-height: 1.2;
         letter-spacing: -0.04em;
         text-decoration: none;
+        &::before,
+       &::after {
+        	content: none;
+        }
     }
 
     .reading-order-card img {
@@ -231,19 +235,6 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
         "article-c cta-2 article-d"
 }
 
-@media (width <= 768px) {
-    .reading-order-example-2 {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "cta"
-            "article-a"
-            "article-b"
-            "article-c"
-            "cta-2"
-            "article-d"
-    }
-}
-
 .reading-order-example-2 .reading-order-card--1 {
     grid-area: article-a;
 }
@@ -314,7 +305,7 @@ So how do we fix this? This design isn't exactly a new trend, but being able to 
 
 Bit of a no-win situation really. Even worse, the difference between visual order and DOM order isn't just an massive inconvenience, it's also a W3C-recognized accessibility violation, specifically the WCAG 1.3.2: Meaningful Sequence and WCAG 2.4.3: Focus Order guidelines.
 
-<aside>
+<aside class="flow">
     <div><i>"When the sequence in which content is presented affects its meaning, a correct reading sequence can be programmatically determined."</i> - <a href="[https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html">WCAG 1.3.2: Meaningful Sequence (Level A)</a></div>
     <div><i>"If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components receive focus in an order that preserves meaning and operability."</i> - <a href="[https://www.w3.org/WAI/WCAG20/Understanding/focus-order">WCAG 2.4.3: Focus Order (Level A)</a></div>
 </aside>

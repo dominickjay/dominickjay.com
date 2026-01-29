@@ -144,7 +144,9 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 								x-show={`(growth === '${post.data.growth || "all"}' || growth === "all") && (${JSON.stringify(post.data.tags)}.includes(category) || category === "All")`}
 								data-tags={JSON.stringify(post.data.tags)}
 							>
-								<div class="post"
+								<div
+									class="post"
+									style="--block-space: 12px"
 									x-bind:class="{
 										'post--hover-top': isHovered && direction === 'top',
 										'post--hover-bottom': isHovered && direction === 'bottom',
@@ -157,7 +159,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 												class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 												href={`/writing/${post.id}/`}
 											>
-												<h4 class="h3">{post.data.title}</h4>
+												<h4 class="h4">{post.data.title}</h4>
 											</a>
 											<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
 												<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">

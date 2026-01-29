@@ -1,29 +1,69 @@
 @font-face {
-  font-family: 'Gentle';
-  src: url("/fonts/gentle.woff2") format("woff2"),
-    url("/fonts/gentle.woff") format("woff");
-  font-weight: normal;
-  font-display: swap;
-  font-style: normal;
+	font-family: "Gentle";
+	src:
+		url("/fonts/gentle.woff2") format("woff2"),
+		url("/fonts/gentle.woff") format("woff");
+	font-weight: normal;
+	font-display: swap;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Rocher';
-  src: url("/fonts/RocherColorGX.woff2") format("woff2");
-  font-display: swap;
+	font-family: "Tiempos";
+	src:
+		url("/fonts/testtiempostext-regular-bf66457a50cd521-webfont.woff2")
+			format("woff2"),
+		url("/fonts/testtiempostext-regular-bf66457a50cd521-webfont.woff")
+			format("woff");
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: 'Poppins';
-  src: url("/fonts/Poppins-Bold.woff") format("woff");
-  font-display: swap;
+	font-family: "Tiempos";
+	src:
+		url("/fonts/testtiempostext-regularitalic-bf66457a50421c2-webfont.woff2")
+			format("woff2"),
+		url("/fonts/testtiempostext-regularitalic-bf66457a50421c2-webfont.woff")
+			format("woff");
+	font-weight: 400;
+	font-display: swap;
+	font-style: italic;
 }
 
 @font-face {
-  font-family: 'Garamond';
-  src: url("/fonts/eb-garamond.woff2") format("woff2"),
-    url("//fonts/eb-garamond.woff") format("woff");
-  font-weight: 400;
-  font-display: swap;
-  font-style: normal;
+	font-family: "Tiempos";
+	src:
+		url("/fonts/testtiempostext-semibold-bf66457a4fed201-webfont.woff2")
+			format("woff2"),
+		url("/fonts/testtiempostext-semibold-bf66457a4fed201-webfont.woff")
+			format("woff");
+	font-weight: 600;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Tiempos";
+	src:
+		url("/fonts/testtiempostext-semibolditalic-bf66457a505477c-webfont.woff2")
+			format("woff2"),
+		url("/fonts/testtiempostext-semibolditalic-bf66457a505477c-webfont.woff")
+			format("woff");
+	font-weight: 600;
+	font-display: swap;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Rocher";
+	src: url("/fonts/RocherColorGX.woff2") format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Poppins";
+	src: url("/fonts/Poppins-Bold.woff") format("woff");
+	font-display: swap;
 }

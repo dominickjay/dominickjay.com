@@ -1,5 +1,5 @@
 .prose {
-	--flow-space: var(--space-l);
+	--flow-space: var(--space-xl);
 }
 
 .prose :is(ul, ol) {
@@ -23,6 +23,8 @@
 	overflow-wrap: anywhere;
 	-webkit-hyphens: auto;
 	hyphens: auto;
+	font-family: var(--font-base);
+	font-style: italic;
 }
 
 .prose :is(p, li, dl, figcaption, blockquote) {
@@ -30,7 +32,7 @@
 }
 
 .prose :is(h1, h2, h3, h4, .body-s, .caption) + *:not([class]) {
-	--flow-space: var(--space-s);
+	--flow-space: var(--space-m);
 }
 
 .prose :is(h5, h6, .body-s) + *:not([class]) {
@@ -55,6 +57,8 @@
 /* Add more space to headings on block start */
 .prose * + :is(h1, h2, h3, h4):not([class]) {
 	--flow-space: var(--space-xl);
+	font-family: var(--font-base);
+	font-style: italic;
 }
 
 .prose :is(ul, ol) {

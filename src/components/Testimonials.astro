@@ -2,12 +2,12 @@
 import { TESTIMONIALS } from "../consts";
 const testimonials = TESTIMONIALS;
 const randomTestimonial =
-  testimonials[Math.floor(Math.random() * testimonials.length)];
+	testimonials[Math.floor(Math.random() * testimonials.length)];
 ---
 
 <section
-  class="testimonials border border-[var(--color-dark)]"
-  x-data="{
+	class="testimonials border border-[var(--color-dark)]"
+	x-data="{
 		testimonials: JSON.parse($el.dataset.testimonials),
 		currentTestimonial: JSON.parse($el.dataset.initial),
 		getRandomTestimonial() {
@@ -15,33 +15,31 @@ const randomTestimonial =
 			this.currentTestimonial = this.testimonials[randomIndex];
 		}
 	}"
-  data-testimonials={JSON.stringify(testimonials)}
-  data-initial={JSON.stringify(randomTestimonial)}
+	data-testimonials={JSON.stringify(testimonials)}
+	data-initial={JSON.stringify(randomTestimonial)}
 >
-  <h2 class="sr-only">Testimonials</h2>
-  <div class="flex flex-col h-full" style="--gutter: 24px;">
-    <div class="h-full p-[var(--space-l)] pb-0">
-      <div
-        class="testimonial flex flex-col gap-[var(--space-l)]"
-        x-bind:id="currentTestimonial.id"
-      >
-        <div
-          class="testimonial__text intro border-l-2 border-dark/20 pl-[var(--space-m)]"
-        >
-          <span x-text="currentTestimonial.description"></span>
-        </div>
-        <div class="flex gap-[8px] uppercase font-bold">
-          <span x-text="currentTestimonial.name"></span> /{" "}
-          <span x-text="currentTestimonial.company"></span>
-        </div>
-      </div>
-    </div>
-    <button
-      @click="getRandomTestimonial()"
-      class="mt-[var(--space-m)] self-start hover:bg-black hover:text-white ml-auto px-[var(--space-l)] py-[var(--space-s)] border-t border-l cursor-pointer"
-      aria-label="Load a new testimonial"
-    >
-      Refresh
-    </button>
-  </div>
+	<h2 class="sr-only">Testimonials</h2>
+	<div class="flex flex-col h-full" style="--gutter: 24px;">
+		<div class="h-full p-[var(--space-l)] pb-0">
+			<div
+				class="testimonial flex flex-col gap-[var(--space-l)]"
+				x-bind:id="currentTestimonial.id"
+			>
+				<div class="testimonial__text intro">
+					<span x-text="currentTestimonial.description"></span>
+				</div>
+				<div class="flex gap-[8px] uppercase font-bold">
+					<span x-text="currentTestimonial.name"></span> /{" "}
+					<span x-text="currentTestimonial.company"></span>
+				</div>
+			</div>
+		</div>
+		<button
+			@click="getRandomTestimonial()"
+			class="mt-[var(--space-m)] self-start hover:bg-black hover:text-white ml-auto px-[var(--space-l)] py-[var(--space-s)] border-t border-l cursor-pointer"
+			aria-label="Load a new testimonial"
+		>
+			Refresh
+		</button>
+	</div>
 </section>

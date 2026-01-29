@@ -7,15 +7,12 @@ const { title, description, growth } = Astro.props;
 		class="container cluster relative"
 		style="--cluster-vertical-alignment: flex-end; --gutter: 32px;"
 	>
-		<div class="flow [--flow-space:0] md:[--flow-space:16px]">
+		<div class="flow [--flow-space:16px]" style="--flow-space: var(--space-xl)">
 			{
 				growth && (
 					<div class="h-fit h4 flex">
 						Current Growth Stage:{" "}
-						<span
-							class="h-fit block gradient-text px-[2px] md:px-[4px]"
-							style="background-image: var(--color-gradient);"
-						>
+						<span class="h-fit block px-[2px] md:px-[4px]">
 							{growth.charAt(0).toUpperCase() + growth.slice(1)}
 						</span>
 					</div>

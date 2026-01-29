@@ -4,8 +4,6 @@ import FormattedDate from "../components/FormattedDate.astro";
 const { title, author, rating, cover, started, finished, status, showStrikethrough } =
   Astro.props;
 
-console.log(finished);
-
 ---
 
 <li
@@ -16,8 +14,8 @@ console.log(finished);
 	<div class="post [--block-space:var(--space-s)]">
 		<div class="flex max-md:flex-col-reverse justify-between md:items-center">
 			<div class={`${showStrikethrough ? "line-through" : ""}`}>
-				<span>{title}</span>
-				{author && <span class="opacity-[0.85]">by {author}</span>}
+				<span class="font-semibold">{title}</span>
+				{author && <span class="opacity-[0.85] italic body">by {author}</span>}
 			</div>
 			<div class="flex flex-row gap-x-[8px] items-center">
 				{started != finished && status !== "currently-reading" &&

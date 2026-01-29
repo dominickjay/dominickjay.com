@@ -37,7 +37,7 @@
 		}
 
 		@scope (.nav-link) {
-			font-size: clamp(1.25rem, 1.038rem + 0.4348vw, 1.375rem);
+			font-size: clamp(1rem, 1.038rem + 0.4348vw, 1.05rem);
 			/*font-family: var(--font-heading);*/
 			text-wrap: pretty;
 			line-height: 0.85rem;
@@ -49,7 +49,7 @@
 		}
 
 		@scope (.external-links .nav-link) {
-			font-size: clamp(1.125rem, 0.8935rem + 0.4091vw, 1.125rem);
+			font-size: clamp(1rem, 1.038rem + 0.4348vw, 1.05rem);
 		}
 	}
 }

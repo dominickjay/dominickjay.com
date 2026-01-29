@@ -42,7 +42,7 @@ const companies = ABOUT_COMPANIES;
 					</div>
 					<h2 class="h2" set:html={contentIntro} />
 					<div
-						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
+						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)] prose"
 					>
 						<p>
 							I am a Front-End Developer currently based in the UK, working with
@@ -52,22 +52,25 @@ const companies = ABOUT_COMPANIES;
 						</p>
 					</div>
 					<div
-						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)]"
+						class="flow [--flow-space:var(--space-s)] pt-[var(--space-m)] prose"
 					>
 						<h3>Professional</h3>
 						<p>
 							Throughout my career, I’ve navigated the worlds of design agencies
-							and the private sector, holding roles at Rowe IT, GOSS
-							Interactive, n9Design, and Logo CCP. These experiences have shaped
-							my approach to building for the web: I believe in creating digital
-							experiences that are as inclusive as they are visually engaging.
-							In my current role at Series Eight, I work across a diverse range
-							of technologies and processes. I’m constantly refining my craft
-							and advocating for web standards that don't sacrifice creativity
-							for function.
+							and the private sector, holding roles at <i class="font-semibold"
+								>Rowe IT</i
+							>, <i class="font-semibold">GOSS Interactive</i>, <i
+								class="font-semibold">n9Design</i
+							>, and <i class="font-semibold">Logo CCP</i>. These experiences
+							have shaped my approach to building for the web: I believe in
+							creating digital experiences that are as inclusive as they are
+							visually engaging. In my current role at Series Eight, I work
+							across a diverse range of technologies and processes. I’m
+							constantly refining my craft and advocating for web standards that
+							don't sacrifice creativity for function.
 						</p>
 					</div>
-					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+					<div class="flow [--flow-space:var(--space-s)] prose">
 						<h3>This Site</h3>
 						<p>
 							I treat this corner of the internet as a digital playground. It’s
@@ -77,7 +80,7 @@ const companies = ABOUT_COMPANIES;
 							reflection of my professional and personal evolution.
 						</p>
 					</div>
-					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+					<div class="flow [--flow-space:var(--space-s)] prose">
 						<h3 class="h3">Personal Interests</h3>
 						<p>
 							When I’m not staring at a code editor, I’m likely deep in a rabbit
@@ -121,6 +124,8 @@ const companies = ABOUT_COMPANIES;
 					</div>
 					<div>
 						<BigLink text="View my resume." href="/resume.pdf" />
+					</div>
+					<div>
 						<Testimonials />
 					</div>
 
