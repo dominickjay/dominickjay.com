@@ -126,10 +126,32 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 						posts.map((post) => (
 							<li
 								class="post-item"
+								x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+								@mouseenter="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									direction = y < height / 2 ? 'top' : 'bottom';
+									isHovered = true;
+								"
+								@mouseleave="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									exitDirection = y < height / 2 ? 'top' : 'bottom';
+									isHovered = false;
+								"
 								x-show={`(growth === '${post.data.growth || "all"}' || growth === "all") && (${JSON.stringify(post.data.tags)}.includes(category) || category === "All")`}
 								data-tags={JSON.stringify(post.data.tags)}
 							>
-								<div class="post">
+								<div class="post"
+									x-bind:class="{
+										'post--hover-top': isHovered && direction === 'top',
+										'post--hover-bottom': isHovered && direction === 'bottom',
+										'post--exit-top': !isHovered && exitDirection === 'top',
+										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
+									}"
+								>
 									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
 											<a
 												class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
