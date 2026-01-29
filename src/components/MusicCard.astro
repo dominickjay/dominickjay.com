@@ -39,12 +39,12 @@ const fallbackColor = hashStringToHsl(track.name);
 ---
 
 <div class="artist-card flex w-full gap-[16px]">
-    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[250px]">
+    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[100px]">
         {track?.image && track.image[3] && (
             <img
                 src={track.image[3]['#text']}
                 alt={`${track.name} artist image`}
-                class="size-[250px] object-cover object-center aspect-square"
+                class="h-full w-full object-cover object-center aspect-square"
                 width="250"
                 height="250"
                 loading="lazy"
@@ -59,9 +59,9 @@ const fallbackColor = hashStringToHsl(track.name);
         )}
     </div>
     <div class="w-full py-[16px]">
-        <div class="flex flex-col gap-[var(--space-s)]">
-            <span class="h2 relative">{track.name}</span>
-            <span class="h3 relative lowercase">{track.artist['#text']}</span>
+        <div class="flex flex-col">
+            <span class="intro relative">{track.name}</span>
+            <span class="relative lowercase">{track.artist['#text']}</span>
             <!-- {(track as any).playcount || artistPlaycount ? (
                 <span class="music-card__playcount">
                     {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays

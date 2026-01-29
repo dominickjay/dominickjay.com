@@ -16,46 +16,162 @@ let recentTracks: LastFmTrack | null = null;
 let recentTrackTags: LastFmTag[] = [];
 let trackColor = "#000000"; // Default color
 
+// Simple in-memory cache to avoid rate limiting during development
+const cache = new Map<string, { data: any; expires: number }>();
+const CACHE_TTL = 30000; // 30 seconds
+
+let allBooks = [];
+let backlog = [];
+let currentlyReading = [];
+let currentList = [];
+let currentListCount = 0;
+let currentListBooks = [];
+
 const apiKey = import.meta.env.LAST_FM_API_KEY;
+const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
 
-try {
-	const response = await fetch("https://literal.club/graphql/", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			query: `query booksByReadingStateAndProfile(
-          $limit: Int!
-          $offset: Int!
-          $readingStatus: ReadingStatus!
-          $profileId: String!
-        ) {
-          booksByReadingStateAndProfile(
-              limit: $limit
-              offset: $offset
-              readingStatus: $readingStatus
-              profileId: $profileId
-          )
-          { id title authors {
-              name
-          } } }`,
-			variables: {
-				limit: 100,
-				offset: 0,
-				readingStatus: "IS_READING",
-				profileId: import.meta.env.profileId,
-			},
-		}),
-	});
+function getCached(key: string): any | null {
+	const cached = cache.get(key);
+	if (cached && cached.expires > Date.now()) {
+		return cached.data;
+	}
+	cache.delete(key);
+	return null;
+}
 
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
+function setCached(key: string, data: any): void {
+	cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+}
+
+// Helper function to make GraphQL requests
+async function hardcoverGraphQL(
+	query: string,
+	variables: any,
+	useAuth = false,
+) {
+	if (useAuth && !hardcoverToken) {
+		throw new Error(
+			"Hardcover token is required for authenticated requests. " +
+				"Please set the hardcoverToken environment variable. " +
+				"Get your token from https://hardcover.app/account/api",
+		);
 	}
 
-	const data = await response.json();
-	books = data.data?.booksByReadingStateAndProfile || [];
+	// Create cache key from query and variables
+	const cacheKey = JSON.stringify({ query, variables });
+	const cached = getCached(cacheKey);
+	if (cached) {
+		console.log("💾 Using cached response for query");
+		return cached;
+	}
+
+	const headers: Record<string, string> = {
+		"Content-Type": "application/json",
+		"User-Agent": "dominickjay.com/1.0",
+	};
+
+	if (useAuth) {
+		// Use Bearer prefix for JWT tokens (standard for Hasura/GraphQL APIs)
+		headers["authorization"] = hardcoverToken.startsWith("Bearer ")
+			? hardcoverToken
+			: `Bearer ${hardcoverToken}`;
+	}
+
+	// console.log("🌐 GraphQL Request:", {
+	//   useAuth,
+	//   variables,
+	//   query: query.substring(0, 100) + "...",
+	// });
+
+	const response = await fetch("https://api.hardcover.app/v1/graphql", {
+		method: "POST",
+		headers,
+		body: JSON.stringify({ query, variables }),
+	});
+
+	console.log("🌐 GraphQL Response status:", response.status);
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		console.error("🌐 GraphQL Error response:", errorText);
+
+		// If rate limited, wait a bit and suggest using cache
+		if (response.status === 429) {
+			console.warn(
+				"⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.",
+			);
+		}
+
+		throw new Error(
+			`HTTP error! status: ${response.status}, message: ${errorText}`,
+		);
+	}
+
+	const json = await response.json();
+	setCached(cacheKey, json);
+	// console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
+	return json;
+}
+
+try {
+	const [currentDataAndList] = await Promise.all([
+		hardcoverGraphQL(
+			`query getCurrentReadingAndList {
+        me {
+          user_books(where: { status_id: { _eq: 2 } }) {
+            rating
+            book {
+              id
+              title
+              contributions {
+                author {
+                  name
+                }
+              }
+            }
+          }
+          lists(where: {id: {_eq: 328925}}) {
+            id
+            name
+            books_count
+            list_books {
+              book {
+              	id
+                title
+                contributions {
+                  author {
+                    name
+                  }
+                }
+                user_books(
+                  where: {user_id: {_eq: 28090}}
+                  limit: 1
+                  order_by: {updated_at: desc}
+                ) {
+                  user_book_status {
+                    status
+                    slug
+                  }
+                  user_book_reads(limit: 1, order_by: {finished_at: desc_nulls_first}) {
+                    started_at
+                    finished_at
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`,
+			{},
+			true,
+		),
+	]);
+
+	currentlyReading = currentDataAndList.data.me[0].user_books || [];
 } catch (error) {
-	console.error("Error fetching books from Literal.club:", error);
-	books = [];
+	console.error(error);
+	// Expected output: ReferenceError: nonExistentFunction is not defined
+	// (Note: the exact output may be browser-dependent)
 }
 
 // Fetch all data using consolidated utilities
@@ -135,9 +251,12 @@ if (recentTracksData.recentTracks) {
 		</svg>
 		<span
 			><span class="music__song"
-				>{books[0]?.title || "No book currently reading"}</span
+				>{currentlyReading[0]?.book.title || "No book currently reading"}</span
 			> by <span class="music__artist"
-				>{books[0]?.authors?.[0]?.name || "Unknown author"}</span
+				>{
+					currentlyReading[0]?.book.contributions[0].author.name ||
+						"Unknown author"
+				}</span
 			></span
 		>
 	</div>
