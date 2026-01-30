@@ -29,7 +29,7 @@
 
 		.h1,
 		h1 {
-			font-size: clamp(3rem, 0.9783rem + 2.6087vw, 4.5rem);
+			font-size: clamp(1.85rem, 2rem + 2.6087vw, 4.5rem);
 		}
 
 		.h1--upper {
@@ -38,7 +38,7 @@
 
 		.h2,
 		h2 {
-			font-size: clamp(1.375rem, 1.0707rem + 1.5217vw, 2.25rem);
+			font-size: clamp(1.5rem, 1.0707rem + 1.5217vw, 2.25rem);
 		}
 
 		.h3,
@@ -49,7 +49,7 @@
 		}
 
 		:is(.h4, h4 .h5, h5, .h6, h6) {
-			font-size: clamp(1.125rem, 1.038rem + 0.4348vw, 1.375rem);
+			font-size: clamp(0.875rem, 1rem + 0.2348vw, 1.375rem);
 		}
 
 		.heading-tagline {
@@ -58,7 +58,7 @@
 		}
 
 		.intro {
-			font-size: clamp(1.125rem, 1.038rem + 0.4348vw, 1.275rem);
+			font-size: clamp(1.15rem, 1.2rem + 0.4348vw, 1.275rem);
 			font-family: var(--font-body);
 			text-wrap: pretty;
 			line-height: 1.45 !important;

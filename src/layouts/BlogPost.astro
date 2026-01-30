@@ -207,12 +207,18 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 </script> -->
 
 <style is:inline>
-	.content-flow > *:not(pre, code) {
-		grid-column: 5 / span 8;
+	.content-flow > * {
+		grid-column: 1 / span 1;
 	}
 
-	.content-flow > :is(pre, code, aside) {
-		grid-column: 1 / span 4;
+	@media (width >= 1024px) {
+		.content-flow > *:not(pre, code) {
+			grid-column: 5 / span 8;
+		}
+
+		.content-flow > :is(pre, code, aside) {
+			grid-column: 1 / span 4;
+		}
 	}
 
 	@media (width >= 1024px) {
