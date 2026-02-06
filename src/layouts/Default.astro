@@ -12,38 +12,31 @@ import DefaultHero from "../components/DefaultHero.astro";
 type Props = CollectionEntry<"blog">["data"];
 
 const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
-	Astro.props;
+  Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-	</head>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
 
-	<body class="pb-[128px]">
-		<Header />
-		<main>
-			<!-- <div class="fixed top-[250px] left-0 right-0 h-fit w-screen flex place-items-center place-content-center z-[-1] opacity-[0.5]">
-                <span
-                    class="h1 text-[22vw] uppercase tracking-[-0.02em] blur-[2px]"
-                    style="font-family: var(--font-heading); color: #ffffff; text-stroke: 1px rgba(0, 0, 0, 0.25); -webkit-text-stroke: 1px rgba(0, 0, 0, 0.25);">{title}</span>
-            </div> -->
-			<article>
-				<!-- <DefaultHero title={title} description={description} /> -->
-				<!-- <PatternBanner /> -->
-				<div
-					class="pt-[32px] md:pt-[64px]"
-					style="--grid-placement: 12; --gutter: 43px;"
-				>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<div class="fixed bottom-0 left-0 right-0">
-			<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
-		</div>
-	</body><script
-		data-goatcounter="https://dominickjay.goatcounter.com/count"
-		async
-		src="//gc.zgo.at/count.js"></script>
+  <body class="pb-[128px]">
+    <Header />
+    <main>
+      <article>
+        <div
+          class="pt-[32px] md:pt-[64px]"
+          style="--grid-placement: 12; --gutter: 43px;"
+        >
+          <slot />
+        </div>
+      </article>
+    </main>
+    <div class="fixed bottom-0 left-0 right-0">
+      <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+    </div>
+  </body><script
+    data-goatcounter="https://dominickjay.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"></script>
 </html>

@@ -22,7 +22,7 @@ const { title, author, rating, cover, started, finished, status, showStrikethrou
 					started !== "unknown" &&
 					finished !== "unknown" && (
 						// <p>{new Date(book.started)}</p>
-						<span class="text-[16px] max-md:hidden">
+						<span class="max-md:hidden">
 							Started:{" "}
 							<FormattedDate date={new Date(started)} />
 						</span>

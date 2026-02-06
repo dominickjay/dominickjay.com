@@ -14,6 +14,7 @@ By the time that 2023 ended, I was ready for the Christmas break to re-align mys
 
 Much like Rachel again, I like to clear out my emails, and the Desktop, Downloads and Documents folders, along with any cruft that might've been chucked around before the end of the year. It's a nice step to take, moments before downloading some assets and having it fill back up again! I'm a user of Arc as well, so taking some time to clear out the pinned tabs was nice. I had a run through some draft posts for this site that I had ready to commit, and others in Notion that I just **wasn't** going to write about anymore, and tidied up the to-do/ongoing lists a bit more.
 
+
 In a broader scale, I'm taking some steps to stay off my mobile more. I was well aware that by the time Christmas came around, I was spending an awful lot of time looking at some random post on Reddit that I needed to, and am taking steps to prevent that from happening as much this year. I'm not naive enough to think that my phone is just going out the window, but minimizing my time spent can't hurt...right? The optimist in me really wants to get back to the gym more regularly too, it's been over a year now and I'm feeling the difference from not going after a long stretch of consistency. Stay tuned.
 
 Thanks for reading!

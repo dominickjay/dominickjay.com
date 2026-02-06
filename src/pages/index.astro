@@ -1,5 +1,7 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
+export const prerender = true;
+
+import Layout from "../layouts/Home.astro";
 import Header from "../components/Header.astro";
 import Pattern from "../components/Pattern.astro";
 import InfoPanel from "../components/InfoPanel.astro";
@@ -9,77 +11,79 @@ import PatternBanner from "../components/Pattern-Banner.astro";
 import { getCollection } from "astro:content";
 import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
-import {
-	SITE_TITLE,
-	SITE_DESCRIPTION,
-	SITE_TAGLINE,
-	CURRENT_COMPANY,
-	CURRENT_POSITION,
-} from "../consts";
+import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
 let posts = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-	posts = await getCollection("writing", ({ data }) => !data?.draft);
+  posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-	posts = await getCollection("writing");
+  posts = await getCollection("writing");
 }
 
+const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
+const growing = posts.filter((post: any) => post.data.growth === "growing");
+const seedling = posts.filter((post: any) => post.data.growth === "seedling");
+
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredPosts = [
+  ...evergreen.slice(0, 1),
+  ...growing.slice(0, 1),
+  ...seedling.slice(0, 1),
+];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<div
-				class="absolute left-[-312px] mx-auto top-[2px] opacity-[0.2] pointer-events-none"
-			>
-				<Pattern />
-			</div>
-			<div class="relative">
-				<div
-					class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12] relative"
-					style=""
-				>
-					<div class="row-start-1 inline-heading-text">
-						<InlineHeadingText heading={SITE_TAGLINE} text={SITE_DESCRIPTION} />
-					</div>
+<Layout
+  {...{
+    title: "Home",
+    description: SITE_DESCRIPTION,
+  } as any}
+>
+  <Header />
+  <main>
+    <div
+      class="absolute left-[-312px] mx-auto top-[2px] opacity-[0.2] pointer-events-none"
+    >
+      <Pattern />
+    </div>
+    <section class="relative">
+      <div
+        class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12] relative"
+        style=""
+      >
+        <div class="row-start-1 inline-heading-text">
+          <InlineHeadingText heading={SITE_TAGLINE} text={SITE_DESCRIPTION} />
+        </div>
 
-					<div
-						class="flex flex-col md:flex-row justify-between md:items-end h-fit gap-[16px] md:gap-[32px]"
-					>
-						<div class="w-full flex">
-							<Profile
-								random="true"
-								class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]"
-							/>
-						</div>
-						<div class="">
-							<FeaturePanel posts={posts.slice(0, 3)} />
-						</div>
-					</div>
+        <div
+          class="flex flex-col md:flex-row justify-between md:items-end h-fit gap-[16px] md:gap-[32px]"
+        >
+          <div class="w-full flex">
+            <Profile
+              random="true"
+              class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]"
+            />
+          </div>
+          <div class="">
+            <FeaturePanel featuredPosts={featuredPosts} />
+          </div>
+        </div>
 
-					<div>
-						<InfoPanel />
-					</div>
-				</div>
-			</div>
-			<section class="py-[var(--space-xxl)] relative">
-				<div class="container flex flex-col gap-y-[64px] justify-center">
-					<GrowthPanel posts={posts} />
-				</div>
-			</section>
-		</main>
-		<PatternBanner fill="rgba(0, 0, 0, 0.8)" />
-	</body>
-</html>
-
-<script>
-	import splt from "spltjs";
-	splt({});
-</script>
+        <div>
+          <InfoPanel />
+        </div>
+      </div>
+    </section>
+    <section class="py-[var(--space-xxl)] relative">
+      <div class="container flex flex-col gap-y-[64px] justify-center">
+        <GrowthPanel
+          evergreen={evergreen}
+          growing={growing}
+          seedling={seedling}
+        />
+      </div>
+    </section>
+  </main>
+  <PatternBanner fill="rgba(0, 0, 0, 0.8)" />
+</Layout>

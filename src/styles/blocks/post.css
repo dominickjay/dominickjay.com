@@ -16,15 +16,21 @@
 	&::before {
 		content: "";
 		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+		inset: 0;
 		background: var(--color-dark);
-		transform: scaleY(0);
-		transform-origin: top;
+		clip-path: inset(
+			var(--bar-clip-top, 100%) 0 var(--bar-clip-bottom, 100%) 0
+		);
 		transition: none;
 		z-index: -1;
+	}
+
+	&.post--bar-active::before,
+	&.post--hover-top::before,
+	&.post--hover-bottom::before,
+	&.post--exit-top::before,
+	&.post--exit-bottom::before {
+		transition: clip-path var(--transition-speed) ease-in-out;
 	}
 
 	& a {
@@ -38,39 +44,30 @@
 		z-index: 1;
 	}
 
-	&.post--hover-top {
+	&.post--hover-top,
+	&.post--light {
 		color: var(--color-light);
+	}
 
-		&::before {
-			transform: scaleY(1);
-			transform-origin: top;
-			transition: transform var(--transition-speed) ease-in-out;
-		}
+	&.post--hover-top {
+		--bar-clip-top: 0;
+		--bar-clip-bottom: 0;
 	}
 
 	&.post--hover-bottom {
+		--bar-clip-top: 0;
+		--bar-clip-bottom: 0;
 		color: var(--color-light);
-
-		&::before {
-			transform: scaleY(1);
-			transform-origin: bottom;
-			transition: transform var(--transition-speed) ease-in-out;
-		}
 	}
 
+	/* exit top = bar shrinks upward → clip from bottom; exit bottom = bar shrinks downward → clip from top */
 	&.post--exit-top {
-		&::before {
-			transform: scaleY(0);
-			transform-origin: top;
-			transition: transform var(--transition-speed) ease-in-out;
-		}
+		--bar-clip-top: 0;
+		--bar-clip-bottom: 100%;
 	}
 
 	&.post--exit-bottom {
-		&::before {
-			transform: scaleY(0);
-			transform-origin: bottom;
-			transition: transform var(--transition-speed) ease-in-out;
-		}
+		--bar-clip-top: 100%;
+		--bar-clip-bottom: 0;
 	}
 }

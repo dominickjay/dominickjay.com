@@ -1,12 +1,8 @@
 ---
-import {
-	SITE_TITLE,
-	SITE_TAGLINE,
-	MAIN_NAVIGATION,
-	EXTERNAL_NAVIGATION,
-} from "../consts";
+Astro.response.headers.set("Cache-Control", "public, max-age=604800");
+
+import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
 import NavLink from "../components/NavigationLink.astro";
-import LatestCard from "./LatestCard.astro";
 
 const navigation = MAIN_NAVIGATION;
 const externalNavigation = EXTERNAL_NAVIGATION;

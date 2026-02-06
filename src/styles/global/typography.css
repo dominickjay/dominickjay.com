@@ -29,7 +29,7 @@
 
 		.h1,
 		h1 {
-			font-size: clamp(1.85rem, 2rem + 2.6087vw, 4.5rem);
+			font-size: clamp(1.5rem, 1.5408rem + 1.7922vw, 2.9297rem);
 		}
 
 		.h1--upper {
@@ -38,13 +38,13 @@
 
 		.h2,
 		h2 {
-			font-size: clamp(1.5rem, 1.0707rem + 1.5217vw, 2.25rem);
+			font-size: clamp(1.728rem, 1.3363rem + 1.741vw, 2.6855rem);
 		}
 
 		.h3,
 		h3,
 		button.h3 {
-			font-size: clamp(1.25rem, 1.163rem + 0.4348vw, 1.85rem);
+			font-size: clamp(1.512rem, 1.3315rem + 0.802vw, 1.531rem);
 			line-height: 1.85rem;
 		}
 

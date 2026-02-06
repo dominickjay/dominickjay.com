@@ -2,6 +2,14 @@
 	--flow-space: var(--space-xl);
 }
 
+.prose h2 {
+	font-size: clamp(1rem, 1.236rem + 0.8532vw, 2rem);
+}
+
+.prose h3 {
+	font-size: clamp(1rem, 1.3315rem + 0.802vw, 1.6531rem);
+}
+
 .prose :is(ul, ol) {
 	padding-inline-start: var(--space-xl);
 }
@@ -37,10 +45,6 @@
 
 .prose :is(h5, h6, .body-s) + *:not([class]) {
 	--flow-space: var(--space-m);
-}
-
-.prose p:has(strong:only-child) + p {
-	--flow-space: var(--space-xs);
 }
 
 /* .prose *:not([class]) + :is(h1, h2, h3, h4),

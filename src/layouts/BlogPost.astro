@@ -211,13 +211,14 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 		grid-column: 1 / span 1;
 	}
 
-	@media (width >= 1024px) {
+	@media (width >= 640px) {
 		.content-flow > *:not(pre, code) {
 			grid-column: 5 / span 8;
 		}
 
 		.content-flow > :is(pre, code, aside) {
 			grid-column: 1 / span 4;
+			grid-row: auto;
 		}
 	}
 

@@ -7,7 +7,10 @@ const { title, description, growth } = Astro.props;
 		class="container cluster relative"
 		style="--cluster-vertical-alignment: flex-end; --gutter: 32px;"
 	>
-		<div class="flow [--flow-space:16px]" style="--flow-space: var(--space-xl)">
+		<div
+			class="flow [--flow-space:16px] max-w-[64%]"
+			style="--flow-space: var(--space-xl)"
+		>
 			{
 				growth && (
 					<div class="h-fit h4 flex">
