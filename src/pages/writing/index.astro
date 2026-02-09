@@ -50,13 +50,13 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title="Writing" description={SITE_DESCRIPTION} />
+		<BaseHead title="From the Desk of Dom Jay" description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
 			<DefaultHero
-				title="From the Desk of Dom Jay"
+				title="From the Desk"
 				description={`I write about technologies that I'm currently diving into, my development on this site, setups and goals. In these ${postLength} posts, I go through problems, solutions and how I am - infact - not Batman.`}
 			/>
 			<PatternBanner />
@@ -70,9 +70,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 					categoryOptions: ${JSON.stringify(categories)}
 				}`}
 			>
-				<div
-					class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[16px] md:gap-[32px]"
-				>
+				<div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[var(--space-m)] md:gap-[var(--space-xl)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
 					<div
 						class="flex gap-[16px] items-center max-w-[100%] md:max-w-[80%] pt-[var(--space-xl)] relative"
 					>

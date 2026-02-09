@@ -5,241 +5,242 @@ import BigLink from "../components/BigLink.astro";
 const { evergreen, growing, seedling } = Astro.props;
 ---
 
-<div
-  class="growth-panel container flow"
-  x-data="{
-    hoveredId: null,
-    direction: 'top',
-    exitDirection: 'top',
-    lastExitedId: null,
-    handleEnter(ev) {
-      const id = ev.currentTarget?.dataset?.id;
-      const rect = ev.currentTarget.getBoundingClientRect();
-      const y = ev.clientY - rect.top;
-      this.direction = y < rect.height / 2 ? 'top' : 'bottom';
-      this.hoveredId = id;
-      this.lastExitedId = null;
-    },
-    handleLeave(ev) {
-      const id = ev.currentTarget?.dataset?.id;
-      const rect = ev.currentTarget.getBoundingClientRect();
-      const y = ev.clientY - rect.top;
-      this.exitDirection = y < rect.height / 2 ? 'top' : 'bottom';
-      this.lastExitedId = id;
-      this.hoveredId = null;
-    },
-    getPostStyle(id) {
-      if (this.hoveredId === id) return '--bar-clip-top: 0; --bar-clip-bottom: 0;';
-      if (this.lastExitedId === id) {
-        /* exit top = bar shrinks upward → clip from bottom; exit bottom = bar shrinks downward → clip from top */
-        return this.exitDirection === 'top'
-          ? '--bar-clip-top: 0; --bar-clip-bottom: 100%;'
-          : '--bar-clip-top: 100%; --bar-clip-bottom: 0;';
-      }
-      return '--bar-clip-top: 100%; --bar-clip-bottom: 100%;';
-    },
-    isActive(id) { return this.hoveredId === id || this.lastExitedId === id; }
-  }"
->
-  <h2 class="sr-only">My Digital Garden</h2>
-  <div
-    class="growth-panel__content flex flex-col justify-center gap-[32px] md:gap-[32px]"
-  >
-    <div class="flex flex-col gap-[32px] md:gap-[64px]">
-      <div
-        class="growth-panel__item flow flex flex-col"
-        style="--flow-space: var(--space-l);"
-      >
-        <div class="contents md:flex justify-between gap-[var(--space-s)]">
-          <div
-            class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
-          >
-            <h3
-              class="h3 gradient-text"
-              style="background-image: var(--color-gradient);"
-            >
-              Evergreen (Stable Knowledge)
-            </h3>
-            <div class="body">
-              Fully vetted, production-ready guides. These features are stable
-              across major browsers and are safe to implement in production
-              today.
-            </div>
-          </div>
-          <BigLink
-            href={`/writing?growth=evergreen`}
-            text="See all evergreen posts"
-          />
-        </div>
-        <ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
-          {
-            evergreen.slice(0, 5).map((post: any) => {
-              const escapedId = String(post.id)
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
-              return (
-                <li
-                  class="post-item"
-                  data-id={post.id}
-                  @mouseenter="handleEnter($event)"
-                  @mouseleave="handleLeave($event)"
-                >
-                  <div
-                    class="post [--block-space:var(--space-s)]"
-                    x-bind:style="getPostStyle('${escapedId}')"
-                    x-bind:class={`isActive('${escapedId}') ? { 'post--bar-active': true, 'post--light': hoveredId === '${escapedId}', 'post--hover-top': hoveredId === '${escapedId}' && direction === 'top', 'post--hover-bottom': hoveredId === '${escapedId}' && direction === 'bottom', 'post--exit-top': lastExitedId === '${escapedId}' && exitDirection === 'top', 'post--exit-bottom': lastExitedId === '${escapedId}' && exitDirection === 'bottom' } : {}`}
-                  >
-                    <div class="flex max-md:flex-col-reverse justify-between md:items-center">
-                      <a
-                        class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
-                        href={`/writing/${post.id}/`}
-                      >
-                        <h4 class="standfirst">{post.data.title}</h4>
-                      </a>
-                      <div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
-                        <div class="flex gap-x-[var(--space-m)]">
-                          <span class="w-fit md:w-auto italic">
-                            <FormattedDate date={post.data.pubDate} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              );
-            })
-          }
-        </ol>
-      </div>
-      <div
-        class="growth-panel__item flow flex flex-col"
-        style="--flow-space: var(--space-l);"
-      >
-        <div class="contents md:flex justify-between gap-[var(--space-s)]">
-          <div
-            class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
-          >
-            <h3
-              class="h3 gradient-text"
-              style="background-image: var(--color-gradient);"
-            >
-              Growing (Under Active Cultivation)
-            </h3>
-            <div class="body">
-              Working drafts and stable concepts that are ready for early
-              adoption. Code samples have been tested but are subject to minor
-              changes as specs finalize.
-            </div>
-          </div>
-          <BigLink
-            href={`/writing?growth=growing`}
-            text="See all growing posts"
-          />
-        </div>
-        <ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
-          {
-            growing.slice(0, 5).map((post: any) => {
-              const escapedId = String(post.id)
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
-              return (
-                <li
-                  class="post-item"
-                  data-id={post.id}
-                  @mouseenter="handleEnter($event)"
-                  @mouseleave="handleLeave($event)"
-                >
-                  <div
-                    class="post [--block-space:var(--space-s)]"
-                    x-bind:style="getPostStyle('${escapedId}')"
-                    x-bind:class={`isActive('${escapedId}') ? { 'post--bar-active': true, 'post--light': hoveredId === '${escapedId}', 'post--hover-top': hoveredId === '${escapedId}' && direction === 'top', 'post--hover-bottom': hoveredId === '${escapedId}' && direction === 'bottom', 'post--exit-top': lastExitedId === '${escapedId}' && exitDirection === 'top', 'post--exit-bottom': lastExitedId === '${escapedId}' && exitDirection === 'bottom' } : {}`}
-                  >
-                    <div class="flex max-md:flex-col-reverse justify-between md:items-center">
-                      <a
-                        class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
-                        href={`/writing/${post.id}/`}
-                      >
-                        <h4 class="standfirst">{post.data.title}</h4>
-                      </a>
-                      <div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
-                        <div class="flex gap-x-[var(--space-m)]">
-                          <span class="w-fit md:w-auto italic">
-                            <FormattedDate date={post.data.pubDate} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              );
-            })
-          }
-        </ol>
-      </div>
-      <div
-        class="growth-panel__item flow flex flex-col"
-        style="--flow-space: var(--space-l);"
-      >
-        <div class="contents md:flex justify-between gap-[var(--space-s)]">
-          <div
-            class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
-          >
-            <h3
-              class="h3 gradient-text"
-              style="background-image: var(--color-gradient);"
-            >
-              Seedlings (Future Research)
-            </h3>
-            <div class="body">
-              Ideas on the edge of the specification. Highly experimental, rough
-              code, and often dependent on browser flags.
-            </div>
-          </div>
-          <BigLink
-            href={`/writing?growth=seedling`}
-            text="See all seedling posts"
-          />
-        </div>
-        <ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
-          {
-            seedling.slice(0, 5).map((post: any) => {
-              const escapedId = String(post.id)
-                .replace(/\\/g, "\\\\")
-                .replace(/'/g, "\\'");
-              return (
-                <li
-                  class="post-item"
-                  data-id={post.id}
-                  @mouseenter="handleEnter($event)"
-                  @mouseleave="handleLeave($event)"
-                >
-                  <div
-                    class="post [--block-space:var(--space-s)]"
-                    x-bind:style="getPostStyle('${escapedId}')"
-                    x-bind:class={`isActive('${escapedId}') ? { 'post--bar-active': true, 'post--light': hoveredId === '${escapedId}', 'post--hover-top': hoveredId === '${escapedId}' && direction === 'top', 'post--hover-bottom': hoveredId === '${escapedId}' && direction === 'bottom', 'post--exit-top': lastExitedId === '${escapedId}' && exitDirection === 'top', 'post--exit-bottom': lastExitedId === '${escapedId}' && exitDirection === 'bottom' } : {}`}
-                  >
-                    <div class="flex max-md:flex-col-reverse justify-between md:items-center">
-                      <a
-                        class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
-                        href={`/writing/${post.id}/`}
-                      >
-                        <h4 class="standfirst">{post.data.title}</h4>
-                      </a>
-                      <div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
-                        <div class="flex gap-x-[var(--space-m)]">
-                          <span class="w-fit md:w-auto italic">
-                            <FormattedDate date={post.data.pubDate} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              );
-            })
-          }
-        </ol>
-      </div>
-    </div>
-  </div>
+<div class="growth-panel container flow">
+	<h2 class="sr-only">My Digital Garden</h2>
+	<div
+		class="growth-panel__content flex flex-col justify-center gap-[32px] md:gap-[32px]"
+	>
+		<div class="flex flex-col gap-[32px] md:gap-[64px]">
+			<div
+				class="growth-panel__item flow flex flex-col"
+				style="--flow-space: var(--space-l);"
+			>
+				<div class="contents md:flex justify-between gap-[var(--space-s)]">
+					<div
+						class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
+					>
+						<h3
+							class="h3 gradient-text"
+							style="background-image: var(--color-gradient);"
+						>
+							Evergreen (Stable Knowledge)
+						</h3>
+						<div class="body">
+							Fully vetted, production-ready guides. These features are stable
+							across major browsers and are safe to implement in production
+							today.
+						</div>
+					</div>
+					<BigLink
+						href={`/writing?growth=evergreen`}
+						text="See all evergreen posts"
+					/>
+				</div>
+				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+					{
+						evergreen.slice(0, 5).map((post: any) => (
+							<li
+								class="post-item"
+								x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+								@mouseenter="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									direction = y < height / 2 ? 'top' : 'bottom';
+									isHovered = true;
+								"
+								@mouseleave="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									exitDirection = y < height / 2 ? 'top' : 'bottom';
+									isHovered = false;
+								"
+							>
+								<div
+									class="post"
+									style="--block-space: var(--space-s)"
+									x-bind:class="{
+										'post--hover-top': isHovered && direction === 'top',
+										'post--hover-bottom': isHovered && direction === 'bottom',
+										'post--exit-top': !isHovered && exitDirection === 'top',
+										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
+									}"
+								>
+									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+										<a
+											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
+											href={`/writing/${post.id}/`}
+										>
+											<h4 class="standfirst">{post.data.title}</h4>
+										</a>
+										<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
+											<div class="flex gap-x-[var(--space-m)]">
+												<span class="w-fit md:w-auto italic">
+													<FormattedDate date={post.data.pubDate} />
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+			<div
+				class="growth-panel__item flow flex flex-col"
+				style="--flow-space: var(--space-l);"
+			>
+				<div class="contents md:flex justify-between gap-[var(--space-s)]">
+					<div
+						class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
+					>
+						<h3
+							class="h3 gradient-text"
+							style="background-image: var(--color-gradient);"
+						>
+							Growing (Under Active Cultivation)
+						</h3>
+						<div class="body">
+							Working drafts and stable concepts that are ready for early
+							adoption. Code samples have been tested but are subject to minor
+							changes as specs finalize.
+						</div>
+					</div>
+					<BigLink
+						href={`/writing?growth=growing`}
+						text="See all growing posts"
+					/>
+				</div>
+				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+					{
+						growing.slice(0, 5).map((post: any) => (
+							<li
+								class="post-item"
+								x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+								@mouseenter="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									direction = y < height / 2 ? 'top' : 'bottom';
+									isHovered = true;
+								"
+								@mouseleave="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									exitDirection = y < height / 2 ? 'top' : 'bottom';
+									isHovered = false;
+								"
+							>
+								<div
+									class="post"
+									style="--block-space: var(--space-s)"
+									x-bind:class="{
+										'post--hover-top': isHovered && direction === 'top',
+										'post--hover-bottom': isHovered && direction === 'bottom',
+										'post--exit-top': !isHovered && exitDirection === 'top',
+										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
+									}"
+								>
+									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+										<a
+											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
+											href={`/writing/${post.id}/`}
+										>
+											<h4 class="standfirst">{post.data.title}</h4>
+										</a>
+										<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
+											<div class="flex gap-x-[var(--space-m)]">
+												<span class="w-fit md:w-auto italic">
+													<FormattedDate date={post.data.pubDate} />
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+			<div
+				class="growth-panel__item flow flex flex-col"
+				style="--flow-space: var(--space-l);"
+			>
+				<div class="contents md:flex justify-between gap-[var(--space-s)]">
+					<div
+						class="flex flex-col justify-between gap-[var(--space-s)] max-w-[520px]"
+					>
+						<h3
+							class="h3 gradient-text"
+							style="background-image: var(--color-gradient);"
+						>
+							Seedlings (Future Research)
+						</h3>
+						<div class="body">
+							Ideas on the edge of the specification. Highly experimental, rough
+							code, and often dependent on browser flags.
+						</div>
+					</div>
+					<BigLink
+						href={`/writing?growth=seedling`}
+						text="See all seedling posts"
+					/>
+				</div>
+				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+					{
+						seedling.slice(0, 5).map((post: any) => (
+							<li
+								class="post-item"
+								x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+								@mouseenter="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									direction = y < height / 2 ? 'top' : 'bottom';
+									isHovered = true;
+								"
+								@mouseleave="
+									const rect = $el.getBoundingClientRect();
+									const y = event.clientY - rect.top;
+									const height = rect.height;
+									exitDirection = y < height / 2 ? 'top' : 'bottom';
+									isHovered = false;
+								"
+							>
+								<div
+									class="post"
+									style="--block-space: var(--space-s)"
+									x-bind:class="{
+										'post--hover-top': isHovered && direction === 'top',
+										'post--hover-bottom': isHovered && direction === 'bottom',
+										'post--exit-top': !isHovered && exitDirection === 'top',
+										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
+									}"
+								>
+									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+										<a
+											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
+											href={`/writing/${post.id}/`}
+										>
+											<h4 class="standfirst">{post.data.title}</h4>
+										</a>
+										<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
+											<div class="flex gap-x-[var(--space-m)]">
+												<span class="w-fit md:w-auto italic">
+													<FormattedDate date={post.data.pubDate} />
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						))
+					}
+				</ol>
+			</div>
+		</div>
+	</div>
 </div>

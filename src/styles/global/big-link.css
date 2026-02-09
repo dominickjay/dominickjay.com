@@ -1,6 +1,5 @@
 @layer components {
 	.big-link {
-		font-size: clamp(1.125rem, 1.038rem + 0.4348vw, 1.275rem);
 		font-weight: 500;
 		color: var(--color-light);
 		position: relative;
@@ -38,7 +37,7 @@
 			content: "";
 			position: relative;
 			width: 8px;
-			height: 44px;
+			height: 41px;
 			left: 0;
 			border-radius: inherit;
 			background-color: var(--color-dark);

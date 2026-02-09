@@ -17,10 +17,7 @@
 		content: "";
 		position: absolute;
 		inset: 0;
-		background: var(--color-dark);
-		clip-path: inset(
-			var(--bar-clip-top, 100%) 0 var(--bar-clip-bottom, 100%) 0
-		);
+		clip-path: inset(var(--bar-clip-top, 100%) 0 var(--bar-clip-bottom, 0) 0);
 		transition: none;
 		z-index: -1;
 	}
@@ -30,6 +27,7 @@
 	&.post--hover-bottom::before,
 	&.post--exit-top::before,
 	&.post--exit-bottom::before {
+		background: var(--color-dark);
 		transition: clip-path var(--transition-speed) ease-in-out;
 	}
 
