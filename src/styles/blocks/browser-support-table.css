@@ -1,9 +1,5 @@
 .browser-support-table {
 	margin: 1rem 0;
-
-	@media (width > 768px) {
-		overflow-x: auto;
-	}
 }
 
 .browser-support-table table {
@@ -46,4 +42,20 @@
 
 .browser-support-table tbody tr:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.post-recommendations {
+	container: post-recommendations / inline-size;
+}
+
+@container post-recommendations (max-width: 320px) {
+	.browser-support-table {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.browser-support-table .flow {
+		display: flex;
+	}
 }

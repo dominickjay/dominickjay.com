@@ -184,40 +184,45 @@ const compatDataStatus = compatData?.status;
 	musicData={musicData}
 	raindropData={raindropData}
 >
-	{
-		browserSupport.length > 0 && (
-			<BrowserSupportTable
-				browserSupport={browserSupport}
-				compatDataStatus={compatDataStatus}
-			/>
-		)
-	}
 	<Content />
-	{musicData && <MusicGrid musicData={musicData} />}
-	{raindropData && <RaindropGrid raindropData={raindropData} />}
-	<div class="prose flex flex-col gap-y-[32px]">
-		<h2>You might also like...</h2>
+	<div class="post-recommendations flex flex-col justify-end">
 		<div
-			class="grid grid-cols-2 !gap-[var(--space-s)] w-full"
-			style="--grid-placement: auto-fit"
+			class="md:sticky md:bottom-[var(--space-xxl)] flex flex-col gap-[var(--space-m)]"
 		>
-			{
-				allPosts1.map((post) => (
-					<div
-						key={post.id}
-						class="col-span-full md:col-span-1 border p-4 relative hover:bg-[var(--color-gradient)]"
-					>
-						<a
-							href={`/writing/${post.id}`}
-							class="flow h-full box-link"
-							style="--flow-space: var(--space-s)"
-						>
-							<span class="h3">{post.data.title}</span>
-							<div class="">{post.data.description}</div>
-						</a>
-					</div>
-				))
-			}
+			<div>
+				{
+					browserSupport.length > 0 && (
+						<BrowserSupportTable
+							browserSupport={browserSupport}
+							compatDataStatus={compatDataStatus}
+						/>
+					)
+				}
+			</div>
+			<div
+				class="prose flex flex-col justify-end gap-y-[var(--space-l)] md:sticky md:bottom-[var(--space-xxl)]"
+			>
+				<h3>You might also like...</h3>
+				<div
+					class="flex flex-col gap-[var(--space-s)]"
+					style="--grid-placement: auto-fit"
+				>
+					{
+						allPosts1.map((post) => (
+							<div key={post.id} class="">
+								<a
+									href={`/writing/${post.id}`}
+									style="--flow-space: var(--space-s)"
+								>
+									<span class="">{post.data.title}</span>
+								</a>
+							</div>
+						))
+					}
+				</div>
+			</div>
 		</div>
 	</div>
+	{musicData && <MusicGrid musicData={musicData} />}
+	{raindropData && <RaindropGrid raindropData={raindropData} />}
 </BlogPost>

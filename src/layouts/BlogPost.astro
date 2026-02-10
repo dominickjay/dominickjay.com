@@ -30,7 +30,7 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 				<DefaultHero title={title} description={description} growth={growth} />
 				<PatternBanner />
 				<div
-					class="main-container container prose grid pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]"
+					class="main-container container prose grid grid-rows-auto pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]"
 					style=""
 				>
 					<!-- <div
@@ -42,7 +42,7 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 					</div> -->
 
 					<div
-						class="content-flow content col-span-full grid md:[--grid-placement:12] !gap-y-0 overflow-auto flow prose"
+						class="content-flow content col-span-full grid grid-rows-auto md:[--grid-placement:12] !gap-y-0 overflow-clip flow prose"
 						style="--flow-space: var(--space-m)"
 					>
 						<slot />
@@ -211,15 +211,20 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 		grid-column: 1 / span 1;
 	}
 
-	@media (width >= 640px) {
-		.content-flow > *:not(pre, code) {
+	@media (width >= 760px) {
+		.content-flow > * {
 			grid-column: 5 / span 8;
 		}
 
-		.content-flow > :is(pre, code, aside) {
+		.content-flow > .post-recommendations {
+			grid-column: 1 / span 4;
+			grid-row: 1 / span 999;
+		}
+
+		/*.content-flow > :is(pre, code, aside) {
 			grid-column: 1 / span 4;
 			grid-row: auto;
-		}
+		}*/
 	}
 
 	@media (width >= 1024px) {

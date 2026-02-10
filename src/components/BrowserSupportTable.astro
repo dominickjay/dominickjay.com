@@ -3,51 +3,75 @@ const { browserSupport, compatDataStatus } = Astro.props;
 ---
 
 <div class="prose">
-    <h2 class="sr-only">Browser Support</h2>
-    <div class="flex gap-x-[16px] items-center browser-support-table">
-        {compatDataStatus?.experimental && (
-            <p class="h2 text-[20px] pt-[5px]">
-                <strong class="font-bold">Experimental</strong>
-            </p>
-        )}
-        {compatDataStatus?.deprecated && (
-            <p class="h2 text-[20px] pt-[5px]">
-                <strong class="font-bold">Deprecated</strong>
-            </p>
-        )}
-        {compatDataStatus?.standard_track && !compatDataStatus?.experimental && !compatDataStatus?.deprecated && (
-            <p class="h2 text-[20px] pt-[5px]">
-                <strong class="font-bold">Fully supported</strong>
-            </p>
-        )}
-        {browserSupport.map((item) => (
-            <div class="flow" style="--flow-space: var(--space-s)">
-                {item.browser === 'chrome' && (
-                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/chrome.svg" alt="Chrome" class="!size-[20px]" />
-                        <span class="sr-only">{item.browser}</span>
-                    </div>
-                )}
-                {item.browser === 'firefox' && (
-                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/firefox.svg" alt="Firefox" class="!size-[20px]" />
-                        <span class="sr-only">{item.browser}</span>
-                    </div>
-                )}
-                {item.browser === 'safari' && (
-                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/safari.svg" alt="Safari" class="!size-[20px]" />
-                        <span class="sr-only">{item.browser}</span>
-                    </div>
-                )}
-                {item.browser === 'edge' && (
-                    <div class={`${item.support === 'Supported' ? '' : 'opacity-50'}`}>
-                        <img src="/images/icons/edge.svg" alt="Edge" class="!size-[20px]" />
-                        <span class="sr-only">{item.browser}</span>
-                    </div>
-                )}
-                <p class="sr-only">{item.version}</p>
-            </div>
-        ))}
-    </div>
+	<h2 class="sr-only">Browser Support</h2>
+	<div class="flex gap-[16px] md:items-center browser-support-table">
+		<div class="flex gap-x-[16px]">
+			{compatDataStatus?.experimental && <h3 class="pt-[5px]">Experimental</h3>}
+			{compatDataStatus?.deprecated && <h3 class="pt-[5px]">Deprecated</h3>}
+			{
+				compatDataStatus?.standard_track &&
+					!compatDataStatus?.experimental &&
+					!compatDataStatus?.deprecated && (
+						<h3 class="pt-[5px]">Fully supported</h3>
+					)
+			}
+		</div>
+		<div class="flex gap-x-[8px]">
+			{
+				browserSupport.map((item) => (
+					<div class="flow" style="--flow-space: var(--space-s)">
+						{item.browser === "chrome" && (
+							<div
+								class={`${item.support === "Supported" ? "" : "opacity-50"}`}
+							>
+								<img
+									src="/images/icons/chrome.svg"
+									alt="Chrome"
+									class="!size-[20px]"
+								/>
+								<span class="sr-only">{item.browser}</span>
+							</div>
+						)}
+						{item.browser === "firefox" && (
+							<div
+								class={`${item.support === "Supported" ? "" : "opacity-50"}`}
+							>
+								<img
+									src="/images/icons/firefox.svg"
+									alt="Firefox"
+									class="!size-[20px]"
+								/>
+								<span class="sr-only">{item.browser}</span>
+							</div>
+						)}
+						{item.browser === "safari" && (
+							<div
+								class={`${item.support === "Supported" ? "" : "opacity-50"}`}
+							>
+								<img
+									src="/images/icons/safari.svg"
+									alt="Safari"
+									class="!size-[20px]"
+								/>
+								<span class="sr-only">{item.browser}</span>
+							</div>
+						)}
+						{item.browser === "edge" && (
+							<div
+								class={`${item.support === "Supported" ? "" : "opacity-50"}`}
+							>
+								<img
+									src="/images/icons/edge.svg"
+									alt="Edge"
+									class="!size-[20px]"
+								/>
+								<span class="sr-only">{item.browser}</span>
+							</div>
+						)}
+						<p class="sr-only">{item.version}</p>
+					</div>
+				))
+			}
+		</div>
+	</div>
 </div>
