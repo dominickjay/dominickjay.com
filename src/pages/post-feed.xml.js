@@ -2,30 +2,33 @@ import rss from "@astrojs/rss";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 
-const blogPosts = await getCollection("writing");
+export async function GET(context) {
+	const blogPosts = await getCollection("writing");
 
-export function GET(context) {
+	const items = blogPosts.map((post) => {
+		const title = post.data.title ?? "Untitled";
+		const description = post.data.description ?? "";
+		const rawDate = post.data.pubDate;
+		const pubDate =
+			rawDate instanceof Date
+				? rawDate
+				: new Date(rawDate);
+		const validDate =
+			!Number.isNaN(pubDate.getTime()) ? pubDate : new Date();
+
+		return {
+			title,
+			description,
+			pubDate: validDate,
+			link: `/writing/${post.id}/`,
+		};
+	});
+
 	return rss({
-		// `<title>` field in output xml
 		title: SITE_TITLE,
-		// `<description>` field in output xml
 		description: SITE_DESCRIPTION,
-		// Pull in your project "site" from the endpoint context
-		// https://docs.astro.build/en/reference/api-reference/#site
 		site: context.site,
-		// Array of `<item>`s in output xml
-		// See "Generating items" section for examples using content collections and glob imports
-		items: [
-			blogPosts.map((post) => ({
-				title: post.data.title,
-				pubDate: post.data.pubDate,
-				description: post.data.description,
-				// Compute RSS link from post `id`
-				// This example assumes all posts are rendered as `/blog/[id]` routes
-				link: `/writing/${post.id}/`,
-			})),
-		],
-		// (optional) inject custom xml
+		items,
 		customData: `<language>en-us</language>`,
 	});
 }
