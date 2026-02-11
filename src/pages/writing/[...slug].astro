@@ -6,6 +6,7 @@ import { render } from "astro:content";
 import { getReadingTime } from "../../utils/utils.mjs";
 import MusicGrid from "../../components/MusicGrid.astro";
 import RaindropGrid from "../../components/RaindropGrid.astro";
+import PatternBanner from "../../components/Pattern-Banner.astro";
 import { getRaindropBookmarks } from "../../lib/raindrop";
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from "../../lib/lastfm";
 import BrowserSupportTable from "../../components/BrowserSupportTable.astro";
@@ -189,6 +190,11 @@ const compatDataStatus = compatData?.status;
 		<div
 			class="md:sticky md:bottom-[var(--space-xxl)] flex flex-col gap-[var(--space-m)]"
 		>
+			<div class="border-y border-black/[0.4]">
+				<div id="progress">
+					<PatternBanner />
+				</div>
+			</div>
 			<div>
 				{
 					browserSupport.length > 0 && (

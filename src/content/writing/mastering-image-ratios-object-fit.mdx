@@ -52,7 +52,7 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
 
 `}</style>
 
-<div class="grid [--grid-placement-2] md:[--grid-placement:4] lg:[--grid-placement:4] gap-10 bad-example">
+<div class="grid [--grid-placement:2] mdw:[--grid-placement:4] lg:[--grid-placement:4] gap-10 bad-example">
   <div class="card">
       <img class="bad-image" src="https://picsum.photos/450/800" alt="Image 1" />
       <div class="card__contents">
@@ -85,7 +85,7 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
   
 Gross isn't it, and not what we expect in 2025. The lack of consistent image ratios not only causes some pretty nasty layout shifts, but also makes it just look bad. Let's compare the same card grid, but with a consistent image ratio of 16/9 set on the image class name `good-image`.
 
-<div class="grid [--grid-placement-2] md:[--grid-placement:4] lg:[--grid-placement:4] gap-10 good-example">
+<div class="grid [--grid-placement:2] mdw:[--grid-placement:4] lg:[--grid-placement:4] gap-10 good-example">
     {/* GOOD EXAMPLE COLUMN (Zero CLS Demo) */}
     <div class="card">
         <img class="good-image" src="https://picsum.photos/450/800" alt="Image 1" />

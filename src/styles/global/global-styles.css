@@ -6,6 +6,11 @@
     project: https://cube.fyi/css.html
     */
 
+	* {
+		scrollbar-color: var(--color-dark) var(--color-light);
+		scrollbar-width: thin;
+	}
+
 	body {
 		background: var(--color-light);
 		color: var(--color-primary);

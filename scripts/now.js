@@ -15,6 +15,7 @@ async function getTopTracks(apiKey, limit) {
 		`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=1month&api_key=${apiKey}&limit=${limit || 20}&format=json`,
 	);
 	const data = await response.json();
+	// console.log(data);
 	return data.toptracks.track;
 }
 

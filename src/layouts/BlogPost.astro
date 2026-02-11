@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Temporal } from "@js-temporal/polyfill";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -30,7 +31,7 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 				<DefaultHero title={title} description={description} growth={growth} />
 				<PatternBanner />
 				<div
-					class="main-container container prose grid grid-rows-auto pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]"
+					class="main-container post-container container prose grid grid-rows-auto pt-[32px] md:pt-[64px] gap-[43px] [--grid-placement:1] [--gutter:16px] md:[--grid-placement:12] md:[--gutter:43px]"
 					style=""
 				>
 					<!-- <div
@@ -56,6 +57,26 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 		async
 		src="//gc.zgo.at/count.js"></script>
 </html>
+
+<script is:inline>
+	function updateTimeTheme() {
+		const now = Temporal.Now.zonedDateTimeISO();
+		const hour = now.hour;
+		let period = "";
+
+		if (hour >= 5 && hour < 9) period = "early-morning";
+		else if (hour >= 9 && hour < 12) period = "late-morning";
+		else if (hour >= 12 && hour < 15) period = "early-afternoon";
+		else if (hour >= 15 && hour < 17) period = "mid-afternoon";
+		else if (hour >= 17 && hour < 19) period = "last-afternoon";
+		else if (hour >= 19 && hour < 22) period = "evening";
+		else period = "night";
+
+		document.documentElement.setAttribute("data-time", period);
+	}
+
+	updateTimeTheme();
+</script>
 
 <!-- <script is:inline>
 	document.addEventListener("DOMContentLoaded", () => {
@@ -207,6 +228,23 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
 </script> -->
 
 <style is:inline>
+	#progress {
+		/*position: fixed;*/
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 64px;
+
+		transform-origin: 0 50%;
+		animation: grow-progress auto linear;
+		animation-timeline: --page-scroll;
+	}
+
+	#progress > *:first-child {
+		position: relative;
+		transform: translateY(-50%);
+	}
+
 	.content-flow > * {
 		grid-column: 1 / span 1;
 	}

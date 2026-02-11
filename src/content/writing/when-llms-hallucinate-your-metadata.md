@@ -4,6 +4,7 @@ description: 'In software development, the goalposts constantly move. Every new 
 draft: true
 layout: BlogPost
 pubDate: '2025-10-26'
+growth: seedling
 tags:
   - ai
   - professional development

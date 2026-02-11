@@ -37,48 +37,6 @@ supported: bcd.javascript["builtins"].Temporal.__compat
 - Working with timezones in a predictable way
 - Parsing and validating date strings
 
-## Browser Support
-
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for Temporal API</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>117+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>115+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>16.4+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>117+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>103+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
 ## Polyfill Options
 
 For browsers that don't support Temporal yet, you can use:

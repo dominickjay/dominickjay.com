@@ -23,6 +23,7 @@
 		"@astrojs/rss": "^4.0.14",
 		"@astrojs/sitemap": "^3.6.0",
 		"@bramus/sda-utilities": "^1.1.1",
+		"@js-temporal/polyfill": "^0.5.1",
 		"@libsql/client": "^0.15.15",
 		"@mdn/browser-compat-data": "^7.1.12",
 		"@tailwindcss/vite": "^4.0.0",
