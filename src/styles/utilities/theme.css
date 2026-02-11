@@ -1,0 +1,35 @@
+:root {
+	/* Default / Fallback */
+	--feature-color: #2c5364;
+	transition:
+		background-color 1.5s ease-in-out,
+		color 1.5s ease-in-out;
+}
+
+[data-time="early-morning"] {
+	--feature-color: #0f2027;
+}
+
+[data-time="late-morning"] {
+	--feature-color: #2c5364;
+}
+
+[data-time="early-afternoon"] {
+	--feature-color: #e2e2e2;
+}
+
+[data-time="mid-afternoon"] {
+	--feature-color: #f39c12;
+}
+
+[data-time="last-afternoon"] {
+	--feature-color: #d35400;
+}
+
+[data-time="evening"] {
+	--feature-color: #890e0e;
+}
+
+[data-time="night"] {
+	--feature-color: #1a0505;
+}
