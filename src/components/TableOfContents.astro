@@ -1,0 +1,92 @@
+---
+import type { MarkdownHeading } from "astro";
+
+type Props = {
+	headings: MarkdownHeading[];
+};
+
+type HeadingWithSubheadings = MarkdownHeading & {
+	subheadings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+
+const grouppedHeadings = headings.reduce((array, heading) => {
+	if (heading.depth === 2) {
+		array.push({ ...heading, subheadings: [] });
+	} else if (heading.depth === 3) {
+		array.at(-1)?.subheadings.push(heading);
+	}
+
+	return array;
+}, [] as HeadingWithSubheadings[]);
+---
+
+<nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
+	<span>Contents: </span>
+	<ol>
+		{
+			grouppedHeadings.map((h) => (
+				<li>
+					<a
+						class="group relative flex items-start gap-2 w-fit overflow-hidden"
+						href={`#${h.slug}`}
+					>
+						<span class="">{h.text}</span>
+					</a>
+				</li>
+			))
+		}
+	</ol>
+</nav>
+
+<script is:inline>
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				const headingFragment = `#${entry.target.id}`;
+				const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
+
+				if (!tocItem) return;
+
+				if (entry.isIntersecting) {
+					// Remove active class from any previously active items
+					document
+						.querySelectorAll(".active-toc-item")
+						.forEach((item) => item.classList.remove("active-toc-item"));
+
+					// Add active class to current item
+					tocItem.classList.add("active-toc-item");
+				}
+			});
+		},
+		{
+			root: null,
+			rootMargin: "-25% 0px -25% 0px", // Adds some margin to when the heading is considered "visible"
+			threshold: 0.05, // Trigger when heading is 50% visible
+		},
+	);
+
+	// Wait for DOM to be ready
+	document.addEventListener("DOMContentLoaded", () => {
+		// Get all h2 headings
+		const headings = document.querySelectorAll("h2");
+
+		// Observe each heading
+		headings.forEach((heading) => {
+			if (heading.id) {
+				// Only observe headings with IDs
+				observer.observe(heading);
+			}
+		});
+	});
+</script>
+
+<style>
+	.active-toc-item {
+		opacity: 1;
+	}
+	.active-toc-item svg {
+		opacity: 1;
+	}
+</style>

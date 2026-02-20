@@ -1,8 +1,0 @@
-@layer utilities {
-    .skip-link {
-        @apply absolute -top-[100%];
-    }
-    .skip-link:focus {
-        @apply top-0;
-    }
-}

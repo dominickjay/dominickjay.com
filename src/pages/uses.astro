@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Default.astro';
+import { getCollection } from 'astro:content';
+
+let usesData;
+let hardware, software, other;
+
+try {
+    const toolsCollection = await getCollection('tools');
+    usesData = toolsCollection[0];
+    ({ hardware, software, other } = usesData.data);
+} catch (error) {
+    console.error('Error getting tools collection:', error);
+    usesData = null;
+}
+
+if (!usesData) {
+    throw new Error('Tools data not found. Please check that the content collection is properly configured.');
+}
+---
+
+<Layout
+	title={usesData.data.title}
+	description={usesData.data.description}
+>
+	<div class="grid grid-cols-6" style="--grid-placement: 6; --gutter: 43px;">
+        <div class="col-span-full md:col-span-4">
+            <h2 class="h2">Hardware</h2>
+            <div class="space-y-4 mt-6">
+                {hardware.map((item) => (
+                    <div class="">
+                        <h3 class="h4 mb-2">{item.name}</h3>
+                        {item.description && <p class="text-sm text-gray-600 mb-2">{item.description}</p>}
+                    </div>
+                ))}
+            </div>
+        </div>
+        <div class="col-span-full md:col-span-4">
+            <h2 class="h2">Software</h2>
+            <div class="space-y-4 mt-6">
+                {software.map((item) => (
+                    <div class="">
+                        <h3 class="h4 mb-2">{item.name}</h3>
+                        {item.description && <p class="text-sm text-gray-600 mb-2">{item.description}</p>}
+                        {item.link && <a href={item.link} class="text-sm text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Learn more →</a>}
+                    </div>
+                ))}
+            </div>
+        </div>
+        {other && other.length > 0 && (
+            <div class="col-span-full md:col-span-4">
+                <h2 class="h2">Other</h2>
+                <div class="space-y-4 mt-6">
+                    {other.map((item) => (
+                        <div class="">
+                            <h3 class="h4 mb-2">{item.name}</h3>
+                            {item.description && <p class="text-sm text-gray-600 mb-2">{item.description}</p>}
+                            {item.link && <a href={item.link} class="text-sm text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Learn more →</a>}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
+	</div>
+</Layout>

@@ -1,0 +1,41 @@
+@layer components {
+	.site-header {
+		width: 100%;
+		height: fit-content;
+		left: 0;
+		right: 0;
+		z-index: 1;
+		margin-block-start: var(--padding-block, 16px);
+		margin-inline: auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		/* background-color: var(--color-light); */
+		transition: padding-block 0.3s ease-in-out;
+		will-change: padding-block;
+		position: relative;
+
+		@media (min-width: 768px) {
+			width: calc(100% - 32px);
+			padding-block: var(--padding-block, var(--space-m));
+			z-index: 100;
+			border-top: 2px solid var(--color-dark);
+			margin-block-start: 0;
+		}
+	}
+}
+
+@supports (animation-timeline: scroll()) {
+	.logo-text {
+		transition: opacity 0.3s ease-in-out;
+		animation: logo-text-visibility ease-in-out both;
+		animation-timeline: scroll();
+		animation-range: 0 50vh;
+	}
+}
+
+@keyframes logo-text-visibility {
+	to {
+		opacity: 0;
+	}
+}

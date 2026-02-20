@@ -1,0 +1,245 @@
+---
+title: 'Level Up Your Styles With CSS Variables'
+description: "Let's do a quick dive into CSS variables and see what they can offer us."
+pubDate: 'August 17 2021'
+tags:
+    - css
+    - javascript
+growth: evergreen
+supported: bcd.css["properties"].custom-property.__compat
+---
+
+## So, What are CSS Variables?
+
+CSS variables - otherwise known as custom properties - are specific values that can be reused throughout a document, similar to how variables are used in other programming languages. Let's see a quick example and break the parts down.
+
+## Basic Usage
+
+```css
+:root {
+  --primaryColour: hsla(4, 99%, 66%, 1);
+  --backgroundColour: hsla(207, 100%, 96%, 1);
+}
+
+main {
+  background-color: var(--backgroundColour);
+}
+
+h1 {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  letter-spacing: -0.5px;
+  font-size: 3rem;
+  color: var(--primaryColour);
+  text-align: center;
+}
+```
+
+There. Nice, quick example there - you can see this working below.
+
+<iframe height="300" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage" src="https://codepen.io/dominickjay217/embed/abWMvGp?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/dominickjay217/pen/abWMvGp">
+  CSS Variables - Basic Usage</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+Now we've got that up, let's see how this is put together, so let's break this down.
+
+<div class="pull-quote pull-quote--left">
+
+  Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way
+
+</div>
+
+Firstly, the `:root` pseudo-class being used at the top of the example? That represents the root of the document tree (typically the `html` element) and is used to define custom properties in a way that will allow them to be used globally across your site. Neat! They can be defined elsewhere, but let's not go into that right now.
+
+Second, CSS custom properties are always prefixed with a `--`. Similar to class names and IDs, there's no specific naming convention, so the world is your oyster and there are lots of different opinions on the best way.
+
+After setting up the custom properties in `:root`, they can then be used within any CSS selector by using them alongside the `var()` function, which is what is being shown in the `background-color` and `color` properties in the example above.
+
+## Fallbacks
+
+If a custom property has been set, **but** is actually invalid or just hasn't been defined, for example, in both these cases;
+
+```css
+:root {
+  --primaryColour: hsla(4, 99%, 66%, 1);
+  --backgroundColour: hsla(207, 100%, 96%, 1);
+  --secondaryColour: hsla(155, 61%, 51%, 1);
+  --secondaryBackgroundColour: hsla(343, 6%, 21%, 1);
+}
+
+h2 {
+  color: var(--thisDoesntExist, lightgreen);
+  background-color: var(--thisDoesntExist, black);
+}
+```
+
+I've declared my `secondaryColour` and `secondaryBackgroundColour` in `:root`, but for my `h2` element I've used a different custom property name (aptly titled "This Doesn't Exist" for obvious reasons). Notice, that rather the function closing after `--thisDoesntExist`, another parameter is passed. **That** is our fallback colours.
+
+<iframe height="600" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage" src="https://codepen.io/dominickjay217/embed/PomLaBp?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/dominickjay217/pen/PomLaBp">
+  CSS Variables - Basic Usage</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+## Context Changing
+
+One of the benefits of custom properties, is that they can be changed based on the context of the element it is assigned to.
+
+<iframe height="600" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage with Fallbacks" src="https://codepen.io/dominickjay217/embed/eYWXPeL?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/dominickjay217/pen/eYWXPeL">
+  CSS Variables - Basic Usage with Fallbacks</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+In this example, the first h2 element we see uses the custom properties for `color` and `background-color`;
+
+```css
+color: var(--changeColour, hotpink);
+background-color: var(--changeBgColour, black);
+```
+
+But, they are not defined yet so they use the fallback colours instead. On the second h2 element, we then use the `.add-styles` class to define these custom properties of `changeColour` and `changeBgColour`, which in turn, allows this element to fullfil where they were originally being used, rather than using the fallback. Clever, eh? A great example I've seen of this is [this post](https://piccalil.li/tutorial/create-a-user-controlled-dark-or-light-mode/ 'A post by Andy Bell for User Controlled Dark or Light Mode') by Andy Bell, where it is being used within the `prefers-color-scheme` media query.
+
+## Using With Javascript
+
+<iframe height="350" style="width: 100%;" scrolling="no" title="CSS Variables - Basic Usage with Fallbacks and Context Changing" src="https://codepen.io/dominickjay217/embed/RwVmGQB?default-tab=&theme-id=dark" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/dominickjay217/pen/RwVmGQB">
+  CSS Variables - Basic Usage with Fallbacks and Context Changing</a> by Dom Jay (<a href="https://codepen.io/dominickjay217">@dominickjay217</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+
+In this example, inline custom properties are set to allow new values for the `max-width` and `color` properities. While `max-width` uses a fallback of 550px, the `--maxWidth` value is not passed anywhere in the stylesheet, allowing it to differ from the example in the previous section. With the value of the `color` property, it is not using a fallback, or a different custom property. Instead, it is overwriting the `--primaryColour` value with a new color, and using CSS specificity to allow for the color to be changed.
+
+## Modern Layouts with CSS Variables
+
+CSS variables really shine when used with modern layout techniques. Here's a practical example using a grid layout that adapts based on container width:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--grid-placement, auto-fill),
+    minmax(var(--grid-min-item-size, 14rem), 1fr)
+  );
+  gap: var(--gutter, var(--space-l));
+}
+
+/* Example usage with different layouts */
+.grid[data-layout="50-50"] {
+  --grid-placement: auto-fit;
+  --grid-min-item-size: clamp(16rem, 50vw, 33rem);
+}
+
+.grid[data-layout="thirds"] {
+  --grid-placement: auto-fit;
+  --grid-min-item-size: clamp(16rem, 33%, 20rem);
+}
+```
+
+This approach allows for flexible, responsive layouts without media queries. The variables can be adjusted per instance using data attributes or inline styles.
+
+## Scoped Variables with @scope
+
+The new `@scope` feature allows for more controlled variable scoping, preventing style leakage:
+
+```css
+/* Global variables */
+:root {
+  --color-primary: #000;
+  --spacing-base: 1rem;
+}
+
+/* Scoped variables */
+@scope (.card) {
+  --card-bg: #fff;
+  --card-padding: var(--spacing-base);
+
+  background: var(--card-bg);
+  padding: var(--card-padding);
+
+  /* Nested elements inherit scoped variables */
+  .card__header {
+    --card-bg: #f5f5f5;
+    background: var(--card-bg);
+  }
+}
+```
+
+This creates a new specificity layer and prevents variable leakage, making your styles more maintainable.
+
+## Theme Switching with CSS Variables
+
+CSS variables are perfect for implementing theme switching. Here's a practical example:
+
+```css
+/* Base theme */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-primary: #0066cc;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-text: #ffffff;
+  --color-primary: #4dabf7;
+}
+
+/* Apply theme variables */
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+button {
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+```
+
+With AlpineJS, you can toggle the theme:
+
+```html
+<div x-data="{ isDark: false }">
+  <button
+    @click="isDark = !isDark;
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light')"
+    :class="{ 'dark': isDark }">
+    Toggle Theme
+  </button>
+</div>
+```
+
+## Dynamic Styling with :has()
+
+The `:has()` selector can be used with CSS variables for dynamic styling based on content:
+
+```css
+/* Default card styles */
+.card {
+  --card-border: 1px solid #ddd;
+  --card-padding: 1rem;
+  border: var(--card-border);
+  padding: var(--card-padding);
+}
+
+/* Enhanced styles for featured cards */
+.card:has(.featured-badge) {
+  --card-border: 2px solid var(--color-primary);
+  --card-padding: 1.5rem;
+}
+
+/* Different styles for cards with images */
+.card:has(img) {
+  --card-padding: 0;
+  --card-border: none;
+}
+```
+
+This allows for dynamic styling based on content without additional classes or JavaScript.
+
+## Conclusion
+
+CSS custom properties are a great way to keep your styles controlled and consistent (because who wants to rely on a Find and Replace when a new branding colour comes along), and allows for _less_ CSS to be written overall.

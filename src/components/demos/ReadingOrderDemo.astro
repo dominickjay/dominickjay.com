@@ -1,0 +1,389 @@
+<div class="reading-order-demo-wrapper" x-data="readingOrderDemo()">
+	<div class="reading-order-demo-controls">
+		<span class="h4">Adjust Order Properties</span>
+		<form id="orderForm">
+			<div class="reading-order-demo-input-group">
+				<label for="orderA">Item A:</label>
+				Visual Order:
+				<input
+					type="number"
+					id="orderA"
+					value="2"
+					data-item="item-a"
+					data-prop="order"
+					x-model="itemA.order"
+					@input="updateCssProperties()"
+				/>
+				Reading Order:
+				<input
+					type="number"
+					id="readingOrderA"
+					value="1"
+					data-item="item-a"
+					data-prop="reading-order"
+					x-model="itemA.readingOrder"
+					@input="updateCssProperties()"
+				/>
+			</div>
+			<div class="reading-order-demo-input-group">
+				<label for="orderB">Item B:</label>
+				Visual Order:
+				<input
+					type="number"
+					id="orderB"
+					value="3"
+					data-item="item-b"
+					data-prop="order"
+					x-model="itemB.order"
+					@input="updateCssProperties()"
+				/>
+				Reading Order:
+				<input
+					type="number"
+					id="readingOrderB"
+					value="2"
+					data-item="item-b"
+					data-prop="reading-order"
+					x-model="itemB.readingOrder"
+					@input="updateCssProperties()"
+				/>
+			</div>
+			<div class="reading-order-demo-input-group">
+				<label for="orderC">Item C:</label>
+				Visual Order:
+				<input
+					type="number"
+					id="orderC"
+					value="1"
+					data-item="item-c"
+					data-prop="order"
+					x-model="itemC.order"
+					@input="updateCssProperties()"
+				/>
+				Reading Order:
+				<input
+					type="number"
+					id="readingOrderC"
+					value="3"
+					data-item="item-c"
+					data-prop="reading-order"
+					x-model="itemC.readingOrder"
+					@input="updateCssProperties()"
+				/>
+			</div>
+		</form>
+	</div>
+	<div class="reading-order-demo-output">
+		<h2>Demo Area</h2>
+		<div class="reading-order-demo-flex-container" id="flexContainer">
+			<div
+				class="reading-order-demo-flex-item item-a"
+				aria-label="Item A content"
+				x-bind:style="`order: ${itemA.order}; reading-order: ${itemA.readingOrder};`"
+			>
+				<h3>Item A</h3>
+				<p>
+					This is the content for Item A. Its visual order is controlled by CSS
+					<code>order</code>, and its reading order by <code>reading-order</code
+					>.
+				</p>
+			</div>
+			<div
+				class="reading-order-demo-flex-item item-b"
+				aria-label="Item B content"
+				x-bind:style="`order: ${itemB.order}; reading-order: ${itemB.readingOrder};`"
+			>
+				<h3>Item B</h3>
+				<p>
+					This is the content for Item B. Notice how its position can differ for
+					sighted users versus screen reader users.
+				</p>
+			</div>
+			<div
+				class="reading-order-demo-flex-item item-c"
+				aria-label="Item C content"
+				x-bind:style="`order: ${itemC.order}; reading-order: ${itemC.readingOrder};`"
+			>
+				<h3>Item C</h3>
+				<p>
+					This is the content for Item C, demonstrating flexible and accessible
+					ordering.
+				</p>
+			</div>
+		</div>
+		<h2>Simulated Screen Reader Output:</h2>
+		<div
+			class="reading-order-demo-screen-reader-output"
+			aria-live="polite"
+			aria-atomic="true"
+		>
+			<p>Order: <span id="sr-output" x-html="screenReaderOutput"></span></p>
+		</div>
+	</div>
+</div>
+
+<style>
+	/* Reading Order Demo Styles */
+	:root {
+		/* Colors */
+		--reading-order-demo-secondary: #007bff;
+		--reading-order-demo-success: var(--color-dark);
+		--reading-order-demo-success-bg: var(--color-light);
+		--reading-order-demo-success-border: var(--color-dark);
+		--reading-order-demo-light-bg: #f9f9f9;
+		--reading-order-demo-border: var(--color-dark);
+		--reading-order-demo-input-border: #ccc;
+		--reading-order-demo-container-bg: #e6f2ff;
+		--reading-order-demo-item-border: #b3d9ff;
+		--reading-order-demo-white: #fff;
+		--reading-order-demo-text: #333;
+
+		/* Spacing */
+		--reading-order-demo-gap: 30px;
+		--reading-order-demo-padding: 20px;
+		--reading-order-demo-input-padding: 8px;
+		--reading-order-demo-small-padding: 10px;
+		--reading-order-demo-margin: 15px;
+		--reading-order-demo-border-radius: 8px;
+		--reading-order-demo-small-radius: 5px;
+		--reading-order-demo-input-radius: 4px;
+
+		/* Sizing */
+		--reading-order-demo-min-width: 300px;
+		--reading-order-demo-output-min-width: 400px;
+		--reading-order-demo-item-min-width: 150px;
+		--reading-order-demo-input-width: 60px;
+		--reading-order-demo-label-width: 80px;
+		--reading-order-demo-min-height: 200px;
+
+		/* Typography */
+		--reading-order-demo-font-size: 0.875em;
+	}
+
+	.reading-order-demo-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--reading-order-demo-gap) * 2);
+	}
+
+	.reading-order-demo-container {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		gap: var(--reading-order-demo-gap);
+	}
+
+	.reading-order-demo-controls {
+		flex: 1;
+		min-width: var(--reading-order-demo-min-width);
+		padding: var(--space-m);
+		border: 1px solid var(--color-dark);
+		container: controls / inline-size;
+		display: flex;
+		flex-direction: column;
+
+		h2 {
+			margin-top: 0;
+			border-bottom: 1px solid var(--color-dark);
+			padding-bottom: var(--reading-order-demo-small-padding);
+		}
+	}
+
+	@container output (max-width: 750px) {
+		.reading-order-demo-flex-container {
+			flex-direction: column;
+		}
+	}
+
+	.reading-order-demo-input-group {
+		margin-top: var(--reading-order-demo-margin);
+		display: flex;
+		align-items: center;
+		gap: var(--reading-order-demo-small-padding);
+		padding: var(--reading-order-demo-small-padding);
+		background-color: var(--reading-order-demo-light-bg);
+		border: 1px solid var(--color-dark);
+
+		label {
+			flex-basis: var(--reading-order-demo-label-width);
+		}
+
+		input[type="number"] {
+			width: var(--reading-order-demo-input-width);
+			padding: var(--reading-order-demo-input-padding);
+			border: 1px solid var(--reading-order-demo-input-border);
+			font-size: 1em;
+		}
+	}
+
+	.reading-order-demo-output {
+		min-width: var(--reading-order-demo-output-min-width);
+		gap: var(--reading-order-demo-gap);
+		display: flex;
+		flex-direction: column;
+		container: output / inline-size;
+
+		h2 {
+			margin-top: 0;
+			border-bottom: 1px solid var(--reading-order-demo-border);
+			padding-bottom: var(--reading-order-demo-small-padding);
+		}
+	}
+
+	.reading-order-demo-flex-container {
+		display: flex;
+		flex-direction: row;
+		gap: var(--reading-order-demo-padding);
+		padding: var(--reading-order-demo-padding);
+		border: 1px solid var(--color-dark);
+		background-color: var(--color-light);
+		min-height: var(--reading-order-demo-min-height);
+		align-items: flex-start;
+		reading-flow: flex-visual;
+	}
+
+	@container output (max-width: 750px) {
+		.reading-order-demo-flex-container {
+			flex-direction: column;
+		}
+	}
+
+	.reading-order-demo-flex-item {
+		height: 100%;
+		background-color: var(--reading-order-demo-white);
+		padding: var(--reading-order-demo-padding);
+		border: 1px solid var(--color-dark);
+		flex: 1;
+		min-width: var(--reading-order-demo-item-min-width);
+		gap: var(--reading-order-demo-padding);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.reading-order-demo-screen-reader-output {
+		padding: var(--reading-order-demo-margin);
+		border: 1px solid var(--reading-order-demo-success-border);
+		background-color: var(--reading-order-demo-success-bg);
+		font-size: var(--reading-order-demo-font-size);
+		color: var(--reading-order-demo-success);
+
+		span {
+			display: block;
+			margin-top: 5px;
+			font-weight: normal;
+			color: var(--reading-order-demo-text);
+		}
+	}
+
+	.reading-order-demo-reverse-container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--reading-order-demo-padding);
+		padding: var(--reading-order-demo-padding);
+		border: 1px solid var(--reading-order-demo-secondary);
+		background-color: var(--color-light);
+		reading-flow: source-order;
+	}
+
+	.reading-order-demo-notification {
+		background-color: #fff3cd;
+		border: 1px solid var(--color-dark);
+		padding: var(--reading-order-demo-padding);
+		order: 1;
+
+		h3 {
+			margin-top: 0;
+			color: #856404;
+		}
+
+		p {
+			margin: var(--reading-order-demo-small-padding) 0;
+		}
+	}
+
+	.reading-order-demo-main-content {
+		background-color: var(--reading-order-demo-white);
+		border: 1px solid var(--reading-order-demo-item-border);
+		padding: var(--reading-order-demo-padding);
+		order: 2;
+
+		h3 {
+			margin-top: 0;
+		}
+
+		p {
+			margin: var(--reading-order-demo-small-padding) 0;
+		}
+	}
+
+	.reading-order-demo-footer {
+		background-color: var(--reading-order-demo-light-bg);
+		border: 1px solid var(--reading-order-demo-border);
+		padding: var(--reading-order-demo-padding);
+		order: 3;
+
+		h3 {
+			margin-top: 0;
+		}
+
+		p {
+			margin: var(--reading-order-demo-small-padding) 0;
+		}
+	}
+
+	.reverse-demo .reading-order-demo-input-group {
+		label {
+			display: flex;
+			align-items: center;
+			gap: var(--reading-order-demo-small-padding);
+			flex-basis: auto;
+			cursor: pointer;
+		}
+
+		input[type="checkbox"] {
+			width: auto;
+			margin: 0;
+			cursor: pointer;
+		}
+	}
+</style>
+
+<script is:inline>
+	window.readingOrderDemo = function () {
+		return {
+			itemA: { order: 2, readingOrder: 1 },
+			itemB: { order: 3, readingOrder: 2 },
+			itemC: { order: 1, readingOrder: 3 },
+			screenReaderOutput: "",
+			reverseEnabled: false,
+			reverseScreenReaderOutput: "",
+
+			init() {
+				this.updateScreenReaderOutput();
+			},
+
+			updateCssProperties() {
+				this.$nextTick(() => {
+					this.updateScreenReaderOutput();
+				});
+			},
+
+			updateScreenReaderOutput() {
+				const items = [
+					{ name: "Item A content", readingOrder: this.itemA.readingOrder },
+					{ name: "Item B content", readingOrder: this.itemB.readingOrder },
+					{ name: "Item C content", readingOrder: this.itemC.readingOrder },
+				];
+
+				items.sort((a, b) => a.readingOrder - b.readingOrder);
+
+				this.screenReaderOutput = items
+					.map(
+						(item) =>
+							`<span>- ${item.name} (Reading Order: ${item.readingOrder})</span>`,
+					)
+					.join("");
+			},
+		};
+	};
+</script>

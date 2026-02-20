@@ -1,0 +1,61 @@
+.browser-support-table {
+	margin: 1rem 0;
+}
+
+.browser-support-table table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.browser-support-table caption {
+	text-align: left;
+	margin-bottom: 0.5rem;
+}
+
+.browser-support-table th,
+.browser-support-table td {
+	padding: 0.75rem;
+	border: 1px solid var(--color-dark);
+	text-align: left;
+}
+
+.browser-support-table th {
+	background-color: var(--color-bg-secondary);
+}
+
+.browser-support-table thead th {
+	background-color: var(--color-dark);
+	color: var(--color-light);
+}
+
+.browser-support-table .support-yes {
+	color: var(--color-success);
+}
+
+.browser-support-table .support-no {
+	color: var(--color-error);
+}
+
+.browser-support-table thead {
+	border-bottom: 1px solid var(--color-dark);
+}
+
+.browser-support-table tbody tr:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.post-recommendations {
+	container: post-recommendations / inline-size;
+}
+
+@container post-recommendations (max-width: 320px) {
+	.browser-support-table {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.browser-support-table .flow {
+		display: flex;
+	}
+}

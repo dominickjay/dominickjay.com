@@ -1,0 +1,57 @@
+---
+import type { RaindropResponse, RaindropBookmark } from '../lib/raindrop';
+
+interface Props {
+  raindropData: RaindropResponse | null;
+}
+
+const { raindropData } = Astro.props;
+if (!raindropData) {
+  console.warn('RaindropGrid: raindropData is undefined or null');
+}
+
+const bookmarks = raindropData?.items || [];
+---
+
+<div class="raindrop-grid">
+  {bookmarks.map((bookmark: RaindropBookmark) => (
+    <a href={bookmark.link} class="relative">
+      {bookmark.cover ? (
+        <img
+          height="174"
+          width="174"
+          src={bookmark.cover}
+          loading="lazy"
+          alt={`Cover for ${bookmark.title}`}
+          onerror="this.onerror=null; this.src='/images/bookmark-placeholder.png';"
+        />
+      ) : (
+        <div class="w-[174px] h-[174px] bg-gray-200 centered">
+          <span class="text-gray-500 text-sm text-center px-2">{bookmark.title}</span>
+        </div>
+      )}
+    </a>
+  ))}
+</div>
+
+<style>
+  .raindrop-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    margin: 2rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .raindrop-grid a {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .raindrop-grid img {
+    width: 174px;
+    height: 174px;
+    object-fit: cover;
+  }
+</style>

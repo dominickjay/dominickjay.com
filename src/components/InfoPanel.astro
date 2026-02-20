@@ -1,0 +1,40 @@
+---
+import InfoPanelDetails from "./InfoPanelDetails.astro";
+---
+
+<div
+  class="info-panel marquee"
+  x-data="{
+				time: '',
+		}"
+  x-cloak
+  x-init="
+				const weather = await fetch(
+						'https://api.weatherapi.com/v1/current.json?q=Plymouth', {
+								method: 'GET',
+								headers: new Headers({
+										'Content-Type': 'application/json',
+										key: 'b0bf9aab45af4844b6e151838252301',
+								}),
+						})
+				.then((response) => response.json())
+				.then((responseJSON) => {
+						$el.querySelectorAll('.temp').forEach(el => {
+								el.innerText = responseJSON.current.temp_c + '°C';
+						});
+				});
+
+				setInterval(function () {
+						const time = new Date().toLocaleTimeString();
+						$el.querySelectorAll('.time').forEach(el => {
+								el.innerText = time;
+						});
+				}, 1000);
+
+		"
+  x-cloak
+>
+  <InfoPanelDetails />
+  <InfoPanelDetails aria-hidden="true" />
+  <InfoPanelDetails aria-hidden="true" />
+</div>

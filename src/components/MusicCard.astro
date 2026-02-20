@@ -1,0 +1,86 @@
+---
+export interface Props {
+    track: {
+        name: string;
+        artist: {
+            '#text': string;
+        };
+        image?: Array<{
+            '#text': string;
+        }>;
+        '@attr'?: {
+            nowplaying?: boolean;
+        };
+    };
+    index: number;
+    tags: Array<{
+        name: string;
+    }>;
+    trackColor?: string;
+    artistPlaycount?: string | number;
+    percentage?: number;
+}
+
+const { track, tags, trackColor = '#000000', index, artistPlaycount, percentage } = Astro.props;
+
+function hashStringToHsl(input: string): string {
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+        hash = input.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+    const hue = Math.abs(hash) % 360;
+    const saturation = 65; // percent
+    const lightness = 40; // percent
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+const fallbackColor = hashStringToHsl(track.name);
+---
+
+<div class="artist-card flex w-full gap-[16px]">
+    <div class="flex justify-between items-baseline gap-[8px] relative aspect-square size-[100px]">
+        {track?.image && track.image[3] && (
+            <img
+                src={track.image[3]['#text']}
+                alt={`${track.name} artist image`}
+                class="h-full w-full object-cover object-center aspect-square"
+                width="250"
+                height="250"
+                loading="lazy"
+            />
+        )}
+        {track['@attr']?.nowplaying && (
+        <div class="now-playing-indicator">
+            <div class="now-playing-dot"></div>
+            <div class="now-playing-dot"></div>
+            <div class="now-playing-dot"></div>
+        </div>
+        )}
+    </div>
+    <div class="w-full py-[16px]">
+        <div class="flex flex-col">
+            <span class="intro relative">{track.name}</span>
+            <span class="relative lowercase">{track.artist['#text']}</span>
+            <!-- {(track as any).playcount || artistPlaycount ? (
+                <span class="music-card__playcount">
+                    {Number(((track as any).playcount ?? artistPlaycount) as number).toLocaleString()} plays
+                </span>
+            ) : null} -->
+        </div>
+    </div>
+</div>
+
+<style is:global>
+    .artist-card {
+        --color: color-mix(in srgb, var(--track-color) 95%, var(--color-light));
+        --percentage: {percentage ?? 0};
+        /*padding: 8px;*/
+        position: relative;
+    }
+
+    .artist-card::before {
+        background-color: var(--color);
+        inline-size: var(--percentage)%;
+    }
+</style>
