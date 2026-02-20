@@ -107,7 +107,7 @@
       },
 
       fetchTrack() {
-        fetch("/api/recent-tracks")
+        fetch(`/api/recent-tracks?t=${Date.now()}`)
           .then((r) => r.json())
           .then((data) => {
             const list = data?.recenttracks?.track;

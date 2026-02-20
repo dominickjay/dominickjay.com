@@ -154,35 +154,11 @@ export async function getAlbumInfo(artist: string, album: string, apiKey: string
   }
 }
 
-let recentTracksCache: {
-  data: LastFmResponse | null;
-  timestamp: number;
-} = {
-  data: null,
-  timestamp: 0
-};
-
 export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
-  const now = Date.now();
-  const CACHE_DURATION = 30 * 1000; // 30 seconds – for "currently playing" accuracy
-
-  if (recentTracksCache.data && (now - recentTracksCache.timestamp) < CACHE_DURATION) {
-    return recentTracksCache.data;
-  }
-
-  // If no cache or expired, fetch new data
   const response = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${apiKey}&format=json`
   );
-  const data = await response.json();
-
-  // Update cache
-  recentTracksCache = {
-    data,
-    timestamp: now
-  };
-
-  return data;
+  return response.json();
 }
 
 export async function enrichAlbumsWithImages(albums: LastFmAlbum[], apiKey: string): Promise<LastFmAlbum[]> {
