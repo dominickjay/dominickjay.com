@@ -27,14 +27,14 @@ export const { getStaticPaths, GET } = OGImageRoute({
     ],
     font: {
       title: {
-        size: 84,
+        size: 64,
         lineHeight: 1,
         families: ["InknutAntiqua"],
         weight: "Bold",
         color: [251, 248, 239],
       },
       description: {
-        size: 30,
+        size: 25,
         lineHeight: 1.6,
         color: [251, 248, 239, 0.75],
         families: ["InknutAntiqua"],

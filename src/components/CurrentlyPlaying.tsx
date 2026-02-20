@@ -47,7 +47,7 @@ export default function CurrentlyPlaying() {
 
   useEffect(() => {
     fetchTrack();
-    const id = setInterval(fetchTrack, 15000);
+    const id = setInterval(fetchTrack, 90000);
     return () => clearInterval(id);
   }, []);
 
