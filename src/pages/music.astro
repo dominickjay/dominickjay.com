@@ -5,7 +5,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
 import ArtistCard from "../components/ArtistCard.astro";
-import CurrentlyPlaying from "../components/CurrentlyPlaying.astro";
+import CurrentlyPlaying from "../components/CurrentlyPlaying";
 import { SITE_DESCRIPTION } from "../consts";
 import { sanityClient } from "sanity:client";
 
@@ -99,7 +99,7 @@ const totalPlaycount = artists.reduce((sum, artist) => {
           >
             <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
               <h1 class="h2 col-span-full">Currently Playing</h1>
-              <CurrentlyPlaying />
+              <CurrentlyPlaying client:load />
             </div>
           </div>
           <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
