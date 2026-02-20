@@ -84,8 +84,8 @@
 </div>
 
 <script>
-  document.addEventListener("alpine:init", () => {
-    window.Alpine.data("currentlyPlaying", () => ({
+  function registerCurrentlyPlaying() {
+    (window.Alpine || {}).data("currentlyPlaying", () => ({
       track: null,
       loading: true,
       error: null,
@@ -121,5 +121,7 @@
           });
       },
     }));
-  });
+  }
+  document.addEventListener("alpine:init", registerCurrentlyPlaying);
+  if (window.Alpine) registerCurrentlyPlaying();
 </script>

@@ -14,11 +14,11 @@ export const GET: APIRoute = async () => {
     }
 
     const data = await getRecentTracks(lastFmApiKey);
-    console.log("[RecentTracks] data:", data.recenttracks);
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Cache-Control': 'private, no-store, max-age=0'
       }
     });
   } catch (error) {
