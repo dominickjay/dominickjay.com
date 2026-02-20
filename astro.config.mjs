@@ -25,6 +25,5 @@ export default defineConfig({
 		plugins: [tailwindcss()],
 		assetsInclude: ["**/*.glb"],
 	},
-	output: "static",
 	adapter: netlify(),
 });
