@@ -82,12 +82,12 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 								@click.prevent={`category = 'All'`}
 								:class="{ active: category === 'All' }"
 							>
-								All
+								all
 							</button>
 							{
 								categories.map((category) => (
 									<button
-										class="category-filter"
+										class="category-filter lowercase"
 										data-category={category}
 										@click.prevent={`category = '${category}'`}
 										:class={`{ 'active': category === '${category}' }`}

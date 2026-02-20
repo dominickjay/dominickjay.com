@@ -3,7 +3,7 @@ title: 'Getting Started with CSS Variables in GSAP in 5 Minutes'
 description: "Dive into the exciting world of GSAP's latest feature - direct CSS variable animation! No more workarounds, just pure animation magic."
 pubDate: '2024-06-12'
 draft: true
-growth: evergreen
+growth: seedling
 tags:
   - javascript
   - css

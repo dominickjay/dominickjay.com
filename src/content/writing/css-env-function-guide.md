@@ -4,7 +4,7 @@ description: "Explore the CSS env() function and its practical applications for 
 pubDate: 2025-01-27
 tags: ["css"]
 draft: true
-growth: evergreen
+growth: seedling
 supported: bcd.css["types"].env.__compat
 ---
 
