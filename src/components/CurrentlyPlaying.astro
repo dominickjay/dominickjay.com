@@ -5,7 +5,7 @@
 <div
   class="col-span-full"
   x-data="currentlyPlaying()"
-  x-init="fetchTrack(); setInterval(fetchTrack, 30000)"
+  x-init="init()"
   aria-live="polite"
 >
   <!-- Loading -->
@@ -101,6 +101,11 @@
         return "";
       },
 
+      init() {
+        this.fetchTrack();
+        setInterval(() => this.fetchTrack(), 30000);
+      },
+
       get isNowPlaying() {
         const attr = this.track?.["@attr"];
         return attr?.nowplaying === true || String(attr?.nowplaying) === "true";
@@ -111,9 +116,15 @@
           .then((r) => r.json())
           .then((data) => {
             const list = data?.recenttracks?.track;
-            this.track =
+            const next =
               Array.isArray(list) && list.length > 0 ? list[0] : null;
-            this.loading = false;
+            this.loading = true;
+            this.track = null;
+            this.$nextTick(() => {
+              this.track = next;
+              this.loading = false;
+              console.log(this.track);
+            });
           })
           .catch((err) => {
             this.error = err;
