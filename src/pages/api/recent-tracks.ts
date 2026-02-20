@@ -14,6 +14,7 @@ export const GET: APIRoute = async () => {
     }
 
     const data = await getRecentTracks(lastFmApiKey);
+    console.log("[RecentTracks] data:", data.recenttracks);
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: {

@@ -6,11 +6,18 @@ import alpinejs from '@astrojs/alpinejs';
 import tailwindcss from "@tailwindcss/vite";
 import netlify from '@astrojs/netlify';
 import db from '@astrojs/db';
+import sanity from '@sanity/astro';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://dominickjay.com',
 	integrations: [
+		sanity({
+      projectId: 'm7q8vxzo',
+      dataset: 'production',
+      // Set useCdn to false if you're building statically.
+      useCdn: false,
+    }),
 		mdx({
 			extendMarkdownConfig: true,
 			smartypants: true,

@@ -164,9 +164,8 @@ let recentTracksCache: {
 
 export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
   const now = Date.now();
-  const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const CACHE_DURATION = 30 * 1000; // 30 seconds – for "currently playing" accuracy
 
-  // Check if we have valid cached data
   if (recentTracksCache.data && (now - recentTracksCache.timestamp) < CACHE_DURATION) {
     return recentTracksCache.data;
   }

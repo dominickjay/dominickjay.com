@@ -1,118 +1,129 @@
 ---
 export interface Props {
-	artist: {
-		name: string;
-		playcount?: string;
-		info?: {
-			image?: Array<{
-				"#text": string;
-			}>;
-			stats?: {
-				userplaycount?: string;
-			};
-		};
-	};
-	index: number;
-	isNowPlaying?: boolean;
-	trackColor?: string;
-	percentage?: number;
+  artist: {
+    name: string;
+    playcount?: string;
+    image?: Array<{ "#text": string }>;
+    info?: {
+      image?: Array<{ "#text": string }>;
+      stats?: { userplaycount?: string };
+    };
+  };
+  index: number;
+  isNowPlaying?: boolean;
+  trackColor?: string;
+  percentage?: number;
 }
 
 const {
-	artist,
-	isNowPlaying = false,
-	trackColor = "#000000",
-	index,
-	percentage,
+  artist,
+  isNowPlaying = false,
+  trackColor = "#000000",
+  index,
+  percentage,
 } = Astro.props;
 
 function hashStringToHsl(input: string): string {
-	let hash = 0;
-	for (let i = 0; i < input.length; i++) {
-		hash = input.charCodeAt(i) + ((hash << 5) - hash);
-		hash = hash & hash;
-	}
-	const hue = Math.abs(hash) % 360;
-	const saturation = 65; // percent
-	const lightness = 40; // percent
-	return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    hash = input.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash;
+  }
+  const hue = Math.abs(hash) % 360;
+  const saturation = 65; // percent
+  const lightness = 40; // percent
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 const fallbackColor = hashStringToHsl(artist.name);
 ---
 
 <div
-	class="music-card relative"
-	style={`--track-color: ${fallbackColor}; --percentage: ${percentage ?? 0}%;`}
+  class="music-card relative"
+  style={`--track-color: ${fallbackColor}; --percentage: ${percentage ?? 0}%;`}
 >
-	<div class="music-card__contents">
-		<div class="absolute top-0 left-0 size-full music-card__image">
-			{
-				artist.info?.image && artist.info.image[4]["#text"] != "" && (
-					<img
-						src={artist.info.image[4]["#text"]}
-						alt={`${artist.name} artist image`}
-						loading="lazy"
-						class="size-full object-cover object-center"
-					/>
-				)
-			}
-		</div>
-		<div
-			class="flex flex-col justify-between items-start relative flex-1 h-full"
-		>
-			<div class="flex justify-between items-center w-full">
-				<span class="counter h2">#{index + 1}</span>
-				{
-					artist.playcount && (
-						<span class="h2 play-count">
-							{Number(artist.playcount).toLocaleString()}
-						</span>
-					)
-				}
-			</div>
-			<span class="h3 music-card__title">{artist.name}</span>
-		</div>
-		<!-- {percentage && <span class="percentage">{percentage.toFixed(0)}%</span>} -->
-	</div>
+  <div class="music-card__contents">
+    <div class="absolute top-0 left-0 size-full music-card__image">
+      {
+        (() => {
+          const raw = artist.info?.image ?? artist.image;
+          const imgs = Array.isArray(raw) ? raw : raw ? [raw] : [];
+          let src = null;
+          for (let i = imgs.length - 1; i >= 0; i--) {
+            const u = imgs[i]?.["#text"]?.trim();
+            if (u) {
+              src = u;
+              break;
+            }
+          }
+          return src ? (
+            <img
+              src={src}
+              alt={`${artist.name} artist image`}
+              loading="lazy"
+              class="size-full object-cover object-center"
+              width="250"
+              height="250"
+            />
+          ) : null;
+        })()
+      }
+    </div>
+    <div
+      class="flex flex-col justify-between items-start relative flex-1 h-full"
+    >
+      <div class="flex justify-between items-center w-full h3">
+        <span class="counter">#{index + 1}</span>
+        {
+          artist.playcount && (
+            <span class="play-count">
+              {Number(artist.playcount).toLocaleString()}
+            </span>
+          )
+        }
+      </div>
+      <span class="h3 music-card__title">{artist.name}</span>
+    </div>
+    <!-- {percentage && <span class="percentage">{percentage.toFixed(0)}%</span>} -->
+  </div>
 </div>
 
 <style is:global>
-	.music-card {
-		--color: color-mix(in srgb, var(--track-color) 50%, transparent);
-		aspect-ratio: 1 / 1;
-		padding: 0;
-		position: relative;
-		border: 1px solid var(--color-dark);
-		border-bottom: 6px solid var(--color);
+  .music-card {
+    --color: color-mix(in srgb, var(--track-color) 50%, transparent);
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    position: relative;
+    border: 1px solid var(--color-dark);
+    border-bottom: 6px solid var(--color);
 
-		&::before {
-			content: none;
-		}
-	}
+    &::before {
+      content: none;
+    }
+  }
 
-	.music-card__image::after {
-		content: "";
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		block-size: 100%;
-		inline-size: 100%;
-		background-color: var(--color);
-	}
+  .music-card__image::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    block-size: 100%;
+    inline-size: 100%;
+    background-color: var(--color);
+  }
 
-	.music-card__contents {
-		height: 100%;
-		color: var(--color-light);
-		padding-block: var(--space-s);
-		padding-inline: var(--space-m);
-	}
+  .music-card__contents {
+    height: 100%;
+    color: var(--color-light);
+    padding-block: var(--space-s);
+    padding-inline: var(--space-m);
+  }
 
-	.music-card .play-count {
-		margin-inline-start: 0;
-	}
+  .music-card .play-count {
+    margin-inline-start: 0;
+  }
 
-	/*.artist-card::before {
+  /*.artist-card::before {
 		border-radius: 4px 0 4px 0;
 		background-color: var(--color);
 		inline-size: var(--percentage);
