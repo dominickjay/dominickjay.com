@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getRecentTracks } from '../../lib/lastfm';
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
   try {
     const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
