@@ -1,0 +1,14 @@
+.growth {
+	font-family: var(--font-base);
+	font-size: 12px;
+	letter-spacing: .14em;
+	color: #486405;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	border: 1px solid #486405;
+	padding: 8px 12px 4px;
+	width: fit-content;
+}
