@@ -19,95 +19,95 @@ let currentListCount = 0;
 let currentListBooks = [];
 
 function getCached(key: string): any | null {
-	const cached = cache.get(key);
-	if (cached && cached.expires > Date.now()) {
-		return cached.data;
-	}
-	cache.delete(key);
-	return null;
+  const cached = cache.get(key);
+  if (cached && cached.expires > Date.now()) {
+    return cached.data;
+  }
+  cache.delete(key);
+  return null;
 }
 
 function setCached(key: string, data: any): void {
-	cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+  cache.set(key, { data, expires: Date.now() + CACHE_TTL });
 }
 
 const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
 
 console.log("🔧 Config:", {
-	hasToken: !!hardcoverToken,
-	tokenLength: hardcoverToken.length,
+  hasToken: !!hardcoverToken,
+  tokenLength: hardcoverToken.length,
 });
 
 if (!hardcoverToken) {
-	console.warn(
-		"Warning: hardcoverToken environment variable is not set. " +
-			"Authenticated requests will fail. " +
-			"Get your token from https://hardcover.app/account/api",
-	);
+  console.warn(
+    "Warning: hardcoverToken environment variable is not set. " +
+      "Authenticated requests will fail. " +
+      "Get your token from https://hardcover.app/account/api",
+  );
 }
 
 // Helper function to make GraphQL requests
 async function hardcoverGraphQL(
-	query: string,
-	variables: any,
-	useAuth = false,
+  query: string,
+  variables: any,
+  useAuth = false,
 ) {
-	if (useAuth && !hardcoverToken) {
-		throw new Error(
-			"Hardcover token is required for authenticated requests. " +
-				"Please set the hardcoverToken environment variable. " +
-				"Get your token from https://hardcover.app/account/api",
-		);
-	}
+  if (useAuth && !hardcoverToken) {
+    throw new Error(
+      "Hardcover token is required for authenticated requests. " +
+        "Please set the hardcoverToken environment variable. " +
+        "Get your token from https://hardcover.app/account/api",
+    );
+  }
 
-	// Create cache key from query and variables
-	const cacheKey = JSON.stringify({ query, variables });
-	const cached = getCached(cacheKey);
-	if (cached) {
-		console.log("💾 Using cached response for query");
-		return cached;
-	}
+  // Create cache key from query and variables
+  const cacheKey = JSON.stringify({ query, variables });
+  const cached = getCached(cacheKey);
+  if (cached) {
+    console.log("💾 Using cached response for query");
+    return cached;
+  }
 
-	const headers: Record<string, string> = {
-		"Content-Type": "application/json",
-		"User-Agent": "dominickjay.com/1.0",
-	};
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "User-Agent": "dominickjay.com/1.0",
+  };
 
-	if (useAuth) {
-		// Use Bearer prefix for JWT tokens (standard for Hasura/GraphQL APIs)
-		headers["authorization"] = hardcoverToken.startsWith("Bearer ")
-			? hardcoverToken
-			: `Bearer ${hardcoverToken}`;
-	}
+  if (useAuth) {
+    // Use Bearer prefix for JWT tokens (standard for Hasura/GraphQL APIs)
+    headers["authorization"] = hardcoverToken.startsWith("Bearer ")
+      ? hardcoverToken
+      : `Bearer ${hardcoverToken}`;
+  }
 
-	const response = await fetch("https://api.hardcover.app/v1/graphql", {
-		method: "POST",
-		headers,
-		body: JSON.stringify({ query, variables }),
-	});
+  const response = await fetch("https://api.hardcover.app/v1/graphql", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ query, variables }),
+  });
 
-	console.log("🌐 GraphQL Response status:", response.status);
+  console.log("🌐 GraphQL Response status:", response.status);
 
-	if (!response.ok) {
-		const errorText = await response.text();
-		console.error("🌐 GraphQL Error response:", errorText);
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("🌐 GraphQL Error response:", errorText);
 
-		// If rate limited, wait a bit and suggest using cache
-		if (response.status === 429) {
-			console.warn(
-				"⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.",
-			);
-		}
+    // If rate limited, wait a bit and suggest using cache
+    if (response.status === 429) {
+      console.warn(
+        "⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.",
+      );
+    }
 
-		throw new Error(
-			`HTTP error! status: ${response.status}, message: ${errorText}`,
-		);
-	}
+    throw new Error(
+      `HTTP error! status: ${response.status}, message: ${errorText}`,
+    );
+  }
 
-	const json = await response.json();
-	setCached(cacheKey, json);
-	// console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
-	return json;
+  const json = await response.json();
+  setCached(cacheKey, json);
+  // console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
+  return json;
 }
 
 // Fetch list book IDs first to filter them out
@@ -121,9 +121,9 @@ let toReadBooks: any[] = [];
 let sortedYears: any[] = [];
 
 try {
-	const [toReadData, currentDataAndList, listInfo] = await Promise.all([
-		hardcoverGraphQL(
-			`query getUserBooks($statusId: Int!) {
+  const [toReadData, currentDataAndList, listInfo] = await Promise.all([
+    hardcoverGraphQL(
+      `query getUserBooks($statusId: Int!) {
         me {
           user_books(where: { status_id: { _eq: $statusId } }) {
             book {
@@ -141,13 +141,13 @@ try {
           }
         }
       }`,
-			{
-				statusId: 1,
-			},
-			true,
-		),
-		hardcoverGraphQL(
-			`query getCurrentReadingAndList {
+      {
+        statusId: 1,
+      },
+      true,
+    ),
+    hardcoverGraphQL(
+      `query getCurrentReadingAndList {
         me {
           user_books(where: { status_id: { _eq: 2 } }) {
             rating
@@ -193,11 +193,11 @@ try {
           }
         }
       }`,
-			{},
-			true,
-		),
-		hardcoverGraphQL(
-			`query getBooksByYear {
+      {},
+      true,
+    ),
+    hardcoverGraphQL(
+      `query getBooksByYear {
 	      me {
 	        # We fetch from user_books directly to get all your reading history
 	        user_books(where: {user_book_status: {slug: {_eq: "read"}}}) {
@@ -216,21 +216,21 @@ try {
 	        }
 	      }
 			    }`,
-			{},
-			true,
-		),
-	]);
+      {},
+      true,
+    ),
+  ]);
 
-	allBooks = listInfo.data.me[0].user_books || [];
-	backlog = toReadData.data.me[0].user_books || [];
-	currentlyReading = currentDataAndList.data.me[0].user_books || [];
-	currentList = currentDataAndList.data.me[0].lists[0] || [];
-	currentListCount = currentList.books_count;
-	currentListBooks = currentList.list_books;
+  allBooks = listInfo.data.me[0].user_books || [];
+  backlog = toReadData.data.me[0].user_books || [];
+  currentlyReading = currentDataAndList.data.me[0].user_books || [];
+  currentList = currentDataAndList.data.me[0].lists[0] || [];
+  currentListCount = currentList.books_count;
+  currentListBooks = currentList.list_books;
 } catch (error) {
-	console.error(error);
-	// Expected output: ReferenceError: nonExistentFunction is not defined
-	// (Note: the exact output may be browser-dependent)
+  console.error(error);
+  // Expected output: ReferenceError: nonExistentFunction is not defined
+  // (Note: the exact output may be browser-dependent)
 }
 console.clear();
 // console.log(currentListBooks);
@@ -241,30 +241,30 @@ console.clear();
 // 		book.book.user_books[0].user_book_status.slug === "currently-reading",
 // ),
 const readCount = currentListBooks.filter(
-	(book) => book.book.user_books[0].user_book_status.slug == "read",
+  (book) => book.book.user_books[0].user_book_status.slug == "read",
 );
 
 let booksByYear = allBooks.reduce((acc, entry) => {
-	const title = entry.book.title;
+  const title = entry.book.title;
 
-	entry.user_book_reads.forEach((read) => {
-		if (read.finished_at) {
-			const year = new Date(read.finished_at).getFullYear();
-			if (!acc[year]) acc[year] = [];
+  entry.user_book_reads.forEach((read) => {
+    if (read.finished_at) {
+      const year = new Date(read.finished_at).getFullYear();
+      if (!acc[year]) acc[year] = [];
 
-			// Prevent duplicate titles in the same year
-			if (!acc[year].find((b) => b.title === title)) {
-				acc[year].push({
-					id: entry.book.id,
-					title,
-					author: entry.book.contributions[0].author.name,
-					finished: entry.user_book_reads[0].finished_at,
-				});
-				// console.log(acc[year]);
-			}
-		}
-	});
-	return acc;
+      // Prevent duplicate titles in the same year
+      if (!acc[year].find((b) => b.title === title)) {
+        acc[year].push({
+          id: entry.book.id,
+          title,
+          author: entry.book.contributions[0].author.name,
+          finished: entry.user_book_reads[0].finished_at,
+        });
+        // console.log(acc[year]);
+      }
+    }
+  });
+  return acc;
 }, {});
 
 // Define it here so it's scoped correctly for the template
@@ -273,16 +273,17 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title="Reading List" description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<div
-				class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px] md:!max-w-[992px]"
-				style="--grid-placement: 12; --gutter: 43px;"
-				x-data="{
+  <head>
+    <BaseHead title="Reading List" description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div id="cur"></div>
+    <Header />
+    <main>
+      <div
+        class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px] md:!max-w-[992px]"
+        style="--grid-placement: 12; --gutter: 43px;"
+        x-data="{
 					list: true,
 					floatingCover: {
 						show: false,
@@ -292,185 +293,211 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
 						title: ''
 					}
 				}"
-			>
-				<div
-					class="flex flex-col gap-[32px] w-full relative"
-					@mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
-					@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''; console.log('floating cover is', typeof(floatingCover.src))"
-				>
-					<!-- Floating book cover -->
-					<div
-						x-show="floatingCover.show && floatingCover.src"
-						x-transition.opacity
-						class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
-						:class="{ 'opacity-100': floatingCover.show && floatingCover.src, 'opacity-0': !floatingCover.show || !floatingCover.src }"
-						x-bind:style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
-					>
-						<div x-show="floatingCover.src" class="relative w-full h-full">
-							<img
-								x-bind:src="floatingCover.src"
-								x-bind:alt="floatingCover.title"
-								class="w-full h-full object-cover"
-							/>
-						</div>
-					</div>
+      >
+        <div
+          class="flex flex-col gap-[32px] w-full relative"
+          @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
+          @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''; console.log('floating cover is', typeof(floatingCover.src))"
+        >
+          <!-- Floating book cover -->
+          <div
+            x-show="floatingCover.show && floatingCover.src"
+            x-transition.opacity
+            class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
+            :class="{ 'opacity-100': floatingCover.show && floatingCover.src, 'opacity-0': !floatingCover.show || !floatingCover.src }"
+            x-bind:style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
+          >
+            <div x-show="floatingCover.src" class="relative w-full h-full">
+              <img
+                x-bind:src="floatingCover.src"
+                x-bind:alt="floatingCover.title"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
 
-					<div class="flex flex-col gap-[20px]">
-						<h2 class="h2 col-span-full mb-[24px]">
-							2026 Reading List <span class="text-[20px] opacity-75"
-								>({readCount.length} / {currentListBooks?.length || 0})</span
-							>
-						</h2>
-						<ol
-							class="post-list flow max-md:mx-[-16px]"
-							style="--flow-space: 0;"
-						>
-							{
-								currentListBooks?.map(
-									(book) =>
-										book.book.user_books[0].user_book_status.slug ==
-											"currently-reading" && (
-											<BookItem
-												title={book.book.title}
-												author={
-													book.book.contributions[0]?.author.name ||
-													"Unknown Author"
-												}
-												rating={book.book.rating}
-												cover={book.book.cover}
-												started={
-													book.book.user_books[0]?.user_book_reads[0]
-														?.started_at
-												}
-												finished={
-													book.book.user_books[0]?.user_book_reads[0]
-														?.finished_at
-												}
-												status={book.book.user_books[0].user_book_status.slug}
-												showStrikethrough={
-													book.book.user_books[0].user_book_status.slug ===
-													"read"
-														? true
-														: false
-												}
-											/>
-										),
-								)
-							}
-							{
-								currentListBooks?.map(
-									(book) =>
-										book.book.user_books[0].user_book_status.slug !=
-											"currently-reading" && (
-											<BookItem
-												title={book.book.title}
-												author={
-													book.book.contributions[0]?.author.name ||
-													"Unknown Author"
-												}
-												rating={book.book.rating}
-												cover={book.book.cover}
-												started={
-													book.book.user_books[0]?.user_book_reads[0]
-														?.started_at
-												}
-												finished={
-													book.book.user_books[0]?.user_book_reads[0]
-														?.finished_at
-												}
-												status={book.book.user_books[0].user_book_status.slug}
-												showStrikethrough={
-													book.book.user_books[0].user_book_status.slug ===
-													"read"
-														? true
-														: false
-												}
-											/>
-										),
-								)
-							}
-						</ol>
-					</div>
+          <div class="flex flex-col gap-[20px]">
+            <h2 class="h2 col-span-full mb-[24px]">
+              2026 Reading List <span class="text-[20px] opacity-75"
+                >({readCount.length} / {currentListBooks?.length || 0})</span
+              >
+            </h2>
+            <ol
+              class="post-list flow max-md:mx-[-16px]"
+              style="--flow-space: 0;"
+            >
+              {
+                currentListBooks?.map(
+                  (book) =>
+                    book.book.user_books[0].user_book_status.slug ==
+                      "currently-reading" && (
+                      <BookItem
+                        title={book.book.title}
+                        author={
+                          book.book.contributions[0]?.author.name ||
+                          "Unknown Author"
+                        }
+                        rating={book.book.rating}
+                        cover={book.book.cover}
+                        started={
+                          book.book.user_books[0]?.user_book_reads[0]
+                            ?.started_at
+                        }
+                        finished={
+                          book.book.user_books[0]?.user_book_reads[0]
+                            ?.finished_at
+                        }
+                        status={book.book.user_books[0].user_book_status.slug}
+                        showStrikethrough={
+                          book.book.user_books[0].user_book_status.slug ===
+                          "read"
+                            ? true
+                            : false
+                        }
+                      />
+                    ),
+                )
+              }
+              {
+                currentListBooks?.map(
+                  (book) =>
+                    book.book.user_books[0].user_book_status.slug !=
+                      "currently-reading" && (
+                      <BookItem
+                        title={book.book.title}
+                        author={
+                          book.book.contributions[0]?.author.name ||
+                          "Unknown Author"
+                        }
+                        rating={book.book.rating}
+                        cover={book.book.cover}
+                        started={
+                          book.book.user_books[0]?.user_book_reads[0]
+                            ?.started_at
+                        }
+                        finished={
+                          book.book.user_books[0]?.user_book_reads[0]
+                            ?.finished_at
+                        }
+                        status={book.book.user_books[0].user_book_status.slug}
+                        showStrikethrough={
+                          book.book.user_books[0].user_book_status.slug ===
+                          "read"
+                            ? true
+                            : false
+                        }
+                      />
+                    ),
+                )
+              }
+            </ol>
+          </div>
 
-					{
-						sortedYears.map((year, i) => (
-							<ul class="col-span-full">
-								<li>
-									{i === 0 ? (
-										<div class="flex flex-col mt-[var(--space-xs)]">
-											<h2 class="h2">
-												Books read in {year}{" "}
-												<span class="text-[20px] opacity-75">
-													({year[1].length})
-												</span>
-											</h2>
-											<ol
-												class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
-												style="--flow-space: 0;"
-											>
-												{booksByYear[year].map((book) => (
-													<BookItem title={book.title} author={book.author} />
-												))}
-											</ol>
-										</div>
-									) : (
-										<details class="flex flex-col">
-											<summary class="h2 cursor-pointer list-none">
-												<span>
-													Books read in {year}{" "}
-													<span class="text-[20px] opacity-75">
-														({booksByYear[year].length})
-													</span>
-												</span>
-											</summary>
-											<ol
-												class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
-												style="--flow-space: 0;"
-											>
-												{booksByYear[year].map((book) => (
-													<BookItem title={book.title} author={book.author} />
-												))}
-											</ol>
-										</details>
-									)}
-								</li>
-							</ul>
-						))
-					}
-					<ul class="col-span-full">
-						<li>
-							<div
-								class="flex flex-col gap-y-[var(--space-s)] md:gap-y-[var(--space-m)]"
-							>
-								<h2 class="h2">
-									Backlog{" "}
-								</h2>
-								<ol
-									class="post-list flow max-md:mx-[-16px]"
-									style="--flow-space: 0;"
-								>
-									{
-										backlog.map((book) => (
-											<BookItem
-												key={book.book.id}
-												title={book.book.title}
-												author={
-													book.book.contributions[0]?.author.name ||
-													"Unknown Author"
-												}
-												rating={book.book.rating}
-												cover={book.book.cover}
-											/>
-										))
-									}
-								</ol>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</main>
+          {
+            sortedYears.map((year, i) => (
+              <ul class="col-span-full">
+                <li>
+                  {i === 0 ? (
+                    <div class="flex flex-col mt-[var(--space-xs)]">
+                      <h2 class="h2">
+                        Books read in {year}{" "}
+                        <span class="text-[20px] opacity-75">
+                          ({year[1].length})
+                        </span>
+                      </h2>
+                      <ol
+                        class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
+                        style="--flow-space: 0;"
+                      >
+                        {booksByYear[year].map((book) => (
+                          <BookItem title={book.title} author={book.author} />
+                        ))}
+                      </ol>
+                    </div>
+                  ) : (
+                    <details class="flex flex-col">
+                      <summary class="h2 cursor-pointer list-none">
+                        <span>
+                          Books read in {year}{" "}
+                          <span class="text-[20px] opacity-75">
+                            ({booksByYear[year].length})
+                          </span>
+                        </span>
+                      </summary>
+                      <ol
+                        class="post-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
+                        style="--flow-space: 0;"
+                      >
+                        {booksByYear[year].map((book) => (
+                          <BookItem title={book.title} author={book.author} />
+                        ))}
+                      </ol>
+                    </details>
+                  )}
+                </li>
+              </ul>
+            ))
+          }
+          <ul class="col-span-full">
+            <li>
+              <div
+                class="flex flex-col gap-y-[var(--space-s)] md:gap-y-[var(--space-m)]"
+              >
+                <h2 class="h2">
+                  Backlog{" "}
+                </h2>
+                <ol
+                  class="post-list flow max-md:mx-[-16px]"
+                  style="--flow-space: 0;"
+                >
+                  {
+                    backlog.map((book) => (
+                      <BookItem
+                        key={book.book.id}
+                        title={book.book.title}
+                        author={
+                          book.book.contributions[0]?.author.name ||
+                          "Unknown Author"
+                        }
+                        rating={book.book.rating}
+                        cover={book.book.cover}
+                      />
+                    ))
+                  }
+                </ol>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </main>
 
-		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
-	</body>
+    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+  </body><script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
 </html>

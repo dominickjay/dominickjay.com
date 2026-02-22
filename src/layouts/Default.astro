@@ -20,7 +20,8 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
     <BaseHead title={title} description={description} />
   </head>
 
-  <body class="pb-[128px]">
+  <body>
+    <div id="cur"></div>
     <Header />
     <main>
       <article>
@@ -39,4 +40,31 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
     data-goatcounter="https://dominickjay.goatcounter.com/count"
     async
     src="//gc.zgo.at/count.js"></script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
 </html>

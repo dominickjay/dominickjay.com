@@ -53,6 +53,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 		<BaseHead title="From the Desk of Dom Jay" description={SITE_DESCRIPTION} />
 	</head>
 	<body>
+		<div id="cur"></div>
 		<Header />
 		<main>
 			<DefaultHero
@@ -71,36 +72,12 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 				}`}
 			>
 				<div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[var(--space-m)] md:gap-[var(--space-xl)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
-					<div
-						class="flex gap-[16px] items-center max-w-[100%] md:max-w-[80%] pt-[var(--space-xl)] relative"
-					>
-						<span class="h3" data-category=""> Topics </span>
-						<div class="category-filters hide-scroll">
-							<button
-								class="category-filter"
-								data-category="All"
-								@click.prevent={`category = 'All'`}
-								:class="{ active: category === 'All' }"
-							>
-								all
-							</button>
-							{
-								categories.map((category) => (
-									<button
-										class="category-filter lowercase"
-										data-category={category}
-										@click.prevent={`category = '${category}'`}
-										:class={`{ 'active': category === '${category}' }`}
-									>
-										{category}
-									</button>
-								))
-							}
+					<div class="max-md:w-full shrink-0 flex items-center gap-x-[var(--space-m)]">
+						<div class="flex-1">
+							Search
 						</div>
-					</div>
-					<div class="max-md:w-full shrink-0">
 						<select
-							class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
+							class="shrink-0 px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
 							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log('Growth dropdown is:' + growth);"
 						>
 							{
@@ -116,78 +93,131 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 						</select>
 					</div>
 				</div>
-				<div class="my-[var(--space-m)] flex" style="--flow-space: 32px;">
-					<div x-text="growthDescription || ''"></div>
-				</div>
-				<ol class="!pb-[56px] post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
-					{
-						posts.map((post) => (
-							<li
-								class="post-item"
-								x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
-								@mouseenter="
-									const rect = $el.getBoundingClientRect();
-									const y = event.clientY - rect.top;
-									const height = rect.height;
-									direction = y < height / 2 ? 'top' : 'bottom';
-									isHovered = true;
-								"
-								@mouseleave="
-									const rect = $el.getBoundingClientRect();
-									const y = event.clientY - rect.top;
-									const height = rect.height;
-									exitDirection = y < height / 2 ? 'top' : 'bottom';
-									isHovered = false;
-								"
-								x-show={`(growth === '${post.data.growth || "all"}' || growth === "all") && (${JSON.stringify(post.data.tags)}.includes(category) || category === "All")`}
-								data-tags={JSON.stringify(post.data.tags)}
-							>
-								<div
-									class="post"
-									style="--block-space: 12px"
-									x-bind:class="{
-										'post--hover-top': isHovered && direction === 'top',
-										'post--hover-bottom': isHovered && direction === 'bottom',
-										'post--exit-top': !isHovered && exitDirection === 'top',
-										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
-									}"
+				<div class="!grid grid-cols-4 gap-[var(--space-m)]">
+					<ol class="!pb-[56px] post-list flow max-md:mx-[-16px] col-span-full md:col-span-3" style="--flow-space: 0;">
+						{
+							posts.map((post) => (
+								<li
+									class="post-item"
+									x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+									@mouseenter="
+										const rect = $el.getBoundingClientRect();
+										const y = event.clientY - rect.top;
+										const height = rect.height;
+										direction = y < height / 2 ? 'top' : 'bottom';
+										isHovered = true;
+									"
+									@mouseleave="
+										const rect = $el.getBoundingClientRect();
+										const y = event.clientY - rect.top;
+										const height = rect.height;
+										exitDirection = y < height / 2 ? 'top' : 'bottom';
+										isHovered = false;
+									"
+									x-show={`(growth === '${post.data.growth || "all"}' || growth === "all") && (${JSON.stringify(post.data.tags)}.includes(category) || category === "All")`}
+									data-tags={JSON.stringify(post.data.tags)}
 								>
-									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-											<a
-												class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
-												href={`/writing/${post.id}/`}
-											>
-												<h4 class="h4">{post.data.title}</h4>
-											</a>
-											<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
-												<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">
-													{post.data.tags.map((tag) => (
-														<li>
-															<span class="border py-1 px-4 min-w-fit">{tag}</span>
-														</li>
-													))}
-												</ul> -->
-												<div class="flex gap-x-[var(--space-m)]">
-													<!-- <span class="w-fit md:w-auto">
-														{getReadingTime(post.body)} min
-													</span> -->
-													<span class="w-fit md:w-auto italic">
-														<FormattedDate date={post.data.pubDate} />
-													</span>
-												</div>
-											<!-- </div> -->
-											<!-- <p class="opacity-[0.85] body-text">
-												{post.data.description}
-											</p> -->
+									<div
+										class="post"
+										style="--block-space: 12px"
+										x-bind:class="{
+											'post--hover-top': isHovered && direction === 'top',
+											'post--hover-bottom': isHovered && direction === 'bottom',
+											'post--exit-top': !isHovered && exitDirection === 'top',
+											'post--exit-bottom': !isHovered && exitDirection === 'bottom'
+										}"
+									>
+										<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+												<a
+													class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
+													href={`/writing/${post.id}/`}
+												>
+													<h4 class="h4">{post.data.title}</h4>
+												</a>
+												<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
+													<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">
+														{post.data.tags.map((tag) => (
+															<li>
+																<span class="border py-1 px-4 min-w-fit">{tag}</span>
+															</li>
+														))}
+													</ul> -->
+													<div class="flex gap-x-[var(--space-m)]">
+														<!-- <span class="w-fit md:w-auto">
+															{getReadingTime(post.body)} min
+														</span> -->
+														<span class="w-fit md:w-auto italic">
+															<FormattedDate date={post.data.pubDate} />
+														</span>
+													</div>
+												<!-- </div> -->
+												<!-- <p class="opacity-[0.85] body-text">
+													{post.data.description}
+												</p> -->
+											</div>
 										</div>
 									</div>
-								</div>
-							</li>
-						))
-					}
-				</ol>
+								</li>
+							))
+						}
+					</ol>
+					<div
+						class="col-span-full md:col-span-1 relative"
+					>
+						<div class="md:sticky md:top-[120px]">
+							<span class="h3" data-category=""> Topics </span>
+							<div class="flex flex-wrap gap-x-[var(--space-m)] gap-y-[var(--space-s)] pt-[var(--space-m)]">
+								<button
+									class="category-filter"
+									data-category="All"
+									@click.prevent={`category = 'All'`}
+									:class="{ active: category === 'All' }"
+								>
+									all
+								</button>
+								{
+									categories.map((category) => (
+										<button
+											class="category-filter lowercase"
+											data-category={category}
+											@click.prevent={`category = '${category}'`}
+											:class={`{ 'active': category === '${category}' }`}
+										>
+											{category}
+										</button>
+									))
+								}
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 		</main>
 		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
 	</body>
+	<script>
+		document.addEventListener("mousemove", (e) => {
+			const cur = document.getElementById("cur");
+			if (cur) {
+				cur.style.left = e.clientX + "px";
+				cur.style.top = e.clientY + "px";
+			}
+		});
+		document.querySelectorAll("a, button, .post-item").forEach((el) => {
+			el.addEventListener("mouseenter", () =>
+				document.body.classList.add("cur-lg"),
+			);
+			el.addEventListener("mouseleave", () =>
+				document.body.classList.remove("cur-lg"),
+			);
+		});
+		document.querySelectorAll(".prose, .body").forEach((el) => {
+			el.addEventListener("mouseenter", () =>
+				document.body.classList.add("cur-sm"),
+			);
+			el.addEventListener("mouseleave", () =>
+				document.body.classList.remove("cur-sm"),
+			);
+		});
+	</script>
 </html>

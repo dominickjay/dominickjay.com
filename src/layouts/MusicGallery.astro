@@ -11,37 +11,64 @@ import TableOfContents from "../components/TableOfContents.astro";
 type Props = CollectionEntry<"blog">["data"];
 
 const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
-	Astro.props;
+  Astro.props;
 ---
 
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-	</head>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<header class="!relative pt-[45px] md:pt-[92px] !pb-[56px]">
-					<div class="container">
-						<h1 class="h1">{title}</h1>
-					</div>
-				</header>
-				<Pattern />
-				<div
-					class="container prose grid pt-[32px] md:pt-[64px]"
-					style="--grid-placement: 12; --gutter: 43px; overflow: visible"
-				>
-					<div class="content col-span-full flex flex-col gap-y-[24px]">
-						<div class="text-[28px] tracking-[-0.04em] leading-[140%]">
-							{description}
-						</div>
-						<slot />
-					</div>
-				</div>
-			</article>
-		</main>
-		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
-	</body>
+  <body>
+    <div id="cur"></div>
+    <Header />
+    <main>
+      <article>
+        <header class="!relative pt-[45px] md:pt-[92px] !pb-[56px]">
+          <div class="container">
+            <h1 class="h1">{title}</h1>
+          </div>
+        </header>
+        <Pattern />
+        <div
+          class="container prose grid pt-[32px] md:pt-[64px]"
+          style="--grid-placement: 12; --gutter: 43px; overflow: visible"
+        >
+          <div class="content col-span-full flex flex-col gap-y-[24px]">
+            <div class="text-[28px] tracking-[-0.04em] leading-[140%]">
+              {description}
+            </div>
+            <slot />
+          </div>
+        </div>
+      </article>
+    </main>
+    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+  </body><script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
 </html>

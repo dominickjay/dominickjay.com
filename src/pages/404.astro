@@ -13,9 +13,9 @@ import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 let posts = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-	posts = await getCollection("writing", ({ data }) => !data?.draft);
+  posts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-	posts = await getCollection("writing");
+  posts = await getCollection("writing");
 }
 
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -26,58 +26,74 @@ const randomPost = posts[random];
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<div
-				class="bg-[var(--color-light)] relative min-h-[calc(100svh-260px)] flex items-center justify-center"
-			>
-				<div
-					class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
-					style=""
-				>
-					<h1
-						class="heading-tagline !text-[250px] gradient-text px-[2px] md:px-[4px]"
-						style="background-image: var(--color-gradient);"
-					>
-						404
-					</h1>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div id="cur"></div>
+    <Header />
+    <main>
+      <div
+        class="bg-[var(--color-light)] relative min-h-[calc(100svh-260px)] flex items-center justify-center"
+      >
+        <div
+          class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
+          style=""
+        >
+          <h1
+            class="heading-tagline !text-[250px] gradient-text px-[2px] md:px-[4px]"
+            style="background-image: var(--color-gradient);"
+          >
+            404
+          </h1>
 
-					<div class="intro md:max-w-[450px] md:pb-[20px]">
-						{SITE_DESCRIPTION}
-					</div>
+          <div class="intro md:max-w-[450px] md:pb-[20px]">
+            {SITE_DESCRIPTION}
+          </div>
 
-					<div class="">
-						Want something random? Try this <a
-							href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
-						>
-					</div>
-				</div>
-			</div>
-		</main>
-		<PatternBanner fill="rgba(0, 0, 0, 0.8)" />
-	</body>
+          <div class="">
+            Want something random? Try this <a
+              href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+    <PatternBanner fill="rgba(0, 0, 0, 0.8)" />
+  </body>
 </html>
 
 <script is:inline>
-	function updateTimeTheme() {
-		const now = Temporal.Now.zonedDateTimeISO();
-		const hour = now.hour;
-		let period = "";
+  function updateTimeTheme() {
+    const now = Temporal.Now.zonedDateTimeISO();
+    const hour = now.hour;
+    let period = "";
 
-		if (hour >= 5 && hour < 9) period = "early-morning";
-		else if (hour >= 9 && hour < 12) period = "late-morning";
-		else if (hour >= 12 && hour < 15) period = "early-afternoon";
-		else if (hour >= 15 && hour < 17) period = "mid-afternoon";
-		else if (hour >= 17 && hour < 19) period = "last-afternoon";
-		else if (hour >= 19 && hour < 22) period = "evening";
-		else period = "night";
+    if (hour >= 5 && hour < 9) period = "early-morning";
+    else if (hour >= 9 && hour < 12) period = "late-morning";
+    else if (hour >= 12 && hour < 15) period = "early-afternoon";
+    else if (hour >= 15 && hour < 17) period = "mid-afternoon";
+    else if (hour >= 17 && hour < 19) period = "last-afternoon";
+    else if (hour >= 19 && hour < 22) period = "evening";
+    else period = "night";
 
-		document.documentElement.setAttribute("data-time", period);
-	}
+    document.documentElement.setAttribute("data-time", period);
+  }
 
-	updateTimeTheme();
+  updateTimeTheme();
+  document.addEventListener("mousemove", (e) => {
+    const cur = document.getElementById("cur");
+    if (cur) {
+      cur.style.left = e.clientX + "px";
+      cur.style.top = e.clientY + "px";
+    }
+  });
+  document.querySelectorAll("a, button, .post-item").forEach((el) => {
+    el.addEventListener("mouseenter", () =>
+      document.body.classList.add("cur-lg"),
+    );
+    el.addEventListener("mouseleave", () =>
+      document.body.classList.remove("cur-lg"),
+    );
+  });
 </script>

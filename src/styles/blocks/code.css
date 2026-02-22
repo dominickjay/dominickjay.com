@@ -1,18 +1,26 @@
 pre,
 .astro-code {
-	border: 1px solid var(--color-dark, #000000) !important;
+  /*border: 1px solid var(--color-dark, #000000) !important;
 	background-color: var(--color-light, #ffffff) !important;
 	padding-inline: 24px;
 	padding-block: 24px;
-	color: var(--color-dark, #000000) !important;
+	color: var(--color-dark, #000000) !important;*/
+  background-color: var(--color-light, #ffffff) !important;
+  padding: 20px 20px;
+  overflow-x: auto;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #b0aa9f;
+  border: 1px solid var(--color-dark);
 }
 
 pre span,
 .astro-code span {
-	color: var(--color-dark, #000000) !important;
+  color: var(--color-dark, #000000) !important;
 }
 
 :not(pre) > code {
-	font-weight: 700;
-	color: var(--color-red-900);
+  font-weight: 700;
+  color: var(--color-red-900);
 }

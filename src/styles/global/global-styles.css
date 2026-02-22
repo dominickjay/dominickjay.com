@@ -1,95 +1,95 @@
 @layer core {
-	/*
+  /*
     Global styles
 
     Low-specificity, global styles that apply to the whole
     project: https://cube.fyi/css.html
     */
 
-	* {
-		scrollbar-color: var(--color-dark) var(--color-light);
-		scrollbar-width: thin;
-	}
+  * {
+    scrollbar-color: var(--color-dark) var(--color-light);
+    scrollbar-width: thin;
+  }
 
-	body {
-		background: var(--color-light);
-		color: var(--color-primary);
-		font-family: var(--font-base);
-		line-height: var(--leading-standard);
-		font-size-adjust: from-font;
-		margin: 0;
-		font-weight: 300;
-		font-size: clamp(0.5rem, 0.9565rem + 0.2174vw, 1rem);
-		display: flex;
-		flex-direction: column;
-		min-height: 100svh;
-	}
+  body {
+    background: var(--color-light);
+    color: var(--color-primary);
+    font-family: var(--font-base);
+    font-size-adjust: from-font;
+    margin: 0;
+    font-weight: 300;
+    font-size: clamp(15px, 1.5vw, 16px);
+    line-height: 1.82;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
 
-	main {
-		flex: 1 0 auto;
-		position: relative;
-		overflow: clip;
-		/* padding-block-end: 64px; */
-		display: flex;
-		flex-direction: column;
-		margin-block-end: 16px;
-		z-index: 1;
-		padding-block-end: 64px;
-		background-color: var(--color-light);
-		padding-block-start: 65px;
+  main {
+    flex: 1 0 auto;
+    position: relative;
+    overflow: clip;
+    /* padding-block-end: 64px; */
+    display: flex;
+    flex-direction: column;
+    margin-block-end: 16px;
+    z-index: 1;
+    padding-block-end: 64px;
+    background-color: var(--color-light);
+    padding-block-start: 65px;
 
-		@media (width >= 768px) {
-			padding-block-start: 90px;
-			margin-block-end: 0;
-		}
-	}
+    @media (width >= 768px) {
+      padding-block-start: 90px;
+      margin-block-end: 0;
+    }
+  }
 
-	* {
-		scroll-margin-block-start: 150px;
-	}
+  * {
+    scroll-margin-block-start: 150px;
+  }
 
-	a:not([class]) {
-		--size-block: 2px;
-		--size-inline: calc(var(--size-block) * 2);
+  a:not([class]) {
+    --size-block: 2px;
+    --size-inline: calc(var(--size-block) * 2);
 
-		text-decoration: none;
-		position: relative;
+    text-decoration: none;
+    position: relative;
 
-		&::before,
-		&::after {
-			content: "";
-			position: absolute;
-			bottom: -1px;
-			border-bottom: var(--size-block) solid currentColor;
-			height: var(--size-block);
-			border-radius: var(--size-block);
-			transition: 0.5s ease-in-out all;
-		}
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      border-bottom: var(--size-block) solid currentColor;
+      height: var(--size-block);
+      border-radius: var(--size-block);
+      transition: 0.5s ease-in-out all;
+    }
 
-		&::before {
-			width: var(--size-inline);
-		}
+    &::before {
+      width: var(--size-inline);
+    }
 
-		&::after {
-			width: calc(100% - calc(var(--size-inline) * 2));
-			left: calc(var(--size-inline) * 2);
-		}
+    &::after {
+      width: calc(100% - calc(var(--size-inline) * 2));
+      left: calc(var(--size-inline) * 2);
+    }
 
-		&:hover {
-			text-decoration: none;
+    &:hover {
+      text-decoration: none;
 
-			&::before {
-				width: calc(100% - calc(var(--size-inline) * 2));
-			}
+      &::before {
+        width: calc(100% - calc(var(--size-inline) * 2));
+      }
 
-			&::after {
-				left: 100%;
-				width: var(--size-inline);
-			}
-		}
-	}
+      &::after {
+        left: 100%;
+        width: var(--size-inline);
+      }
+    }
+  }
 
-	/* a[class] {
+  /* a[class] {
         &:hover {
             &::before {
                 content: url('data:image/svg+xml,<svg width="5" height="5" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_1844_1757" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="5" height="5"><path d="M5 4.9126L0 4.9126L-4.30832e-07 0.668274L5 0.668274L5 4.9126Z" fill="white"/></mask><g mask="url(%23mask0_1844_1757)"><path d="M4.97394 4.09578C5.01493 4.16361 5.00803 4.24052 4.97213 4.30436C4.98224 4.377 4.95984 4.45076 4.87885 4.50733C4.80344 4.55999 4.72804 4.61268 4.65268 4.66534C4.52014 4.75791 4.31262 4.78713 4.18372 4.66534C3.59822 4.11227 2.98593 3.58321 2.3512 3.07342C1.87932 3.44761 1.40169 3.81674 0.92748 4.18634C0.761049 4.3161 0.520147 4.27538 0.415436 4.1208C0.262914 4.05654 0.139283 3.97277 0.0370524 3.82978C-0.0116243 3.76166 -0.0078308 3.67566 0.0370524 3.6073C0.34319 3.14137 0.934923 2.73171 1.42145 2.35472C1.35634 2.30525 1.29173 2.25532 1.22531 2.20689C0.569823 1.72907 0.127685 1.42589 0.947976 0.935961C0.959044 0.929351 0.970328 0.930815 0.981564 0.926953C0.99728 0.920798 1.01236 0.916459 1.02978 0.914029C1.0352 0.913848 1.04026 0.913074 1.0456 0.913434C1.06248 0.912267 1.079 0.908617 1.09611 0.911471C1.53713 0.984866 1.94727 1.27823 2.31937 1.60129C2.68185 1.298 3.06784 1.00825 3.49226 0.836325C3.59331 0.795378 3.71379 0.819242 3.79159 0.876509C3.92204 0.868147 4.04098 0.936958 4.10066 1.03584C4.1095 1.04048 4.1152 1.04313 4.12478 1.04821C4.31443 1.14878 4.33175 1.34907 4.19143 1.48713C3.87454 1.79884 3.53769 2.09515 3.1943 2.38621C3.81259 2.89905 4.58461 3.45212 4.97394 4.09578Z" fill="black"/></g></svg>');
@@ -97,41 +97,41 @@
         }
     } */
 
-	fieldset {
-		& label {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			gap: 16px;
+  fieldset {
+    & label {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
 
-			&:before {
-				content: "";
-				background: var(--color-light);
-				block-size: 16px;
-				border: 1px solid var(--color-primary);
-				border-radius: 50%;
-				inline-size: 16px;
-				inset-inline-start: calc((100% - 14px) / 2);
-				inset-block-start: 0;
-				position: absolute;
-				transition: 0.1s linear all;
-				left: 0;
-				right: 0;
-				margin-inline: auto;
-			}
+      &:before {
+        content: "";
+        background: var(--color-light);
+        block-size: 16px;
+        border: 1px solid var(--color-primary);
+        border-radius: 50%;
+        inline-size: 16px;
+        inset-inline-start: calc((100% - 14px) / 2);
+        inset-block-start: 0;
+        position: absolute;
+        transition: 0.1s linear all;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+      }
 
-			input {
-				opacity: 0;
-			}
-		}
+      input {
+        opacity: 0;
+      }
+    }
 
-		& label.checked:before {
-			background: var(--color-primary);
-		}
-	}
+    & label.checked:before {
+      background: var(--color-primary);
+    }
+  }
 
-	strong {
-		font-weight: 600;
-	}
+  strong {
+    font-weight: 600;
+  }
 }

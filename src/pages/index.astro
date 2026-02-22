@@ -27,11 +27,7 @@ const seedling = posts.filter((post: any) => post.data.growth === "seedling");
 
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const featuredPosts = [
-  ...evergreen.slice(0, 1),
-  ...growing.slice(0, 1),
-  ...seedling.slice(0, 1),
-];
+const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 ---
 
 <Layout
@@ -48,30 +44,33 @@ const featuredPosts = [
       <Pattern />
     </div>
     <section class="relative">
+      <div>
+        <InfoPanel />
+      </div>
       <div
         class="container flex flex-col gap-y-[32px] py-[32px] md:py-[64px] [--gutter:32px] md:[--gutter:3vh] [--grid-placement:4] md:[--grid-placement:12] relative"
         style=""
       >
         <div class="row-start-1 inline-heading-text">
-          <InlineHeadingText heading={SITE_TAGLINE} text={SITE_DESCRIPTION} />
+          <InlineHeadingText
+            heading={SITE_TAGLINE}
+            text={SITE_DESCRIPTION}
+            italicIndices={[2, 5]}
+          />
         </div>
 
         <div
           class="flex flex-col md:flex-row justify-between md:items-end h-fit gap-[16px] md:gap-[32px]"
         >
-          <div class="w-full flex">
+          <div class="flex">
             <Profile
               random="true"
-              class="h-fit w-full mx-auto md:mx-0 md:max-w-[450px]"
+              class="h-fit w-full mx-auto md:mx-0 md:min-w-[450px]"
             />
           </div>
-          <div class="">
+          <div class="w-full max-w-[650px]">
             <FeaturePanel featuredPosts={featuredPosts} />
           </div>
-        </div>
-
-        <div>
-          <InfoPanel />
         </div>
       </div>
     </section>
