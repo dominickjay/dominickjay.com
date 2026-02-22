@@ -1,0 +1,13 @@
+---
+
+const { type = 'warning' } = Astro.props;
+---
+
+<div class="fyi-block fyi-block--warning">
+    <div class="fyi-block__title">
+        <slot name="title" />
+    </div>
+    <div class="fyi-block__content">
+        <slot />
+    </div>
+</div>

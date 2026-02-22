@@ -1,0 +1,168 @@
+@layer components {
+    @layer variations {
+
+        .companies {
+
+            --flow-space: 32px;
+
+            container: companies / inline-size;
+            max-width: 1089px;
+            margin-inline: auto;
+
+            @media (width <= 768px) {
+                --flow-space: 16px;
+            }
+        }
+
+        .company-grid {
+            --grid-placement: 3;
+            --gutter: 8px;
+            @media (width >= 768px) {
+                --grid-placement: 5;
+                --gutter: 16px;
+            }
+        }
+
+        .company-container {
+            --gutter: 24px;
+            --repel-vertical-alignment: flex-start;
+            --transition-duration: 1s;
+
+            padding-inline: var(--space-s);
+            scroll-margin-inline-start: var(--space-l);
+            transition: transform var(--transition-duration) ease-in-out;
+
+            @media (width <= 768px) {
+                --gutter: 8px;
+                scroll-margin-inline-start: var(--space-s);
+            }
+        }
+
+        .company-card__content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-s);
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .company-card__options {
+            display: flex;
+            gap: var(--space-m);
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex: 1;
+            overflow: hidden;
+
+
+            .company-option {
+                opacity: 0.64;
+                cursor: pointer;
+            }
+
+            .company-option--active {
+                opacity: 1;
+            }
+        }
+
+        .company-option-label {
+            position: relative;
+            aspect-ratio: 16/9;
+            max-width: 205px;
+            width: 100%;
+            flex-shrink: 0;
+
+            @media (width <= 768px) {
+                max-width: 100%;
+            }
+
+            input {
+                margin-inline-end: 2px;
+            }
+
+            img {
+                inset: 0;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            &--active {
+                border: 2px solid var(--color-dark);
+            }
+        }
+
+        .company-card {
+            --blur-amount: 2px;
+
+            transition: filter ease-in-out var(--transition-duration);
+            border: 1px solid var(--color-dark);
+            padding: 16px;
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            display: flex;
+            gap: 16px;
+            min-width: fit-content;
+            height: 100%;
+            height: -webkit-fill-available;
+            filter: blur(var(--blur-amount));
+
+            .company-card__details {
+                display: flex;
+                flex-direction: column;
+                gap: var(--space-s);
+            }
+
+             .company-option {
+                font-size: 1.85rem;
+                line-height: 1.85rem;
+                cursor: pointer;
+            }
+        }
+
+        .company-card--active {
+            --scaled-size: 1;
+            --blur-amount: 0;
+        }
+
+        .featured-work-list {
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            overflow-x: auto;
+            gap: var(--space-s);
+        }
+
+        @container companies (width <= 768px) {
+            .company-card {
+                display: none;
+                flex-direction: column;
+
+                .company-card__details {
+                    flex-direction: column;
+                    /* align-items: center; */
+                    width: 100%;
+                }
+            }
+
+            .company-card--active {
+                display: flex;
+                width: 100%;
+            }
+
+            .featured-work-list {
+                flex-direction: column;
+                max-height: 500px;
+                scroll-snap-type: y mandatory;
+            }
+        }
+    }
+}

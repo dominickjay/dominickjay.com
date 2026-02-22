@@ -1,0 +1,36 @@
+---
+const { featuredPosts } = Astro.props;
+---
+
+<ul class="featured-posts">
+  {
+    featuredPosts.map((post, index) => (
+      <li>
+        <a href={`/writing/${post.id}/`} class={`featured-post js-spotlight`}>
+          <span class={`growth growth--${post.data.growth}`}>
+            {post.data.growth}
+          </span>
+          <span class="relative">{post.data.title}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<script>
+  /** @type {HTMLElement[]} */
+  const cards = document.querySelectorAll(".js-spotlight");
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty(
+        "--mx",
+        ((e.clientX - r.left) / r.width) * 100 + "%",
+      );
+      card.style.setProperty(
+        "--my",
+        ((e.clientY - r.top) / r.height) * 100 + "%",
+      );
+    });
+  });
+</script>

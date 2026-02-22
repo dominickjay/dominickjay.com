@@ -1,0 +1,11 @@
+.gradient-text {
+  background-image: var(--color-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-inline-end: 20px;
+
+  & + * {
+    margin-top: -10px;
+  }
+}

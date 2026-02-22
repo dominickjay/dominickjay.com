@@ -1,0 +1,257 @@
+---
+Astro.response.headers.set(
+	"Cache-Control",
+	"public, max-age=300, s-maxage=86400",
+);
+
+import Layout from "../layouts/Default.astro";
+import MarqueeHeading from "../components/MarqueeHeading.astro";
+import ScrollHeading from "../components/ScrollHeading.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { getTopTracks, type LastFmTopTrack } from "../lib/lastfm";
+import { getCollection, render } from "astro:content";
+import moment from "moment";
+
+const today = moment().format("MM/DD/YYYY");
+
+let nowPosts = [];
+
+if (import.meta.env.ENVIRONMENT === "production") {
+	nowPosts = await getCollection("now", ({ data }) => !data?.draft);
+} else {
+	nowPosts = await getCollection("now");
+}
+
+nowPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const showMarquee = false;
+
+// Simple in-memory cache to avoid rate limiting during development
+const cache = new Map<string, { data: any; expires: number }>();
+const CACHE_TTL = 30000; // 30 seconds
+
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
+
+let topTrack: LastFmTopTrack[] = [];
+let currentBooks = [];
+let allBooks = [];
+
+function getCached(key: string): any | null {
+	const cached = cache.get(key);
+	if (cached && cached.expires > Date.now()) {
+		return cached.data;
+	}
+	cache.delete(key);
+	return null;
+}
+
+function setCached(key: string, data: any): void {
+	cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+}
+
+// Helper function to make GraphQL requests
+async function hardcoverGraphQL(
+	query: string,
+	variables: any,
+	useAuth = false,
+) {
+	if (useAuth && !hardcoverToken) {
+		throw new Error(
+			"Hardcover token is required for authenticated requests. " +
+				"Please set the hardcoverToken environment variable. " +
+				"Get your token from https://hardcover.app/account/api",
+		);
+	}
+
+	// Create cache key from query and variables
+	const cacheKey = JSON.stringify({ query, variables });
+	const cached = getCached(cacheKey);
+	if (cached) {
+		console.log("💾 Using cached response for query");
+		return cached;
+	}
+
+	const headers: Record<string, string> = {
+		"Content-Type": "application/json",
+		"User-Agent": "dominickjay.com/1.0",
+	};
+
+	if (useAuth) {
+		// Use Bearer prefix for JWT tokens (standard for Hasura/GraphQL APIs)
+		headers["authorization"] = hardcoverToken.startsWith("Bearer ")
+			? hardcoverToken
+			: `Bearer ${hardcoverToken}`;
+	}
+
+	// console.log("🌐 GraphQL Request:", {
+	//   useAuth,
+	//   variables,
+	//   query: query.substring(0, 100) + "...",
+	// });
+
+	const response = await fetch("https://api.hardcover.app/v1/graphql", {
+		method: "POST",
+		headers,
+		body: JSON.stringify({ query, variables }),
+	});
+
+	console.log("🌐 GraphQL Response status:", response.status);
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		console.error("🌐 GraphQL Error response:", errorText);
+
+		// If rate limited, wait a bit and suggest using cache
+		if (response.status === 429) {
+			console.warn(
+				"⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.",
+			);
+		}
+
+		throw new Error(
+			`HTTP error! status: ${response.status}, message: ${errorText}`,
+		);
+	}
+
+	const json = await response.json();
+	setCached(cacheKey, json);
+	// console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
+	return json;
+}
+
+try {
+	const [listInfo] = await Promise.all([
+		hardcoverGraphQL(
+			`query getBooksByYear {
+	      me {
+	        # We fetch from user_books directly to get all your reading history
+	        user_books(where: {user_book_status: {slug: {_eq: "read"}}}) {
+	          book {
+							id
+              title
+              contributions {
+                author {
+                  name
+                }
+              }
+	          }
+	          user_book_reads {
+	            finished_at
+	          }
+	        }
+	      }
+			    }`,
+			{},
+			true,
+		),
+	]);
+
+	allBooks = listInfo.data.me[0].user_books || [];
+} catch (error) {
+	console.error(error);
+	// Expected output: ReferenceError: nonExistentFunction is not defined
+	// (Note: the exact output may be browser-dependent)
+}
+
+// Fetch all data using consolidated utilities
+const topTracks = await Promise.all([getTopTracks(apiKey, 1)]);
+
+if (topTracks[0].toptracks?.track) {
+	topTrack = topTracks[0].toptracks.track;
+}
+---
+
+<Layout title="Now" description="What I'm doing right /now">
+	<div
+		class="container grid grid-cols-6 md:!max-w-[992px]"
+		style="--grid-placement: 6; --gutter: 43px;"
+	>
+		<div class="overflow-clip col-span-full md:col-span-4">
+			{showMarquee && <MarqueeHeading title="Now" />}
+			{!showMarquee && <ScrollHeading title="Now" />}
+		</div>
+		<div class="statistics-grid col-span-full">
+			<div
+				class="statistics-grid__item statistics-grid__item-1"
+				style="grid-area: item1"
+			>
+				<div class="statistics-grid__content flex flex-col gap-[16px]">
+					<span class="statistics-grid__title h4">Books read</span>
+					<span
+						class="statistics-grid__value h2 leading-[1]"
+						x-data={JSON.stringify({
+							count: 0,
+							target: allBooks.length,
+							duration: 2000,
+						})}
+						x-init="
+							const startTime = Date.now();
+							const animate = () => {
+								const elapsed = Date.now() - startTime;
+								const progress = Math.min(elapsed / duration, 1);
+								const eased = progress < 0.85
+									? 2 * progress * progress
+									: -1 + (4 - 2 * progress) * progress;
+								count = Math.floor(eased * target);
+								if (progress < 1) {
+									requestAnimationFrame(animate);
+								} else {
+									count = target;
+								}
+							};
+							requestAnimationFrame(animate);
+						"
+						x-text="count"></span>
+				</div>
+			</div>
+			<div
+				class="statistics-grid__item statistics-grid__item-2"
+				style="grid-area: item2"
+			>
+				<div class="statistics-grid__content flex flex-col gap-[16px]">
+					<span class="statistics-grid__title h4">Top track this week</span>
+					{
+						topTrack[0] && (
+							<span class="statistics-grid__value h2 leading-[1]">
+								{topTrack[0].name}
+							</span>
+						)
+					}
+				</div>
+			</div>
+			<div
+				class="statistics-grid__item statistics-grid__item-3"
+				style="grid-area: item3"
+			>
+				<div class="statistics-grid__content flex flex-col gap-[16px]">
+					<span class="statistics-grid__value h4">Currently watching</span>
+					<span class="statistics-grid__title h2 leading-[1]">Inside No.9</span>
+				</div>
+			</div>
+		</div>
+		<ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
+			{
+				(
+					await Promise.all(
+						nowPosts.map(async (post) => {
+							const { Content } = await render(post);
+							return { post, Content };
+						}),
+					)
+				).map(({ post, Content }) => (
+					<li class="flow">
+						<div class="h3">
+							<FormattedDate date={post.data.pubDate} />
+						</div>
+						<div class="post__content flex flex-col gap-[var(--space-m)]">
+							<div class="post__description flow prose">
+								<Content tracks={post.data.tracks} pubDate={today} />
+							</div>
+						</div>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</Layout>

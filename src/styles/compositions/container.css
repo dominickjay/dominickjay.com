@@ -1,0 +1,18 @@
+html {
+	--container-width: 1456px;
+	--real-container-width: min(100vw, var(--container-width));
+	--container-padding: clamp(9px, calc(20vw - 64px), 16px);
+}
+
+.container {
+    --_container-width: var(--container-width);
+    --real-container-width: min(100vw, var(--_container-width));
+    --_container-padding: var(--container-padding);
+
+    padding-left: var(--_container-padding);
+    padding-right: var(--_container-padding);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: var(--_container-width);
+}

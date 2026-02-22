@@ -1,0 +1,24 @@
+@layer components {
+    .bio {
+        --grid-placement: auto-fit;
+        --gutter: 20px;
+
+        padding-block: var(--padding-block, 30px);
+
+        @media (min-width: 992px) {
+            --padding-block: 62px;
+            --gutter: 43px;
+
+            padding-block-start: 0;
+        }
+    }
+
+    .bio__content {
+        grid-row-start: 2;
+        grid-column: span 12 / span 12;
+
+        @media (min-width: 1024px) {
+            grid-column: span 7 / span 7;
+        }
+    }
+}

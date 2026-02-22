@@ -1,0 +1,196 @@
+---
+export const prerender = false;
+
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
+import ArtistCard from "../components/ArtistCard.astro";
+import CurrentlyPlaying from "../components/CurrentlyPlaying";
+import { SITE_DESCRIPTION } from "../consts";
+import { sanityClient } from "sanity:client";
+
+const CACHE_ID = "global-music-cache";
+const cache = await sanityClient.fetch(
+  `*[_type == "musicCache" && _id == $id][0]{ lastUpdated, topTracksJson, recentArtistsJson }`,
+  { id: CACHE_ID },
+);
+
+let artists: Array<{
+  name: string;
+  playcount?: string;
+  image?: Array<{ "#text": string; size?: string }>;
+  info?: { image?: Array<{ "#text": string }> };
+}> = [];
+let tracks: Array<{
+  name: string;
+  artist: { "#text": string };
+  image?: Array<{ "#text": string }>;
+}> = [];
+const trackColor = "#000000";
+
+if (cache?.topTracksJson) {
+  try {
+    const data = JSON.parse(cache.topTracksJson);
+    const list = data?.toptracks?.track;
+    tracks = Array.isArray(list) ? list.slice(0, 10) : [];
+  } catch (_) {
+    tracks = [];
+  }
+}
+
+if (cache?.recentArtistsJson) {
+  try {
+    const data = JSON.parse(cache.recentArtistsJson);
+    const list = data?.topartists?.artist;
+    artists = Array.isArray(list)
+      ? list.map((a) => {
+          const img = a.image;
+          const imageArr = !img ? [] : Array.isArray(img) ? img : [img];
+          return {
+            name: a.name,
+            playcount: a.playcount,
+            image: imageArr,
+            info: imageArr.length ? { image: imageArr } : undefined,
+          };
+        })
+      : [];
+  } catch (_) {
+    artists = [];
+  }
+}
+
+const totalPlaycount = artists.reduce((sum, artist) => {
+  const playcount = artist.playcount ? Number(artist.playcount) : 0;
+  return sum + playcount;
+}, 0);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title="Music" description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <div id="cur"></div>
+    <Header />
+    <main>
+      <div
+        class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
+      >
+        <div class="md:sticky top-0 h-fit shrink-0">
+          <span class="h3 mb-[var(--space-s)] md:mb-[var(--space-m)] block"
+            >Top 10 Tracks</span
+          >
+          <ol class="post-list flow max-md:mx-[-16px]" style="--flow-space: 0;">
+            {
+              tracks.map((track) => (
+                <li class="post flex flex-col gap-[3px] !py-[6px] md:!px-[6px]">
+                  <div class="post-item flex flex-col gap-0">
+                    <span class="font-semibold">{track.name}</span>
+                    <span class="text-[0.85rem]">{track.artist.name}</span>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="flex flex-col gap-[20px] w-full">
+          <div
+            class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 gap-[20px]"
+          >
+            <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
+              <h1 class="h2 col-span-full">Currently Playing</h1>
+              <CurrentlyPlaying client:load />
+            </div>
+          </div>
+          <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
+            <div
+              class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
+            >
+              <h1 class="h2 col-span-full">Recent Artists</h1>
+              <div
+                class="col-span-full flex gap-[6px] snap-x overflow-auto snap-mandatory accent-dark card-row"
+              >
+                {
+                  artists.map((artist, i) => {
+                    const playcount = artist.playcount
+                      ? Number(artist.playcount)
+                      : 0;
+                    const percentage =
+                      totalPlaycount > 0
+                        ? (playcount / totalPlaycount) * 100
+                        : 0;
+                    return (
+                      <div class="flex-1 min-w-[250px] snap-start">
+                        <div
+                          class="flex"
+                          style={`--track-color: ${trackColor}`}
+                        >
+                          <ArtistCard
+                            artist={artist}
+                            isNowPlaying={false}
+                            trackColor={trackColor}
+                            index={i}
+                            percentage={percentage}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+  </body>
+</html>
+
+<style is:global>
+  .card-row::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .card-row::-webkit-scrollbar-track {
+    border-radius: 100vh;
+  }
+
+  .card-row::-webkit-scrollbar-thumb {
+    background: var(--color-dark);
+    border-radius: 100vh;
+    border: 1px solid var(--color-dark);
+    transition: all 0.25s ease-in-out;
+  }
+
+  .card-row::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-dark) 85%, transparent);
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("mousemove", (e) => {
+    const cur = document.getElementById("cur");
+    if (cur) {
+      cur.style.left = e.clientX + "px";
+      cur.style.top = e.clientY + "px";
+    }
+  });
+  document.querySelectorAll("a, button, .post-item").forEach((el) => {
+    el.addEventListener("mouseenter", () =>
+      document.body.classList.add("cur-lg"),
+    );
+    el.addEventListener("mouseleave", () =>
+      document.body.classList.remove("cur-lg"),
+    );
+  });
+  document.querySelectorAll(".prose, .body").forEach((el) => {
+    el.addEventListener("mouseenter", () =>
+      document.body.classList.add("cur-sm"),
+    );
+    el.addEventListener("mouseleave", () =>
+      document.body.classList.remove("cur-sm"),
+    );
+  });
+</script>

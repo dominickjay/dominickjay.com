@@ -1,5 +1,4 @@
 {
-	"promptVSCodeSettings": true,
 	"geolocation": {
 		"data": {
 			"city": "Plymouth",
@@ -12,10 +11,10 @@
 				"name": "England"
 			},
 			"timezone": "Europe/London",
-			"latitude": 50.3881,
-			"longitude": -4.1324
+			"latitude": 50.368,
+			"longitude": -4.1329,
+			"postalCode": "PL4"
 		},
-		"timestamp": 1676622041521
-	},
-	"siteId": "7ff0aeba-1ce6-4c84-ba51-31a053c6b3f0"
+		"timestamp": 1771782676630
+	}
 }

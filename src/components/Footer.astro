@@ -1,0 +1,55 @@
+---
+import NavLink from '../components/NavigationLink.astro';
+import PatternBanner from '../components/Pattern-Banner.astro';
+const today = new Date();
+---
+
+<!-- <div class="w-full text-center translate-y-[30%] mt-[250px] pointer-events-none">
+    <span class="-top-1/2 h1 text-[clamp(9.375rem,15vw,18.75rem)] relative">
+        Allonsy
+        <svg class="absolute right-[105px] top-[33%]" width="110" height="39" viewBox="0 0 110 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.80623 38.5186L0.835201 0.527287L109.806 0.518556" stroke="currentColor" stroke-dasharray="4 4"/>
+        </svg>
+        <span class="absolute top-[30%] right-[-8%] border border-solid py-[16px] px-[24px] body-text">
+            Meaning: Let's Go
+        </span>
+    </span>
+</div> -->
+
+<footer class="relative py-[20px] bg-black text-white overflow-hidden">
+    <PatternBanner fill="white" />
+    <div class="relative container grid !grid-cols-3 place-content-center pb-[8px]">
+        <div class="flex flex-col justify-center gap-y-[16px]">
+            <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-4 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
+                <a class="nav-link" href="//mastodon.social/@dominickjay" target="_blank">
+                    <span class="text-white">Mastodon</span>
+                </a>
+                <a class="nav-link" href="//github.com/dominickjay" target="_blank">
+                    <span class="text-white">GitHub</span>
+                </a>
+                <a class="nav-link" href="//linkedin.com/in/dominickjay/" target="_blank">
+                    <span class="text-white">LinkedIn</span>
+                </a>
+                <a class="nav-link" href="//bsky.app/profile/dominickjay.bsky.social" target="_blank">
+                    <span class="text-white">Bluesky</span>
+                </a>
+                <a class="nav-link" href="//last.fm/user/zerosandones217" target="_blank">
+                    <span class="text-white">Last.fm</span>
+                </a>
+            </nav>
+        </div>
+        <div class="col-span-full md:col-start-3 md:col-span-1 flex items-center justify-end gap-x-[16px]">
+            <nav class="internal-links flex gap-x-[32px]" aria-label="Internal Site Links">
+                <a class="nav-link translate-x-[-10px] text-white" href="/writing">Writing</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/about">About</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/books">Reading List</a>
+                <a class="nav-link translate-x-[-10px] text-white" href="/music">Music</a>
+            </nav>
+        </div>
+    </div>
+    <div class="py-[8px]">
+        <div class="container flex justify-end">
+            &copy; {today.getFullYear()} Dom Jay. All rights reserved.
+        </div>
+    </div>
+</footer>

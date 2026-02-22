@@ -1,0 +1,90 @@
+---
+/** @type {{ heading: string; text: string; italicIndices?: number[] }} */
+const { heading, text, italicIndices = [] } = Astro.props;
+/** @type {Array<{ text: string; italic: boolean }>} */
+const words = heading.split(/\s+/).map((word, i) => ({
+  text: word,
+  italic: italicIndices.includes(i),
+}));
+---
+
+<h1
+  id="heroTitle"
+  class="heading-tagline"
+  x-data="headingScramble()"
+  x-init="init()"
+>
+  {
+    words.map((w, i) => (
+      <>
+        <span
+          class:list={["sw", w.italic && "italic gradient-text"]}
+          style={[w.italic && "background-image: var(--color-gradient)"]}
+          data-word={w.text}
+          x-on:mouseenter="scramble($event.currentTarget)"
+        >
+          {w.text}
+        </span>
+        {i < words.length - 1 ? " " : ""}
+      </>
+    ))
+  }
+</h1>
+
+<script>
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%·—";
+  /** @type {() => { scramble: (el: HTMLElement) => void }} */
+  const headingScramble = function () {
+    return {
+      // init() {
+      //   this.$nextTick(() => {
+      //     this.$el.querySelectorAll(".sw").forEach((el) => {
+      //       el.style.minWidth = `${el.offsetWidth}px`;
+      //     });
+      //   });
+      // },
+      /** @param {HTMLElement} el */
+      scramble(/** @type {HTMLElement} */ el) {
+        if (/** @type {HTMLElement & { _busy?: boolean }} */ (el)._busy) return;
+        /** @type {HTMLElement & { _busy?: boolean }} */ (el)._busy = true;
+        el.classList.add("active");
+        const orig = el.dataset.word ?? "";
+        let frame = 0;
+        const frames = 14;
+        const id = setInterval(() => {
+          el.textContent = orig
+            .split("")
+            .map((ch, i) =>
+              frame / frames > i / orig.length
+                ? orig[i]
+                : CHARS[Math.floor(Math.random() * CHARS.length)],
+            )
+            .join("");
+          if (++frame > frames) {
+            clearInterval(id);
+            el.textContent = orig;
+            el.classList.remove("active");
+            /** @type {HTMLElement & { _busy?: boolean }} */ (el)._busy = false;
+          }
+        }, 38);
+      },
+    };
+  };
+  // @ts-expect-error Alpine x-data global
+  window.headingScramble = headingScramble;
+</script>
+
+<style>
+  .sw {
+    display: inline-block;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .sw.italic {
+    font-style: italic;
+  }
+</style>
+
+<div class="intro shrink-0">
+  {text}
+</div>

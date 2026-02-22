@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { generateCategoryData } from "../utils/utils.mjs";
+import TableOfContents from "../components/TableOfContents.astro";
+import DefaultHero from "../components/DefaultHero.astro";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
+  Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <div id="cur"></div>
+    <Header />
+    <main>
+      <article>
+        <div
+          class="pt-[32px] md:pt-[64px]"
+          style="--grid-placement: 12; --gutter: 43px;"
+        >
+          <slot />
+        </div>
+      </article>
+    </main>
+    <div class="fixed bottom-0 left-0 right-0">
+      <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+    </div>
+  </body><script
+    data-goatcounter="https://dominickjay.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"></script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+  <script is:inline>
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+  </script>
+</html>
