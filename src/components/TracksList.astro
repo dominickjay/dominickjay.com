@@ -14,22 +14,29 @@ const { tracks = [] } = Astro.props;
 	style="--flow-space: 0;"
 >
 	{
-		tracks.map((track) => (
+		tracks.map((track, i) => (
 			<li class="post-item">
-				<div class="post [--block-space:var(--space-s)]">
-					<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
-						<span class="font-semibold">
-							{track.title}{" "}
-							<span
-								class="opacity-[0.85] italic body"
-								style="font-family: var(--font-base);"
-							>
-								by {track.artist}
-							</span>
+				<div class="post-link post-link--small">
+					<span class="post-n">{String(i + 1).padStart(2, "0")}</span>
+			    <div class="post-body">
+			      <span
+							class="post-title">{track.title}{" "}
+								<span
+									class="post-artist"
+								>by {track.artist}</span>
 						</span>
-					</div>
+			    </div>
 				</div>
 			</li>
 		))
 	}
 </ol>
+
+<script is:inline>
+	// Stagger reveal
+	const items=document.querySelectorAll('.post-item');
+	const obs=new IntersectionObserver(entries=>{
+	  entries.forEach(e=>{if(!e.isIntersecting)return;const i=[...items].indexOf(e.target);setTimeout(()=>e.target.classList.add('visible'),i*26);obs.unobserve(e.target);});
+	},{threshold:.05});
+	items.forEach(el=>obs.observe(el));
+</script>
