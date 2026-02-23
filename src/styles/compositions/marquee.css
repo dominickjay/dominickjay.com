@@ -1,35 +1,33 @@
 @layer components {
-    .marquee {
-        --gap: var(--space-s);
-        display: flex;
-        overflow: hidden;
-        user-select: none;
-        gap: var(--gap);
-    }
+  .marquee {
+    --gap: var(--space-s);
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+  }
 
-    .marquee__content {
-        flex-shrink: 0;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        min-width: 0;
-        gap: var(--gap);
-        animation: scroll 20s linear infinite;
-        padding-inline: var(--inline-spacing, 0);
-    }
+  .marquee__content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 0;
+    gap: var(--gap);
+    animation: scroll 20s linear infinite;
+    padding-inline: var(--inline-spacing, 0);
+  }
 
-    @keyframes scroll {
-        from {
-            transform: translateX(0);
-        }
-        to {
-            transform: translateX(calc(-100% - var(--gap)));
-        }
-    }
+  .marquee:hover .marquee__content {
+    animation-play-state: paused;
+  }
 
-    .marquee.info-panel .marquee__content {
-        @media (width <= 768px) {
-            animation: none !important;
-        }
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
     }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }

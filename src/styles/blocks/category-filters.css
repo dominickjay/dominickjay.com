@@ -1,54 +1,35 @@
-*:has(> .category-filters) {
-	&::after {
-		content: "";
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 64px;
-		height: 100%;
-		background: linear-gradient(to right, transparent, var(--color-light));
-		pointer-events: none;
-	}
+.category-filters {
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  gap: var(--space-s);
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-snap-align: start;
+  scroll-snap-align: start;
+  position: relative;
+
+  .category-filter:last-child {
+    margin-inline-end: var(--space-l);
+  }
+
+  .h3 {
+    margin-inline-end: var(--space-s);
+  }
 }
 
-.category-filters {
-	display: flex;
-	overflow: auto;
-	align-items: center;
-	gap: var(--space-s);
-	scroll-snap-type: x mandatory;
-	scroll-snap-align: start;
-	scroll-snap-stop: always;
-	scroll-snap-align: start;
-	scroll-snap-align: start;
-	position: relative;
+.category-filter {
+  font-family: var(--font-base);
+  cursor: pointer;
+  min-width: fit-content;
+  transition: transform 0.25s ease-in-out;
 
-	.category-filter:last-child {
-		margin-inline-end: var(--space-l);
-	}
+  &:hover {
+    transform: translateX(5px);
+  }
 
-	.category-filter {
-		padding-inline: var(--space-m);
-		padding-block: var(--space-s) var(--space-xs);
-		font-family: var(--font-base);
-		border: 1px solid var(--color-dark);
-		background-color: var(--color-light);
-		cursor: pointer;
-		transition: all 0.3s ease-in-out;
-		min-width: fit-content;
-
-		&:hover {
-			background-color: var(--color-dark);
-			color: var(--color-light);
-		}
-
-		&.active {
-			background-color: var(--color-dark);
-			color: var(--color-light);
-		}
-	}
-
-	.h3 {
-		margin-inline-end: var(--space-s);
-	}
+  &.active {
+    transform: translateX(5px);
+  }
 }

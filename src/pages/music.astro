@@ -185,7 +185,7 @@ const totalPlaycount = artists.reduce((sum, artist) => {
       document.body.classList.remove("cur-lg"),
     );
   });
-  document.querySelectorAll(".prose, .body").forEach((el) => {
+  document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
     el.addEventListener("mouseenter", () =>
       document.body.classList.add("cur-sm"),
     );

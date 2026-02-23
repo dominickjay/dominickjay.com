@@ -20,6 +20,12 @@ posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 // Extract all unique tags from posts
 const allTags = posts.flatMap((post) => post.data.tags);
 const categories = [...new Set(allTags)].sort();
+const tagCounts = Object.fromEntries(
+	categories.map((tag) => [
+		tag,
+		posts.filter((post) => post.data.tags?.includes(tag)).length,
+	]),
+);
 const postLength = posts.length;
 
 const growthOptions = [
@@ -71,13 +77,10 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 					categoryOptions: ${JSON.stringify(categories)}
 				}`}
 			>
-				<div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[var(--space-m)] md:gap-[var(--space-xl)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+				<!-- <div class="flex flex-col md:flex-row justify-between items-baseline h-fit gap-[var(--space-m)] md:gap-[var(--space-xl)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
 					<div class="max-md:w-full shrink-0 flex items-center gap-x-[var(--space-m)]">
-						<div class="flex-1">
-							Search
-						</div>
 						<select
-							class="shrink-0 px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
+							class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
 							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log('Growth dropdown is:' + growth);"
 						>
 							{
@@ -91,15 +94,49 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 								))
 							}
 						</select>
+						<div class="flex-1">
+							<div class="search-wrap">
+				        <span class="search-icon">⌕</span>
+				        <input type="text" class="search-input" id="searchInput" placeholder="Search posts…" autocomplete="off" spellcheck="false">
+				      </div>
+						</div>
+						<span class="results-count" id="resultsCount">35 posts</span>
 					</div>
-				</div>
+				</div> -->
 				<div class="!grid grid-cols-4 gap-[var(--space-m)]">
+					<div class="col-span-full md:col-span-3 max-md:w-full shrink-0 flex items-center gap-x-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+						<select
+							class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
+							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log('Growth dropdown is:' + growth);"
+						>
+							{
+								growthOptions.map((option) => (
+									<option
+										value={option.value}
+										x-bind:selected={`growth === '${option.value}'`}
+									>
+										{option.label}
+									</option>
+								))
+							}
+						</select>
+						<div class="flex-1 h-full">
+							<div class="search-wrap">
+				        <span class="search-icon">⌕</span>
+				        <input type="text" class="search-input" id="searchInput" placeholder="Search posts…" autocomplete="off" spellcheck="false">
+				      </div>
+						</div>
+						<span class="results-count" id="resultsCount">35 posts</span>
+					</div>
 					<ol class="!pb-[56px] post-list flow max-md:mx-[-16px] col-span-full md:col-span-3" style="--flow-space: 0;">
 						{
 							posts.map((post) => (
 								<li
 									class="post-item"
 									x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
+									data-title={post.data.title?.toLowerCase() ?? ''}
+									data-stage={post.data.growth || 'all'}
+									data-topics={post.data.tags?.join(',') ?? ''}
 									@mouseenter="
 										const rect = $el.getBoundingClientRect();
 										const y = event.clientY - rect.top;
@@ -132,7 +169,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 													class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 													href={`/writing/${post.id}/`}
 												>
-													<h4 class="h4">{post.data.title}</h4>
+													<span class="">{post.data.title}</span>
 												</a>
 												<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
 													<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">
@@ -166,9 +203,9 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 					>
 						<div class="md:sticky md:top-[120px]">
 							<span class="h3" data-category=""> Topics </span>
-							<div class="flex flex-wrap gap-x-[var(--space-m)] gap-y-[var(--space-s)] pt-[var(--space-m)]">
+							<div class="flex max-md:flex-wrap md:flex-col gap-x-[var(--space-m)] gap-y-[var(--space-s)] pt-[var(--space-m)]">
 								<button
-									class="category-filter"
+									class="category-filter w-fit"
 									data-category="All"
 									@click.prevent={`category = 'All'`}
 									:class="{ active: category === 'All' }"
@@ -178,12 +215,12 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 								{
 									categories.map((category) => (
 										<button
-											class="category-filter lowercase"
+											class="category-filter lowercase w-fit"
 											data-category={category}
 											@click.prevent={`category = '${category}'`}
 											:class={`{ 'active': category === '${category}' }`}
 										>
-											{category}
+											{category} <span class="opacity-60">({tagCounts[category]})</span>
 										</button>
 									))
 								}
@@ -211,13 +248,50 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 				document.body.classList.remove("cur-lg"),
 			);
 		});
-		document.querySelectorAll(".prose, .body").forEach((el) => {
+		document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
 			el.addEventListener("mouseenter", () =>
 				document.body.classList.add("cur-sm"),
 			);
 			el.addEventListener("mouseleave", () =>
 				document.body.classList.remove("cur-sm"),
 			);
+		});
+
+		let searchQuery = '';
+
+		const section = document.querySelector('.container.flow');
+		const getItems = () => section ? section.querySelectorAll('.post-item') : [];
+
+		function applyFilters() {
+		  const items = getItems();
+		  const activeStage = section?.querySelector('select')?.value ?? 'all';
+		  const activeTopic = section?.querySelector('.category-filter.active')?.dataset.category ?? 'All';
+		  let visible = 0;
+		  items.forEach(item => {
+		    const stageOk  = activeStage === 'all' || item.dataset.stage === activeStage;
+		    const topicOk  = activeTopic === 'All' || (item.dataset.topics || '').split(',').map(t => t.trim()).includes(activeTopic);
+		    const searchOk = !searchQuery || (item.dataset.title || '').includes(searchQuery.toLowerCase());
+
+		    const show = stageOk && topicOk && searchOk;
+		    item.classList.toggle('hidden', !show);
+
+		    if (show) {
+		      item.classList.remove('visible');
+		      setTimeout(() => item.classList.add('visible'), visible * 26);
+		      visible++;
+		    }
+		  });
+
+		  const resultsEl = document.getElementById('resultsCount');
+		  if (resultsEl) resultsEl.textContent = visible + ' posts';
+		  const emptyEl = document.getElementById('emptyState');
+		  if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+		}
+
+		document.getElementById('searchInput').addEventListener('input', e => {
+		  searchQuery = e.target.value.trim();
+			console.log(searchQuery);
+		  applyFilters();
 		});
 	</script>
 </html>
