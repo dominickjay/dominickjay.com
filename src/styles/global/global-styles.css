@@ -49,43 +49,25 @@
   }
 
   a:not([class]) {
-    --size-block: 2px;
-    --size-inline: calc(var(--size-block) * 2);
-
+    font-style: italic;
+    font-weight: 600;
+    color: #2c5364;
     text-decoration: none;
-    position: relative;
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -1px;
-      border-bottom: var(--size-block) solid currentColor;
-      height: var(--size-block);
-      border-radius: var(--size-block);
-      transition: 0.5s ease-in-out all;
-    }
-
-    &::before {
-      width: var(--size-inline);
-    }
-
-    &::after {
-      width: calc(100% - calc(var(--size-inline) * 2));
-      left: calc(var(--size-inline) * 2);
-    }
+    background-image: linear-gradient(
+      rgba(44, 83, 100, 0.5),
+      rgba(44, 83, 100, 0.5)
+    );
+    background-size: 0% 100%;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition:
+      background-size 0.85s cubic-bezier(0.23, 1, 0.32, 1),
+      color 0.2s;
+    padding: 0 2px;
 
     &:hover {
-      text-decoration: none;
-
-      &::before {
-        width: calc(100% - calc(var(--size-inline) * 2));
-      }
-
-      &::after {
-        left: 100%;
-        width: var(--size-inline);
-      }
+      background-size: 100% 100%;
+      color: var(--color-light);
     }
   }
 

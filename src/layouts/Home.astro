@@ -42,27 +42,29 @@ const { title, description } = Astro.props;
     updateTimeTheme();
 
     document.addEventListener("mousemove", (e) => {
-      const cur = document.getElementById("cur");
-      if (cur) {
-        cur.style.left = e.clientX + "px";
-        cur.style.top = e.clientY + "px";
-      }
-    });
-    document.querySelectorAll("a, button, .post-item").forEach((el) => {
-      el.addEventListener("mouseenter", () =>
-        document.body.classList.add("cur-lg"),
-      );
-      el.addEventListener("mouseleave", () =>
-        document.body.classList.remove("cur-lg"),
-      );
-    });
-    document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-      el.addEventListener("mouseenter", () =>
-        document.body.classList.add("cur-sm"),
-      );
-      el.addEventListener("mouseleave", () =>
-        document.body.classList.remove("cur-sm"),
-      );
-    });
+	    const cur = document.getElementById("cur");
+	    if (cur) {
+	      cur.style.left = e.clientX + "px";
+	      cur.style.top = e.clientY + "px";
+	    }
+	  });
+	  document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
+	    el.addEventListener("mouseenter", () =>
+	      document.body.classList.add("cur-sm"),
+	    );
+	    el.addEventListener("mouseleave", () =>
+	      document.body.classList.remove("cur-sm"),
+	    );
+	  });
+	  document.querySelectorAll("a:not([class]), button, .post-item").forEach((el) => {
+	    el.addEventListener("mouseenter", () =>
+       	document.body.classList.remove("cur-sm"),
+	      document.body.classList.add("cur-lg"),
+	    );
+	    el.addEventListener("mouseleave", () =>
+       	document.body.classList.add("cur-sm"),
+	      document.body.classList.remove("cur-lg"),
+	    );
+	  });
   </script>
 </html>

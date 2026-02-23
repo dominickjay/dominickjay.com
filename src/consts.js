@@ -129,6 +129,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-6",
 		name: "Nate Holland",
+		role: "Senior Designer",
 		company: "Series Eight",
 		description:
 			"Working with Dom is always a pleasure. He’s incredibly knowledgeable, calm under pressure, and always willing to go the extra mile to get things right. As a designer, it’s refreshing to work with a developer who really understands the intent behind designs and executes them flawlessly. Couldn’t recommend him more.",
@@ -136,6 +137,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-5",
 		name: "Kieran Halford",
+		role: "Project Manager",
 		company: "Series Eight",
 		description:
 			"Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates — he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
@@ -143,6 +145,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-4",
 		name: "Tristan Young",
+		role: "Apprentice Software Engineer",
 		company: "Rowe IT",
 		description:
 			"Dom was a great line manager. He would always check up on me and would try his hardest to address any issues or answer any questions I may have. Great person to work with.",
@@ -150,6 +153,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-3",
 		name: "Terri Lamerton",
+		role: "Principal Technical Consultant",
 		company: "Rowe IT",
 		description:
 			"I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.",
@@ -157,6 +161,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-2",
 		name: "Ben Saul",
+		role: "Managing Director",
 		company: "Knowthis",
 		description:
 			"Dom is a pleasure to have around. A friendly, passionate, motivated individual who will stop at nothing to help if needed. Dom is a self driven guy who works equally well on his own as he does as part of a team. He is always looking for better ways to create solutions to problems and is great at dissecting code to create innovative creative. Highly recommended.",
@@ -164,6 +169,7 @@ export const TESTIMONIALS = [
 	{
 		id: "testimonial-1",
 		name: "Nick Warren",
+		role: "Owner",
 		company: "N9 Design",
 		description:
 			"During Dom's time with us at N9 Design, he delivered on every task thrown at him. He fitted in really well within our team and wasn't phased by our need for a very mixed skill-set, including full tech' responsibility on projects. Dom brings an air of calm and can-do with him and will be an asset to any team.",

@@ -1,11 +1,126 @@
 ---
 import { TESTIMONIALS } from "../consts";
 const testimonials = TESTIMONIALS;
-const randomTestimonial =
-	testimonials[Math.floor(Math.random() * testimonials.length)];
 ---
 
 <section
+  class="testimonials-section"
+  id="testimonials"
+  data-testimonials={JSON.stringify(testimonials)}
+  x-data="{
+    testimonials: JSON.parse($el.dataset.testimonials || '[]'),
+    current: 0,
+    locked: false,
+    displayed: null,
+
+    get total() { return this.testimonials.length },
+    pad(n) { return String(n).padStart(2, '0') },
+
+    init() {
+      this.displayed = this.testimonials[0] || {};
+    },
+
+    goTo(next) {
+      if (this.locked || next === this.current) return;
+      if (next < 0 || next >= this.total) return;
+
+      this.locked = true;
+      this.current = next;
+
+      const card  = document.getElementById('tCard');
+      const stage = document.getElementById('tStage');
+
+      // Freeze height so the page doesn't jump during the swap
+      stage.style.minHeight = card.offsetHeight + 'px';
+
+      // Step 1 — exit: add .exiting, CSS animation plays
+      card.classList.remove('stable');
+      card.classList.add('exiting');
+
+      card.addEventListener('animationend', () => {
+        // Step 2 — swap: update Alpine reactive data while opacity is 0
+        this.displayed = this.testimonials[this.current];
+
+        // Step 3 — enter: wait one tick for Alpine to flush the DOM,
+        // then play the enter animation
+        this.\$nextTick(() => {
+          card.classList.remove('exiting');
+          card.classList.add('entering');
+
+          card.addEventListener('animationend', () => {
+            // Step 4 — settle: back to normal flow
+            card.classList.remove('entering');
+            card.classList.add('stable');
+            stage.style.minHeight = card.offsetHeight + 'px';
+            this.locked = false;
+          }, { once: true });
+        });
+      }, { once: true });
+    },
+
+    goNext() {
+      if (this.total <= 1) return;
+      let next = Math.floor(Math.random() * this.total);
+      if (next === this.current) next = (next + 1) % this.total;
+      this.goTo(next);
+    }
+  }"
+  @keydown.window="
+    const r = $el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    if ($event.key === 'ArrowRight') goNext();
+    if ($event.key === 'ArrowLeft') goTo((current - 1 + total) % total);
+  "
+>
+  <div class="testimonials-inner">
+    <div class="testimonials-header">
+      <p class="sr-only" style="margin-bottom:0;flex:1">Testimonials</p>
+      <div
+        class="ml-auto"
+        style="display:flex;align-items:center;gap:20px;flex-shrink:0;"
+      >
+        <span class="testimonials-counter">
+          <span class="testimonials-counter-current" x-text="pad(current + 1)"
+            >01</span
+          >
+          <span>/</span>
+          <span x-text="pad(total)">05</span>
+        </span>
+        <button
+          class="testimonials-refresh js-link"
+          aria-label="Next testimonial"
+          @click="goNext()"
+          :disabled="locked"
+        >
+          <span class="refresh-icon" :class="{ 'is-spinning': locked }">↻</span>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
+
+    <!--
+    Single card. Alpine only ever touches `displayed` (the data).
+    All animation is driven by class swaps + CSS keyframes,
+    sequenced by animationend — not setTimeout, not x-transition.
+  -->
+    <div class="testimonials-stage" id="tStage">
+      <div class="testimonial-card stable" id="tCard">
+        <blockquote
+          class="testimonial-quote"
+          x-html="displayed?.description ?? ''"
+        >
+        </blockquote>
+        <div class="testimonial-attr">
+          <span class="testimonial-attr-line"></span>
+          <span class="testimonial-name" x-text="displayed?.name ?? ''"></span>
+          <span class="testimonial-role" x-text="displayed?.role ?? ''"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section
 	class="testimonials border border-[var(--color-dark)]"
 	x-data="{
 		testimonials: JSON.parse($el.dataset.testimonials),
@@ -42,4 +157,199 @@ const randomTestimonial =
 			Refresh
 		</button>
 	</div>
-</section>
+</section> -->
+
+<style>
+  .testimonials-section {
+    border-top: 1px solid var(--border);
+    padding: 72px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .testimonials-section::before {
+    content: "\201C";
+    font-family: var(--font-base);
+    font-size: clamp(120px, 22vw, 240px);
+    line-height: 1;
+    color: var(--border);
+    position: absolute;
+    top: 24px;
+    left: 28px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    transition: color 0.6s;
+  }
+  .testimonials-inner {
+    position: relative;
+    z-index: 1;
+  }
+  .testimonials-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .testimonials-counter {
+    font-family: var(--font-base);
+    font-size: 13px;
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .testimonials-counter-current {
+    color: var(--text);
+  }
+
+  .testimonials-refresh {
+    font-family: var(--font-base);
+    border: 1px solid var(--color-dark);
+    background: none;
+    padding: 7px 14px;
+    border-radius: 2px;
+    cursor: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .testimonials-refresh::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--accent-rgb), 0.06);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .testimonials-refresh:hover {
+    color: var(--accent);
+    border-color: rgba(var(--accent-rgb), 0.4);
+  }
+  .testimonials-refresh:hover::before {
+    transform: scaleX(1);
+  }
+  .refresh-icon {
+    display: inline-block;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .testimonials-refresh:hover .refresh-icon {
+    transform: rotate(180deg);
+  }
+
+  .testimonials-stage {
+    position: relative;
+    min-height: 180px;
+  }
+  .testimonial-card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .testimonial-card.stable {
+    position: relative;
+  }
+  .testimonial-card.exiting {
+    z-index: 0;
+  }
+  .testimonial-card.entering {
+    z-index: 1;
+  }
+
+  @keyframes tCardIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes tCardOut {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+  }
+  .testimonial-card.entering {
+    animation: tCardIn 0.44s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+  .testimonial-card.exiting {
+    animation: tCardOut 0.26s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+    pointer-events: none;
+  }
+
+  .testimonial-quote {
+    font-family: var(--font-base);
+    font-size: clamp(20px, 2.6vw, 29px);
+    line-height: 1.38;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    font-style: italic;
+    padding-inline-start: 24px;
+    border-left: 4px solid var(--color-dark);
+  }
+  .testimonial-quote mark {
+    background: none;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .testimonial-quote strong {
+    color: #2c5364;
+  }
+
+  .testimonial-attr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .testimonial-attr-line {
+    width: 24px;
+    height: 1px;
+    background: var(--color-dark);
+    flex-shrink: 0;
+  }
+  .testimonial-name {
+    font-family: var(--font-base);
+    color: var(--text);
+  }
+  .testimonial-role {
+    font-family: var(--font-base);
+    color: var(--color-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-style: italic;
+  }
+  .testimonial-role::before {
+    content: "· ";
+  }
+  @media (max-width: 900px) {
+    .testimonials-section {
+      padding: 52px 0 60px;
+    }
+
+    .testimonials-section::before {
+      left: 0;
+      top: 48px;
+    }
+
+    .testimonial-quote {
+      padding-inline-start: 0;
+      border-left: none;
+    }
+  }
+</style>
