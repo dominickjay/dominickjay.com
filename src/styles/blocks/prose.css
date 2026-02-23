@@ -26,7 +26,7 @@
 	margin-block-start: 0;
 }
 
-:is(.topics, .toc, .post-list) :is(ul, ol) {
+:is(.topics, .toc, .post-list feature-list) :is(ul, ol) {
 	list-style-type: none;
 	padding-inline-start: 0;
 }

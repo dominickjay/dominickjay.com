@@ -12,7 +12,7 @@ const { title, author, rating, cover, started, finished, status, showStrikethrou
 	@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
 >
 	<div class="post [--block-space:var(--space-s)]">
-		<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+		<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
 			<div class={`${showStrikethrough ? "line-through" : ""}`}>
 				<span class="font-semibold">{title}</span>
 				{author && <span class="opacity-[0.85] italic body">by {author}</span>}

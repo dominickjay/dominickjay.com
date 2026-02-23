@@ -2,6 +2,7 @@
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
+import FeatureListItem from "../../components/FeatureListItem.astro";
 import { SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
@@ -104,9 +105,9 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 					</div>
 				</div> -->
 				<div class="!grid grid-cols-4 gap-[var(--space-m)]">
-					<div class="col-span-full md:col-span-3 max-md:w-full shrink-0 flex items-center gap-x-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+					<div class="col-span-full md:col-span-3 max-md:w-full shrink-0 flex items-end gap-x-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
 						<select
-							class="px-[var(--space-m)] py-[var(--space-s)] border border-solid cursor-pointer hover:bg-black hover:text-white transition-colors min-w-fit max-md:w-full"
+							class="px-[var(--space-m)] py-[var(--space-s)] border border-dashed hover:border-solid cursor-pointer min-w-fit max-md:w-full"
 							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || ''; console.log('Growth dropdown is:' + growth);"
 						>
 							{
@@ -128,82 +129,30 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 						</div>
 						<span class="results-count" id="resultsCount">35 posts</span>
 					</div>
-					<ol class="!pb-[56px] post-list flow max-md:mx-[-16px] col-span-full md:col-span-3" style="--flow-space: 0;">
+					<ol class="!pb-[56px] post-list feature-list flow col-span-full md:col-span-3" style="--flow-space: 0;">
 						{
-							posts.map((post) => (
-								<li
-									class="post-item"
-									x-data="{ direction: 'top', exitDirection: 'top', isHovered: false }"
-									data-title={post.data.title?.toLowerCase() ?? ''}
-									data-stage={post.data.growth || 'all'}
-									data-topics={post.data.tags?.join(',') ?? ''}
-									@mouseenter="
-										const rect = $el.getBoundingClientRect();
-										const y = event.clientY - rect.top;
-										const height = rect.height;
-										direction = y < height / 2 ? 'top' : 'bottom';
-										isHovered = true;
-									"
-									@mouseleave="
-										const rect = $el.getBoundingClientRect();
-										const y = event.clientY - rect.top;
-										const height = rect.height;
-										exitDirection = y < height / 2 ? 'top' : 'bottom';
-										isHovered = false;
-									"
-									x-show={`(growth === '${post.data.growth || "all"}' || growth === "all") && (${JSON.stringify(post.data.tags)}.includes(category) || category === "All")`}
-									data-tags={JSON.stringify(post.data.tags)}
-								>
-									<div
-										class="post"
-										style="--block-space: 12px"
-										x-bind:class="{
-											'post--hover-top': isHovered && direction === 'top',
-											'post--hover-bottom': isHovered && direction === 'bottom',
-											'post--exit-top': !isHovered && exitDirection === 'top',
-											'post--exit-bottom': !isHovered && exitDirection === 'bottom'
-										}"
-									>
-										<div class="flex max-md:flex-col-reverse justify-between md:items-center">
-												<a
-													class="block max-md:mt-[8px] md:mb-[4px] box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
-													href={`/writing/${post.id}/`}
-												>
-													<span class="">{post.data.title}</span>
-												</a>
-												<div class="flex gap-x-[16px] gap-y-[var(--space-m)] transition-opacity duration-300 flex-wrap">
-													<!-- <ul class="cluster [--gutter:var(--space-s)] md:ml-auto">
-														{post.data.tags.map((tag) => (
-															<li>
-																<span class="border py-1 px-4 min-w-fit">{tag}</span>
-															</li>
-														))}
-													</ul> -->
-													<div class="flex gap-x-[var(--space-m)]">
-														<!-- <span class="w-fit md:w-auto">
-															{getReadingTime(post.body)} min
-														</span> -->
-														<span class="w-fit md:w-auto italic">
-															<FormattedDate date={post.data.pubDate} />
-														</span>
-													</div>
-												<!-- </div> -->
-												<!-- <p class="opacity-[0.85] body-text">
-													{post.data.description}
-												</p> -->
-											</div>
-										</div>
-									</div>
-								</li>
+							posts.map((post, i) => (
+								<FeatureListItem
+									i={String(i + 1).padStart(2, "0")}
+									title={post.data.title}
+									description={post.data.description}
+									tags={post.data.tags}
+									pubDate={post.data.pubDate}
+									url={post.url}
+									growth={post.data.growth}
+								/>
 							))
 						}
+						<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
+							No posts match your filters.
+						</li>
 					</ol>
 					<div
 						class="col-span-full md:col-span-1 relative"
 					>
 						<div class="md:sticky md:top-[120px]">
 							<span class="h3" data-category=""> Topics </span>
-							<div class="flex max-md:flex-wrap md:flex-col gap-x-[var(--space-m)] gap-y-[var(--space-s)] pt-[var(--space-m)]">
+							<div id="sideTopics" class="flex max-md:flex-wrap md:flex-col gap-x-[var(--space-m)] gap-y-[var(--space-s)] pt-[var(--space-m)]">
 								<button
 									class="category-filter w-fit"
 									data-category="All"
@@ -290,8 +239,22 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 
 		document.getElementById('searchInput').addEventListener('input', e => {
 		  searchQuery = e.target.value.trim();
-			console.log(searchQuery);
 		  applyFilters();
 		});
+
+		section?.addEventListener('click', (e) => {
+		  if (e.target.closest('.category-filter')) applyFilters();
+		});
+
+		section?.querySelector('select')?.addEventListener('change', applyFilters);
+
+		applyFilters();
+
+		// Stagger reveal
+		const items=postList.querySelectorAll('.post-item');
+		const obs=new IntersectionObserver(entries=>{
+		  entries.forEach(e=>{if(!e.isIntersecting)return;const i=[...items].indexOf(e.target);setTimeout(()=>e.target.classList.add('visible'),i*26);obs.unobserve(e.target);});
+		},{threshold:.05});
+		items.forEach(el=>obs.observe(el));
 	</script>
 </html>

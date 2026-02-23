@@ -10,14 +10,14 @@ const { tracks = [] } = Astro.props;
 ---
 
 <ol
-	class="!pb-[56px] post-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
+	class="!pb-[56px] post-list feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
 	style="--flow-space: 0;"
 >
 	{
 		tracks.map((track) => (
 			<li class="post-item">
 				<div class="post [--block-space:var(--space-s)]">
-					<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+					<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
 						<span class="font-semibold">
 							{track.title}{" "}
 							<span

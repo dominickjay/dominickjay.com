@@ -1,0 +1,31 @@
+@layer components {
+  button {
+    border: none; /* border lives on ::before */
+    position: relative;
+		height: fit-content;
+  }
+
+  button::before {
+    content: "";
+    position: absolute;
+    border: 1px dashed var(--color-dark);
+    border-radius: 3px;
+    inset: 1px;
+  }
+
+  button:hover::before {
+    border-style: solid;
+    animation: stitchPull 0.4s forwards;
+  }
+
+  @keyframes stitchPull {
+    40% {
+      transform: scale(0.98);
+      border-color: muted;
+    }
+    100% {
+      transform: scale(1);
+      border-color: accent;
+    }
+  }
+}

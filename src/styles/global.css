@@ -51,6 +51,8 @@
 @import "./blocks/inline-heading-text.css";
 @import "./blocks/featured-card.css";
 @import "./blocks/search.css";
+@import "./blocks/button.css";
+@import "./blocks/feature-list.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";

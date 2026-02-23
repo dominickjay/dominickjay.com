@@ -33,7 +33,7 @@ const { evergreen, growing, seedling } = Astro.props;
 						text="See all evergreen posts"
 					/>
 				</div>
-				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+				<ol class="post-list feature-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
 						evergreen.slice(0, 5).map((post: any) => (
 							<li
@@ -64,7 +64,7 @@ const { evergreen, growing, seedling } = Astro.props;
 										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
 									}"
 								>
-									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+									<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
 										<a
 											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 											href={`/writing/${post.id}/`}
@@ -107,7 +107,7 @@ const { evergreen, growing, seedling } = Astro.props;
 						text="See all growing posts"
 					/>
 				</div>
-				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+				<ol class="post-list feature-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
 						growing.slice(0, 5).map((post: any) => (
 							<li
@@ -138,7 +138,7 @@ const { evergreen, growing, seedling } = Astro.props;
 										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
 									}"
 								>
-									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+									<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
 										<a
 											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 											href={`/writing/${post.id}/`}
@@ -180,7 +180,7 @@ const { evergreen, growing, seedling } = Astro.props;
 						text="See all seedling posts"
 					/>
 				</div>
-				<ol class="post-list max-md:mx-[-16px] mt-[var(--space-m)]">
+				<ol class="post-list feature-list max-md:mx-[-16px] mt-[var(--space-m)]">
 					{
 						seedling.slice(0, 5).map((post: any) => (
 							<li
@@ -211,7 +211,7 @@ const { evergreen, growing, seedling } = Astro.props;
 										'post--exit-bottom': !isHovered && exitDirection === 'bottom'
 									}"
 								>
-									<div class="flex max-md:flex-col-reverse justify-between md:items-center">
+									<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
 										<a
 											class="block box-link opacity-[0.85] shrink-0 md:max-w-[65%]"
 											href={`/writing/${post.id}/`}

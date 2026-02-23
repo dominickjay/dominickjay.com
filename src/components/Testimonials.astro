@@ -204,7 +204,7 @@ const testimonials = TESTIMONIALS;
 
   .testimonials-refresh {
     font-family: var(--font-base);
-    border: 1px solid var(--color-dark);
+    /* border: 1px solid var(--color-dark); */
     background: none;
     padding: 7px 14px;
     border-radius: 2px;
@@ -218,15 +218,7 @@ const testimonials = TESTIMONIALS;
     position: relative;
     overflow: hidden;
   }
-  .testimonials-refresh::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(var(--accent-rgb), 0.06);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  }
+
   .testimonials-refresh:hover {
     color: var(--accent);
     border-color: rgba(var(--accent-rgb), 0.4);

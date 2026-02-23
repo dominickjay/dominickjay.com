@@ -29,6 +29,10 @@
     transform: translateX(5px);
   }
 
+  &::before {
+    content: none;
+  }
+
   &.active {
     transform: translateX(5px);
   }
