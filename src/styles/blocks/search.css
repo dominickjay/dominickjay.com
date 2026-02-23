@@ -1,0 +1,26 @@
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 160px;
+  max-width: 215px;
+  padding-inline: var(--space-s);
+  border-bottom: 1px solid currentColor;
+  height: 100%;
+  transition: max-width 0.3s ease-in-out;
+  will-change: width;
+}
+
+.search-wrap:focus-within {
+  max-width: 100%;
+}
+
+.search-input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  cursor: none;
+  opacity: 0.8;
+}
