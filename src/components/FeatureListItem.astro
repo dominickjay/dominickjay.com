@@ -1,0 +1,29 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+const { title, description, tags, pubDate, url, growth, i } = Astro.props;
+---
+
+<li
+  class="post-item"
+  data-stage={growth ?? "all"}
+  data-topics={tags?.join(",") ?? ""}
+  data-title={title?.toLowerCase() ?? ""}
+>
+  <a href={url} class="post-link">
+    <span class="post-n">{i}</span>
+    <div class="post-body">
+      <span class="post-title">{title}</span>
+      <div class="post-meta">
+        <FormattedDate date={pubDate} />
+        <span class="post-topics-label">{tags.join(", ")}</span>
+        {
+          growth !== undefined && (
+            <span class={`growth growth--${growth}`} title={growth}>
+              {growth}
+            </span>
+          )
+        }
+      </div>
+    </div>
+  </a>
+</li>
