@@ -1,0 +1,81 @@
+.stage-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.progress-ring-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.progress-ring-wrap svg {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: var(--color-dark);
+  stroke-width: 4;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 163;
+  stroke-dashoffset: 163;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.progress-ring-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring-text strong {
+  font-family: var(--font-base);
+  font-size: 16px;
+  color: var(--color-base);
+  line-height: 1;
+}
+
+.progress-ring-text span {
+  font-family: var(--font-base);
+  font-size: 14px;
+  color: var(--color-dark);
+  letter-spacing: 0.06em;
+}
+
+.stage-stats {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stage-stat-val {
+  font-family: var(--font-base);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--color-dark);
+}
+
+.stage-stat-label {
+  font-family: var(--font-base);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
