@@ -1,84 +1,44 @@
 @layer components {
-	.statistics-grid {
-		height: fit-content;
-		display: grid;
-		gap: 1rem;
-		grid-template-columns: repeat(1, 1fr);
-		grid-template-rows: repeat(3, 1fr);
-		grid-template-areas:
-			"item1"
-			"item2"
-			"item3"
-			"item4"
-			"item5";
+  .statistics-grid {
+    height: fit-content;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+      "item1"
+      "item2"
+      "item3"
+      "item4"
+      "item5";
 
-		@media (width >= 768px) {
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-areas: "item1 item2 item3";
-			grid-template-rows: repeat(1, 1fr);
-		}
+    @media (width >= 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: "item1 item2 item3";
+      grid-template-rows: repeat(1, 1fr);
+    }
 
-		@media (width >= 1024px) {
-			grid-template-columns: repeat(3, 1fr);
-			grid-template-areas: "item1 item2 item3";
-		}
-	}
+    @media (width >= 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas: "item1 item2 item3";
+    }
+  }
 
-	.statistics-grid__item {
-		position: relative;
-		background: var(--color-light);
-		transition: background 0.3s ease-in-out;
-		padding: var(--space-m);
-		border: 1px solid var(--color-dark);
+  .statistics-grid__item {
+    position: relative;
+    background: var(--color-light);
+    transition: background 0.3s ease-in-out;
+    padding: 0 var(--space-m) var(--space-m);
+    border-bottom: 1px dashed var(--color-dark);
 
-		&::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(
-				in oklch 151deg,
-				#222222 0%,
-				var(--feature-color, #2c5364) 100%
-			);
-			opacity: 0;
-			transition: opacity 0.3s ease-in-out;
-			z-index: 0;
-		}
+    &:last-child {
+      border-bottom: none;
+    }
 
-		&:hover {
-			color: var(--color-white);
-			&::before {
-				opacity: 1;
-			}
-		}
-
-		& .statistics-grid__content {
-			position: relative;
-			display: flex;
-			flex-direction: column;
-		}
-	}
-
-	.statistics-grid__item-1 {
-		--feature-color: #149c90;
-	}
-
-	.statistics-grid__item-2 {
-		--feature-color: #137783;
-	}
-
-	.statistics-grid__item-3 {
-		--feature-color: #55c08c;
-	}
-
-	.statistics-grid__item-4 {
-		--feature-color: #636d93;
-	}
-
-	.statistics-grid__item-5 {
-		--feature-color: #a1df7d;
-	}
+    & .statistics-grid__content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }

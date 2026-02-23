@@ -1,47 +1,28 @@
 <---
 import FormattedDate from "../components/FormattedDate.astro";
 
-const { title, author, rating, cover, started, finished, status, showStrikethrough } =
+const { i, title, author, rating, cover, started, finished, status, showStrikethrough, queued } =
   Astro.props;
 
 ---
 
 <li
-	class="col-span-2 group post-item"
-	@mouseenter={`floatingCover.show = true; floatingCover.src = ${JSON.stringify(cover)}; floatingCover.title = ${JSON.stringify(title)}`}
-	@mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''"
+  class="post-item visible"
+  data-title={title?.toLowerCase() ?? ""}
 >
-	<div class="post [--block-space:var(--space-s)]">
-		<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
-			<div class={`${showStrikethrough ? "line-through" : ""}`}>
-				<span class="font-semibold">{title}</span>
-				{author && <span class="opacity-[0.85] italic body">by {author}</span>}
-			</div>
-			<div class="flex flex-row gap-x-[8px] items-center text-[13px]">
-				{started != finished && status !== "currently-reading" &&
-					started !== "unknown" &&
-					finished !== "unknown" && (
-						// <p>{new Date(book.started)}</p>
-						<span class="max-md:hidden">
-							Started:{" "}
-							<FormattedDate date={new Date(started)} />
-						</span>
-						<span class="pt-[2px] max-md:hidden">
-					Finished:{" "}
-					{finished !== "unknown" ? (
-						<FormattedDate date={new Date(finished)} />
-					) : (
-						"Unknown date"
-					)}
-						</span>
-				)}
-				{status === "currently-reading" && (
-					<span class="px-[8px] pt-[2px] bg-[var(--color-dark)] text-white max-md:mb-[var(--space-s)]">
-						Currently Reading
-					</span>
-				)}
-				{rating && <span class="text-[16px] pt-[2px]">Rating: {rating}/5</span>}
-			</div>
-		</div>
-	</div>
+  <div class="post-link post-link--small">
+  	{i &&
+    	<span class="post-n">{i}</span>
+    }
+    <div class="post-body">
+      <span class="post-title">{title}</span>
+      <div class="post-meta">
+        {author && <span class="post-topics-label">{author}</span>}
+        {status === "currently-reading" && (
+          <span class="post-topics-label ml-auto">Currently Reading</span>
+        )}
+        {queued && <span class="post-topics-label ml-auto">Queued</span>}
+      </div>
+    </div>
+  </>
 </li>

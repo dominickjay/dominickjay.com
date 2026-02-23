@@ -138,7 +138,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 									description={post.data.description}
 									tags={post.data.tags}
 									pubDate={post.data.pubDate}
-									url={post.url}
+									id={post.id}
 									growth={post.data.growth}
 								/>
 							))

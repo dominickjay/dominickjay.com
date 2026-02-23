@@ -6,6 +6,7 @@ import PatternBanner from "../components/Pattern-Banner.astro";
 import BookItem from "../components/BookItem.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import moment from "moment";
+import FeatureListItem from "../components/FeatureListItem.astro";
 
 // Simple in-memory cache to avoid rate limiting during development
 const cache = new Map<string, { data: any; expires: number }>();
@@ -269,6 +270,11 @@ let booksByYear = allBooks.reduce((acc, entry) => {
 
 // Define it here so it's scoped correctly for the template
 sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
+
+const totalReadCount = allBooks.filter(
+  (entry) =>
+    entry.user_book_reads?.some((read) => read.finished_at),
+).length;
 ---
 
 <!doctype html>
@@ -315,12 +321,39 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
               />
             </div>
           </div>
-
+          <div class="stage-meta">
+		        <div class="progress-ring-wrap">
+		          <svg width="64" height="64" viewBox="0 0 64 64">
+		            <circle class="progress-ring-bg" cx="32" cy="32" r="26"/>
+		            <circle class="progress-ring-fill" id="progressRing" cx="32" cy="32" r="26"/>
+		          </svg>
+		          <div class="progress-ring-text">
+		            <strong>{readCount.length}</strong>
+		            <span>/ {currentListBooks.length}</span>
+		          </div>
+		        </div>
+		        <div class="stage-stats">
+		          <div class="stage-stat-item">
+		            <div class="stage-stat-val" id="cntRead">{readCount.length}</div>
+		            <div class="stage-stat-label">Read in 2026</div>
+		          </div>
+		          <div class="stage-stat-item">
+		            <div class="stage-stat-val">2</div>
+		            <div class="stage-stat-label">Currently reading</div>
+		          </div>
+		          <div class="stage-stat-item">
+		            <div class="stage-stat-val" id="cntBacklog">{backlog.length}</div>
+		            <div class="stage-stat-label">In backlog</div>
+		          </div>
+		          <div class="stage-stat-item">
+		            <div class="stage-stat-val" id="cntTotal">{totalReadCount}</div>
+		            <div class="stage-stat-label">All time read</div>
+		          </div>
+		        </div>
+		      </div>
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">
-              2026 Reading List <span class="text-[20px] opacity-75"
-                >({readCount.length} / {currentListBooks?.length || 0})</span
-              >
+              Currently Reading
             </h2>
             <ol
               class="post-list feature-list flow"
@@ -358,12 +391,26 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
                     ),
                 )
               }
+            </ol>
+          </div>
+
+          <div class="flex flex-col gap-[20px]">
+            <h2 class="h2 col-span-full mb-[24px]">
+              2026 Reading List <span class="text-[20px] opacity-75"
+                >({readCount.length} / {currentListBooks?.length || 0})</span
+              >
+            </h2>
+            <ol
+              class="post-list feature-list flow"
+              style="--flow-space: 0;"
+            >
               {
                 currentListBooks?.map(
-                  (book) =>
+                  (book, i) =>
                     book.book.user_books[0].user_book_status.slug !=
                       "currently-reading" && (
                       <BookItem
+                      	i={String(i + 1).padStart(2, "0")}
                         title={book.book.title}
                         author={
                           book.book.contributions[0]?.author.name ||
@@ -371,6 +418,7 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
                         }
                         rating={book.book.rating}
                         cover={book.book.cover}
+                        queued={true}
                         started={
                           book.book.user_books[0]?.user_book_reads[0]
                             ?.started_at
@@ -402,15 +450,15 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
                       <h2 class="h2">
                         Books read in {year}{" "}
                         <span class="text-[20px] opacity-75">
-                          ({year[1].length})
+                          ({booksByYear[year].length})
                         </span>
                       </h2>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
+                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
-                        {booksByYear[year].map((book) => (
-                          <BookItem title={book.title} author={book.author} />
+                        {booksByYear[year].map((book, i) => (
+                          <BookItem i={String(i + 1).padStart(2, "0")} title={book.title} author={book.author} />
                         ))}
                       </ol>
                     </div>
@@ -428,8 +476,8 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
                         class="post-list feature-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
-                        {booksByYear[year].map((book) => (
-                          <BookItem title={book.title} author={book.author} />
+                        {booksByYear[year].map((book, i) => (
+                          <BookItem i={String(i + 1).padStart(2, "0")} title={book.title} author={book.author} />
                         ))}
                       </ol>
                     </details>
@@ -451,8 +499,9 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
                   style="--flow-space: 0;"
                 >
                   {
-                    backlog.map((book) => (
+                    backlog.map((book, i) => (
                       <BookItem
+                        i={String(i + 1).padStart(2, "0")}
                         key={book.book.id}
                         title={book.book.title}
                         author={

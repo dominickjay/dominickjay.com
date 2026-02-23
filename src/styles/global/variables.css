@@ -1,25 +1,27 @@
 @layer core {
-	@layer tokens {
-		:root {
-			--color-light: #fbf8ef;
-			--color-dark: #222222;
-			--color-primary: var(--color-dark, #222222);
-			--color-gradient: linear-gradient(
-				in oklch 151deg,
-				#222222 0%,
-				var(--feature-color, #2c5364) 100%
-			);
+  @layer tokens {
+    :root {
+      --color-light: #fbf8ef;
+      --color-dark: #222222;
+      --color-primary: var(--color-dark, #222222);
+      --color-gradient: linear-gradient(
+        in oklch 151deg,
+        #222222 0%,
+        var(--feature-color, #2c5364) 100%
+      );
+      --color-accent: #2c5364;
+      --color-accent-rgb: 44, 83, 100;
 
-			--font-base: "Tiempos", serif;
-			--font-heading: "Gentle", serif;
-			--leading-standard: 1.6;
+      --font-base: "Tiempos", serif;
+      --font-heading: "Gentle", serif;
+      --leading-standard: 1.6;
 
-			--space-xs: 4px;
-			--space-s: 8px;
-			--space-m: 16px;
-			--space-l: 24px;
-			--space-xl: 32px;
-			--space-xxl: 48px;
-		}
-	}
+      --space-xs: 4px;
+      --space-s: 8px;
+      --space-m: 16px;
+      --space-l: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+    }
+  }
 }

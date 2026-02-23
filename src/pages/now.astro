@@ -164,73 +164,13 @@ if (topTracks[0].toptracks?.track) {
 
 <Layout title="Now" description="What I'm doing right /now">
 	<div
-		class="container grid grid-cols-6 md:!max-w-[992px]"
-		style="--grid-placement: 6; --gutter: 43px;"
+		class="container grid grid-cols-6 [--gutter: 24px] md:[--gutter:43px] [--grid-placement:6]"
 	>
 		<div class="overflow-clip col-span-full md:col-span-4">
 			{showMarquee && <MarqueeHeading title="Now" />}
 			{!showMarquee && <ScrollHeading title="Now" />}
 		</div>
-		<div class="statistics-grid col-span-full">
-			<div
-				class="statistics-grid__item statistics-grid__item-1"
-				style="grid-area: item1"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__title h4">Books read</span>
-					<span
-						class="statistics-grid__value h2 leading-[1]"
-						x-data={JSON.stringify({
-							count: 0,
-							target: allBooks.length,
-							duration: 2000,
-						})}
-						x-init="
-							const startTime = Date.now();
-							const animate = () => {
-								const elapsed = Date.now() - startTime;
-								const progress = Math.min(elapsed / duration, 1);
-								const eased = progress < 0.85
-									? 2 * progress * progress
-									: -1 + (4 - 2 * progress) * progress;
-								count = Math.floor(eased * target);
-								if (progress < 1) {
-									requestAnimationFrame(animate);
-								} else {
-									count = target;
-								}
-							};
-							requestAnimationFrame(animate);
-						"
-						x-text="count"></span>
-				</div>
-			</div>
-			<div
-				class="statistics-grid__item statistics-grid__item-2"
-				style="grid-area: item2"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__title h4">Top track this week</span>
-					{
-						topTrack[0] && (
-							<span class="statistics-grid__value h2 leading-[1]">
-								{topTrack[0].name}
-							</span>
-						)
-					}
-				</div>
-			</div>
-			<div
-				class="statistics-grid__item statistics-grid__item-3"
-				style="grid-area: item3"
-			>
-				<div class="statistics-grid__content flex flex-col gap-[16px]">
-					<span class="statistics-grid__value h4">Currently watching</span>
-					<span class="statistics-grid__title h2 leading-[1]">Inside No.9</span>
-				</div>
-			</div>
-		</div>
-		<ol class="!pb-[56px] flow col-span-full" style="--flow-space: 32px;">
+		<ol class="flow col-span-full md:col-start-1 md:col-span-4 [--flow-space:16px] md:[--flow-space:32px]" style="--flow-space: 32px;">
 			{
 				(
 					await Promise.all(
@@ -241,7 +181,7 @@ if (topTracks[0].toptracks?.track) {
 					)
 				).map(({ post, Content }) => (
 					<li class="flow">
-						<div class="h3">
+						<div class="border border-dashed pt-[6px] pb-[2px] px-[var(--space-m)] w-fit font-semibold">
 							<FormattedDate date={post.data.pubDate} />
 						</div>
 						<div class="post__content flex flex-col gap-[var(--space-m)]">
@@ -253,5 +193,65 @@ if (topTracks[0].toptracks?.track) {
 				))
 			}
 		</ol>
+		<div class="col-span-full md:col-start-5 md:col-span-2">
+			<div class="md:sticky md:top-[110px] flex flex-col gap-[var(--space-m)]">
+				<div
+					class="statistics-grid__item statistics-grid__item-1"
+				>
+					<div class="statistics-grid__content flex flex-col gap-[16px]">
+						<span class="statistics-grid__title">Books read</span>
+						<span
+							class="statistics-grid__value h2 leading-[1]"
+							x-data={JSON.stringify({
+								count: 0,
+								target: allBooks.length,
+								duration: 2000,
+							})}
+							x-init="
+								const startTime = Date.now();
+								const animate = () => {
+									const elapsed = Date.now() - startTime;
+									const progress = Math.min(elapsed / duration, 1);
+									const eased = progress < 0.85
+										? 2 * progress * progress
+										: -1 + (4 - 2 * progress) * progress;
+									count = Math.floor(eased * target);
+									if (progress < 1) {
+										requestAnimationFrame(animate);
+									} else {
+										count = target;
+									}
+								};
+								requestAnimationFrame(animate);
+							"
+							x-text="count"></span>
+					</div>
+				</div>
+				<div
+					class="statistics-grid__item statistics-grid__item-2"
+					style="grid-area: item2"
+				>
+					<div class="statistics-grid__content flex flex-col gap-[16px]">
+						<span class="statistics-grid__title">Top track this week</span>
+						{
+							topTrack[0] && (
+								<span class="statistics-grid__value h2 leading-[1]">
+									{topTrack[0].name}
+								</span>
+							)
+						}
+					</div>
+				</div>
+				<div
+					class="statistics-grid__item statistics-grid__item-3"
+					style="grid-area: item3"
+				>
+					<div class="statistics-grid__content flex flex-col gap-[16px]">
+						<span class="statistics-grid__value">Currently watching</span>
+						<span class="statistics-grid__title h2 leading-[1]">Inside No.9</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </Layout>

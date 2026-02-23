@@ -8,48 +8,6 @@ tags:
 supported: bcd.css["selectors"].has.__compat
 ---
 
-<div class="browser-support-table">
-  <table>
-    <caption>Browser Support for :has() Selector</caption>
-    <thead>
-      <tr>
-        <th scope="col">Browser</th>
-        <th scope="col">Version</th>
-        <th scope="col">Support</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">Chrome</th>
-        <td>105+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Firefox</th>
-        <td>121+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Safari</th>
-        <td>15.4+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Edge</th>
-        <td>105+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-      <tr>
-        <th scope="row">Opera</th>
-        <td>91+</td>
-        <td><span class="support-yes">Yes</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-As always, I'm going to start with support for this feature first. The good news is that all modern browsers now support the `:has()` selector, making it safe to use in production.
-
 <div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
   <span class="fl-text-step-2 heading">Update - 23rd December, 2024</span>
   <p>This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</p>
