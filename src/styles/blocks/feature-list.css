@@ -77,15 +77,6 @@
       padding: 12px 18px;
     }
 
-    .post-link--small {
-      padding: 12px 18px;
-    }
-
-    .post-link--small .post-title {
-      font-size: 18px;
-      margin-bottom: 0;
-    }
-
     .post-artist {
       font-family: var(--font-base);
       font-size: 14px;
@@ -104,6 +95,15 @@
       transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1);
       pointer-events: none;
     }
+  }
+
+  .post-link--small {
+    padding: 12px 18px;
+  }
+
+  .post-link--small .post-title {
+    font-size: 20px;
+    margin-bottom: 0;
   }
 
   .post-item:hover .post-link::before {
