@@ -6,6 +6,7 @@ const projectId = process.env.SANITY_PROJECT_ID?.trim()
 const dataset = process.env.SANITY_DATASET?.trim()
 const token = process.env.SANITY_API_TOKEN?.trim()
 const apiKey = process.env.LAST_FM_API_KEY?.trim()
+const fanartApiKey = process.env.FANART_API_KEY?.trim()
 
 if (!projectId || !dataset || !token) {
   console.error('Missing SANITY_PROJECT_ID, SANITY_DATASET, or SANITY_API_TOKEN')
@@ -13,6 +14,10 @@ if (!projectId || !dataset || !token) {
 }
 if (!apiKey) {
   console.error('Missing LAST_FM_API_KEY')
+  process.exit(1)
+}
+if (!fanartApiKey) {
+  console.error('Missing FANART_API_KEY')
   process.exit(1)
 }
 
@@ -54,30 +59,28 @@ function toImageArray(img) {
   return Array.isArray(img) ? img : [img]
 }
 
+async function getArtistArtFromFanart(mbid) {
+  if (!mbid?.trim() || !fanartApiKey) return null
+  try {
+    const url = `https://webservice.fanart.tv/v3/music/${encodeURIComponent(mbid.trim())}?api_key=${encodeURIComponent(fanartApiKey)}`
+    const res = await fetch(url)
+    if (!res.ok) return null
+    const data = await res.json()
+    const bg = data?.artistbackground?.[0]?.url?.trim()
+    if (bg) return [{ '#text': bg, size: 'large' }]
+    const thumb = data?.artistthumb?.[0]?.url?.trim()
+    if (thumb) return [{ '#text': thumb, size: 'large' }]
+  } catch (_) {}
+  return null
+}
+
 async function enrichArtistImage(artistName) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artistName)}&username=${LAST_FM_USER}&api_key=${apiKey}&format=json`
   const data = await fetch(url).then((r) => r.json())
-  console.log(data.artist.image)
-  if (data.error || !data.artist?.image) return null
-  let image = toImageArray(data.artist.image)
-  if (!image.length) return null
-  const firstUrl = image[0]?.['#text'] ?? ''
-  if (firstUrl.includes('2a96cbd8b46e442fc41c2b86b821562f')) {
-    try {
-      const imgRes = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artistName)}&api_key=${apiKey}&format=json&limit=1`,
-      )
-      const imgData = await imgRes.json()
-      const imgs = toImageArray(imgData?.images?.image)
-      const better = imgs.find(
-        (i) => i?.['#text'] && !i['#text'].includes('2a96cbd8b46e442fc41c2b86b821562f'),
-      )
-      if (better?.['#text']) {
-        image = [{'#text': better['#text'], size: 'large'}]
-      }
-    } catch (_) {}
-  }
-  return image
+  if (data.error || !data.artist) return null
+  const mbid = data.artist?.mbid?.trim()
+  if (!mbid) return null
+  return getArtistArtFromFanart(mbid)
 }
 
 const enrichedArtists = await Promise.all(

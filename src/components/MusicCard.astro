@@ -1,4 +1,6 @@
 ---
+import { hashStringToHsl } from "../lib/color";
+
 export interface Props {
     track: {
         name: string;
@@ -22,18 +24,6 @@ export interface Props {
 }
 
 const { track, tags, trackColor = '#000000', index, artistPlaycount, percentage } = Astro.props;
-
-function hashStringToHsl(input: string): string {
-    let hash = 0;
-    for (let i = 0; i < input.length; i++) {
-        hash = input.charCodeAt(i) + ((hash << 5) - hash);
-        hash = hash & hash;
-    }
-    const hue = Math.abs(hash) % 360;
-    const saturation = 65; // percent
-    const lightness = 40; // percent
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-}
 
 const fallbackColor = hashStringToHsl(track.name);
 ---

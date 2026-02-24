@@ -8,6 +8,9 @@ import ArtistCard from "../components/ArtistCard.astro";
 import CurrentlyPlaying from "../components/CurrentlyPlaying";
 import { SITE_DESCRIPTION } from "../consts";
 import { sanityClient } from "sanity:client";
+import { getRecentTracks, getArtistInfo } from "../lib/lastfm";
+import { getArtistArt } from "../lib/fanart";
+import TracksList from "../components/TracksList.astro";
 
 const CACHE_ID = "global-music-cache";
 const cache = await sanityClient.fetch(
@@ -63,54 +66,60 @@ const totalPlaycount = artists.reduce((sum, artist) => {
   const playcount = artist.playcount ? Number(artist.playcount) : 0;
   return sum + playcount;
 }, 0);
+
+let artistBannerUrl = "";
+
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+const fanartApiKey = import.meta.env.FANART_API_KEY;
+if (apiKey && fanartApiKey) {
+  try {
+    const recent = await getRecentTracks(apiKey);
+    const first = recent?.recenttracks?.track?.[0];
+    const artistName = first?.artist?.["#text"];
+    if (artistName) {
+      const artistInfo = await getArtistInfo(artistName, apiKey);
+      artistBannerUrl = await getArtistArt(artistInfo?.mbid, fanartApiKey);
+    }
+  } catch (e) {
+    console.error("Failed to fetch artist banner:", e);
+  }
+}
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title="Music" description={SITE_DESCRIPTION} />
+    <script>
+      import ColorThief from "colorthief";
+      import { initializeColorExtraction } from "../lib/colorExtraction";
+      (window as any).ColorThief = ColorThief;
+      initializeColorExtraction();
+    </script>
   </head>
   <body>
     <div id="cur"></div>
     <Header />
     <main>
       <div
+        class="flex h-[200px] md:h-[500px] justify-end items-end relative overflow-hidden"
+      >
+        <CurrentlyPlaying client:load artistBannerUrl={artistBannerUrl || undefined} />
+      </div>
+      <div
         class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
       >
-        <div class="md:sticky top-0 h-fit shrink-0">
-          <span class="h3 mb-[var(--space-s)] md:mb-[var(--space-m)] block"
-            >Top 10 Tracks</span
-          >
-          <ol class="post-list feature-list flow" style="--flow-space: 0;">
-            {
-              tracks.map((track) => (
-                <li class="post flex flex-col gap-[3px] !py-[6px] md:!px-[6px]">
-                  <div class="post-item flex flex-col gap-0">
-                    <span class="font-semibold">{track.name}</span>
-                    <span class="text-[0.85rem]">{track.artist.name}</span>
-                  </div>
-                </li>
-              ))
-            }
-          </ol>
-        </div>
         <div class="flex flex-col gap-[20px] w-full">
-          <div
-            class="grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 gap-[20px]"
-          >
-            <div class="col-start-1 col-span-4 grid !grid-cols-4 gap-[20px]">
-              <h1 class="h2 col-span-full">Currently Playing</h1>
-              <CurrentlyPlaying client:load />
-            </div>
-          </div>
           <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
             <div
               class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
             >
-              <h1 class="h2 col-span-full">Recent Artists</h1>
-              <div
-                class="col-span-full flex gap-[6px] snap-x overflow-auto snap-mandatory accent-dark card-row"
+              <h1
+                class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)] col-span-full"
               >
+                Recent Artists
+              </h1>
+              <div class="col-span-full !grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {
                   artists.map((artist, i) => {
                     const playcount = artist.playcount
@@ -121,7 +130,7 @@ const totalPlaycount = artists.reduce((sum, artist) => {
                         ? (playcount / totalPlaycount) * 100
                         : 0;
                     return (
-                      <div class="flex-1 min-w-[250px] snap-start">
+                      <div class="col-span-1 snap-start">
                         <div
                           class="flex"
                           style={`--track-color: ${trackColor}`}
@@ -138,6 +147,13 @@ const totalPlaycount = artists.reduce((sum, artist) => {
                     );
                   })
                 }
+              </div>
+
+              <div class="col-span-full mt-[var(--space-m)]">
+                <h2 class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)]"
+                  >Top 10 Tracks</h2
+                >
+                <TracksList tracks={tracks} />
               </div>
             </div>
           </div>
@@ -170,7 +186,7 @@ const totalPlaycount = artists.reduce((sum, artist) => {
 </style>
 
 <script is:inline>
-	document.addEventListener("mousemove", (e) => {
+  document.addEventListener("mousemove", (e) => {
     const cur = document.getElementById("cur");
     if (cur) {
       cur.style.left = e.clientX + "px";
@@ -185,14 +201,18 @@ const totalPlaycount = artists.reduce((sum, artist) => {
       document.body.classList.remove("cur-sm"),
     );
   });
-  document.querySelectorAll("a:not([class]), button, .post-item").forEach((el) => {
-    el.addEventListener("mouseenter", () =>
- 	document.body.classList.remove("cur-sm"),
-      document.body.classList.add("cur-lg"),
-    );
-    el.addEventListener("mouseleave", () =>
- 	document.body.classList.add("cur-sm"),
-      document.body.classList.remove("cur-lg"),
-    );
-  });
+  document
+    .querySelectorAll("a:not([class]), button, .post-item")
+    .forEach((el) => {
+      el.addEventListener(
+        "mouseenter",
+        () => document.body.classList.remove("cur-sm"),
+        document.body.classList.add("cur-lg"),
+      );
+      el.addEventListener(
+        "mouseleave",
+        () => document.body.classList.add("cur-sm"),
+        document.body.classList.remove("cur-lg"),
+      );
+    });
 </script>

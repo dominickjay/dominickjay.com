@@ -1,42 +1,57 @@
 ---
 export interface Props {
-	tracks?: Array<{
-		title: string;
-		artist: string;
-	}>;
+  tracks?: Array<{
+    title?: string;
+    name?: string;
+    artist: string | { "#text"?: string; name?: string };
+  }>;
 }
 
 const { tracks = [] } = Astro.props;
+
+function artistName(
+  a: string | { "#text"?: string; name?: string } | undefined,
+): string {
+  if (a == null) return "";
+  if (typeof a === "string") return a;
+  return a["#text"] ?? a.name ?? "";
+}
 ---
 
 <ol
-	class="post-list feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
-	style="--flow-space: 0;"
+  class="post-list feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
+  style="--flow-space: 0;"
 >
-	{
-		tracks.map((track, i) => (
-			<li class="post-item">
-				<div class="post-link post-link--small">
-					<span class="post-n">{String(i + 1).padStart(2, "0")}</span>
-			    <div class="post-body">
-			      <span
-							class="post-title">{track.title}{" "}
-								<span
-									class="post-artist"
-								>by {track.artist}</span>
-						</span>
-			    </div>
-				</div>
-			</li>
-		))
-	}
+  {
+    tracks.map((track, i) => (
+      <li class="post-item">
+        <div class="post-link post-link--small">
+          <span class="post-n">{String(i + 1).padStart(2, "0")}</span>
+          <div class="post-body">
+            <span class="post-title">
+              {track.title || track.name}{" "}
+              <span class="post-artist">by {artistName(track.artist)}</span>
+            </span>
+          </div>
+        </div>
+      </li>
+    ))
+  }
 </ol>
 
 <script is:inline>
-	// Stagger reveal
-	const items=document.querySelectorAll('.post-item');
-	const obs=new IntersectionObserver(entries=>{
-	  entries.forEach(e=>{if(!e.isIntersecting)return;const i=[...items].indexOf(e.target);setTimeout(()=>e.target.classList.add('visible'),i*26);obs.unobserve(e.target);});
-	},{threshold:.05});
-	items.forEach(el=>obs.observe(el));
+  // Stagger reveal
+  const items = document.querySelectorAll(".post-item");
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const i = [...items].indexOf(e.target);
+        setTimeout(() => e.target.classList.add("visible"), i * 26);
+        obs.unobserve(e.target);
+      });
+    },
+    { threshold: 0.05 },
+  );
+  items.forEach((el) => obs.observe(el));
 </script>

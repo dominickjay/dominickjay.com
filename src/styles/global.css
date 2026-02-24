@@ -54,6 +54,7 @@
 @import "./blocks/button.css";
 @import "./blocks/feature-list.css";
 @import "./blocks/stage-meta.css";
+@import "./blocks/now-playing.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";

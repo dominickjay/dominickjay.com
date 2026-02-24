@@ -38,6 +38,7 @@
     align-items: baseline;
     gap: 8px;
     position: relative;
+    width: 100%;
   }
 
   .counter {
@@ -172,10 +173,6 @@
 @container music-card (min-width: 350px) {
   .music-card {
     flex-direction: row;
-  }
-
-  .music-card__image {
-    max-width: 150px;
   }
 
   .music-card:has(.music-card__artist) .music-card__image {

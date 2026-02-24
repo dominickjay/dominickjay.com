@@ -2,7 +2,7 @@
   display: flex;
   overflow: auto;
   align-items: center;
-  gap: var(--space-s);
+  gap: 0;
   scroll-snap-type: x mandatory;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -20,20 +20,30 @@
 }
 
 .category-filter {
-  font-family: var(--font-base);
-  cursor: pointer;
-  min-width: fit-content;
-  transition: transform 0.25s ease-in-out;
-
-  &:hover {
-    transform: translateX(5px);
-  }
+  color: #2c5364;
+  text-decoration: none;
+  background-image: linear-gradient(
+    rgba(44, 83, 100, 0.35),
+    rgba(44, 83, 100, 0.35)
+  );
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition:
+    background-size 0.85s cubic-bezier(0.23, 1, 0.32, 1),
+    color 0.2s;
+  padding: 2px 4px;
+  border: none;
 
   &::before {
     content: none;
   }
 
+  &:hover {
+    background-size: 100% 100%;
+  }
+
   &.active {
-    transform: translateX(5px);
+    background-size: 100% 100%;
   }
 }

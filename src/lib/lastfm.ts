@@ -20,6 +20,7 @@ export interface LastFmTrack {
 
 export interface LastFmArtist {
   name: string;
+  mbid?: string;
   image: Array<{ '#text': string; size: string }>;
   url: string;
   playcount?: string; // present in weekly charts for the selected period
@@ -100,18 +101,26 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
   }
 
   // If we got a default placeholder image, try to get a better one from artist images
-  if (data.artist?.image?.[0]?.['#text']?.includes('2a96cbd8b46e442fc41c2b86b821562f')) {
+  // (artist.getImages may require higher Last.fm permissions and return error 4)
+  const defaultImageHash = '2a96cbd8b46e442fc41c2b86b821562f';
+  const firstImageUrl = data.artist?.image?.[0]?.['#text'] ?? '';
+  if (firstImageUrl.includes(defaultImageHash)) {
     try {
       const imagesResponse = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=1`
+        `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=10`
       );
       const imagesData = await imagesResponse.json();
-      if (imagesData?.images?.image?.[0]?.['#text']) {
-        // Replace the default image with the artist image
-        data.artist.image = [{
-          '#text': imagesData.images.image[0]['#text'],
-          size: 'large'
-        }];
+      console.log('imagesData', imagesData);
+      if (!imagesData?.error) {
+        const imgs = imagesData?.images?.image;
+        const arr = !imgs ? [] : Array.isArray(imgs) ? imgs : [imgs];
+        const better = arr.find(
+          (i: { '#text'?: string }) =>
+            i?.['#text'] && !i['#text'].includes(defaultImageHash),
+        );
+        if (better?.['#text']) {
+          data.artist.image = [{ '#text': better['#text'], size: 'large' }];
+        }
       }
     } catch (error) {
       console.error(`Failed to fetch artist images for ${artist}:`, error);

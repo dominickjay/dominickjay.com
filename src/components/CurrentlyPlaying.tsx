@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { extractImageColor } from "../lib/colorExtraction";
+import { hashStringToHsl, rgbToHsl } from "../lib/color";
 
 type TrackImage = { "#text"?: string };
 type Track = {
@@ -24,18 +26,24 @@ function isNowPlaying(track: Track | null): boolean {
   return attr?.nowplaying === true || String(attr?.nowplaying) === "true";
 }
 
-export default function CurrentlyPlaying() {
+export default function CurrentlyPlaying({
+  trackColor = "var(--color-dark)",
+  artistBannerUrl,
+}: {
+  trackColor?: string;
+  artistBannerUrl?: string;
+}) {
   const [track, setTrack] = useState<Track | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
+  const [extractedColor, setExtractedColor] = useState<string | null>(null);
 
   function fetchTrack() {
     fetch(`/api/recent-tracks?t=${Date.now()}`)
       .then((r) => r.json())
       .then((data) => {
         const list = data?.recenttracks?.track;
-        const next =
-          Array.isArray(list) && list.length > 0 ? list[0] : null;
+        const next = Array.isArray(list) && list.length > 0 ? list[0] : null;
         setTrack(next);
         setLoading(false);
       })
@@ -52,74 +60,89 @@ export default function CurrentlyPlaying() {
   }, []);
 
   const imageUrl = getImageUrl(track);
+  const colorSourceUrl = artistBannerUrl || imageUrl;
+
+  useEffect(() => {
+    if (!colorSourceUrl) {
+      setExtractedColor(null);
+      return;
+    }
+    let cancelled = false;
+    extractImageColor(colorSourceUrl).then((result) => {
+      if (!cancelled && result.success) {
+        setExtractedColor(rgbToHsl(result.color));
+      } else if (!cancelled) {
+        setExtractedColor(null);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [colorSourceUrl]);
+
   const nowPlaying = isNowPlaying(track);
+  const fallbackColor = track?.artist?.["#text"]
+    ? hashStringToHsl(track.artist["#text"])
+    : track?.name
+      ? hashStringToHsl(track.name)
+      : null;
+  const displayColorRaw = extractedColor ?? fallbackColor ?? trackColor;
+  const displayColor = displayColorRaw?.startsWith("rgb(")
+    ? rgbToHsl(displayColorRaw)
+    : displayColorRaw;
+
+  const overlayColorHsl = displayColor?.startsWith("hsl(")
+    ? displayColor
+    : displayColor
+      ? "hsl(0, 0%, 20%)"
+      : undefined;
 
   return (
-    <div
-      className="col-span-full"
-      aria-live="polite"
-    >
-      {loading && (
-        <div
-          className="col-span-full flex w-full gap-4 items-center p-4 rounded border border-[var(--color-dark)]"
-          aria-busy="true"
-        >
-          <div className="size-[100px] shrink-0 bg-[var(--color-dark)] animate-pulse rounded" />
-          <div className="flex flex-col gap-2 flex-1">
-            <span className="text-sm text-[var(--color-dark)]">Loading…</span>
-          </div>
-        </div>
+    <div className="container relative flex justify-end items-end z-[100] h-full p-[var(--space-m)]">
+      {artistBannerUrl && (
+        <>
+          <div
+            className="absolute inset-0 bg-cover bg-top z-0"
+            style={{ backgroundImage: `url(${artistBannerUrl})` }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-0 h-full w-full z-10"
+            style={
+              overlayColorHsl
+                ? ({
+                    backgroundColor: overlayColorHsl,
+                    opacity: 0.5,
+                  } as React.CSSProperties)
+                : undefined
+            }
+          />
+        </>
       )}
-
-      {!loading && (error || !track) && (
-        <div
-          className="col-span-full flex w-full gap-4 items-center p-4 rounded border border-[var(--color-dark)]"
-          role="status"
-        >
-          <span className="text-sm text-[var(--color-dark)]">
-            Nothing playing right now.
+      <div
+        aria-live="polite"
+        className={`np-pill ${nowPlaying ? "is-playing" : ""}`}
+        id="npPill"
+      >
+        <div className="np-bars">
+          <div className="np-bar"></div>
+          <div className="np-bar"></div>
+          <div className="np-bar"></div>
+          <div className="np-bar"></div>
+          <div className="np-bar"></div>
+        </div>
+        <div className="np-text">
+          <span className="np-track" id="npTrack">
+            {track?.name ?? ""}
+          </span>
+          <span className="np-artist" id="npArtist">
+            {track?.artist?.["#text"] ?? ""}
+          </span>
+          <span className="np-status" id="npStatus">
+            {nowPlaying ? "Now playing" : "Last played"}
           </span>
         </div>
-      )}
-
-      {!loading && track && (
-        <div
-          className="artist-card flex w-full gap-4 col-span-full [--track-color:var(--color-dark)]"
-        >
-          <div className="flex justify-between items-baseline gap-2 relative aspect-square size-[150px] shrink-0">
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                alt=""
-                className="h-full w-full object-cover object-center aspect-square"
-                width={250}
-                height={250}
-                loading="lazy"
-              />
-            ) : (
-              <div className="size-full bg-[var(--color-dark)] rounded" />
-            )}
-            {nowPlaying && (
-              <div
-                className="now-playing-indicator absolute bottom-1 right-1 flex gap-1"
-                aria-hidden="true"
-              >
-                <span className="size-1.5 rounded-full bg-[var(--color-light)] animate-pulse" />
-                <span className="size-1.5 rounded-full bg-[var(--color-light)] animate-pulse [animation-delay:0.2s]" />
-                <span className="size-1.5 rounded-full bg-[var(--color-light)] animate-pulse [animation-delay:0.4s]" />
-              </div>
-            )}
-          </div>
-          <div className="w-full py-4 flex flex-col justify-center min-w-0">
-            <span className="intro relative font-semibold block truncate">
-              {track?.name ?? ""}
-            </span>
-            <span className="relative text-[1rem] truncate">
-              {track?.artist?.["#text"] ?? ""}
-            </span>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

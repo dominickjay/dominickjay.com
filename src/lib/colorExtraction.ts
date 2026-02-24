@@ -1,6 +1,8 @@
 // Color extraction utility for music cards
 // This provides a reusable way to extract dominant colors from album/artist images
 
+import { rgbToHsl } from "./color";
+
 export interface ColorExtractionResult {
 	success: boolean;
 	color: string;
@@ -76,16 +78,16 @@ export async function extractMusicCardColors(): Promise<void> {
 				const result = await extractImageColor(trackImage.src);
 
 				if (result.success) {
-					// Set on the music card itself
-					musicCard.style.setProperty("--track-color", result.color);
+					const trackColorHsl = rgbToHsl(result.color);
+					musicCard.style.setProperty("--track-color", trackColorHsl);
 
 					// Also set a global fallback
 					document.documentElement.style.setProperty(
 						"--track-color",
-						result.color,
+						trackColorHsl,
 					);
 
-					console.log(`Extracted color for music card ${i + 1}:`, result.color);
+					console.log(`Extracted color for music card ${i + 1}:`, trackColorHsl);
 				} else {
 					console.warn(
 						`Failed to extract color for card ${i + 1}:`,
@@ -111,6 +113,7 @@ export function initializeColorExtraction(): void {
 		// console.log("DOM loaded, initializing color extraction...");
 		await extractMusicCardColors();
 		await extractArtistCardColors();
+		await extractMusicCardColorsFromImages();
 	});
 }
 
@@ -119,9 +122,10 @@ export async function reExtractColors(): Promise<void> {
 	// console.log("Re-extracting colors for music cards...");
 	await extractMusicCardColors();
 	await extractArtistCardColors();
+	await extractMusicCardColorsFromImages();
 }
 
-// Extract dominant colors for each artist card using its embedded image
+// Extract dominant colors for each artist card using its embedded image (.artist-card)
 async function extractArtistCardColors(): Promise<void> {
 	const artistCards = document.querySelectorAll(".artist-card");
 	if (artistCards.length === 0) return;
@@ -134,8 +138,28 @@ async function extractArtistCardColors(): Promise<void> {
 		try {
 			const result = await extractImageColor(img.src);
 			if (result.success) {
-				card.style.setProperty("--track-color", result.color);
-				// do not set global; keep color per card
+				card.style.setProperty("--track-color", rgbToHsl(result.color));
+			}
+		} catch (_) {
+			// ignore
+		}
+	}
+}
+
+// Extract dominant colors for each .music-card (ArtistCard) using its embedded image
+export async function extractMusicCardColorsFromImages(): Promise<void> {
+	const cards = document.querySelectorAll(".music-card");
+	if (cards.length === 0) return;
+
+	for (let i = 0; i < cards.length; i++) {
+		const card = cards[i] as HTMLElement;
+		const img = card.querySelector("img") as HTMLImageElement | null;
+		if (!img || !img.src) continue;
+
+		try {
+			const result = await extractImageColor(img.src);
+			if (result.success) {
+				card.style.setProperty("--track-color", rgbToHsl(result.color));
 			}
 		} catch (_) {
 			// ignore

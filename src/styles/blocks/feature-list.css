@@ -109,26 +109,36 @@
   .post-item:hover .post-link::before {
     transform: scaleX(1);
   }
+}
 
-  @media (width <= 640px) {
-    .post-title {
-      font-size: 20px;
-    }
+@media (width <= 640px) {
 
-    .post-link--small .post-title {
-      font-size: 18px;
-    }
+  .feature-list {
+    .post-item {
+      .post-title {
+        font-size: 20px;
+      }
 
-    .post-link {
-      padding: 16px 16px;
-    }
+      .post-link--small .post-title {
+        font-size: 18px;
+      }
 
-    .post-link--small {
-      padding: 8px 12px;
-    }
+      .post-link {
+        padding: 16px 16px;
+      }
 
-    .growth {
-      margin-inline-start: 0;
+      .post-link--small {
+        padding: 8px 12px;
+      }
+
+      .post-meta {
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .growth {
+        margin-inline-start: 0;
+      }
     }
   }
 }
