@@ -1,0 +1,90 @@
+.np-pill {
+  /* position: absolute; */
+  /* top: 20px; */
+  /* right: 24px; */
+  z-index: 3;
+  background: rgba(34, 34, 34, 0.82);
+  border: 1px solid var(--track-color, var(--color-accent));
+  backdrop-filter: blur(12px);
+  /*border-radius: 40px;*/
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.3s;
+  width: fit-content;
+  z-index: 100;
+}
+
+.np-pill.is-playing {
+  border-color: rgba(var(--color-accent-rgb), 0.3);
+}
+.np-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.np-bar {
+  width: 3px;
+  background: var(--color-light);
+  border-radius: 2px;
+  transform-origin: bottom;
+}
+.np-pill.is-playing .np-bar {
+  animation: npBar 0.9s ease-in-out infinite alternate;
+}
+.np-bar:nth-child(1) {
+  animation-delay: 0s;
+  height: 40%;
+}
+.np-bar:nth-child(2) {
+  animation-delay: 0.14s;
+  height: 90%;
+}
+.np-bar:nth-child(3) {
+  animation-delay: 0.28s;
+  height: 55%;
+}
+.np-bar:nth-child(4) {
+  animation-delay: 0.42s;
+  height: 100%;
+}
+.np-bar:nth-child(5) {
+  animation-delay: 0.08s;
+  height: 50%;
+}
+@keyframes npBar {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.np-text {
+  font-family: var(--font-base);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  min-width: 0;
+}
+.np-track {
+  color: var(--color-light);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.np-artist {
+  color: var(--color-light);
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+.np-status {
+  color: var(--color-light);
+  font-size: 10px;
+}
