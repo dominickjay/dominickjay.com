@@ -104,7 +104,10 @@ if (apiKey && fanartApiKey) {
       <div
         class="flex h-[200px] md:h-[500px] justify-end items-end relative overflow-hidden"
       >
-        <CurrentlyPlaying client:load artistBannerUrl={artistBannerUrl || undefined} />
+        <CurrentlyPlaying
+          client:load
+          artistBannerUrl={artistBannerUrl || undefined}
+        />
       </div>
       <div
         class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
@@ -119,7 +122,9 @@ if (apiKey && fanartApiKey) {
               >
                 Recent Artists
               </h1>
-              <div class="col-span-full !grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <div
+                class="col-span-full !grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
+              >
                 {
                   artists.map((artist, i) => {
                     const playcount = artist.playcount
@@ -150,9 +155,11 @@ if (apiKey && fanartApiKey) {
               </div>
 
               <div class="col-span-full mt-[var(--space-m)]">
-                <h2 class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)]"
-                  >Top 10 Tracks</h2
+                <h2
+                  class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)]"
                 >
+                  Top 10 Tracks
+                </h2>
                 <TracksList tracks={tracks} />
               </div>
             </div>

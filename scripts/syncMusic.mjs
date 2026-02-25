@@ -52,6 +52,7 @@ if (topArtistsData?.error) {
   process.exit(1)
 }
 const artists = topArtistsData?.topartists?.artist ?? []
+console.log(artists);
 console.log('Artists count:', artists.length)
 
 function toImageArray(img) {
@@ -66,10 +67,8 @@ async function getArtistArtFromFanart(mbid) {
     const res = await fetch(url)
     if (!res.ok) return null
     const data = await res.json()
-    const bg = data?.artistbackground?.[0]?.url?.trim()
+    const bg = data?.artistthumb?.[0]?.url?.trim()
     if (bg) return [{ '#text': bg, size: 'large' }]
-    const thumb = data?.artistthumb?.[0]?.url?.trim()
-    if (thumb) return [{ '#text': thumb, size: 'large' }]
   } catch (_) {}
   return null
 }
@@ -77,6 +76,7 @@ async function getArtistArtFromFanart(mbid) {
 async function enrichArtistImage(artistName) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artistName)}&username=${LAST_FM_USER}&api_key=${apiKey}&format=json`
   const data = await fetch(url).then((r) => r.json())
+  console.log(data.artist.name, data.error);
   if (data.error || !data.artist) return null
   const mbid = data.artist?.mbid?.trim()
   if (!mbid) return null
