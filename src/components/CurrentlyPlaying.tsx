@@ -60,7 +60,11 @@ export default function CurrentlyPlaying({
   }, []);
 
   const imageUrl = getImageUrl(track);
-  const colorSourceUrl = artistBannerUrl || imageUrl;
+  const bannerSrc =
+    artistBannerUrl?.startsWith("http://")
+      ? artistBannerUrl.replace(/^http:\/\//i, "https://")
+      : artistBannerUrl;
+  const colorSourceUrl = bannerSrc || imageUrl;
 
   useEffect(() => {
     if (!colorSourceUrl) {
@@ -99,20 +103,20 @@ export default function CurrentlyPlaying({
 
   return (
     <div className="container relative flex justify-end items-end z-[100] h-full p-[var(--space-m)]">
-      {artistBannerUrl && (
+      {bannerSrc && (
         <>
           <picture className="absolute inset-0 z-0 block size-full">
             <source
               media="(max-width: 768px)"
-              srcSet={`${artistBannerUrl} 2180w`}
+              srcSet={`${bannerSrc} 2180w`}
               sizes="100vw"
             />
             <img
-              src={artistBannerUrl}
+              src={bannerSrc}
               alt=""
               width={2180}
               height={1224}
-              srcSet={`${artistBannerUrl} 2180w`}
+              srcSet={`${bannerSrc} 2180w`}
               sizes="(max-width: 768px) 100vw, 100vw"
               className="absolute inset-0 size-full object-cover object-top"
               aria-hidden="true"
