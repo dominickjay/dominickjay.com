@@ -76,7 +76,6 @@ async function getArtistArtFromFanart(mbid) {
 async function enrichArtistImage(artistName) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artistName)}&username=${LAST_FM_USER}&api_key=${apiKey}&format=json`
   const data = await fetch(url).then((r) => r.json())
-  console.log(data.artist.name, data.error);
   if (data.error || !data.artist) return null
   const mbid = data.artist?.mbid?.trim()
   if (!mbid) return null
@@ -85,7 +84,10 @@ async function enrichArtistImage(artistName) {
 
 const enrichedArtists = await Promise.all(
   artists.map(async (a) => {
-    const image = await enrichArtistImage(a.name)
+    const image =
+      a.mbid?.trim()
+        ? await getArtistArtFromFanart(a.mbid)
+        : await enrichArtistImage(a.name)
     const fallback = toImageArray(a?.image)
     const finalImage = image?.length ? image : fallback
     return {...a, image: finalImage}

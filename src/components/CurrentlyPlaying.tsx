@@ -101,11 +101,18 @@ export default function CurrentlyPlaying({
     <div className="container relative flex justify-end items-end z-[100] h-full p-[var(--space-m)]">
       {artistBannerUrl && (
         <>
-          <div
-            className="absolute inset-0 bg-cover bg-top z-0"
-            style={{ backgroundImage: `url(${artistBannerUrl})` }}
-            aria-hidden="true"
-          />
+          <picture className="absolute inset-0 z-0 block size-full">
+            <source
+              media="(max-width: 768px)"
+              srcSet={artistBannerUrl}
+            />
+            <img
+              src={artistBannerUrl}
+              alt=""
+              className="absolute inset-0 size-full object-cover object-top"
+              aria-hidden="true"
+            />
+          </picture>
           <div
             className="absolute inset-0 h-full w-full z-10"
             style={

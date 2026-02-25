@@ -64,7 +64,8 @@
     opacity: 0.75;
   }
 
-  & .post-link {
+  & .post-link,
+  & .post-info {
     display: flex;
     align-items: baseline;
     gap: 18px;
@@ -97,7 +98,8 @@
     }
   }
 
-  .post-link--small {
+  .post-link--small,
+  .post-info--small {
     padding: 12px 18px;
   }
 
@@ -123,11 +125,13 @@
         font-size: 18px;
       }
 
-      .post-link {
+      .post-link,
+      .post-info {
         padding: 16px 16px;
       }
 
-      .post-link--small {
+      .post-link--small,
+      .post-info--small {
         padding: 8px 12px;
       }
 
