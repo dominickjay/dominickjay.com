@@ -104,11 +104,16 @@ export default function CurrentlyPlaying({
           <picture className="absolute inset-0 z-0 block size-full">
             <source
               media="(max-width: 768px)"
-              srcSet={artistBannerUrl}
+              srcSet={`${artistBannerUrl} 2180w`}
+              sizes="100vw"
             />
             <img
               src={artistBannerUrl}
               alt=""
+              width={2180}
+              height={1224}
+              srcSet={`${artistBannerUrl} 2180w`}
+              sizes="(max-width: 768px) 100vw, 100vw"
               className="absolute inset-0 size-full object-cover object-top"
               aria-hidden="true"
             />
