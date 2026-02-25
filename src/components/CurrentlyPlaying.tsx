@@ -37,6 +37,7 @@ export default function CurrentlyPlaying({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<unknown>(null);
   const [extractedColor, setExtractedColor] = useState<string | null>(null);
+  const [fetchedBannerUrl, setFetchedBannerUrl] = useState<string | null>(null);
 
   function fetchTrack() {
     fetch(`/api/recent-tracks?t=${Date.now()}`)
@@ -59,12 +60,35 @@ export default function CurrentlyPlaying({
     return () => clearInterval(id);
   }, []);
 
+  useEffect(() => {
+    const artist = track?.artist?.["#text"]?.trim();
+    if (!artist) {
+      setFetchedBannerUrl(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/artist-banner?artist=${encodeURIComponent(artist)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data?.url) setFetchedBannerUrl(data.url);
+        else if (!cancelled) setFetchedBannerUrl(null);
+      })
+      .catch(() => {
+        if (!cancelled) setFetchedBannerUrl(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [track?.artist?.["#text"]]);
+
   const imageUrl = getImageUrl(track);
   const toHttps = (url: string) =>
     url?.startsWith("http://") ? url.replace(/^http:\/\//i, "https://") : url;
   const bannerSrc = toHttps(artistBannerUrl ?? "");
   const trackImageSrc = toHttps(imageUrl);
-  const displayImageUrl = bannerSrc || trackImageSrc;
+  const fetchedBannerSrc = toHttps(fetchedBannerUrl ?? "");
+  const displayImageUrl =
+    fetchedBannerSrc || bannerSrc || trackImageSrc;
   const colorSourceUrl = displayImageUrl;
 
   useEffect(() => {
