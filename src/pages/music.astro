@@ -104,10 +104,7 @@ if (apiKey && fanartApiKey) {
       <div
         class="flex h-[200px] md:h-[500px] justify-end items-end relative overflow-hidden"
       >
-        <CurrentlyPlaying
-          client:load
-          artistBannerUrl={artistBannerUrl || undefined}
-        />
+        <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
       </div>
       <div
         class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
