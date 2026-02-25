@@ -9,6 +9,7 @@
   cursor: none;
   transition: border-color .3s, transform .3s cubic-bezier(.23, 1, .32, 1);
   position: relative;
+  width: 100%;
 
   & .music-card__image {
     position: relative;
