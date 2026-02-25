@@ -10,17 +10,6 @@ type Track = {
   "@attr"?: { nowplaying?: boolean };
 };
 
-function getImageUrl(track: Track | null): string {
-  if (!track?.image) return "";
-  const img = track.image;
-  const arr = Array.isArray(img) ? img : [img];
-  for (let i = arr.length - 1; i >= 0; i--) {
-    const u = arr[i]?.["#text"]?.trim();
-    if (u) return u;
-  }
-  return "";
-}
-
 function isNowPlaying(track: Track | null): boolean {
   const attr = track?.["@attr"];
   return attr?.nowplaying === true || String(attr?.nowplaying) === "true";
@@ -81,14 +70,11 @@ export default function CurrentlyPlaying({
     };
   }, [track?.artist?.["#text"]]);
 
-  const imageUrl = getImageUrl(track);
   const toHttps = (url: string) =>
     url?.startsWith("http://") ? url.replace(/^http:\/\//i, "https://") : url;
   const bannerSrc = toHttps(artistBannerUrl ?? "");
-  const trackImageSrc = toHttps(imageUrl);
   const fetchedBannerSrc = toHttps(fetchedBannerUrl ?? "");
-  const displayImageUrl =
-    fetchedBannerSrc || bannerSrc || trackImageSrc;
+  const displayImageUrl = fetchedBannerSrc || bannerSrc;
   const colorSourceUrl = displayImageUrl;
 
   useEffect(() => {
