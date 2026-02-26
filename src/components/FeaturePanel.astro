@@ -10,7 +10,7 @@ const { featuredPosts } = Astro.props;
           <span class={`growth growth--${post.data.growth}`}>
             {post.data.growth}
           </span>
-          <span class="relative">{post.data.title}</span>
+          <span class="relative featured-post__title">{post.data.title}</span>
         </a>
       </li>
     ))

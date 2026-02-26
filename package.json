@@ -12,7 +12,8 @@
     "generate-links": "node scripts/links.js",
     "generate-now": "node scripts/now.js",
     "generate-books": "node scripts/books.js",
-    "sync-music": "node scripts/syncMusic.mjs"
+    "sync-music": "node scripts/syncMusic.mjs",
+    "test-trakt": "node scripts/test-trakt.mjs"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.14.8",

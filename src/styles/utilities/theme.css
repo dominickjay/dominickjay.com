@@ -7,29 +7,29 @@
 }
 
 [data-time="early-morning"] {
-	--feature-color: #0f2027;
+	--feature-color: #c4856a;
 }
 
 [data-time="late-morning"] {
-	--feature-color: #2c5364;
+	--feature-color: #a07820;
 }
 
 [data-time="early-afternoon"] {
-	--feature-color: #e2e2e2;
+	--feature-color: #1e5c9a;
 }
 
 [data-time="mid-afternoon"] {
-	--feature-color: #f39c12;
+	--feature-color: #2e7a5a;
 }
 
 [data-time="last-afternoon"] {
-	--feature-color: #d35400;
+	--feature-color: #b85a20;
 }
 
 [data-time="evening"] {
-	--feature-color: #890e0e;
+	--feature-color: #7a3a8a;
 }
 
 [data-time="night"] {
-	--feature-color: #1a0505;
+	--feature-color: #2a3560;
 }
