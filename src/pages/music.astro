@@ -101,9 +101,7 @@ if (apiKey && fanartApiKey) {
     <div id="cur"></div>
     <Header />
     <main>
-      <div
-        class="flex h-[200px] md:h-[500px] justify-end items-end relative overflow-hidden"
-      >
+      <div class="flex justify-end items-end relative overflow-hidden">
         <CurrentlyPlaying
           client:load
           artistBannerUrl={artistBannerUrl || undefined}
@@ -113,7 +111,7 @@ if (apiKey && fanartApiKey) {
         class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
       >
         <div class="flex flex-col gap-[20px] w-full">
-          <div class="grid !grid-cols-4 gap-[20px] pt-[68px]">
+          <div class="grid !grid-cols-4 gap-[20px]">
             <div
               class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
             >

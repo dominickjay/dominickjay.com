@@ -6,149 +6,150 @@ import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
 import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from "../consts";
 import BigLink from "../components/BigLink.astro";
+import FormattedDate from "../components/FormattedDate.astro";
 
 const showMarquee = true;
 const contentIntro = ABOUT_INTRO.medium
-	.replaceAll("[", '<span class="current-job">')
-	.replaceAll("]", "</span>");
+  .replaceAll("[", '<span class="current-job">')
+  .replaceAll("]", "</span>");
 
 const companies = ABOUT_COMPANIES;
 ---
 
 {/* @ts-ignore */}
 <Layout
-	{...{
-		title: "About Me",
-		description: "creative front end developer, writer, music nerd.",
-		pubDate: new Date("August 08 2021"),
-		tags: [],
-		headings: [],
-		timeToRead: 0,
-	} as any}
+  {...{
+    title: "About Me",
+    description: "creative front end developer, writer, music nerd.",
+    pubDate: new Date("August 08 2021"),
+    tags: [],
+    headings: [],
+    timeToRead: 0,
+  } as any}
 >
-	<div class="about flow">
-		<div
-			class="grid grid-cols-6 container"
-			style="--grid-placement: 6; --gutter: 43px;"
-		>
-			<div class="col-span-full md:col-span-2">
-				<Profile />
-			</div>
-			<div class="col-span-full md:col-span-4 flow">
-				<div class="flow">
-					<div class="overflow-clip">
-						{showMarquee && <MarqueeHeading title="About" />}
-						{!showMarquee && <ScrollHeading title="About" />}
-					</div>
-					<h2 class="h2" set:html={contentIntro} />
-					<div
-						class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)] prose"
-					>
-						<p>
-							I am a Front-End Developer currently based in the UK, working with
-							the team at <a href="https://serieseight.com/">Series Eight</a>.
-							My work sits at the intersection of accessibility, user
-							experience, and creative experimentation.
-						</p>
-					</div>
-					<div
-						class="flow [--flow-space:var(--space-s)] pt-[var(--space-m)] prose"
-					>
-						<h3>Professional</h3>
-						<p>
-							Throughout my career, I’ve navigated the worlds of design agencies
-							and the private sector, holding roles at <i class="font-semibold"
-								>Rowe IT</i
-							>, <i class="font-semibold">GOSS Interactive</i>, <i
-								class="font-semibold">n9Design</i
-							>, and <i class="font-semibold">Logo CCP</i>. These experiences
-							have shaped my approach to building for the web: I believe in
-							creating digital experiences that are as inclusive as they are
-							visually engaging. In my current role at Series Eight, I work
-							across a diverse range of technologies and processes. I’m
-							constantly refining my craft and advocating for web standards that
-							don't sacrifice creativity for function.
-						</p>
-					</div>
-					<div class="flow [--flow-space:var(--space-s)] prose">
-						<h3>This Site</h3>
-						<p>
-							I treat this corner of the internet as a digital playground. It’s
-							a space where I can break things, try out new CSS techniques, and
-							document what I’m learning. Whether it’s a small project on
-							CodePen or a deep dive on my blog, this site is a living
-							reflection of my professional and personal evolution.
-						</p>
-					</div>
-					<div class="flow [--flow-space:var(--space-s)] prose">
-						<h3 class="h3">Personal Interests</h3>
-						<p>
-							When I’m not staring at a code editor, I’m likely deep in a rabbit
-							hole of new music. I am a self-proclaimed music nerd with a
-							penchant for everything from Nils Frahm and Radiohead to IDLES and
-							Nine Inch Nails.
-						</p>
-						<p>
-							You can usually find me <a href="/reading-list"
-								>reading a new book</a
-							> or sharing my latest <a href="/now">"Now" updates.</a>
-						</p>
-					</div>
-					<div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
-						<p>
-							<ol
-								class="post-list feature-list flow"
-								style="--flow-space: 0;"
-							>
-								{
-									companies.map((company) => {
-										let { jobTitle, label, date } = company;
-										return (
-											<li class="post-item">
-												<div class="post">
-													<div class="post-contents flex max-md:flex-col-reverse justify-between md:items-center">
-														<span class="">
-															<span class="h4">{jobTitle}</span> at
-															<span class="intro">{label}</span>
-														</span>
-														<span>{date}</span>
-													</div>
-												</div>
-											</li>
-										);
-									})
-								}
-							</ol>
-						</p>
-					</div>
-					<div>
-						<BigLink text="View my resume." href="/resume.pdf" />
-					</div>
-					<div>
-						<Testimonials />
-					</div>
+  <div class="about flow">
+    <div
+      class="grid grid-cols-6 container"
+      style="--grid-placement: 6; --gutter: 43px;"
+    >
+      <div class="col-span-full md:col-span-2">
+        <Profile />
+      </div>
+      <div class="col-span-full md:col-span-4 flow">
+        <div class="flow">
+          <div class="overflow-clip">
+            {showMarquee && <MarqueeHeading title="About" />}
+            {!showMarquee && <ScrollHeading title="About" />}
+          </div>
+          <h2 class="h2" set:html={contentIntro} />
+          <div
+            class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)] prose"
+          >
+            <p>
+              I am a Front-End Developer currently based in the UK, working with
+              the team at <a href="https://serieseight.com/">Series Eight</a>.
+              My work sits at the intersection of accessibility, user
+              experience, and creative experimentation.
+            </p>
+          </div>
+          <div
+            class="flow [--flow-space:var(--space-s)] pt-[var(--space-m)] prose"
+          >
+            <h3>Professional</h3>
+            <p>
+              Throughout my career, I’ve navigated the worlds of design agencies
+              and the private sector, holding roles at <i class="font-semibold"
+                >Rowe IT</i
+              >, <i class="font-semibold">GOSS Interactive</i>, <i
+                class="font-semibold">n9Design</i
+              >, and <i class="font-semibold">Logo CCP</i>. These experiences
+              have shaped my approach to building for the web: I believe in
+              creating digital experiences that are as inclusive as they are
+              visually engaging. In my current role at Series Eight, I work
+              across a diverse range of technologies and processes. I’m
+              constantly refining my craft and advocating for web standards that
+              don't sacrifice creativity for function.
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] prose">
+            <h3>This Site</h3>
+            <p>
+              I treat this corner of the internet as a digital playground. It’s
+              a space where I can break things, try out new CSS techniques, and
+              document what I’m learning. Whether it’s a small project on
+              CodePen or a deep dive on my blog, this site is a living
+              reflection of my professional and personal evolution.
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] prose">
+            <h3 class="h3">Personal Interests</h3>
+            <p>
+              When I’m not staring at a code editor, I’m likely deep in a rabbit
+              hole of new music. I am a self-proclaimed music nerd with a
+              penchant for everything from Nils Frahm and Radiohead to IDLES and
+              Nine Inch Nails.
+            </p>
+            <p>
+              You can usually find me <a href="/reading-list"
+                >reading a new book</a
+              > or sharing my latest <a href="/now">"Now" updates.</a>
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+            <p>
+              <ol class="post-list feature-list flow" style="--flow-space: 0;">
+                {
+                  companies.map((company, i) => {
+                    let { jobTitle, label, date } = company;
+                    return (
+                      <li class="post-item visible">
+                        <div class="post-info post-info--small">
+                          <span class="post-n">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <div class="post-body">
+                            <span class="post-title">{jobTitle}</span>
+                            <div class="post-meta">
+                              <span class="post-topics-label">{label}</span>
+                              <span>{date}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })
+                }
+              </ol>
+            </p>
+          </div>
+          <div>
+            <BigLink text="View my resume." href="/resume.pdf" />
+          </div>
+          <div>
+            <Testimonials />
+          </div>
 
-					<!-- <Companies /> -->
-				</div>
-			</div>
+          <!-- <Companies /> -->
+        </div>
+      </div>
 
-			<script>
-				import ColorThief from "colorthief";
-				import { initializeColorExtraction } from "../lib/colorExtraction";
+      <script>
+        import ColorThief from "colorthief";
+        import { initializeColorExtraction } from "../lib/colorExtraction";
 
-				// Make ColorThief available globally
-				(window as any).ColorThief = ColorThief;
+        // Make ColorThief available globally
+        (window as any).ColorThief = ColorThief;
 
-				// Initialize color extraction
-				initializeColorExtraction();
-			</script>
+        // Initialize color extraction
+        initializeColorExtraction();
+      </script>
 
-			<style>
-				.bg-album-cover:hover {
-					opacity: 1;
-					transition: opacity 0.3s ease-in-out;
-				}
-			</style>
-		</div>
-	</div></Layout
+      <style>
+        .bg-album-cover:hover {
+          opacity: 1;
+          transition: opacity 0.3s ease-in-out;
+        }
+      </style>
+    </div>
+  </div></Layout
 >

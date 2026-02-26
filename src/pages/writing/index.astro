@@ -133,7 +133,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 					</div>
 					<ol class="!pb-[56px] post-list feature-list flow col-span-full md:col-span-3" style="--flow-space: 0;">
 						{
-							posts.map((post, i) => (
+							posts.map((post: any, i: number) => (
 								<FeatureListItem
 									i={String(i + 1).padStart(2, "0")}
 									title={post.data.title}
@@ -252,11 +252,18 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 
 		applyFilters();
 
-		// Stagger reveal
-		const items=postList.querySelectorAll('.post-item');
-		const obs=new IntersectionObserver(entries=>{
-		  entries.forEach(e=>{if(!e.isIntersecting)return;const i=[...items].indexOf(e.target);setTimeout(()=>e.target.classList.add('visible'),i*26);obs.unobserve(e.target);});
-		},{threshold:.05});
-		items.forEach(el=>obs.observe(el));
+		// Stagger reveal (per list)
+		document.querySelectorAll('.post-list').forEach(postList => {
+			const items = postList.querySelectorAll('.post-item');
+			const obs = new IntersectionObserver(entries => {
+				entries.forEach(e => {
+					if (!e.isIntersecting) return;
+					const i = [...items].indexOf(e.target);
+					setTimeout(() => e.target.classList.add('visible'), i * 26);
+					obs.unobserve(e.target);
+				});
+			}, { threshold: 0.05 });
+			items.forEach(el => obs.observe(el));
+		});
 	</script>
 </html>

@@ -73,11 +73,31 @@ async function getArtistArtFromFanart(mbid) {
   return null
 }
 
+const MUSICBRAINZ_UA = 'dominickjay.com-syncMusic/1.0 (https://dominickjay.com)'
+
+async function getMbidByArtistName(artistName) {
+  const q = artistName?.trim()
+  if (!q) return null
+  try {
+    const url = `https://musicbrainz.org/ws/2/artist/?query=${encodeURIComponent(q)}&fmt=json&limit=5`
+    const res = await fetch(url, { headers: { 'User-Agent': MUSICBRAINZ_UA } })
+    if (!res.ok) return null
+    const data = await res.json()
+    const first = data?.artists?.[0]
+    return first?.id?.trim() ?? null
+  } catch (_) {
+    return null
+  }
+}
+
 async function enrichArtistImage(artistName) {
   const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artistName)}&username=${LAST_FM_USER}&api_key=${apiKey}&format=json`
   const data = await fetch(url).then((r) => r.json())
   if (data.error || !data.artist) return null
-  const mbid = data.artist?.mbid?.trim()
+  let mbid = data.artist?.mbid?.trim()
+  if (!mbid) {
+    mbid = await getMbidByArtistName(artistName)
+  }
   if (!mbid) return null
   return getArtistArtFromFanart(mbid)
 }

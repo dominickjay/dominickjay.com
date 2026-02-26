@@ -1,6 +1,6 @@
 ---
 import FormattedDate from "./FormattedDate.astro";
-const { title, tags, pubDate, id, growth, i } = Astro.props;
+const { title, tags, pubDate, id, growth, i, small = false } = Astro.props;
 ---
 
 <li
@@ -9,7 +9,10 @@ const { title, tags, pubDate, id, growth, i } = Astro.props;
   data-topics={tags?.join(",") ?? ""}
   data-title={title?.toLowerCase() ?? ""}
 >
-  <a href={`/writing/${id}/`} class="post-link">
+  <a
+    href={`/writing/${id}/`}
+    class={`post-link ${small ?? "post-link--small"}`}
+  >
     <span class="post-n">{i}</span>
     <div class="post-body">
       <span class="post-title">{title}</span>

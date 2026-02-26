@@ -1,9 +1,6 @@
 .np-pill {
-  /* position: absolute; */
-  /* top: 20px; */
-  /* right: 24px; */
   z-index: 3;
-  background: rgba(34, 34, 34, 0.82);
+  background: var(--color-dark);
   border: 1px solid var(--track-color, var(--color-accent));
   backdrop-filter: blur(12px);
   /*border-radius: 40px;*/
@@ -12,8 +9,12 @@
   align-items: center;
   gap: 12px;
   transition: border-color 0.3s;
-  width: fit-content;
+  width: 100%;
   z-index: 100;
+
+  @media (width >= 768px) {
+    width: fit-content;
+  }
 }
 
 .np-pill.is-playing {
@@ -68,6 +69,14 @@
   font-size: 16px;
   letter-spacing: 0.06em;
   min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  @media (width >= 768px) {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 .np-track {
   color: var(--color-light);
@@ -75,6 +84,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-wrap: wrap;
 }
 .np-artist {
   color: var(--color-light);
@@ -87,4 +97,12 @@
 .np-status {
   color: var(--color-light);
   font-size: 10px;
+  margin-left: auto;
+  padding-block-start: 4px;
+  min-width: fit-content;
+
+  @media (width >= 768px) {
+    margin-left: 0;
+    padding-block-start: 0;
+  }
 }

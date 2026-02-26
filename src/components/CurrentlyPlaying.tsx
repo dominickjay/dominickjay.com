@@ -109,41 +109,43 @@ export default function CurrentlyPlaying({
   const overlayColorHsl = displayColor?.startsWith("hsl(")
     ? displayColor
     : displayColor
-      ? "hsl(0, 0%, 20%)"
+      ? "hsl(0, 0%, 10%)"
       : undefined;
 
   return (
-    <div className="container relative flex justify-end items-end z-[100] h-full p-[var(--space-m)]">
+    <div className="container relative flex flex-col md:flex-row justify-end items-end z-[100] h-[250px] md:h-[500px] p-[var(--space-m)]">
       {displayImageUrl && (
         <>
-          <picture className="absolute inset-0 z-0 block size-full">
-            <source
-              media="(max-width: 768px)"
-              srcSet={`${displayImageUrl} 2180w`}
-              sizes="100vw"
+        <div className="relative md:absolute inset-0 z-0 block size-full">
+            <picture className="absolute inset-0 z-0 block size-full">
+              <source
+                media="(max-width: 768px)"
+                srcSet={`${displayImageUrl} 2180w`}
+                sizes="100vw"
+              />
+              <img
+                src={displayImageUrl}
+                alt=""
+                width={2180}
+                height={1224}
+                srcSet={`${displayImageUrl} 2180w`}
+                sizes="(max-width: 768px) 100vw, 100vw"
+                className="absolute inset-0 size-full object-cover object-top"
+                aria-hidden="true"
+              />
+            </picture>
+            <div
+              className="absolute inset-0 h-full w-full z-10"
+              style={
+                overlayColorHsl
+                  ? ({
+                      backgroundColor: overlayColorHsl,
+                      opacity: 0.25,
+                    } as React.CSSProperties)
+                  : undefined
+              }
             />
-            <img
-              src={displayImageUrl}
-              alt=""
-              width={2180}
-              height={1224}
-              srcSet={`${displayImageUrl} 2180w`}
-              sizes="(max-width: 768px) 100vw, 100vw"
-              className="absolute inset-0 size-full object-cover object-top"
-              aria-hidden="true"
-            />
-          </picture>
-          <div
-            className="absolute inset-0 h-full w-full z-10"
-            style={
-              overlayColorHsl
-                ? ({
-                    backgroundColor: overlayColorHsl,
-                    opacity: 0.5,
-                  } as React.CSSProperties)
-                : undefined
-            }
-          />
+          </div>
         </>
       )}
       <div
@@ -159,12 +161,14 @@ export default function CurrentlyPlaying({
           <div className="np-bar"></div>
         </div>
         <div className="np-text">
-          <span className="np-track" id="npTrack">
-            {track?.name ?? ""}
-          </span>
-          <span className="np-artist" id="npArtist">
-            {track?.artist?.["#text"] ?? ""}
-          </span>
+          <div>
+            <span className="np-track" id="npTrack">
+              {track?.name ?? ""}
+            </span>
+            <span className="np-artist" id="npArtist">
+              {track?.artist?.["#text"] ?? ""}
+            </span>
+          </div>
           <span className="np-status" id="npStatus">
             {nowPlaying ? "Now playing" : "Last played"}
           </span>

@@ -120,45 +120,6 @@ const testimonials = TESTIMONIALS;
   </div>
 </section>
 
-<!-- <section
-	class="testimonials border border-[var(--color-dark)]"
-	x-data="{
-		testimonials: JSON.parse($el.dataset.testimonials),
-		currentTestimonial: JSON.parse($el.dataset.initial),
-		getRandomTestimonial() {
-			const randomIndex = Math.floor(Math.random() * this.testimonials.length);
-			this.currentTestimonial = this.testimonials[randomIndex];
-		}
-	}"
-	data-testimonials={JSON.stringify(testimonials)}
-	data-initial={JSON.stringify(randomTestimonial)}
->
-	<h2 class="sr-only">Testimonials</h2>
-	<div class="flex flex-col h-full" style="--gutter: 24px;">
-		<div class="h-full p-[var(--space-l)] pb-0">
-			<div
-				class="testimonial flex flex-col gap-[var(--space-l)]"
-				x-bind:id="currentTestimonial.id"
-			>
-				<div class="testimonial__text">
-					<span x-text="currentTestimonial.description"></span>
-				</div>
-				<div class="flex gap-[8px] uppercase font-bold">
-					<span x-text="currentTestimonial.name"></span> /{" "}
-					<span x-text="currentTestimonial.company"></span>
-				</div>
-			</div>
-		</div>
-		<button
-			@click="getRandomTestimonial()"
-			class="mt-[var(--space-m)] self-start hover:bg-black hover:text-white ml-auto px-[var(--space-l)] py-[var(--space-s)] border-t border-l cursor-pointer"
-			aria-label="Load a new testimonial"
-		>
-			Refresh
-		</button>
-	</div>
-</section> -->
-
 <style>
   .testimonials-section {
     border-top: 1px solid var(--border);
@@ -199,7 +160,7 @@ const testimonials = TESTIMONIALS;
     gap: 6px;
   }
   .testimonials-counter-current {
-    color: var(--text);
+    color: var(--color-dark);
   }
 
   .testimonials-refresh {
@@ -288,7 +249,7 @@ const testimonials = TESTIMONIALS;
     font-size: clamp(20px, 2.6vw, 29px);
     line-height: 1.38;
     letter-spacing: -0.02em;
-    color: var(--text);
+    color: var(--color-dark);
     font-style: italic;
     padding-inline-start: 24px;
     border-left: 4px solid var(--color-dark);
@@ -316,7 +277,7 @@ const testimonials = TESTIMONIALS;
   }
   .testimonial-name {
     font-family: var(--font-base);
-    color: var(--text);
+    color: var(--color-dark);
   }
   .testimonial-role {
     font-family: var(--font-base);

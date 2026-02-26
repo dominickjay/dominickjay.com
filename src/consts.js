@@ -66,7 +66,7 @@ export const ABOUT_COMPANIES = [
 	{
 		id: "series-eight",
 		label: "Series Eight",
-		date: "2022 - present",
+		date: "2022 - Present",
 		jobTitle: "Front-End Developer",
 		content: `At Series Eight, my professional journey has taken me through a variety of dynamic environments, including public and private sector companies like [Rowe IT], [GOSS Interactive], [n9Design], and [Logo CCP]. These experiences have been instrumental in shaping my holistic understanding of user experience, where thoughtful design and creative solutions are always top of mind.`,
 	},

@@ -271,9 +271,8 @@ let booksByYear = allBooks.reduce((acc, entry) => {
 // Define it here so it's scoped correctly for the template
 sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
 
-const totalReadCount = allBooks.filter(
-  (entry) =>
-    entry.user_book_reads?.some((read) => read.finished_at),
+const totalReadCount = allBooks.filter((entry) =>
+  entry.user_book_reads?.some((read) => read.finished_at),
 ).length;
 ---
 
@@ -289,76 +288,51 @@ const totalReadCount = allBooks.filter(
       <div
         class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px] md:!max-w-[992px]"
         style="--grid-placement: 12; --gutter: 43px;"
-        x-data="{
-					list: true,
-					floatingCover: {
-						show: false,
-						x: 0,
-						y: 0,
-						src: '',
-						title: ''
-					}
-				}"
       >
-        <div
-          class="flex flex-col gap-[32px] w-full relative"
-          @mousemove="floatingCover.x = $event.clientX + 20; floatingCover.y = $event.clientY + 20"
-          @mouseleave="floatingCover.show = false; floatingCover.src = ''; floatingCover.title = ''; console.log('floating cover is', typeof(floatingCover.src))"
-        >
-          <!-- Floating book cover -->
-          <div
-            x-show="floatingCover.show && floatingCover.src"
-            x-transition.opacity
-            class="fixed pointer-events-none z-50 w-[200px] aspect-[1/1.5] overflow-hidden shadow-lg"
-            :class="{ 'opacity-100': floatingCover.show && floatingCover.src, 'opacity-0': !floatingCover.show || !floatingCover.src }"
-            x-bind:style="`left: ${floatingCover.x}px; top: ${floatingCover.y}px;`"
-          >
-            <div x-show="floatingCover.src" class="relative w-full h-full">
-              <img
-                x-bind:src="floatingCover.src"
-                x-bind:alt="floatingCover.title"
-                class="w-full h-full object-cover"
-              />
+        <div class="flex flex-col gap-[32px] w-full relative">
+          <div class="stage-meta">
+            <div class="progress-ring-wrap">
+              <svg width="64" height="64" viewBox="0 0 64 64">
+                <circle class="progress-ring-bg" cx="32" cy="32" r="26"
+                ></circle>
+                <circle
+                  class="progress-ring-fill"
+                  id="progressRing"
+                  cx="32"
+                  cy="32"
+                  r="26"></circle>
+              </svg>
+              <div class="progress-ring-text">
+                <strong>{readCount.length}</strong>
+                <span>/ {currentListBooks.length}</span>
+              </div>
+            </div>
+            <div class="stage-stats">
+              <div class="stage-stat-item">
+                <div class="stage-stat-val" id="cntRead">
+                  {readCount.length}
+                </div>
+                <div class="stage-stat-label">Read in 2026</div>
+              </div>
+              <div class="stage-stat-item">
+                <div class="stage-stat-val">2</div>
+                <div class="stage-stat-label">Currently reading</div>
+              </div>
+              <div class="stage-stat-item">
+                <div class="stage-stat-val" id="cntBacklog">
+                  {backlog.length}
+                </div>
+                <div class="stage-stat-label">In backlog</div>
+              </div>
+              <div class="stage-stat-item">
+                <div class="stage-stat-val" id="cntTotal">{totalReadCount}</div>
+                <div class="stage-stat-label">All time read</div>
+              </div>
             </div>
           </div>
-          <div class="stage-meta">
-		        <div class="progress-ring-wrap">
-		          <svg width="64" height="64" viewBox="0 0 64 64">
-		            <circle class="progress-ring-bg" cx="32" cy="32" r="26"/>
-		            <circle class="progress-ring-fill" id="progressRing" cx="32" cy="32" r="26"/>
-		          </svg>
-		          <div class="progress-ring-text">
-		            <strong>{readCount.length}</strong>
-		            <span>/ {currentListBooks.length}</span>
-		          </div>
-		        </div>
-		        <div class="stage-stats">
-		          <div class="stage-stat-item">
-		            <div class="stage-stat-val" id="cntRead">{readCount.length}</div>
-		            <div class="stage-stat-label">Read in 2026</div>
-		          </div>
-		          <div class="stage-stat-item">
-		            <div class="stage-stat-val">2</div>
-		            <div class="stage-stat-label">Currently reading</div>
-		          </div>
-		          <div class="stage-stat-item">
-		            <div class="stage-stat-val" id="cntBacklog">{backlog.length}</div>
-		            <div class="stage-stat-label">In backlog</div>
-		          </div>
-		          <div class="stage-stat-item">
-		            <div class="stage-stat-val" id="cntTotal">{totalReadCount}</div>
-		            <div class="stage-stat-label">All time read</div>
-		          </div>
-		        </div>
-		      </div>
           <div class="flex flex-col gap-[20px]">
-            <h2 class="h2 col-span-full mb-[24px]">
-              Currently Reading
-            </h2>
-            <ol
-              class="post-list feature-list flow"
-              style="--flow-space: 0;"
-            >
+            <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
+            <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
                 currentListBooks?.map(
                   (book) =>
@@ -400,43 +374,44 @@ const totalReadCount = allBooks.filter(
                 >({readCount.length} / {currentListBooks?.length || 0})</span
               >
             </h2>
-            <ol
-              class="post-list feature-list flow"
-              style="--flow-space: 0;"
-            >
+            <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks?.map(
-                  (book, i) =>
-                    book.book.user_books[0].user_book_status.slug !=
-                      "currently-reading" && (
-                      <BookItem
-                      	i={String(i + 1).padStart(2, "0")}
-                        title={book.book.title}
-                        author={
-                          book.book.contributions[0]?.author.name ||
-                          "Unknown Author"
-                        }
-                        rating={book.book.rating}
-                        cover={book.book.cover}
-                        queued={true}
-                        started={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.started_at
-                        }
-                        finished={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.finished_at
-                        }
-                        status={book.book.user_books[0].user_book_status.slug}
-                        showStrikethrough={
-                          book.book.user_books[0].user_book_status.slug ===
-                          "read"
-                            ? true
-                            : false
-                        }
-                      />
-                    ),
-                )
+                currentListBooks
+                  ?.filter(
+                    (book) =>
+                      book.book.user_books[0].user_book_status.slug !==
+                        "currently-reading" &&
+                      book.book.user_books[0].user_book_status.slug !== "read",
+                  )
+                  ?.map((book, i) => (
+                    <BookItem
+                      i={String(i + 1).padStart(2, "0")}
+                      title={book.book.title}
+                      author={
+                        book.book.contributions[0]?.author.name ||
+                        "Unknown Author"
+                      }
+                      rating={book.book.rating}
+                      cover={book.book.cover}
+                      queued={
+                        book.book.user_books[0].user_book_status.slug === "read"
+                          ? true
+                          : false
+                      }
+                      started={
+                        book.book.user_books[0]?.user_book_reads[0]?.started_at
+                      }
+                      finished={
+                        book.book.user_books[0]?.user_book_reads[0]?.finished_at
+                      }
+                      status={book.book.user_books[0].user_book_status.slug}
+                      showStrikethrough={
+                        book.book.user_books[0].user_book_status.slug === "read"
+                          ? true
+                          : false
+                      }
+                    />
+                  ))
               }
             </ol>
           </div>
@@ -458,7 +433,11 @@ const totalReadCount = allBooks.filter(
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
-                          <BookItem i={String(i + 1).padStart(2, "0")} title={book.title} author={book.author} />
+                          <BookItem
+                            i={String(i + 1).padStart(2, "0")}
+                            title={book.title}
+                            author={book.author}
+                          />
                         ))}
                       </ol>
                     </div>
@@ -477,7 +456,11 @@ const totalReadCount = allBooks.filter(
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
-                          <BookItem i={String(i + 1).padStart(2, "0")} title={book.title} author={book.author} />
+                          <BookItem
+                            i={String(i + 1).padStart(2, "0")}
+                            title={book.title}
+                            author={book.author}
+                          />
                         ))}
                       </ol>
                     </details>
@@ -523,30 +506,34 @@ const totalReadCount = allBooks.filter(
 
     <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
   </body><script is:inline>
-  document.addEventListener("mousemove", (e) => {
-	    const cur = document.getElementById("cur");
-	    if (cur) {
-	      cur.style.left = e.clientX + "px";
-	      cur.style.top = e.clientY + "px";
-	    }
-	  });
-	  document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-	      document.body.classList.add("cur-sm"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-	      document.body.classList.remove("cur-sm"),
-	    );
-	  });
-	  document.querySelectorAll("a:not([class]), button, .post-item").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-     	document.body.classList.remove("cur-sm"),
-	      document.body.classList.add("cur-lg"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-     	document.body.classList.add("cur-sm"),
-	      document.body.classList.remove("cur-lg"),
-	    );
-	  });
+    document.addEventListener("mousemove", (e) => {
+      const cur = document.getElementById("cur");
+      if (cur) {
+        cur.style.left = e.clientX + "px";
+        cur.style.top = e.clientY + "px";
+      }
+    });
+    document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
+      el.addEventListener("mouseenter", () =>
+        document.body.classList.add("cur-sm"),
+      );
+      el.addEventListener("mouseleave", () =>
+        document.body.classList.remove("cur-sm"),
+      );
+    });
+    document
+      .querySelectorAll("a:not([class]), button, .post-item")
+      .forEach((el) => {
+        el.addEventListener(
+          "mouseenter",
+          () => document.body.classList.remove("cur-sm"),
+          document.body.classList.add("cur-lg"),
+        );
+        el.addEventListener(
+          "mouseleave",
+          () => document.body.classList.add("cur-sm"),
+          document.body.classList.remove("cur-lg"),
+        );
+      });
   </script>
 </html>

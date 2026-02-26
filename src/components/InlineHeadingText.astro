@@ -8,12 +8,7 @@ const words = heading.split(/\s+/).map((word, i) => ({
 }));
 ---
 
-<h1
-  id="heroTitle"
-  class="heading-tagline"
-  x-data="headingScramble()"
-  x-init="init()"
->
+<h1 id="heroTitle" class="heading-tagline" x-data="headingScramble()">
   {
     words.map((w, i) => (
       <>

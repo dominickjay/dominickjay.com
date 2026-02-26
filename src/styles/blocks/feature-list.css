@@ -25,9 +25,14 @@
       line-height: 1.25;
       color: var(--color-dark);
       display: block;
-      margin-bottom: 5px;
       transition: color 0.2s;
       max-inline-size: 80%;
+
+      &:has(+ .post-meta) {
+        margin-bottom: 5px;
+      }
+
+
     }
 
     .post-body {
@@ -53,6 +58,10 @@
     font-size: 14px;
     color: var(--color-dark);
     opacity: 0.7;
+
+    & + * {
+      margin-inline-start: auto;
+    }
   }
 
   .growth {
@@ -61,13 +70,14 @@
   }
 
   .post-n {
+    align-self: flex-start;
     opacity: 0.75;
   }
 
   & .post-link,
   & .post-info {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 18px;
     padding: 18px 36px;
     text-decoration: none;
@@ -118,11 +128,8 @@
   .feature-list {
     .post-item {
       .post-title {
-        font-size: 20px;
-      }
-
-      .post-link--small .post-title {
         font-size: 18px;
+        margin-block-end: 0;
       }
 
       .post-link,
@@ -138,6 +145,10 @@
       .post-meta {
         flex-direction: column;
         gap: 3px;
+      }
+
+      .post-topics-label + * {
+        margin-inline-start: 0;
       }
 
       .growth {
