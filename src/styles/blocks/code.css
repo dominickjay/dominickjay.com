@@ -1,26 +1,96 @@
-pre,
-.astro-code {
-  /*border: 1px solid var(--color-dark, #000000) !important;
-	background-color: var(--color-light, #ffffff) !important;
-	padding-inline: 24px;
-	padding-block: 24px;
-	color: var(--color-dark, #000000) !important;*/
-  background-color: var(--color-light, #ffffff) !important;
-  padding: 20px 20px;
-  overflow-x: auto;
-  font-family: "DM Mono", monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  color: #b0aa9f;
-  border: 1px solid var(--color-dark);
+/* ── Injected wrapper ──────────────────────────────────────── */
+.code-block-wrap {
+  position: relative;
+  margin-bottom: 32px;
+  overflow: hidden;
 }
 
-pre span,
-.astro-code span {
-  color: var(--color-dark, #000000) !important;
+/* ── Injected header bar ───────────────────────────────────── */
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: var(--color-dark);
+  border-bottom: 1px solid var(--color-light);
+  user-select: none;
+}
+
+.code-block-header__dots {
+  display: flex;
+  gap: 6px;
+}
+.code-block-header__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.code-block-header__dot:nth-child(1) {
+  background: #ff6057;
+}
+.code-block-header__dot:nth-child(2) {
+  background: #ffbd2e;
+}
+.code-block-header__dot:nth-child(3) {
+  background: #28ca42;
+}
+
+.code-block-header__lang {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.code-block-header__copy {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-family: var(--font-base);
+  color: var(--color-light);
+  background: transparent;
+  border: 1px solid var(--color-light);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+.code-block-header__copy:hover {
+  color: #e8e8f0;
+  border-color: #3d3d4a;
+}
+.code-block-header__copy[data-copied] {
+  color: #7ef7c0;
+  border-color: #7ef7c0;
+}
+.code-block-header__copy svg {
+  width: 11px;
+  height: 11px;
+}
+
+pre,
+.astro-code {
+  font-family: "DM Mono", monospace;
+  border-radius: 0 !important;
+  padding: 32px 24px !important;
+  /*font-size: 13.5px !important;*/
+  /*line-height: 1.75 !important;*/
+  overflow-x: auto;
+  background: rgb(from var(--color-dark) r g b) !important;
 }
 
 :not(pre) > code {
-  font-weight: 700;
-  color: var(--color-red-900);
+  background: rgb(from var(--feature-color) r g b / 0.3);
+  border: 1px solid var(--color-dark);
+  top: -1px;
+  position: relative;
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: var(--color-dark);
+  font-weight: 600;
 }

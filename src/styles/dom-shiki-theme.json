@@ -1,0 +1,57 @@
+{
+  "name": "dom-dark",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#16161a",
+    "editor.foreground": "#c9c9d8"
+  },
+  "tokenColors": [
+    {
+      "name": "Comments",
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": { "foreground": "#5c5c78", "fontStyle": "italic" }
+    },
+    {
+      "name": "Selectors / tags",
+      "scope": [
+        "entity.name.tag", "entity.other.attribute-name",
+        "meta.selector", "support.class"
+      ],
+      "settings": { "foreground": "#7ef7c0" }
+    },
+    {
+      "name": "Properties",
+      "scope": [
+        "support.type.property-name", "meta.property-name",
+        "variable.other"
+      ],
+      "settings": { "foreground": "#7eb8f7" }
+    },
+    {
+      "name": "Values / strings",
+      "scope": [
+        "support.constant.property-value",
+        "string", "meta.property-value"
+      ],
+      "settings": { "foreground": "#f7c97e" }
+    },
+    {
+      "name": "At-rules (@scope, @media, @supports)",
+      "scope": [
+        "keyword.control.at-rule",
+        "support.type.at-rule"
+      ],
+      "settings": { "foreground": "#c78ef7" }
+    },
+    {
+      "name": "Numbers and units",
+      "scope": ["constant.numeric", "keyword.other.unit"],
+      "settings": { "foreground": "#f7907e" }
+    },
+    {
+      "name": "Punctuation",
+      "scope": ["punctuation", "meta.brace"],
+      "settings": { "foreground": "#6e6e8a" }
+    }
+  ]
+}

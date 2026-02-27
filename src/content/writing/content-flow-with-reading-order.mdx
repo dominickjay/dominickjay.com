@@ -1,6 +1,6 @@
 ---
 title: 'Reclaiming the Flow: Mastering Visual vs. DOM Order with @reading-order'
-description: "Ever wondered how users navigate your content, even when the visual layout is complex? Let's dive into the CSS reading-order property and discover how it gives you control."
+description: "Your CSS is lying to some of your users. Here's the property that fixes it. Let's dive into the CSS reading-order property and discover how it gives you control."
 intro: ""
 pubDate: 'June 16 2025'
 supported: bcd.css["properties"].reading-flow.__compat
@@ -18,7 +18,7 @@ import FYIBlock from '../../components/FYIBlock.astro';
 
 For a long time, developers have been able to put together the strangest of layouts that have come from the dark corners of the design team with very little pushback. Properties like `flex-direction`, `grid-template-areas` and the `order` property have given us a monumental amount of control when dealing with the visual presentation of the elements on the screen, and we can rearrange content to adapt to different screen sizes and user preference with little effort.
 
-Sometimes however, that ability comes with a sidestep of accessibility and performance concerns  *[Extra note: add also - pride - to this].*, and that really isn't acceptable at all. We would warn that a layout *might* affect accessibility, but in the worst cases it can met with a shrug, depending on how much the team cares about providing accessible solutions in the first place. In my current position at [Series Eight](//serieseight.com), accessibility concerns are met with a lot of discussion and push back to find a better path - so the prior 'shrug' example is not a reflection of how our projects are dealt with there. The main challenge has been that while we can change how elements look on the screen, their true order in the DOM is the 'golden truth'. We'll go through a couple of examples to help illustrate this.
+Sometimes however, that ability comes with a sidestep of accessibility and performance concerns, and that really isn't acceptable at all. We would warn that a layout *might* affect accessibility, but in the worst cases it can met with a shrug, depending on how much the team cares about providing accessible solutions in the first place. In my current position at [Series Eight](//serieseight.com), accessibility concerns are met with a lot of discussion and push back to find a better path - so the prior 'shrug' example is not a reflection of how our projects are dealt with there. The main challenge has been that while we can change how elements look on the screen, their true order in the DOM is the 'golden truth'. We'll go through a couple of examples to help illustrate this.
 
 ### Example 1: Our card layout
 
@@ -65,7 +65,7 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 
 `}</style>
 
-```
+```css
 .reading-order-card date {
     order: 2;
 }
@@ -142,7 +142,7 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
 
 `}</style>
 
-```
+```css
 .reading-order-example .reading-order-card--1 {
     order: 3;
 }
@@ -226,7 +226,7 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
 `}</style>
 
 
-```
+```css
 .reading-order-example-2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -342,9 +342,9 @@ When we look at the support at the top of this page, support is still sparse, bu
 
 ## Conclusion
 
-Sometimes visual design and accessibility can butt heads, and have done for *years*. Now, with the introduction of `reading-flow` and `reading-order`, this conflict can be reduced significantly. Now, as developers, we don't need to choose between a beautiful design and an accessible one, we can have both. We're finally getting the right tools to be able to do this, without the need for complex JavaScript solutions or manual tabindex management. This is a win for everyone.
+Sometimes visual design and accessibility butt heads, and they have done for years. Now, with the introduction of reading-flow and reading-order, this conflict can be significantly reduced. As developers, we no longer need to choose between a beautiful design and an accessible one. We're finally getting the right tools to do this without complex JavaScript solutions or manual tabindex management. This is a win for everyone.
 
-That being said, this is **still** a work in progress, and support is still sparse - more sparse than it should be given the importance of the feature. To help this along, developers need to be able to advocate for the feature and help push it forward by testing it and reporting any issues they find, leading to the next generation of web layouts being both beautiful and universally accessible.
+That being said, this is still a work in progress, and support is more sparse than it should be given the importance of the feature. To help push it forward, developers need to advocate for it — test it, report issues, and make the case for prioritising it. The next generation of web layouts should be both beautiful and universally accessible. We have the tools now. Let's use them.
 
 ## Resources
 - https://drafts.csswg.org/css-display-4/#reading-flow
