@@ -1,316 +1,323 @@
+---
+import PlaceholderImage from "../PlaceholderImage.astro";
+---
+
 <div class="min-w-0 overflow-x-auto">
-<div class="demo-header">
-  <p class="eyebrow">Interactive demo · @reading-order</p>
-  <h1>
-    Visual order vs DOM order:<br /><em>the gap your users fall into</em>
-  </h1>
-  <p class="intro">
-    When CSS reorders content visually, keyboard and screen reader users still
-    follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
-    the cards below and feel the difference.
-  </p>
-</div>
-
-<!-- Layout diagram -->
-<p class="slabel" style="margin-bottom: .75rem;">Visual layout</p>
-<div class="layout-diagram" aria-hidden="true">
-  <div class="ld-cell ld-cta">
-    <span class="name">CTA</span>
-    <span class="pos">visual: top-left</span>
-  </div>
-  <div class="ld-cell ld-feature">
-    <span class="name">Feature</span>
-    <span class="pos">visual: top-right</span>
-  </div>
-  <div class="ld-cell ld-arta">
-    <span class="name">Article A</span>
-    <span class="pos">visual: btm-left</span>
-  </div>
-  <div class="ld-cell ld-artb">
-    <span class="name">Article B</span>
-    <span class="pos">visual: btm-right</span>
-  </div>
-</div>
-<p style="font-size: 11px; color: var(--color-dark); margin-bottom: 2rem;">
-  DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) — CTA is last in
-  the DOM but placed top-left visually.
-</p>
-
-<!-- Tabs -->
-<div class="tabs" role="tablist">
-  <button
-    class="tab is-bad active"
-    role="tab"
-    aria-selected="true"
-    aria-controls="panel-bad"
-    onclick="show('bad')"
-  >
-    ❌ Without reading-flow
-  </button>
-  <button
-    class="tab is-good"
-    role="tab"
-    aria-selected="false"
-    aria-controls="panel-good"
-    onclick="show('good')"
-  >
-    ✅ With reading-flow: grid-rows
-  </button>
-</div>
-
-<!-- ═══ BAD PANEL ═══ -->
-<div class="panel panel-bad active" id="panel-bad" role="tabpanel">
-  <div class="explainer bad" style="margin-bottom:1.25rem">
-    <strong>The problem:</strong> CTA is placed top-left via <code
-      >grid-template-areas</code
-    >, but it's the <strong>4th item in the DOM</strong>. Tab key ignores grid
-    placement entirely — it follows DOM order. A keyboard user hits Feature →
-    Article A → Article B → CTA: the opposite of what the layout implies.
+  <div class="demo-header">
+    <p class="eyebrow">Interactive demo · @reading-order</p>
+    <h3>Visual order vs DOM order: the gap your users fall into</h3>
+    <p class="intro">
+      When CSS reorders content visually, keyboard and screen reader users still
+      follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
+      the cards below and feel the difference.
+    </p>
   </div>
 
-  <p class="slabel">Live layout — try tabbing through</p>
-
-  <div class="editorial-grid" id="grid-bad">
-    <!-- DOM 1st -->
-    <article class="cell cell-feature">
-      <span class="dom-tag">DOM: 1st</span>
-      <span class="cell-label">Feature</span>
-      <h2 class="cell-title">
-        The hidden cost of visual reordering in modern CSS layouts
-      </h2>
-      <p class="cell-excerpt">
-        Every time we reach for <code>order</code> or <code
-          >grid-template-areas</code
-        > to move content around the screen, we're making a silent promise to sighted
-        users that we may be breaking for everyone else.
-      </p>
-      <a href="#" class="cell-link" id="bad-feature" onclick="return false"
-        >Read feature →</a
-      >
-    </article>
-
-    <!-- DOM 2nd -->
-    <article class="cell cell-art-a">
-      <span class="dom-tag">DOM: 2nd</span>
-      <span class="cell-label">Article A</span>
-      <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
-      <p class="cell-excerpt">
-        Focus order is a Level A requirement, meaning it applies to the broadest
-        range of users and content types.
-      </p>
-      <a href="#" class="cell-link" id="bad-arta" onclick="return false"
-        >Read article →</a
-      >
-    </article>
-
-    <!-- DOM 3rd -->
-    <article class="cell cell-art-b">
-      <span class="dom-tag">DOM: 3rd</span>
-      <span class="cell-label">Article B</span>
-      <h2 class="cell-title">
-        Testing keyboard navigation: a practical checklist
-      </h2>
-      <p class="cell-excerpt">
-        Tab through your layout. Does focus move in a logical sequence? Does it
-        match what a sighted user would expect?
-      </p>
-      <a href="#" class="cell-link" id="bad-artb" onclick="return false"
-        >Read article →</a
-      >
-    </article>
-
-    <!-- DOM 4th — but visual top-left via grid-area: cta -->
-    <article class="cell cell-cta">
-      <span class="dom-tag">DOM: 4th ⚠️</span>
-      <span class="cell-label">Promoted</span>
-      <h2 class="cell-title">New: reading-flow & reading-order</h2>
-      <a href="#" class="cell-link" id="bad-cta" onclick="return false"
-        >Get started →</a
-      >
-    </article>
-  </div>
-
-  <!-- Focus tracker -->
-  <div class="tracker">
-    <p class="tracker-label">Tab focus sequence</p>
-    <div class="tracker-row">
-      <span class="t-step" id="bs-feature">Feature (DOM 1)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="bs-arta">Article A (DOM 2)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="bs-artb">Article B (DOM 3)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="bs-cta">CTA (DOM 4)</span>
+  <!-- Layout diagram -->
+  <p class="slabel" style="margin-bottom: .75rem;">Visual layout</p>
+  <div class="layout-diagram" aria-hidden="true">
+    <div class="ld-cell ld-cta">
+      <span class="name">CTA</span>
+      <span class="pos">visual: top-left</span>
     </div>
-    <div class="verdict bad">
-      ⚠ Focus reaches the CTA last — but it's visually first. A keyboard user
-      navigates the grid in a sequence that contradicts what they see. WCAG
-      2.4.3 failure.
+    <div class="ld-cell ld-feature">
+      <span class="name">Feature</span>
+      <span class="pos">visual: top-right</span>
+    </div>
+    <div class="ld-cell ld-arta">
+      <span class="name">Article A</span>
+      <span class="pos">visual: btm-left</span>
+    </div>
+    <div class="ld-cell ld-artb">
+      <span class="name">Article B</span>
+      <span class="pos">visual: btm-right</span>
     </div>
   </div>
-
-  <p class="hint">
-    Press <kbd class="key">Tab</kbd> to navigate the grid above and watch the sequence
-    light up.
-  </p>
-</div>
-
-<!-- ═══ GOOD PANEL ═══ -->
-<div class="panel panel-good" id="panel-good" role="tabpanel">
-  <div class="explainer good" style="margin-bottom:1.25rem">
-    <strong>The fix:</strong> Add <code>reading-flow: grid-rows</code> to the container.
-    The browser now reads focus order row by row, matching the visual grid — CTA →
-    Feature → Article A → Article B. DOM order is unchanged; only focus order is corrected.
-  </div>
-
-  <p class="slabel">Live layout — try tabbing through</p>
-
-  <div class="editorial-grid grid-solution" id="grid-good">
-    <!-- DOM 1st — but reading-flow: grid-rows puts focus on CTA first (top-left) -->
-    <article class="cell cell-feature">
-      <span class="dom-tag">DOM: 1st</span>
-      <span class="cell-label">Feature</span>
-      <h2 class="cell-title">
-        The hidden cost of visual reordering in modern CSS layouts
-      </h2>
-      <p class="cell-excerpt">
-        Every time we reach for <code>order</code> or <code
-          >grid-template-areas</code
-        > to move content around the screen, we're making a silent promise to sighted
-        users that we may be breaking for everyone else.
-      </p>
-      <a href="#" class="cell-link" id="good-feature" onclick="return false"
-        >Read feature →</a
-      >
-    </article>
-
-    <article class="cell cell-art-a">
-      <span class="dom-tag">DOM: 2nd</span>
-      <span class="cell-label">Article A</span>
-      <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
-      <p class="cell-excerpt">
-        Focus order is a Level A requirement, meaning it applies to the broadest
-        range of users and content types.
-      </p>
-      <a href="#" class="cell-link" id="good-arta" onclick="return false"
-        >Read article →</a
-      >
-    </article>
-
-    <article class="cell cell-art-b">
-      <span class="dom-tag">DOM: 3rd</span>
-      <span class="cell-label">Article B</span>
-      <h2 class="cell-title">
-        Testing keyboard navigation: a practical checklist
-      </h2>
-      <p class="cell-excerpt">
-        Tab through your layout. Does focus move in a logical sequence? Does it
-        match what a sighted user would expect?
-      </p>
-      <a href="#" class="cell-link" id="good-artb" onclick="return false"
-        >Read article →</a
-      >
-    </article>
-
-    <article class="cell cell-cta">
-      <span class="dom-tag">DOM: 4th</span>
-      <span class="cell-label">Promoted</span>
-      <h2 class="cell-title">New: reading-flow & reading-order</h2>
-      <a href="#" class="cell-link" id="good-cta" onclick="return false"
-        >Get started →</a
-      >
-    </article>
-  </div>
-
-  <!-- Focus tracker -->
-  <div class="tracker">
-    <p class="tracker-label">Tab focus sequence</p>
-    <div class="tracker-row">
-      <span class="t-step" id="gs-cta">CTA (visual top-left)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="gs-feature">Feature (visual top-right)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="gs-arta">Article A (visual btm-left)</span>
-      <span class="t-arrow">→</span>
-      <span class="t-step" id="gs-artb">Article B (visual btm-right)</span>
-    </div>
-    <div class="verdict good">
-      ✓ Focus now moves left-to-right, top-to-bottom — exactly how a sighted
-      user reads the grid. DOM order is unchanged; <code>reading-flow</code> corrects
-      the accessibility layer only.
-    </div>
-  </div>
-
-  <p class="hint">
-    Press <kbd class="key">Tab</kbd> — focus now starts on the CTA (top-left) and
-    moves across the grid row by row.
+  <p style="font-size: 14px; margin-bottom: 2rem;">
+    DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) — CTA is last
+    in the DOM but placed top-left visually.
   </p>
 
-  <!-- The CSS -->
-  <p class="slabel" style="margin-top:1.5rem">The CSS</p>
-  <div class="code">
-    <span class="c-sel">.editorial-grid</span> &#123;
-    <span class="c-prop">display</span>: <span class="c-val">grid</span>;
-    <span class="c-prop">grid-template-columns</span>: <span class="c-val"
-      >1fr 1fr</span
-    >;
-    <span class="c-prop">grid-template-areas</span>:
-    <span class="c-area">"cta feature"</span>
-    <span class="c-area">"art-a art-b"</span>;
-    <span class="c-new">reading-flow</span>: <span class="c-new">grid-rows</span
-    >; <span class="c-comment">/* ← one line fixes it */</span>
-    &#125;
-
-    <span class="c-comment">/* DOM order: feature · art-a · art-b · cta */</span
+  <!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button
+      class="tab is-bad active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-bad"
+      onclick="show('bad')"
     >
-    <span class="c-comment"
-      >/* Focus order after fix: cta → feature → art-a → art-b */</span
+      ❌ Without reading-flow
+    </button>
+    <button
+      class="tab is-good"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-good"
+      onclick="show('good')"
     >
-
-    <span class="c-sel">.cell-feature</span> &#123; <span class="c-prop"
-      >grid-area</span
-    >: <span class="c-area">feature</span>; &#125;
-    <span class="c-sel">.cell-art-a</span> &#123; <span class="c-prop"
-      >grid-area</span
-    >: <span class="c-area">art-a</span>; &#125;
-    <span class="c-sel">.cell-art-b</span> &#123; <span class="c-prop"
-      >grid-area</span
-    >: <span class="c-area">art-b</span>; &#125;
-    <span class="c-sel">.cell-cta</span> &#123; <span class="c-prop"
-      >grid-area</span
-    >: <span class="c-area">cta</span>; &#125; <span class="c-comment"
-      >/* DOM: last, visual: top-left */</span>
+      ✅ With reading-flow: grid-rows
+    </button>
   </div>
 
-  <!-- Order map -->
-  <p class="slabel">How the orders map</p>
-  <div class="map-grid">
-    <div class="mh">Cell</div>
-    <div class="mh">DOM position</div>
-    <div class="mh">Visual position</div>
-    <div class="mh">Focus position</div>
+  <!-- ═══ BAD PANEL ═══ -->
+  <div class="panel panel-bad active" id="panel-bad" role="tabpanel">
+    <div class="explainer bad" style="margin-bottom:1.25rem">
+      <strong>The problem:</strong> CTA is placed top-left via <code
+        >grid-template-areas</code
+      >, but it's the <strong>4th item in the DOM</strong>. Tab key ignores grid
+      placement entirely — it follows DOM order. A keyboard user hits Feature →
+      Article A → Article B → CTA: the opposite of what the layout implies.
+    </div>
 
-    <div class="mc">CTA</div>
-    <div class="mc"><span class="t-dom">4th</span></div>
-    <div class="mc"><span class="t-vis">top-left</span></div>
-    <div class="mc"><span class="t-fix">1st ✓</span></div>
+    <p class="slabel">Live layout — try tabbing through</p>
 
-    <div class="mc">Feature</div>
-    <div class="mc"><span class="t-dom">1st</span></div>
-    <div class="mc"><span class="t-vis">top-right</span></div>
-    <div class="mc"><span class="t-fix">2nd ✓</span></div>
+    <div class="editorial-grid" id="grid-bad">
+      <!-- DOM 1st -->
+      <article class="cell cell-feature">
+        <span class="dom-tag">DOM: 1st</span>
+        <span class="cell-label">Feature</span>
+        <h2 class="cell-title">
+          The hidden cost of visual reordering in modern CSS layouts
+        </h2>
+        <p class="cell-excerpt">
+          Every time we reach for <code>order</code> or <code
+            >grid-template-areas</code
+          > to move content around the screen, we're making a silent promise to sighted
+          users that we may be breaking for everyone else.
+        </p>
+        <a href="#" class="cell-link" id="bad-feature" onclick="return false"
+          >Read feature →</a
+        >
+      </article>
 
-    <div class="mc">Article A</div>
-    <div class="mc"><span class="t-dom">2nd</span></div>
-    <div class="mc"><span class="t-vis">btm-left</span></div>
-    <div class="mc"><span class="t-fix">3rd ✓</span></div>
+      <!-- DOM 2nd -->
+      <article class="cell cell-art-a">
+        <span class="dom-tag">DOM: 2nd</span>
+        <span class="cell-label">Article A</span>
+        <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
+        <p class="cell-excerpt">
+          Focus order is a Level A requirement, meaning it applies to the
+          broadest range of users and content types.
+        </p>
+        <a href="#" class="cell-link" id="bad-arta" onclick="return false"
+          >Read article →</a
+        >
+      </article>
 
-    <div class="mc">Article B</div>
-    <div class="mc"><span class="t-dom">3rd</span></div>
-    <div class="mc"><span class="t-vis">btm-right</span></div>
-    <div class="mc"><span class="t-fix">4th ✓</span></div>
+      <!-- DOM 3rd -->
+      <article class="cell cell-art-b">
+        <span class="dom-tag">DOM: 3rd</span>
+        <span class="cell-label">Article B</span>
+        <h2 class="cell-title">
+          Testing keyboard navigation: a practical checklist
+        </h2>
+        <p class="cell-excerpt">
+          Tab through your layout. Does focus move in a logical sequence? Does
+          it match what a sighted user would expect?
+        </p>
+        <a href="#" class="cell-link" id="bad-artb" onclick="return false"
+          >Read article →</a
+        >
+      </article>
+
+      <!-- DOM 4th — but visual top-left via grid-area: cta -->
+      <article class="cell cell-cta">
+        <span class="dom-tag">DOM: 4th ⚠️</span>
+        <span class="cell-label">Promoted</span>
+        <h2 class="cell-title">New: reading-flow & reading-order</h2>
+        <a href="#" class="cell-link" id="bad-cta" onclick="return false"
+          >Get started →</a
+        >
+      </article>
+    </div>
+
+    <!-- Focus tracker -->
+    <div class="tracker">
+      <p class="tracker-label">Tab focus sequence</p>
+      <div class="tracker-row">
+        <span class="t-step" id="bs-feature">Feature (DOM 1)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="bs-arta">Article A (DOM 2)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="bs-artb">Article B (DOM 3)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="bs-cta">CTA (DOM 4)</span>
+      </div>
+      <div class="verdict bad">
+        ⚠ Focus reaches the CTA last — but it's visually first. A keyboard user
+        navigates the grid in a sequence that contradicts what they see. WCAG
+        2.4.3 failure.
+      </div>
+    </div>
+
+    <p class="hint">
+      Press <kbd class="key">Tab</kbd> to navigate the grid above and watch the sequence
+      light up.
+    </p>
   </div>
-</div><!-- /good panel -->
+
+  <!-- ═══ GOOD PANEL ═══ -->
+  <div class="panel panel-good" id="panel-good" role="tabpanel">
+    <div class="explainer good" style="margin-bottom:1.25rem">
+      <strong>The fix:</strong> Add <code>reading-flow: grid-rows</code> to the container.
+      The browser now reads focus order row by row, matching the visual grid — CTA
+      → Feature → Article A → Article B. DOM order is unchanged; only focus order
+      is corrected.
+    </div>
+
+    <p class="slabel">Live layout — try tabbing through</p>
+
+    <div class="editorial-grid grid-solution" id="grid-good">
+      <!-- DOM 1st — but reading-flow: grid-rows puts focus on CTA first (top-left) -->
+      <article class="cell cell-feature">
+        <span class="dom-tag">DOM: 1st</span>
+        <span class="cell-label">Feature</span>
+        <h2 class="cell-title">
+          The hidden cost of visual reordering in modern CSS layouts
+        </h2>
+        <p class="cell-excerpt">
+          Every time we reach for <code>order</code> or <code
+            >grid-template-areas</code
+          > to move content around the screen, we're making a silent promise to sighted
+          users that we may be breaking for everyone else.
+        </p>
+        <a href="#" class="cell-link" id="good-feature" onclick="return false"
+          >Read feature →</a
+        >
+      </article>
+
+      <article class="cell cell-art-a">
+        <span class="dom-tag">DOM: 2nd</span>
+        <span class="cell-label">Article A</span>
+        <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
+        <p class="cell-excerpt">
+          Focus order is a Level A requirement, meaning it applies to the
+          broadest range of users and content types.
+        </p>
+        <a href="#" class="cell-link" id="good-arta" onclick="return false"
+          >Read article →</a
+        >
+      </article>
+
+      <article class="cell cell-art-b">
+        <span class="dom-tag">DOM: 3rd</span>
+        <span class="cell-label">Article B</span>
+        <h2 class="cell-title">
+          Testing keyboard navigation: a practical checklist
+        </h2>
+        <p class="cell-excerpt">
+          Tab through your layout. Does focus move in a logical sequence? Does
+          it match what a sighted user would expect?
+        </p>
+        <a href="#" class="cell-link" id="good-artb" onclick="return false"
+          >Read article →</a
+        >
+      </article>
+
+      <article class="cell cell-cta">
+        <span class="dom-tag">DOM: 4th</span>
+        <span class="cell-label">Promoted</span>
+        <h2 class="cell-title">New: reading-flow & reading-order</h2>
+        <a href="#" class="cell-link" id="good-cta" onclick="return false"
+          >Get started →</a
+        >
+      </article>
+    </div>
+
+    <!-- Focus tracker -->
+    <div class="tracker">
+      <p class="tracker-label">Tab focus sequence</p>
+      <div class="tracker-row">
+        <span class="t-step" id="gs-cta">CTA (visual top-left)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="gs-feature">Feature (visual top-right)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="gs-arta">Article A (visual btm-left)</span>
+        <span class="t-arrow">→</span>
+        <span class="t-step" id="gs-artb">Article B (visual btm-right)</span>
+      </div>
+      <div class="verdict good">
+        ✓ Focus now moves left-to-right, top-to-bottom — exactly how a sighted
+        user reads the grid. DOM order is unchanged; <code>reading-flow</code> corrects
+        the accessibility layer only.
+      </div>
+    </div>
+
+    <div class="hint hint-mobile">
+      <button class="play-btn" onclick="playSequence('good')" id="play-good"
+        >▶ Simulate focus order</button
+      >
+    </div>
+
+    <!-- The CSS -->
+    <p class="slabel" style="margin-top:1.5rem">The CSS</p>
+    <div class="code">
+      <span class="c-sel">.editorial-grid</span> &#123;
+      <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+      <span class="c-prop">grid-template-columns</span>: <span class="c-val"
+        >1fr 1fr</span
+      >;
+      <span class="c-prop">grid-template-areas</span>:
+      <span class="c-area">"cta feature"</span>
+      <span class="c-area">"art-a art-b"</span>;
+      <span class="c-new">reading-flow</span>: <span class="c-new"
+        >grid-rows</span
+      >; <span class="c-comment">/* ← one line fixes it */</span>
+      &#125;
+
+      <span class="c-comment"
+        >/* DOM order: feature · art-a · art-b · cta */</span
+      >
+      <span class="c-comment"
+        >/* Focus order after fix: cta → feature → art-a → art-b */</span
+      >
+
+      <span class="c-sel">.cell-feature</span> &#123; <span class="c-prop"
+        >grid-area</span
+      >: <span class="c-area">feature</span>; &#125;
+      <span class="c-sel">.cell-art-a</span> &#123; <span class="c-prop"
+        >grid-area</span
+      >: <span class="c-area">art-a</span>; &#125;
+      <span class="c-sel">.cell-art-b</span> &#123; <span class="c-prop"
+        >grid-area</span
+      >: <span class="c-area">art-b</span>; &#125;
+      <span class="c-sel">.cell-cta</span> &#123; <span class="c-prop"
+        >grid-area</span
+      >: <span class="c-area">cta</span>; &#125; <span class="c-comment"
+        >/* DOM: last, visual: top-left */</span
+      >
+    </div>
+
+    <!-- Order map -->
+    <p class="slabel">How the orders map</p>
+    <div class="map-grid">
+      <div class="mh">Cell</div>
+      <div class="mh">DOM position</div>
+      <div class="mh">Visual position</div>
+      <div class="mh">Focus position</div>
+
+      <div class="mc">CTA</div>
+      <div class="mc"><span class="t-dom">4th</span></div>
+      <div class="mc"><span class="t-vis">top-left</span></div>
+      <div class="mc"><span class="t-fix">1st ✓</span></div>
+
+      <div class="mc">Feature</div>
+      <div class="mc"><span class="t-dom">1st</span></div>
+      <div class="mc"><span class="t-vis">top-right</span></div>
+      <div class="mc"><span class="t-fix">2nd ✓</span></div>
+
+      <div class="mc">Article A</div>
+      <div class="mc"><span class="t-dom">2nd</span></div>
+      <div class="mc"><span class="t-vis">btm-left</span></div>
+      <div class="mc"><span class="t-fix">3rd ✓</span></div>
+
+      <div class="mc">Article B</div>
+      <div class="mc"><span class="t-dom">3rd</span></div>
+      <div class="mc"><span class="t-vis">btm-right</span></div>
+      <div class="mc"><span class="t-fix">4th ✓</span></div>
+    </div>
+  </div><!-- /good panel -->
 </div>
 
 <script>
@@ -369,19 +376,107 @@
       });
     });
   });
+  const gridSequences = {
+    bad: [
+      { cell: "#grid-bad .cell-feature", step: "bs-feature", n: 1 },
+      { cell: "#grid-bad .cell-art-a", step: "bs-arta", n: 2 },
+      { cell: "#grid-bad .cell-art-b", step: "bs-artb", n: 3 },
+      { cell: "#grid-bad .cell-cta", step: "bs-cta", n: 4 },
+    ],
+    good: [
+      { cell: "#grid-good .cell-cta", step: "gs-cta", n: 1 },
+      { cell: "#grid-good .cell-feature", step: "gs-feature", n: 2 },
+      { cell: "#grid-good .cell-art-a", step: "gs-arta", n: 3 },
+      { cell: "#grid-good .cell-art-b", step: "gs-artb", n: 4 },
+    ],
+  };
+
+  function playSequence(panel) {
+    const btn = document.getElementById("play-" + panel);
+    const isBad = panel === "bad";
+    const color = isBad ? "var(--accent)" : "var(--good)";
+    const litClass = isBad ? "lit-bad" : "lit-good";
+    const steps = gridSequences[panel];
+    const STEP_MS = 900;
+
+    btn.disabled = true;
+    btn.textContent = "▶ Playing…";
+
+    // Reset tracker
+    document.querySelectorAll(`#panel-${panel} .t-step`).forEach((s) => {
+      s.classList.remove(litClass, "done");
+    });
+    // Reset cells
+    steps.forEach(({ cell }) => {
+      const el = document.querySelector(cell);
+      if (!el) return;
+      el.classList.remove("playing");
+      el.style.removeProperty("--playing-color");
+      const badge = el.querySelector(".play-badge");
+      if (badge) badge.textContent = "";
+    });
+
+    steps.forEach(({ cell, step, n }, i) => {
+      setTimeout(() => {
+        // Clear previous
+        if (i > 0) {
+          const prev = document.querySelector(steps[i - 1].cell);
+          if (prev) {
+            prev.classList.remove("playing");
+            const pb = prev.querySelector(".play-badge");
+            if (pb) pb.textContent = "";
+          }
+          const prevStep = document.getElementById(steps[i - 1].step);
+          if (prevStep) prevStep.classList.add("done");
+        }
+
+        // Activate current
+        const el = document.querySelector(cell);
+        if (el) {
+          el.style.setProperty(
+            "--playing-color",
+            isBad ? "#ff5c35" : "#4ade80",
+          );
+          el.classList.add("playing");
+          const badge = el.querySelector(".play-badge");
+          if (badge) {
+            badge.textContent = n;
+            badge.style.background = isBad ? "#ff5c35" : "#4ade80";
+          }
+          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        const stepEl = document.getElementById(step);
+        if (stepEl) stepEl.classList.add(litClass);
+      }, i * STEP_MS);
+    });
+
+    // Clean up
+    setTimeout(
+      () => {
+        const last = document.querySelector(steps[steps.length - 1].cell);
+        if (last) {
+          last.classList.remove("playing");
+          const badge = last.querySelector(".play-badge");
+          if (badge) badge.textContent = "";
+        }
+        btn.disabled = false;
+        btn.textContent = "▶ Simulate focus order";
+      },
+      steps.length * STEP_MS + 600,
+    );
+  }
 </script>
 
 <style>
   /* ── Header ── */
   .demo-header {
-    margin-bottom: 3rem;
-    border-bottom: 1px solid var(--color-dark);
-    padding-bottom: 2rem;
+    padding-block-end: 32px;
   }
 
   .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.15em;
+    font-size: 10px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-accent);
     margin-bottom: 0.6rem;
@@ -403,7 +498,6 @@
   .intro {
     font-size: 13px;
     color: var(--color-dark);
-    max-width: 540px;
     line-height: 1.7;
   }
 
@@ -414,14 +508,13 @@
     background: var(--color-light);
     border: 1px solid var(--color-dark);
     border-bottom: none;
-    padding: 6px 6px 0;
   }
 
   .tab {
     font-family: var(--font-base);
-    font-size: 12px;
-    padding: 8px 16px;
-    background: transparent;
+    font-size: 14px;
+    padding: 16px 16px 8px;
+    background: var(--color-light);
     border: none;
     color: var(--color-dark);
     cursor: pointer;
@@ -433,14 +526,14 @@
 
   .tab:hover {
     color: var(--color-dark);
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.12);
   }
   .tab.active {
     color: var(--color-white);
     background: var(--color-dark);
   }
   .tab.active.is-bad {
-    color: var(--color-accent);
+    color: var(--color-white);
   }
   .tab.active.is-good {
     color: var(--feature-color);
@@ -471,7 +564,7 @@
   }
 
   .panel .slabel {
-  	color: var(--color-light);
+    color: var(--color-light);
   }
 
   .slabel::after {
@@ -552,16 +645,17 @@
 
   .cell-feature {
     min-height: 200px;
+    border-bottom: 1px solid var(--color-dark);
   }
 
   .dom-tag {
     display: inline-block;
     font-size: 10px;
     letter-spacing: 0.05em;
-    background: #1f1f1f;
-    border: 1px solid #3a3a3a;
+    background: rgb(from var(--feature-color) r g b / 0.3);
+    border: 1px solid var(--color-dark);
     color: var(--color-dark);
-    padding: 2px 8px;
+    padding: 4px 8px 2px;
     align-self: flex-start;
     margin-bottom: 0.25rem;
   }
@@ -577,7 +671,7 @@
     font-family: var(--font-base);
     font-weight: 300;
     line-height: 1.25;
-    color: var(--color-text);
+    color: var(--color-dark);
   }
 
   .cell-feature .cell-title {
@@ -585,19 +679,19 @@
   }
   .cell-art-a .cell-title,
   .cell-art-b .cell-title {
-    font-size: 0.95rem;
+    font-size: 1.25rem;
   }
   .cell-cta .cell-title {
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     font-style: italic;
   }
 
   .cell-cta > * {
-  	color: var(--color-light);
+    color: var(--color-light);
   }
 
   .cell-excerpt {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-dark);
     line-height: 1.6;
     -webkit-line-clamp: 3;
@@ -607,23 +701,25 @@
   }
 
   .cell-link {
-    margin-top: auto;
-    align-self: flex-start;
-    font-family: var(--font-base);
-    font-size: 11px;
-    padding: 5px 12px;
-    background: var(--feature-color);
-    border: 1px solid var(--color-dark);
-    color: var(--color-text);
-    text-decoration: none;
-    cursor: pointer;
-    transition:
-      border-color 0.15s,
-      background 0.15s;
+	  margin-top: auto;
+	  display: inline-block;
+	  font-size: 14px;
+	  padding: 6px 10px;
+	  background: var(--color-light);
+	  color: var(--color-dark);
+	  text-decoration: none;
+	  border: 1px solid var(--color-dark);
+	  cursor: pointer;
+	  font-family: var(--mono);
+	  transition:
+	    border-color 0.15s,
+	    background 0.15s;
+	  align-self: flex-start;
   }
 
   .cell-link:hover {
     background: var(--color-dark);
+    color: var(--color-light);
   }
   .cell-link:focus {
     outline: none;
@@ -646,7 +742,6 @@
 
   /* CTA cell accent */
   .cell-cta {
-    background: var(--color-dark);
     border: 1px solid var(--color-light);
     border-left: 3px solid var(--color-dark);
   }
@@ -687,13 +782,13 @@
 
   /* ── Explainer ── */
   .explainer {
-    font-size: 12px;
-    line-height: 1.7;
-    color: var(--color-dark);
-    background: var(--color-light);
+    background: rgb(from var(--feature-color) r g b / 0.12);
     border-left: 3px solid var(--color-dark);
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.5rem;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    font-size: 12px;
+    color: var(--color-dark);
+    line-height: 1.7;
   }
 
   .explainer.bad {
@@ -703,12 +798,12 @@
     border-color: var(--feature-color);
   }
   .explainer strong {
-    color: var(--color-text);
+    color: var(--color-dark);
     font-weight: 500;
   }
   .explainer code {
     font-size: 11px;
-    color: var(--color-text);
+    color: var(--color-dark);
   }
 
   /* ── Focus tracker ── */
@@ -738,7 +833,7 @@
   .t-step {
     font-size: 11px;
     padding: 3px 10px;
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.2) !important;
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     transition: all 0.2s;
@@ -765,7 +860,7 @@
   }
 
   .verdict {
-    font-size: 12px;
+    font-size: 14px;
     padding: 0.5rem 0.75rem;
     line-height: 1.5;
   }
@@ -786,7 +881,7 @@
     background: var(--color-light);
     border: 1px solid var(--color-dark);
     padding: 1rem 1.25rem;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.8;
     overflow-x: auto;
     white-space: pre;
@@ -890,8 +985,7 @@
     grid-template-areas: "cta feature" "art-a art-b";
     gap: 3px;
     margin-bottom: 1rem;
-    font-size: 11px;
-    max-width: 320px;
+    max-width: 50%;
   }
 
   .ld-cell {
@@ -900,8 +994,8 @@
     justify-content: center;
     flex-direction: column;
     gap: 2px;
-    font-size: 10px;
-    letter-spacing: 0.05em;
+    font-size: 14px;
+    letter-spacing: 0.03em;
   }
 
   .ld-cell .name {
@@ -909,7 +1003,7 @@
   }
   .ld-cell .pos {
     color: var(--color-dark);
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .ld-cta {
@@ -919,17 +1013,17 @@
   }
   .ld-feature {
     grid-area: feature;
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.2) !important;
     border: 1px solid var(--color-dark);
   }
   .ld-arta {
     grid-area: art-a;
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.2) !important;
     border: 1px solid var(--color-dark);
   }
   .ld-artb {
     grid-area: art-b;
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.2) !important;
     border: 1px solid var(--color-dark);
   }
 

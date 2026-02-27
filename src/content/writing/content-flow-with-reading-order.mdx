@@ -84,7 +84,7 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 <article class="reading-order-card">
     <date datetime="2025-10-30">20th October 2025</date>
     <span>Card title</span>
-    <img src="https://placehold.co/600x400" alt="Card image" />
+    <img src="https://placehold.co/343x100" alt="Card image" />
 </article>
 
 Visually, we've got our card layout looking like this; an image, then a date, then a title. Pretty generic stuff, but when a screen reader user traverses this layout, the order of the content is not what we would expect. The image is announced first, then the date, then the title. This is because the screen reader is reading the content in the order of the DOM, not the visual order.
@@ -182,33 +182,33 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
     <article class="reading-order-card reading-order-card--1">
         <date datetime="2025-10-30">20th October 2025</date>
         <a href="#"><span>This is the card that is the first item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
+        <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
     <article class="reading-order-card reading-order-card--2">
         <date datetime="2025-10-30">20th October 2025</date>
         <a href="#"><span>This is the card that is the second item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
+        <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
     <a href="#" class="item item--3" tabindex="0" aria-label="Read more about this article">
-        <img src="https://placehold.co/600x800" alt="Card image" />
+      <img src="https://placehold.co/373x248" alt="Card image" />
     </a>
 
     <article class="reading-order-card reading-order-card--4">
         <date datetime="2025-10-30">20th October 2025</date>
         <a href="#"><span>This is the card that is the first item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
+        <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
     <article class="reading-order-card reading-order-card--5">
         <date datetime="2025-10-30">20th October 2025</date>
         <a href="#"><span>This is the card that is the second item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
+        <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
     <a href="#" class="item item--6" tabindex="0" aria-label="Read more about this article">
-        <img src="https://placehold.co/600x800" alt="Card image" />
+      <img src="https://placehold.co/373x248" alt="Card image" />
     </a>
 </div>
 

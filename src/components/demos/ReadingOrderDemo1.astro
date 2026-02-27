@@ -1,246 +1,328 @@
+---
+import PlaceholderImage from "../PlaceholderImage.astro";
+---
+
 <div class="min-w-0 overflow-x-auto">
-<div class="demo-header">
-  <p class="eyebrow">Interactive demo · @reading-order</p>
-  <h1>
-    Visual order vs DOM order:<br /><em>the gap your users fall into</em>
-  </h1>
-  <p class="intro">
-    When CSS reorders content visually, keyboard and screen reader users still
-    follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
-    the cards below and feel the difference.
-  </p>
-</div>
-
-<!-- Tabs -->
-<div class="demo-tabs" role="tablist">
-  <button class="tab-btn problem active" role="tab" aria-selected="true" aria-controls="panel-problem" onclick="switchTab('problem')">
-    ❌ Without reading-order
-  </button>
-  <button class="tab-btn solution" role="tab" aria-selected="false" aria-controls="panel-solution" onclick="switchTab('solution')">
-    ✅ With reading-order
-  </button>
-</div>
-
-<!-- Problem Panel -->
-<div class="demo-panel panel-problem active" id="panel-problem" role="tabpanel">
-
-  <div class="legend">
-    <div class="legend-item">
-      <span class="badge badge-dom">1</span>
-      DOM order (how assistive tech reads it)
-    </div>
-    <div class="legend-item">
-      <span class="badge badge-visual">V</span>
-      Visual order (what sighted users see)
-    </div>
+  <div class="demo-header">
+    <p class="eyebrow">Interactive demo · @reading-order</p>
+    <h3>
+      Visual order vs DOM order: the gap your users fall into
+    </h3>
+    <p class="intro">
+      When CSS reorders content visually, keyboard and screen reader users still
+      follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
+      the cards below and feel the difference.
+    </p>
   </div>
 
-  <p class="section-label">Layout</p>
+  <!-- Tabs -->
+  <div class="demo-tabs" role="tablist">
+    <button
+      class="tab-btn problem active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-problem"
+      onclick="switchTab('problem')"
+    >
+      ❌ Without reading-order
+    </button>
+    <button
+      class="tab-btn solution"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-solution"
+      onclick="switchTab('solution')"
+    >
+      ✅ With reading-order
+    </button>
+  </div>
 
-  <div class="cards-wrap">
-    <div class="cards-problem" id="problem-cards">
+  <!-- Problem Panel -->
+  <div
+    class="demo-panel panel-problem active"
+    id="panel-problem"
+    role="tabpanel"
+  >
+    <div class="legend">
+      <div class="legend-item">
+        <span class="badge badge-dom">1</span>
+        DOM order (how assistive tech reads it)
+      </div>
+      <div class="legend-item">
+        <span class="badge badge-visual">V</span>
+        Visual order (what sighted users see)
+      </div>
+    </div>
 
-      <!-- DOM order: 1 = Article A -->
-      <article class="card card-a" tabindex="-1">
-        <span class="dom-badge">DOM: 1st</span>
-        <div class="card-thumb">📰</div>
-        <div class="card-body">
-          <span class="card-meta">20 Oct 2025 · Article</span>
-          <h3 class="card-title">Article A</h3>
-          <a href="#" class="card-link" id="link-a" onclick="return false">Read more →</a>
-        </div>
-      </article>
+    <p class="section-label">Layout</p>
 
-      <!-- DOM order: 2 = Article B -->
-      <article class="card card-b" tabindex="-1">
-        <span class="dom-badge">DOM: 2nd</span>
-        <div class="card-thumb">✏️</div>
-        <div class="card-body">
-          <span class="card-meta">18 Oct 2025 · Article</span>
-          <h3 class="card-title">Article B</h3>
-          <a href="#" class="card-link" id="link-b" onclick="return false">Read more →</a>
-        </div>
-      </article>
-
-      <!-- DOM order: 3 = CTA, but visually first via order: 1 -->
-      <article class="card card-cta" tabindex="-1">
-        <span class="dom-badge">DOM: 3rd</span>
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <p>Featured content</p>
+    <div class="cards-wrap">
+      <div class="cards-problem" id="problem-cards">
+        <!-- DOM order: 1 = Article A -->
+        <article class="card card-a" tabindex="-1">
+          <span class="dom-badge">DOM: 1st</span>
+          <div class="card-thumb">
+          	<PlaceholderImage width={343} height={100} />
           </div>
-        </div>
-        <div class="card-body">
-          <span class="card-meta">Promoted</span>
-          <h3 class="card-title">CTA Card</h3>
-          <a href="#" class="card-link" id="link-cta" onclick="return false">Get started →</a>
-        </div>
-      </article>
-
-    </div>
-  </div>
-
-  <div class="explainer problem">
-    <strong>What sighted users see:</strong> CTA → Article A → Article B<br>
-    <strong>What keyboard/screen reader users get:</strong> Article A → Article B → CTA<br><br>
-    The CTA appears first visually via <code>order: 1</code> — but it's third in the DOM. Tab key follows the DOM.
-  </div>
-
-  <!-- Code -->
-  <div class="code-block"><span class="code-comment">/* Visual order achieved with CSS order — */</span>
-<span class="code-comment">/* but DOM (and focus) order is unchanged   */</span>
-
-<span class="code-prop">.card-a</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">2</span>; &#125;   <span class="code-comment">/* DOM: 1st, visual: 2nd */</span>
-<span class="code-prop">.card-b</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">3</span>; &#125;   <span class="code-comment">/* DOM: 2nd, visual: 3rd */</span>
-<span class="code-prop">.card-cta</span> &#123; <span class="code-prop">order</span>: <span class="code-val">1</span>; &#125;   <span class="code-comment">/* DOM: 3rd, visual: 1st ⚠️ */</span></div>
-
-  <!-- Focus tracker -->
-  <p class="section-label">Tab focus sequence</p>
-  <div class="focus-tracker">
-    <p class="focus-tracker-label">Focus order as you tab through</p>
-    <div class="focus-sequence" id="focus-seq-problem">
-      <span class="focus-step" id="step-p-a">Article A (DOM 1st)</span>
-      <span class="focus-arrow">→</span>
-      <span class="focus-step" id="step-p-b">Article B (DOM 2nd)</span>
-      <span class="focus-arrow">→</span>
-      <span class="focus-step" id="step-p-cta">CTA (DOM 3rd)</span>
-    </div>
-    <div class="focus-verdict verdict-bad" id="verdict-problem">
-      ⚠ Focus follows DOM order. The CTA appears visually first but receives focus last — a WCAG 2.4.3 failure.
-    </div>
-  </div>
-
-  <p class="hint">Try pressing <kbd class="key">Tab</kbd> to navigate through the cards above and watch the sequence light up.</p>
-
-</div><!-- /problem panel -->
-
-<!-- Solution Panel -->
-<div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
-
-  <div class="legend">
-    <div class="legend-item">
-      <span class="badge badge-dom">1</span>
-      DOM order (unchanged)
-    </div>
-    <div class="legend-item">
-      <span class="badge badge-dom-fix">✓</span>
-      Focus + reading order (now matches visual)
-    </div>
-  </div>
-
-  <p class="section-label">Layout</p>
-
-  <div class="cards-wrap">
-    <div class="cards-solution" id="solution-cards">
-
-      <article class="card card-a" tabindex="-1">
-        <span class="dom-badge">DOM: 1st</span>
-        <div class="card-thumb">📰</div>
-        <div class="card-body">
-          <span class="card-meta">20 Oct 2025 · Article</span>
-          <h3 class="card-title">Article A</h3>
-          <a href="#" class="card-link" id="link-a-fix" onclick="return false">Read more →</a>
-        </div>
-      </article>
-
-      <article class="card card-b" tabindex="-1">
-        <span class="dom-badge">DOM: 2nd</span>
-        <div class="card-thumb">✏️</div>
-        <div class="card-body">
-          <span class="card-meta">18 Oct 2025 · Article</span>
-          <h3 class="card-title">Article B</h3>
-          <a href="#" class="card-link" id="link-b-fix" onclick="return false">Read more →</a>
-        </div>
-      </article>
-
-      <article class="card card-cta" tabindex="-1">
-        <span class="dom-badge">DOM: 3rd</span>
-        <div class="card-thumb">
-          <div class="card-thumb-inner">
-            <p>Featured content</p>
+          <div class="card-body">
+            <span class="card-meta">20 Oct 2025 · Article</span>
+            <h3 class="card-title">Article A</h3>
+            <a href="#" class="card-link" id="link-a" onclick="return false"
+              >Read more →</a
+            >
           </div>
-        </div>
-        <div class="card-body">
-          <span class="card-meta">Promoted</span>
-          <h3 class="card-title">CTA Card</h3>
-          <a href="#" class="card-link" id="link-cta-fix" onclick="return false">Get started →</a>
-        </div>
-      </article>
+        </article>
 
+        <!-- DOM order: 2 = Article B -->
+        <article class="card card-b" tabindex="-1">
+          <span class="dom-badge">DOM: 2nd</span>
+         	<PlaceholderImage width={343} height={100} />
+          <div class="card-body">
+            <span class="card-meta">18 Oct 2025 · Article</span>
+            <h3 class="card-title">Article B</h3>
+            <a href="#" class="card-link" id="link-b" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <!-- DOM order: 3 = CTA, but visually first via order: 1 -->
+        <article class="card card-cta" tabindex="-1">
+          <span class="dom-badge">DOM: 3rd</span>
+          <div class="card-thumb">
+         		<PlaceholderImage width={343} height={100} />
+          </div>
+          <div class="card-body">
+            <span class="card-meta">Promoted</span>
+            <h3 class="card-title">CTA Card</h3>
+            <a href="#" class="card-link" id="link-cta" onclick="return false"
+              >Get started →</a
+            >
+          </div>
+        </article>
+      </div>
     </div>
-  </div>
 
-  <div class="explainer solution">
-    <strong>Visual order:</strong> CTA → Article A → Article B (unchanged)<br>
-    <strong>Focus + reading order:</strong> CTA → Article A → Article B (now matches ✓)<br><br>
-    <code>reading-flow: flex-visual</code> on the container + <code>reading-order</code> integers on each child
-    tell the browser's Accessibility Tree to follow visual order instead of DOM order.
-  </div>
-
-  <!-- Code -->
-  <div class="code-block"><span class="code-comment">/* Same visual order — but now focus matches */</span>
-<span class="code-prop">.cards</span> &#123;
-<span class="code-prop">display</span>: <span class="code-val">flex</span>;
-<span class="code-new">reading-flow</span>: <span class="code-new">flex-visual</span>;   <span class="code-comment">/* ← on the container */</span>
-&#125;
-
-<span class="code-prop">.card-a</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">2</span>; <span class="code-new">reading-order</span>: <span class="code-new">2</span>; &#125;
-<span class="code-prop">.card-b</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">3</span>; <span class="code-new">reading-order</span>: <span class="code-new">3</span>; &#125;
-<span class="code-prop">.card-cta</span> &#123; <span class="code-prop">order</span>: <span class="code-val">1</span>; <span class="code-new">reading-order</span>: <span class="code-new">1</span>; &#125; <span class="code-comment">/* ✓ */</span></div>
-
-  <!-- Focus tracker -->
-  <p class="section-label">Tab focus sequence</p>
-  <div class="focus-tracker">
-    <p class="focus-tracker-label">Focus order as you tab through</p>
-    <div class="focus-sequence" id="focus-seq-solution">
-      <span class="focus-step" id="step-s-cta">CTA (visual 1st)</span>
-      <span class="focus-arrow">→</span>
-      <span class="focus-step" id="step-s-a">Article A (visual 2nd)</span>
-      <span class="focus-arrow">→</span>
-      <span class="focus-step" id="step-s-b">Article B (visual 3rd)</span>
+    <div class="explainer problem">
+      <strong>What sighted users see:</strong> CTA → Article A → Article B<br />
+      <strong>What keyboard/screen reader users get:</strong> Article A → Article
+      B → CTA<br /><br />
+      The CTA appears first visually via <code>order: 1</code> — but it's third in
+      the DOM. Tab key follows the DOM.
     </div>
-    <div class="focus-verdict verdict-good">
-      ✓ Focus follows visual order. Keyboard users and screen reader users now experience the same sequence as sighted users.
+
+    <!-- Code -->
+    <div class="code-block">
+      <span class="code-comment"
+        >/* Visual order achieved with CSS order — */</span
+      >
+      <span class="code-comment"
+        >/* but DOM (and focus) order is unchanged */</span
+      >
+
+      <span class="code-prop">.card-a</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">2</span>; &#125; <span class="code-comment"
+        >/* DOM: 1st, visual: 2nd */</span
+      >
+      <span class="code-prop">.card-b</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">3</span>; &#125; <span class="code-comment"
+        >/* DOM: 2nd, visual: 3rd */</span
+      >
+      <span class="code-prop">.card-cta</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">1</span>; &#125; <span class="code-comment"
+        >/* DOM: 3rd, visual: 1st ⚠️ */</span
+      >
     </div>
+
+    <!-- Focus tracker -->
+    <p class="section-label">Tab focus sequence</p>
+    <div class="focus-tracker">
+      <p class="focus-tracker-label">Focus order as you tab through</p>
+      <div class="focus-sequence" id="focus-seq-problem">
+        <span class="focus-step" id="step-p-a">Article A (DOM 1st)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-p-b">Article B (DOM 2nd)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-p-cta">CTA (DOM 3rd)</span>
+      </div>
+      <div class="focus-verdict verdict-bad" id="verdict-problem">
+        ⚠ Focus follows DOM order. The CTA appears visually first but receives
+        focus last — a WCAG 2.4.3 failure.
+      </div>
+    </div>
+
+    <p class="hint">
+      Try pressing <kbd class="key">Tab</kbd> to navigate through the cards above
+      and watch the sequence light up.
+    </p>
+  </div><!-- /problem panel -->
+
+  <!-- Solution Panel -->
+  <div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
+    <div class="legend">
+      <div class="legend-item">
+        <span class="badge badge-dom">1</span>
+        DOM order (unchanged)
+      </div>
+      <div class="legend-item">
+        <span class="badge badge-dom-fix">✓</span>
+        Focus + reading order (now matches visual)
+      </div>
+    </div>
+
+    <p class="section-label">Layout</p>
+
+    <div class="cards-wrap">
+      <div class="cards-solution" id="solution-cards">
+        <article class="card card-a" tabindex="-1">
+          <span class="dom-badge">DOM: 1st</span>
+          <div class="card-thumb">📰</div>
+          <div class="card-body">
+            <span class="card-meta">20 Oct 2025 · Article</span>
+            <h3 class="card-title">Article A</h3>
+            <a href="#" class="card-link" id="link-a-fix" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <article class="card card-b" tabindex="-1">
+          <span class="dom-badge">DOM: 2nd</span>
+          <div class="card-thumb">✏️</div>
+          <div class="card-body">
+            <span class="card-meta">18 Oct 2025 · Article</span>
+            <h3 class="card-title">Article B</h3>
+            <a href="#" class="card-link" id="link-b-fix" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <article class="card card-cta" tabindex="-1">
+          <span class="dom-badge">DOM: 3rd</span>
+          <div class="card-thumb">
+            <div class="card-thumb-inner">
+              <p>Featured content</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <span class="card-meta">Promoted</span>
+            <h3 class="card-title">CTA Card</h3>
+            <a
+              href="#"
+              class="card-link"
+              id="link-cta-fix"
+              onclick="return false">Get started →</a
+            >
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="explainer solution">
+      <strong>Visual order:</strong> CTA → Article A → Article B (unchanged)<br
+      />
+      <strong>Focus + reading order:</strong> CTA → Article A → Article B (now matches
+      ✓)<br /><br />
+      <code>reading-flow: flex-visual</code> on the container + <code
+        >reading-order</code
+      > integers on each child tell the browser's Accessibility Tree to follow visual
+      order instead of DOM order.
+    </div>
+
+    <!-- Code -->
+    <div class="code-block">
+      <span class="code-comment"
+        >/* Same visual order — but now focus matches */</span
+      >
+      <span class="code-prop">.cards</span> &#123;
+      <span class="code-prop">display</span>: <span class="code-val">flex</span
+      >;
+      <span class="code-new">reading-flow</span>: <span class="code-new"
+        >flex-visual</span
+      >; <span class="code-comment">/* ← on the container */</span>
+      &#125;
+
+      <span class="code-prop">.card-a</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">2</span>; <span class="code-new"
+        >reading-order</span
+      >: <span class="code-new">2</span>; &#125;
+      <span class="code-prop">.card-b</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">3</span>; <span class="code-new"
+        >reading-order</span
+      >: <span class="code-new">3</span>; &#125;
+      <span class="code-prop">.card-cta</span> &#123; <span class="code-prop"
+        >order</span
+      >: <span class="code-val">1</span>; <span class="code-new"
+        >reading-order</span
+      >: <span class="code-new">1</span>; &#125; <span class="code-comment"
+        >/* ✓ */</span
+      >
+    </div>
+
+    <!-- Focus tracker -->
+    <p class="section-label">Tab focus sequence</p>
+    <div class="focus-tracker">
+      <p class="focus-tracker-label">Focus order as you tab through</p>
+      <div class="focus-sequence" id="focus-seq-solution">
+        <span class="focus-step" id="step-s-cta">CTA (visual 1st)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-s-a">Article A (visual 2nd)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-s-b">Article B (visual 3rd)</span>
+      </div>
+      <div class="focus-verdict verdict-good">
+        ✓ Focus follows visual order. Keyboard users and screen reader users now
+        experience the same sequence as sighted users.
+      </div>
+    </div>
+
+    <div class="hint hint-mobile">
+      <button
+        class="play-btn"
+        onclick="playSequence('solution')"
+        id="play-solution">▶ Simulate focus order</button
+      >
+    </div>
+
+    <!-- How it works table -->
+    <p class="section-label" style="margin-top: 1.5rem;">How the orders map</p>
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Card</th>
+          <th>DOM position</th>
+          <th>Visual position (<code>order</code>)</th>
+          <th>Focus position (<code>reading-order</code>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CTA</td>
+          <td><span class="tag tag-dom">3rd</span></td>
+          <td><span class="tag tag-visual">1st</span></td>
+          <td><span class="tag tag-focus">1st ✓</span></td>
+        </tr>
+        <tr>
+          <td>Article A</td>
+          <td><span class="tag tag-dom">1st</span></td>
+          <td><span class="tag tag-visual">2nd</span></td>
+          <td><span class="tag tag-focus">2nd ✓</span></td>
+        </tr>
+        <tr>
+          <td>Article B</td>
+          <td><span class="tag tag-dom">2nd</span></td>
+          <td><span class="tag tag-visual">3rd</span></td>
+          <td><span class="tag tag-focus">3rd ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <p class="hint">Try pressing <kbd class="key">Tab</kbd> — focus now moves CTA → Article A → Article B, matching the visual layout.</p>
-
-  <!-- How it works table -->
-  <p class="section-label" style="margin-top: 1.5rem;">How the orders map</p>
-  <table class="order-table">
-    <thead>
-      <tr>
-        <th>Card</th>
-        <th>DOM position</th>
-        <th>Visual position (<code>order</code>)</th>
-        <th>Focus position (<code>reading-order</code>)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>CTA</td>
-        <td><span class="tag tag-dom">3rd</span></td>
-        <td><span class="tag tag-visual">1st</span></td>
-        <td><span class="tag tag-focus">1st ✓</span></td>
-      </tr>
-      <tr>
-        <td>Article A</td>
-        <td><span class="tag tag-dom">1st</span></td>
-        <td><span class="tag tag-visual">2nd</span></td>
-        <td><span class="tag tag-focus">2nd ✓</span></td>
-      </tr>
-      <tr>
-        <td>Article B</td>
-        <td><span class="tag tag-dom">2nd</span></td>
-        <td><span class="tag tag-visual">3rd</span></td>
-        <td><span class="tag tag-focus">3rd ✓</span></td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-
 </div>
 
 <script>
@@ -297,14 +379,104 @@
       });
     });
   });
+
+  // ── Mobile playback ───────────────────────────────────────────────────────
+  // Sequences: [{ cardSelector, stepId, badge }]
+  const sequences = {
+    problem: [
+      { card: ".panel-problem .card-a", step: "step-p-a", n: 1 },
+      { card: ".panel-problem .card-b", step: "step-p-b", n: 2 },
+      { card: ".panel-problem .card-cta", step: "step-p-cta", n: 3 },
+    ],
+    solution: [
+      { card: ".panel-solution .card-cta", step: "step-s-cta", n: 1 },
+      { card: ".panel-solution .card-a", step: "step-s-a", n: 2 },
+      { card: ".panel-solution .card-b", step: "step-s-b", n: 3 },
+    ],
+  };
+
+  function playSequence(panel) {
+    const btn = document.getElementById("play-" + panel);
+    const isProblem = panel === "problem";
+    const color = isProblem ? "var(--accent)" : "var(--accent-2)";
+    const litClass = isProblem ? "active-problem" : "active-solution";
+    const steps = sequences[panel];
+    const STEP_MS = 900;
+
+    btn.disabled = true;
+    btn.textContent = "▶ Playing…";
+
+    // Reset tracker
+    document.querySelectorAll(`#panel-${panel} .focus-step`).forEach((s) => {
+      s.classList.remove(litClass, "visited");
+    });
+    // Reset card highlights
+    steps.forEach(({ card }) => {
+      const el = document.querySelector(card);
+      if (!el) return;
+      el.classList.remove("playing");
+      el.style.removeProperty("--playing-color");
+      const badge = el.querySelector(".play-badge");
+      if (badge) badge.textContent = "";
+    });
+
+    steps.forEach(({ card, step, n }, i) => {
+      // Highlight card
+      setTimeout(() => {
+        // Clear previous
+        if (i > 0) {
+          const prev = document.querySelector(steps[i - 1].card);
+          if (prev) {
+            prev.classList.remove("playing");
+            const prevBadge = prev.querySelector(".play-badge");
+            if (prevBadge) prevBadge.textContent = "";
+          }
+          const prevStep = document.getElementById(steps[i - 1].step);
+          if (prevStep) prevStep.classList.add("visited");
+        }
+
+        // Activate current card
+        const el = document.querySelector(card);
+        if (el) {
+          el.style.setProperty("--playing-color", color);
+          el.classList.add("playing");
+          const badge = el.querySelector(".play-badge");
+          if (badge) {
+            badge.textContent = n;
+            badge.style.background = color;
+          }
+          // Scroll card into view on mobile
+          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        // Activate tracker step
+        const stepEl = document.getElementById(step);
+        if (stepEl) stepEl.classList.add(litClass);
+      }, i * STEP_MS);
+    });
+
+    // Clean up after last step
+    setTimeout(
+      () => {
+        const last = document.querySelector(steps[steps.length - 1].card);
+        if (last) {
+          last.classList.remove("playing");
+          const badge = last.querySelector(".play-badge");
+          if (badge) badge.textContent = "";
+        }
+        btn.disabled = false;
+        btn.textContent = "▶ Simulate focus order";
+      },
+      steps.length * STEP_MS + 600,
+    );
+  }
+  window.playSequence = playSequence;
 </script>
 
 <style>
   /* ── Header ── */
   .demo-header {
-    margin-bottom: 3rem;
-    border-bottom: 1px solid var(--color-dark);
-    padding-bottom: 2rem;
+    padding-block-end: 32px;
   }
 
   .eyebrow {
@@ -331,9 +503,7 @@
   }
 
   .intro {
-    color: var(--color-dark);
     font-size: 13px;
-    max-width: 560px;
     line-height: 1.7;
   }
 
@@ -366,6 +536,7 @@
     color: var(--color-dark);
     background: var(--color-light);
   }
+
   .tab-btn.active {
     color: var(--color-dark);
     background: var(--bg);
@@ -435,14 +606,12 @@
 
   /* ── Section label ── */
   .section-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-family: var(--font-base);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
     text-transform: uppercase;
-    color: var(--color-dark);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin-bottom: 8px;
   }
 
   .section-label::after {
@@ -465,7 +634,7 @@
   }
 
   .card-cta > * {
-   	color: var(--color-light);
+    color: var(--color-light);
   }
 
   @media (min-width: 500px) {
@@ -560,7 +729,7 @@
   .card-link {
     margin-top: auto;
     display: inline-block;
-    font-size: 11px;
+    font-size: 14px;
     padding: 6px 10px;
     background: var(--color-light);
     color: var(--color-dark);
@@ -596,12 +765,12 @@
     position: absolute;
     top: 8px;
     left: 8px;
-    font-size: 10px;
+    font-size: 12px;
     background: #222;
     border: 1px solid #444;
-    color: var(--color-dark);
+    color: var(--color-light);
     padding: 2px 7px;
-    font-family: var(--mono);
+    font-family: var(--font-base);
     letter-spacing: 0.05em;
     z-index: 1;
   }
@@ -627,7 +796,7 @@
     color: #fff;
   }
   .panel-solution .card-cta .card-link {
-    background: var(--feature-color);
+    background: rgb(from var(--feature-color) r g b / 0.12);
     border-color: var(--feature-color);
     color: #000;
   }
@@ -711,7 +880,7 @@
 
   /* ── Explainer boxes ── */
   .explainer {
-    background: var(--color-light);
+    background: rgb(from var(--feature-color) r g b / 0.12);
     border-left: 3px solid var(--color-dark);
     padding: 1rem;
     margin: 1.5rem 0;
@@ -811,12 +980,12 @@
   .tag {
     display: inline-block;
     padding: 2px 8px;
-    font-size: 10px;
-    letter-spacing: 0.05em;
+    width: 100%;
   }
 
   .tag-dom {
-    background: #2a2a2a;
+    background: var(--color-light);
+    border: 1px dashed var(--color-dark);
     color: var(--color-dark);
     border: 1px solid #444;
   }

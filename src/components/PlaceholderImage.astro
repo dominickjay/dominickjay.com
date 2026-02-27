@@ -1,0 +1,13 @@
+---
+import { Image } from "astro:assets";
+const { width, height } = Astro.props;
+
+const imageUrl = `https://placehold.co/${width}x${height}`;
+
+---
+
+<picture>
+	<source srcset={imageUrl} type="image/webp" />
+	<source srcset={imageUrl} type="image/avif" />
+	<img src={imageUrl} alt="A bird sitting on a nest of eggs." />
+</picture>
