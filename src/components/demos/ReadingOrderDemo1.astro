@@ -5,9 +5,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 <div class="min-w-0 overflow-x-auto">
   <div class="demo-header">
     <p class="eyebrow">Interactive demo · @reading-order</p>
-    <h3>
-      Visual order vs DOM order: the gap your users fall into
-    </h3>
+    <h3>Visual order vs DOM order: the gap your users fall into</h3>
     <p class="intro">
       When CSS reorders content visually, keyboard and screen reader users still
       follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
@@ -62,7 +60,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <article class="card card-a" tabindex="-1">
           <span class="dom-badge">DOM: 1st</span>
           <div class="card-thumb">
-          	<PlaceholderImage width={343} height={100} />
+            <PlaceholderImage width={343} height={100} />
           </div>
           <div class="card-body">
             <span class="card-meta">20 Oct 2025 · Article</span>
@@ -76,7 +74,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <!-- DOM order: 2 = Article B -->
         <article class="card card-b" tabindex="-1">
           <span class="dom-badge">DOM: 2nd</span>
-         	<PlaceholderImage width={343} height={100} />
+          <PlaceholderImage width={343} height={100} />
           <div class="card-body">
             <span class="card-meta">18 Oct 2025 · Article</span>
             <h3 class="card-title">Article B</h3>
@@ -90,7 +88,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <article class="card card-cta" tabindex="-1">
           <span class="dom-badge">DOM: 3rd</span>
           <div class="card-thumb">
-         		<PlaceholderImage width={343} height={100} />
+            <PlaceholderImage width={343} height={100} />
           </div>
           <div class="card-body">
             <span class="card-meta">Promoted</span>
@@ -396,15 +394,18 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   };
 
   function playSequence(panel) {
+    const steps = sequences[panel];
+    if (!steps?.length) return;
     const btn = document.getElementById("play-" + panel);
     const isProblem = panel === "problem";
     const color = isProblem ? "var(--accent)" : "var(--accent-2)";
     const litClass = isProblem ? "active-problem" : "active-solution";
-    const steps = sequences[panel];
     const STEP_MS = 900;
 
-    btn.disabled = true;
-    btn.textContent = "▶ Playing…";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "▶ Playing…";
+    }
 
     // Reset tracker
     document.querySelectorAll(`#panel-${panel} .focus-step`).forEach((s) => {
@@ -464,8 +465,10 @@ import PlaceholderImage from "../PlaceholderImage.astro";
           const badge = last.querySelector(".play-badge");
           if (badge) badge.textContent = "";
         }
-        btn.disabled = false;
-        btn.textContent = "▶ Simulate focus order";
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "▶ Simulate focus order";
+        }
       },
       steps.length * STEP_MS + 600,
     );
@@ -796,7 +799,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     color: #fff;
   }
   .panel-solution .card-cta .card-link {
-    background: rgb(from var(--feature-color) r g b / 0.12);
+    background: var(--feature-color);
     border-color: var(--feature-color);
     color: #000;
   }

@@ -1,0 +1,774 @@
+---
+import PlaceholderImage from "../PlaceholderImage.astro";
+---
+
+<div class="min-w-0 overflow-x-auto">
+  <p class="eyebrow">Interactive demo · object-fit · All five values</p>
+  <h1>Every object-fit value, on the same image</h1>
+  <p class="intro">
+    Click any value to see it in detail. Switch the source image to test how
+    each value behaves with portrait, landscape, and square content.
+  </p>
+
+  <!-- Image selector -->
+  <div class="img-selector">
+    <span class="img-selector-label">Test image:</span>
+    <button
+      class="img-thumb-btn active"
+      onclick="setImage(0, this)"
+      title="Landscape"
+    >
+      <img src="https://picsum.photos/seed/of-land/120/80" alt="Landscape" />
+    </button>
+    <button class="img-thumb-btn" onclick="setImage(1, this)" title="Portrait">
+      <img src="https://picsum.photos/seed/of-port/80/120" alt="Portrait" />
+    </button>
+    <button class="img-thumb-btn" onclick="setImage(2, this)" title="Square">
+      <img src="https://picsum.photos/seed/of-sq/100/100" alt="Square" />
+    </button>
+    <button class="img-thumb-btn" onclick="setImage(3, this)" title="Very wide">
+      <img src="https://picsum.photos/seed/of-wide/200/60" alt="Very wide" />
+    </button>
+  </div>
+
+  <!-- Value grid -->
+  <p class="slabel">The five values — click to explore</p>
+  <div class="values-grid">
+    <div class="value-card active" onclick="selectValue('cover', this)">
+      <div class="value-preview v-cover">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="cover"
+          class="grid-img"
+        />
+      </div>
+      <p class="value-name">cover</p>
+    </div>
+    <div class="value-card" onclick="selectValue('contain', this)">
+      <div class="value-preview v-contain">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="contain"
+          class="grid-img"
+        />
+      </div>
+      <p class="value-name">contain</p>
+    </div>
+    <div class="value-card" onclick="selectValue('fill', this)">
+      <div class="value-preview v-fill">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="fill"
+          class="grid-img"
+        />
+      </div>
+      <p class="value-name">fill</p>
+    </div>
+    <div class="value-card" onclick="selectValue('none', this)">
+      <div class="value-preview v-none">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="none"
+          class="grid-img"
+        />
+      </div>
+      <p class="value-name">none</p>
+    </div>
+    <div class="value-card" onclick="selectValue('scale-down', this)">
+      <div class="value-preview v-scale-down">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="scale-down"
+          class="grid-img"
+        />
+      </div>
+      <p class="value-name">scale-down</p>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <p class="slabel">Detail</p>
+  <div class="detail">
+    <div class="detail-preview" id="detail-preview">
+      <img
+        src="https://picsum.photos/seed/of-land/600/400"
+        alt="Preview"
+        id="detail-img"
+      />
+    </div>
+    <div class="detail-info" id="detail-info">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- object-position section -->
+  <p class="slabel">Bonus: object-position</p>
+  <div class="position-section">
+    <p class="position-title">
+      Controlling the crop with <code style="color:var(--accent);font-size:12px"
+        >object-position</code>
+    </p>
+    <p class="position-desc">
+      When <code>object-fit: cover</code> crops an image, <code
+        >object-position</code
+      > controls which part stays visible. The default is <code>center</code> — but
+      you can pin to any edge or use exact coordinates.
+    </p>
+
+    <div class="position-grid">
+      <button class="pos-btn" onclick="setPosition('top left', this)"
+        >top left</button
+      >
+      <button class="pos-btn" onclick="setPosition('top center', this)"
+        >top</button
+      >
+      <button class="pos-btn" onclick="setPosition('top right', this)"
+        >top right</button
+      >
+      <button class="pos-btn" onclick="setPosition('center left', this)"
+        >left</button
+      >
+      <button class="pos-btn active" onclick="setPosition('center', this)"
+        >center ✓</button
+      >
+      <button class="pos-btn" onclick="setPosition('center right', this)"
+        >right</button
+      >
+      <button class="pos-btn" onclick="setPosition('bottom left', this)"
+        >bottom left</button
+      >
+      <button class="pos-btn" onclick="setPosition('bottom center', this)"
+        >bottom</button
+      >
+      <button class="pos-btn" onclick="setPosition('bottom right', this)"
+        >bottom right</button
+      >
+    </div>
+
+    <div class="position-preview-wrap">
+      <div class="position-preview">
+        <img
+          src="https://picsum.photos/seed/of-land/600/400"
+          alt="object-position preview"
+          id="pos-img"
+        />
+      </div>
+      <div class="position-code">
+        <span style="color:var(--text-dim)">object-fit: cover;</span><br />
+        object-position: <span class="highlight" id="pos-label">center</span>;
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <code>object-fit</code> works on any replaced element — <code
+      >&lt;img&gt;</code
+    >, <code>&lt;video&gt;</code>, <code>&lt;iframe&gt;</code>. Browser support:
+    Chrome 32+, Firefox 36+, Safari 10+, Edge 16+. ·
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit"
+      target="_blank"
+      rel="noopener">MDN reference ↗</a
+    >
+  </footer>
+</div>
+
+<script is:inline>
+  // ── Data ──────────────────────────────────────────────────────────────────
+  const images = [
+    { seed: "of-land", w: 600, h: 400, label: "Landscape (3:2)" },
+    { seed: "of-port", w: 400, h: 600, label: "Portrait (2:3)" },
+    { seed: "of-sq", w: 500, h: 500, label: "Square (1:1)" },
+    { seed: "of-wide", w: 800, h: 240, label: "Very wide (10:3)" },
+  ];
+
+  const values = {
+    cover: {
+      name: "cover",
+      headline: "Fills the box. Crops if needed.",
+      desc: "Scales the image up until it completely fills the container in both dimensions. If the image's aspect ratio differs from the container, it's cropped. The image is never distorted.",
+      metaphor:
+        "Like zooming in on a photo to fill a frame — some edges get cut off, but there's no empty space.",
+      uses: [
+        "Card thumbnails",
+        "Hero images",
+        "Profile photos",
+        "Grid layouts",
+      ],
+      recommended: true,
+    },
+    contain: {
+      name: "contain",
+      headline: "Shows the whole image. May letterbox.",
+      desc: "Scales the image down (or up) until it fits entirely within the container. The full image is always visible. If the aspect ratios differ, empty space (letterboxing) appears on two sides.",
+      metaphor:
+        "Like fitting a photo into a frame without cropping — you see everything, but there may be gaps.",
+      uses: ["Logos", "Product images", "Diagrams", "Infographics"],
+    },
+    fill: {
+      name: "fill",
+      headline: "Stretches to fit. Distorts the image.",
+      desc: "Stretches the image to exactly fill the container, ignoring the image's natural aspect ratio. The image is always fully visible but will be distorted if the container ratio differs.",
+      metaphor:
+        "Like stretching a photo to fit a frame that's the wrong shape. Everything fits — but it looks wrong.",
+      uses: ["Almost never — prefer cover or contain"],
+      warning: true,
+    },
+    none: {
+      name: "none",
+      headline: "Natural size. May overflow or be tiny.",
+      desc: "The image is displayed at its natural pixel dimensions, regardless of the container size. The container clips any overflow. Useful when you need pixel-perfect rendering at a specific size.",
+      metaphor:
+        "Placing a photo in a frame and leaving it at its original size — uncropped, unsized.",
+      uses: ["Pixel art", "Icons at fixed sizes", "Specific layout needs"],
+    },
+    "scale-down": {
+      name: "scale-down",
+      headline: "Smaller of none or contain.",
+      desc: "Compares the result of none and contain, then uses whichever produces the smaller image. The image is never scaled up beyond its natural size — it can only stay the same size or shrink.",
+      metaphor:
+        "Only scale down if needed, but never scale up. A sensible default for images that might be displayed larger than their natural size.",
+      uses: [
+        "Small icons in variable containers",
+        "When you want contain behaviour but only when necessary",
+      ],
+    },
+  };
+
+  let currentValue = "cover";
+  let currentImageIdx = 0;
+  let currentPosition = "center";
+
+  // ── Image switching ───────────────────────────────────────────────────────
+  function setImage(idx, btn) {
+    currentImageIdx = idx;
+    const img = images[idx];
+    const src = `https://picsum.photos/seed/${img.seed}/${img.w}/${img.h}`;
+
+    // Update all grid images
+    document.querySelectorAll(".grid-img").forEach((i) => (i.src = src));
+
+    // Update detail image
+    document.getElementById("detail-img").src = src;
+
+    // Update position preview
+    document.getElementById("pos-img").src = src;
+
+    // Active state
+    document
+      .querySelectorAll(".img-thumb-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  window.setImage = setImage;
+
+  // ── Value selection ───────────────────────────────────────────────────────
+  function selectValue(value, card) {
+    if (!card) return;
+    currentValue = value;
+    const data = values[value];
+
+    // Update active card
+    document
+      .querySelectorAll(".value-card")
+      .forEach((c) => c.classList.remove("active"));
+    card.classList.add("active");
+
+    // Update detail image object-fit
+    const detailImg = document.getElementById("detail-img");
+    if (detailImg) detailImg.style.objectFit = value;
+
+    // Update detail info
+    const info = document.getElementById("detail-info");
+    if (info)
+      info.innerHTML = `
+      <div class="detail-value-name"><code>object-fit: ${data.name}</code></div>
+      <p class="detail-desc">${data.desc}</p>
+      <p class="detail-metaphor">${data.metaphor}</p>
+      <div class="detail-use">
+        <strong>Best for</strong>
+        ${data.uses.map((u) => `<span class="tag">${u}</span>`).join("")}
+      </div>
+    `;
+  }
+  window.selectValue = selectValue;
+
+  // ── object-position ───────────────────────────────────────────────────────
+  function setPosition(pos, btn) {
+    if (!btn) return;
+    currentPosition = pos;
+    const posImg = document.getElementById("pos-img");
+    const posLabel = document.getElementById("pos-label");
+    if (posImg) posImg.style.objectPosition = pos;
+    if (posLabel) posLabel.textContent = pos;
+
+    document
+      .querySelectorAll(".pos-btn")
+      .forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+  window.setPosition = setPosition;
+
+  // ── Init ──────────────────────────────────────────────────────────────────
+  window.addEventListener("DOMContentLoaded", () => {
+    const initialCard =
+      document.querySelector(".value-card.active") ||
+      document.querySelector(".value-card");
+    if (initialCard) selectValue("cover", initialCard);
+
+    const detailImg = document.getElementById("detail-img");
+    if (detailImg) detailImg.style.objectFit = "cover";
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf8ef;
+    --surface: #f0ece0;
+    --surface-2: #e8e3d5;
+    --border: #d4cfc0;
+    --text: #222222;
+    --text-dim: #6b6659;
+    --accent: #2c5364;
+    --mono: "DM Mono", ui-monospace, monospace;
+    --serif: "Tiempos", Georgia, serif;
+    --r: 6px;
+  }
+
+  /* ── Header ── */
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .intro {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Image selector ── */
+  .img-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .img-selector-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .img-thumb-btn {
+    width: clamp(36px, 10vw, 48px);
+    height: clamp(36px, 10vw, 48px);
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+    flex-shrink: 0;
+  }
+
+  .img-thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .img-thumb-btn:hover {
+    border-color: var(--text-dim);
+    transform: scale(1.05);
+  }
+  .img-thumb-btn.active {
+    border-color: var(--accent);
+  }
+
+  /* ── Value grid — 5 thumbnails ── */
+  .slabel {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .slabel::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 560px) {
+    .values-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 360px) {
+    .values-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .value-name {
+      font-size: 10px;
+      padding: 4px 2px;
+    }
+  }
+
+  .value-card {
+    cursor: pointer;
+    border-radius: var(--r);
+    border: 2px solid var(--border);
+    overflow: hidden;
+    background: var(--surface);
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+  }
+
+  .value-card:hover {
+    border-color: var(--text-dim);
+    transform: translateY(-2px);
+  }
+  .value-card.active {
+    border-color: var(--accent);
+  }
+
+  .value-preview {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--surface-2);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Checkerboard background shows empty space for contain/none/scale-down */
+  .value-preview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(45deg, #d4cfc0 25%, transparent 25%),
+      linear-gradient(-45deg, #d4cfc0 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #d4cfc0 75%),
+      linear-gradient(-45deg, transparent 75%, #d4cfc0 75%);
+    background-size: 12px 12px;
+    background-position:
+      0 0,
+      0 6px,
+      6px -6px,
+      -6px 0px;
+    opacity: 0.4;
+  }
+
+  .value-preview img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative; /* above ::before */
+  }
+
+  /* object-fit values applied */
+  .value-preview.v-cover img {
+    object-fit: cover;
+  }
+  .value-preview.v-contain img {
+    object-fit: contain;
+  }
+  .value-preview.v-fill img {
+    object-fit: fill;
+  }
+  .value-preview.v-none img {
+    object-fit: none;
+  }
+  .value-preview.v-scale-down img {
+    object-fit: scale-down;
+  }
+
+  .value-name {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-align: center;
+    padding: 6px 4px;
+    color: var(--text-dim);
+    transition: color 0.15s;
+  }
+
+  .value-card.active .value-name {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── Detail panel ── */
+  .detail {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 24px;
+    min-height: 280px;
+  }
+
+  @media (max-width: 540px) {
+    .detail {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .detail-preview {
+    background: var(--surface-2);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Checkerboard for letterboxing cases */
+  .detail-preview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(45deg, #d4cfc0 25%, transparent 25%),
+      linear-gradient(-45deg, #d4cfc0 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #d4cfc0 75%),
+      linear-gradient(-45deg, transparent 75%, #d4cfc0 75%);
+    background-size: 16px 16px;
+    background-position:
+      0 0,
+      0 8px,
+      8px -8px,
+      -8px 0px;
+    opacity: 0.35;
+  }
+
+  .detail-preview img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    min-height: 0; /* prevent overflow on flex parents */
+  }
+
+  .detail-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-left: 1px solid var(--border);
+  }
+
+  @media (max-width: 540px) {
+    .detail-info {
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  .detail-value-name {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  .detail-value-name code {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .detail-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .detail-metaphor {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-style: italic;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-left: 3px solid var(--border);
+    border-radius: 0 4px 4px 0;
+    line-height: 1.6;
+  }
+
+  .detail-use {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+  }
+
+  .detail-use strong {
+    color: var(--text);
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(44, 83, 100, 0.08);
+    border: 1px solid rgba(44, 83, 100, 0.2);
+    color: var(--accent);
+    margin: 2px 2px 0 0;
+  }
+
+  /* ── object-position section ── */
+  .position-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .position-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .position-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .position-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 400px;
+  }
+
+  @media (max-width: 440px) {
+    .position-grid {
+      max-width: 100%;
+    }
+    .pos-btn {
+      font-size: 10px;
+      padding: 6px 4px;
+    }
+  }
+
+  .pos-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+
+  .pos-btn:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+  .pos-btn.active {
+    border-color: var(--accent);
+    background: rgba(44, 83, 100, 0.06);
+    color: var(--accent);
+  }
+
+  .position-preview-wrap {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  @media (max-width: 480px) {
+    .position-preview-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .position-preview {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .position-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: object-position 0.3s ease;
+  }
+
+  .position-code {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    align-self: center;
+  }
+
+  .position-code .highlight {
+    color: var(--accent);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer a {
+    color: var(--text-dim);
+  }
+</style>

@@ -9,6 +9,9 @@ tags:
 growth: growing
 ---
 
+import ObjectFitDemo1 from '../../components/demos/ObjectFitDemo1.astro';
+import ObjectFitDemo2 from '../../components/demos/ObjectFitDemo2.astro';
+
 ## The Silent Killer of Web Performance
 
 Imagine a scenario where you're reading content on a website, when suddenly, an image appears out of nowhere, causing the layout to shift and disrupt your reading flow. In modern web development, there's enough tools at our disposal to prevent suboptimal layouts, especially when it comes to images causing reflow issues. Using Object-Fit, we can ensure that images not only maintain their respective aspect-ratio as the browser responds to the screen width, but also that while the page loads, the layout remains stable and predictable. This prevents Cumulative Layout Shift (CLS), which is a key metric in Google's Core Web Vitals, and ensures a smooth user experience. It is, by far, the most effective way to ensure that performance is not affected negatively by image loading.
@@ -17,105 +20,7 @@ Imagine a scenario where you're reading content on a website, when suddenly, an 
 
 This is the problem we're trying to solve	with Object-Fit. It's quite prevalent on older sites, or ones that haven't yet adopted effective responsive design practices. By refreshing the page, if it wasn't noticeable on page load, the example below - our 'bad behavior' demo - will highlight exactly the issue that Object-Fit solves. These images have none of these practices, nor size attributes which means that not only do we have a decreased Cumulative Layout Shift (CLS) score, but a poor user experience. The card content will appear first at the top of the row, until the image loads, where it will then shift down to its expected position. Pretty nasty, right? Couple this with a slow internet connection, and it can become a real nightmare, and fast.
 
-<style>{`
-	
-.bad-example,
-.good-example {
-	background-color: var(--color-dark);
-	color: var(--color-light);
-	padding: 1rem;
-	
-	img {
-		border: 1px solid var(--color-light);
-	}
-}
-
-.card {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-m);
-}
-
-.card__contents {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-s);
-	padding-inline: var(--space-xs);
-}
-
-.good-image {
-	aspect-ratio: 16 / 9;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-`}</style>
-
-<div class="grid [--grid-placement:2] mdw:[--grid-placement:4] lg:[--grid-placement:4] gap-10 bad-example">
-  <div class="card">
-      <img class="bad-image" src="https://picsum.photos/450/800" alt="Image 1" />
-      <div class="card__contents">
-        <span class="h3">Card Title (Will Jump)</span>
-        <p>This text and all content below it will visibly jump down when the image with a 9/16 image ratio is loaded.</p>
-      </div>
-  </div>
-  <div class="card">
-      <img class="bad-image" src="https://picsum.photos/1000/1000" alt="Image 2" />
-      <div class="card__contents">
-        <span class="h3">Card Title (Will Jump)</span>
-        <p>This text and all content below it will visibly jump down when the image with a 1/1 image ratio is loaded.</p>
-      </div>
-  </div>
-  <div class="card">
-      <img class="bad-image" src="https://picsum.photos/650/300" alt="Image 1" />
-      <div class="card__contents">
-          <span class="h3">Card Title (Will Jump)</span>
-          <p>This text and all content below it will visibly jump down when the image with a 13/6 image ratio is loaded.</p>
-      </div>
-  </div>
-  <div class="card">
-      <img class="bad-image" src="https://picsum.photos/400/700" alt="Image 2" />
-      <div class="card__contents">
-          <span class="h3">Card Title (Will Jump)</span>
-          <p>This text and all content below it will visibly jump down when the image with a 4/7 image ratio is loaded.</p>
-      </div>
-  </div>
-</div>
-  
-Gross isn't it, and not what we expect in 2025. The lack of consistent image ratios not only causes some pretty nasty layout shifts, but also makes it just look bad. Let's compare the same card grid, but with a consistent image ratio of 16/9 set on the image class name `good-image`.
-
-<div class="grid [--grid-placement:2] mdw:[--grid-placement:4] lg:[--grid-placement:4] gap-10 good-example">
-    {/* GOOD EXAMPLE COLUMN (Zero CLS Demo) */}
-    <div class="card">
-        <img class="good-image" src="https://picsum.photos/450/800" alt="Image 1" />
-        <div class="card__contents">
-          <span class="h3">Card Title (Will Jump)</span>
-          <p>This text and all content below it will visibly jump down when the image with a 9/16 image ratio is loaded.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="good-image" src="https://picsum.photos/1000/1000" alt="Image 2" />
-        <div class="card__contents">
-          <span class="h3">Card Title (Will Jump)</span>
-          <p>This text and all content below it will visibly jump down when the image with a 1/1 image ratio is loaded.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="good-image" src="https://picsum.photos/650/300" alt="Image 1" />
-        <div class="card__contents">
-            <span class="h3">Card Title (Will Jump)</span>
-            <p>This text and all content below it will visibly jump down when the image with a 13/6 image ratio is loaded.</p>
-        </div>
-    </div>
-    <div class="card">
-        <img class="good-image" src="https://picsum.photos/400/700" alt="Image 2" />
-        <div class="card__contents">
-            <span class="h3">Card Title (Will Jump)</span>
-            <p>This text and all content below it will visibly jump down when the image with a 4/7 image ratio is loaded.</p>
-        </div>
-    </div>
-</div>
+<ObjectFitDemo1 />
 
 ## Section 1: The One-Line Savior: object-fit Explained (350 Words)
 
@@ -146,6 +51,8 @@ Briefly introduce the companion property, object-position, which allows for cont
 ## Section 2: Mastering Aspect Ratios for CLS Zero (250 Words)
 
 This is the key connection to Responsive Design Standards. We must explicitly state that object-fit alone is insufficient for CLS prevention. It is the control property, but the container must have a fixed ratio. We will contrast the deprecated "padding hack" with the modern, elegant aspect-ratio CSS property. This combination ensures the container space is reserved instantly, eliminating CLS, while object-fit handles the visual display of the image inside that reserved space.
+
+<ObjectFitDemo2 />
 
 ## Section 3: Cropping for Optimization: A Performance Hack (250 Words)
 

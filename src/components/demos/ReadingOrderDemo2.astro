@@ -392,15 +392,18 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   };
 
   function playSequence(panel) {
+    const steps = gridSequences[panel];
+    if (!steps?.length) return;
     const btn = document.getElementById("play-" + panel);
     const isBad = panel === "bad";
     const color = isBad ? "var(--accent)" : "var(--good)";
     const litClass = isBad ? "lit-bad" : "lit-good";
-    const steps = gridSequences[panel];
     const STEP_MS = 900;
 
-    btn.disabled = true;
-    btn.textContent = "▶ Playing…";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "▶ Playing…";
+    }
 
     // Reset tracker
     document.querySelectorAll(`#panel-${panel} .t-step`).forEach((s) => {
@@ -435,13 +438,13 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         if (el) {
           el.style.setProperty(
             "--playing-color",
-            isBad ? "#ff5c35" : "#4ade80",
+            isBad ? "#b94a38" : "#2c5364",
           );
           el.classList.add("playing");
           const badge = el.querySelector(".play-badge");
           if (badge) {
             badge.textContent = n;
-            badge.style.background = isBad ? "#ff5c35" : "#4ade80";
+            badge.style.background = isBad ? "#b94a38" : "#2c5364";
           }
           el.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
@@ -460,30 +463,46 @@ import PlaceholderImage from "../PlaceholderImage.astro";
           const badge = last.querySelector(".play-badge");
           if (badge) badge.textContent = "";
         }
-        btn.disabled = false;
-        btn.textContent = "▶ Simulate focus order";
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "▶ Simulate focus order";
+        }
       },
       steps.length * STEP_MS + 600,
     );
   }
+  window.playSequence = playSequence;
 </script>
 
 <style>
+  :root {
+    --bg: #fbf8ef;
+    --surface: #f0ece0;
+    --surface-2: #e8e3d5;
+    --border: #d4cfc0;
+    --text: #222222;
+    --text-dim: #6b6659;
+    --accent: #b94a38;
+    --good: #2c5364;
+    --mono: "DM Mono", ui-monospace, monospace;
+    --serif: "Tiempos", Georgia, serif;
+    --r: 8px;
+  }
   /* ── Header ── */
   .demo-header {
     padding-block-end: 32px;
   }
 
   .eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.14em;
+    font-size: 11px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--accent);
     margin-bottom: 0.6rem;
   }
 
   h1 {
-    font-family: var(--font-base);
+    font-family: var(--serif);
     font-size: clamp(1.5rem, 3.5vw, 2.2rem);
     font-weight: 300;
     line-height: 1.2;
@@ -492,12 +511,13 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   h1 em {
     font-style: italic;
-    color: var(--color-dark);
+    color: var(--text-dim);
   }
 
   .intro {
     font-size: 13px;
-    color: var(--color-dark);
+    color: var(--text-dim);
+    max-width: 540px;
     line-height: 1.7;
   }
 
@@ -505,19 +525,22 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .tabs {
     display: flex;
     gap: 2px;
-    background: var(--color-light);
-    border: 1px solid var(--color-dark);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-bottom: none;
+    border-radius: var(--r) var(--r) 0 0;
+    padding: 6px 6px 0;
   }
 
   .tab {
-    font-family: var(--font-base);
-    font-size: 14px;
-    padding: 16px 16px 8px;
-    background: var(--color-light);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 8px 16px;
+    background: transparent;
     border: none;
-    color: var(--color-dark);
+    color: var(--text-dim);
     cursor: pointer;
+    border-radius: 4px 4px 0 0;
     transition:
       color 0.15s,
       background 0.15s;
@@ -525,25 +548,26 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .tab:hover {
-    color: var(--color-dark);
-    background: rgb(from var(--feature-color) r g b / 0.12);
+    color: var(--text);
+    background: var(--surface-2);
   }
   .tab.active {
-    color: var(--color-white);
-    background: var(--color-dark);
+    color: var(--text);
+    background: var(--bg);
   }
   .tab.active.is-bad {
-    color: var(--color-white);
+    color: var(--accent);
   }
   .tab.active.is-good {
-    color: var(--feature-color);
+    color: var(--good);
   }
 
   /* ── Panel ── */
   .panel {
     display: none;
-    background: var(--color-dark);
-    border: 1px solid var(--color-dark);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 0 var(--r) var(--r) var(--r);
     padding: 1.5rem;
   }
 
@@ -556,42 +580,39 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-dark);
+    color: var(--text-dim);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .panel .slabel {
-    color: var(--color-light);
-  }
-
   .slabel::after {
     content: "";
     flex: 1;
     height: 1px;
-    background: var(--color-dark);
+    background: var(--border);
   }
 
   /* ── THE GRID ── */
 
   /*
-    DOM order: feature(1) · article-a(2) · article-b(3) · cta(4)
+      DOM order: feature(1) · article-a(2) · article-b(3) · cta(4)
 
-    Visual layout:
-    ┌──────────┬──────────┐
-    │  CTA     │ feature  │
-    ├──────┬───┴──────────┤
-    │ art-a│   art-b      │
-    └──────┴──────────────┘
-  */
+      Visual layout:
+      ┌──────────┬──────────┐
+      │  CTA     │ feature  │
+      ├──────┬───┴──────────┤
+      │ art-a│   art-b      │
+      └──────┴──────────────┘
+    */
 
   .editorial-grid {
     display: grid;
     gap: 1px;
-    background: var(--color-dark); /* gap colour via bg trick */
-    border: 1px solid var(--color-dark);
+    background: var(--border); /* gap colour via bg trick */
+    border: 1px solid var(--border);
+    border-radius: var(--r);
     overflow: hidden;
     margin-bottom: 1.5rem;
 
@@ -634,7 +655,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* ── Cell base ── */
   .cell {
-    background: var(--color-light);
+    background: var(--surface);
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
@@ -645,17 +666,17 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   .cell-feature {
     min-height: 200px;
-    border-bottom: 1px solid var(--color-dark);
   }
 
   .dom-tag {
     display: inline-block;
     font-size: 10px;
     letter-spacing: 0.05em;
-    background: rgb(from var(--feature-color) r g b / 0.3);
-    border: 1px solid var(--color-dark);
-    color: var(--color-dark);
-    padding: 4px 8px 2px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 2px 8px;
+    border-radius: 20px;
     align-self: flex-start;
     margin-bottom: 0.25rem;
   }
@@ -664,14 +685,14 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-dark);
+    color: var(--text-dim);
   }
 
   .cell-title {
-    font-family: var(--font-base);
+    font-family: var(--serif);
     font-weight: 300;
     line-height: 1.25;
-    color: var(--color-dark);
+    color: var(--text);
   }
 
   .cell-feature .cell-title {
@@ -679,20 +700,16 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
   .cell-art-a .cell-title,
   .cell-art-b .cell-title {
-    font-size: 1.25rem;
+    font-size: 0.95rem;
   }
   .cell-cta .cell-title {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     font-style: italic;
   }
 
-  .cell-cta > * {
-    color: var(--color-light);
-  }
-
   .cell-excerpt {
-    font-size: 14px;
-    color: var(--color-dark);
+    font-size: 12px;
+    color: var(--text-dim);
     line-height: 1.6;
     -webkit-line-clamp: 3;
     display: -webkit-box;
@@ -701,25 +718,24 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .cell-link {
-	  margin-top: auto;
-	  display: inline-block;
-	  font-size: 14px;
-	  padding: 6px 10px;
-	  background: var(--color-light);
-	  color: var(--color-dark);
-	  text-decoration: none;
-	  border: 1px solid var(--color-dark);
-	  cursor: pointer;
-	  font-family: var(--mono);
-	  transition:
-	    border-color 0.15s,
-	    background 0.15s;
-	  align-self: flex-start;
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
   }
 
   .cell-link:hover {
-    background: var(--color-dark);
-    color: var(--color-light);
+    background: var(--border);
   }
   .cell-link:focus {
     outline: none;
@@ -728,41 +744,41 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   /* Focus rings — orange for broken, green for fixed */
   .panel-bad .cell-link:focus-visible {
     box-shadow:
-      0 0 0 2px var(--color-dark),
-      0 0 0 4px var(--color-accent);
-    border-color: var(--color-accent);
+      0 0 0 2px var(--bg),
+      0 0 0 4px rgba(185, 74, 56, 0.5);
+    border-color: var(--accent);
   }
 
   .panel-good .cell-link:focus-visible {
     box-shadow:
-      0 0 0 2px var(--color-dark),
-      0 0 0 4px var(--feature-color);
-    border-color: var(--feature-color);
+      0 0 0 2px var(--bg),
+      0 0 0 4px rgba(44, 83, 100, 0.5);
+    border-color: var(--good);
   }
 
   /* CTA cell accent */
   .cell-cta {
-    border: 1px solid var(--color-light);
-    border-left: 3px solid var(--color-dark);
+    background: #161616;
+    border-left: 3px solid var(--border);
   }
 
   .panel-bad .cell-cta {
-    border-color: var(--color-accent);
+    border-color: var(--accent);
   }
   .panel-good .cell-cta {
-    border-color: var(--feature-color);
+    border-color: var(--good);
   }
 
   .cell-cta .cell-link {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-light);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
   }
 
   .panel-good .cell-cta .cell-link {
-    background: var(--feature-color);
-    border-color: var(--feature-color);
-    color: var(--color-dark);
+    background: var(--good);
+    border-color: var(--good);
+    color: #fff;
   }
 
   .cell-cta .cell-link:hover {
@@ -777,39 +793,41 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--feature-color), transparent);
+    background: linear-gradient(90deg, var(--surface-2), transparent);
   }
 
   /* ── Explainer ── */
   .explainer {
-    background: rgb(from var(--feature-color) r g b / 0.12);
-    border-left: 3px solid var(--color-dark);
-    padding: 1rem;
-    margin: 1.5rem 0;
     font-size: 12px;
-    color: var(--color-dark);
     line-height: 1.7;
+    color: var(--text-dim);
+    background: var(--surface);
+    border-left: 3px solid var(--border);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .explainer.bad {
-    border-color: var(--color-accent);
+    border-color: var(--accent);
   }
   .explainer.good {
-    border-color: var(--feature-color);
+    border-color: var(--good);
   }
   .explainer strong {
-    color: var(--color-dark);
+    color: var(--text);
     font-weight: 500;
   }
   .explainer code {
     font-size: 11px;
-    color: var(--color-dark);
+    color: var(--text);
   }
 
   /* ── Focus tracker ── */
   .tracker {
-    background: var(--color-light);
-    border: 1px solid var(--color-dark);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
     padding: 1rem 1.25rem;
   }
 
@@ -817,7 +835,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-size: 11px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--color-dark);
+    color: var(--text-dim);
     margin-bottom: 0.75rem;
   }
 
@@ -833,22 +851,23 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .t-step {
     font-size: 11px;
     padding: 3px 10px;
-    background: rgb(from var(--feature-color) r g b / 0.2) !important;
-    border: 1px solid var(--color-dark);
-    color: var(--color-dark);
+    border-radius: 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
     transition: all 0.2s;
     white-space: nowrap;
   }
 
   .t-step.lit-bad {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
+    background: var(--accent);
+    border-color: var(--accent);
     color: #fff;
   }
   .t-step.lit-good {
-    background: var(--feature-color);
-    border-color: var(--feature-color);
-    color: var(--color-dark);
+    background: var(--good);
+    border-color: var(--good);
+    color: #fff;
   }
   .t-step.done {
     opacity: 0.4;
@@ -860,28 +879,30 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .verdict {
-    font-size: 14px;
+    font-size: 12px;
     padding: 0.5rem 0.75rem;
+    border-radius: 4px;
     line-height: 1.5;
   }
 
   .verdict.bad {
-    background: rgba(255, 92, 53, 0.07);
-    border: 1px solid rgba(255, 92, 53, 0.2);
-    color: var(--color-accent);
+    background: rgba(185, 74, 56, 0.07);
+    border: 1px solid rgba(185, 74, 56, 0.2);
+    color: var(--accent);
   }
   .verdict.good {
-    background: rgba(74, 222, 128, 0.07);
-    border: 1px solid rgba(74, 222, 128, 0.2);
-    color: var(--feature-color);
+    background: rgba(44, 83, 100, 0.07);
+    border: 1px solid rgba(44, 83, 100, 0.2);
+    color: var(--good);
   }
 
   /* ── Code ── */
   .code {
-    background: var(--color-light);
-    border: 1px solid var(--color-dark);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
     padding: 1rem 1.25rem;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.8;
     overflow-x: auto;
     white-space: pre;
@@ -889,22 +910,22 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .c-comment {
-    color: #484848;
+    color: #9a9080;
   }
   .c-sel {
-    color: #94a3b8;
+    color: #555047;
   }
   .c-prop {
-    color: #7dd3fc;
+    color: #2c5364;
   }
   .c-val {
-    color: #f9a8d4;
+    color: #8b3a3a;
   }
   .c-area {
-    color: #fbbf24;
+    color: #7a5c1e;
   }
   .c-new {
-    color: var(--feature-color);
+    color: var(--good);
   }
 
   /* ── Order map ── */
@@ -912,54 +933,56 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1px;
-    background: var(--color-dark);
-    border: 1px solid var(--color-dark);
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
     overflow: hidden;
     margin-bottom: 1.5rem;
     font-size: 11px;
   }
 
   .map-grid .mh {
-    background: var(--feature-color);
+    background: var(--surface-2);
     padding: 6px 10px;
-    color: var(--color-dark);
+    color: var(--text-dim);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     font-size: 10px;
   }
 
   .map-grid .mc {
-    background: var(--color-light);
+    background: var(--surface);
     padding: 8px 10px;
-    color: var(--color-text);
+    color: var(--text);
   }
 
   .map-grid .mc span {
     display: inline-block;
     padding: 2px 7px;
+    border-radius: 20px;
     font-size: 10px;
   }
 
   .t-dom {
-    background: #252525;
-    border: 1px solid #404040;
-    color: var(--color-dark);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
   }
   .t-vis {
-    background: rgba(255, 92, 53, 0.1);
-    border: 1px solid rgba(255, 92, 53, 0.25);
-    color: var(--color-accent);
+    background: rgba(185, 74, 56, 0.1);
+    border: 1px solid rgba(185, 74, 56, 0.25);
+    color: var(--accent);
   }
   .t-fix {
-    background: rgba(74, 222, 128, 0.1);
-    border: 1px solid rgba(74, 222, 128, 0.25);
-    color: var(--feature-color);
+    background: rgba(44, 83, 100, 0.1);
+    border: 1px solid rgba(44, 83, 100, 0.25);
+    color: var(--good);
   }
 
   /* ── Hint ── */
   .hint {
     font-size: 11px;
-    color: var(--color-light);
+    color: var(--text-dim);
     margin-top: 1rem;
     display: flex;
     align-items: center;
@@ -967,14 +990,96 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     flex-wrap: wrap;
   }
 
+  .hint-mobile {
+    display: flex;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .hint-mobile {
+      display: flex;
+    }
+  }
+
+  .play-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 8px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+  }
+
+  .play-btn:hover {
+    background: var(--border);
+  }
+  .play-btn:active {
+    transform: scale(0.98);
+  }
+  .play-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cell.playing {
+    outline: 2px solid var(--playing-color, var(--accent));
+    outline-offset: -2px;
+    box-shadow:
+      inset 0 0 0 1px var(--playing-color, var(--accent)),
+      0 4px 12px rgba(0, 0, 0, 0.12);
+    transition:
+      outline 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .play-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--playing-color, var(--accent));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .panel-good .play-badge {
+    color: #000;
+  }
+  .cell.playing .play-badge {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   .key {
     display: inline-block;
-    background: var(--feature-color);
-    border: 1px solid #444;
-    border-bottom: 2px solid #444;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    border-radius: 4px;
     padding: 1px 7px;
     font-size: 11px;
-    color: var(--color-text);
+    color: var(--text);
   }
 
   /* ── Visual layout diagram ── */
@@ -985,59 +1090,61 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     grid-template-areas: "cta feature" "art-a art-b";
     gap: 3px;
     margin-bottom: 1rem;
-    max-width: 50%;
+    font-size: 11px;
+    max-width: 320px;
   }
 
   .ld-cell {
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 2px;
-    font-size: 14px;
-    letter-spacing: 0.03em;
+    font-size: 10px;
+    letter-spacing: 0.05em;
   }
 
   .ld-cell .name {
-    color: var(--color-text);
+    color: var(--text);
   }
   .ld-cell .pos {
-    color: var(--color-dark);
-    font-size: 12px;
+    color: var(--text-dim);
+    font-size: 9px;
   }
 
   .ld-cta {
     grid-area: cta;
-    background: rgba(255, 92, 53, 0.08);
-    border: 1px solid rgba(255, 92, 53, 0.2);
+    background: rgba(185, 74, 56, 0.08);
+    border: 1px solid rgba(185, 74, 56, 0.2);
   }
   .ld-feature {
     grid-area: feature;
-    background: rgb(from var(--feature-color) r g b / 0.2) !important;
-    border: 1px solid var(--color-dark);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
   }
   .ld-arta {
     grid-area: art-a;
-    background: rgb(from var(--feature-color) r g b / 0.2) !important;
-    border: 1px solid var(--color-dark);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
   }
   .ld-artb {
     grid-area: art-b;
-    background: rgb(from var(--feature-color) r g b / 0.2) !important;
-    border: 1px solid var(--color-dark);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
   }
 
   /* ── Footer ── */
   .footer {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--color-dark);
+    border-top: 1px solid var(--border);
     font-size: 11px;
-    color: #484848;
+    color: var(--text-dim);
     line-height: 1.7;
   }
 
   .footer a {
-    color: var(--color-dark);
+    color: var(--text-dim);
   }
 </style>

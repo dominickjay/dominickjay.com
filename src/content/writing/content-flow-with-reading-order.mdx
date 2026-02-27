@@ -13,6 +13,7 @@ draft: true
 
 import ReadingOrderDemo1 from '../../components/demos/ReadingOrderDemo1.astro';
 import ReadingOrderDemo2 from '../../components/demos/ReadingOrderDemo2.astro';
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import FYIBlock from '../../components/FYIBlock.astro';
 
 ## The Accessibility Gap: When Visual Order Betrays Logical Order
@@ -43,17 +44,20 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 
     .reading-order-card date {
         order: 2;
+        font-size: 10px;
+        color: var(--color-dark);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
     }
 
     .reading-order-card span,
     .reading-order-card > a {
         order: 3;
-        font-family: var(--font-heading);
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 1.2;
-        letter-spacing: -0.04em;
-        text-decoration: none;
+        font-family: var(--font-base);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.3;
+        color: var(--color-dark);
         &::before,
        &::after {
         	content: none;
@@ -81,10 +85,19 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 }
 ```
 
-<article class="reading-order-card">
-    <date datetime="2025-10-30">20th October 2025</date>
-    <span>Card title</span>
-    <img src="https://placehold.co/343x100" alt="Card image" />
+<article class="card card-b" tabindex="-1">
+    <span class="dom-badge">DOM: 2nd</span>
+    <PlaceholderImage width={343} height={100} />
+    <div class="card-body">
+    <span class="card-meta">18 Oct 2025 · Article</span>
+    <h3 class="card-title">Article B</h3>
+    <a
+        href="#"
+        class="card-link"
+        id="link-b"
+        onclick="return false"
+    >Read more →</a>
+    </div>
 </article>
 
 Visually, we've got our card layout looking like this; an image, then a date, then a title. Pretty generic stuff, but when a screen reader user traverses this layout, the order of the content is not what we would expect. The image is announced first, then the date, then the title. This is because the screen reader is reading the content in the order of the DOM, not the visual order.
@@ -101,7 +114,8 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
         grid-template-columns: 1fr 1fr 1fr;
         grid-template-areas:
         "cta article-a article-b"
-        "article-c cta-2 article-d"
+        "article-c cta-2 article-d";
+        gap: 16px;
     }
 
     @media (width <= 768px) {
@@ -191,8 +205,8 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
         <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
-    <a href="#" class="item item--3" tabindex="0" aria-label="Read more about this article">
-      <img src="https://placehold.co/373x248" alt="Card image" />
+    <a href="#" class="item item--3 w-full" tabindex="0" aria-label="Read more about this article">
+      <img class="h-full object-cover" src="https://placehold.co/373x248" alt="Card image" />
     </a>
 
     <article class="reading-order-card reading-order-card--4">
@@ -207,8 +221,8 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
         <img src="https://placehold.co/343x100" alt="Card image" />
     </article>
 
-    <a href="#" class="item item--6" tabindex="0" aria-label="Read more about this article">
-      <img src="https://placehold.co/373x248" alt="Card image" />
+    <a href="#" class="item item--6 w-full" tabindex="0" aria-label="Read more about this article">
+      <img class="h-full object-cover" src="https://placehold.co/373x248" alt="Card image" />
     </a>
 </div>
 

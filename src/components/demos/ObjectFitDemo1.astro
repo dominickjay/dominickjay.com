@@ -1,0 +1,804 @@
+---
+import PlaceholderImage from "../PlaceholderImage.astro";
+---
+
+<div class="min-w-0 overflow-x-auto">
+  <p class="eyebrow">Interactive demo · object-fit & aspect-ratio · CLS</p>
+  <h1>The layout shift you're not noticing — until it's too late</h1>
+  <p class="intro">
+    Images without fixed dimensions cause content to jump as they load — a
+    Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it
+    happen, then see how two lines of CSS prevent it entirely.
+  </p>
+
+  <div class="tabs" role="tablist">
+    <button
+      class="tab is-bad active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-bad"
+      onclick="switchPanel('bad')"
+    >
+      ❌ Without object-fit
+    </button>
+    <button
+      class="tab is-good"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-good"
+      onclick="switchPanel('good')"
+    >
+      ✅ With object-fit & aspect-ratio
+    </button>
+  </div>
+
+  <!-- ═══ BAD ═══ -->
+  <div class="panel active" id="panel-bad" role="tabpanel">
+    <div class="explainer bad">
+      <strong>No constraints.</strong> Images load at their natural sizes — a tall
+      portrait image gets a tall slot, a wide landscape gets a wide one. As each image
+      arrives, it pushes everything below it down. The text you're reading moves.
+      That's CLS.
+    </div>
+
+    <div class="controls">
+      <button class="reload-btn bad" id="btn-bad" onclick="runDemo('bad')">
+        ↺ Simulate page load
+      </button>
+      <div class="cls-meter">
+        CLS score: <span class="cls-score" id="cls-bad">—</span>
+      </div>
+    </div>
+
+    <p class="slabel">Live demo</p>
+
+    <div class="card-grid" id="grid-bad">
+      <div class="card card-bad" data-delay="600">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls1/600/900"
+            alt="Portrait ratio image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">20 Oct 2025 · Article</p>
+          <h3 class="card-title">Portrait image — 2:3 ratio</h3>
+          <p class="card-excerpt">
+            This content jumps when the tall image above it loads in.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-bad" data-delay="900">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls2/600/600"
+            alt="Square ratio image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">18 Oct 2025 · Article</p>
+          <h3 class="card-title">Square image — 1:1 ratio</h3>
+          <p class="card-excerpt">
+            A different height to its neighbour. The grid is already broken.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-bad" data-delay="400">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls3/600/340"
+            alt="Wide landscape image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">15 Oct 2025 · Article</p>
+          <h3 class="card-title">Wide landscape — 16:9 ratio</h3>
+          <p class="card-excerpt">
+            Loads first because it's small. But the row height is wrong.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-bad" data-delay="1200">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls4/600/800"
+            alt="Tall image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">12 Oct 2025 · Article</p>
+          <h3 class="card-title">Another tall image — 3:4 ratio</h3>
+          <p class="card-excerpt">
+            The last to arrive. Watch the grid shift one final time.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="slabel">Layout shift log</p>
+    <div class="jump-log" id="log-bad">
+      <span class="log-empty"
+        >Hit "Simulate page load" to watch the shifts happen.</span
+      >
+    </div>
+  </div>
+
+  <!-- ═══ GOOD ═══ -->
+  <div class="panel" id="panel-good" role="tabpanel">
+    <div class="explainer good">
+      <strong>Space reserved instantly.</strong>
+      <code>aspect-ratio: 16 / 9</code> on the container tells the browser exactly
+      how tall each slot will be before any image arrives. <code
+        >object-fit: cover</code
+      > handles the cropping. Images load into pre-reserved space — no shift, no jump.
+    </div>
+
+    <div class="controls">
+      <button class="reload-btn good" id="btn-good" onclick="runDemo('good')">
+        ↺ Simulate page load
+      </button>
+      <div class="cls-meter">
+        CLS score: <span class="cls-score" id="cls-good">—</span>
+      </div>
+    </div>
+
+    <p class="slabel">Live demo</p>
+
+    <div class="card-grid" id="grid-good">
+      <div class="card card-good" data-delay="600">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls1/600/900"
+            alt="Portrait ratio image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">20 Oct 2025 · Article</p>
+          <h3 class="card-title">Portrait image — 2:3 ratio</h3>
+          <p class="card-excerpt">
+            Same tall image — but the slot is already 16:9. It loads into
+            reserved space.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-good" data-delay="900">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls2/600/600"
+            alt="Square ratio image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">18 Oct 2025 · Article</p>
+          <h3 class="card-title">Square image — 1:1 ratio</h3>
+          <p class="card-excerpt">
+            object-fit: cover crops it to 16:9. No layout disruption at all.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-good" data-delay="400">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls3/600/340"
+            alt="Wide landscape image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">15 Oct 2025 · Article</p>
+          <h3 class="card-title">Wide landscape — 16:9 ratio</h3>
+          <p class="card-excerpt">
+            Loads first. Space was already there. Nothing moves.
+          </p>
+        </div>
+      </div>
+
+      <div class="card card-good" data-delay="1200">
+        <div class="card-img-wrap">
+          <img
+            src="https://picsum.photos/seed/cls4/600/800"
+            alt="Tall image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
+        <div class="card-body">
+          <p class="card-label">12 Oct 2025 · Article</p>
+          <h3 class="card-title">Another tall image — 3:4 ratio</h3>
+          <p class="card-excerpt">
+            The last to arrive. The grid hasn't moved once.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="slabel">Layout shift log</p>
+    <div class="jump-log" id="log-good">
+      <span class="log-empty"
+        >Hit "Simulate page load" to confirm: no shifts detected.</span
+      >
+    </div>
+
+    <div class="code">
+      <span class="c-comment">/* Reserve space before the image loads */</span>
+      <span class="c-prop">.card-img-wrap</span> &#123;
+      <span class="c-prop">aspect-ratio</span>: <span class="c-val">16 / 9</span
+      >;
+      <span class="c-prop">overflow</span>: <span class="c-val">hidden</span>;
+      &#125;
+
+      <span class="c-comment">/* Fill that space, crop neatly */</span>
+      <span class="c-prop">.card-img-wrap img</span> &#123;
+      <span class="c-prop">width</span>: <span class="c-val">100%</span>;
+      <span class="c-prop">height</span>: <span class="c-val">100%</span>;
+      <span class="c-prop">object-fit</span>: <span class="c-val">cover</span>;
+      <span class="c-prop">object-position</span>: <span class="c-val"
+        >center</span
+      >; &#125;
+    </div>
+  </div>
+
+  <footer class="footer">
+    CLS (Cumulative Layout Shift) is a Core Web Vitals metric. A score below 0.1
+    is considered good. Scores are simulated here based on the number and size
+    of shifts detected. ·
+    <a href="https://web.dev/cls/" target="_blank" rel="noopener"
+      >web.dev/cls ↗</a
+    >
+  </footer>
+</div>
+
+<script>
+  // ── Panel switching ────────────────────────────────────────────────────────
+  function switchPanel(which) {
+    document.querySelectorAll(".tab").forEach((t) => {
+      const match = t.classList.contains("is-" + which);
+      t.classList.toggle("active", match);
+      t.setAttribute("aria-selected", match ? "true" : "false");
+    });
+    document.querySelectorAll(".panel").forEach((p) => {
+      p.classList.toggle("active", p.id === "panel-" + which);
+    });
+    document
+      .querySelector(".tabs")
+      .scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  window.switchPanel = switchPanel;
+
+  // ── Demo simulation ────────────────────────────────────────────────────────
+  function runDemo(panel) {
+    const grid = document.getElementById("grid-" + panel);
+    const log = document.getElementById("log-" + panel);
+    const btn = document.getElementById("btn-" + panel);
+    const score = document.getElementById("cls-" + panel);
+    const isBad = panel === "bad";
+
+    // Reset
+    btn.disabled = true;
+    log.innerHTML = "";
+    score.textContent = "…";
+    score.className = "cls-score";
+
+    let totalCLS = 0;
+    let shiftCount = 0;
+
+    // Reset all images to loading state
+    const cards = [...grid.querySelectorAll(".card")];
+    cards.forEach((card) => {
+      const img = card.querySelector("img");
+      img.classList.remove("loaded");
+      img.classList.add("loading");
+      card.classList.remove("shifted");
+
+      // For bad panel: remove any height constraints so natural size shows
+      if (isBad) {
+        img.style.height = "auto";
+        img.style.objectFit = "";
+      }
+    });
+
+    // Stagger image reveals at different delays
+    cards.forEach((card, i) => {
+      const delay = parseInt(card.dataset.delay) || 400 + i * 300;
+      const img = card.querySelector("img");
+
+      setTimeout(() => {
+        const beforeHeight = grid.getBoundingClientRect().height;
+
+        img.classList.remove("loading");
+        img.classList.add("loaded");
+
+        // Measure shift for bad panel
+        if (isBad) {
+          requestAnimationFrame(() => {
+            const afterHeight = grid.getBoundingClientRect().height;
+            const shift = Math.abs(afterHeight - beforeHeight);
+
+            if (shift > 2) {
+              shiftCount++;
+              // Rough CLS approximation: shift fraction × viewport fraction
+              const cls =
+                Math.round((shift / window.innerHeight) * 0.4 * 100) / 100;
+              totalCLS = Math.round((totalCLS + cls) * 100) / 100;
+
+              card.classList.add("shifted");
+              setTimeout(() => card.classList.remove("shifted"), 700);
+
+              const entry = document.createElement("div");
+              entry.className = "jump-entry";
+              entry.innerHTML = `
+                <span class="jump-pill shift">⚡ shift</span>
+                <span>Card ${i + 1} loaded — layout moved <strong>${Math.round(shift)}px</strong>. Running CLS: <strong>${totalCLS}</strong></span>
+              `;
+              log.appendChild(entry);
+
+              score.textContent = totalCLS;
+              score.className =
+                "cls-score " + (totalCLS > 0.1 ? "high" : "low");
+            }
+          });
+        } else {
+          // Good panel — just log stability
+          const entry = document.createElement("div");
+          entry.className = "jump-entry";
+          entry.innerHTML = `
+            <span class="jump-pill stable">✓ stable</span>
+            <span>Card ${i + 1} loaded — no layout shift detected.</span>
+          `;
+          log.appendChild(entry);
+
+          score.textContent = "0.00";
+          score.className = "cls-score low";
+        }
+      }, delay);
+    });
+
+    // Re-enable button after all delays complete
+    const maxDelay = Math.max(
+      ...cards.map((c) => parseInt(c.dataset.delay) || 1200),
+    );
+    setTimeout(() => {
+      btn.disabled = false;
+      if (isBad && shiftCount === 0) {
+        log.innerHTML =
+          '<span class="log-empty">Images may have been cached — shifts not detected. Try a hard refresh.</span>';
+      }
+    }, maxDelay + 400);
+  }
+  window.runDemo = runDemo;
+
+  // Auto-run bad demo on load
+  window.addEventListener("load", () => {
+    setTimeout(() => runDemo("bad"), 300);
+  });
+</script>
+
+<style>
+  :root {
+    --bg: #fbf8ef;
+    --surface: #f0ece0;
+    --surface-2: #e8e3d5;
+    --border: #d4cfc0;
+    --text: #222222;
+    --text-dim: #6b6659;
+    --accent: #b94a38;
+    --good: #2c5364;
+    --mono: "DM Mono", ui-monospace, monospace;
+    --serif: "Tiempos", Georgia, serif;
+    --r: 6px;
+    --space-s: 8px;
+    --space-m: 16px;
+    --space-l: 24px;
+  }
+  /* ── Header ── */
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-s);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: var(--space-s);
+  }
+
+  .intro {
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: var(--space-l);
+    padding-bottom: var(--space-l);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--r) var(--r) 0 0;
+    padding: 6px 6px 0;
+  }
+
+  .tab {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 14px;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    transition:
+      color 0.15s,
+      background 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .tab:hover {
+    color: var(--text);
+    background: var(--surface-2);
+  }
+  .tab.active {
+    color: var(--text);
+    background: var(--bg);
+  }
+  .tab.active.is-bad {
+    color: var(--accent);
+  }
+  .tab.active.is-good {
+    color: var(--good);
+  }
+
+  /* ── Panel ── */
+  .panel {
+    display: none;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 0 var(--r) var(--r) var(--r);
+    padding: var(--space-l);
+  }
+  .panel.active {
+    display: block;
+  }
+
+  /* ── Explainer ── */
+  .explainer {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    background: var(--surface);
+    border-left: 3px solid var(--border);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: var(--space-l);
+  }
+  .explainer.bad {
+    border-color: var(--accent);
+  }
+  .explainer.good {
+    border-color: var(--good);
+  }
+  .explainer strong {
+    color: var(--text);
+  }
+  .explainer code {
+    font-size: 11px;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-bottom: var(--space-m);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 400px) {
+    .controls {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-s);
+    }
+    .reload-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .reload-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 8px 18px;
+    border-radius: var(--r);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+  }
+  .reload-btn:hover {
+    background: var(--surface-2);
+  }
+  .reload-btn:active {
+    transform: scale(0.98);
+  }
+  .reload-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .reload-btn.bad {
+    border-color: rgba(185, 74, 56, 0.4);
+  }
+  .reload-btn.good {
+    border-color: rgba(44, 83, 100, 0.4);
+  }
+
+  .cls-meter {
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cls-score {
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 40px;
+    transition: color 0.3s;
+  }
+  .cls-score.high {
+    color: var(--accent);
+  }
+  .cls-score.low {
+    color: var(--good);
+  }
+
+  /* ── Slabel ── */
+  .slabel {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: var(--space-m);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .slabel::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── Card grid ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+    margin-bottom: var(--space-l);
+    min-height: 200px; /* prevent full collapse while loading */
+  }
+
+  @media (max-width: 480px) {
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+
+  /* BAD: no sizing constraints on image container */
+  .card-bad .card-img-wrap {
+    /* nothing — images load at natural size */
+    overflow: hidden;
+  }
+
+  /* GOOD: aspect-ratio reserves space immediately */
+  .card-good .card-img-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface-2); /* placeholder colour while loading */
+  }
+
+  .card-img-wrap img {
+    width: 100%;
+    display: block;
+  }
+
+  /* BAD: no object-fit */
+  .card-bad .card-img-wrap img {
+    height: auto;
+  }
+
+  /* GOOD: object-fit: cover fills the fixed ratio container */
+  .card-good .card-img-wrap img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .card-body {
+    padding: var(--space-m);
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+
+  .card-title {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .card-excerpt {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* Loading state — hide image until JS reveals it */
+  .card-img-wrap img.loading {
+    opacity: 0;
+  }
+  .card-img-wrap img.loaded {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Shift flash on bad cards when image loads */
+  @keyframes shiftFlash {
+    0% {
+      background: rgba(185, 74, 56, 0);
+    }
+    30% {
+      background: rgba(185, 74, 56, 0.12);
+    }
+    100% {
+      background: rgba(185, 74, 56, 0);
+    }
+  }
+
+  .card.shifted {
+    animation: shiftFlash 0.6s ease forwards;
+  }
+
+  /* ── Code block ── */
+  .code {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: var(--space-m);
+    font-size: 12px;
+    font-size: clamp(10px, 2.5vw, 12px);
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    margin-top: var(--space-l);
+  }
+  .c-comment {
+    color: #9a9080;
+  }
+  .c-prop {
+    color: var(--good);
+  }
+  .c-val {
+    color: #8b3a3a;
+  }
+
+  /* ── Jump indicator ── */
+  .jump-log {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: var(--space-m);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.8;
+    min-height: 60px;
+  }
+
+  .jump-log .jump-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .jump-pill {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .jump-pill.shift {
+    background: rgba(185, 74, 56, 0.1);
+    border: 1px solid rgba(185, 74, 56, 0.25);
+    color: var(--accent);
+  }
+  .jump-pill.stable {
+    background: rgba(44, 83, 100, 0.1);
+    border: 1px solid rgba(44, 83, 100, 0.25);
+    color: var(--good);
+  }
+
+  .log-empty {
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: var(--space-l);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+  .footer a {
+    color: var(--text-dim);
+  }
+</style>
