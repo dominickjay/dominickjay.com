@@ -10,15 +10,15 @@
 	font-size: clamp(1rem, 1.3315rem + 0.802vw, 1.6531rem);
 }
 
-.prose :is(ul, ol) {
+.prose :is(ul, ol):not([class]) {
 	padding-inline-start: var(--space-xl);
 }
 
-.prose :is(ul) {
+.prose :is(ul):not([class]) {
 	list-style-type: disc;
 }
 
-.prose :is(ol) {
+.prose :is(ol):not([class]) {
 	list-style-type: decimal-leading-zero;
 }
 

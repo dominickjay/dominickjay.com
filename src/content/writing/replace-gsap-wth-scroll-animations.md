@@ -3,6 +3,7 @@ title: 'Replacing GSAP with scroll animations'
 description: 'I was interested in picking up some new CSS tricks, and there’s been a lot of talk recently about scroll driven animations. Feeling inspired during a weekend away, I dug around on Codepen for some and came across this pen from Ryan Mulligan (hexagoncircle).'
 pubDate: '2023-11-27'
 tags: ['css', 'javascript']
+growth: growing
 ---
 
 <div class="fyi-block fyi-block--warning">

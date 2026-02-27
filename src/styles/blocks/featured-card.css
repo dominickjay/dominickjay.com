@@ -1,69 +1,81 @@
 *:has(.featured-posts) {
-	container: featured-posts / inline-size;
+  container: featured-posts / inline-size;
 }
 
 .featured-posts {
-	--surface: var(--color-light);
-	--border: var(--color-dark);
-	--reading-rgb: var(--color-dark);
+  --surface: var(--color-light);
+  --border: var(--color-dark);
+  --reading-rgb: var(--color-dark);
 
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
-	gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
 }
 
 @container featured-posts (width >= 650px) {
-	.featured-posts {
-		grid-template-columns: repeat(2, 1fr);
-	}
+  .featured-posts {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .featured-post {
-	background: var(--surface);
-	border: 1px solid var(--border);
-	padding: 18px;
-	position: relative;
-	overflow: hidden;
-	transition: border-color .3s, transform .3s cubic-bezier(.23,1,.32,1);
-	cursor: none;
-	display: flex;
-	flex-direction: column;
-	row-gap: 10px;
-	height: 100%;
-	line-height: 1.35;
+  background: var(--color-light);
+  border: 1px solid var(--color-dark);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 0.3s,
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  height: 100%;
+  line-height: 1.35;
 
-	.featured-post__title {
-		font-weight: 600;
-	}
+  .featured-post__title {
+    font-weight: 600;
+  }
 
-	&::before {
-		content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--color-dark);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform .4s cubic-bezier(.23,1,.32,1);
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--feature-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
 
-	&::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(34,34,34,.07) 0%, transparent 65%);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--mx, 50%) var(--my, 50%),
+      rgb(from var(--feature-color) r g b / 0.2),
+      transparent 50%
+    );
     opacity: 0;
-		transition: opacity .3s;
-		pointer-events: none;
-	}
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
 
   &:hover {
-		border-color: var(--border);
-		color: var(--color-dark);
-	}
+    border-color: var(--color-dark);
+    color: var(--color-dark);
+  }
 
   &:hover::before {
-		transform: scaleX(1);
-		background: var(--border);
-	}
+    transform: scaleX(1);
+    background: var(--color-dark);
+  }
 
   &:hover::after {
-		opacity: 1;
-	}
+    opacity: 1;
+  }
 }

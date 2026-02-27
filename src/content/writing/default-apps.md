@@ -5,7 +5,7 @@ description: 'There’s been a trend recently of writing up a list of default ap
 pubDate: 2023-11-13
 tags:
   - personal
-
+growth: seedling
 ---
 
 I use a bit of a mix of Google/Apple products - not sure how I feel about that. I think a lot of them went over to Apple after I got an iphone. plan to get an android again next year so maybe this list will need adjusting as i go through 2024. So, here’s my list of default apps.

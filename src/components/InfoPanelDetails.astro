@@ -191,24 +191,14 @@ if (recentTracksData.recentTracks) {
 
 	{
 		recentTracks?.name && recentTracks?.artist?.["#text"] && (
-			<div class="info-panel__detail music relative">
-				{recentTracks?.["@attr"]?.nowplaying ? (
-				<span class="now-playing">
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-					<span></span>
-				</span>
-				) : (
-					<span class="now-playing now-playing--static">
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				)}
+			<div class={`info-panel__detail music relative np-pill--transparent ${recentTracks?.["@attr"]?.nowplaying ? 'np-pill--active' : ''}`}>
+					<div class="np-bars">
+						<div class="np-bar"></div>
+						<div class="np-bar"></div>
+						<div class="np-bar"></div>
+						<div class="np-bar"></div>
+						<div class="np-bar"></div>
+	        </div>
 				<span>
 					<span>{recentTracks?.name}</span> by{" "}
 					<span>{recentTracks?.artist?.["#text"]}</span>

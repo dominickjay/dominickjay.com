@@ -7,6 +7,7 @@ tags:
     - team management
 draft: true
 layout: BlogPost
+growth: seedling
 ---
 This article argues that technical choices about performance and component isolation are now logistical choices that affect team well-being across the globe.
 

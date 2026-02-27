@@ -3,7 +3,6 @@
   background: var(--color-dark);
   border: 1px solid var(--track-color, var(--color-accent));
   backdrop-filter: blur(12px);
-  /*border-radius: 40px;*/
   padding: 9px 16px;
   display: flex;
   align-items: center;
@@ -17,9 +16,14 @@
   }
 }
 
+.np-pill--light {
+  background: transparent;
+}
+
 .np-pill.is-playing {
   border-color: rgba(var(--color-accent-rgb), 0.3);
 }
+
 .np-bars {
   display: flex;
   align-items: flex-end;
@@ -33,6 +37,11 @@
   border-radius: 2px;
   transform-origin: bottom;
 }
+
+.np-pill--transparent .np-bar {
+  background: var(--color-dark);
+}
+
 .np-pill.is-playing .np-bar {
   animation: npBar 0.9s ease-in-out infinite alternate;
 }

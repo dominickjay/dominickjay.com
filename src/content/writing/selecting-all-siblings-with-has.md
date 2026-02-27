@@ -6,6 +6,7 @@ pubDate: '2023-04-26'
 tags:
   - css
 supported: bcd.css["selectors"].has.__compat
+growth: evergreen
 ---
 
 <div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">

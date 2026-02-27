@@ -35,6 +35,7 @@ import InfoPanelDetails from "./InfoPanelDetails.astro";
   x-cloak
 >
   <InfoPanelDetails />
-  <InfoPanelDetails aria-hidden="true" />
-  <InfoPanelDetails aria-hidden="true" />
+  {[...Array(3).keys()].map(i => (
+    <InfoPanelDetails aria-hidden="true" />
+  ))}
 </div>

@@ -1,126 +1,111 @@
 @layer core {
-	@layer reset {
-		/* Modern reset: https://piccalil.li/blog/a-more-modern-css-reset/ */
+  @layer reset {
+    /* Modern reset: https://piccalil.li/blog/a-more-modern-css-reset/ */
 
-		/* Box sizing rules */
-		*,
-		*::before,
-		*::after {
-			box-sizing: border-box;
-		}
+    /* Box sizing rules */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-		/* Prevent font size inflation */
-		html {
-			-moz-text-size-adjust: none;
-			-webkit-text-size-adjust: none;
-			text-size-adjust: none;
-		}
+    /* Prevent font size inflation */
+    html {
+      -moz-text-size-adjust: none;
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+    }
 
-		/* Remove default margin in favour of better control in authored CSS */
-		body,
-		h1,
-		h2,
-		h3,
-		h4,
-		p,
-		figure,
-		blockquote,
-		dl,
-		dd {
-			margin-block: 0;
-		}
+    /* Remove default margin in favour of better control in authored CSS */
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    p,
+    figure,
+    blockquote,
+    dl,
+    dd {
+      margin-block: 0;
+    }
 
-		/* Remove list styles on ul, ol elements with a list role */
-		ul[role="list"],
-		ol[role="list"] {
-			list-style: none;
-		}
+    /* Remove list styles on ul, ol elements with a list role */
+    ul[role="list"],
+    ol[role="list"] {
+      list-style: none;
+    }
 
-		/* Set core body defaults */
-		body {
-			/* min-height: 100vh; */
-			line-height: 1.5;
-		}
+    /* Set core body defaults */
 
-		/* Set shorter line heights on headings and interactive elements */
-		h1,
-		h2,
-		h3,
-		h4,
-		button,
-		input,
-		label {
-			line-height: 1.2;
-		}
+    /* Balance text wrapping on headings */
+    h1,
+    h2,
+    h3,
+    h4 {
+      @variant md {
+        text-wrap: balance;
+      }
+    }
 
-		/* Balance text wrapping on headings */
-		h1,
-		h2,
-		h3,
-		h4 {
-			@variant md {
-				text-wrap: balance;
-			}
-		}
+    /* Make images easier to work with */
+    img,
+    picture {
+      max-width: 100%;
+      display: block;
+    }
 
-		/* Make images easier to work with */
-		img,
-		picture {
-			max-width: 100%;
-			display: block;
-		}
+    /* Make sure textareas without a rows attribute are not tiny */
+    textarea:not([rows]) {
+      min-height: 10em;
+    }
 
-		/* Make sure textareas without a rows attribute are not tiny */
-		textarea:not([rows]) {
-			min-height: 10em;
-		}
+    /* Anything that has been anchored to should have extra scroll margin */
+    :target {
+      scroll-margin-block: 8ex;
+    }
 
-		/* Anything that has been anchored to should have extra scroll margin */
-		:target {
-			scroll-margin-block: 8ex;
-		}
+    figcaption {
+      max-inline-size: max-content;
+      margin-inline: auto;
+    }
 
-		figcaption {
-			max-inline-size: max-content;
-			margin-inline: auto;
-		}
+    a:focus-visible {
+      outline-offset: 0.25em;
+      outline-width: 0.25em;
+      outline-color: currentColor;
+    }
 
-		a:focus-visible {
-			outline-offset: 0.25em;
-			outline-width: 0.25em;
-			outline-color: currentColor;
-		}
+    ul,
+    ol,
+    dl,
+    dt,
+    dd,
+    p,
+    figure,
+    blockquote {
+      hanging-punctuation: first last;
 
-		ul,
-		ol,
-		dl,
-		dt,
-		dd,
-		p,
-		figure,
-		blockquote {
-			hanging-punctuation: first last;
+      @screen md {
+        text-wrap: pretty;
+      }
+    }
 
-			@screen md {
-				text-wrap: pretty;
-			}
-		}
+    @view-transition {
+      navigation: auto;
+    }
 
-		@view-transition {
-			navigation: auto;
-		}
+    view-transition-name {
+      --view-transition-name: auto;
+    }
+  }
 
-		view-transition-name {
-			--view-transition-name: auto;
-		}
-	}
+  [x-cloak] {
+    opacity: 0;
+    visibility: hidden;
+  }
 
-	[x-cloak] {
-		opacity: 0;
-		visibility: hidden;
-	}
-
-	[x-cloak="hidden"] {
-		display: none;
-	}
+  [x-cloak="hidden"] {
+    display: none;
+  }
 }

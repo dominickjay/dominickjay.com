@@ -28,11 +28,13 @@
       transition: color 0.2s;
       max-inline-size: 80%;
 
+      @media (width < 640px) {
+        max-inline-size: none;
+      }
+
       &:has(+ .post-meta) {
         margin-bottom: 5px;
       }
-
-
     }
 
     .post-body {
@@ -88,6 +90,10 @@
       padding: 12px 18px;
     }
 
+    &--narrow {
+      padding: 9px 9px;
+    }
+
     .post-artist {
       font-family: var(--font-base);
       font-size: 14px;
@@ -109,13 +115,20 @@
   }
 
   .post-link--small,
-  .post-info--small {
+  .post-info--small,
+  .post-link--narrow,
+  .post-info--narrow {
     padding: 12px 18px;
   }
 
-  .post-link--small .post-title {
+  .post-link--small .post-title,
+  .post-link--narrow .post-title {
     font-size: 20px;
     margin-bottom: 2px;
+  }
+
+  .post-link--narrow .post-title {
+    font-size: 18px;
   }
 
   .post-item:hover .post-link::before {
@@ -124,7 +137,6 @@
 }
 
 @media (width <= 640px) {
-
   .feature-list {
     .post-item {
       .post-title {
@@ -138,7 +150,9 @@
       }
 
       .post-link--small,
-      .post-info--small {
+      .post-info--small,
+      .post-link--narrow,
+      .post-info--narrow {
         padding: 8px 12px;
       }
 

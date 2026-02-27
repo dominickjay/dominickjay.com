@@ -34,27 +34,74 @@ I did a few activities I’ve always wanted to try but held back from doing it; 
 
 ### Top Artists
 
-{% for artist in music._2022.topArtists.weeklyartistchart.artist %}
-
-1. {{ artist.name }}
-   {% endfor %}
+<ol>
+<li>
+<p>IDLES</p>
+</li>
+<li>
+<p>Nine Inch Nails</p>
+</li>
+<li>
+<p>Biffy Clyro</p>
+</li>
+<li>
+<p>clipping.</p>
+</li>
+<li>
+<p>Radiohead</p>
+</li>
+<li>
+<p>Jamie Lenman</p>
+</li>
+<li>
+<p>Foo Fighters</p>
+</li>
+<li>
+<p>Kendrick Lamar</p>
+</li>
+<li>
+<p>Lamb of God</p>
+</li>
+<li>
+<p>Rammstein</p>
+</li>
+</ol>
 
 ### Top Albums
 
-{% for album in music._2022.topAlbums.weeklyalbumchart.album %}
-
-1. <strong>{{ album.name }}</strong> by {{ album.artist['#text'] }}
-   {% endfor %}
+<ol>
+<li>
+<p><strong>Joy as an Act of Resistance.</strong> by IDLES</p>
+</li>
+<li>
+<p><strong>Ultra Mono</strong> by IDLES</p>
+</li>
+<li>
+<p><strong>CRAWLER</strong> by IDLES</p>
+</li>
+<li>
+<p><strong>To Pimp a Butterfly</strong> by Kendrick Lamar</p>
+</li>
+<li>
+<p><strong>There Existed An Addiction To Blood</strong> by clipping.</p>
+</li>
+<li>
+<p><strong>Brutalism</strong> by IDLES</p>
+</li>
+<li>
+<p><strong>Zeit</strong> by Rammstein</p>
+</li>
+<li>
+<p><strong>The Myth of the Happily Ever After</strong> by Biffy Clyro</p>
+</li>
+<li>
+<p><strong>Splendor &amp; Misery</strong> by clipping.</p>
+</li>
+<li>
+<p><strong>Madvillainy</strong> by Madvillain</p>
+</li>
+</ol>
 
 ## German stats
 
-I decided to up my personal development and pick up another language using Duolingo this year too, and picked back up my German lessons. Got to a streak of **{{ language._2022.stats.language_data.de.streak }}** days so far, which is my longest to date. Feel like I'm getting used to how sentences are formed - slightly - so can only hope that continuing on with it in 2023 will be the same.
-
-## Read more books than ever
-
-{% for item in books %}
-{% if item.finishedYear == '2022' %}
-
-1. <span class="font-bold">{{ item.title }}</span> by <span class="font-bold">{{ item.author }}</span>
-   {% endif %}
-   {% endfor %}
+I decided to up my personal development and pick up another language using Duolingo this year too, and picked back up my German lessons. Got to a streak of <strong>243</strong> days so far, which is my longest to date. Feel like I'm getting used to how sentences are formed - slightly - so can only hope that continuing on with it in 2023 will be the same.

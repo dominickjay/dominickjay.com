@@ -5,27 +5,7 @@ intro: "For this post, we're going to do a deep dive into 'Create React App' (CR
 pubDate: '2022-02-17'
 tags:
   - react
-links:
-  [
-    {
-      'title': 'Create react app docs',
-      'target': 'https://create-react-app.dev',
-    },
-    {
-      'title': 'React docs: create react app',
-      'target': 'https://reactjs.org/docs/create-a-new-react-app.html#create-react-app',
-    },
-    {
-      'title': 'Enabling server-side rendering in React for improved app performance',
-      'target': 'https://blog.logrocket.com/why-you-should-render-react-on-the-server-side-a50507163b79/',
-    },
-    {
-      'title': 'You Should Choose Vite Over CRA for React Apps, Here’s Why',
-      'target': 'https://medium.com/codex/you-should-choose-vite-over-cra-for-react-apps-heres-why-47e2e7381d13',
-    },
-  ]
-
-eleventyExcludeFromCollections: true
+growth: evergreen
 ---
 
 ## What is 'Create React App'?

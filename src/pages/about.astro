@@ -95,7 +95,7 @@ const companies = ABOUT_COMPANIES;
               > or sharing my latest <a href="/now">"Now" updates.</a>
             </p>
           </div>
-          <div class="flow [--flow-space:var(--space-s)] pt-[var(--space-l)]">
+          <div class="flow [--flow-space:var(--space-s)] prose">
             <p>
               <ol class="post-list feature-list flow" style="--flow-space: 0;">
                 {
@@ -104,14 +104,11 @@ const companies = ABOUT_COMPANIES;
                     return (
                       <li class="post-item visible">
                         <div class="post-info post-info--small">
-                          <span class="post-n">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
+                          <span class="post-n min-w-[110px]">{date}</span>
                           <div class="post-body">
                             <span class="post-title">{jobTitle}</span>
                             <div class="post-meta">
                               <span class="post-topics-label">{label}</span>
-                              <span>{date}</span>
                             </div>
                           </div>
                         </div>
@@ -121,8 +118,6 @@ const companies = ABOUT_COMPANIES;
                 }
               </ol>
             </p>
-          </div>
-          <div>
             <BigLink text="View my resume." href="/resume.pdf" />
           </div>
           <div>
