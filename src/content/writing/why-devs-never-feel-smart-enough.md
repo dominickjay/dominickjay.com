@@ -9,6 +9,7 @@ tags:
     - opinions
     - professional development
     - learning
+growth: seedling
 ---
 
 This post acknowledges and normalizes the feeling of inadequacy in a profession that requires you to be a perpetual student.
