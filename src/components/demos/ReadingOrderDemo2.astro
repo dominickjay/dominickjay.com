@@ -1,0 +1,949 @@
+<div class="min-w-0 overflow-x-auto">
+<div class="demo-header">
+  <p class="eyebrow">Interactive demo · @reading-order</p>
+  <h1>
+    Visual order vs DOM order:<br /><em>the gap your users fall into</em>
+  </h1>
+  <p class="intro">
+    When CSS reorders content visually, keyboard and screen reader users still
+    follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
+    the cards below and feel the difference.
+  </p>
+</div>
+
+<!-- Layout diagram -->
+<p class="slabel" style="margin-bottom: .75rem;">Visual layout</p>
+<div class="layout-diagram" aria-hidden="true">
+  <div class="ld-cell ld-cta">
+    <span class="name">CTA</span>
+    <span class="pos">visual: top-left</span>
+  </div>
+  <div class="ld-cell ld-feature">
+    <span class="name">Feature</span>
+    <span class="pos">visual: top-right</span>
+  </div>
+  <div class="ld-cell ld-arta">
+    <span class="name">Article A</span>
+    <span class="pos">visual: btm-left</span>
+  </div>
+  <div class="ld-cell ld-artb">
+    <span class="name">Article B</span>
+    <span class="pos">visual: btm-right</span>
+  </div>
+</div>
+<p style="font-size: 11px; color: var(--color-dark); margin-bottom: 2rem;">
+  DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) — CTA is last in
+  the DOM but placed top-left visually.
+</p>
+
+<!-- Tabs -->
+<div class="tabs" role="tablist">
+  <button
+    class="tab is-bad active"
+    role="tab"
+    aria-selected="true"
+    aria-controls="panel-bad"
+    onclick="show('bad')"
+  >
+    ❌ Without reading-flow
+  </button>
+  <button
+    class="tab is-good"
+    role="tab"
+    aria-selected="false"
+    aria-controls="panel-good"
+    onclick="show('good')"
+  >
+    ✅ With reading-flow: grid-rows
+  </button>
+</div>
+
+<!-- ═══ BAD PANEL ═══ -->
+<div class="panel panel-bad active" id="panel-bad" role="tabpanel">
+  <div class="explainer bad" style="margin-bottom:1.25rem">
+    <strong>The problem:</strong> CTA is placed top-left via <code
+      >grid-template-areas</code
+    >, but it's the <strong>4th item in the DOM</strong>. Tab key ignores grid
+    placement entirely — it follows DOM order. A keyboard user hits Feature →
+    Article A → Article B → CTA: the opposite of what the layout implies.
+  </div>
+
+  <p class="slabel">Live layout — try tabbing through</p>
+
+  <div class="editorial-grid" id="grid-bad">
+    <!-- DOM 1st -->
+    <article class="cell cell-feature">
+      <span class="dom-tag">DOM: 1st</span>
+      <span class="cell-label">Feature</span>
+      <h2 class="cell-title">
+        The hidden cost of visual reordering in modern CSS layouts
+      </h2>
+      <p class="cell-excerpt">
+        Every time we reach for <code>order</code> or <code
+          >grid-template-areas</code
+        > to move content around the screen, we're making a silent promise to sighted
+        users that we may be breaking for everyone else.
+      </p>
+      <a href="#" class="cell-link" id="bad-feature" onclick="return false"
+        >Read feature →</a
+      >
+    </article>
+
+    <!-- DOM 2nd -->
+    <article class="cell cell-art-a">
+      <span class="dom-tag">DOM: 2nd</span>
+      <span class="cell-label">Article A</span>
+      <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
+      <p class="cell-excerpt">
+        Focus order is a Level A requirement, meaning it applies to the broadest
+        range of users and content types.
+      </p>
+      <a href="#" class="cell-link" id="bad-arta" onclick="return false"
+        >Read article →</a
+      >
+    </article>
+
+    <!-- DOM 3rd -->
+    <article class="cell cell-art-b">
+      <span class="dom-tag">DOM: 3rd</span>
+      <span class="cell-label">Article B</span>
+      <h2 class="cell-title">
+        Testing keyboard navigation: a practical checklist
+      </h2>
+      <p class="cell-excerpt">
+        Tab through your layout. Does focus move in a logical sequence? Does it
+        match what a sighted user would expect?
+      </p>
+      <a href="#" class="cell-link" id="bad-artb" onclick="return false"
+        >Read article →</a
+      >
+    </article>
+
+    <!-- DOM 4th — but visual top-left via grid-area: cta -->
+    <article class="cell cell-cta">
+      <span class="dom-tag">DOM: 4th ⚠️</span>
+      <span class="cell-label">Promoted</span>
+      <h2 class="cell-title">New: reading-flow & reading-order</h2>
+      <a href="#" class="cell-link" id="bad-cta" onclick="return false"
+        >Get started →</a
+      >
+    </article>
+  </div>
+
+  <!-- Focus tracker -->
+  <div class="tracker">
+    <p class="tracker-label">Tab focus sequence</p>
+    <div class="tracker-row">
+      <span class="t-step" id="bs-feature">Feature (DOM 1)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="bs-arta">Article A (DOM 2)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="bs-artb">Article B (DOM 3)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="bs-cta">CTA (DOM 4)</span>
+    </div>
+    <div class="verdict bad">
+      ⚠ Focus reaches the CTA last — but it's visually first. A keyboard user
+      navigates the grid in a sequence that contradicts what they see. WCAG
+      2.4.3 failure.
+    </div>
+  </div>
+
+  <p class="hint">
+    Press <kbd class="key">Tab</kbd> to navigate the grid above and watch the sequence
+    light up.
+  </p>
+</div>
+
+<!-- ═══ GOOD PANEL ═══ -->
+<div class="panel panel-good" id="panel-good" role="tabpanel">
+  <div class="explainer good" style="margin-bottom:1.25rem">
+    <strong>The fix:</strong> Add <code>reading-flow: grid-rows</code> to the container.
+    The browser now reads focus order row by row, matching the visual grid — CTA →
+    Feature → Article A → Article B. DOM order is unchanged; only focus order is corrected.
+  </div>
+
+  <p class="slabel">Live layout — try tabbing through</p>
+
+  <div class="editorial-grid grid-solution" id="grid-good">
+    <!-- DOM 1st — but reading-flow: grid-rows puts focus on CTA first (top-left) -->
+    <article class="cell cell-feature">
+      <span class="dom-tag">DOM: 1st</span>
+      <span class="cell-label">Feature</span>
+      <h2 class="cell-title">
+        The hidden cost of visual reordering in modern CSS layouts
+      </h2>
+      <p class="cell-excerpt">
+        Every time we reach for <code>order</code> or <code
+          >grid-template-areas</code
+        > to move content around the screen, we're making a silent promise to sighted
+        users that we may be breaking for everyone else.
+      </p>
+      <a href="#" class="cell-link" id="good-feature" onclick="return false"
+        >Read feature →</a
+      >
+    </article>
+
+    <article class="cell cell-art-a">
+      <span class="dom-tag">DOM: 2nd</span>
+      <span class="cell-label">Article A</span>
+      <h2 class="cell-title">WCAG 2.4.3 and the focus order criterion</h2>
+      <p class="cell-excerpt">
+        Focus order is a Level A requirement, meaning it applies to the broadest
+        range of users and content types.
+      </p>
+      <a href="#" class="cell-link" id="good-arta" onclick="return false"
+        >Read article →</a
+      >
+    </article>
+
+    <article class="cell cell-art-b">
+      <span class="dom-tag">DOM: 3rd</span>
+      <span class="cell-label">Article B</span>
+      <h2 class="cell-title">
+        Testing keyboard navigation: a practical checklist
+      </h2>
+      <p class="cell-excerpt">
+        Tab through your layout. Does focus move in a logical sequence? Does it
+        match what a sighted user would expect?
+      </p>
+      <a href="#" class="cell-link" id="good-artb" onclick="return false"
+        >Read article →</a
+      >
+    </article>
+
+    <article class="cell cell-cta">
+      <span class="dom-tag">DOM: 4th</span>
+      <span class="cell-label">Promoted</span>
+      <h2 class="cell-title">New: reading-flow & reading-order</h2>
+      <a href="#" class="cell-link" id="good-cta" onclick="return false"
+        >Get started →</a
+      >
+    </article>
+  </div>
+
+  <!-- Focus tracker -->
+  <div class="tracker">
+    <p class="tracker-label">Tab focus sequence</p>
+    <div class="tracker-row">
+      <span class="t-step" id="gs-cta">CTA (visual top-left)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="gs-feature">Feature (visual top-right)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="gs-arta">Article A (visual btm-left)</span>
+      <span class="t-arrow">→</span>
+      <span class="t-step" id="gs-artb">Article B (visual btm-right)</span>
+    </div>
+    <div class="verdict good">
+      ✓ Focus now moves left-to-right, top-to-bottom — exactly how a sighted
+      user reads the grid. DOM order is unchanged; <code>reading-flow</code> corrects
+      the accessibility layer only.
+    </div>
+  </div>
+
+  <p class="hint">
+    Press <kbd class="key">Tab</kbd> — focus now starts on the CTA (top-left) and
+    moves across the grid row by row.
+  </p>
+
+  <!-- The CSS -->
+  <p class="slabel" style="margin-top:1.5rem">The CSS</p>
+  <div class="code">
+    <span class="c-sel">.editorial-grid</span> &#123;
+    <span class="c-prop">display</span>: <span class="c-val">grid</span>;
+    <span class="c-prop">grid-template-columns</span>: <span class="c-val"
+      >1fr 1fr</span
+    >;
+    <span class="c-prop">grid-template-areas</span>:
+    <span class="c-area">"cta feature"</span>
+    <span class="c-area">"art-a art-b"</span>;
+    <span class="c-new">reading-flow</span>: <span class="c-new">grid-rows</span
+    >; <span class="c-comment">/* ← one line fixes it */</span>
+    &#125;
+
+    <span class="c-comment">/* DOM order: feature · art-a · art-b · cta */</span
+    >
+    <span class="c-comment"
+      >/* Focus order after fix: cta → feature → art-a → art-b */</span
+    >
+
+    <span class="c-sel">.cell-feature</span> &#123; <span class="c-prop"
+      >grid-area</span
+    >: <span class="c-area">feature</span>; &#125;
+    <span class="c-sel">.cell-art-a</span> &#123; <span class="c-prop"
+      >grid-area</span
+    >: <span class="c-area">art-a</span>; &#125;
+    <span class="c-sel">.cell-art-b</span> &#123; <span class="c-prop"
+      >grid-area</span
+    >: <span class="c-area">art-b</span>; &#125;
+    <span class="c-sel">.cell-cta</span> &#123; <span class="c-prop"
+      >grid-area</span
+    >: <span class="c-area">cta</span>; &#125; <span class="c-comment"
+      >/* DOM: last, visual: top-left */</span>
+  </div>
+
+  <!-- Order map -->
+  <p class="slabel">How the orders map</p>
+  <div class="map-grid">
+    <div class="mh">Cell</div>
+    <div class="mh">DOM position</div>
+    <div class="mh">Visual position</div>
+    <div class="mh">Focus position</div>
+
+    <div class="mc">CTA</div>
+    <div class="mc"><span class="t-dom">4th</span></div>
+    <div class="mc"><span class="t-vis">top-left</span></div>
+    <div class="mc"><span class="t-fix">1st ✓</span></div>
+
+    <div class="mc">Feature</div>
+    <div class="mc"><span class="t-dom">1st</span></div>
+    <div class="mc"><span class="t-vis">top-right</span></div>
+    <div class="mc"><span class="t-fix">2nd ✓</span></div>
+
+    <div class="mc">Article A</div>
+    <div class="mc"><span class="t-dom">2nd</span></div>
+    <div class="mc"><span class="t-vis">btm-left</span></div>
+    <div class="mc"><span class="t-fix">3rd ✓</span></div>
+
+    <div class="mc">Article B</div>
+    <div class="mc"><span class="t-dom">3rd</span></div>
+    <div class="mc"><span class="t-vis">btm-right</span></div>
+    <div class="mc"><span class="t-fix">4th ✓</span></div>
+  </div>
+</div><!-- /good panel -->
+</div>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────────────────────
+  function show(which) {
+    document.querySelectorAll(".tab").forEach((t) => {
+      const match = t.classList.contains("is-" + which);
+      t.classList.toggle("active", match);
+      t.setAttribute("aria-selected", match ? "true" : "false");
+    });
+    document.querySelectorAll(".panel").forEach((p) => {
+      p.classList.toggle("active", p.id === "panel-" + which);
+    });
+    // Move focus to the first card link so tab flows through the demo
+    const firstLink = document.querySelector("#panel-" + which + " .cell-link");
+    if (firstLink) firstLink.focus();
+  }
+  window.show = show;
+
+  // ── Focus tracker ─────────────────────────────────────────────────────────
+  const focusMap = {
+    "bad-feature": "bs-feature",
+    "bad-arta": "bs-arta",
+    "bad-artb": "bs-artb",
+    "bad-cta": "bs-cta",
+    "good-cta": "gs-cta",
+    "good-feature": "gs-feature",
+    "good-arta": "gs-arta",
+    "good-artb": "gs-artb",
+  };
+
+  document.querySelectorAll(".cell-link").forEach((link) => {
+    link.addEventListener("focus", () => {
+      const stepId = focusMap[link.id];
+      if (!stepId) return;
+
+      const isBad = link.id.startsWith("bad-");
+      const panel = isBad ? "bad" : "good";
+      const litClass = isBad ? "lit-bad" : "lit-good";
+
+      // Reset all steps in this panel
+      document.querySelectorAll(`#panel-${panel} .t-step`).forEach((s) => {
+        s.classList.remove(litClass, "done");
+      });
+
+      // Mark previous steps as done, current as lit
+      const allSteps = [
+        ...document.querySelectorAll(`#panel-${panel} .t-step`),
+      ];
+      const activeEl = document.getElementById(stepId);
+      const activeIdx = allSteps.indexOf(activeEl);
+
+      allSteps.forEach((s, i) => {
+        if (i < activeIdx) s.classList.add("done");
+        if (i === activeIdx) s.classList.add(litClass);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ── Header ── */
+  .demo-header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-dark);
+    padding-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-family: var(--font-base);
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--color-dark);
+  }
+
+  .intro {
+    font-size: 13px;
+    color: var(--color-dark);
+    max-width: 540px;
+    line-height: 1.7;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    border-bottom: none;
+    padding: 6px 6px 0;
+  }
+
+  .tab {
+    font-family: var(--font-base);
+    font-size: 12px;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: var(--color-dark);
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      background 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .tab:hover {
+    color: var(--color-dark);
+    background: var(--feature-color);
+  }
+  .tab.active {
+    color: var(--color-white);
+    background: var(--color-dark);
+  }
+  .tab.active.is-bad {
+    color: var(--color-accent);
+  }
+  .tab.active.is-good {
+    color: var(--feature-color);
+  }
+
+  /* ── Panel ── */
+  .panel {
+    display: none;
+    background: var(--color-dark);
+    border: 1px solid var(--color-dark);
+    padding: 1.5rem;
+  }
+
+  .panel.active {
+    display: block;
+  }
+
+  /* ── Section label ── */
+  .slabel {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel .slabel {
+  	color: var(--color-light);
+  }
+
+  .slabel::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-dark);
+  }
+
+  /* ── THE GRID ── */
+
+  /*
+    DOM order: feature(1) · article-a(2) · article-b(3) · cta(4)
+
+    Visual layout:
+    ┌──────────┬──────────┐
+    │  CTA     │ feature  │
+    ├──────┬───┴──────────┤
+    │ art-a│   art-b      │
+    └──────┴──────────────┘
+  */
+
+  .editorial-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--color-dark); /* gap colour via bg trick */
+    border: 1px solid var(--color-dark);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "cta     feature"
+      "art-a   art-b";
+  }
+
+  @media (max-width: 520px) {
+    .editorial-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "cta"
+        "feature"
+        "art-a"
+        "art-b";
+    }
+  }
+
+  /* Grid area assignments */
+  .cell-feature {
+    grid-area: feature;
+  }
+  .cell-art-a {
+    grid-area: art-a;
+  }
+  .cell-art-b {
+    grid-area: art-b;
+  }
+  .cell-cta {
+    grid-area: cta;
+  }
+
+  /* reading-flow on the solution grid */
+  .grid-solution {
+    reading-flow: grid-rows;
+  }
+
+  /* ── Cell base ── */
+  .cell {
+    background: var(--color-light);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    min-height: 130px;
+  }
+
+  .cell-feature {
+    min-height: 200px;
+  }
+
+  .dom-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    background: #1f1f1f;
+    border: 1px solid #3a3a3a;
+    color: var(--color-dark);
+    padding: 2px 8px;
+    align-self: flex-start;
+    margin-bottom: 0.25rem;
+  }
+
+  .cell-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+  }
+
+  .cell-title {
+    font-family: var(--font-base);
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--color-text);
+  }
+
+  .cell-feature .cell-title {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+  }
+  .cell-art-a .cell-title,
+  .cell-art-b .cell-title {
+    font-size: 0.95rem;
+  }
+  .cell-cta .cell-title {
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .cell-cta > * {
+  	color: var(--color-light);
+  }
+
+  .cell-excerpt {
+    font-size: 12px;
+    color: var(--color-dark);
+    line-height: 1.6;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cell-link {
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--font-base);
+    font-size: 11px;
+    padding: 5px 12px;
+    background: var(--feature-color);
+    border: 1px solid var(--color-dark);
+    color: var(--color-text);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+  }
+
+  .cell-link:hover {
+    background: var(--color-dark);
+  }
+  .cell-link:focus {
+    outline: none;
+  }
+
+  /* Focus rings — orange for broken, green for fixed */
+  .panel-bad .cell-link:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--color-dark),
+      0 0 0 4px var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .panel-good .cell-link:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--color-dark),
+      0 0 0 4px var(--feature-color);
+    border-color: var(--feature-color);
+  }
+
+  /* CTA cell accent */
+  .cell-cta {
+    background: var(--color-dark);
+    border: 1px solid var(--color-light);
+    border-left: 3px solid var(--color-dark);
+  }
+
+  .panel-bad .cell-cta {
+    border-color: var(--color-accent);
+  }
+  .panel-good .cell-cta {
+    border-color: var(--feature-color);
+  }
+
+  .cell-cta .cell-link {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-light);
+  }
+
+  .panel-good .cell-cta .cell-link {
+    background: var(--feature-color);
+    border-color: var(--feature-color);
+    color: var(--color-dark);
+  }
+
+  .cell-cta .cell-link:hover {
+    opacity: 0.9;
+  }
+
+  /* Feature cell accent stripe */
+  .cell-feature::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--feature-color), transparent);
+  }
+
+  /* ── Explainer ── */
+  .explainer {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--color-dark);
+    background: var(--color-light);
+    border-left: 3px solid var(--color-dark);
+    padding: 0.875rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .explainer.bad {
+    border-color: var(--color-accent);
+  }
+  .explainer.good {
+    border-color: var(--feature-color);
+  }
+  .explainer strong {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .explainer code {
+    font-size: 11px;
+    color: var(--color-text);
+  }
+
+  /* ── Focus tracker ── */
+  .tracker {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    padding: 1rem 1.25rem;
+  }
+
+  .tracker-label {
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+    margin-bottom: 0.75rem;
+  }
+
+  .tracker-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-height: 30px;
+    margin-bottom: 0.75rem;
+  }
+
+  .t-step {
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--feature-color);
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .t-step.lit-bad {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+  .t-step.lit-good {
+    background: var(--feature-color);
+    border-color: var(--feature-color);
+    color: var(--color-dark);
+  }
+  .t-step.done {
+    opacity: 0.4;
+  }
+
+  .t-arrow {
+    font-size: 10px;
+    color: #444;
+  }
+
+  .verdict {
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+  }
+
+  .verdict.bad {
+    background: rgba(255, 92, 53, 0.07);
+    border: 1px solid rgba(255, 92, 53, 0.2);
+    color: var(--color-accent);
+  }
+  .verdict.good {
+    background: rgba(74, 222, 128, 0.07);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    color: var(--feature-color);
+  }
+
+  /* ── Code ── */
+  .code {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    padding: 1rem 1.25rem;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 1.5rem;
+  }
+
+  .c-comment {
+    color: #484848;
+  }
+  .c-sel {
+    color: #94a3b8;
+  }
+  .c-prop {
+    color: #7dd3fc;
+  }
+  .c-val {
+    color: #f9a8d4;
+  }
+  .c-area {
+    color: #fbbf24;
+  }
+  .c-new {
+    color: var(--feature-color);
+  }
+
+  /* ── Order map ── */
+  .map-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--color-dark);
+    border: 1px solid var(--color-dark);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    font-size: 11px;
+  }
+
+  .map-grid .mh {
+    background: var(--feature-color);
+    padding: 6px 10px;
+    color: var(--color-dark);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+
+  .map-grid .mc {
+    background: var(--color-light);
+    padding: 8px 10px;
+    color: var(--color-text);
+  }
+
+  .map-grid .mc span {
+    display: inline-block;
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+
+  .t-dom {
+    background: #252525;
+    border: 1px solid #404040;
+    color: var(--color-dark);
+  }
+  .t-vis {
+    background: rgba(255, 92, 53, 0.1);
+    border: 1px solid rgba(255, 92, 53, 0.25);
+    color: var(--color-accent);
+  }
+  .t-fix {
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    color: var(--feature-color);
+  }
+
+  /* ── Hint ── */
+  .hint {
+    font-size: 11px;
+    color: var(--color-light);
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .key {
+    display: inline-block;
+    background: var(--feature-color);
+    border: 1px solid #444;
+    border-bottom: 2px solid #444;
+    padding: 1px 7px;
+    font-size: 11px;
+    color: var(--color-text);
+  }
+
+  /* ── Visual layout diagram ── */
+  .layout-diagram {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 52px 52px;
+    grid-template-areas: "cta feature" "art-a art-b";
+    gap: 3px;
+    margin-bottom: 1rem;
+    font-size: 11px;
+    max-width: 320px;
+  }
+
+  .ld-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .ld-cell .name {
+    color: var(--color-text);
+  }
+  .ld-cell .pos {
+    color: var(--color-dark);
+    font-size: 9px;
+  }
+
+  .ld-cta {
+    grid-area: cta;
+    background: rgba(255, 92, 53, 0.08);
+    border: 1px solid rgba(255, 92, 53, 0.2);
+  }
+  .ld-feature {
+    grid-area: feature;
+    background: var(--feature-color);
+    border: 1px solid var(--color-dark);
+  }
+  .ld-arta {
+    grid-area: art-a;
+    background: var(--feature-color);
+    border: 1px solid var(--color-dark);
+  }
+  .ld-artb {
+    grid-area: art-b;
+    background: var(--feature-color);
+    border: 1px solid var(--color-dark);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-dark);
+    font-size: 11px;
+    color: #484848;
+    line-height: 1.7;
+  }
+
+  .footer a {
+    color: var(--color-dark);
+  }
+</style>

@@ -1,0 +1,847 @@
+<div class="min-w-0 overflow-x-auto">
+<div class="demo-header">
+  <p class="eyebrow">Interactive demo · @reading-order</p>
+  <h1>
+    Visual order vs DOM order:<br /><em>the gap your users fall into</em>
+  </h1>
+  <p class="intro">
+    When CSS reorders content visually, keyboard and screen reader users still
+    follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
+    the cards below and feel the difference.
+  </p>
+</div>
+
+<!-- Tabs -->
+<div class="demo-tabs" role="tablist">
+  <button class="tab-btn problem active" role="tab" aria-selected="true" aria-controls="panel-problem" onclick="switchTab('problem')">
+    ❌ Without reading-order
+  </button>
+  <button class="tab-btn solution" role="tab" aria-selected="false" aria-controls="panel-solution" onclick="switchTab('solution')">
+    ✅ With reading-order
+  </button>
+</div>
+
+<!-- Problem Panel -->
+<div class="demo-panel panel-problem active" id="panel-problem" role="tabpanel">
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="badge badge-dom">1</span>
+      DOM order (how assistive tech reads it)
+    </div>
+    <div class="legend-item">
+      <span class="badge badge-visual">V</span>
+      Visual order (what sighted users see)
+    </div>
+  </div>
+
+  <p class="section-label">Layout</p>
+
+  <div class="cards-wrap">
+    <div class="cards-problem" id="problem-cards">
+
+      <!-- DOM order: 1 = Article A -->
+      <article class="card card-a" tabindex="-1">
+        <span class="dom-badge">DOM: 1st</span>
+        <div class="card-thumb">📰</div>
+        <div class="card-body">
+          <span class="card-meta">20 Oct 2025 · Article</span>
+          <h3 class="card-title">Article A</h3>
+          <a href="#" class="card-link" id="link-a" onclick="return false">Read more →</a>
+        </div>
+      </article>
+
+      <!-- DOM order: 2 = Article B -->
+      <article class="card card-b" tabindex="-1">
+        <span class="dom-badge">DOM: 2nd</span>
+        <div class="card-thumb">✏️</div>
+        <div class="card-body">
+          <span class="card-meta">18 Oct 2025 · Article</span>
+          <h3 class="card-title">Article B</h3>
+          <a href="#" class="card-link" id="link-b" onclick="return false">Read more →</a>
+        </div>
+      </article>
+
+      <!-- DOM order: 3 = CTA, but visually first via order: 1 -->
+      <article class="card card-cta" tabindex="-1">
+        <span class="dom-badge">DOM: 3rd</span>
+        <div class="card-thumb">
+          <div class="card-thumb-inner">
+            <p>Featured content</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-meta">Promoted</span>
+          <h3 class="card-title">CTA Card</h3>
+          <a href="#" class="card-link" id="link-cta" onclick="return false">Get started →</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div class="explainer problem">
+    <strong>What sighted users see:</strong> CTA → Article A → Article B<br>
+    <strong>What keyboard/screen reader users get:</strong> Article A → Article B → CTA<br><br>
+    The CTA appears first visually via <code>order: 1</code> — but it's third in the DOM. Tab key follows the DOM.
+  </div>
+
+  <!-- Code -->
+  <div class="code-block"><span class="code-comment">/* Visual order achieved with CSS order — */</span>
+<span class="code-comment">/* but DOM (and focus) order is unchanged   */</span>
+
+<span class="code-prop">.card-a</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">2</span>; &#125;   <span class="code-comment">/* DOM: 1st, visual: 2nd */</span>
+<span class="code-prop">.card-b</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">3</span>; &#125;   <span class="code-comment">/* DOM: 2nd, visual: 3rd */</span>
+<span class="code-prop">.card-cta</span> &#123; <span class="code-prop">order</span>: <span class="code-val">1</span>; &#125;   <span class="code-comment">/* DOM: 3rd, visual: 1st ⚠️ */</span></div>
+
+  <!-- Focus tracker -->
+  <p class="section-label">Tab focus sequence</p>
+  <div class="focus-tracker">
+    <p class="focus-tracker-label">Focus order as you tab through</p>
+    <div class="focus-sequence" id="focus-seq-problem">
+      <span class="focus-step" id="step-p-a">Article A (DOM 1st)</span>
+      <span class="focus-arrow">→</span>
+      <span class="focus-step" id="step-p-b">Article B (DOM 2nd)</span>
+      <span class="focus-arrow">→</span>
+      <span class="focus-step" id="step-p-cta">CTA (DOM 3rd)</span>
+    </div>
+    <div class="focus-verdict verdict-bad" id="verdict-problem">
+      ⚠ Focus follows DOM order. The CTA appears visually first but receives focus last — a WCAG 2.4.3 failure.
+    </div>
+  </div>
+
+  <p class="hint">Try pressing <kbd class="key">Tab</kbd> to navigate through the cards above and watch the sequence light up.</p>
+
+</div><!-- /problem panel -->
+
+<!-- Solution Panel -->
+<div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
+
+  <div class="legend">
+    <div class="legend-item">
+      <span class="badge badge-dom">1</span>
+      DOM order (unchanged)
+    </div>
+    <div class="legend-item">
+      <span class="badge badge-dom-fix">✓</span>
+      Focus + reading order (now matches visual)
+    </div>
+  </div>
+
+  <p class="section-label">Layout</p>
+
+  <div class="cards-wrap">
+    <div class="cards-solution" id="solution-cards">
+
+      <article class="card card-a" tabindex="-1">
+        <span class="dom-badge">DOM: 1st</span>
+        <div class="card-thumb">📰</div>
+        <div class="card-body">
+          <span class="card-meta">20 Oct 2025 · Article</span>
+          <h3 class="card-title">Article A</h3>
+          <a href="#" class="card-link" id="link-a-fix" onclick="return false">Read more →</a>
+        </div>
+      </article>
+
+      <article class="card card-b" tabindex="-1">
+        <span class="dom-badge">DOM: 2nd</span>
+        <div class="card-thumb">✏️</div>
+        <div class="card-body">
+          <span class="card-meta">18 Oct 2025 · Article</span>
+          <h3 class="card-title">Article B</h3>
+          <a href="#" class="card-link" id="link-b-fix" onclick="return false">Read more →</a>
+        </div>
+      </article>
+
+      <article class="card card-cta" tabindex="-1">
+        <span class="dom-badge">DOM: 3rd</span>
+        <div class="card-thumb">
+          <div class="card-thumb-inner">
+            <p>Featured content</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="card-meta">Promoted</span>
+          <h3 class="card-title">CTA Card</h3>
+          <a href="#" class="card-link" id="link-cta-fix" onclick="return false">Get started →</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <div class="explainer solution">
+    <strong>Visual order:</strong> CTA → Article A → Article B (unchanged)<br>
+    <strong>Focus + reading order:</strong> CTA → Article A → Article B (now matches ✓)<br><br>
+    <code>reading-flow: flex-visual</code> on the container + <code>reading-order</code> integers on each child
+    tell the browser's Accessibility Tree to follow visual order instead of DOM order.
+  </div>
+
+  <!-- Code -->
+  <div class="code-block"><span class="code-comment">/* Same visual order — but now focus matches */</span>
+<span class="code-prop">.cards</span> &#123;
+<span class="code-prop">display</span>: <span class="code-val">flex</span>;
+<span class="code-new">reading-flow</span>: <span class="code-new">flex-visual</span>;   <span class="code-comment">/* ← on the container */</span>
+&#125;
+
+<span class="code-prop">.card-a</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">2</span>; <span class="code-new">reading-order</span>: <span class="code-new">2</span>; &#125;
+<span class="code-prop">.card-b</span>   &#123; <span class="code-prop">order</span>: <span class="code-val">3</span>; <span class="code-new">reading-order</span>: <span class="code-new">3</span>; &#125;
+<span class="code-prop">.card-cta</span> &#123; <span class="code-prop">order</span>: <span class="code-val">1</span>; <span class="code-new">reading-order</span>: <span class="code-new">1</span>; &#125; <span class="code-comment">/* ✓ */</span></div>
+
+  <!-- Focus tracker -->
+  <p class="section-label">Tab focus sequence</p>
+  <div class="focus-tracker">
+    <p class="focus-tracker-label">Focus order as you tab through</p>
+    <div class="focus-sequence" id="focus-seq-solution">
+      <span class="focus-step" id="step-s-cta">CTA (visual 1st)</span>
+      <span class="focus-arrow">→</span>
+      <span class="focus-step" id="step-s-a">Article A (visual 2nd)</span>
+      <span class="focus-arrow">→</span>
+      <span class="focus-step" id="step-s-b">Article B (visual 3rd)</span>
+    </div>
+    <div class="focus-verdict verdict-good">
+      ✓ Focus follows visual order. Keyboard users and screen reader users now experience the same sequence as sighted users.
+    </div>
+  </div>
+
+  <p class="hint">Try pressing <kbd class="key">Tab</kbd> — focus now moves CTA → Article A → Article B, matching the visual layout.</p>
+
+  <!-- How it works table -->
+  <p class="section-label" style="margin-top: 1.5rem;">How the orders map</p>
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>Card</th>
+        <th>DOM position</th>
+        <th>Visual position (<code>order</code>)</th>
+        <th>Focus position (<code>reading-order</code>)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CTA</td>
+        <td><span class="tag tag-dom">3rd</span></td>
+        <td><span class="tag tag-visual">1st</span></td>
+        <td><span class="tag tag-focus">1st ✓</span></td>
+      </tr>
+      <tr>
+        <td>Article A</td>
+        <td><span class="tag tag-dom">1st</span></td>
+        <td><span class="tag tag-visual">2nd</span></td>
+        <td><span class="tag tag-focus">2nd ✓</span></td>
+      </tr>
+      <tr>
+        <td>Article B</td>
+        <td><span class="tag tag-dom">2nd</span></td>
+        <td><span class="tag tag-visual">3rd</span></td>
+        <td><span class="tag tag-focus">3rd ✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</div>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────────────────────
+  function switchTab(which) {
+    document.querySelectorAll(".tab-btn").forEach((b) => {
+      b.classList.toggle("active", b.classList.contains(which));
+      b.setAttribute(
+        "aria-selected",
+        b.classList.contains(which) && b.classList.contains(which)
+          ? "true"
+          : "false",
+      );
+    });
+    document.querySelectorAll(".demo-panel").forEach((p) => {
+      p.classList.toggle("active", p.id === "panel-" + which);
+    });
+  }
+  window.switchTab = switchTab;
+
+  // ── Focus tracking ─────────────────────────────────────────────────────────
+  // Simulates the focus indicator in the tracker — also works with real tab
+  const focusMaps = {
+    "link-a": { step: "step-p-a", panel: "problem" },
+    "link-b": { step: "step-p-b", panel: "problem" },
+    "link-cta": { step: "step-p-cta", panel: "problem" },
+    "link-cta-fix": { step: "step-s-cta", panel: "solution" },
+    "link-a-fix": { step: "step-s-a", panel: "solution" },
+    "link-b-fix": { step: "step-s-b", panel: "solution" },
+  };
+
+  document.querySelectorAll(".card-link").forEach((link) => {
+    link.addEventListener("focus", () => {
+      const map = focusMaps[link.id];
+      if (!map) return;
+      const panel = map.panel;
+      const activeClass = "active-" + panel;
+
+      // Reset all steps in this panel
+      document.querySelectorAll(`#panel-${panel} .focus-step`).forEach((s) => {
+        s.classList.remove(activeClass, "visited");
+      });
+
+      // Mark visited steps and active step
+      const allSteps = [
+        ...document.querySelectorAll(`#panel-${panel} .focus-step`),
+      ];
+      const activeStep = document.getElementById(map.step);
+      const activeIndex = allSteps.indexOf(activeStep);
+
+      allSteps.forEach((s, i) => {
+        if (i < activeIndex) s.classList.add("visited");
+        if (i === activeIndex) s.classList.add(activeClass);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ── Header ── */
+  .demo-header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--color-dark);
+    padding-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: var(--font-base);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--color-dark);
+  }
+
+  .intro {
+    color: var(--color-dark);
+    font-size: 13px;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* ── Tabs ── */
+  .demo-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    border-bottom: none;
+    padding: 6px 6px 0;
+  }
+
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: var(--color-dark);
+    cursor: pointer;
+    transition:
+      color 0.15s,
+      background 0.15s;
+    letter-spacing: 0.03em;
+  }
+
+  .tab-btn:hover {
+    color: var(--color-dark);
+    background: var(--color-light);
+  }
+  .tab-btn.active {
+    color: var(--color-dark);
+    background: var(--bg);
+  }
+  .tab-btn.active.problem {
+    color: var(--color-accent);
+  }
+  .tab-btn.active.solution {
+    color: var(--feature-color);
+  }
+
+  /* ── Panel ── */
+  .demo-panel {
+    background: var(--bg);
+    border: 1px solid var(--color-dark);
+    padding: 1.5rem;
+    display: none;
+  }
+
+  .demo-panel.active {
+    display: block;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    font-size: 12px;
+    color: var(--color-dark);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .badge-dom {
+    background: #333;
+    color: var(--color-dark);
+    border: 1px solid #555;
+  }
+  .badge-visual {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .badge-dom-fix {
+    background: var(--feature-color);
+    color: #000;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-dark);
+  }
+
+  /* ── Card grid ── */
+  .cards-wrap {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Problem: order reorders visually but DOM stays wrong */
+  .cards-problem {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-cta > * {
+   	color: var(--color-light);
+  }
+
+  @media (min-width: 500px) {
+    .cards-problem {
+      flex-direction: row;
+    }
+  }
+
+  /* The DOM order: A=1, B=2, CTA=3 — but visually CTA appears first */
+  .cards-problem .card-a {
+    order: 2;
+  }
+  .cards-problem .card-b {
+    order: 3;
+  }
+  .cards-problem .card-cta {
+    order: 1;
+  }
+
+  /* Solution: reading-flow + reading-order aligns focus with visual */
+  .cards-solution {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    reading-flow: flex-visual;
+  }
+
+  @media (min-width: 500px) {
+    .cards-solution {
+      flex-direction: row;
+    }
+  }
+
+  .cards-solution .card-a {
+    order: 2;
+    reading-order: 2;
+  }
+  .cards-solution .card-b {
+    order: 3;
+    reading-order: 3;
+  }
+  .cards-solution .card-cta {
+    order: 1;
+    reading-order: 1;
+  }
+
+  /* ── Card styles ── */
+  .card {
+    flex: 1;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+
+  .card-thumb {
+    height: 100px;
+    background: var(--color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-meta {
+    font-size: 10px;
+    color: var(--color-dark);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-family: var(--font-base);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--color-dark);
+  }
+
+  .card-link {
+    margin-top: auto;
+    display: inline-block;
+    font-size: 11px;
+    padding: 6px 10px;
+    background: var(--color-light);
+    color: var(--color-dark);
+    text-decoration: none;
+    border: 1px solid var(--color-dark);
+    cursor: pointer;
+    font-family: var(--mono);
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+    align-self: flex-start;
+  }
+
+  .card-link:hover {
+    background: var(--color-dark);
+  }
+
+  /* Focus styles */
+  .card-link:focus {
+    outline: none;
+  }
+  .panel-problem .card-link:focus-visible {
+    box-shadow: var(--focus-ring);
+    border-color: var(--color-accent);
+  }
+  .panel-solution .card-link:focus-visible {
+    box-shadow: var(--focus-ring-fix);
+    border-color: var(--feature-color);
+  }
+
+  /* DOM order badge on each card */
+  .dom-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 10px;
+    background: #222;
+    border: 1px solid #444;
+    color: var(--color-dark);
+    padding: 2px 7px;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+    z-index: 1;
+  }
+
+  /* CTA card variant */
+  .card-cta .card-thumb {
+    background: #1e1e1e;
+  }
+  .card-cta .card-thumb-inner {
+    text-align: center;
+    padding: 1rem;
+  }
+  .card-cta .card-thumb-inner p {
+    font-family: var(--font-base);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--color-dark);
+    margin-bottom: 0.5rem;
+  }
+  .card-cta .card-link {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+  .panel-solution .card-cta .card-link {
+    background: var(--feature-color);
+    border-color: var(--feature-color);
+    color: #000;
+  }
+  .card-cta .card-link:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Focus tracker ── */
+  .focus-tracker {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    padding: 1rem;
+    font-size: 12px;
+  }
+
+  .focus-tracker-label {
+    color: var(--color-dark);
+    margin-bottom: 0.75rem;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .focus-sequence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  .focus-step {
+    padding: 4px 10px;
+    font-size: 11px;
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    background: var(--color-light);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .focus-step.active-problem {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .focus-step.active-solution {
+    background: var(--feature-color);
+    border-color: var(--feature-color);
+    color: #000;
+  }
+
+  .focus-step.visited {
+    opacity: 0.5;
+  }
+
+  .focus-arrow {
+    color: var(--color-dark);
+    font-size: 10px;
+  }
+
+  .focus-verdict {
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .verdict-bad {
+    background: rgba(255, 92, 53, 0.08);
+    border: 1px solid rgba(255, 92, 53, 0.2);
+    color: var(--color-accent);
+  }
+
+  .verdict-good {
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    color: var(--feature-color);
+  }
+
+  /* ── Explainer boxes ── */
+  .explainer {
+    background: var(--color-light);
+    border-left: 3px solid var(--color-dark);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    font-size: 12px;
+    color: var(--color-dark);
+    line-height: 1.7;
+  }
+
+  .explainer.problem {
+    border-color: var(--color-accent);
+  }
+  .explainer.solution {
+    border-color: var(--feature-color);
+  }
+
+  .explainer strong {
+    color: var(--color-dark);
+    font-weight: 500;
+  }
+
+  /* ── Code snippet ── */
+  .code-block {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    padding: 1rem;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 1rem 0;
+    white-space: pre;
+  }
+
+  .code-comment {
+    color: #555;
+  }
+  .code-prop {
+    color: #7dd3fc;
+  }
+  .code-val {
+    color: #f9a8d4;
+  }
+  .code-new {
+    color: var(--feature-color);
+  }
+
+  /* ── Hint ── */
+  .hint {
+    font-size: 11px;
+    color: var(--color-dark);
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .key {
+    display: inline-block;
+    background: var(--color-light);
+    border: 1px solid #444;
+    border-bottom: 2px solid #444;
+    padding: 1px 6px;
+    font-size: 11px;
+    color: var(--color-dark);
+  }
+
+  /* ── How it works ── */
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 1rem 0;
+  }
+
+  .order-table th {
+    text-align: left;
+    padding: 6px 10px;
+    background: var(--color-light);
+    color: var(--color-dark);
+    font-weight: 400;
+    border-bottom: 1px solid var(--color-dark);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .order-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    vertical-align: middle;
+  }
+
+  .order-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-dom {
+    background: #2a2a2a;
+    color: var(--color-dark);
+    border: 1px solid #444;
+  }
+  .tag-visual {
+    background: rgba(255, 92, 53, 0.12);
+    color: var(--color-accent);
+    border: 1px solid rgba(255, 92, 53, 0.3);
+  }
+  .tag-focus {
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--feature-color);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+  }
+
+  /* ── Footer ── */
+  .footer-note {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-dark);
+    font-size: 11px;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  .footer-note a {
+    color: var(--color-dark);
+  }
+</style>

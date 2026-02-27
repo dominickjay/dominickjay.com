@@ -11,7 +11,8 @@ growth: seedling
 draft: true
 ---
 
-import ReadingOrderDemo from '../../components/demos/ReadingOrderDemo.astro';
+import ReadingOrderDemo1 from '../../components/demos/ReadingOrderDemo1.astro';
+import ReadingOrderDemo2 from '../../components/demos/ReadingOrderDemo2.astro';
 import FYIBlock from '../../components/FYIBlock.astro';
 
 ## The Accessibility Gap: When Visual Order Betrays Logical Order
@@ -88,93 +89,9 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 
 Visually, we've got our card layout looking like this; an image, then a date, then a title. Pretty generic stuff, but when a screen reader user traverses this layout, the order of the content is not what we would expect. The image is announced first, then the date, then the title. This is because the screen reader is reading the content in the order of the DOM, not the visual order.
 
-### Example 2: Our list layout
+<ReadingOrderDemo1 />
 
-If we have for example, a layout that is 3 elements (Article A, Article B and a CTA) in that order in the DOM, and we've used CSS to reorder them differently (let's say; the CTA, Article A and Article B). We would have this;
-
-<style>{`
-    .reading-order-example {
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        container: reading-order-example / inline-size;
-    }
-
-    @container reading-order-example (max-width: 560px) {
-        article {
-            width: 100%;
-        }
-    }
-
-    .reading-order-example article,
-    .reading-order-example > a {
-        border: 4px dotted;
-        padding: 8px;
-        flex-grow: 1;
-    }
-
-    .reading-order-example > a {
-        background-color: var(--color-dark);
-        color: var(--color-light);
-        cursor: pointer;
-    }
-
-    .reading-order-example > a:focus-within {
-        outline: 1px solid var(--color-dark);
-        outline-offset: 2px;
-    }
-
-    .reading-order-example a:hover {
-        opacity: 0.85;
-    }
-
-    .reading-order-example .reading-order-card--1 {
-        order: 3;
-    }
-
-    .reading-order-example .reading-order-card--2 {
-        order: 1;
-    }
-
-    .reading-order-example .reading-order-card--3 {
-        order: 2;
-    }
-
-`}</style>
-
-```css
-.reading-order-example .reading-order-card--1 {
-    order: 3;
-}
-
-.reading-order-example .reading-order-card--2 {
-    order: 1;
-}
-
-.reading-order-example .reading-order-card--3 {
-    order: 2;
-}
-```
-
-<div class="reading-order-example">
-    <article class="reading-order-card reading-order-card--1">
-        <date datetime="2025-10-30">20th October 2025</date>
-        <a href="#"><span>This is the card that is the first item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
-    </article>
-
-    <article class="reading-order-card reading-order-card--2">
-        <date datetime="2025-10-30">20th October 2025</date>
-        <a href="#"><span>This is the card that is the second item in the DOM</span></a>
-        <img src="https://placehold.co/600x400" alt="Card image" />
-    </article>
-
-    <a href="#" class="item item--3" tabindex="0" aria-label="Read more about this article">
-        <img src="https://placehold.co/600x800" alt="Card image" />
-    </a>
-</div>
-
-## Example 3: Our grid layout
+### Example 2: Our grid layout
 
 If we have for example, a layout that is 3 elements (Article A, Article B and a CTA) in that order in the DOM, and we've used CSS to reorder them differently (let's say; the CTA, Article A and Article B). We would have this;
 
@@ -297,6 +214,8 @@ If we have for example, a layout that is 3 elements (Article A, Article B and a 
 
 What's the correct order for these examples? Visually they are correct - they've done what we want it to do in that specific order to appease our designer overlords. However, for a user navigating the site through the use of a screen reader or a keyboard, this might be a bit of a contradiction. Typically screen readers such as NVDA, JAWS or Voiceover traverse the DOM and read out the content as it is set there, disregarding any extra information that might be in place to reorder it, announcing the CTA, then the Article A, then the Article B in that order. If we use the `tab` key to traverse the DOM, it will once again follow the DOM order, rather than our re-ordered items. Try using the `tab` key on this page to navigate through the section above, and notice that the focus outline is applied to Article A before the CTA. So we can see by attempting to replicate our design and using `order` or `grid-template-areas`, that we've actually broken the accessibility of the page and left behind come accessibility debt to fix later on, and that debt increases with every time we use `order` or `grid-template-areas` and don't account for the accessibility implications. That's also just from a developer's perspective, considering the user experience is even worse - users who rely on keyboard navigation or screen readers only have the DOM as their map and our CSS decisions often discard that map entirely.
 
+<ReadingOrderDemo2 />
+
 ## The Solution: reading-flow and reading-order
 
 So how do we fix this? This design isn't exactly a new trend, but being able to fix it whilst also being able to maintain the visual order of the elements is a bit of a challenge. There is either;
@@ -336,9 +255,6 @@ When using these properties, it's best to not overuse it. For accessibility, the
 
 When we look at the support at the top of this page, support is still sparse, but it's getting better. As of October 2025, Chrome and Firefox have support for `reading-flow` and `reading-order`, and Safari has support for `reading-flow`. Edge is still in progress, but it's expected to be supported in the future. If we consider fallbacks, it's a bit of a tricky one, as there's no real fallback for these properties. We can probably get away with using `order` and `grid-template-areas` as a fallback, but it's not a perfect solution for the reasons outlined above, and accessibility is still a concern. If this looks to be the only way forward, it's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
 
-## Example
-
-<ReadingOrderDemo />
 
 ## Conclusion
 

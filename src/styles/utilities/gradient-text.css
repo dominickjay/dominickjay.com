@@ -4,4 +4,5 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   padding-inline-end: 20px;
+  line-height: 1.2;
 }

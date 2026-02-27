@@ -10,9 +10,9 @@ const { title, description, growth } = Astro.props;
 		<div class="flow [--flow-space:16px]" style="--flow-space: var(--space-xl)">
 			{
 				growth && (
-					<div class="h-fit h4 flex">
+					<div class="h-fit h4 flex items-baseline gap-[8px]">
 						Current Growth Stage:{" "}
-						<span class="h-fit block px-[2px] md:px-[4px]">
+						<span class="growth">
 							{growth.charAt(0).toUpperCase() + growth.slice(1)}
 						</span>
 					</div>

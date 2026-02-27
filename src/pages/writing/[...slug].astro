@@ -10,258 +10,268 @@ import PatternBanner from "../../components/Pattern-Banner.astro";
 import { getRaindropBookmarks } from "../../lib/raindrop";
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from "../../lib/lastfm";
 import BrowserSupportTable from "../../components/BrowserSupportTable.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
 
 const baseUrl = import.meta.env.DEV
-	? "http://localhost:4321"
-	: new URL(Astro.request.url).origin;
+  ? "http://localhost:4321"
+  : new URL(Astro.request.url).origin;
 const { slug } = Astro.params;
 const posts = await getCollection("writing");
 const post = posts.find((p) => p.id === slug);
 const ogImage = new URL(`/open-graph/${slug}.png`, baseUrl).toString();
 
 if (!post) {
-	return Astro.redirect("/404");
+  return Astro.redirect("/404");
 }
 
 const { Content, headings } = await render(post);
 const timeToRead = getReadingTime(post.body);
 const { tags, supported } = post.data;
 const excludedTags = [
-	"update",
-	"blog",
-	"writing",
-	"tutorial",
-	"news",
-	"announcement",
+  "update",
+  "blog",
+  "writing",
+  "tutorial",
+  "news",
+  "announcement",
 ];
 const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
 
 const allPosts1 = posts
-	.filter((post1: CollectionEntry<"writing">) => {
-		// Exclude the current article
-		if (post.data.title === post1.data.title) return false;
+  .filter((post1: CollectionEntry<"writing">) => {
+    // Exclude the current article
+    if (post.data.title === post1.data.title) return false;
 
-		// Only include posts that have matching tags
-		return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;
-	})
-	.map((post: CollectionEntry<"writing">) => ({
-		...post,
-		sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag))
-			.length,
-	}))
-	.sort((a, b) => {
-		if (a.sameTagCount > b.sameTagCount) return -1;
-		if (b.sameTagCount > a.sameTagCount) return 1;
+    // Only include posts that have matching tags
+    return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;
+  })
+  .map((post: CollectionEntry<"writing">) => ({
+    ...post,
+    sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag))
+      .length,
+  }))
+  .sort((a, b) => {
+    if (a.sameTagCount > b.sameTagCount) return -1;
+    if (b.sameTagCount > a.sameTagCount) return 1;
 
-		if (a.data.date > b.data.date) return -1;
-		if (a.data.date < b.data.date) return 1;
+    if (a.data.date > b.data.date) return -1;
+    if (a.data.date < b.data.date) return 1;
 
-		return 0;
-	})
-	.slice(0, 2);
+    return 0;
+  })
+  .slice(0, 2);
 
 // Fetch music data in the frontmatter
 let musicData = null;
 try {
-	const { musicDateFrom, musicDateTo } = post.data;
-	const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
+  const { musicDateFrom, musicDateTo } = post.data;
+  const lastFmApiKey = import.meta.env.LAST_FM_API_KEY;
 
-	if (musicDateFrom && musicDateTo && lastFmApiKey) {
-		const data = await getWeeklyAlbumChart(
-			musicDateFrom,
-			musicDateTo,
-			lastFmApiKey,
-		);
-		if (!data.error) {
-			// Enrich albums with images
-			if (data.weeklyalbumchart?.album) {
-				data.weeklyalbumchart.album = await enrichAlbumsWithImages(
-					data.weeklyalbumchart.album,
-					lastFmApiKey,
-				);
-			}
-			musicData = data;
-			// console.log("Processed music data:", musicData);
-		} else {
-			console.error("Last.fm API error:", data.message);
-		}
-	} else {
-		console.log("Missing required data:", {
-			hasMusicDateFrom: !!musicDateFrom,
-			hasMusicDateTo: !!musicDateTo,
-			hasApiKey: !!lastFmApiKey,
-		});
-	}
+  if (musicDateFrom && musicDateTo && lastFmApiKey) {
+    const data = await getWeeklyAlbumChart(
+      musicDateFrom,
+      musicDateTo,
+      lastFmApiKey,
+    );
+    if (!data.error) {
+      // Enrich albums with images
+      if (data.weeklyalbumchart?.album) {
+        data.weeklyalbumchart.album = await enrichAlbumsWithImages(
+          data.weeklyalbumchart.album,
+          lastFmApiKey,
+        );
+      }
+      musicData = data;
+      // console.log("Processed music data:", musicData);
+    } else {
+      console.error("Last.fm API error:", data.message);
+    }
+  } else {
+    console.log("Missing required data:", {
+      hasMusicDateFrom: !!musicDateFrom,
+      hasMusicDateTo: !!musicDateTo,
+      hasApiKey: !!lastFmApiKey,
+    });
+  }
 } catch (error) {
-	console.error("Error fetching music data:", error);
+  console.error("Error fetching music data:", error);
 }
 
 // Fetch Raindrop bookmarks
 let raindropData = null;
 try {
-	const raindropApiKey = import.meta.env.RAINDROP_API_KEY;
-	const raindropBookmarks = import.meta.env.RAINDROP_BOOKMARKS;
-	const { linksFrom, linksTo } = post.data;
+  const raindropApiKey = import.meta.env.RAINDROP_API_KEY;
+  const raindropBookmarks = import.meta.env.RAINDROP_BOOKMARKS;
+  const { linksFrom, linksTo } = post.data;
 
-	if (raindropApiKey && linksFrom && linksTo) {
-		raindropData = await getRaindropBookmarks(
-			raindropBookmarks,
-			raindropApiKey,
-			linksFrom,
-			linksTo,
-		);
-		console.log("Raindrop data:", raindropData);
-	} else {
-		console.error("Missing required data:", {
-			hasApiKey: !!raindropApiKey,
-			hasLinksFrom: !!linksFrom,
-			hasLinksTo: !!linksTo,
-		});
-	}
+  if (raindropApiKey && linksFrom && linksTo) {
+    raindropData = await getRaindropBookmarks(
+      raindropBookmarks,
+      raindropApiKey,
+      linksFrom,
+      linksTo,
+    );
+    console.log("Raindrop data:", raindropData);
+  } else {
+    console.error("Missing required data:", {
+      hasApiKey: !!raindropApiKey,
+      hasLinksFrom: !!linksFrom,
+      hasLinksTo: !!linksTo,
+    });
+  }
 } catch (error) {
-	console.error("Error fetching Raindrop data:", error);
+  console.error("Error fetching Raindrop data:", error);
 }
 
 console.log("Final musicData being passed to BlogPost:", musicData);
 
 export async function getStaticPaths() {
-	const posts = await getCollection("writing");
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: { post },
-	}));
+  const posts = await getCollection("writing");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
 let compatData = null;
 try {
-	if (supported) {
-		const path = supported
-			.replace("bcd.", "")
-			.replace(/\["/g, ".")
-			.replace(/"\]/g, "");
-		const keys = path.split(".");
+  if (supported) {
+    const path = supported
+      .replace("bcd.", "")
+      .replace(/\["/g, ".")
+      .replace(/"\]/g, "");
+    const keys = path.split(".");
 
-		let current = bcd;
-		for (const key of keys) {
-			if (current && current[key]) {
-				current = current[key];
-			} else {
-				console.warn(`Browser compat data not found at path: ${supported}`);
-				current = null;
-				break;
-			}
-		}
-		compatData = current;
-	}
+    let current = bcd;
+    for (const key of keys) {
+      if (current && current[key]) {
+        current = current[key];
+      } else {
+        console.warn(`Browser compat data not found at path: ${supported}`);
+        current = null;
+        break;
+      }
+    }
+    compatData = current;
+  }
 } catch (error) {
-	console.error("Error accessing browser compat data:", error);
+  console.error("Error accessing browser compat data:", error);
 }
 
 const allowedBrowsers = ["chrome", "firefox", "safari", "edge"];
 
 const browserSupport = compatData?.support
-	? Object.entries(compatData.support)
-			.filter(([browser]) => allowedBrowsers.includes(browser))
-			.map(([browser, data]) => ({
-				browser,
-				version: data.version_added || "Unknown",
-				support: data.version_added ? "Supported" : "Not supported",
-			}))
-	: [];
+  ? Object.entries(compatData.support)
+      .filter(([browser]) => allowedBrowsers.includes(browser))
+      .map(([browser, data]) => ({
+        browser,
+        version: data.version_added || "Unknown",
+        support: data.version_added ? "Supported" : "Not supported",
+      }))
+  : [];
 
 const compatDataStatus = compatData?.status;
 ---
 
 <head>
-	<meta charset="utf-8" />
-	<meta property="og:image" content={ogImage} />
-	<meta property="twitter:image" content={ogImage} />
+  <meta charset="utf-8" />
+  <meta property="og:image" content={ogImage} />
+  <meta property="twitter:image" content={ogImage} />
 </head>
 
 <BlogPost
-	{...post.data}
-	headings={headings}
-	timeToRead={timeToRead}
-	musicData={musicData}
-	raindropData={raindropData}
+  {...post.data}
+  headings={headings}
+  timeToRead={timeToRead}
+  musicData={musicData}
+  raindropData={raindropData}
 >
-	<Content />
-	<div class="post-recommendations flex flex-col justify-end">
-		<div
-			class="md:sticky md:bottom-[var(--space-xxl)] flex flex-col gap-[var(--space-m)]"
-		>
-			<div class="border-y border-black/[0.4]">
-				<div id="progress">
-					<PatternBanner />
-				</div>
-			</div>
-			<div>
-				{
-					browserSupport.length > 0 && (
-						<BrowserSupportTable
-							browserSupport={browserSupport}
-							compatDataStatus={compatDataStatus}
-						/>
-					)
-				}
-			</div>
-			<div
-				class="prose flex flex-col justify-end gap-y-[var(--space-s)] md:sticky md:bottom-[var(--space-xxl)]"
-			>
-				<h3 style="font-family: var(--font-base);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 8px;">You might also like...</h3>
-				<div
-					class="flex flex-col gap-[var(--space-s)]"
-					style="--grid-placement: auto-fit"
-				>
-					{
-						allPosts1.map((post) => (
-							<div key={post.id} class="">
-								<a
-									href={`/writing/${post.id}`}
-									style="--flow-space: var(--space-s)"
-								>
-									<span class="">{post.data.title}</span>
-								</a>
-							</div>
-						))
-					}
-				</div>
-			</div>
-		</div>
-	</div>
-	{musicData && <MusicGrid musicData={musicData} />}
-	{raindropData && <RaindropGrid raindropData={raindropData} />}
+  <div class="min-w-0 flow prose">
+    <Content />
+  </div>
+  <div class="post-recommendations flex flex-col justify-end">
+    <div
+      class="md:sticky md:bottom-[var(--space-xxl)] flex flex-col gap-[var(--space-m)]"
+    >
+      <TableOfContents headings={headings} />
+      <!-- <div class="border-y border-black/[0.4]">
+        <div id="progress">
+          <PatternBanner />
+        </div>
+      </div> -->
+      <div>
+        {
+          browserSupport.length > 0 && (
+            <BrowserSupportTable
+              browserSupport={browserSupport}
+              compatDataStatus={compatDataStatus}
+            />
+          )
+        }
+      </div>
+      <div
+        class="prose flex flex-col justify-end gap-y-[var(--space-s)]"
+      >
+        <h3
+          style="
+						font-family: var(--font-base);
+						font-size: 10px;
+						letter-spacing: 0.14em;
+						color: var(--accent);
+						text-transform: uppercase;
+						margin-bottom: 8px;
+					"
+        >
+          You might also like...
+        </h3>
+        <div
+          class="flex flex-col gap-[var(--space-s)]"
+          style="--grid-placement: auto-fit"
+        >
+          {
+            allPosts1.map((post) => (
+              <div key={post.id} class="">
+                <a
+                  href={`/writing/${post.id}`}
+                  style="--flow-space: var(--space-s)"
+                >
+                  <span class="">{post.data.title}</span>
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  {musicData && <MusicGrid musicData={musicData} />}
+  {raindropData && <RaindropGrid raindropData={raindropData} />}
 </BlogPost>
 <script is:inline>
-	const ICON_COPY = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+  const ICON_COPY = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
 	  <rect x="4" y="4" width="7" height="7" rx="1"/>
 	  <path d="M1 8V2a1 1 0 0 1 1-1h6"/>
 	</svg>`;
 
-	const ICON_CHECK = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+  const ICON_CHECK = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
 	  <path d="M2 6l3 3 5-5"/>
 	</svg>`;
 
-	/**
-	 * Wrap each <pre class="astro-code"> in a .code-block-wrap div
-	 * and prepend a header bar with traffic-light dots, the language
-	 * label (from data-language set by Shiki), and a copy button.
-	 */
-	function enhanceCodeBlocks() {
-	  document.querySelectorAll("pre.astro-code").forEach((pre) => {
-	    // Skip if already enhanced (e.g. after a view transition re-run)
-	    if (pre.closest(".code-block-wrap")) return;
+  /**
+   * Wrap each <pre class="astro-code"> in a .code-block-wrap div
+   * and prepend a header bar with traffic-light dots, the language
+   * label (from data-language set by Shiki), and a copy button.
+   */
+  function enhanceCodeBlocks() {
+    document.querySelectorAll("pre.astro-code").forEach((pre) => {
+      // Skip if already enhanced (e.g. after a view transition re-run)
+      if (pre.closest(".code-block-wrap")) return;
 
-	    const lang = pre.dataset.language ?? "";
+      const lang = pre.dataset.language ?? "";
 
-	    const header = document.createElement("div");
-	    header.className = "code-block-header";
-	    header.innerHTML = `
+      const header = document.createElement("div");
+      header.className = "code-block-header";
+      header.innerHTML = `
 	      <div class="code-block-header__dots" aria-hidden="true">
 	        <div class="code-block-header__dot"></div>
 	        <div class="code-block-header__dot"></div>
@@ -273,62 +283,61 @@ const compatDataStatus = compatData?.status;
 	      </button>
 	    `;
 
-	    const wrap = document.createElement("div");
-	    wrap.className = "code-block-wrap";
-	    pre.parentNode.insertBefore(wrap, pre);
-	    wrap.appendChild(pre);
-	    wrap.prepend(header);
-	  });
-	}
+      const wrap = document.createElement("div");
+      wrap.className = "code-block-wrap";
+      pre.parentNode.insertBefore(wrap, pre);
+      wrap.appendChild(pre);
+      wrap.prepend(header);
+    });
+  }
 
-	/**
-	 * Copy the plain text of the associated <pre> to the clipboard.
-	 * Falls back to execCommand for older browsers / non-HTTPS contexts.
-	 */
-	async function handleCopy(btn) {
-	  const pre = btn.closest(".code-block-wrap")?.querySelector("pre");
-	  if (!pre) return;
+  /**
+   * Copy the plain text of the associated <pre> to the clipboard.
+   * Falls back to execCommand for older browsers / non-HTTPS contexts.
+   */
+  async function handleCopy(btn) {
+    const pre = btn.closest(".code-block-wrap")?.querySelector("pre");
+    if (!pre) return;
 
-	  const text = pre.textContent.trim();
+    const text = pre.textContent.trim();
 
-	  try {
-	    if (navigator.clipboard?.writeText) {
-	      await navigator.clipboard.writeText(text);
-	    } else {
-	      const ta = Object.assign(document.createElement("textarea"), {
-	        value: text,
-	        style: "position:fixed;opacity:0",
-	      });
-	      document.body.appendChild(ta);
-	      ta.select();
-	      document.execCommand("copy");
-	      document.body.removeChild(ta);
-	    }
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = Object.assign(document.createElement("textarea"), {
+          value: text,
+          style: "position:fixed;opacity:0",
+        });
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+      }
 
-	    btn.setAttribute("data-copied", "");
-	    btn.innerHTML = `${ICON_CHECK} Copied!`;
-	    setTimeout(() => {
-	      btn.removeAttribute("data-copied");
-	      btn.innerHTML = `${ICON_COPY} Copy`;
-	    }, 2000);
-	  } catch {
-	    btn.innerHTML = `${ICON_COPY} Failed`;
-	    setTimeout(() => {
-	      btn.innerHTML = `${ICON_COPY} Copy`;
-	    }, 2000);
-	  }
-	}
+      btn.setAttribute("data-copied", "");
+      btn.innerHTML = `${ICON_CHECK} Copied!`;
+      setTimeout(() => {
+        btn.removeAttribute("data-copied");
+        btn.innerHTML = `${ICON_COPY} Copy`;
+      }, 2000);
+    } catch {
+      btn.innerHTML = `${ICON_COPY} Failed`;
+      setTimeout(() => {
+        btn.innerHTML = `${ICON_COPY} Copy`;
+      }, 2000);
+    }
+  }
 
-	// Event delegation — one listener covers all copy buttons
-	document.addEventListener("click", (e) => {
-	  const btn = e.target.closest(".code-block-header__copy");
-	  if (btn) handleCopy(btn);
-	});
+  // Event delegation — one listener covers all copy buttons
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".code-block-header__copy");
+    if (btn) handleCopy(btn);
+  });
 
-	// Initial run
-	enhanceCodeBlocks();
+  // Initial run
+  enhanceCodeBlocks();
 
-	// Re-run after Astro view transitions
-	document.addEventListener("astro:page-load", enhanceCodeBlocks);
-
+  // Re-run after Astro view transitions
+  document.addEventListener("astro:page-load", enhanceCodeBlocks);
 </script>

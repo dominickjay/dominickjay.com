@@ -24,15 +24,12 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 
 <nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
 	<span>Contents: </span>
-	<ol>
+	<ol class="toc-list">
 		{
 			grouppedHeadings.map((h) => (
-				<li>
-					<a
-						class="group relative flex items-start gap-2 w-fit overflow-hidden"
-						href={`#${h.slug}`}
-					>
-						<span class="">{h.text}</span>
+				<li class="toc-item" data-target={`#${h.slug}`}>
+					<a href={`#${h.slug}`}>
+						{h.text}
 					</a>
 				</li>
 			))
@@ -62,7 +59,7 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 		},
 		{
 			root: null,
-			rootMargin: "-25% 0px -25% 0px", // Adds some margin to when the heading is considered "visible"
+			rootMargin: "0px", // Adds some margin to when the heading is considered "visible"
 			threshold: 0.05, // Trigger when heading is 50% visible
 		},
 	);
@@ -83,10 +80,38 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 </script>
 
 <style>
-	.active-toc-item {
-		opacity: 1;
-	}
-	.active-toc-item svg {
-		opacity: 1;
-	}
+.toc-list {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-block-start: var(--space-m);
+}
+.toc-item a {
+  display: block;
+  font-family: var(--font-base);
+  font-size: 14px;
+  letter-spacing: .06em;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 5px 0 5px 12px;
+  border-left: 2px solid var(--color-dark);
+  transition: color .2s, border-color .2s, padding-left .2s;
+  font-style: normal;
+  font-weight: 400;
+  background: none;
+  opacity: 0.8;
+  &::before,
+  &::after {
+    content: none;
+  }
+}
+.toc-item a:hover { color: var(--text); padding-left: 16px; }
+.toc-item .active-toc-item {
+  border-left-color: var(--color-accent);
+  padding-left: 16px;
+  font-style: italic;
+  opacity: 1;
+  font-weight: 600;
+}
 </style>
