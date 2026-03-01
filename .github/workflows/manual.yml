@@ -2,7 +2,8 @@ name: "Generate and publish weekly link post"
 on:
   push:
     branches:
-      - astro
+      - feat/astro
+      - feat/sanity
   schedule:
     - cron: 0 0 1 * *
 jobs:
