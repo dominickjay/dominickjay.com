@@ -1,5 +1,8 @@
 name: "Generate and publish weekly link post"
 on:
+  push:
+    branches:
+      - astro
   schedule:
     - cron: 0 0 1 * *
 jobs:
