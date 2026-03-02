@@ -1,0 +1,39 @@
+name: "Weekly generate and sync"
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+jobs:
+  weekly-scripts:
+    name: "Run generate-now, generate-books, sync-music, test-trakt"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - name: generate-now
+        run: npm run generate-now
+        env:
+          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
+      - name: generate-books
+        run: npm run generate-books
+        env:
+          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
+          hardcoverToken: ${{ secrets.HARDCOVER_TOKEN }}
+      - name: sync-music
+        run: npm run sync-music
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
+          FANART_API_KEY: ${{ secrets.FANART_API_KEY }}
+      - name: test-trakt
+        run: npm run test-trakt
+        env:
+          TRAKT_BASE: ${{ vars.TRAKT_BASE || 'https://dominickjay.com' }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Weekly generate-now, books, sync-music, test-trakt
