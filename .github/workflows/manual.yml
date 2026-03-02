@@ -4,7 +4,9 @@ on:
     - cron: 0 0 1 * *
   push:
     branches:
-      - astro
+      - feat/sanity
+      - feat/astro
+  workflow_dispatch:
 jobs:
   generate-post:
     name: "Run script to generate post"
