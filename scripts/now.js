@@ -11,12 +11,19 @@ const formattedToday = format(today, "yyyy-MM-dd");
 const monthYear = format(today, "MMMM yyyy");
 
 async function getTopTracks(apiKey, limit) {
+	if (!apiKey) throw new Error("LAST_FM_API_KEY is required");
 	const response = await fetch(
 		`https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=1month&api_key=${apiKey}&limit=${limit || 20}&format=json`,
 	);
 	const data = await response.json();
-	// console.log(data);
-	return data.toptracks.track;
+	if (data?.error) {
+		throw new Error(`Last.fm API: ${data.message ?? data.error}`);
+	}
+	const tracks = data?.toptracks?.track;
+	if (!Array.isArray(tracks)) {
+		throw new Error("Last.fm API: unexpected response (no toptracks.track)");
+	}
+	return tracks;
 }
 
 function writePost(tracks) {
