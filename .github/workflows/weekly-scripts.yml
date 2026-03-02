@@ -33,7 +33,7 @@ jobs:
       - name: test-trakt
         run: npm run test-trakt
         env:
-          TRAKT_BASE: ${{ vars.TRAKT_BASE || 'https://dominickjay.com' }}
+          TRAKT_BASE: ${{ secrets.TRAKT_BASE || 'https://dominickjay.com' }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Weekly generate-now, books, sync-music, test-trakt
