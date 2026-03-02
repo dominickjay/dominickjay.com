@@ -1,25 +1,26 @@
-name: 'Generate and publish weekly link post'
+name: "Generate and publish weekly link post"
 on:
-  push:
-    branches:
-      - feat/astro
-      - feat/sanity
   schedule:
     - cron: 0 0 1 * *
+  push:
+    branches:
+      - astro
+  workflow_dispatch:
 jobs:
   generate-post:
-    name: 'Run script to generate post'
+    name: "Run script to generate post"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "18"
+          cache: "npm"
       - run: npm install
-      - run: npm run generate-links
+      - run: npm generate-links
         env:
-          RAINDROP_API_KEY: ${{ secrets.RAINDROP_API_KEY }}
-          RAINDROP_BOOKMARKS: ${{ secrets.RAINDROP_BOOKMARKS }}
+          RAINDROP_TOKEN: ${{ secrets.RAINDROP_API_KEY }}
+          RAINDROP_COLLECTION_ID: ${{ secrets.RAINDROP_BOOKMARKS }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Generate weekly link post
