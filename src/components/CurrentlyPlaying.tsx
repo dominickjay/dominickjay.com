@@ -130,7 +130,7 @@ export default function CurrentlyPlaying({
                 height={1224}
                 srcSet={`${displayImageUrl} 2180w`}
                 sizes="(max-width: 768px) 100vw, 100vw"
-                className="absolute inset-0 size-full object-cover object-top"
+                className="absolute inset-0 size-full object-cover object-[top_30%]"
                 aria-hidden="true"
               />
             </picture>
