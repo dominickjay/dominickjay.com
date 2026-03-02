@@ -6,9 +6,6 @@ on:
       - feat/sanity
   schedule:
     - cron: 0 0 1 * *
-  push:
-    branches:
-      - astro
 jobs:
   generate-post:
     name: 'Run script to generate post'
