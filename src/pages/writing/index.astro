@@ -250,6 +250,11 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 
 		section?.querySelector('select')?.addEventListener('change', applyFilters);
 
+		const growthFromUrl = new URLSearchParams(window.location.search).get('growth');
+		if (growthFromUrl && ['all', 'evergreen', 'growing', 'seedling'].includes(growthFromUrl)) {
+		  const sel = section?.querySelector('select');
+		  if (sel) sel.value = growthFromUrl;
+		}
 		applyFilters();
 
 		// Stagger reveal (per list)

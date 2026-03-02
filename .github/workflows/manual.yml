@@ -11,15 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18"
-          cache: "npm"
+          node-version: "20"
       - run: npm install
-      - run: npm generate-links
+      - run: npm run generate-links
         env:
-          RAINDROP_TOKEN: ${{ secrets.RAINDROP_API_KEY }}
-          RAINDROP_COLLECTION_ID: ${{ secrets.RAINDROP_BOOKMARKS }}
+          RAINDROP_API_KEY: ${{ secrets.RAINDROP_API_KEY }}
+          RAINDROP_BOOKMARKS: ${{ secrets.RAINDROP_BOOKMARKS }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Generate weekly link post
