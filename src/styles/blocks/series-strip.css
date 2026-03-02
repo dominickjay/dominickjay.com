@@ -1,0 +1,76 @@
+.series-strip {
+  margin: 2rem 0;
+  padding: 1.125rem 1.25rem 1.125rem 1.5rem;
+  background: rgb(from var(--feature-color) r g b / 0.1);
+  border-left: 4px solid var(--feature-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  gap: 0.75rem 1.5rem;
+  align-items: start;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+  container: series-strip / inline-size;
+}
+
+.series-strip__tag {
+  font-family: var(--font-base);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.series-strip__title {
+  font-family: var(--font-base);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--feature-color);
+}
+
+.series-strip__links {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 1fr);
+  width: 100%;
+
+  @container series-strip (width <= 680px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.series-strip__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: var(--space-m);
+
+  @container series-strip (width <= 680px) {
+    grid-column: span 1;
+  }
+}
+
+.series-strip__item:hover,
+.series-strip__item--current {
+  background: rgb(from var(--feature-color) r g b / 0.15);
+  transition: background 0.15s ease;
+}
+
+.series-strip__description {
+  font-family: var(--font-base);
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--feature-color);
+}
+
+.series-strip__current {
+  font-style: italic;
+  padding-inline-start: 2px;
+}

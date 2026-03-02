@@ -1,0 +1,15 @@
+---
+const {
+	tagline,
+	title,
+	description
+} = Astro.props;
+
+console.log(tagline);
+---
+
+<aside class="inline-callout">
+	<span class="inline-callout__tag">{ tagline }</span>
+	<a href="/writing/imposter-syndrome" class="inline-callout__title box-link">{ title }</a>
+	<div class="inline-callout__description">{ description }</div>
+</aside>

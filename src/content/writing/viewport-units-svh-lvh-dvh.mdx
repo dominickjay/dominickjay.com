@@ -1,0 +1,114 @@
+---
+title: "The 100vh Problem, and How Three New Units Fix It"
+description: "In a remote world, technical debt doesn't just slow down a site—it triggers urgent, cross-continent Slack pings. This article frames code quality as an act of empathy. Learn how to eliminate Global State Blast Radii and Opaque Dependencies by becoming an Async-Resilient Developer who protects their team's sanity (and sleep)."
+pubDate: '2025-09-25'
+tags:
+    - css
+draft: true
+growth: growing
+supported: bcd.css["selectors"].units
+---
+
+The angle that isn't already everywhere: Every existing post covers what the three units are. None of them give you the decision rule clearly — which one to reach for and when, including the honest caveat that dvh is not a universal replacement for vh. That's the post.
+Companion posts to link: env() post (mobile/PWA safe area insets — same class of problem), object-fit post (CLS — same "invisible mobile layout shift" category), scrollbar-gutter (another layout-shift fix)
+
+## I. The Hook — What 100vh Actually Does on Mobile
+~150 words
+Don't open with "there are three new viewport units." Open with the bug.
+The bug: on mobile, 100vh is calculated against the large viewport — the one where the browser chrome (address bar, tab strip) is fully retracted. On page load, the chrome is visible, which means the actual visible area is shorter than 100vh. Your hero section, your full-screen modal, your sticky footer — they're taller than the screen. The CTA at the bottom is clipped. Users have to scroll to see it, if they notice at all.
+The cruel part: on desktop, and in Chrome DevTools mobile emulation, 100vh works perfectly. The bug only appears on a real device. This is why it shipped in production for years without anyone catching it.
+One concrete before/after scenario here — a hero with a CTA button that sits just below the fold on mobile because of this exact issue. Set that up; the rest of the post is the resolution.
+
+## II. Three Viewports, Three Units
+~250 words
+Precise definitions, not vague ones. Each unit defined by what it measures, not just what it's "for."
+lvh — Large Viewport Height
+1% of the viewport height when all browser UI is fully retracted (hidden). This is what vh has always measured, and still measures. 100lvh === 100vh on every browser. Useful to know exists for the mental model, but if you're reaching for lvh in your actual CSS you've probably misunderstood something — it's the same problem as vh.
+svh — Small Viewport Height
+1% of the viewport height when all browser UI is fully visible (shown). The most conservative measurement — the smallest the viewport will ever be. 100svh will always fit on screen, regardless of chrome state.
+dvh — Dynamic Viewport Height
+1% of the current viewport height, recalculated live as the browser UI expands and contracts. Tracks the actual available space in real time.
+Short visual description here (not a diagram — just prose): imagine the three as three snapshots. svh is the photo taken when the UI is fully open. lvh is the photo taken when it's fully closed. dvh is a live video feed.
+Sidebar: what about the width equivalents?
+One sentence: svw, lvw, dvw exist and follow the same logic — less commonly needed since horizontal chrome is rare, but worth knowing they exist.
+
+## III. The Decision Rule
+~200 words
+This is the section that makes the post worth bookmarking. A clear, opinionated guide — not "it depends."
+Use svh for most full-height layout.
+Hero sections, full-screen modals, sticky headers and footers. svh guarantees the content fits on screen even at worst-case chrome visibility. It won't shift as the user scrolls. It's the safe default.
+```css
+css.hero {
+  min-height: 100svh;
+}
+
+.modal {
+  height: 100svh;
+}
+```
+Use dvh only when you want the element to track the visible area live.
+Immersive experiences, slide-based layouts, or native-app-style UIs where you genuinely want the element to fill exactly what's visible right now — including as the chrome retracts on scroll. The tradeoff: dvh causes layout recalculation every time the chrome shifts. On most elements this is imperceptible. On complex layouts with many dependents, it can produce jank. Use it deliberately, not as a blanket vh replacement.
+```css/* Only use dvh when you explicitly want live tracking */
+.immersive-slide {
+  height: 100dvh;
+}
+```
+Use lvh for background/decorative elements only.
+Full-bleed background images, parallax layers — things where you want to fill the maximum possible space and a slight overflow when chrome is visible doesn't matter (it'll be clipped anyway). Never use lvh for anything that contains a CTA or interactive element.
+```css
+css.hero-background {
+  min-height: 100lvh; /* fills max space; overflow clipped */
+}
+```
+The one-liner summary:
+svh = safe. dvh = live (use with intent). lvh = decorative only.
+
+## IV. The Fallback
+~100 words
+Two lines. Put vh first, then the new unit. Browsers that don't know svh ignore the second declaration; browsers that do know it override the first.
+```css
+css.hero {
+  min-height: 100vh;   /* fallback */
+  min-height: 100svh;  /* overrides in supporting browsers */
+}
+```
+
+Browser support note: Baseline Widely Available — Chrome 108+, Safari 15.4+, Firefox 101+. The fallback is a precaution for older devices, not a meaningful gap. If your analytics show a non-trivial share of browsers older than those, keep it. If not, the fallback is still worth including as a habit — it costs nothing.
+Do not use the @supports / custom property pattern for this. Two lines is simpler, clearer, and does the same thing.
+
+## V. Demo Placement
+~50 words — notes for production, not prose
+Interactive demo goes here, between sections III and IV.
+The demo should show a simulated mobile viewport with visible/hidden chrome toggle. Three columns: one box sized with svh, one with dvh, one with lvh. Toggle chrome visibility and watch how each responds.
+Interaction: a "Show/Hide browser chrome" button that animates a simulated address bar and adjusts the viewport height accordingly. The dvh column tracks it live; svh stays fixed at the small measurement; lvh stays fixed at the large one.
+Note: the demo needs to simulate chrome behaviour because desktop browsers don't exhibit it natively. This is the core UX challenge — a `<div>` acting as the chrome, shrinking on scroll, adjusting the "viewport" height via a CSS variable or resize. Worth building carefully; a bad demo here is worse than no demo.
+
+## VI. Close — One Pattern to Take Away
+~100 words
+No grand conclusions. One concrete takeaway and a link forward.
+The pattern: wherever you currently have height: 100vh or min-height: 100vh in your stylesheet, it's worth asking which of the three states you actually mean. In most cases — hero sections, modals, full-screen layouts — you mean svh. That's the one that will never clip your content below the fold on a real device.
+The 100vh bug has been responsible for more silent, unreported mobile UX failures than most developers realise, because it only appears on real hardware and users rarely report layout issues — they just leave.
+Link: see also env() for the companion problem of content hidden behind the iPhone notch.
+
+Production notes
+Code blocks needed:
+
+Section III: three short CSS snippets (one per unit, as shown in outline)
+Section IV: the two-line fallback pattern
+Optional: a combined "real-world hero" block showing the full pattern together
+
+What the demo needs to do (not build now — capture the spec):
+
+Simulated phone frame with a draggable or toggle-able address bar
+Three labelled columns, each using a different unit
+Chrome toggle animates the "address bar" height; dvh column tracks it, others don't
+Should work on desktop so readers can see the difference without needing a phone
+A note on the demo: "On a real mobile device, try scrolling to see dvh track the chrome"
+
+Voice note: This post is closest in register to line-clamp and text-wrap — short, direct, no throat-clearing. The hook is the bug, the body is the fix, the close is the one rule. Resist the urge to go broader than that. The density comes from precision, not length.
+What not to include:
+
+vw, svw, lvw, dvw in depth — one mention is enough
+vmin / vmax — different post
+History of the 100vh bug on iOS Safari specifically — interesting but bloats the post
+Performance benchmarks — not enough data to be authoritative, and the tradeoff is already captured in "use dvh deliberately"

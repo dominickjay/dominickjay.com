@@ -55,6 +55,8 @@
 @import "./blocks/feature-list.css";
 @import "./blocks/stage-meta.css";
 @import "./blocks/now-playing.css";
+@import "./blocks/inline-callout.css";
+@import "./blocks/series-strip.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";
