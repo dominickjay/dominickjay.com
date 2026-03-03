@@ -41,12 +41,21 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
         class="card__image"
         src="https://picsum.photos/900"
         alt="Descriptive alt text"
+        width="450"
+        height="450"
     />
   </picture>
   <div class="card__content">
     <h3 class="card__heading">Card Title</h3>
     <p class="card__text">
-    	Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.
+   	  Amet aute minim eiusmod tempor do minim eu. Eu officia amet 
+      consequat et esse pariatur Lorem proident aliqua reprehenderit 
+      esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. 
+      In consequat adipisicing ea consequat aute elit elit. Do proident 
+      veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat 
+      id veniam do. Aliquip non incididunt ipsum occaecat cillum est 
+      consequat consectetur cillum. Dolore in excepteur veniam adipisicing 
+      pariatur Lorem.
     </p>
     <a class="card__link" href="#">Learn More</a>
   </div>
@@ -55,13 +64,14 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
 
 This just gives us this beautifully unstyled masterpiece.
 
-
 <div class="card">
   <picture class="card__image-container">
 	  <img
 	      class="card__image"
 	      src="https://picsum.photos/900"
 	      alt="Descriptive alt text"
+	      width="450"
+	      height="450"
 	  />
   </picture>
   <div class="card__content">
@@ -80,21 +90,22 @@ Same card. Same output. Very different markup.
 For browsers that don't support `@scope` yet, wrap it in a feature query and keep your BEM styles as the fallback.
 
 ### The one thing BEM couldn't solve
-BEM naming conventions are good at preventing leakage between components — .card__heading will never accidentally style a .nav__heading. But they've always had a blind spot: nested instances of the same component.
 
-If a card can contain another card, every BEM rule on .card__heading applies to both. There's no way to say "only the outer one" without adding extra classes or specificity hacks.
-@scope has the same problem by default — but unlike BEM, it has a fix built in.
+BEM naming conventions are pretty good at stopping styles from leaking from one to another - for example `.card__heading` will never accidentally style a `.nav__heading`. But there's always been a blind spot of nested instances of the same component. If a `.card` element can have another `.card` inside it, then every BEM rule on `.card__heading` will apply to both the inner and outer card. No mistake, no weird gotcha. That's just how it works. There's no way to specifically target just the 'outer' one without adding extra classes e.g. `.card--outer`, `.card--parent`, or using specificity hacks. With `@scope`, it has that same problem, but it also has a fix built in to rectify it.
 
-### The lower boundary
-The to keyword lets you define where a scope stops:
+### It's cards all the way down
+
+So what's the fix? We can use the `to` keyword to define where a scope stops:
 
 ```css
 @scope (.card) to (.card) {
-  h3 { font-size: 24px; }
+  h3 { 
+  	font-size: 24px; 
+  }
 }
 ```
 
-The scope now applies in the ring between the outer .card and any nested .card inside it. Styles reach the outer card's h3 but stop before the inner one. The nested card gets its own clean scope when its own @scope rule kicks in.
+The scope now ranges in the ring between the outer `.card` and any of the `.card` elements inside it. Styles reach the `h3` within the containing outer `.card`, but stop before reaching any inner `.card` elements. The nested card gets its own clean scope when its own @scope rule kicks in.
 
 ```html
 <div class="card">
@@ -106,21 +117,20 @@ The scope now applies in the ring between the outer .card and any nested .card i
 </div>
 ```
 
-This is sometimes called the donut hole — the scope has a gap punched through it at the lower boundary. Styles apply in the ring, not inside the hole.
+This is sometimes called the donut hole - a coin termed by [Nicole Sullivan in 2011](https://www.stubbornella.org/2011/10/08/scope-donuts/) — meaning the scope has a gap punched through it at the lower boundary. Styles apply in the ring, not inside the hole. It's an odd analogy, but it sticks.
 
-### When do you actually need this?
+### When do you actually need to use this?
 
-Not every component needs a lower boundary — most cards won't nest, most buttons won't contain buttons. But it's worth reaching for whenever:
+Not every component needs a lower boundary — most cards won't nest, and hopefully we never enter a hellscape where developers are putting buttons inside buttons. But it's worth reaching for whenever:
 
-- A component can genuinely contain itself (nested navs, recursive comment threads, expandable tree items)
+- A component can genuinely contain itself (comments with replies that are also comments, dropdown menu containing a nested submenu)
 - Two different components share element selectors (h3, img, a) and one can appear inside the other
-- You're getting unexpected style inheritance and can't work out why — a missing lower boundary is often the culprit
 
-For the card we've built in this post, you probably don't need it. But now you know it exists for when you do.
+For the card we've built in this post, you probably don't need it. But now you know it exists for when you do!
 
-## Scoped variables and the theming story
+## Theming without modifier classes
 
-You might have noticed the @scope card example already does something quiet but useful with custom properties:
+You might have noticed the `@scope` card example already does something quiet but useful with custom properties:
 
 ```css
 @scope (.card-scoped) {
@@ -130,9 +140,9 @@ You might have noticed the @scope card example already does something quiet but 
 }
 ```
 
-That `--color-dark: grey` declaration lives inside the scope. It overrides whatever `--color-dark` is set to globally, but only within this card. Every other component on the page using `--color-dark` is unaffected.
+That `--color-dark: grey` declaration lives *inside* the scope. It overrides whatever `--color-dark` is set to globally, but only within this card. Every other component on the page using `--color-dark` is unaffected.
 
-That's not just a tidy pattern — it changes what's possible with component theming.
+That's not just a neat little pattern — it changes what's possible with component theming.
 
 ### The problem with global tokens
 
