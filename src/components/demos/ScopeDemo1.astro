@@ -1,0 +1,771 @@
+---
+import { codeToHtml } from "shiki";
+import domTheme from "../../styles/dom-shiki-theme.json";
+// Shiki normalizes VS Code-style theme (tokenColors) at runtime
+const theme = domTheme as Parameters<typeof codeToHtml>[1]["theme"];
+
+const bemCss = `/* 6 selectors, block repeated throughout */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  border: 1px solid #000;
+  max-width: fit-content;
+}
+
+.card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.card__content {
+  padding-block-end: 16px;
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.card__heading {
+  font-size: 24px;
+  letter-spacing: -0.04em;
+  line-height: 140%;
+}
+
+.card__text {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.card__link {
+  margin-inline-start: auto;
+  margin-block-start: 8px;
+}`;
+
+const scopeCss = `/* 1 root, element selectors inside */
+
+@scope (.card) {
+  --color-dark: grey;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  border: 1px solid var(--color-dark);
+  max-width: fit-content;
+
+  img {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  > div {
+    padding-block-end: 16px;
+    padding-inline: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  }
+
+  h3 {
+    font-size: 24px;
+    letter-spacing: -0.04em;
+    line-height: 140%;
+  }
+
+  p {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  a {
+    margin-inline-start: auto;
+    margin-block-start: 8px;
+  }
+}`;
+
+const bemHtml = `<div class="card">
+  <picture class="card__image-container">
+    <img
+      class="card__image"
+      src="…"
+      alt="…"
+    />
+  </picture>
+  <div class="card__content">
+    <h3 class="card__heading">Card Title</h3>
+    <p class="card__text">…</p>
+    <a class="card__link" href="#">Learn More</a>
+  </div>
+</div>`;
+
+const scopeHtml = `<div class="card">
+  <picture>
+    <img
+      src="…"
+      alt="…"
+    />
+  </picture>
+  <div>
+    <h3>Card Title</h3>
+    <p>…</p>
+    <a href="#">Learn More</a>
+  </div>
+</div>`;
+
+const bemHighlighted = await codeToHtml(bemCss, {
+  lang: "css",
+  theme,
+});
+const scopeHighlighted = await codeToHtml(scopeCss, {
+  lang: "css",
+  theme,
+});
+const bemMarkupHighlighted = await codeToHtml(bemHtml, {
+  lang: "html",
+  theme,
+});
+const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
+  lang: "html",
+  theme,
+});
+---
+
+<div class="demo-wrapper">
+  <!-- ══════════════════════════════
+       TAB STRIP
+  ══════════════════════════════ -->
+  <div class="tab-strip" role="tablist">
+    <button
+      class="tab-btn active"
+      role="tab"
+      aria-selected="true"
+      data-tab="markup">Markup</button
+    >
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="output"
+      >Output</button
+    >
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="css"
+      >CSS</button
+    >
+  </div>
+
+  <!-- ══════════════════════════════
+       TAB: MARKUP
+  ══════════════════════════════ -->
+  <div class="tab-panel active" id="tab-markup" role="tabpanel">
+    <div class="split">
+      <!-- BEM -->
+      <div class="col">
+        <div class="head head--bem">
+          <span class="badge badge--bem">BEM</span>
+          <span class="head-label">Markup</span>
+          <span class="stat"><strong>7</strong> classes</span>
+        </div>
+        <div class="code">
+          <div class="code-head">HTML</div>
+          <span class="code-neutral" set:html={bemMarkupHighlighted} />
+        </div>
+        <div class="class-count">
+          <div class="label">Classes in markup</div>
+          <div class="pills">
+            <span class="pill">card</span>
+            <span class="pill">card__image-container</span>
+            <span class="pill">card__image</span>
+            <span class="pill">card__content</span>
+            <span class="pill">card__heading</span>
+            <span class="pill">card__text</span>
+            <span class="pill">card__link</span>
+          </div>
+          <div class="note">
+            Every element carries its own class. The block prefix is repeated <strong
+              >6 times</strong
+            >.
+          </div>
+        </div>
+      </div>
+
+      <!-- @scope -->
+      <div class="col">
+        <div class="head head--scope">
+          <span class="badge badge--scope">@scope</span>
+          <span class="head-label">Markup</span>
+          <span class="stat"><strong>1</strong> class</span>
+        </div>
+        <div class="code">
+          <div class="code-head">HTML</div>
+          <span class="code-neutral" set:html={scopeMarkupHighlighted} />
+        </div>
+        <div class="class-count">
+          <div class="label">Classes in markup</div>
+          <div class="pills">
+            <span class="pill pill--scope">card</span>
+            <span class="pill pill--removed">card__image-container</span>
+            <span class="pill pill--removed">card__image</span>
+            <span class="pill pill--removed">card__content</span>
+            <span class="pill pill--removed">card__heading</span>
+            <span class="pill pill--removed">card__text</span>
+            <span class="pill pill--removed">card__link</span>
+          </div>
+          <div class="note">
+            The scope root is the only class you need. <strong
+              >Element selectors handle the rest.</strong
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       TAB: OUTPUT
+  ══════════════════════════════ -->
+  <div class="tab-panel" id="tab-output" role="tabpanel">
+    <div class="split">
+      <!-- BEM output -->
+      <div class="col">
+        <div class="head head--bem">
+          <span class="badge badge--bem">BEM</span>
+          <span class="head-label">Rendered output</span>
+        </div>
+        <div class="preview">
+          <div class="card-bem">
+            <img
+              class="card-bem__image"
+              src="https://picsum.photos/seed/bem/520/300"
+              alt="Card image"
+            />
+            <div class="card-bem__content">
+              <h3 class="card-bem__heading">Card Title</h3>
+              <p class="card-bem__text">
+                Amet aute minim eiusmod tempor do minim eu. Eu officia amet
+                consequat et esse pariatur Lorem proident.
+              </p>
+              <a class="card-bem__link" href="#">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- @scope output -->
+      <div class="col">
+        <div class="head head--scope">
+          <span class="badge badge--scope">@scope</span>
+          <span class="head-label">Rendered output</span>
+        </div>
+        <div class="preview">
+          <div class="card-scoped">
+            <picture>
+              <img
+                src="https://picsum.photos/seed/bem/520/300"
+                alt="Card image"
+              />
+            </picture>
+            <div>
+              <h3>Card Title</h3>
+              <p>
+                Amet aute minim eiusmod tempor do minim eu. Eu officia amet
+                consequat et esse pariatur Lorem proident.
+              </p>
+              <a href="#">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="same-output-banner">
+        Identical output — the difference is entirely in the markup and
+        stylesheet, not the result
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       TAB: CSS
+  ══════════════════════════════ -->
+  <div class="tab-panel" id="tab-css" role="tabpanel">
+    <div class="css-diff">
+      <div class="head-cols">
+        <div class="head head--bem">
+          <span class="badge badge--bem">BEM</span>
+          <span class="head-label">Flat selectors, block prefix repeated</span>
+        </div>
+        <div class="head head--scope">
+          <span class="badge badge--scope">@scope</span>
+          <span class="head-label">Nested, element selectors, one root</span>
+        </div>
+      </div>
+      <div class="cols">
+        <div class="col col--shiki" set:html={bemHighlighted} />
+        <div class="col col--shiki" set:html={scopeHighlighted} />
+      </div><!-- /.cols -->
+    </div><!-- /.css-diff -->
+  </div><!-- /.tab-panel -->
+</div><!-- /.demo-wrapper -->
+
+<script is:inline>
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
+
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      panels.forEach((p) => p.classList.remove("active"));
+      btn.classList.add("active");
+      btn.setAttribute("aria-selected", "true");
+      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+    });
+  });
+</script>
+
+<style>
+  .demo-wrapper {
+    container: demo-wrapper / inline-size;
+    margin-block-start: var(--space-m);
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .tab-strip
+  ════════════════════════════════════════ */
+  @scope (.tab-strip) {
+    :scope {
+      display: flex;
+      background: rgb(from var(--color-light) r g b);
+      border-bottom: 2px solid rgb(from var(--feature-color) r g b / 0.5);
+      position: sticky;
+      top: 67px;
+      z-index: 1;
+    }
+
+    @container demo-wrapper (max-width: 780px) {
+      :scope {
+        top: 50px;
+      }
+    }
+
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.25rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--color-dark);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition:
+        color 0.15s,
+        border-color 0.15s;
+    }
+    .tab-btn::before,
+    .tab-btn::after {
+      content: none;
+    }
+    .tab-btn:hover {
+      color: var(--color-dark);
+      background: rgb(from var(--feature-color) r g b / 0.1);
+      transition: background 0.15s ease-in-out;
+    }
+    .tab-btn.active {
+      color: var(--color-dark);
+      background: rgb(from var(--feature-color) r g b / 0.1);
+      border-bottom-color: rgb(from var(--feature-color) r g b);
+    }
+  }
+
+  /* ─── Tab panels ─── */
+  .tab-panel {
+    display: none;
+    max-height: 790px;
+    overflow-y: auto;
+  }
+  .tab-panel.active {
+    display: block;
+  }
+
+  @container demo-wrapper (max-width: 780px) {
+    .tab-panel {
+      max-height: none;
+    }
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .split
+  ════════════════════════════════════════ */
+  @scope (.split) {
+    :scope {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    .col {
+      border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    .col:last-child {
+      border-right: none;
+    }
+
+    .head {
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    .head--bem {
+      background: rgb(from var(--feature-color) r g b / 0.1);
+    }
+    .head--scope {
+      background: rgb(from var(--feature-color) r g b / 0.2);
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--color-dark);
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    .badge--bem,
+    .badge--scope {
+      color: var(--color-dark);
+    }
+
+    .badge--bem {
+      background: rgb(from var(--feature-color) r g b / 0.2);
+    }
+
+    .badge--scope {
+      background: rgb(from var(--feature-color) r g b / 0.3);
+    }
+
+    .head-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--color-dark);
+    }
+
+    .stat {
+      margin-left: auto;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--color-dark);
+      text-transform: uppercase;
+    }
+    .stat strong {
+      font-weight: 600;
+      color: var(--color-dark);
+    }
+
+    .preview {
+      padding: 1.5rem;
+      background: white;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .code {
+      background: rgb(from var(--color-dark) r g b / 0.1);
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--color-dark);
+      min-height: 200px;
+    }
+    .code-head {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--color-dark);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #3a3630;
+    }
+
+    .same-output-banner {
+      grid-column: 1 / -1;
+      background: rgb(from var(--feature-color) r g b / 0.1);
+      border-top: 1px solid #b8ddc0;
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--color-dark);
+      font-family: var(--font-mono);
+      letter-spacing: 0.12em;
+    }
+
+    @container demo-wrapper (max-width: 780px) {
+      :scope {
+        grid-template-columns: 1fr;
+      }
+      .col:first-child {
+        border-right: none;
+        border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      }
+      .same-output-banner {
+        grid-column: 1;
+      }
+    }
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .class-count
+  ════════════════════════════════════════ */
+  @scope (.class-count) {
+    :scope {
+      padding: 1rem;
+      border-top: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: rgb(from var(--feature-color) r g b / 0.1);
+    }
+    .label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-dark);
+      margin-bottom: 0.25rem;
+    }
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+    .pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      background: rgb(from var(--feature-color) r g b / 0.2);
+      color: var(--color-dark);
+      letter-spacing: 0.12em;
+    }
+    .pill--scope {
+      background: rgb(from var(--feature-color) r g b / 0.3);
+      color: var(--color-dark);
+      border: 1px solid rgb(from var(--feature-color) r g b / 0.4);
+    }
+    .pill--removed {
+      background: rgb(from var(--feature-color) r g b / 0.2);
+      color: var(--color-dark);
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .note {
+      font-size: 0.85rem;
+      color: var(--color-dark);
+      font-weight: 400;
+      padding-block-start: var(--space-m);
+    }
+    .note strong {
+      font-weight: 600;
+      color: var(--color-dark);
+    }
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .css-diff
+  ════════════════════════════════════════ */
+  @scope (.css-diff) {
+    :scope {
+      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-top: none;
+      overflow: hidden;
+    }
+    .head-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    .head-cols .head {
+      border-bottom: none;
+    }
+    .head {
+      background: rgb(from var(--feature-color) r g b / 0.1);
+      padding: 0.5rem 1rem;
+      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-dark);
+      display: flex;
+      gap: 1.5rem;
+    }
+    .head span {
+      color: var(--color-dark);
+    }
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .col {
+      background: rgb(from var(--color-dark) r g b / 0.1);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.75;
+      color: var(--color-dark);
+      overflow-x: auto;
+      border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    .col--shiki pre {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    .col--shiki code {
+      font-size: inherit;
+    }
+    .col:last-child {
+      border-right: none;
+    }
+
+    @container demo-wrapper (max-width: 780px) {
+      .cols {
+        grid-template-columns: 1fr;
+      }
+      .col:first-child {
+        border-right: none;
+        border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      }
+    }
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .card-bem  (intentionally BEM —
+     this is the "before" example in the demo)
+  ════════════════════════════════════════ */
+  .card-bem {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    max-width: 260px;
+    width: 100%;
+    font-family: var(--font-base);
+  }
+  .card-bem__image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+  .card-bem__content {
+    padding: 0.75rem 0.875rem 0.875rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  }
+  .card-bem__heading {
+    font-size: 1.125rem;
+    letter-spacing: -0.03em;
+    line-height: 1.3;
+    font-weight: 700;
+    font-family: var(--font-base);
+  }
+  .card-bem__text {
+    font-size: 0.8125rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--color-dark);
+    line-height: 1.5;
+  }
+  .card-bem__link {
+    margin-inline-start: auto;
+    margin-block-start: 8px;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--color-dark);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    background: none;
+    font-style: normal;
+    font-weight: 600;
+    padding: 0;
+  }
+  .card-bem__link:hover {
+    text-decoration: underline;
+  }
+
+  /* ════════════════════════════════════════
+     @scope: .card-scoped
+  ════════════════════════════════════════ */
+  .card-scoped {
+    max-width: 260px;
+    width: 100%;
+    font-family: var(--font-base);
+  }
+  @scope (.card-scoped) {
+    :scope {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    }
+    img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+    h3 {
+      font-size: 1.125rem;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      font-weight: 700;
+      font-family: var(--font-base);
+    }
+    p {
+      font-size: 0.8125rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--color-dark);
+      line-height: 1.5;
+    }
+    a {
+      margin-inline-start: auto;
+      margin-block-start: 8px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--color-dark);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      background: none;
+      font-style: normal;
+      font-weight: 600;
+      padding: 0;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    > div {
+      padding: 0.75rem 0.875rem 0.875rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: 4px;
+    }
+  }
+</style>

@@ -37,6 +37,7 @@ const { evergreen, growing, seedling } = Astro.props;
         >
           {
             evergreen
+              .toReversed()
               .slice(0, 5)
               .map((post: any, i: number) => (
                 <FeatureListItem
@@ -77,6 +78,7 @@ const { evergreen, growing, seedling } = Astro.props;
         >
           {
             growing
+              .toReversed()
               .slice(0, 5)
               .map((post: any, i: number) => (
                 <FeatureListItem
@@ -116,6 +118,7 @@ const { evergreen, growing, seedling } = Astro.props;
         >
           {
             seedling
+              .toReversed()
               .slice(0, 5)
               .map((post: any, i: number) => (
                 <FeatureListItem

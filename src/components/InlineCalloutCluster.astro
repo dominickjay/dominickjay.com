@@ -1,31 +1,36 @@
 ---
-const {
-	tagline,
-	articles
-} = Astro.props;
+const { tagline, articles } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-
 ---
 
 <aside class="series-strip" style={`--columns: ${articles.length}`}>
-	<span class="series-strip__tag">{ tagline }</span>
-	<div class="series-strip__links">
-		{articles.map((article, i) => (
-			<div class={`series-strip__item ${currentPath.split('/')[2] === article.link.split('/')[1] ? 'series-strip__item--current' : ''}`}>
-				<span class="series-strip__tag">
-					Part { String(i + 1).padStart(2, "0") }
-					{currentPath.split('/')[2] === article.link.split('/')[1] && (
-						<span class="series-strip__current"> - Currently Reading</span>
-					)}
-				</span>
-				{currentPath.split('/')[2] === article.link.split('/')[1] ? (
-					<span class="series-strip__title box-link">{ article.title }</span>
-				) : (
-					<a href={article.link} class="series-strip__title box-link">{ article.title }</a>
-				)}
-				<div class="series-strip__description">{ article.description }</div>
-			</div>
-		))}
-	</div>
+  <span class="series-strip__tag">{tagline}</span>
+  <div class="series-strip__links">
+    {
+      articles.map((article, i) => (
+        <div
+          class={`series-strip__item ${currentPath.split("/")[2] === article.link.split("/")[1] ? "series-strip__item--current" : ""}`}
+        >
+          <span class="series-strip__tag">
+            Part {String(i + 1).padStart(2, "0")}
+            {currentPath.split("/")[2] === article.link.split("/")[1] && (
+              <span class="series-strip__current"> - Currently Reading</span>
+            )}
+          </span>
+          {currentPath.split("/")[2] === article.link.split("/")[1] ? (
+            <span class="series-strip__title box-link">{article.title}</span>
+          ) : (
+            <a
+              href={`/writing${article.link}`}
+              class="series-strip__title box-link"
+            >
+              {article.title}
+            </a>
+          )}
+          <div class="series-strip__description">{article.description}</div>
+        </div>
+      ))
+    }
+  </div>
 </aside>

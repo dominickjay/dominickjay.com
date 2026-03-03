@@ -71,23 +71,6 @@ Set these environment variables in your Netlify dashboard:
 - `TURSO_DATABASE_URL`: Your Turso database URL (e.g., `libsql://joke-counter-[your-org].turso.io`)
 - `TURSO_AUTH_TOKEN`: Your Turso authentication token
 
-### Database Configuration
-
-The project uses direct Turso connection with a `ClickCounter` table for tracking user interactions. The API endpoints (`/api/click-counter`) connect directly to your Turso database.
-
-### Database Schema
-
-Make sure your Turso database has the following table:
-
-```sql
-CREATE TABLE ClickCounter (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  buttonName TEXT NOT NULL UNIQUE,
-  clickCount INTEGER DEFAULT 0,
-  lastClicked TEXT DEFAULT (datetime('now'))
-);
-```
-
 ### Build Process
 
 - **Local Development**: Uses local environment variables for Turso connection

@@ -5,10 +5,12 @@ pubDate: '2025-02-15'
 tags:
   - css
 supported: bcd.css["at-rules"].scope.__compat
-layout: BlogPost
 growth: evergreen
 
 ---
+
+import InlineCallout from '../../components/InlineCallout.astro';
+import ScopeDemo1 from '../../components/demos/ScopeDemo1.astro';
 
 As a parent of two, I've found writing CSS can be a bit like having toddlers (or really, kids in general), sometimes they throw tantrums and affect things they really shouldn't *at all*. You tell them to only use the red pens and then somehow, blue pen appears in a suddenly unexpected place ie sofa, wall, bed, toys, anything anywhere really (bonus points to them if it's something you haven't actually seen and/or won't see again for 6-12 months).
 
@@ -80,295 +82,11 @@ This just gives us this beautifully unstyled masterpiece.
   </div>
 </div>
 
-### Styling our card using BEM
+## BEM vs @scope — side by side
 
-<style>
-.card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    border: 1px solid var(--color-dark, #000);
-    max-width: fit-content;
-}
+Same card. Same output. Very different markup.
 
-.card__image {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    object-position: center;
-}
-
-.card__content {
-    padding-block-end: 16px;
-    padding-inline: 16px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 4px;
-}
-
-.card__heading {
-    font-size: 24px;
-    letter-spacing: -0.04em;
-    line-height: 140%;
-}
-
-.card__text {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card__link {
-    margin-inline-start: auto;
-    margin-block-start: 8px;
-}
-</style>
-<div class="card">
-	<picture class="card__image-container">
-    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
-    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
-    <img
-        class="card__image"
-        src="https://picsum.photos/900"
-        alt="Descriptive alt text"
-    />
-  </picture>
-  <div class="card__content">
-    <h3 class="card__heading">Card Title</h3>
-    <p class="card__text">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
-    <a class="card__link" href="#">Learn More</a>
-  </div>
-</div>
-
-```css
-.card {
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    border: 1px solid var(--color-dark, #000);
-    max-width: fit-content;
-}
-
-.card__image {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    object-position: center;
-}
-
-.card__content {
-    padding-block-end: 16px;
-    padding-inline: 16px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 4px;
-}
-
-.card__heading {
-    font-size: 24px;
-    letter-spacing: -0.04em;
-    line-height: 140%;
-}
-
-.card__text {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.card__link {
-    margin-inline-start: auto;
-    margin-block-start: 8px;
-}
-```
-
-### Styling our card using @scope
-
-```css
-
-/* We're setting some global img styles here */
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-@scope (.card-scoped) {
-
-    /* Scoped variable only */
-    --color-dark: grey;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    border: 1px solid var(--color-dark, #000);
-    max-width: fit-content;
-
-    /* Because this is scoped, the aspect-ratio here will only
-    show on image's within the .card selector */
-    img {
-        aspect-ratio: 1;
-    }
-
-    h3 {
-        font-size: 24px;
-        letter-spacing: -0.04em;
-        line-height: 140%;
-        text-align: center;
-    }
-
-    p {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    a {
-        margin-inline-start: auto;
-        margin-block-start: 8px;
-    }
-
-    > div {
-        padding-block-end: 16px;
-        padding-inline: 16px;
-        display: flex;
-        flex-direction: column;
-        row-gap: 4px;
-    }
-
-
-}
-```
-
-<style>
-/* We're setting some global img styles here */
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-@scope (.card-scoped) {
-
-    /* Scoped variable only */
-    --color-dark: grey;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    border: 1px solid var(--color-dark, #000);
-    max-width: fit-content;
-
-    h3 {
-        font-size: 24px;
-        letter-spacing: -0.04em;
-        line-height: 140%;
-        text-align: center;
-    }
-
-    /* Because this is scoped, the aspect-ratio here will only
-    show on image's within the .card selector */
-    img {
-        aspect-ratio: 1;
-    }
-
-    p {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    a {
-        margin-inline-start: auto;
-        margin-block-start: 8px;
-    }
-
-    > div {
-        padding-block-end: 16px;
-        padding-inline: 16px;
-        display: flex;
-        flex-direction: column;
-        row-gap: 4px;
-    }
-
-
-}
-</style>
-
-<style>
-/* We're setting some img styles that affect all images within the post here */
-.prose img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-@scope .card-scoped {
-
-    /* Scoped variable only */
-    --color-dark: grey;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    border: 1px solid var(--color-dark, #000);
-    max-width: fit-content;
-
-    /* Because this is scoped, the aspect-ratio here will only
-    show on image's within the .card selector */
-    img {
-        aspect-ratio: 16 / 9;
-    }
-
-    p {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    a {
-        margin-inline-start: auto;
-        margin-block-start: 8px;
-    }
-
-    > div {
-        padding-block-end: 16px;
-        padding-inline: 16px;
-        display: flex;
-        flex-direction: column;
-        row-gap: 4px;
-    }
-
-
-}
-</style>
-
-<div class="card-scoped">
-	<picture class="card__image-container">
-    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
-    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
-    <img
-        class="card__image"
-        src="https://picsum.photos/900"
-        alt="Descriptive alt text"
-    />
-  </picture>
-  <div class="">
-    <h3 class="">Card Title</h3>
-    <p class="">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
-    <a class="" href="#">Learn More</a>
-  </div>
-</div>
+<ScopeDemo1 />
 
 ## Browser Support and Progressive Enhancement
 
@@ -472,6 +190,13 @@ Scoped CSS variables follow a specific inheritance pattern:
     }
 }
 ```
+
+<InlineCallout
+	tagline="Want to find out more about CSS variables?"
+	title="Level Up Your Styles With CSS Variables"
+	description="We're using CSS custom properties within a scope here, but it's not the only use case."
+	slug="/writing/level-up-your-styles-with-css-variables"
+/>
 
 ## Performance and Specificity
 
