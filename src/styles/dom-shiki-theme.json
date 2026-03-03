@@ -9,20 +9,26 @@
     {
       "name": "Comments",
       "scope": ["comment", "punctuation.definition.comment"],
-      "settings": { "foreground": "#fbf8ef", "fontStyle": "italic" }
+      "settings": {
+        "foreground": "rgba(251,248,23,0.8)",
+        "fontStyle": "italic"
+      }
     },
     {
       "name": "Selectors / tags",
       "scope": [
-        "entity.name.tag", "entity.other.attribute-name",
-        "meta.selector", "support.class"
+        "entity.name.tag",
+        "entity.other.attribute-name",
+        "meta.selector",
+        "support.class"
       ],
       "settings": { "foreground": "#7ef7c0" }
     },
     {
       "name": "Properties",
       "scope": [
-        "support.type.property-name", "meta.property-name",
+        "support.type.property-name",
+        "meta.property-name",
         "variable.other"
       ],
       "settings": { "foreground": "#7eb8f7" }
@@ -31,16 +37,14 @@
       "name": "Values / strings",
       "scope": [
         "support.constant.property-value",
-        "string", "meta.property-value"
+        "string",
+        "meta.property-value"
       ],
       "settings": { "foreground": "#f7c97e" }
     },
     {
       "name": "At-rules (@scope, @media, @supports)",
-      "scope": [
-        "keyword.control.at-rule",
-        "support.type.at-rule"
-      ],
+      "scope": ["keyword.control.at-rule", "support.type.at-rule"],
       "settings": { "foreground": "#c78ef7" }
     },
     {
