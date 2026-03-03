@@ -335,7 +335,6 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     :scope {
       display: flex;
       background: rgb(from var(--color-light) r g b);
-      border-bottom: 2px solid rgb(from var(--feature-color) r g b / 0.5);
       position: sticky;
       top: 67px;
       z-index: 1;
@@ -408,7 +407,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     .col {
       border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
     }
-    .col:last-child {
+    .col:last-of-type {
       border-right: none;
     }
 
@@ -521,6 +520,10 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       .same-output-banner {
         grid-column: 1;
       }
+      .preview,
+      .code {
+      	min-height: 0;
+      }
     }
   }
 
@@ -627,17 +630,20 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       overflow-x: auto;
       border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
     }
-    .col--shiki pre {
+
+    pre {
       margin: 0;
       padding: 0;
       background: transparent;
       font-size: inherit;
       line-height: inherit;
+      height: 100%;
     }
-    .col--shiki code {
+
+    code {
       font-size: inherit;
     }
-    .col:last-child {
+    .col:last-of-type {
       border-right: none;
     }
 
