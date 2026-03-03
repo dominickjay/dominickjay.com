@@ -71,6 +71,11 @@
     }
   }
 
+  *::selection {
+    background-color: rgb(from var(--feature-color) r g b / 0.15);
+    color: var(--color-dark);
+  }
+
   /* a[class] {
         &:hover {
             &::before {
