@@ -1,5 +1,5 @@
 ---
-title: 'The End of BEM? Why Native @scope Is the Future of CSS Components'
+title: 'Put Your CSS In Its Place'
 description: "For years, CSS styles have behaved like toddlers with marker pens: their influence inevitably leaks outside the play area, affecting things they shouldn't. This article explores how the new @scope at-rule gives developers the parent-level control they've always needed, allowing us to enforce strict style boundaries and finally retire complex naming conventions designed only to prevent global style tantrums."
 pubDate: '2025-02-15'
 tags:
@@ -146,9 +146,7 @@ That's not just a neat little pattern — it changes what's possible with compon
 
 ### The problem with global tokens
 
-Design token systems typically live on :root. A colour palette, a spacing scale, a type ramp — all declared globally, all inherited everywhere.
-
-That works until you need a component to look different in a specific context. A card in a promotional banner needs a dark background. The same card in a content feed needs a light one. With global tokens, your options are either a modifier class (.card--dark) that overrides specific properties one by one, or a data attribute that triggers a whole alternative set of declarations. Both approaches mean writing the component's styles twice.
+Design token systems typically live on `:root`. A colour palette, a spacing scale, a type ramp — all declared globally, all inherited everywhere. That's fine, until you need a component to look different in a specific context. Let's use an example of two cards in a promotional banner needing both light and dark backgrounds. When we're using global tokens, we have to either write separate styles for each variant or use modifier classes/data attributes to switch between them. Both approaches mean the component's styles are duplicated across variants.
 
 ```css
 /* The global token */
@@ -172,9 +170,9 @@ That works until you need a component to look different in a specific context. A
 }
 ```
 
-This works, but the modifier class is doing two jobs at once: it's a style hook and a token override. As the number of variants grows, so does the maintenance surface.
+Of course, this works, but the modifier class is doing two jobs: it's both a style hook and a token override. As the number of variants grows, so does the amount of maintenance needed, the technical debt has amassed and lastly the code becomes harder to read.
 
-### Scoped tokens as a better pattern
+### The scoped token pattern
 
 `@scope` lets you redefine tokens at the component boundary without a modifier class. The scope root becomes the theming surface:
 
@@ -216,9 +214,9 @@ This works, but the modifier class is doing two jobs at once: it's a style hook 
 </div>
 ```
 
-The card component itself hasn't changed. The .banner parent redefines the tokens, and the card inherits the new values through the cascade. One component definition, any number of contexts.
+The card component itself hasn't changed. The `.banner` parent reestablishes the tokens, and the card gets the new values through the cascade. One component has been defined, but it can work in any number of contexts. Maintenance is low, technical debt is minimal. Life is good.
 
-### Why this matters for design systems
+### The missing layer
 
 The conventional token system works in one direction: global → component. You define a value globally and components consume it. Changing the global value changes everything that uses it — which is usually what you want for a rebrand or a dark mode toggle, but not when you need one instance of a component to behave differently from all the others.
 
