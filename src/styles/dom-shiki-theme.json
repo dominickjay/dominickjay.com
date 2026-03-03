@@ -9,7 +9,7 @@
     {
       "name": "Comments",
       "scope": ["comment", "punctuation.definition.comment"],
-      "settings": { "foreground": "#5c5c78", "fontStyle": "italic" }
+      "settings": { "foreground": "#fbf8ef", "fontStyle": "italic" }
     },
     {
       "name": "Selectors / tags",

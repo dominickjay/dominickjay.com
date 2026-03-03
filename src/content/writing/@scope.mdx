@@ -11,25 +11,14 @@ growth: evergreen
 
 import InlineCallout from '../../components/InlineCallout.astro';
 import ScopeDemo1 from '../../components/demos/ScopeDemo1.astro';
+import ChecklistItem from '../../components/ChecklistItem.astro';
 
-As a parent of two, I've found writing CSS can be a bit like having toddlers (or really, kids in general), sometimes they throw tantrums and affect things they really shouldn't *at all*. You tell them to only use the red pens and then somehow, blue pen appears in a suddenly unexpected place ie sofa, wall, bed, toys, anything anywhere really (bonus points to them if it's something you haven't actually seen and/or won't see again for 6-12 months).
+As a parent of two, I've found writing CSS can be a bit like having toddlers — you tell them to only use the red pens and somehow, blue pen appears somewhere completely unexpected. The sofa. The wall. Something you haven't seen in six months.
+CSS has the same problem. You tie up a new button style for a new part of a project and suddenly all the buttons across the site have that random border-radius or hover state. 
 
-While myself - as a human, adult parent - can *cough* attempt to *cough* wrangle those pens into the right places and ensure that it's all good and only being used in the right place, it turns out that CSS is not an human, adult parent. It's like the metaphorical cool uncle that just lets the kids do anything they want with minimal control. The rules are loose.
+The rules are loose and the damage spreads.
 
-*Enter @scope*
-
-@scope is *the* closest thing I've seen recently that really puts CSS styles in their place. Like actually.
-
-<div class="blockquote-container">
-
-> At-rules are CSS statements that instruct CSS how to behave. They begin with an at-sign, @, followed by an identifier. They include everything from the at-keyword up to the next semicolon, ; , or the next CSS block, whichever comes first.
-> Mozilla
-
-</div>
-
-A big problem that @scope can fix with CSS, that _totally_ hasn't happened to me at all not even once, is CSS 'leaking'. You tie up a new button style in a new page for a new part of a project, and lo and behold, suddenly *all* the buttons across the site have that random `border-radius` or hover state. Yuck! Last time on the parenting analogy, but this is where the coloring pens come in.
-
-*Enter @scope (again)*
+Enter @scope.
 
 ## How it works
 
@@ -56,7 +45,9 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
   </picture>
   <div class="card__content">
     <h3 class="card__heading">Card Title</h3>
-    <p class="card__text">First line of paragraph text.</p>
+    <p class="card__text">
+    	Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.
+    </p>
     <a class="card__link" href="#">Learn More</a>
   </div>
 </div>
@@ -65,20 +56,18 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
 This just gives us this beautifully unstyled masterpiece.
 
 
-<div class="">
-	<picture class="card__image-container">
-    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
-    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
-    <img
-        class="card__image"
-        src="https://picsum.photos/900"
-        alt="Descriptive alt text"
-    />
+<div class="card">
+  <picture class="card__image-container">
+	  <img
+	      class="card__image"
+	      src="https://picsum.photos/900"
+	      alt="Descriptive alt text"
+	  />
   </picture>
-  <div class="">
-    <h3 class="">Card Title</h3>
-    <p class="">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
-    <a class="" href="#">Learn More</a>
+  <div class="card__content">
+    <h3 class="card__heading">Card Title</h3>
+    <p class="card__text">Amet aute minim eiusmod tempor do minim eu. Eu officia amet consequat et esse pariatur Lorem proident aliqua reprehenderit esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. In consequat adipisicing ea consequat aute elit elit. Do proident veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat id veniam do. Aliquip non incididunt ipsum occaecat cillum est consequat consectetur cillum. Dolore in excepteur veniam adipisicing pariatur Lorem.</p>
+    <a class="card__link" href="#">Learn More</a>
   </div>
 </div>
 
@@ -88,163 +77,334 @@ Same card. Same output. Very different markup.
 
 <ScopeDemo1 />
 
-## Browser Support and Progressive Enhancement
+For browsers that don't support `@scope` yet, wrap it in a feature query and keep your BEM styles as the fallback.
 
-As with any new CSS feature, browser support is crucial to consider. Currently, `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. For browsers that don't support it, you'll need a fallback strategy.
+### The one thing BEM couldn't solve
+BEM naming conventions are good at preventing leakage between components — .card__heading will never accidentally style a .nav__heading. But they've always had a blind spot: nested instances of the same component.
 
-The most straightforward approach is to use feature queries with `@supports`:
+If a card can contain another card, every BEM rule on .card__heading applies to both. There's no way to say "only the outer one" without adding extra classes or specificity hacks.
+@scope has the same problem by default — but unlike BEM, it has a fix built in.
+
+### The lower boundary
+The to keyword lets you define where a scope stops:
 
 ```css
-/* Fallback styles using BEM or other naming conventions */
-.card {
-    /* Your fallback styles here */
-}
-
-/* Modern browsers get the scoped version */
-@supports (selector(@scope)) {
-    @scope (.card) {
-        /* Your scoped styles here */
-    }
+@scope (.card) to (.card) {
+  h3 { font-size: 24px; }
 }
 ```
 
-## Advanced Scoping Techniques
+The scope now applies in the ring between the outer .card and any nested .card inside it. Styles reach the outer card's h3 but stop before the inner one. The nested card gets its own clean scope when its own @scope rule kicks in.
 
-### Multiple Selectors
+```html
+<div class="card">
+  <h3>Outer card — gets font-size: 24px</h3>
 
-You can scope multiple selectors together, which is particularly useful for shared component styles:
+  <div class="card">
+    <h3>Inner card — unaffected</h3>
+  </div>
+</div>
+```
+
+This is sometimes called the donut hole — the scope has a gap punched through it at the lower boundary. Styles apply in the ring, not inside the hole.
+
+### When do you actually need this?
+
+Not every component needs a lower boundary — most cards won't nest, most buttons won't contain buttons. But it's worth reaching for whenever:
+
+- A component can genuinely contain itself (nested navs, recursive comment threads, expandable tree items)
+- Two different components share element selectors (h3, img, a) and one can appear inside the other
+- You're getting unexpected style inheritance and can't work out why — a missing lower boundary is often the culprit
+
+For the card we've built in this post, you probably don't need it. But now you know it exists for when you do.
+
+## Scoped variables and the theming story
+
+You might have noticed the @scope card example already does something quiet but useful with custom properties:
 
 ```css
-@scope (.card, .article) {
-    /* These styles apply to both .card and .article */
-    img {
-        aspect-ratio: 16/9;
-    }
+@scope (.card-scoped) {
+    --color-dark: grey;
 
-    h3 {
-        font-size: 1.5rem;
-    }
+    border: 1px solid var(--color-dark, #000);
 }
 ```
 
-### Pseudo-classes and States
+That `--color-dark: grey` declaration lives inside the scope. It overrides whatever `--color-dark` is set to globally, but only within this card. Every other component on the page using `--color-dark` is unaffected.
 
-`@scope` works seamlessly with pseudo-classes, allowing you to scope interactive states:
+That's not just a tidy pattern — it changes what's possible with component theming.
 
-```css
-@scope (.card) {
-    /* Base styles */
-    background: white;
+### The problem with global tokens
 
-    /* Hover state */
-    &:hover {
-        background: #f5f5f5;
-        transform: translateY(-2px);
-    }
+Design token systems typically live on :root. A colour palette, a spacing scale, a type ramp — all declared globally, all inherited everywhere.
 
-    /* Focus state for accessibility */
-    &:focus-within {
-        outline: 2px solid blue;
-    }
-}
-```
-
-### Media Queries
-
-Media queries can be used within scoped styles to create responsive components:
+That works until you need a component to look different in a specific context. A card in a promotional banner needs a dark background. The same card in a content feed needs a light one. With global tokens, your options are either a modifier class (.card--dark) that overrides specific properties one by one, or a data attribute that triggers a whole alternative set of declarations. Both approaches mean writing the component's styles twice.
 
 ```css
-@scope (.card) {
-    display: grid;
-    gap: 1rem;
-
-    @media (min-width: 768px) {
-        grid-template-columns: 1fr 2fr;
-    }
-
-    @media (min-width: 1024px) {
-        grid-template-columns: 1fr 3fr;
-    }
-}
-```
-
-## CSS Variables and Inheritance
-
-Scoped CSS variables follow a specific inheritance pattern:
-
-```css
+/* The global token */
 :root {
-    --color-primary: blue;
+    --card-bg: white;
+    --card-text: #222;
+    --card-border: #d4cfc0;
 }
 
-@scope (.card) {
-    /* Override global variable within scope */
-    --color-primary: red;
+.card {
+    background: var(--card-bg);
+    color: var(--card-text);
+    border: 1px solid var(--card-border);
+}
 
-    /* Use the scoped variable */
-    border: 2px solid var(--color-primary);
-
-    /* Nested scopes inherit from parent scope */
-    .card__header {
-        color: var(--color-primary); /* Uses red from parent scope */
-    }
+/* Modifier: override each token individually */
+.card--promotional {
+    --card-bg: #2c5364;
+    --card-text: white;
+    --card-border: transparent;
 }
 ```
+
+This works, but the modifier class is doing two jobs at once: it's a style hook and a token override. As the number of variants grows, so does the maintenance surface.
+
+### Scoped tokens as a better pattern
+
+`@scope` lets you redefine tokens at the component boundary without a modifier class. The scope root becomes the theming surface:
+
+```css
+/* Global token defaults */
+:root {
+    --card-bg: white;
+    --card-text: #222;
+    --card-border: #d4cfc0;
+}
+
+/* Base component — uses whatever the tokens say */
+@scope (.card) {
+    :scope {
+        background: var(--card-bg);
+        color: var(--card-text);
+        border: 1px solid var(--card-border);
+    }
+
+    h3 { color: var(--card-text); }
+    a  { color: var(--card-text); }
+}
+
+/* Promotional context — redefine the tokens at the parent level */
+.banner {
+    --card-bg: #2c5364;
+    --card-text: white;
+    --card-border: transparent;
+}
+```
+
+```html
+<!-- Default card -->
+<div class="card"> … </div>
+
+<!-- Same card, different context — no modifier class needed -->
+<div class="banner">
+    <div class="card"> … </div>
+</div>
+```
+
+The card component itself hasn't changed. The .banner parent redefines the tokens, and the card inherits the new values through the cascade. One component definition, any number of contexts.
+
+### Why this matters for design systems
+
+The conventional token system works in one direction: global → component. You define a value globally and components consume it. Changing the global value changes everything that uses it — which is usually what you want for a rebrand or a dark mode toggle, but not when you need one instance of a component to behave differently from all the others.
+
+Scoped tokens add a middle layer: global → context → component. The context (a parent element, a section, a layout region) can redefine tokens for everything inside it, without touching the component or the global defaults.
+
+This pairs directly with @scope's lower boundary from the previous section. The same mechanism that stops styles leaking into nested components also stops token overrides leaking further than you intend:
+
+```css
+/* Tokens redefined in the banner only reach as far as the first nested .card */
+@scope (.banner) to (.card) {
+    --card-bg: #2c5364;
+    --card-text: white;
+}
+```
+
+If you want to go deeper on custom properties — how inheritance works, how to use them for animation with @property, and the broader patterns for building a token system — the CSS Variables post covers the foundations in detail.
 
 <InlineCallout
-	tagline="Want to find out more about CSS variables?"
+	tagline="Want to find out more?"
 	title="Level Up Your Styles With CSS Variables"
 	description="We're using CSS custom properties within a scope here, but it's not the only use case."
 	slug="/writing/level-up-your-styles-with-css-variables"
 />
 
-## Performance and Specificity
+Migrate from BEM: A Practical Checklist
+Ready to drop the double-underscores? This checklist walks through replacing BEM class names with @scope on a real component — using the same card we built above. Work through it component by component rather than rewriting your whole stylesheet at once.
 
-`@scope` affects CSS specificity in a unique way. It creates a new specificity layer that's more specific than regular CSS but less specific than `!important`. This can help reduce the need for overly specific selectors while maintaining predictable style application.
+### Before you start
 
+<ul class="checklist">
+<ChecklistItem>Check your browser support requirements. `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. If you're supporting anything older, wrap your scoped styles in a feature query and keep BEM as the fallback: `@supports (selector(@scope)) { @scope (.card) { … } }` — it adds two lines and costs nothing.</ChecklistItem>
+<ChecklistItem>Pick one component to migrate first. Don't rewrite everything. Choose a self-contained component — a card, a nav item, a badge — and use it as your proof of concept before touching shared or global styles.</ChecklistItem>
+<ChecklistItem>Have the original BEM styles open alongside. You're not deleting them yet. Migration goes: write the scoped version → confirm it works → remove the BEM version.</ChecklistItem>
+</ul>
+
+
+### Step 1 — Identify your scope root
+Your BEM block becomes your @scope selector. The block class is the only class you need to keep on the HTML element.
 ```css
-/* This has higher specificity than regular CSS */
-@scope (.card) {
-    .title { /* Specificity: .card .title */
-        color: blue;
-    }
-}
+/* BEM: block is the root */
+.card { … }
+.card__image { … }
+.card__content { … }
 
-/* But lower than !important */
-.title {
-    color: red !important; /* This wins */
+/* @scope: same root, different shape */
+@scope (.card) {
+  /* everything lives in here now */
 }
 ```
 
-## Common Pitfalls to Avoid
+ Identify the block class — this becomes your @scope (.block-name) selector
+ Keep the block class on the HTML element (.card, .nav, .badge) — it's now the scope root, not just a selector
+ Remove the block prefix from every element class in your markup — card__image becomes image, or just gets removed in favour of an element selector (see step 2)
 
-1. **Over-nesting**: While `@scope` allows nesting, deep nesting can make styles harder to maintain:
+
+### Step 2 — Replace element classes with element selectors where possible
+This is the cleanest win. BEM element classes exist to prevent style leakage — @scope handles that, so you can target img, h3, p, a directly inside the scope without them bleeding out.
 ```css
-/* Avoid this */
+/* BEM: explicit class on every element */
+.card__image   { aspect-ratio: 16/9; }
+.card__heading { font-size: 24px; }
+.card__text    { -webkit-line-clamp: 2; }
+.card__link    { margin-inline-start: auto; }
+
+/* @scope: element selectors are safe now */
 @scope (.card) {
-    .content {
-        .header {
-            .title {
-                /* Too deep! */
-            }
-        }
-    }
+  img { aspect-ratio: 16/9; }
+  h3  { font-size: 24px; }
+  p   { -webkit-line-clamp: 2; }
+  a   { margin-inline-start: auto; }
 }
 ```
 
-2. **Global Style Leakage**: Remember that styles inside `@scope` can still affect global elements if not properly scoped:
-```css
-/* This affects ALL buttons on the page */
-@scope (.card) {
-    button {
-        /* Global effect! */
-    }
-}
+For each BEM element class, ask: is this targeting a semantically unique element within the component? (__image → img, __heading → h3)
+- If yes — replace with the element selector inside the scope, remove the class from the HTML
+- If no — the element isn't semantically unique (two different div wrappers, multiple span types) — keep a class, but drop the BEM prefix. .card__content becomes .content inside the scope; the scope handles the leakage
 
-/* Better: scope to the card's buttons only */
+
+### Step 3 — Handle modifier classes
+
+BEM modifiers (--) don't map directly to @scope — @scope solves leakage, not state. Modifiers still need a signal to attach to. Your options:
+
+#### Option A: Keep a simplified modifier class (recommended)
+Drop the block prefix but keep the modifier concept as a class on the root element.
+```css
+/* BEM modifier */
+.card--featured { border-color: gold; }
+
+/* @scope equivalent */
 @scope (.card) {
-    :scope button {
-        /* Only affects buttons within .card */
-    }
+  :scope.featured { border-color: gold; }
 }
 ```
+
+#### Option B: Use data attributes
+Cleaner semantic separation between styling hooks and JS hooks.
+```css
+/* @scope equivalent */
+@scope (.card) {
+  :scope[data-variant="featured"] { border-color: gold; }
+}
+```
+
+#### Option C: Use :has() for state-driven modifiers
+
+Where the modifier is driven by content or state rather than an explicit class.
+
+```css
+/* @scope equivalent */
+@scope (.card) {
+  :scope:has(img) { /* card has an image — adjust layout */ }
+}
+```
+
+List every --modifier class in the component
+Decide per modifier: simplified class, data attribute, or :has() condition
+Update the HTML and CSS together — don't leave orphaned modifier classes in the markup
+
+
+### Step 4 — Migrate scoped variables
+If you've read the design tokens section above, you already know the full picture here. The short version for the migration:
+
+- Identify any custom properties currently set on the block class
+ Move them inside @scope — they now only apply within the component
+ Check that global tokens (:root variables) still resolve correctly from inside the scope — they will, but worth confirming if you're overriding the same property name
+ If the component needs context-based theming (different values in a banner, a sidebar, a dark section) — set those token overrides on the parent element rather than using a modifier class on the component itself
+
+
+### Step 5 — Add a lower boundary if components nest
+You've seen this in the donut hole section above — just the decision checklist here:
+
+ Does this component ever nest inside itself, or inside a component with the same element selectors?
+ If yes — add a lower boundary: `@scope (.card) to (.card) { … }`
+ If no — skip this step
+
+
+### Step 6 — Clean up the HTML
+Once the scoped CSS is confirmed working, the markup gets leaner.
+
+ Remove all block__element classes now targeted by element selectors
+ Remove all block__element classes now targeted by simplified classes
+ Keep: the block class (scope root) + any remaining modifier/variant classes
+ The card from this post goes from 7 classes to 1 — just .card on the wrapper
+
+Before:
+
+```html
+<div class="card">
+  <picture class="card__image-container">
+    <img class="card__image" />
+  </picture>
+  <div class="card__content">
+    <h3 class="card__heading">Card Title</h3>
+    <p class="card__text">…</p>
+    <a class="card__link" href="#">Learn More</a>
+  </div>
+</div>
+```
+
+After:
+
+```html
+<div class="card">
+  <picture>
+    <img />
+  </picture>
+  <div>
+    <h3>Card Title</h3>
+    <p>…</p>
+    <a href="#">Learn More</a>
+  </div>
+</div>
+```
+
+### Step 7 — Remove the BEM styles
+Only once the scoped version is confirmed working in all target browsers.
+
+ Delete the original BEM block and element declarations
+ Run a search for the old class names in your templates and markup — confirm none remain
+ If you added an @supports fallback, confirm it's still in place and the BEM styles inside it are intentional
+
+
+### What you're not migrating
+A few BEM patterns that @scope doesn't replace — keep these as-is:
+- Global utility classes. .visually-hidden, .sr-only, .text-center — these aren't component styles and shouldn't be scoped. Leave them alone.
+- Layout-level classes. .grid, .container, .stack — if these live above the component level, they belong outside any scope.
+- Multi-component relationships. If you have BEM classes that describe a relationship between two separate components (.card--in-sidebar, .nav--has-dropdown), @scope doesn't naturally express those. Keep them as classes or replace with container queries on the parent.
+
+### Quick reference
+
+| BEM pattern | @scope equivalent |
+| --- | --- |
+| `.block {}` | `@scope (.block) { :scope {} }` |
+| `.block__element {}` | `@scope (.block) { element {} }` |
+| `.block--modifier {}` | `@scope (.block) { :scope.modifier {} }` |
+| `.block__element--modifier {}` | `@scope (.block) { element.modifier {} }` |
+| Nested component leak | `@scope (.outer) to (.inner) {}` |
+| Context-based theming | Token overrides on the parent element |
+| Scoped variable | Custom property declared inside @scope block |
