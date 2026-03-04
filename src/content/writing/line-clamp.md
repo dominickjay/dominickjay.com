@@ -1,6 +1,6 @@
 ---
 title: 'Truncating text with line-clamp'
-description: 'Hiding the overflow of content can sometimes work, but the line-clamp property can be more efficient, and look nicer!'
+description: 'The four-line CSS pattern that kills every JS text truncation library'
 intro: "There's a couple of different ways to nicely hide overflowing content, but using the `line-clamp` property is a great way forwards for it, so let's check it out."
 pubDate: '2023-02-23'
 tags:
@@ -9,15 +9,20 @@ supported: bcd.css["properties"].line-clamp.__compat
 growth: growing
 ---
 
-Let's take a general card layout, we've all seen this before right? Standard image (provided by [placeskull.com](placeskull.com)), heading and text content. I'm leaving out a link, because how that is placed is a _whole_ other thing.
+Let's take a general card layout, we've all seen this before right? Standard image, heading and text content. I'm leaving out a link, because how that is placed is a _whole_ other thing.
 
 <style>
   .card-example {
     width: fit-content;
-    max-width: 50ch;
     height: fit-content;
     border: 2px solid black;
     margin-block: 20px;
+  }
+  
+  @media (width > 768px) {
+    .card-example {
+      max-width: 50ch;
+    }
   }
 
   .card-example--thin {
@@ -85,7 +90,7 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 </style>
 
 <div class="card-example">
-  <img src='https://picsum.photos/550/350' alt='' width="550" height="350" />
+  <img src='https://picsum.photos/seed/bem/520/300' alt='' width="520" height="300" />
   <div class="flow">
     <h3 class="heading">Card heading</h3>
     <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
@@ -94,7 +99,29 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 
 You've got the markup done to the design, but haven't accounted for the huge amount of text that the client will undoubtedly drop into only _some_ of them.
 
-{% imagePlaceholder "./src/assets/images/posts/line-clamp-card-grid.png", "A row of cards with long content", "Our generic cards with longer than needed text on them." %}
+<div class="!grid grid-cols-1 md:grid-cols-3 gap-[24px]">
+  <div class="card-example">
+    <img src='https://picsum.photos/seed/bem/520/300' alt='' width="520" height="300" />
+    <div class="flow">
+      <h3 class="heading">Card heading</h3>
+      <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit. Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit. Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
+    </div>
+  </div>
+  <div class="card-example">
+    <img src='https://picsum.photos/seed/bem/520/300' alt='' width="520" height="300" />
+    <div class="flow">
+      <h3 class="heading">Card heading</h3>
+      <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
+    </div>
+  </div>
+  <div class="card-example">
+    <img src='https://picsum.photos/seed/bem/520/300' alt='' width="520" height="300" />
+    <div class="flow">
+      <h3 class="heading">Card heading</h3>
+      <p>Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit.</p>
+    </div>
+  </div>
+</div>
 
 Yuck. So we need to trim it down, make it look a bit more visually pleasing to the user right? We could just add a `max-height` to the cards, with an `overflow: hidden` on the `p` tag....maybe? Chuck in a few media queries to adjust for smaller screen sizes?
 
