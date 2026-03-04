@@ -1,6 +1,6 @@
 ---
 title: 'Put Your CSS In Its Place'
-description: "For years, CSS styles have behaved like toddlers with marker pens: their influence inevitably leaks outside the play area, affecting things they shouldn't. This article explores how the new @scope at-rule gives developers the parent-level control they've always needed, allowing us to enforce strict style boundaries and finally retire complex naming conventions designed only to prevent global style tantrums."
+description: "How @scope finally gives CSS the style boundaries it's always needed — and why that means BEM can retire."
 pubDate: '2025-02-15'
 tags:
   - css
@@ -25,7 +25,7 @@ Enter @scope.
 Let's get to the code. How do we set this up so that completely-made-up scenario doesn't even become a reality. Firstly, you use the `@scope` at-rule, following by your selector of choice - let's drag the infamous card example out here.
 
 ```css
-@scope .card {}
+@scope (.card) {}
 ```
 
 Well...that's kind of it, right? We've it set it up. Nothing more to do here, apart from adding in our styles *within* those lovely braces on the `.card`. Anything inside this 'scoped' card is exclusive just to that class name. This allows us to use more generic CSS selectors, ditching the specific class/IDs like `.image` in favor of just the `img` tag. Let's do a comparison between a basic card layout using both the `BEM` naming convention and `@scope`.
@@ -117,7 +117,7 @@ The scope now ranges in the ring between the outer `.card` and any of the `.card
 </div>
 ```
 
-This is sometimes called the donut hole - a coin termed by [Nicole Sullivan in 2011](https://www.stubbornella.org/2011/10/08/scope-donuts/) — meaning the scope has a gap punched through it at the lower boundary. Styles apply in the ring, not inside the hole. It's an odd analogy, but it sticks.
+This is sometimes called the donut hole - a term coined by [Nicole Sullivan in 2011](https://www.stubbornella.org/2011/10/08/scope-donuts/) — meaning the scope has a gap punched through it at the lower boundary. Styles apply in the ring, not inside the hole. It's an odd analogy, but it sticks.
 
 ### When do you actually need to use this?
 
@@ -133,7 +133,7 @@ For the card we've built in this post, you probably don't need it. But now you k
 You might have noticed the `@scope` card example already does something quiet but useful with custom properties:
 
 ```css
-@scope (.card-scoped) {
+@scope (.card) {
     --color-dark: grey;
 
     border: 1px solid var(--color-dark, #000);
@@ -214,7 +214,7 @@ Of course, this works, but the modifier class is doing two jobs: it's both a sty
 </div>
 ```
 
-The card component itself hasn't changed. The `.banner` parent reestablishes the tokens, and the card gets the new values through the cascade. One component has been defined, but it can work in any number of contexts. Maintenance is low, technical debt is minimal. Life is good.
+The card component itself hasn't changed. The `.banner` parent reestablishes the tokens, and the card gets the new values through the cascade. One component has been defined, but it can work in any number of contexts.
 
 ### The missing layer
 
@@ -235,7 +235,7 @@ Further to this, we can use it alongside the lower boundary mentioned earlier, u
 <InlineCallout
 	tagline="Want to find out more?"
 	title="Level Up Your Styles With CSS Variables"
-	description="We're using CSS custom properties within a scope here, but it's not the only use case."
+	description="If this has made you want to go deeper on custom properties, this is the next post to read."
 	slug="/writing/level-up-your-styles-with-css-variables"
 />
 
