@@ -16,7 +16,8 @@ type Props = CollectionEntry<"writing">["data"] & {
   timeToRead?: number;
 };
 
-const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, growth, lastModified } =
+  Astro.props;
 ---
 
 <html lang="en">
@@ -30,6 +31,21 @@ const { title, description, pubDate, updatedDate, tags, growth } = Astro.props;
     <main>
       <article>
         <DefaultHero title={title} description={description} growth={growth} />
+        {(lastModified ?? updatedDate) && (
+          <p
+            class="container text-sm opacity-70"
+            style="margin-top: -0.5rem; margin-bottom: 0;"
+          >
+            Last updated:{" "}
+            <time datetime={(lastModified ?? updatedDate).toISOString()}>
+              {(lastModified ?? updatedDate).toLocaleDateString("en-us", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+          </p>
+        )}
         <PatternBanner />
         <div
           class="post-container container prose pt-[32px] md:pt-[64px] gap-[43px] [--gutter:16px] md:[--gutter:43px]"

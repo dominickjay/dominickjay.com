@@ -1,6 +1,15 @@
 ---
 import FormattedDate from "./FormattedDate.astro";
-const { title, tags, pubDate, id, growth, i, theme = 'default' } = Astro.props;
+const {
+  title,
+  tags,
+  pubDate,
+  lastModified,
+  id,
+  growth,
+  i,
+  theme = "default",
+} = Astro.props;
 ---
 
 <li
@@ -11,13 +20,13 @@ const { title, tags, pubDate, id, growth, i, theme = 'default' } = Astro.props;
 >
   <a
     href={`/writing/${id}/`}
-    class={`post-link ${theme != 'default' ? 'post-link--' + theme : ''}`}
+    class={`post-link ${theme != "default" ? "post-link--" + theme : ""}`}
   >
     <span class="post-n">{i}</span>
     <div class="post-body">
       <span class="post-title">{title}</span>
       <div class="post-meta">
-        <FormattedDate date={pubDate} />
+        <FormattedDate date={lastModified ?? pubDate} />
         <span class="post-topics-label">{tags.join(", ")}</span>
         {
           growth !== undefined && (

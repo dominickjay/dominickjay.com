@@ -16,7 +16,9 @@ if (import.meta.env.ENVIRONMENT === "production") {
 	posts = await getCollection("writing");
 }
 
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortDate = (entry) =>
+  (entry.data.lastModified ?? entry.data.pubDate).valueOf();
+posts.sort((a, b) => sortDate(b) - sortDate(a));
 
 // Extract all unique tags from posts
 const allTags = posts.flatMap((post) => post.data.tags);

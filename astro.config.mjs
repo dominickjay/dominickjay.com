@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import { createRequire } from "node:module";
 import mdx from "@astrojs/mdx";
+import { remarkModifiedTime } from "./remark-modified-time.mjs";
 import sitemap from "@astrojs/sitemap";
 import alpinejs from "@astrojs/alpinejs";
 import tailwindcss from "@tailwindcss/vite";
@@ -16,6 +17,9 @@ const domTheme = require("./src/styles/dom-shiki-theme.json");
 // https://astro.build/config
 export default defineConfig({
   site: "https://dominickjay.com",
+  markdown: {
+    remarkPlugins: [remarkModifiedTime],
+  },
   integrations: [
     sanity({
       projectId: "m7q8vxzo",
