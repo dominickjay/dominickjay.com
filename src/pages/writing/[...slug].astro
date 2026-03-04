@@ -147,14 +147,35 @@ try {
 
 const allowedBrowsers = ["chrome", "firefox", "safari", "edge"];
 
+function getSupportEntry(data: unknown) {
+  if (Array.isArray(data)) {
+    const withPrefix = data.find(
+      (e) => e?.version_added && !e.version_removed && e.prefix,
+    );
+    if (withPrefix) return withPrefix;
+    const any = data.find((e) => e?.version_added && !e.version_removed);
+    return any ?? data[0] ?? {};
+  }
+  return data && typeof data === "object" ? data : {};
+}
+
 const browserSupport = compatData?.support
   ? Object.entries(compatData.support)
       .filter(([browser]) => allowedBrowsers.includes(browser))
-      .map(([browser, data]) => ({
-        browser,
-        version: data.version_added || "Unknown",
-        support: data.version_added ? "Supported" : "Not supported",
-      }))
+      .map(([browser, data]) => {
+        const entry = getSupportEntry(data);
+        const versionAdded = entry.version_added;
+        const version =
+          versionAdded === false
+            ? "Not supported"
+            : (versionAdded || "Unknown");
+        return {
+          browser,
+          version: String(version),
+          prefix: entry.prefix,
+          support: versionAdded ? "Supported" : "Not supported",
+        };
+      })
   : [];
 
 const compatDataStatus = compatData?.status;

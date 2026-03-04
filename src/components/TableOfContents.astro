@@ -2,121 +2,131 @@
 import type { MarkdownHeading } from "astro";
 
 type Props = {
-	headings: MarkdownHeading[];
+  headings: MarkdownHeading[];
 };
 
 type HeadingWithSubheadings = MarkdownHeading & {
-	subheadings: MarkdownHeading[];
+  subheadings: MarkdownHeading[];
 };
 
 const { headings } = Astro.props;
 
 const grouppedHeadings = headings.reduce((array, heading) => {
-	if (heading.depth === 2) {
-		array.push({ ...heading, subheadings: [] });
-	} else if (heading.depth === 3) {
-		array.at(-1)?.subheadings.push(heading);
-	}
+  if (heading.depth === 2) {
+    array.push({ ...heading, subheadings: [] });
+  } else if (heading.depth === 3) {
+    array.at(-1)?.subheadings.push(heading);
+  }
 
-	return array;
+  return array;
 }, [] as HeadingWithSubheadings[]);
 ---
 
-<nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
-	<span style="font-family: var(--font-base);
+{
+  grouppedHeadings.length > 0 && (
+    <nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
+      <span
+        style="font-family: var(--font-base);
             font-size: 10px;
             letter-spacing: 0.14em;
             color: var(--accent);
             text-transform: uppercase;
-            margin-bottom: 8px;">Contents: </span>
-	<ol class="toc-list">
-		{
-			grouppedHeadings.map((h) => (
-				<li class="toc-item" data-target={`#${h.slug}`}>
-					<a href={`#${h.slug}`}>
-						{h.text}
-					</a>
-				</li>
-			))
-		}
-	</ol>
-</nav>
+            margin-bottom: 8px;"
+      >
+        Contents:{" "}
+      </span>
+      <ol class="toc-list">
+        {grouppedHeadings.map((h) => (
+          <li class="toc-item" data-target={`#${h.slug}`}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
 
 <script is:inline>
-	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				const headingFragment = `#${entry.target.id}`;
-				const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const headingFragment = `#${entry.target.id}`;
+        const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
 
-				if (!tocItem) return;
+        if (!tocItem) return;
 
-				if (entry.isIntersecting) {
-					// Remove active class from any previously active items
-					document
-						.querySelectorAll(".active-toc-item")
-						.forEach((item) => item.classList.remove("active-toc-item"));
+        if (entry.isIntersecting) {
+          // Remove active class from any previously active items
+          document
+            .querySelectorAll(".active-toc-item")
+            .forEach((item) => item.classList.remove("active-toc-item"));
 
-					// Add active class to current item
-					tocItem.classList.add("active-toc-item");
-				}
-			});
-		},
-		{
-			root: null,
-			rootMargin: "0px", // Adds some margin to when the heading is considered "visible"
-			threshold: 0.05, // Trigger when heading is 50% visible
-		},
-	);
+          // Add active class to current item
+          tocItem.classList.add("active-toc-item");
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: "0px", // Adds some margin to when the heading is considered "visible"
+      threshold: 0.05, // Trigger when heading is 50% visible
+    },
+  );
 
-	// Wait for DOM to be ready
-	document.addEventListener("DOMContentLoaded", () => {
-		// Get all h2 headings
-		const headings = document.querySelectorAll("h2");
+  // Wait for DOM to be ready
+  document.addEventListener("DOMContentLoaded", () => {
+    // Get all h2 headings
+    const headings = document.querySelectorAll("h2");
 
-		// Observe each heading
-		headings.forEach((heading) => {
-			if (heading.id) {
-				// Only observe headings with IDs
-				observer.observe(heading);
-			}
-		});
-	});
+    // Observe each heading
+    headings.forEach((heading) => {
+      if (heading.id) {
+        // Only observe headings with IDs
+        observer.observe(heading);
+      }
+    });
+  });
 </script>
 
 <style>
-.toc-list {
-	list-style: none;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	margin-block-start: var(--space-m);
-}
-.toc-item a {
-  display: block;
-  font-family: var(--font-base);
-  font-size: 14px;
-  letter-spacing: .06em;
-  color: var(--muted);
-  text-decoration: none;
-  padding: 5px 0 5px 12px;
-  border-left: 2px solid var(--color-dark);
-  transition: color .2s, border-color .2s, padding-left .2s;
-  font-style: normal;
-  font-weight: 400;
-  background: none;
-  opacity: 0.8;
-  &::before,
-  &::after {
-    content: none;
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-block-start: var(--space-m);
   }
-}
-.toc-item a:hover { color: var(--text); padding-left: 16px; }
-.toc-item .active-toc-item {
-  border-left-color: var(--color-accent);
-  padding-left: 16px;
-  font-style: italic;
-  opacity: 1;
-  font-weight: 600;
-}
+  .toc-item a {
+    display: block;
+    font-family: var(--font-base);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 5px 0 5px 12px;
+    border-left: 2px solid var(--color-dark);
+    transition:
+      color 0.2s,
+      border-color 0.2s,
+      padding-left 0.2s;
+    font-style: normal;
+    font-weight: 400;
+    background: none;
+    opacity: 0.8;
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+  .toc-item a:hover {
+    color: var(--text);
+    padding-left: 16px;
+  }
+  .toc-item .active-toc-item {
+    border-left-color: var(--color-accent);
+    padding-left: 16px;
+    font-style: italic;
+    opacity: 1;
+    font-weight: 600;
+  }
 </style>
