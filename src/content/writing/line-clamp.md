@@ -56,7 +56,7 @@ Let's take a general card layout, we've all seen this before right? Standard ima
 
   .card-example .clamped {
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -120,11 +120,11 @@ Using this property allows any text to be cut off, with the end of the visible t
 
 To break this down quickly, there's three properties being used to get this solution - `overflow: hidden`, `text-overflow: ellipsis` and `white-space: nowrap`. `white-space: nowrap` puts all the text on one line, disregarding the boundaries of the box, `text-overflow: ellipsis` puts the familiar '...' at the end of the text that is visible, and `overflow: hidden`...well...hides the overflow of the content. Due to this, it only works if you want one line of text, no more. Not ideal.
 
-If you take a look at the top of the post, currently `line-clamp` is supported in pretty much every major browser - except for Safari - as long as we use it along with `display: -webkit-box` and a prefix of `-webkit-`. So we can use it like this:
+`-webkit-line-clamp` is now supported across all major browsers — Chrome, Firefox, Edge, and Safari. The `-webkit-box` dependency is still required, but that's not a reason to avoid it — the co-dependency is fully specified behaviour and isn't going anywhere.
 
 ```css
 display: -webkit-box;
--webkit-line-clamp: 3;
+line-clamp: 3;
 -webkit-box-orient: vertical;
 overflow: hidden;
 ```
@@ -156,7 +156,7 @@ Let's throw this onto the `p` tag that's used here (could also be a modifier on 
 </div>
 ```
 
-We've got our `display: -webkit-box` that we need, and `-webkit-line-clamp: 3` to set how many lines we want to keep visible. We still need `overflow: hidden` otherwise we'll get a mix of a clamped line with an ellipses and also overflowing content. We've also got this mystery `-webkit-box-orient: vertical`, which I'm unfamiliar with - but it does appear to be deprecated and there's a recommendation to not use it. Hopefully in the future, ~when~ if this gets implemented properly, the `display: -webkit-box` and `-webkit-box-orient: vertical` can be dropped, as well as the prefix on `line-clamp`. But for now, let's take a final look at our card.
+We've got our `display: -webkit-box` that we need, and `-webkit-line-clamp: 3` to set how many lines we want to keep visible. We still need `overflow: hidden` otherwise we'll get a mix of a clamped line with an ellipses and also overflowing content. We've been using the `-webkit-box-orient: vertical` property throughout this post, but it's an odd one. Technically it's deprecated, but it's a required part of using `line-clamp` and browsers will continue to honour it to make the entire thing work. As of writing this, there's an unprefixed version of `line-clamp` in development that drops the `-webkit-box` entirely, but it's not Baseline yet. For now, this four-line block is the correct production pattern and safe to ship without a preprocessor or a polyfill.
 
 <div class="card-example">
   <img src="https://picsum.photos/550/350" alt="" width="550" height="350" />
