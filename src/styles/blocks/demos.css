@@ -1,0 +1,18 @@
+.object-fit-example {
+  max-inline-size: 800px;
+  max-block-size: 600px;
+  border: 1px solid var(--color-dark);
+  overflow: hidden;
+}
+
+.object-fit-example picture {
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.object-fit-example img {
+  object-position: center;
+  object-fit: var(--fit, cover);
+  width: 100%;
+  height: 100%;
+}
