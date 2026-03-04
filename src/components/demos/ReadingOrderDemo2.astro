@@ -798,14 +798,13 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* ── Explainer ── */
   .explainer {
-    font-size: 12px;
+    background: rgb(from var(--feature-color) r g b / 0.12);
+    border-left: 3px solid var(--color-dark);
+    padding: 1rem;
+    margin: 1.5rem 0;
+    font-size: 14px;
+    color: var(--color-dark);
     line-height: 1.7;
-    color: var(--text-dim);
-    background: var(--surface);
-    border-left: 3px solid var(--border);
-    border-radius: 0 var(--r) var(--r) 0;
-    padding: 0.875rem 1rem;
-    margin-bottom: 1.5rem;
   }
 
   .explainer.bad {

@@ -116,47 +116,49 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       you can pin to any edge or use exact coordinates.
     </p>
 
-    <div class="position-grid">
-      <button class="pos-btn" onclick="setPosition('top left', this)"
-        >top left</button
-      >
-      <button class="pos-btn" onclick="setPosition('top center', this)"
-        >top</button
-      >
-      <button class="pos-btn" onclick="setPosition('top right', this)"
-        >top right</button
-      >
-      <button class="pos-btn" onclick="setPosition('center left', this)"
-        >left</button
-      >
-      <button class="pos-btn active" onclick="setPosition('center', this)"
-        >center ✓</button
-      >
-      <button class="pos-btn" onclick="setPosition('center right', this)"
-        >right</button
-      >
-      <button class="pos-btn" onclick="setPosition('bottom left', this)"
-        >bottom left</button
-      >
-      <button class="pos-btn" onclick="setPosition('bottom center', this)"
-        >bottom</button
-      >
-      <button class="pos-btn" onclick="setPosition('bottom right', this)"
-        >bottom right</button
-      >
-    </div>
-
-    <div class="position-preview-wrap">
-      <div class="position-preview">
-        <img
-          src="https://picsum.photos/seed/objpos/1200/1200"
-          alt="object-position preview"
-          id="pos-img"
-        />
+    <div class="position-controls">
+      <div class="position-grid">
+        <button class="pos-btn" onclick="setPosition('top left', this)"
+          >top left</button
+        >
+        <button class="pos-btn" onclick="setPosition('top center', this)"
+          >top</button
+        >
+        <button class="pos-btn" onclick="setPosition('top right', this)"
+          >top right</button
+        >
+        <button class="pos-btn" onclick="setPosition('center left', this)"
+          >left</button
+        >
+        <button class="pos-btn active" onclick="setPosition('center', this)"
+          >center ✓</button
+        >
+        <button class="pos-btn" onclick="setPosition('center right', this)"
+          >right</button
+        >
+        <button class="pos-btn" onclick="setPosition('bottom left', this)"
+          >bottom left</button
+        >
+        <button class="pos-btn" onclick="setPosition('bottom center', this)"
+          >bottom</button
+        >
+        <button class="pos-btn" onclick="setPosition('bottom right', this)"
+          >bottom right</button
+        >
       </div>
-      <div class="position-code">
-        <span style="color:var(--text-dim)">object-fit: cover;</span><br />
-        object-position: <span class="highlight" id="pos-label">center</span>;
+
+      <div class="position-preview-wrap">
+        <div class="position-preview">
+          <img
+            src="https://picsum.photos/seed/objpos/1200/1200"
+            alt="object-position preview"
+            id="pos-img"
+          />
+        </div>
+        <div class="position-code">
+          <span style="color:var(--text-dim)">object-fit: none;</span><br />
+          object-position: <span class="highlight" id="pos-label">center</span>;
+        </div>
       </div>
     </div>
   </div>
@@ -351,13 +353,11 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .intro {
-    font-size: 13px;
-    color: var(--text-dim);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
+    color: var(--color-dark);
+    font-size: 1rem;
+    margin-bottom: var(--space-m);
+    padding-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-dark);
   }
 
   /* ── Image selector ── */
@@ -379,7 +379,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .img-thumb-btn {
     width: clamp(36px, 10vw, 48px);
     height: clamp(36px, 10vw, 48px);
-    border-radius: 4px;
     border: 2px solid var(--border);
     overflow: hidden;
     cursor: pointer;
@@ -448,7 +447,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   .value-card {
     cursor: pointer;
-    border-radius: var(--r);
     border: 2px solid var(--border);
     overflow: hidden;
     background: var(--surface);
@@ -534,7 +532,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .detail {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -624,7 +621,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     padding: 8px 12px;
     background: var(--bg);
     border-left: 3px solid var(--border);
-    border-radius: 0 4px 4px 0;
     line-height: 1.6;
   }
 
@@ -647,7 +643,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     display: inline-block;
     font-size: 10px;
     padding: 2px 8px;
-    border-radius: 20px;
     background: rgba(44, 83, 100, 0.08);
     border: 1px solid rgba(44, 83, 100, 0.2);
     color: var(--accent);
@@ -658,7 +653,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .position-section {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     padding: 20px;
     margin-bottom: 24px;
   }
@@ -699,7 +693,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     padding: 8px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 4px;
     color: var(--text-dim);
     cursor: pointer;
     text-align: center;
@@ -719,7 +712,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .position-preview-wrap {
     margin-top: 16px;
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 300px 1fr;
     gap: 16px;
     align-items: start;
   }
@@ -730,11 +723,21 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     }
   }
 
+  .position-controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
   .position-preview {
     border: 1px solid var(--border);
     background: var(--surface-2);
     width: 300px;
+    min-width: 300px;
+    max-width: 300px;
     height: 200px;
+    min-height: 200px;
+    max-height: 200px;
     overflow: hidden;
     position: relative;
   }
@@ -742,14 +745,12 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .position-preview img {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
+    object-fit: none;
     object-position: center;
     transition: object-position 0.4s ease;
     display: block;
+    width: 450px;
+    height: 350px;
   }
 
   .position-code {

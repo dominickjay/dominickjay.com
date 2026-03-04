@@ -75,7 +75,14 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
     <div class="card-grid" id="grid-bad">
       <div class="card card-bad" data-delay="600">
-        <PlaceholderImage ratio="2 / 3" />
+        <div class="card-img-wrap" style="--aspect-ratio: 2 / 3;">
+          <img
+            src="https://picsum.photos/seed/cls3/600/400"
+            alt="Portrait image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
         <div class="card-body">
           <p class="card-label">20 Oct 2025 · Article</p>
           <h3 class="card-title">Portrait image — 2:3 ratio</h3>
@@ -86,7 +93,14 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-bad" data-delay="900">
-        <PlaceholderImage ratio="1 / 1" />
+        <div class="card-img-wrap" style="--aspect-ratio: 1 / 1;">
+          <img
+            src="https://picsum.photos/seed/cls3/600/600"
+            alt="Wide landscape image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
         <div class="card-body">
           <p class="card-label">18 Oct 2025 · Article</p>
           <h3 class="card-title">Square image — 1:1 ratio</h3>
@@ -97,9 +111,9 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-bad" data-delay="400">
-        <PlaceholderImage ratio="16 / 9" />
-        <div class="card-body">
-          <p class="https://picsum.photos/seed/cls3/600/340"
+        <div class="card-img-wrap" style="--aspect-ratio: 16 / 9;">
+          <img
+            src="https://picsum.photos/seed/cls3/600/340"
             alt="Wide landscape image"
             class="loading"
             loading="eager"
@@ -115,7 +129,14 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-bad" data-delay="1200">
-        <PlaceholderImage ratio="3 / 4" />
+        <div class="card-img-wrap" style="--aspect-ratio: 3 / 4;">
+          <img
+            src="https://picsum.photos/seed/cls3/600/480"
+            alt="Another tall image"
+            class="loading"
+            loading="eager"
+          />
+        </div>
         <div class="card-body">
           <p class="card-label">12 Oct 2025 · Article</p>
           <h3 class="card-title">Another tall image — 3:4 ratio</h3>
@@ -124,6 +145,13 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
           </p>
         </div>
       </div>
+    </div>
+
+    <p class="slabel">Layout shift log</p>
+    <div class="jump-log" id="log-bad">
+      <span class="log-empty"
+        >Hit "Simulate page load" to see layout shifts.</span
+      >
     </div>
   </div>
 
@@ -150,10 +178,10 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
     <div class="card-grid" id="grid-good">
       <div class="card card-good" data-delay="600">
-        <div class="card-img-wrap">
+        <div class="card-img-wrap" style="--aspect-ratio: 2 / 3;">
           <img
-            src="https://picsum.photos/seed/cls1/600/900"
-            alt="Portrait ratio image"
+            src="https://picsum.photos/seed/cls3/600/400"
+            alt="Portrait image"
             class="loading"
             loading="eager"
           />
@@ -169,10 +197,10 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-good" data-delay="900">
-        <div class="card-img-wrap">
+        <div class="card-img-wrap" style="--aspect-ratio: 1 / 1;">
           <img
-            src="https://picsum.photos/seed/cls2/600/600"
-            alt="Square ratio image"
+            src="https://picsum.photos/seed/cls3/600/600"
+            alt="Wide landscape image"
             class="loading"
             loading="eager"
           />
@@ -187,7 +215,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-good" data-delay="400">
-        <div class="card-img-wrap">
+        <div class="card-img-wrap" style="--aspect-ratio: 16 / 9;">
           <img
             src="https://picsum.photos/seed/cls3/600/340"
             alt="Wide landscape image"
@@ -205,10 +233,10 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       </div>
 
       <div class="card card-good" data-delay="1200">
-        <div class="card-img-wrap">
+        <div class="card-img-wrap" style="--aspect-ratio: 3 / 4;">
           <img
-            src="https://picsum.photos/seed/cls4/600/800"
-            alt="Tall image"
+            src="https://picsum.photos/seed/cls3/600/480"
+            alt="Another tall image"
             class="loading"
             loading="eager"
           />
@@ -281,6 +309,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     const cards = [...grid.querySelectorAll(".card")];
     cards.forEach((card) => {
       const img = card.querySelector("img");
+      if (!img) return;
       img.classList.remove("loaded");
       img.classList.add("loading");
       card.classList.remove("shifted");
@@ -296,6 +325,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     cards.forEach((card, i) => {
       const delay = parseInt(card.dataset.delay) || 400 + i * 300;
       const img = card.querySelector("img");
+      if (!img) return;
 
       setTimeout(() => {
         const beforeHeight = grid.getBoundingClientRect().height;
@@ -309,9 +339,10 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
             const afterHeight = grid.getBoundingClientRect().height;
             const shift = Math.abs(afterHeight - beforeHeight);
 
+            const entry = document.createElement("div");
+            entry.className = "jump-entry";
             if (shift > 2) {
               shiftCount++;
-              // Rough CLS approximation: shift fraction × viewport fraction
               const cls =
                 Math.round((shift / window.innerHeight) * 0.4 * 100) / 100;
               totalCLS = Math.round((totalCLS + cls) * 100) / 100;
@@ -319,25 +350,27 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
               card.classList.add("shifted");
               setTimeout(() => card.classList.remove("shifted"), 700);
 
-              const entry = document.createElement("div");
-              entry.className = "jump-entry";
               entry.innerHTML = `
-                <span class="jump-pill shift">⚡ shift</span>
+                <span class="jump-pill shift">Shift</span>
                 <span>Card ${i + 1} loaded — layout moved <strong>${Math.round(shift)}px</strong>. Running CLS: <strong>${totalCLS}</strong></span>
               `;
-              log.appendChild(entry);
-
               score.textContent = totalCLS;
               score.className =
                 "cls-score " + (totalCLS > 0.1 ? "high" : "low");
+            } else {
+              entry.innerHTML = `
+                <span class="jump-pill stable">✓ no shift</span>
+                <span>Card ${i + 1} loaded — no significant layout shift.</span>
+              `;
             }
+            log.appendChild(entry);
           });
         } else {
           // Good panel — just log stability
           const entry = document.createElement("div");
           entry.className = "jump-entry";
           entry.innerHTML = `
-            <span class="jump-pill stable">✓ stable</span>
+            <span class="jump-pill stable">Stable</span>
             <span>Card ${i + 1} loaded — no layout shift detected.</span>
           `;
           log.appendChild(entry);
@@ -348,12 +381,15 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       }, delay);
     });
 
-    // Re-enable button after all delays complete
+    // Re-enable button after all delays complete; set final score on element
     const maxDelay = Math.max(
       ...cards.map((c) => parseInt(c.dataset.delay) || 1200),
     );
     setTimeout(() => {
       btn.disabled = false;
+      const finalScore = isBad ? totalCLS : 0;
+      score.textContent = finalScore === 0 ? "0.00" : String(finalScore);
+      score.className = "cls-score " + (finalScore > 0.1 ? "high" : "low");
       if (isBad && shiftCount === 0) {
         log.innerHTML =
           '<span class="log-empty">Images may have been cached — shifts not detected. Try a hard refresh.</span>';
@@ -403,13 +439,11 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   }
 
   .intro {
-    font-size: 13px;
-    color: var(--text-dim);
-    max-width: 520px;
-    line-height: 1.7;
-    margin-bottom: var(--space-l);
-    padding-bottom: var(--space-l);
-    border-bottom: 1px solid var(--border);
+    color: var(--color-dark);
+    font-size: 1rem;
+    margin-bottom: var(--space-m);
+    padding-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-dark);
   }
 
   /* ── Tabs ── */
@@ -419,7 +453,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     background: var(--surface);
     border: 1px solid var(--border);
     border-bottom: none;
-    border-radius: var(--r) var(--r) 0 0;
     padding: 6px 6px 0;
   }
 
@@ -431,7 +464,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     border: none;
     color: var(--text-dim);
     cursor: pointer;
-    border-radius: 4px 4px 0 0;
     transition:
       color 0.15s,
       background 0.15s;
@@ -458,7 +490,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     display: none;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 0 var(--r) var(--r) var(--r);
     padding: var(--space-l);
   }
   .panel.active {
@@ -467,14 +498,13 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
   /* ── Explainer ── */
   .explainer {
+    background: rgb(from var(--feature-color) r g b / 0.12);
+    border-left: 3px solid var(--color-dark);
+    padding: 1rem;
+    margin: 1.5rem 0;
     font-size: 12px;
-    color: var(--text-dim);
+    color: var(--color-dark);
     line-height: 1.7;
-    background: var(--surface);
-    border-left: 3px solid var(--border);
-    border-radius: 0 var(--r) var(--r) 0;
-    padding: 0.75rem 1rem;
-    margin-bottom: var(--space-l);
   }
   .explainer.bad {
     border-color: var(--accent);
@@ -514,7 +544,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     font-family: var(--mono);
     font-size: 12px;
     padding: 8px 18px;
-    border-radius: var(--r);
     border: 1px solid var(--border);
     background: var(--surface);
     color: var(--text);
@@ -603,7 +632,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     overflow: hidden;
     height: fit-content;
   }
@@ -616,7 +644,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
   /* GOOD: aspect-ratio reserves space immediately */
   .card-good .card-img-wrap {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: var(--aspect-ratio);
     overflow: hidden;
     background: var(--surface-2); /* placeholder colour while loading */
   }
@@ -674,6 +702,17 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     transition: opacity 0.3s ease;
   }
 
+  /* BAD: collapse image height while loading so grid jumps when it "loads" */
+  .card-bad .card-img-wrap img.loading {
+    height: 0 !important;
+    min-height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .card-bad .card-img-wrap img.loaded {
+    height: auto;
+  }
+
   /* Shift flash on bad cards when image loads */
   @keyframes shiftFlash {
     0% {
@@ -695,7 +734,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   .code {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     padding: var(--space-m);
     font-size: 12px;
     font-size: clamp(10px, 2.5vw, 12px);
@@ -709,12 +747,9 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
   /* ── Jump indicator ── */
   .jump-log {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
+    background: rgb(from var(--color-dark) r g b / 0.1);
+    border: 1px solid rgb(from var(--color-dark) r g b / 0.2);
     padding: var(--space-m);
-    font-size: 11px;
-    color: var(--text-dim);
     line-height: 1.8;
     min-height: 60px;
   }
@@ -739,7 +774,6 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   .jump-pill {
     display: inline-block;
     padding: 1px 8px;
-    border-radius: 20px;
     font-size: 10px;
     white-space: nowrap;
   }

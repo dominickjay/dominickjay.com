@@ -11,7 +11,7 @@ growth: evergreen
 import InlineCalloutCluster from '../../components/InlineCalloutCluster.astro';
 import InlineCallout from '../../components/InlineCallout.astro';
 
-<InlineCalloutCluster 
+<InlineCalloutCluster
 	tagline="From Object-Fit to Zero CLS · 2-part series"
 	articles={[
 		{
@@ -31,7 +31,7 @@ import InlineCallout from '../../components/InlineCallout.astro';
 
 By using the object-fit property, we can define how an element responds to its parent containers height and width. This property is mainly used alongside images and videos, and can let us have further control over how it allows an inline image to be displayed.
 
-```
+```css
 .object-fit-example {
 	max-inline-size: 800px;
 	max-block-size: 600px;
@@ -70,7 +70,7 @@ Similar to background-size, the content is sized to completely fill the content 
 
 <div class="object-fit-example" style={{ "--fit": "fill" }}>
 	<picture>
-		<source media="(min-width: 750px)" srcset="https://picsum.photos/25/800" />
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/200/550" />
 		<img src="https://picsum.photos/25/300" alt="A placeholder image for use with our Object Fit blog post" />
 	</picture>
 </div>
@@ -83,7 +83,7 @@ The entire object is made to fill the box, while preserving its aspect ratio, so
 
 <div class="object-fit-example" style={{ "--fit": "contain" }}>
 	<picture>
-		<source media="(min-width: 750px)" srcset="https://picsum.photos/300/800" />
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/250/250" />
 		<img src="https://picsum.photos/100/300" alt="A placeholder image for use with our Object Fit blog post" />
 	</picture>
 </div>
@@ -94,7 +94,7 @@ This is using `cover`, which is what we are using at the top of this post, howev
 
 <div class="object-fit-example" style={{ "--fit": "cover" }}>
 	<picture>
-		<source media="(min-width: 750px)" srcset="https://picsum.photos/600/800" />
+		<source media="(min-width: 750px)" srcset="https://picsum.photos/250/250" />
 		<img src="https://picsum.photos/200/300" alt="A placeholder image for use with our Object Fit blog post" />
 	</picture>
 </div>
