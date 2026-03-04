@@ -93,18 +93,16 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
     margin-block-start: var(--space-m);
+    border-left: 2px solid rgb(from var(--feature-color) r g b / 0.25);
   }
   .toc-item a {
     display: block;
     font-family: var(--font-base);
     font-size: 14px;
-    letter-spacing: 0.06em;
-    color: var(--muted);
+    color: var(--color-dark);
     text-decoration: none;
     padding: 5px 0 5px 12px;
-    border-left: 2px solid var(--color-dark);
     transition:
       color 0.2s,
       border-color 0.2s,
@@ -113,17 +111,21 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     font-weight: 400;
     background: none;
     opacity: 0.8;
+    border-left: 2px solid rgb(from var(--feature-color) r g b / 0);
+    left: -1px;
+    position: relative;
     &::before,
     &::after {
       content: none;
     }
   }
   .toc-item a:hover {
-    color: var(--text);
+    color: var(--color-dark);
+    border-left-color: var(--feature-color);
     padding-left: 16px;
   }
   .toc-item .active-toc-item {
-    border-left-color: var(--color-accent);
+    border-left-color: var(--feature-color);
     padding-left: 16px;
     font-style: italic;
     opacity: 1;
