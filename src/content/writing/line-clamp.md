@@ -135,7 +135,7 @@ Let's throw this onto the `p` tag that's used here (could also be a modifier on 
 .clamped, /* OR */
   .card-example--clamped p {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -156,7 +156,7 @@ Let's throw this onto the `p` tag that's used here (could also be a modifier on 
 </div>
 ```
 
-We've got our `display: -webkit-box` that we need, and `-webkit-line-clamp: 3` to set how many lines we want to keep visible. We still need `overflow: hidden` otherwise we'll get a mix of a clamped line with an ellipses and also overflowing content. We've been using the `-webkit-box-orient: vertical` property throughout this post, but it's an odd one. Technically it's deprecated, but it's a required part of using `line-clamp` and browsers will continue to honour it to make the entire thing work. As of writing this, there's an unprefixed version of `line-clamp` in development that drops the `-webkit-box` entirely, but it's not Baseline yet. For now, this four-line block is the correct production pattern and safe to ship without a preprocessor or a polyfill.
+We've got our `display: -webkit-box` that we need, and `line-clamp: 3` to set how many lines we want to keep visible. We still need `overflow: hidden` otherwise we'll get a mix of a clamped line with an ellipses and also overflowing content. We've been using the `-webkit-box-orient: vertical` property throughout this post, but it's an odd one. Technically it's deprecated, but it's a required part of using `line-clamp` and browsers will continue to honour it to make the entire thing work. As of writing this, there's an unprefixed version of `line-clamp` in development that drops the `-webkit-box` entirely, but it's not Baseline yet. For now, this four-line block is the correct production pattern and safe to ship without a preprocessor or a polyfill.
 
 <div class="card-example">
   <img src="https://picsum.photos/550/350" alt="" width="550" height="350" />
