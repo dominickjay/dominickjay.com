@@ -120,7 +120,7 @@ Using this property allows any text to be cut off, with the end of the visible t
 
 To break this down quickly, there's three properties being used to get this solution - `overflow: hidden`, `text-overflow: ellipsis` and `white-space: nowrap`. `white-space: nowrap` puts all the text on one line, disregarding the boundaries of the box, `text-overflow: ellipsis` puts the familiar '...' at the end of the text that is visible, and `overflow: hidden`...well...hides the overflow of the content. Due to this, it only works if you want one line of text, no more. Not ideal.
 
-`-webkit-line-clamp` is now supported across all major browsers — Chrome, Firefox, Edge, and Safari. The `-webkit-box` dependency is still required, but that's not a reason to avoid it — the co-dependency is fully specified behaviour and isn't going anywhere.
+`line-clamp` is now supported across all major browsers — Chrome, Firefox, Edge, and Safari. The `-webkit-box` dependency is still required, but that's not a reason to avoid it — the co-dependency is fully specified behaviour and isn't going anywhere.
 
 ```css
 display: -webkit-box;
