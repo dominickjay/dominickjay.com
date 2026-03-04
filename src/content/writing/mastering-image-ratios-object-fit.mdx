@@ -9,9 +9,26 @@ tags:
 growth: growing
 ---
 
+import InlineCalloutCluster from '../../components/InlineCalloutCluster.astro';
 import InlineCallout from '../../components/InlineCallout.astro';
 import ObjectFitDemo1 from '../../components/demos/ObjectFitDemo1.astro';
 import ObjectFitDemo2 from '../../components/demos/ObjectFitDemo2.astro';
+
+<InlineCalloutCluster 
+	tagline="The Anxiety Arc · 2-part series"
+	articles={[
+		{
+			title: 'CSS Object-Fit Property',
+			link: '/css-object-fit',
+			description: "Questioning whether you belong at all",
+		},
+		{
+			title: 'Mastering image ratios with object-fit',
+			link: '/mastering-image-ratios-object-fit',
+			description: "Realising the map you're navigating by was wrong",
+		}
+	]}
+/>
 
 ## The Silent Killer of Web Performance
 
