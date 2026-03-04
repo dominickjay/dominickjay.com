@@ -106,7 +106,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   <div class="position-section">
     <p class="position-title">
       Controlling the crop with <code style="color:var(--accent);font-size:12px"
-        >object-position</code>
+        >object-position</code
+      >
     </p>
     <p class="position-desc">
       When <code>object-fit: cover</code> crops an image, <code
@@ -148,7 +149,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     <div class="position-preview-wrap">
       <div class="position-preview">
         <img
-          src="https://picsum.photos/seed/of-land/800/600"
+          src="https://picsum.photos/seed/objpos/1200/1200"
           alt="object-position preview"
           id="pos-img"
         />
@@ -250,9 +251,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
     // Update detail image
     document.getElementById("detail-img").src = src;
-
-    // Update position preview
-    document.getElementById("pos-img").src = src;
 
     // Active state
     document
@@ -733,19 +731,21 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .position-preview {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 4px;
     border: 1px solid var(--border);
     background: var(--surface-2);
+    width: 240px;
+    height: 160px;
+    overflow: hidden;
+    position: relative;
   }
 
   .position-preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    transition: object-position 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
-    transition: object-position 0.3s ease;
   }
 
   .position-code {

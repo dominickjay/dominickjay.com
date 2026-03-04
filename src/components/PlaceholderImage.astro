@@ -1,13 +1,34 @@
 ---
-import { Image } from "astro:assets";
-const { width, height } = Astro.props;
-
-const imageUrl = `https://placehold.co/${width}x${height}`;
-
+const { ratio } = Astro.props;
 ---
 
-<picture>
-	<source srcset={imageUrl} type="image/webp" />
-	<source srcset={imageUrl} type="image/avif" />
-	<img src={imageUrl} alt="A bird sitting on a nest of eggs." />
-</picture>
+<div class="card-img-wrap" style={`--ratio: ${ratio}`}></div>
+
+<style>
+  .card-img-wrap {
+    aspect-ratio: var(--ratio);
+    width: 100%;
+    display: block;
+
+    background: linear-gradient(
+      in oklch 151deg,
+      #222222 0%,
+      var(--feature-color, #2c5364) 100%
+    );
+    background-size: 300% 300%;
+    transition: all 0.25s ease-in-out;
+    animation: gradient-drift 24s ease infinite;
+  }
+
+  @keyframes gradient-drift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+</style>

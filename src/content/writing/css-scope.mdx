@@ -9,6 +9,7 @@ growth: evergreen
 
 ---
 
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import InlineCallout from '../../components/InlineCallout.astro';
 import ScopeDemo1 from '../../components/demos/ScopeDemo1.astro';
 import ChecklistItem from '../../components/ChecklistItem.astro';
@@ -34,17 +35,7 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
 
 ```html
 <div class="card">
-  <picture class="card__image-container">
-    <source srcset="https://picsum.photos/200" media="(max-width: 600px)" />
-    <source srcset="https://picsum.photos/600" media="(max-width: 1200px)" />
-    <img
-        class="card__image"
-        src="https://picsum.photos/900"
-        alt="Descriptive alt text"
-        width="450"
-        height="450"
-    />
-  </picture>
+	<PlaceholderImage ratio="16 / 9" />
   <div class="card__content">
     <h3 class="card__heading">Card Title</h3>
     <p class="card__text">

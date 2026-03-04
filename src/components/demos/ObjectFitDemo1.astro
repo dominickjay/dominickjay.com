@@ -1,5 +1,26 @@
 ---
 import PlaceholderImage from "../PlaceholderImage.astro";
+import { codeToHtml } from "shiki";
+import domTheme from "../../styles/dom-shiki-theme.json";
+
+const theme = domTheme as object;
+const goodPanelCss = `/* Reserve space before the image loads */
+.card-img-wrap {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+/* Fill that space, crop neatly */
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}`;
+const cssHighlighted = await codeToHtml(goodPanelCss, {
+  lang: "css",
+  theme,
+} as object);
 ---
 
 <div class="min-w-0 overflow-x-auto">
@@ -54,14 +75,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
     <div class="card-grid" id="grid-bad">
       <div class="card card-bad" data-delay="600">
-        <div class="card-img-wrap">
-          <img
-            src="https://picsum.photos/seed/cls1/600/900"
-            alt="Portrait ratio image"
-            class="loading"
-            loading="eager"
-          />
-        </div>
+        <PlaceholderImage ratio="2 / 3" />
         <div class="card-body">
           <p class="card-label">20 Oct 2025 · Article</p>
           <h3 class="card-title">Portrait image — 2:3 ratio</h3>
@@ -72,14 +86,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       </div>
 
       <div class="card card-bad" data-delay="900">
-        <div class="card-img-wrap">
-          <img
-            src="https://picsum.photos/seed/cls2/600/600"
-            alt="Square ratio image"
-            class="loading"
-            loading="eager"
-          />
-        </div>
+        <PlaceholderImage ratio="1 / 1" />
         <div class="card-body">
           <p class="card-label">18 Oct 2025 · Article</p>
           <h3 class="card-title">Square image — 1:1 ratio</h3>
@@ -90,9 +97,9 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       </div>
 
       <div class="card card-bad" data-delay="400">
-        <div class="card-img-wrap">
-          <img
-            src="https://picsum.photos/seed/cls3/600/340"
+        <PlaceholderImage ratio="16 / 9" />
+        <div class="card-body">
+          <p class="https://picsum.photos/seed/cls3/600/340"
             alt="Wide landscape image"
             class="loading"
             loading="eager"
@@ -108,14 +115,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       </div>
 
       <div class="card card-bad" data-delay="1200">
-        <div class="card-img-wrap">
-          <img
-            src="https://picsum.photos/seed/cls4/600/800"
-            alt="Tall image"
-            class="loading"
-            loading="eager"
-          />
-        </div>
+        <PlaceholderImage ratio="3 / 4" />
         <div class="card-body">
           <p class="card-label">12 Oct 2025 · Article</p>
           <h3 class="card-title">Another tall image — 3:4 ratio</h3>
@@ -124,13 +124,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
           </p>
         </div>
       </div>
-    </div>
-
-    <p class="slabel">Layout shift log</p>
-    <div class="jump-log" id="log-bad">
-      <span class="log-empty"
-        >Hit "Simulate page load" to watch the shifts happen.</span
-      >
     </div>
   </div>
 
@@ -237,23 +230,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       >
     </div>
 
-    <div class="code">
-      <span class="c-comment">/* Reserve space before the image loads */</span>
-      <span class="c-prop">.card-img-wrap</span> &#123;
-      <span class="c-prop">aspect-ratio</span>: <span class="c-val">16 / 9</span
-      >;
-      <span class="c-prop">overflow</span>: <span class="c-val">hidden</span>;
-      &#125;
-
-      <span class="c-comment">/* Fill that space, crop neatly */</span>
-      <span class="c-prop">.card-img-wrap img</span> &#123;
-      <span class="c-prop">width</span>: <span class="c-val">100%</span>;
-      <span class="c-prop">height</span>: <span class="c-val">100%</span>;
-      <span class="c-prop">object-fit</span>: <span class="c-val">cover</span>;
-      <span class="c-prop">object-position</span>: <span class="c-val"
-        >center</span
-      >; &#125;
-    </div>
+    <div class="code" set:html={cssHighlighted} />
   </div>
 
   <footer class="footer">
@@ -628,6 +605,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     border: 1px solid var(--border);
     border-radius: var(--r);
     overflow: hidden;
+    height: fit-content;
   }
 
   /* BAD: no sizing constraints on image container */
@@ -713,7 +691,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     animation: shiftFlash 0.6s ease forwards;
   }
 
-  /* ── Code block ── */
+  /* ── Code block (Shiki) ── */
   .code {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -723,17 +701,10 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-size: clamp(10px, 2.5vw, 12px);
     line-height: 1.8;
     overflow-x: auto;
-    white-space: pre;
     margin-top: var(--space-l);
   }
-  .c-comment {
-    color: #9a9080;
-  }
-  .c-prop {
-    color: var(--good);
-  }
-  .c-val {
-    color: #8b3a3a;
+  .code pre {
+    margin: 0;
   }
 
   /* ── Jump indicator ── */

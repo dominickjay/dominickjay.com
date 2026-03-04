@@ -9,6 +9,8 @@ supported: bcd.css["selectors"].has.__compat
 growth: evergreen
 ---
 
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
+
 <div class="fyi-block fyi-block--info fl-p-l bg-red/[0.25] font-medium fl-text-step-1 font-heading fl-my-l rounded-br-[80px] lg:w-[calc(100%+10em)]">
   <span class="fl-text-step-2 heading">Update - 23rd December, 2024</span>
   <p>This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</p>
@@ -25,8 +27,7 @@ It's been notoriously difficult to select elements depending on their children (
 
 `.outline + .red`
 
-<style>
-
+<style>{`
   .box {
     flex: 1 0 30px;
     height: auto;
@@ -51,8 +52,7 @@ It's been notoriously difficult to select elements depending on their children (
     border: 5px solid #010f0a;
     padding: 15px;
   }
-
-</style>
+`}</style>
 
 <div class="box-row" id="one-red-box">
   <div class="box"></div>
@@ -89,11 +89,11 @@ With this complication comes the perfect excuse to take `:has()` for a spin. We 
   }
 ```
 
-<style>
+<style>{`
   #has-example-row .box:has( + .outline) {
     background-color: #e63946;
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row">
   <div class="box "></div>
@@ -118,7 +118,7 @@ has the outline classed box next to it */
 }
 ```
 
-<style>
+<style>{`
   #has-example-row-2 .box:has( + .outline) {
     background-color: #e63946;
     transition: .3s ease-in-out background-color;
@@ -126,7 +126,7 @@ has the outline classed box next to it */
   #has-example-row-2 .box:hover:has( + .outline) {
     background-color: #ff5f1f;
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-2">
   <div class="box "></div>
@@ -150,7 +150,7 @@ has the outline classed box next to it */
   background-color: #ff5f1f;
 }
 ```
-<style>
+<style>{`
   #has-example-row-3 .box:has( + .outline) {
     background-color: #e63946;
     transition: .3s ease-in-out background-color;
@@ -158,7 +158,7 @@ has the outline classed box next to it */
   #has-example-row-3 .box:has( + .outline:hover) {
     background-color: #ff5f1f;
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-3">
   <div class="box "></div>
@@ -170,11 +170,11 @@ has the outline classed box next to it */
 
 See where this is going? Now, we're going to move our selector from `.box` to the parent `.box-row` and use a `*` to select all the elements in the row, turning them orange.
 
-<style>
+<style>{`
   #has-example-row-4 > * {
     background-color: #ff5f1f;
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-4">
   <div class="box "></div>
@@ -192,12 +192,12 @@ Then we'll change it, using `:has()` on the parent element to check if any of th
 }
 ```
 
-<style>
+<style>{`
   #has-example-row-5:has( .outline:hover ) > *:not(:hover) {
     background-color: #ff5f1f;
     transition: .3s ease-in-out background-color;
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-5">
   <div class="box "></div>
@@ -215,15 +215,15 @@ Almost there. Let's remove `.outline` from our statement, replacing it with anot
 }
 ```
 
-<style>
+<style>{`
   #has-example-row-6 > * {
     transition: .3s ease-in-out background-color;
   }
 
   #has-example-row-6:has( *:hover ) > *:not(:hover) {
-    background-color: #ff5f1f;
+    background-color: var(--feature-color, #ff5f1f);
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-6">
   <div class="box "></div>
@@ -245,41 +245,41 @@ We're so close, but only because the rest is not specifically `:has()` related. 
 }
 ```
 
-<style>
+<style>{`
   #has-example-row-7 > * {
     overflow: hidden;
   }
 
-  #has-example-row-7 > * img{
+  #has-example-row-7 > *{
     transition: .3s ease-in-out all;
   }
 
-  #has-example-row-7:has( *:hover ) > *:not(:hover) img {
+  #has-example-row-7:has( *:hover ) > *:not(:hover) {
     filter: blur(4px);
   }
-</style>
+`}</style>
 
 <div class="box-row" id="has-example-row-7">
   <div class="box">
-    <img src="https://placeskull.com/350/350" />
+    <PlaceholderImage ratio="1 / 1" />
   </div>
   <div class="box">
-    <img src="https://placeskull.com/350/350" />
+  	<PlaceholderImage ratio="1 / 1" />
   </div>
   <div class="box">
-    <img src="https://placeskull.com/350/350" />
+  	<PlaceholderImage ratio="1 / 1" />
   </div>
   <div class="box">
-    <img src="https://placeskull.com/350/350" />
+  	<PlaceholderImage ratio="1 / 1" />
   </div>
   <div class="box">
-    <img src="https://placeskull.com/350/350" />
+  	<PlaceholderImage ratio="1 / 1" />
   </div>
 </div>
 
 Lastly, we'll put a `transform: scale()` on the image, and also add a background color to the images parent block to be able to cover the whitespace caused by the scale, and voila!
 
-<style>
+<style>{`
   .main-container {
     border: 5px solid #010f0a;
     padding: 20px;
@@ -306,14 +306,16 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
     background: black;
   }
 
-  .cell img {
+  .cell {
     width: 100%;
-    transition: .65s cubic-bezier(0.680, -0.550, 0.265, 1.550) all;
+    {/* transition: .65s cubic-bezier(0.680, -0.550, 0.265, 1.550) all; */}
+    transition: all 0.25s ease-in-out;
   }
 
-  .has-grid:has( > *:hover ) > *:not(:hover) img {
+  .has-grid:has( > *:hover ) > *:not(:hover) {
+    transition: all 0.25s ease-in-out;
     filter: blur(4px);
-    transform: scale(0.85);
+    transform: scale(0.95);
   }
 
   .attribute {
@@ -337,33 +339,33 @@ Lastly, we'll put a `transform: scale()` on the image, and also add a background
     text-align: center;
     font-family: 'Erode', sans-serif;
   }
-</style>
+`}</style>
 
 <div class="main-container">
 	<div class="has-grid">
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 		<div class="cell">
-			<img src="https://placeskull.com/350/350" />
+			<PlaceholderImage ratio="1 / 1" />
 		</div>
 	</div>
 </div>
