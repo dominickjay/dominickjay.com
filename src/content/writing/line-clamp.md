@@ -1,6 +1,6 @@
 ---
-title: 'Truncating text with line-clamp'
-description: 'The four-line CSS pattern that kills every JS text truncation library'
+title: 'Text Truncation Without the Drama'
+description: 'How line-clamp truncates text in four lines of CSS — no JS, no npm package, no polyfill needed.'
 intro: "There's a couple of different ways to nicely hide overflowing content, but using the `line-clamp` property is a great way forwards for it, so let's check it out."
 pubDate: '2023-02-23'
 tags:
