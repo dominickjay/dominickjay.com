@@ -23,7 +23,12 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 ---
 
 <nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
-	<span>Contents: </span>
+	<span style="font-family: var(--font-base);
+            font-size: 10px;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 8px;">Contents: </span>
 	<ol class="toc-list">
 		{
 			grouppedHeadings.map((h) => (
