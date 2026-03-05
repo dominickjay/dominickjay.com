@@ -3,12 +3,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 ---
 
 <div class="min-w-0 overflow-x-auto">
-  <p class="eyebrow">Interactive demo · object-fit · All five values</p>
-  <h1>Every object-fit value, on the same image</h1>
-  <p class="intro">
-    Click any value to see it in detail. Switch the source image to test how
-    each value behaves with portrait, landscape, and square content.
-  </p>
 
   <!-- Image selector -->
   <div class="img-selector">
@@ -105,15 +99,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   <p class="slabel">Bonus: object-position</p>
   <div class="position-section">
     <p class="position-title">
-      Controlling the crop with <code style="color:var(--accent);font-size:12px"
-        >object-position</code
-      >
-    </p>
-    <p class="position-desc">
-      When <code>object-fit: cover</code> crops an image, <code
-        >object-position</code
-      > controls which part stays visible. The default is <code>center</code> — but
-      you can pin to any edge or use exact coordinates.
+    	<code>object-position</code> works alongside any value that clips the image — cover being the most common in production. The demo here uses object-fit: none so the full image is visible and the repositioning effect is obvious. With cover, the same coordinates apply — you'd just be moving the crop window rather than the whole image.
     </p>
 
     <div class="position-controls">
@@ -181,7 +167,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   const images = [
     { seed: "of-land", w: 600, h: 400, label: "Landscape (3:2)" },
     { seed: "of-port", w: 400, h: 600, label: "Portrait (2:3)" },
-    { seed: "of-sq", w: 500, h: 500, label: "Square (1:1)" },
+    { seed: "of-sq", w: 600, h: 600, label: "Square (1:1)" },
     { seed: "of-wide", w: 800, h: 240, label: "Very wide (10:3)" },
   ];
 
@@ -355,9 +341,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .intro {
     color: var(--color-dark);
     font-size: 1rem;
-    margin-bottom: var(--space-m);
     padding-bottom: var(--space-m);
-    border-bottom: 1px solid var(--color-dark);
   }
 
   /* ── Image selector ── */
@@ -415,12 +399,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-  .slabel::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--border);
   }
 
   .values-grid {
@@ -525,7 +503,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   .value-card.active .value-name {
     color: var(--accent);
-    font-weight: 500;
   }
 
   /* ── Detail panel ── */
@@ -658,8 +635,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .position-title {
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
     margin-bottom: 4px;
   }
 
