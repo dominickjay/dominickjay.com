@@ -1,61 +1,74 @@
 .browser-support-table {
-	margin: 1rem 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  & h3 {
+    font-family: var(--font-base);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--color-dark);
+    text-transform: uppercase;
+    margin-block-end: 8px;
+    padding-block-start: 4px;
+  }
 }
 
 .browser-support-table table {
-	width: 100%;
-	border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .browser-support-table caption {
-	text-align: left;
-	margin-bottom: 0.5rem;
+  text-align: left;
+  margin-bottom: 0.5rem;
 }
 
 .browser-support-table th,
 .browser-support-table td {
-	padding: 0.75rem;
-	border: 1px solid var(--color-dark);
-	text-align: left;
+  padding: 0.75rem;
+  border: 1px solid var(--color-dark);
+  text-align: left;
 }
 
 .browser-support-table th {
-	background-color: var(--color-bg-secondary);
+  background-color: var(--color-bg-secondary);
 }
 
 .browser-support-table thead th {
-	background-color: var(--color-dark);
-	color: var(--color-light);
+  background-color: var(--color-dark);
+  color: var(--color-light);
 }
 
 .browser-support-table .support-yes {
-	color: var(--color-success);
+  color: var(--color-success);
 }
 
 .browser-support-table .support-no {
-	color: var(--color-error);
+  color: var(--color-error);
 }
 
 .browser-support-table thead {
-	border-bottom: 1px solid var(--color-dark);
+  border-bottom: 1px solid var(--color-dark);
 }
 
 .browser-support-table tbody tr:nth-child(even) {
-	background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .post-recommendations {
-	container: post-recommendations / inline-size;
+  container: post-recommendations / inline-size;
 }
 
 @container post-recommendations (max-width: 320px) {
-	.browser-support-table {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
+  .browser-support-table {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-	.browser-support-table .flow {
-		display: flex;
-	}
+  .browser-support-table .flow {
+    display: flex;
+  }
 }

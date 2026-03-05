@@ -20,20 +20,9 @@
 /**/
 .fyi-block {
   border-left: 4px solid var(--color-accent);
-  background: rgba(var(--color-accent-rgb), 0.08);
+  background: rgb(from var(--type, var(--feature-color)) r g b / 0.2);
   padding: 16px 20px;
   margin: 28px 0;
-  border-radius: 0 4px 4px 0;
-
-  /*&::before {
-    content: "Note";
-    font-family: var(--font-base);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }*/
 
   & .fyi-block__title {
     display: none;
@@ -45,11 +34,33 @@
   }
 
   & span:first-child {
-    font-family: var(--font-base);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--accent);
+    color: var(--color-dark);
+    font-size: 11px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-s);
+    display: block;
   }
+}
+
+.fyi-block--warning {
+  --color-accent: #9a6200;
+  --feature-color: #9a6200;
+}
+
+.fyi-block--deprecated {
+  --color-accent: #8b2500;
+  --feature-color: #8b2500;
+}
+
+/* Success / resolved */
+.fyi-block--success {
+  --color-accent: #2a5c3f;
+  --feature-color: #2a5c3f;
+}
+
+/* Neutral note — muted ink */
+.fyi-block--note {
+  --color-accent: #555050;
+  --feature-color: #555050;
 }
