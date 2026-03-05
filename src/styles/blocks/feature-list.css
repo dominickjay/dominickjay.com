@@ -27,6 +27,7 @@
       display: block;
       transition: color 0.2s;
       max-inline-size: 80%;
+      text-transform: capitalize;
 
       @media (width < 640px) {
         max-inline-size: none;

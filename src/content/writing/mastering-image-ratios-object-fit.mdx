@@ -1,5 +1,5 @@
 ---
-title: 'Mastering image ratios with object-fit'
+title: 'Mastering Image Ratios With object-fit'
 description: 'Stop the jumps: the two-line CSS fix that kills CLS for good'
 pubDate: '2025-11-26'
 supported: bcd.css["properties"].object-fit.__compat
@@ -55,6 +55,8 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
 
 The property accepts five values. The starter guide covers all of them in detail — the one that matters for CLS and consistent card layouts is cover.
 
+The `object-fit` property controls the relationship between an image's dimensions and the space it's placed in.
+
 ```css
 img {
   width: 100%;
@@ -76,6 +78,10 @@ img {
 ```
 
 But `object-fit` alone doesn't prevent layout shift. It controls how the image fills its container — it doesn't tell the browser how big that container should be before the image loads.
+
+## Every object-fit value, on the same image
+
+Click any value to see it in detail. Switch the source image to test how each value behaves with portrait, landscape, and square content.
 
 <ObjectFitDemo2 />
 
