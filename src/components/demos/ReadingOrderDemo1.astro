@@ -60,7 +60,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <article class="card card-a" tabindex="-1">
           <span class="dom-badge">DOM: 1st</span>
           <div class="card-thumb">
-            <PlaceholderImage width={343} height={100} />
+            <PlaceholderImage ratio="16 / 5" />
           </div>
           <div class="card-body">
             <span class="card-meta">20 Oct 2025 · Article</span>
@@ -74,7 +74,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <!-- DOM order: 2 = Article B -->
         <article class="card card-b" tabindex="-1">
           <span class="dom-badge">DOM: 2nd</span>
-          <PlaceholderImage width={343} height={100} />
+          <PlaceholderImage ratio="16 / 5" />
           <div class="card-body">
             <span class="card-meta">18 Oct 2025 · Article</span>
             <h3 class="card-title">Article B</h3>
@@ -88,7 +88,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <article class="card card-cta" tabindex="-1">
           <span class="dom-badge">DOM: 3rd</span>
           <div class="card-thumb">
-            <PlaceholderImage width={343} height={100} />
+            <PlaceholderImage ratio="16 / 5" />
           </div>
           <div class="card-body">
             <span class="card-meta">Promoted</span>
@@ -177,7 +177,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       <div class="cards-solution" id="solution-cards">
         <article class="card card-a" tabindex="-1">
           <span class="dom-badge">DOM: 1st</span>
-          <div class="card-thumb">📰</div>
+          <PlaceholderImage ratio="16 / 5" />
           <div class="card-body">
             <span class="card-meta">20 Oct 2025 · Article</span>
             <h3 class="card-title">Article A</h3>
@@ -189,7 +189,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
         <article class="card card-b" tabindex="-1">
           <span class="dom-badge">DOM: 2nd</span>
-          <div class="card-thumb">✏️</div>
+          <PlaceholderImage ratio="16 / 5" />
           <div class="card-body">
             <span class="card-meta">18 Oct 2025 · Article</span>
             <h3 class="card-title">Article B</h3>
@@ -201,11 +201,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
         <article class="card card-cta" tabindex="-1">
           <span class="dom-badge">DOM: 3rd</span>
-          <div class="card-thumb">
-            <div class="card-thumb-inner">
-              <p>Featured content</p>
-            </div>
-          </div>
+          <PlaceholderImage ratio="16 / 5" />
           <div class="card-body">
             <span class="card-meta">Promoted</span>
             <h3 class="card-title">CTA Card</h3>
