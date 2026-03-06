@@ -1,6 +1,6 @@
 ---
 title: 'Level Up Your Styles With CSS Variables'
-description: "Let's do a quick dive into CSS variables and see what they can offer us."
+description: "The four behaviours that make custom properties more than just variables."
 pubDate: 'August 17 2021'
 tags:
     - css
