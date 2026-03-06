@@ -8,7 +8,6 @@ const writing = defineCollection({
     pubDate: z.date(),
     tags: z.array(z.string()),
     updatedDate: z.date().optional(),
-    lastModified: z.coerce.date().optional(),
     heroImage: z.string().optional(),
     draft: z.boolean().optional(),
     layout: z.string().optional(),

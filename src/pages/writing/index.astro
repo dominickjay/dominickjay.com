@@ -4,21 +4,36 @@ import Header from "../../components/Header.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
 import { SITE_DESCRIPTION } from "../../consts";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 
-let posts = [];
+let rawPosts = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-	posts = await getCollection("writing", ({ data }) => !data?.draft);
+	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-	posts = await getCollection("writing");
+	rawPosts = await getCollection("writing");
 }
 
-const sortDate = (entry) =>
-  (entry.data.lastModified ?? entry.data.pubDate).valueOf();
-posts.sort((a, b) => sortDate(b) - sortDate(a));
+const postsWithLastModified = await Promise.all(
+	rawPosts.map(async (post) => {
+		const { remarkPluginFrontmatter } = await render(post);
+		const lastModified = remarkPluginFrontmatter?.lastModified
+			? new Date(remarkPluginFrontmatter.lastModified)
+			: undefined;
+		return { post, lastModified };
+	}),
+);
+
+const sortDate = ({ post, lastModified }) =>
+	(lastModified ?? post.data.pubDate).valueOf();
+postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
+
+const posts = postsWithLastModified.map(({ post, lastModified }) => ({
+	...post,
+	lastModified,
+}));
 
 // Extract all unique tags from posts
 const allTags = posts.flatMap((post) => post.data.tags);
@@ -142,7 +157,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 							description={post.data.description}
 							tags={post.data.tags}
 							pubDate={post.data.pubDate}
-							lastModified={post.data.lastModified}
+							lastModified={post.lastModified}
 							id={post.id}
 							growth={post.data.growth}
 						/>
