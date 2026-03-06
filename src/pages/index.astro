@@ -8,24 +8,38 @@ import InfoPanel from "../components/InfoPanel.astro";
 import FeaturePanel from "../components/FeaturePanel.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
-let posts = [];
+let rawPosts = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-  posts = await getCollection("writing", ({ data }) => !data?.draft);
+  rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-  posts = await getCollection("writing");
+  rawPosts = await getCollection("writing");
 }
+
+const postsWithLastModified = await Promise.all(
+  rawPosts.map(async (post) => {
+    const { remarkPluginFrontmatter } = await render(post);
+    const lastModified = remarkPluginFrontmatter?.lastModified
+      ? new Date(remarkPluginFrontmatter.lastModified)
+      : undefined;
+    return { post, lastModified };
+  }),
+);
+
+const sortDate = ({ post, lastModified }) =>
+  (lastModified ?? post.data.pubDate).valueOf();
+postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
+
+const posts = postsWithLastModified.map(({ post }) => post);
 
 const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
 const growing = posts.filter((post: any) => post.data.growth === "growing");
 const seedling = posts.filter((post: any) => post.data.growth === "seedling");
-
-posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 ---
