@@ -73,7 +73,7 @@
 
 .stage-stat-label {
   font-family: var(--font-base);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   color: var(--color-dark);
   text-transform: uppercase;

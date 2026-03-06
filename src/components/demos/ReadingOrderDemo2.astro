@@ -3,16 +3,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 ---
 
 <div class="min-w-0 overflow-x-auto">
-  <div class="demo-header">
-    <p class="eyebrow">Interactive demo · @reading-order</p>
-    <h3>Visual order vs DOM order: the gap your users fall into</h3>
-    <p class="intro">
-      When CSS reorders content visually, keyboard and screen reader users still
-      follow the DOM. Use <span style="color: var(--color-dark)">Tab</span> to navigate
-      the cards below and feel the difference.
-    </p>
-  </div>
-
   <!-- Layout diagram -->
   <p class="slabel" style="margin-bottom: .75rem;">Visual layout</p>
   <div class="layout-diagram" aria-hidden="true">
@@ -300,22 +290,22 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       <div class="mc">CTA</div>
       <div class="mc"><span class="t-dom">4th</span></div>
       <div class="mc"><span class="t-vis">top-left</span></div>
-      <div class="mc"><span class="t-fix">1st ✓</span></div>
+      <div class="mc"><span class="t-fix">1st</span></div>
 
       <div class="mc">Feature</div>
       <div class="mc"><span class="t-dom">1st</span></div>
       <div class="mc"><span class="t-vis">top-right</span></div>
-      <div class="mc"><span class="t-fix">2nd ✓</span></div>
+      <div class="mc"><span class="t-fix">2nd</span></div>
 
       <div class="mc">Article A</div>
       <div class="mc"><span class="t-dom">2nd</span></div>
       <div class="mc"><span class="t-vis">btm-left</span></div>
-      <div class="mc"><span class="t-fix">3rd ✓</span></div>
+      <div class="mc"><span class="t-fix">3rd</span></div>
 
       <div class="mc">Article B</div>
       <div class="mc"><span class="t-dom">3rd</span></div>
       <div class="mc"><span class="t-vis">btm-right</span></div>
-      <div class="mc"><span class="t-fix">4th ✓</span></div>
+      <div class="mc"><span class="t-fix">4th</span></div>
     </div>
   </div><!-- /good panel -->
 </div>
@@ -494,7 +484,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .eyebrow {
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--accent);
@@ -511,12 +501,12 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   h1 em {
     font-style: italic;
-    color: var(--text-dim);
+    color: var(--color-dark);
   }
 
   .intro {
     font-size: 13px;
-    color: var(--text-dim);
+    color: var(--color-dark);
     max-width: 540px;
     line-height: 1.7;
   }
@@ -528,19 +518,17 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     background: var(--surface);
     border: 1px solid var(--border);
     border-bottom: none;
-    border-radius: var(--r) var(--r) 0 0;
     padding: 6px 6px 0;
   }
 
   .tab {
-    font-family: var(--mono);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 14px;
     padding: 8px 16px;
     background: transparent;
     border: none;
-    color: var(--text-dim);
+    color: var(--color-dark);
     cursor: pointer;
-    border-radius: 4px 4px 0 0;
     transition:
       color 0.15s,
       background 0.15s;
@@ -567,7 +555,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     display: none;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 0 var(--r) var(--r) var(--r);
     padding: 1.5rem;
   }
 
@@ -577,10 +564,10 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* ── Section label ── */
   .slabel {
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: var(--accent);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -612,7 +599,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     gap: 1px;
     background: var(--border); /* gap colour via bg trick */
     border: 1px solid var(--border);
-    border-radius: var(--r);
     overflow: hidden;
     margin-bottom: 1.5rem;
 
@@ -670,22 +656,21 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   .dom-tag {
     display: inline-block;
-    font-size: 10px;
+    font-size: 14px;
     letter-spacing: 0.05em;
     background: var(--surface-2);
     border: 1px solid var(--border);
-    color: var(--text-dim);
+    color: var(--color-dark);
     padding: 2px 8px;
-    border-radius: 20px;
     align-self: flex-start;
     margin-bottom: 0.25rem;
   }
 
   .cell-label {
-    font-size: 10px;
+    font-size: 14px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: var(--color-dark);
   }
 
   .cell-title {
@@ -708,8 +693,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .cell-excerpt {
-    font-size: 12px;
-    color: var(--text-dim);
+    font-size: 14px;
+    color: var(--color-dark);
     line-height: 1.6;
     -webkit-line-clamp: 3;
     display: -webkit-box;
@@ -720,10 +705,9 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .cell-link {
     margin-top: auto;
     align-self: flex-start;
-    font-family: var(--mono);
-    font-size: 11px;
+    font-family: var(--font-mono);
+    font-size: 14px;
     padding: 5px 12px;
-    border-radius: 4px;
     background: var(--surface-2);
     border: 1px solid var(--border);
     color: var(--text);
@@ -763,10 +747,14 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .panel-bad .cell-cta {
-    border-color: var(--accent);
+    border-color: #9a6200;
+    & .cell-title,
+    & .cell-label {
+      color: var(--color-light);
+    }
   }
   .panel-good .cell-cta {
-    border-color: var(--good);
+    border-color: #2a5c3f;
   }
 
   .cell-cta .cell-link {
@@ -818,7 +806,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-weight: 500;
   }
   .explainer code {
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text);
   }
 
@@ -826,15 +814,14 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .tracker {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     padding: 1rem 1.25rem;
   }
 
   .tracker-label {
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: var(--color-dark);
     margin-bottom: 0.75rem;
   }
 
@@ -848,12 +835,11 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .t-step {
-    font-size: 11px;
+    font-size: 14px;
     padding: 3px 10px;
-    border-radius: 20px;
     background: var(--surface-2);
     border: 1px solid var(--border);
-    color: var(--text-dim);
+    color: var(--color-dark);
     transition: all 0.2s;
     white-space: nowrap;
   }
@@ -873,14 +859,13 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .t-arrow {
-    font-size: 10px;
+    font-size: 14px;
     color: #444;
   }
 
   .verdict {
-    font-size: 12px;
+    font-size: 14px;
     padding: 0.5rem 0.75rem;
-    border-radius: 4px;
     line-height: 1.5;
   }
 
@@ -899,9 +884,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .code {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     padding: 1rem 1.25rem;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.8;
     overflow-x: auto;
     white-space: pre;
@@ -934,19 +918,18 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
-    border-radius: var(--r);
     overflow: hidden;
     margin-bottom: 1.5rem;
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .map-grid .mh {
     background: var(--surface-2);
     padding: 6px 10px;
-    color: var(--text-dim);
+    color: var(--color-dark);
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 14px;
   }
 
   .map-grid .mc {
@@ -958,14 +941,13 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .map-grid .mc span {
     display: inline-block;
     padding: 2px 7px;
-    border-radius: 20px;
-    font-size: 10px;
+    font-size: 14px;
   }
 
   .t-dom {
     background: var(--surface-2);
     border: 1px solid var(--border);
-    color: var(--text-dim);
+    color: var(--color-dark);
   }
   .t-vis {
     background: rgba(185, 74, 56, 0.1);
@@ -980,8 +962,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* ── Hint ── */
   .hint {
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 14px;
+    color: var(--color-dark);
     margin-top: 1rem;
     display: flex;
     align-items: center;
@@ -1000,13 +982,12 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .play-btn {
-    font-family: var(--mono);
+    font-family: var(--font-mono);
     font-size: 12px;
     padding: 8px 16px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text);
+    background: rgb(from var(--feature-color) r g b / 0.2);
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
     cursor: pointer;
     margin-top: 1rem;
     transition: background 0.15s;
@@ -1017,7 +998,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .play-btn:hover {
-    background: var(--border);
+    background: var(--color-dark);
+    color: var(--color-light);
   }
   .play-btn:active {
     transform: scale(0.98);
@@ -1048,7 +1030,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     border-radius: 50%;
     background: var(--playing-color, var(--accent));
     color: #fff;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -1075,9 +1057,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     background: var(--surface-2);
     border: 1px solid var(--border);
     border-bottom: 2px solid var(--border);
-    border-radius: 4px;
     padding: 1px 7px;
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text);
   }
 
@@ -1085,31 +1066,31 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .layout-diagram {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 52px 52px;
+    grid-template-rows: 64px 64px;
     grid-template-areas: "cta feature" "art-a art-b";
-    gap: 3px;
+    gap: 2px;
     margin-bottom: 1rem;
-    font-size: 11px;
-    max-width: 320px;
+    font-size: 14px;
+    max-width: 640px;
   }
 
   .ld-cell {
-    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     gap: 2px;
-    font-size: 10px;
+    font-size: 16px;
     letter-spacing: 0.05em;
+    padding-block: 8px;
   }
 
   .ld-cell .name {
     color: var(--text);
   }
   .ld-cell .pos {
-    color: var(--text-dim);
-    font-size: 9px;
+    color: var(--color-dark);
+    font-size: 14px;
   }
 
   .ld-cta {
@@ -1138,12 +1119,12 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     margin-top: 2.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-dim);
+    font-size: 14px;
+    color: var(--color-dark);
     line-height: 1.7;
   }
 
   .footer a {
-    color: var(--text-dim);
+    color: var(--color-dark);
   }
 </style>

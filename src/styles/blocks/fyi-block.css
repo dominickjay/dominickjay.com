@@ -35,7 +35,7 @@
 
   & span:first-child {
     color: var(--color-dark);
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     margin-bottom: var(--space-s);

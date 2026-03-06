@@ -37,7 +37,7 @@
 
 .code-block-header__lang {
   font-family: var(--font-mono, monospace);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-light);
   letter-spacing: 0.06em;
