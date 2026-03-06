@@ -1,6 +1,6 @@
 ---
 title: 'Reclaiming the Flow: Mastering Visual vs. DOM Order with @reading-order'
-description: "Your CSS is lying to some of your users. Here's the property that fixes it. Let's dive into the CSS reading-order property and discover how it gives you control."
+description: "Your CSS is lying to some of your users. Here's the property that fixes it."
 intro: ""
 pubDate: 'June 16 2025'
 supported: bcd.css["properties"].reading-flow.__compat
@@ -280,7 +280,7 @@ So if we have `reading-flow` to do this, what does `reading-order` do differentl
 
 When using these properties, it's best to not overuse it. For accessibility, the default DOM order is always the best - referring back to our 'golden truth' comment earlier. If there was to be a recommendation, it would be to only use this when there's a justified reason for the reordering of elements and if the design absolutely couldn't be achieved without that reordering occurring - after all, it's an enhancement to solve specific layout challenges.
 
-When we look at the support at the top of this page, support is still sparse, but it's getting better. As of October 2025, Chrome and Firefox have support for `reading-flow` and `reading-order`, and Safari has support for `reading-flow`. Edge is still in progress, but it's expected to be supported in the future. If we consider fallbacks, it's a bit of a tricky one, as there's no real fallback for these properties. We can probably get away with using `order` and `grid-template-areas` as a fallback, but it's not a perfect solution for the reasons outlined above, and accessibility is still a concern. If this looks to be the only way forward, it's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
+When we look at the support at the top of this page, support is still sparse, but it's getting better. As of March 2026, Chrome and Edge have support for `reading-flow` and `reading-order`. If we consider fallbacks, it's a bit of a tricky one, as there's no real fallback for these properties. We can probably get away with using `order` and `grid-template-areas` as a fallback, but it's not a perfect solution for the reasons outlined above, and accessibility is still a concern. If this looks to be the only way forward, it's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
 
 
 ## Conclusion
