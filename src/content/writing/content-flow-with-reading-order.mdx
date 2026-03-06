@@ -1,7 +1,6 @@
 ---
 title: 'Reclaiming the Flow: Mastering Visual vs. DOM Order with @reading-order'
-description: "Your CSS is lying to some of your users. Here's the property that fixes it. Let's dive into the CSS reading-order property and discover how it gives you control."
-intro: ""
+description: "Your CSS is lying to some of your users. Here's the property that fixes it."
 pubDate: 'June 16 2025'
 supported: bcd.css["properties"].reading-flow.__compat
 tags:
@@ -280,7 +279,7 @@ So if we have `reading-flow` to do this, what does `reading-order` do differentl
 
 When using these properties, it's best to not overuse it. For accessibility, the default DOM order is always the best - referring back to our 'golden truth' comment earlier. If there was to be a recommendation, it would be to only use this when there's a justified reason for the reordering of elements and if the design absolutely couldn't be achieved without that reordering occurring - after all, it's an enhancement to solve specific layout challenges.
 
-When we look at the support at the top of this page, support is still sparse, but it's getting better. As of October 2025, Chrome and Firefox have support for `reading-flow` and `reading-order`, and Safari has support for `reading-flow`. Edge is still in progress, but it's expected to be supported in the future. The progressive enhancement story is actually straightforward: browsers without support simply fall back to DOM order, which is the baseline behaviour anyway. No special fallback code needed — just make sure your DOM order is as logical as possible, and reading-flow becomes an enhancement on top of that. It's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
+When we look at the support at the top of this page, support is still sparse, but it's getting better. As of March 2026, Chrome and Edge have support for `reading-flow` and `reading-order`. The progressive enhancement story is actually straightforward: browsers without support simply fall back to DOM order, which is the baseline behaviour anyway. No special fallback code needed — just make sure your DOM order is as logical as possible, and reading-flow becomes an enhancement on top of that. It's important to communicate this to the team and the stakeholders, and to have a plan in place to test the site thoroughly with assistive technologies to ensure that the site is still accessible.
 
 
 ## Conclusion
