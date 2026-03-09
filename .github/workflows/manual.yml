@@ -4,8 +4,7 @@ on:
     - cron: 0 0 1 * *
   push:
     branches:
-      - feat/sanity
-      - feat/astro
+      - feat/staging
   workflow_dispatch:
 jobs:
   generate-post:
