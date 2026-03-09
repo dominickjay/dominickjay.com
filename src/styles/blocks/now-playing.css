@@ -42,6 +42,7 @@
   background: var(--color-dark);
 }
 
+.np-pill--transparent.is-playing .np-bar,
 .np-pill.is-playing .np-bar {
   animation: npBar 0.9s ease-in-out infinite alternate;
 }

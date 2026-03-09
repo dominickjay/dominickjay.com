@@ -35,7 +35,10 @@ const sortDate = ({ post, lastModified }) =>
   (lastModified ?? post.data.pubDate).valueOf();
 postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
 
-const posts = postsWithLastModified.map(({ post }) => post);
+const posts = postsWithLastModified.map(({ post, lastModified }) => ({
+	...post,
+	lastModified,
+}));
 
 const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
 const growing = posts.filter((post: any) => post.data.growth === "growing");
@@ -46,8 +49,9 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 
 <Layout
   {...{
-    title: "Home",
-    description: SITE_DESCRIPTION,
+    title: "Dom Jay — CSS, JS, and the occasional existential crisis",
+    showName: "false",
+    description: "Dom Jay's digital garden. CSS, JavaScript, and the web platform — written honestly, published impatiently, and updated whenever guilt kicks in.",
   } as any}
 >
   <Header />

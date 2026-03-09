@@ -233,14 +233,6 @@ try {
   // Expected output: ReferenceError: nonExistentFunction is not defined
   // (Note: the exact output may be browser-dependent)
 }
-console.clear();
-// console.log(currentListBooks);
-// console.log("-- backlog ---");
-// console.log(currentListBooks[6].book.user_books[0].user_book_status.slug);
-// currentListBooks.find(
-// 	(book) =>
-// 		book.book.user_books[0].user_book_status.slug === "currently-reading",
-// ),
 const readCount = currentListBooks.filter(
   (book) => book.book.user_books[0].user_book_status.slug == "read",
 );
@@ -285,7 +277,7 @@ const toGo = Math.max(0, goalTotal - readCount.length);
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="Reading List" description={SITE_DESCRIPTION} />
+    <BaseHead title="What I'm reading" description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list." />
   </head>
   <body>
     <div id="cur"></div>

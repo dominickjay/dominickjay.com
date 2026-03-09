@@ -1,153 +1,151 @@
 @layer components {
+  .reading-goal-hero {
+    background: var(--color-dark);
+    color: var(--color-light);
+    font-family: var(--font-mono);
+  }
 
-.reading-goal-hero {
-  background: var(--color-dark);
-  color: var(--color-light);
-  font-family: var(--font-mono);
-}
+  .reading-goal-hero *::selection {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: var(--color-dark);
+  }
 
-.reading-goal-hero *::selection {
-  background-color: rgba(255, 255, 255, 0.85);
-  color: var(--color-dark);
-}
-
-.reading-goal-hero__main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
-  padding: var(--space-xl);
-}
-
-.reading-goal-hero__count {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.reading-goal-hero__number {
-  font-size: 5rem;
-  line-height: 1;
-  color: var(--color-light);
-  display: flex;
-  column-gap: 0.5em;
-  align-items: center;
-}
-
-.reading-goal-hero__number sup {
-  font-size: 0.35em;
-  opacity: 0.85;
-  vertical-align: super;
-}
-
-.reading-goal-hero__eyebrow {
-  font-size: 14px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-light);
-  font-family: var(--font-base);
-  opacity: 0.85;
-}
-
-.reading-goal-hero__caption {
-  font-size: 14px;
-  /* letter-spacing: 0.15em; */
-  /* text-transform: uppercase; */
-  font-family: var(--font-base);
-  color: var(--color-light);
-  opacity: 0.85;
-}
-
-.reading-goal-hero__progress-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-s);
-  justify-content: center;
-}
-
-.reading-goal-hero__progress-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--color-light);
-  opacity: 0.85;
-}
-
-.reading-goal-hero__progress-track {
-  height: 3px;
-  background: rgba(255, 255, 255, 0.15);
-  width: 100%;
-}
-
-.reading-goal-hero__progress-fill {
-  height: 100%;
-  width: var(--_pct, 0);
-  background: var(--color-light);
-  transition: width 0.2s ease;
-}
-
-.reading-goal-hero__summary {
-  font-size: 0.875rem;
-  color: var(--color-light);
-  opacity: 0.85;
-  margin: 0;
-}
-
-.reading-goal-hero__stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  border-block-start: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.reading-goal-hero__stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-xs);
-  padding: var(--space-m);
-  border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.reading-goal-hero__stat:first-child {
-  border-inline-start: none;
-}
-
-.reading-goal-hero__stat-num {
-  font-size: 1.25rem;
-  color: var(--color-light);
-}
-
-.reading-goal-hero__stat-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-light);
-  opacity: 0.85;
-}
-
-@media (width < 480px) {
   .reading-goal-hero__main {
-    grid-template-columns: 1fr;
-    padding: var(--space-m);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
   }
 
   .reading-goal-hero__count {
-    padding-block-end: var(--space-m);
-    border-block-end: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .reading-goal-hero__number {
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--color-light);
+    display: flex;
+    column-gap: 0.25em;
+    align-items: center;
+  }
+
+  .reading-goal-hero__number sup {
+    font-size: 0.35em;
+    opacity: 0.85;
+    vertical-align: super;
+  }
+
+  .reading-goal-hero__eyebrow {
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-light);
+    font-family: var(--font-base);
+    opacity: 0.85;
+  }
+
+  .reading-goal-hero__caption {
+    font-size: 14px;
+    /* letter-spacing: 0.15em; */
+    /* text-transform: uppercase; */
+    font-family: var(--font-base);
+    color: var(--color-light);
+    opacity: 0.85;
   }
 
   .reading-goal-hero__progress-wrap {
-    padding-block-start: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    justify-content: center;
+  }
+
+  .reading-goal-hero__progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-light);
+    opacity: 0.85;
+  }
+
+  .reading-goal-hero__progress-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 100%;
+  }
+
+  .reading-goal-hero__progress-fill {
+    height: 100%;
+    width: var(--_pct, 0);
+    background: var(--color-light);
+    transition: width 0.2s ease;
+  }
+
+  .reading-goal-hero__summary {
+    font-size: 0.875rem;
+    color: var(--color-light);
+    opacity: 0.85;
+    margin: 0;
   }
 
   .reading-goal-hero__stats {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-block-start: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .reading-goal-hero__stat {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    gap: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-m);
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
   }
-}
 
+  .reading-goal-hero__stat:first-child {
+    border-inline-start: none;
+  }
+
+  .reading-goal-hero__stat-num {
+    font-size: 1.25rem;
+    color: var(--color-light);
+  }
+
+  .reading-goal-hero__stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-light);
+    opacity: 0.85;
+  }
+
+  @media (width < 480px) {
+    .reading-goal-hero__main {
+      grid-template-columns: 1fr;
+      padding: var(--space-m);
+    }
+
+    .reading-goal-hero__count {
+      padding-block-end: var(--space-m);
+      border-block-end: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .reading-goal-hero__progress-wrap {
+      padding-block-start: var(--space-m);
+    }
+
+    .reading-goal-hero__stats {
+      grid-template-columns: 1fr;
+    }
+
+    .reading-goal-hero__stat {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 0;
+    }
+  }
 }

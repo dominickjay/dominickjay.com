@@ -22,9 +22,7 @@ const { evergreen, growing, seedling } = Astro.props;
           >
             <h3 class="h3">Evergreen (Stable Knowledge)</h3>
             <div class="body">
-              Fully vetted, production-ready guides. These features are stable
-              across major browsers and are safe to implement in production
-              today.
+            Stable and fully realised. These posts reflect current best practice and aren't likely to need significant updates.
             </div>
           </div>
           <BigLink
@@ -45,6 +43,7 @@ const { evergreen, growing, seedling } = Astro.props;
                   description={post.data.description}
                   tags={post.data.tags}
                   pubDate={post.data.pubDate}
+                  lastModified={post.lastModified}
                   id={post.id}
                   theme="narrow"
                 />
@@ -62,9 +61,7 @@ const { evergreen, growing, seedling } = Astro.props;
           >
             <h3 class="h3">Growing (Under Active Cultivation)</h3>
             <div class="body">
-              Working drafts and stable concepts that are ready for early
-              adoption. Code samples have been tested but are subject to minor
-              changes as specs finalize.
+            Complete enough to be useful, but still being refined — whether that's a spec still moving, a demo still being built, or a section still to be written.
             </div>
           </div>
           <BigLink
@@ -102,8 +99,7 @@ const { evergreen, growing, seedling } = Astro.props;
           >
             <h3 class="h3">Seedlings (Future Research)</h3>
             <div class="body">
-              Ideas on the edge of the specification. Highly experimental, rough
-              code, and often dependent on browser flags.
+            Newly published or still finding their shape. Worth reading, but expect rough edges.
             </div>
           </div>
           <BigLink

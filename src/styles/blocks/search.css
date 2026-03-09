@@ -6,10 +6,14 @@
   min-width: 160px;
   max-width: 215px;
   padding-inline: var(--space-s);
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid rgb(from currentColor r g b / 0.5);
   height: 100%;
   transition: max-width 0.3s ease-in-out;
   will-change: width;
+
+  @media (width < 768px) {
+    max-width: none;
+  }
 }
 
 .search-wrap:focus-within {

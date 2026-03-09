@@ -27,31 +27,31 @@ const randomPost = posts[random];
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title="Lost? Same." description="You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that." />
   </head>
   <body>
     <div id="cur"></div>
     <Header />
     <main>
       <div
-        class="bg-[var(--color-light)] relative min-h-[calc(100svh-260px)] flex items-center justify-center"
+        class="bg-[var(--color-light)] relative min-h-[calc(100svh-290px)] flex items-center justify-center"
       >
         <div
           class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
           style=""
         >
           <h1
-            class="heading-tagline !text-[250px] gradient-text px-[2px] md:px-[4px]"
+            class="heading-tagline !text-[45vw] md:!text-[460px] blur-[5px] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
             style="background-image: var(--color-gradient);"
           >
             404
           </h1>
 
-          <div class="intro md:max-w-[450px] md:pb-[20px]">
-            {SITE_DESCRIPTION}
+          <div class="intro md:max-w-[550px] text-pretty md:pb-[20px] relative">
+          	You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that.
           </div>
 
-          <div class="">
+          <div class="relative">
             Want something random? Try this <a
               href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
             >

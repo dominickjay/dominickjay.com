@@ -34,6 +34,9 @@
     color 0.2s;
   padding: 2px 4px;
   border: none;
+  font-family: var(--font-base);
+  font-weight: 600;
+  cursor: pointer;
 
   &::before {
     content: none;
