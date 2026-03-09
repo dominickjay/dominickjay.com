@@ -274,6 +274,12 @@ sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
 const totalReadCount = allBooks.filter((entry) =>
   entry.user_book_reads?.some((read) => read.finished_at),
 ).length;
+
+const goalTotal = currentListBooks?.length ?? 0;
+const goalPct = goalTotal
+  ? Math.round((readCount.length / goalTotal) * 100)
+  : 0;
+const toGo = Math.max(0, goalTotal - readCount.length);
 ---
 
 <!doctype html>
@@ -290,46 +296,57 @@ const totalReadCount = allBooks.filter((entry) =>
         style="--grid-placement: 12; --gutter: 43px;"
       >
         <div class="flex flex-col gap-[32px] w-full relative">
-          <div class="stage-meta">
-            <div class="progress-ring-wrap">
-              <svg width="64" height="64" viewBox="0 0 64 64">
-                <circle class="progress-ring-bg" cx="32" cy="32" r="26"
-                ></circle>
-                <circle
-                  class="progress-ring-fill"
-                  id="progressRing"
-                  cx="32"
-                  cy="32"
-                  r="26"></circle>
-              </svg>
-              <div class="progress-ring-text">
-                <strong>{readCount.length}</strong>
-                <span>/ {currentListBooks.length}</span>
+          <section
+            class="reading-goal-hero"
+            style={`--_pct: calc(${readCount.length} / ${goalTotal || 1} * 100%)`}
+          >
+            <div class="reading-goal-hero__main">
+              <div class="reading-goal-hero__count">
+                <span class="reading-goal-hero__number">
+                  {readCount.length}<sup>/ {goalTotal}</sup>
+                </span>
+                <span class="reading-goal-hero__eyebrow">Books read</span>
+                <span class="reading-goal-hero__caption">2026 goal</span>
+              </div>
+              <div class="reading-goal-hero__progress-wrap">
+                <div class="reading-goal-hero__progress-meta">
+                  <span>{goalPct}% complete</span>
+                  <span>{toGo} to go</span>
+                </div>
+                <div
+                  class="reading-goal-hero__progress-track"
+                  aria-hidden="true"
+                >
+                  <div class="reading-goal-hero__progress-fill"></div>
+                </div>
+                <p class="reading-goal-hero__summary">
+                  {readCount.length} books read this year — {toGo} more to hit the
+                  goal.
+                </p>
               </div>
             </div>
-            <div class="stage-stats">
-              <div class="stage-stat-item">
-                <div class="stage-stat-val" id="cntRead">
-                  {readCount.length}
-                </div>
-                <div class="stage-stat-label">Read in 2026</div>
+            <div class="reading-goal-hero__stats">
+              <div class="reading-goal-hero__stat">
+                <span class="reading-goal-hero__stat-num">
+                  {currentlyReading.length}
+                </span>
+                <span class="reading-goal-hero__stat-label">
+                  Currently reading
+                </span>
               </div>
-              <div class="stage-stat-item">
-                <div class="stage-stat-val">2</div>
-                <div class="stage-stat-label">Currently reading</div>
+              <div class="reading-goal-hero__stat">
+                <span class="reading-goal-hero__stat-num">{backlog.length}</span
+                >
+                <span class="reading-goal-hero__stat-label">In backlog</span>
               </div>
-              <div class="stage-stat-item">
-                <div class="stage-stat-val" id="cntBacklog">
-                  {backlog.length}
-                </div>
-                <div class="stage-stat-label">In backlog</div>
-              </div>
-              <div class="stage-stat-item">
-                <div class="stage-stat-val" id="cntTotal">{totalReadCount}</div>
-                <div class="stage-stat-label">All time read</div>
+              <div class="reading-goal-hero__stat">
+                <span class="reading-goal-hero__stat-num">
+                  {totalReadCount}
+                </span>
+                <span class="reading-goal-hero__stat-label">All time read</span>
               </div>
             </div>
-          </div>
+          </section>
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
             <ol class="post-list feature-list flow" style="--flow-space: 0;">
@@ -369,11 +386,7 @@ const totalReadCount = allBooks.filter((entry) =>
           </div>
 
           <div class="flex flex-col gap-[20px]">
-            <h2 class="h2 col-span-full mb-[24px]">
-              2026 Reading List <span class="text-[20px] opacity-75"
-                >({readCount.length} / {currentListBooks?.length || 0})</span
-              >
-            </h2>
+            <h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
             <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
                 currentListBooks
