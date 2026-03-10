@@ -7,7 +7,7 @@ const { title, description, growth, lastModified, updatedDate } = Astro.props;
     class="container cluster relative"
     style="--cluster-vertical-alignment: flex-end; --gutter: 32px;"
   >
-    <div class="flow [--flow-space:16px]" style="--flow-space: var(--space-xl)">
+    <div class="flow" style="--flow-space: var(--space-m)">
       {
         growth && (
           <div class="h-fit h4 flex items-baseline gap-[8px]">
@@ -17,22 +17,24 @@ const { title, description, growth, lastModified, updatedDate } = Astro.props;
           </div>
         )
       }
-      <h1 class="h1 gradient-text md:max-w-[85vw]">{title}</h1>
-      <h2 class="intro">{description}</h2>
       {(lastModified ?? updatedDate) && (
-        <p
-          class="text-sm opacity-70"
+        <div
+          class="last-updated"
         >
           Last updated:{" "}
-          <time datetime={(lastModified ?? updatedDate).toISOString()}>
-            {(lastModified ?? updatedDate).toLocaleDateString("en-us", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </time>
-        </p>
+          <span class="page-header__date">
+	          <time datetime={(lastModified ?? updatedDate).toISOString()}>
+	            {(lastModified ?? updatedDate).toLocaleDateString("en-us", {
+	              year: "numeric",
+	              month: "short",
+	              day: "numeric",
+	            })}
+	          </time>
+          </span>
+        </div>
       )}
+      <h1 class="h1 gradient-text md:max-w-[85vw]" style="--flow-space: var(--space-l)">{title}</h1>
+      <h2 class="intro">{description}</h2>
     </div>
   </div>
 </header>

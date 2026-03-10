@@ -97,16 +97,20 @@ export default async (req: Request) => {
 	const item = data?.[0];
 
 	let title: string | null = null;
+	let season: number | undefined;
+	let episode: number | undefined;
 	if (item) {
 		if (item.type === "movie" && item.movie?.title) {
 			title = item.movie.title;
 		} else if (item.type === "episode") {
 			title = item.show?.title ?? item.episode?.show?.title ?? null;
+			season = item.episode?.season;
+			episode = item.episode?.number;
 		}
 	}
 
 	return new Response(
-		JSON.stringify({ title }),
+		JSON.stringify({ title, season, episode }),
 		{
 			status: 200,
 			headers: {

@@ -5,160 +5,163 @@ Astro.response.headers.set(
 );
 
 import Layout from "../layouts/Default.astro";
-import MarqueeHeading from "../components/MarqueeHeading.astro";
-import ScrollHeading from "../components/ScrollHeading.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import { getTopTracks, type LastFmTopTrack } from "../lib/lastfm";
+import { getTopTracks } from "../lib/lastfm";
 import { getCollection, render } from "astro:content";
-import moment from "moment";
+import MarqueeHeading from "../components/MarqueeHeading.astro";
 
-const today = moment().format("MM/DD/YYYY");
+const showMarquee = true;
 
-let nowPosts = [];
+let nowPosts: Awaited<ReturnType<typeof getCollection<"now">>> = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-  nowPosts = await getCollection("now", ({ data }) => !data?.draft);
+  nowPosts = await getCollection("now", ({ data }) => !(data as { draft?: boolean }).draft);
 } else {
   nowPosts = await getCollection("now");
 }
 
 nowPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const showMarquee = true;
+const currentPost = nowPosts[0];
+const pastPosts = nowPosts.slice(1);
 
-// Simple in-memory cache to avoid rate limiting during development
-const cache = new Map<string, { data: any; expires: number }>();
-const CACHE_TTL = 30000; // 30 seconds
+function getExcerpt(body: string): string {
+  const match = body.match(
+    /##\s*Professional\s*\n([\s\S]*?)(?=\n##\s*Hobbies|$)/i,
+  );
+  const block = match?.[1]?.trim() ?? "";
+  const plain = block
+    .replace(/\n+/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`#]/g, "")
+    .trim();
+  const first = plain.match(/^[^.!?]*[.!?]/)?.[0] ?? plain.slice(0, 120);
+  return first.trim();
+}
+
+const cache = new Map<string, { data: unknown; expires: number }>();
+const CACHE_TTL = 30000;
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
 
-let topTrack: LastFmTopTrack[] = [];
-let currentBooks = [];
-let allBooks = [];
+interface HardcoverMe {
+  user_books: { book: { title: string; contributions: { author: { name: string } }[] } }[];
+  lists?: Array<{
+    books_count: number;
+    list_books: Array<{
+      user_books: Array<{ user_book_status: { slug: string } }>;
+    }>;
+  }>;
+}
 
-function getCached(key: string): any | null {
+interface HardcoverResponse {
+  data: { me: HardcoverMe[] };
+}
+
+function getCached(key: string): unknown {
   const cached = cache.get(key);
-  if (cached && cached.expires > Date.now()) {
-    return cached.data;
-  }
+  if (cached && cached.expires > Date.now()) return cached.data;
   cache.delete(key);
   return null;
 }
 
-function setCached(key: string, data: any): void {
+function setCached(key: string, data: unknown): void {
   cache.set(key, { data, expires: Date.now() + CACHE_TTL });
 }
 
-// Helper function to make GraphQL requests
 async function hardcoverGraphQL(
   query: string,
-  variables: any,
-  useAuth = false,
-) {
+  variables: Record<string, unknown>,
+  useAuth: boolean,
+): Promise<HardcoverResponse> {
   if (useAuth && !hardcoverToken) {
     throw new Error(
-      "Hardcover token is required for authenticated requests. " +
-        "Please set the hardcoverToken environment variable. " +
-        "Get your token from https://hardcover.app/account/api",
+      "hardcoverToken required. Get it from https://hardcover.app/account/api",
     );
   }
-
-  // Create cache key from query and variables
   const cacheKey = JSON.stringify({ query, variables });
   const cached = getCached(cacheKey);
-  if (cached) {
-    console.log("💾 Using cached response for query");
-    return cached;
-  }
+  if (cached) return cached as HardcoverResponse;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     "User-Agent": "dominickjay.com/1.0",
   };
-
   if (useAuth) {
-    // Use Bearer prefix for JWT tokens (standard for Hasura/GraphQL APIs)
     headers["authorization"] = hardcoverToken.startsWith("Bearer ")
       ? hardcoverToken
       : `Bearer ${hardcoverToken}`;
   }
-
-  // console.log("🌐 GraphQL Request:", {
-  //   useAuth,
-  //   variables,
-  //   query: query.substring(0, 100) + "...",
-  // });
 
   const response = await fetch("https://api.hardcover.app/v1/graphql", {
     method: "POST",
     headers,
     body: JSON.stringify({ query, variables }),
   });
-
-  console.log("🌐 GraphQL Response status:", response.status);
-
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error("🌐 GraphQL Error response:", errorText);
-
-    // If rate limited, wait a bit and suggest using cache
-    if (response.status === 429) {
-      console.warn(
-        "⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.",
-      );
-    }
-
-    throw new Error(
-      `HTTP error! status: ${response.status}, message: ${errorText}`,
-    );
+    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
   }
-
-  const json = await response.json();
+  const json = (await response.json()) as HardcoverResponse;
   setCached(cacheKey, json);
-  // console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
   return json;
 }
 
-try {
-  const [listInfo] = await Promise.all([
-    hardcoverGraphQL(
-      `query getBooksByYear {
-	      me {
-	        # We fetch from user_books directly to get all your reading history
-	        user_books(where: {user_book_status: {slug: {_eq: "read"}}}) {
-	          book {
-							id
-              title
-              contributions {
-                author {
-                  name
-                }
-              }
-	          }
-	          user_book_reads {
-	            finished_at
-	          }
-	        }
-	      }
-			    }`,
-      {},
-      true,
-    ),
-  ]);
+let currentlyReading: { book: { title: string; contributions: { author: { name: string } }[] } }[] = [];
+let booksRead = 0;
+let goalTotal = 0;
 
-  allBooks = listInfo.data.me[0].user_books || [];
-} catch (error) {
-  console.error(error);
-  // Expected output: ReferenceError: nonExistentFunction is not defined
-  // (Note: the exact output may be browser-dependent)
+try {
+  const currentDataAndList = await hardcoverGraphQL(
+    `query getCurrentReadingAndList {
+      me {
+        user_books(where: { status_id: { _eq: 2 } }) {
+          book {
+            id
+            title
+            contributions { author { name } }
+          }
+        }
+        lists(where: { id: { _eq: 328925 } }) {
+          id
+          name
+          books_count
+          list_books {
+            book { id title contributions { author { name } } }
+            user_books(where: { user_id: { _eq: 28090 } }, limit: 1, order_by: { updated_at: desc }) {
+              user_book_status { status slug }
+            }
+          }
+        }
+      }
+    }`,
+    {},
+    true,
+  );
+  const me = currentDataAndList.data?.me?.[0];
+  if (me) {
+    currentlyReading = me.user_books ?? [];
+    const list = me.lists?.[0];
+    if (list) {
+      goalTotal = list.books_count ?? 0;
+      const listBooks = list.list_books ?? [];
+      booksRead = listBooks.filter(
+        (lb: { user_books: { user_book_status: { slug: string } }[] }) =>
+          lb.user_books?.[0]?.user_book_status?.slug === "read",
+      ).length;
+    }
+  }
+} catch (err) {
+  console.error("[Now] Hardcover:", err);
 }
 
-// Fetch all data using consolidated utilities
-const topTracks = await Promise.all([getTopTracks(apiKey, 1)]);
-
-if (topTracks[0].toptracks?.track) {
-  topTrack = topTracks[0].toptracks.track;
+let topTracks: { name: string; artist: { name?: string; "#text"?: string } }[] = [];
+if (apiKey) {
+  try {
+    const res = await getTopTracks(apiKey, 10, "1month");
+    if (res.toptracks?.track) topTracks = res.toptracks.track;
+  } catch (err) {
+    console.error("[Now] Last.fm:", err);
+  }
 }
 
 const base =
@@ -170,134 +173,218 @@ const base =
       : Astro.url.origin;
 const origin = base.startsWith("http") ? base : `http://${base}`;
 const traktUrl = `${origin}/.netlify/functions/trakt-watching`;
-let currentlyWatching = "Nothing yet";
-if (traktUrl) {
-  try {
-    const res = await fetch(traktUrl);
-    const raw = await res.text();
-    let data: { title?: string | null; error?: string } = {};
-    try {
-      data = raw.startsWith("{") ? JSON.parse(raw) : {};
-    } catch {
-      console.warn(
-        "[Trakt]",
-        res.status,
-        "non-JSON response (function may be unreachable)",
-        "→",
-        traktUrl,
-      );
+
+let traktTitle: string | null = null;
+let traktSeason: number | undefined;
+let traktEpisode: number | undefined;
+
+try {
+  const res = await fetch(traktUrl);
+  const raw = await res.text();
+  if (res.ok && raw.startsWith("{")) {
+    const data = JSON.parse(raw) as {
+      title?: string | null;
+      season?: number;
+      episode?: number;
+      error?: string;
+    };
+    if (data.title) {
+      traktTitle = data.title;
+      traktSeason = data.season;
+      traktEpisode = data.episode;
     }
-    if (res.ok && data.title) {
-      currentlyWatching = data.title;
-    } else if (data.error || !res.ok) {
-      console.warn(
-        "[Trakt]",
-        res.status,
-        res.statusText,
-        data.error ?? "",
-        "→",
-        traktUrl,
-      );
-    }
-  } catch (err) {
-    console.warn("[Trakt] fetch failed", err, "→", traktUrl);
   }
+} catch (err) {
+  console.warn("[Now] Trakt fetch failed", err);
 }
+
+const lastUpdateFormatted = currentPost
+  ? currentPost.data.pubDate.toLocaleDateString("en-GB", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  : "";
+
+const today = new Date().toISOString().slice(0, 10);
+
+const currentRendered = currentPost
+  ? await render(currentPost)
+  : { Content: () => null };
+const { Content: CurrentContent } = currentRendered;
+
+const pastWithContent = await Promise.all(
+  pastPosts.map(async (post) => {
+    const { Content } = await render(post);
+    const excerpt =
+      (post.data as { excerpt?: string }).excerpt ?? getExcerpt(post.body ?? "");
+    return { post, Content, excerpt };
+  }),
+);
+
+const goalPercent =
+  goalTotal > 0 ? Math.round((booksRead / goalTotal) * 100) : 0;
 ---
 
-<Layout title="What I'm up to" description="What I'm currently working on, reading, and thinking about. Updated irregularly but genuinely.">
-  <div
-    class="container grid grid-cols-6 [--gutter: 24px] md:[--gutter:43px] [--grid-placement:6]"
-  >
-    <div class="overflow-clip col-span-full md:col-span-4">
-      {showMarquee && <MarqueeHeading title="Now" />}
-      {!showMarquee && <ScrollHeading title="Now" />}
-    </div>
-    <ol
-      class="flow col-span-full md:col-start-1 md:col-span-4 [--flow-space:16px] md:[--flow-space:32px]"
-      style="--flow-space: 32px;"
-    >
-      {
-        (
-          await Promise.all(
-            nowPosts.map(async (post) => {
-              const { Content } = await render(post);
-              return { post, Content };
-            }),
-          )
-        ).map(({ post, Content }) => (
-          <li class="flow">
-            <div class="border border-dashed pt-[6px] pb-[2px] px-[var(--space-m)] w-fit font-semibold">
-              <FormattedDate date={post.data.pubDate} />
-            </div>
-            <div class="post__content flex flex-col gap-[var(--space-m)]">
-              <div class="post__description flow prose">
-                <Content tracks={post.data.tracks} pubDate={today} />
+<Layout
+  title="What I'm up to"
+  description="What I'm currently working on, reading, and thinking about. Updated irregularly but genuinely."
+>
+  <article class="container now-page">
+    <header class="page-header">
+	    <div class="page-header__title">
+	      {showMarquee && <MarqueeHeading title="Now" />}
+	      {!showMarquee && <ScrollHeading title="Now" />}
+	    </div>
+      <div class="page-header__meta">
+        {lastUpdateFormatted && (
+          <span class="page-header__date">Last updated: {lastUpdateFormatted}</span>
+        )}
+      </div>
+    </header>
+
+    <div class="now-layout sidebar" data-reversed>
+
+      <aside class="now-snapshot">
+        <div class="snap-card">
+          <div class="snap-card__head">
+            <span class="snap-card__label">Currently reading</span>
+          </div>
+          <div class="snap-card__body">
+            {currentlyReading.slice(0, 2).map((entry) => (
+              <div class="reading-item">
+                <span class="reading-item__status">Reading now</span>
+                <span class="reading-item__title">{entry.book.title}</span>
+                <span class="reading-item__author">
+                  {entry.book.contributions?.[0]?.author?.name ?? ""}
+                </span>
+              </div>
+            ))}
+            {currentlyReading.length === 0 && (
+              <span class="reading-item__author">Nothing in progress</span>
+            )}
+            <div class="goal-bar">
+              <div class="goal-bar__track">
+                <div
+                  class="goal-bar__fill"
+                  style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
+                />
+              </div>
+              <div class="goal-bar__meta">
+                <span>{booksRead} of {goalTotal} · 2026 goal</span>
+                <span>{goalPercent}%</span>
               </div>
             </div>
-          </li>
-        ))
-      }
-    </ol>
-    <div class="col-span-full md:col-start-5 md:col-span-2">
-      <div class="md:sticky md:top-[110px] flex flex-col gap-[var(--space-m)]">
-        <div class="statistics-grid__item statistics-grid__item-1">
-          <div class="statistics-grid__content flex flex-col gap-[16px]">
-            <span class="statistics-grid__title">Books read</span>
-            <span
-              class="statistics-grid__value h2 leading-[1]"
-              x-data={JSON.stringify({
-                count: 0,
-                target: allBooks.length,
-                duration: 2000,
-              })}
-              x-init="
-								const startTime = Date.now();
-								const animate = () => {
-									const elapsed = Date.now() - startTime;
-									const progress = Math.min(elapsed / duration, 1);
-									const eased = progress < 0.85
-										? 2 * progress * progress
-										: -1 + (4 - 2 * progress) * progress;
-									count = Math.floor(eased * target);
-									if (progress < 1) {
-										requestAnimationFrame(animate);
-									} else {
-										count = target;
-									}
-								};
-								requestAnimationFrame(animate);
-							"
-              x-text="count"></span>
           </div>
         </div>
-        <div
-          class="statistics-grid__item statistics-grid__item-2"
-          style="grid-area: item2"
-        >
-          <div class="statistics-grid__content flex flex-col gap-[16px]">
-            <span class="statistics-grid__title">Top track this week</span>
-            {
-              topTrack[0] && (
-                <span class="statistics-grid__value h2 leading-[1]">
-                  {topTrack[0].name}
-                </span>
-              )
-            }
+
+        <div class="snap-card">
+          <div class="snap-card__head">
+            <span class="snap-card__label">Currently watching</span>
+          </div>
+          <div class="snap-card__body">
+            {traktTitle ? (
+              <div>
+                <span class="watching-item__title">{traktTitle}</span>
+                {(traktSeason != null || traktEpisode != null) && (
+                  <span class="watching-item__meta">
+                    {traktSeason != null && `Season ${traktSeason}`}
+                    {traktSeason != null && traktEpisode != null && " · "}
+                    {traktEpisode != null && `Episode ${traktEpisode}`}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span class="watching-item__meta">Nothing yet</span>
+            )}
           </div>
         </div>
-        <div
-          class="statistics-grid__item statistics-grid__item-3"
-          style="grid-area: item3"
-        >
-          <div class="statistics-grid__content flex flex-col gap-[16px]">
-            <span class="statistics-grid__value">Currently watching</span>
-            <span class="statistics-grid__title h2 leading-[1]">
-              {currentlyWatching}
-            </span>
+
+        <div class="snap-card">
+          <div class="snap-card__head">
+            <span class="snap-card__label">Top tracks this month</span>
+          </div>
+          <div class="snap-card__body">
+            <ol class="track-list">
+              {topTracks.slice(0, 10).map((track, i) => (
+                <li class="track-item">
+                  <span class="track-item__name" title={track.name}>
+                    {track.name}
+                  </span>
+                  <span class="track-item__artist">
+                    {track.artist?.name ?? track.artist?.["#text"] ?? ""}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            {topTracks.length === 0 && (
+              <span class="track-item__artist">No data</span>
+            )}
           </div>
         </div>
-      </div>
+      </aside>
+      <main class="now-written">
+        {currentPost && CurrentContent && (
+          <div class="now-written-content flow prose">
+            <CurrentContent tracks={currentPost.data.tracks} pubDate={today} />
+          </div>
+        )}
+      </main>
     </div>
-  </div>
+
+    {pastPosts.length > 0 && (
+      <section class="accordion-entries">
+        <div class="accordion-entries__header">
+          <span class="accordion-entries__title">Previous entries</span>
+        </div>
+        {pastWithContent.map(({ post, Content, excerpt }) => (
+          <details class="past-entry">
+            <summary>
+              <span class="past-entry__trigger-left">
+                <span class="past-entry__date">
+                  {post.data.pubDate.toLocaleDateString("en-GB", {
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+                <span class="past-entry__excerpt">{excerpt}</span>
+              </span>
+              <svg
+                class="past-entry__icon"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <line
+                  x1="8"
+                  y1="2"
+                  x2="8"
+                  y2="14"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <line
+                  x1="2"
+                  y1="8"
+                  x2="14"
+                  y2="8"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </summary>
+            <div class="past-entry__panel">
+              <div class="past-entry__inner">
+                <div class="past-entry__content">
+                  <Content tracks={post.data.tracks} pubDate={today} />
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </section>
+    )}
+  </article>
 </Layout>

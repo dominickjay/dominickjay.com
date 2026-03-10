@@ -139,6 +139,19 @@
       align-items: center;
     }
 
+    .last-updated {
+      display: flex;
+      /*flex-direction: column;*/
+      align-items: flex-end;
+      gap: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(from r g b var(--color-dark), 0.6);
+      margin-left: auto;
+    }
+
     pre {
       font-size: 14px;
     }
