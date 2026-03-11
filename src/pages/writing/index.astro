@@ -1,6 +1,7 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
 import { SITE_DESCRIPTION } from "../../consts";
@@ -199,7 +200,7 @@ const growth = Astro.url.searchParams.get("growth") || "all";
 				</div>
 			</section>
 		</main>
-		<PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+		<Footer />
 	</body>
 	<script>
 		document.addEventListener("mousemove", (e) => {

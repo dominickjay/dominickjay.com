@@ -1,55 +1,658 @@
 ---
-import NavLink from '../components/NavigationLink.astro';
-import PatternBanner from '../components/Pattern-Banner.astro';
-const today = new Date();
+import { Temporal } from "@js-temporal/polyfill";
+import { getCollection } from "astro:content";
+import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
+import PatternSmall from "./PatternSmall.astro";
+import { getRecentTracksWithTags } from "../lib/lastfm";
+
+const {
+  listeningTrack: propListeningTrack = "",
+  listeningArtist: propListeningArtist = "",
+  readingTitle: propReadingTitle = "",
+  readingAuthor: propReadingAuthor = "",
+  lastTended: propLastTended,
+} = Astro.props;
+
+const rawPosts =
+  import.meta.env.ENVIRONMENT === "production"
+    ? await getCollection("writing", ({ data }) => !data?.draft)
+    : await getCollection("writing");
+const evergreen = rawPosts.filter((p) => p.data.growth === "evergreen").length;
+const growing = rawPosts.filter((p) => p.data.growth === "growing").length;
+const seedlings = rawPosts.filter((p) => p.data.growth === "seedling").length;
+
+const lastTended =
+  propLastTended instanceof Temporal.PlainDate
+    ? propLastTended
+    : rawPosts.length > 0
+      ? Temporal.PlainDate.from(
+          new Date(
+            Math.max(...rawPosts.map((p) => (p.data.updatedDate ?? p.data.pubDate).valueOf()))
+          ).toISOString().slice(0, 10)
+        )
+      : Temporal.Now.plainDateISO();
+
+const cache = new Map<string, { data: unknown; expires: number }>();
+const CACHE_TTL = 30_000;
+const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+
+function getCached(key: string): unknown {
+  const entry = cache.get(key);
+  if (entry && entry.expires > Date.now()) return entry.data;
+  cache.delete(key);
+  return null;
+}
+
+function setCached(key: string, data: unknown): void {
+  cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+}
+
+async function hardcoverGraphQL(
+  query: string,
+  variables: Record<string, unknown>,
+  useAuth: boolean,
+): Promise<{
+  data?: {
+    me?: Array<{
+      user_books?: Array<{
+        book?: {
+          title?: string;
+          contributions?: Array<{ author?: { name?: string } }>;
+        };
+      }>;
+    }>;
+  };
+}> {
+  if (useAuth && !hardcoverToken) return {};
+  const cacheKey = JSON.stringify({ query, variables });
+  const cached = getCached(cacheKey);
+  if (cached) return cached as Awaited<ReturnType<typeof hardcoverGraphQL>>;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "User-Agent": "dominickjay.com/1.0",
+  };
+  if (useAuth) {
+    headers["authorization"] = hardcoverToken.startsWith("Bearer ")
+      ? hardcoverToken
+      : `Bearer ${hardcoverToken}`;
+  }
+  const res = await fetch("https://api.hardcover.app/v1/graphql", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ query, variables }),
+  });
+  if (!res.ok) return {};
+  const json = await res.json();
+  setCached(cacheKey, json);
+  return json;
+}
+
+let listeningTrack = propListeningTrack;
+let listeningArtist = propListeningArtist;
+let readingTitle = propReadingTitle;
+let readingAuthor = propReadingAuthor;
+
+if (!propListeningTrack && !propListeningArtist && apiKey) {
+  try {
+    const { recentTracks } = await getRecentTracksWithTags(apiKey, 1);
+    if (recentTracks?.name) listeningTrack = recentTracks.name;
+    if (recentTracks?.artist?.["#text"])
+      listeningArtist = recentTracks.artist["#text"];
+  } catch (_) {}
+}
+
+if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
+  try {
+    const data = await hardcoverGraphQL(
+      `query getCurrentReading {
+        me {
+          user_books(where: { status_id: { _eq: 2 } }) {
+            book {
+              title
+              contributions { author { name } }
+            }
+          }
+        }
+      }`,
+      {},
+      true,
+    );
+    const books = data?.data?.me?.[0]?.user_books ?? [];
+    const first = books[0]?.book;
+    if (first?.title) readingTitle = first.title;
+    if (first?.contributions?.[0]?.author?.name)
+      readingAuthor = first.contributions[0].author.name;
+  } catch (_) {}
+}
+
+const gardenNav = [
+  { href: "/writing?growth=evergreen", label: "Evergreen" },
+  { href: "/writing?growth=growing", label: "Growing" },
+  { href: "/writing?growth=seedling", label: "Seedlings" },
+];
 ---
 
-<!-- <div class="w-full text-center translate-y-[30%] mt-[250px] pointer-events-none">
-    <span class="-top-1/2 h1 text-[clamp(9.375rem,15vw,18.75rem)] relative">
-        Allonsy
-        <svg class="absolute right-[105px] top-[33%]" width="110" height="39" viewBox="0 0 110 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.80623 38.5186L0.835201 0.527287L109.806 0.518556" stroke="currentColor" stroke-dasharray="4 4"/>
-        </svg>
-        <span class="absolute top-[30%] right-[-8%] border border-solid py-[16px] px-[24px] body-text">
-            Meaning: Let's Go
-        </span>
-    </span>
-</div> -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner container">
+    <div class="footer-status" aria-label="Garden status">
+      <span class="status-pill">
+        <span class="status-dot status-dot--evergreen" aria-hidden="true"
+        ></span>
+        <span>Evergreen</span>
+        <span class="status-count">({evergreen})</span>
+      </span>
+      <span class="status-pill">
+        <span class="status-dot status-dot--growing" aria-hidden="true"></span>
+        <span>Growing</span>
+        <span class="status-count">({growing})</span>
+      </span>
+      <span class="status-pill">
+        <span class="status-dot status-dot--seedlings" aria-hidden="true"
+        ></span>
+        <span>Seedlings</span>
+        <span class="status-count">({seedlings})</span>
+      </span>
+    </div>
 
-<footer class="relative py-[20px] bg-black text-white overflow-hidden">
-    <PatternBanner fill="white" />
-    <div class="relative container grid !grid-cols-3 place-content-center pb-[8px]">
-        <div class="flex flex-col justify-center gap-y-[16px]">
-            <nav class="external-links flex flex-wrap w-fit gap-y-4 gap-x-4 col-span-full items-start md:col-start-4 md:col-span-2" aria-label="External Site Links">
-                <a class="nav-link" href="//mastodon.social/@dominickjay" target="_blank">
-                    <span class="text-white">Mastodon</span>
-                </a>
-                <a class="nav-link" href="//github.com/dominickjay" target="_blank">
-                    <span class="text-white">GitHub</span>
-                </a>
-                <a class="nav-link" href="//linkedin.com/in/dominickjay/" target="_blank">
-                    <span class="text-white">LinkedIn</span>
-                </a>
-                <a class="nav-link" href="//bsky.app/profile/dominickjay.bsky.social" target="_blank">
-                    <span class="text-white">Bluesky</span>
-                </a>
-                <a class="nav-link" href="//last.fm/user/zerosandones217" target="_blank">
-                    <span class="text-white">Last.fm</span>
-                </a>
-            </nav>
+    <div class="footer-body">
+      <div class="footer-nav-grid">
+        <nav class="footer-nav-group" aria-label="Pages">
+          <p class="footer-nav-label">Pages</p>
+          <ul class="footer-nav-list">
+            {
+              MAIN_NAVIGATION.map((item) => (
+                <li>
+                  <a class="footer-nav-link" href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <nav class="footer-nav-group" aria-label="Garden">
+          <p class="footer-nav-label">Garden</p>
+          <ul class="footer-nav-list">
+            {
+              gardenNav.map((item) => (
+                <li>
+                  <a class="footer-nav-link" href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <nav class="footer-nav-group" aria-label="Social">
+          <p class="footer-nav-label">Social</p>
+          <ul class="footer-nav-list">
+            {
+              EXTERNAL_NAVIGATION.map((item) => (
+                <li>
+                  <a
+                    class="footer-nav-link"
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+            <li>
+              <a class="footer-nav-link footer-nav-link--rss" href="/rss.xml">
+                <svg
+                  class="rss-icon"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"
+                    stroke-linecap="round"></path>
+                  <circle cx="5" cy="19" r="1" fill="currentColor"></circle>
+                </svg>
+                RSS
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="footer-right">
+        <div
+          class="now-widget"
+          id="footer-now-widget"
+          aria-live="polite"
+          aria-label="Now: listening and reading"
+        >
+          <div class="now-slides">
+            <div
+              class="now-slide is-active"
+              id="now-slide-listening"
+              role="tabpanel"
+              aria-labelledby="now-tab-listening"
+              aria-hidden="false"
+            >
+              <p class="now-label">Listening</p>
+              <p class="now-value">
+                {listeningTrack || "—"}
+              </p>
+              <p class="now-subtext">{listeningArtist || "—"}</p>
+            </div>
+            <div
+              class="now-slide"
+              id="now-slide-reading"
+              role="tabpanel"
+              aria-labelledby="now-tab-reading"
+              aria-hidden="true"
+            >
+              <p class="now-label">Reading</p>
+              <p class="now-value">
+                {readingTitle || "—"}
+              </p>
+              <p class="now-subtext">{readingAuthor || "—"}</p>
+            </div>
+          </div>
+          <div class="now-tabs" role="tablist">
+            <button
+              type="button"
+              class="now-tab"
+              role="tab"
+              id="now-tab-listening"
+              aria-selected="true"
+              aria-controls="now-slide-listening"
+            >
+              <span class="sr-only">Listening</span>
+            </button>
+            <button
+              type="button"
+              class="now-tab"
+              role="tab"
+              id="now-tab-reading"
+              aria-selected="false"
+              aria-controls="now-slide-reading"
+            >
+              <span class="sr-only">Reading</span>
+            </button>
+          </div>
         </div>
-        <div class="col-span-full md:col-start-3 md:col-span-1 flex items-center justify-end gap-x-[16px]">
-            <nav class="internal-links flex gap-x-[32px]" aria-label="Internal Site Links">
-                <a class="nav-link translate-x-[-10px] text-white" href="/writing">Writing</a>
-                <a class="nav-link translate-x-[-10px] text-white" href="/about">About</a>
-                <a class="nav-link translate-x-[-10px] text-white" href="/books">Reading List</a>
-                <a class="nav-link translate-x-[-10px] text-white" href="/music">Music</a>
-            </nav>
+
+        <div class="footer-pattern-wrap">
+          <PatternSmall />
         </div>
+      </div>
     </div>
-    <div class="py-[8px]">
-        <div class="container flex justify-end">
-            &copy; {today.getFullYear()} Dom Jay. All rights reserved.
-        </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-left">
+        <span class="footer-tagline">Leave it better than you found it.</span>
+        <span class="footer-copyright"
+          >© {Temporal.Now.plainDateISO().year} Dominick Jay</span
+        >
+      </div>
+      <div class="footer-bottom-right">
+        <span class="footer-last-tended-label">Last tended</span>
+        <time
+          class="footer-last-tended-value"
+          datetime={lastTended instanceof Temporal.PlainDate
+            ? lastTended.toString()
+            : undefined}
+        >
+          {
+            lastTended instanceof Temporal.PlainDate
+              ? lastTended.toLocaleString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+              : String(lastTended)
+          }
+        </time>
+      </div>
     </div>
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    --footer-bg: #1a1a18;
+    --footer-muted: rgba(251, 248, 239, 0.3);
+    --footer-text: rgba(251, 248, 239, 0.65);
+    --footer-heading: rgba(251, 248, 239, 0.88);
+    --footer-hover: #fbf8ef;
+
+    background: var(--footer-bg);
+    color: var(--footer-text);
+  }
+
+  .footer-inner {
+    padding: var(--space-m) var(--space-m) var(--space-l);
+    margin-inline: auto;
+  }
+
+  .footer-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    padding-block-end: var(--space-s);
+    border-bottom: 1px solid rgba(251, 248, 239, 0.08);
+    margin-block-end: var(--space-l);
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    font-family: var(--font-base);
+    color: var(--footer-text);
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 100%;
+    flex-shrink: 0;
+    border: 1px solid color-mix(in srgb, var(--color-light) 50%, transparent);
+  }
+
+  .status-dot--evergreen {
+    background: var(--color-evergreen);
+  }
+
+  .status-dot--growing {
+    background: var(--color-growing);
+  }
+
+  .status-dot--seedlings {
+    background: var(--color-seedling);
+    box-sizing: border-box;
+  }
+
+  .footer-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin-block-end: var(--space-l);
+  }
+
+  .footer-nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-m);
+  }
+
+  .footer-nav-label,
+  .now-label {
+    font-family: var(--font-base);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-block-end: 8px;
+  }
+
+  .footer-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-nav-list li {
+    margin-block-end: var(--space-xs);
+  }
+
+  .footer-nav-link {
+    font-family: var(--font-base);
+    color: var(--color-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-nav-link:hover {
+    color: var(--footer-hover);
+  }
+
+  .footer-nav-link--rss {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .rss-icon {
+    flex-shrink: 0;
+  }
+
+  .footer-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    justify-content: space-between;
+    min-height: 120px;
+  }
+
+  .now-widget {
+    flex-shrink: 0;
+  }
+
+  .now-slides {
+    position: relative;
+    min-height: 4rem;
+  }
+
+  .now-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+  .now-slide.is-active {
+    position: relative;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .now-value {
+    font-family: var(--font-base);
+    font-style: italic;
+    color: var(--footer-heading);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .now-subtext {
+    font-family: var(--font-base);
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: color-mix(in srgb, var(--color-light) 60%, transparent);
+    margin: 0;
+  }
+
+  .now-tabs {
+    display: flex;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-s);
+  }
+
+  .now-tab {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: var(--footer-muted);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+  }
+
+  .now-tab[aria-selected="true"] {
+    background: var(--footer-heading);
+  }
+
+  .now-tab:hover {
+    background: var(--footer-text);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .footer-pattern-wrap {
+    flex: 1;
+    min-height: 80px;
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+
+    & svg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: -50%;
+      opacity: 0.85;
+    }
+  }
+
+  .footer-pattern {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(251, 248, 239, 0.08);
+    padding-block-start: var(--space-m);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-m);
+    font-size: 0.85rem;
+  }
+
+  .footer-bottom-left {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+  }
+
+  .footer-tagline {
+    font-family: var(--font-base);
+    font-style: italic;
+    color: var(--footer-text);
+  }
+
+  .footer-copyright {
+    font-family: var(--font-base);
+    font-weight: normal;
+    color: var(--footer-text);
+  }
+
+  .footer-bottom-right {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+  }
+
+  .footer-last-tended-label {
+    color: var(--footer-muted);
+  }
+
+  .footer-last-tended-value {
+    color: var(--footer-text);
+  }
+
+  @media (max-width: 700px) {
+    .footer-body {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .footer-bottom-right {
+      order: 2;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .footer-nav-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const widget = document.getElementById("footer-now-widget");
+    if (!widget) return;
+
+    const slides = widget.querySelectorAll(".now-slide");
+    const tabs = widget.querySelectorAll(".now-tab");
+    const INTERVAL = 5000;
+    let current = 0;
+    let timer = null;
+
+    function show(index) {
+      current = index;
+      slides.forEach(function (s, i) {
+        s.classList.toggle("is-active", i === index);
+        s.setAttribute("aria-hidden", i === index ? "false" : "true");
+      });
+      tabs.forEach(function (t, i) {
+        t.classList.toggle("is-active", i === index);
+        t.setAttribute("aria-selected", i === index ? "true" : "false");
+      });
+    }
+
+    function next() {
+      show((current + 1) % 2);
+    }
+
+    function start() {
+      timer = setInterval(next, INTERVAL);
+    }
+
+    function stop() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    widget.addEventListener("mouseenter", stop);
+    widget.addEventListener("mouseleave", start);
+    widget.addEventListener("focusin", stop);
+    widget.addEventListener("focusout", start);
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () {
+        show(i);
+        stop();
+        start();
+      });
+    });
+
+    start();
+  })();
+</script>

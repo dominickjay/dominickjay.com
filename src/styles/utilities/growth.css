@@ -2,12 +2,12 @@
   font-family: var(--font-base);
   font-size: 14px;
   letter-spacing: 0.14em;
-  color: #486405;
+  color: var(--growth-option);
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid #486405;
+  border: 1px solid var(--growth-option);
   padding: 6px 12px 1px;
   width: fit-content;
 
@@ -15,4 +15,16 @@
     font-size: 12px;
     padding: 4px 12px 1px;
   }
+}
+
+.growth--evergreen {
+  --growth-option: var(--color-evergreen);
+}
+
+.growth--seedling {
+  --growth-option: var(--color-seedling);
+}
+
+.growth--growing {
+  --growth-option: var(--color-growing);
 }

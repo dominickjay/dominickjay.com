@@ -14,6 +14,7 @@
     gap: var(--space-l);
     flex-wrap: wrap;
     overflow: hidden;
+    margin-block-end: var(--space-m);
   }
 
   .page-header__title {
@@ -54,6 +55,7 @@
 
   @media (max-width: 768px) {
     .now-layout {
+      --gutter: var(--space-s);
       grid-template-columns: 1fr;
     }
   }
@@ -89,7 +91,7 @@
     font-size: 14px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(var(--color-accent-rgb), 0.5);
+    color: rgba(var(--color-accent-rgb), 0.75);
     margin-bottom: var(--space-m);
   }
 
@@ -106,6 +108,7 @@
     .now-snapshot {
       padding: 0;
       position: static;
+      order: 2;
     }
   }
 
@@ -196,7 +199,7 @@
     justify-content: space-between;
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: rgba(var(--color-accent-rgb), 0.75);
+    color: rgba(var(--color-accent-rgb), 0.85);
   }
 
   .watching-item__title {

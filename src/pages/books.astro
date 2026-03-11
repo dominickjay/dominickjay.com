@@ -2,11 +2,8 @@
 // Astro.response.headers.set("Cache-Control", "p currently ublic, max-age=300, s-maxage=86400");
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
+import Footer from "../components/Footer.astro";
 import BookItem from "../components/BookItem.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import moment from "moment";
-import FeatureListItem from "../components/FeatureListItem.astro";
 
 // Simple in-memory cache to avoid rate limiting during development
 const cache = new Map<string, { data: any; expires: number }>();
@@ -508,8 +505,7 @@ const toGo = Math.max(0, goalTotal - readCount.length);
         </div>
       </div>
     </main>
-
-    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+    <Footer />
   </body><script is:inline>
     document.addEventListener("mousemove", (e) => {
       const cur = document.getElementById("cur");

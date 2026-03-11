@@ -3,11 +3,6 @@ import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import { generateCategoryData } from "../utils/utils.mjs";
-import TableOfContents from "../components/TableOfContents.astro";
-import DefaultHero from "../components/DefaultHero.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
@@ -33,9 +28,7 @@ const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
         </div>
       </article>
     </main>
-    <div class="">
-      <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
-    </div>
+    <Footer />
   </body><script
     data-goatcounter="https://dominickjay.goatcounter.com/count"
     async

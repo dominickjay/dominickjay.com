@@ -11,7 +11,7 @@ const { title, description, growth, lastModified, updatedDate } = Astro.props;
       {
         growth && (
           <div class="h-fit h4 flex items-baseline gap-[8px]">
-            <span class="growth">
+            <span class={`growth growth--${growth}`}>
               {growth.charAt(0).toUpperCase() + growth.slice(1)}
             </span>
           </div>

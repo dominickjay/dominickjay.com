@@ -23,6 +23,10 @@
       --space-l: 24px;
       --space-xl: 32px;
       --space-xxl: 48px;
+
+      --color-evergreen: #2e5c1e;
+      --color-seedling: #7a9c4a;
+      --color-growing: #4f7a2e;
     }
   }
 }

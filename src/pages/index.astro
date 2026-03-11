@@ -12,6 +12,7 @@ import { getCollection, render } from "astro:content";
 import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
+import Footer from "../components/Footer.astro";
 
 let rawPosts = [];
 
@@ -36,8 +37,8 @@ const sortDate = ({ post, lastModified }) =>
 postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
 
 const posts = postsWithLastModified.map(({ post, lastModified }) => ({
-	...post,
-	lastModified,
+  ...post,
+  lastModified,
 }));
 
 const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
@@ -50,8 +51,8 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 <Layout
   {...{
     title: "Dom Jay — CSS, JS, and the occasional existential crisis",
-    showName: "false",
-    description: "Dom Jay's digital garden. CSS, JavaScript, and the web platform — written honestly, published impatiently, and updated whenever guilt kicks in.",
+    description:
+      "Dom Jay's digital garden. CSS, JavaScript, and the web platform — written honestly, published impatiently, and updated whenever guilt kicks in.",
   } as any}
 >
   <Header />
@@ -102,5 +103,6 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
       </div>
     </section>
   </main>
-  <PatternBanner fill="rgba(0, 0, 0, 0.8)" />
+  <!-- <PatternBanner fill="rgba(0, 0, 0, 0.8)" /> -->
+  <Footer />
 </Layout>

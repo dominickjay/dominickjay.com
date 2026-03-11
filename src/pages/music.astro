@@ -3,7 +3,7 @@ export const prerender = false;
 
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
+import Footer from "../components/Footer.astro";
 import ArtistCard from "../components/ArtistCard.astro";
 import CurrentlyPlaying from "../components/CurrentlyPlaying";
 import { SITE_DESCRIPTION } from "../consts";
@@ -24,18 +24,26 @@ let artists: Array<{
   image?: Array<{ "#text": string; size?: string }>;
   info?: { image?: Array<{ "#text": string }> };
 }> = [];
-let tracks: Array<{
-  name: string;
-  artist: { "#text": string };
-  image?: Array<{ "#text": string }>;
-}> = [];
+let tracks: Array<{ name: string; artist: string }> = [];
 const trackColor = "#000000";
 
 if (cache?.topTracksJson) {
   try {
     const data = JSON.parse(cache.topTracksJson);
     const list = data?.toptracks?.track;
-    tracks = Array.isArray(list) ? list.slice(0, 10) : [];
+    const raw = Array.isArray(list) ? list.slice(0, 10) : [];
+    tracks = raw.map(
+      (t: {
+        name?: string;
+        artist?: { "#text"?: string; name?: string } | string;
+      }) => ({
+        name: t.name ?? "",
+        artist:
+          typeof t.artist === "string"
+            ? t.artist
+            : (t.artist?.["#text"] ?? t.artist?.name ?? ""),
+      }),
+    );
   } catch (_) {
     tracks = [];
   }
@@ -89,7 +97,10 @@ if (apiKey && fanartApiKey) {
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="On rotation" description="What I've been listening to lately — pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids." />
+    <BaseHead
+      title="On rotation"
+      description="What I've been listening to lately — pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids."
+    />
     <script>
       import ColorThief from "colorthief";
       import { initializeColorExtraction } from "../lib/colorExtraction";
@@ -161,7 +172,7 @@ if (apiKey && fanartApiKey) {
         </div>
       </div>
     </main>
-    <PatternBanner fill="rgba(0, 0, 0, 0.64)" />
+    <Footer />
   </body>
 </html>
 
