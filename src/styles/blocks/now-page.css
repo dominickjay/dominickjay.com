@@ -122,7 +122,7 @@
   .snap-card__head {
     padding: var(--space-s) var(--space-m);
     border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.08);
-    background: rgba(var(--color-accent-rgb), 0.03);
+    background: rgb(from var(--color-dark) r g b / 0.85);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -133,7 +133,7 @@
     font-size: 0.75rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgb(from var(--color-dark) r g b / 0.85);
+    color: rgb(from var(--color-light) r g b / 0.85);
   }
 
   .snap-card__source {
@@ -158,7 +158,7 @@
     font-size: 12px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #4a9e6e;
+    color: var(--feature-color);
     margin-bottom: var(--space-xs);
   }
 

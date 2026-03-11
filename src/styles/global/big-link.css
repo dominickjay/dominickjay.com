@@ -2,8 +2,9 @@
   .big-link {
     border: none; /* border lives on ::before */
     position: relative;
-		height: fit-content;
-		padding: var(--space-s) var(--space-m);
+    height: fit-content;
+    padding: var(--space-s) var(--space-m);
+    width: fit-content;
   }
 
   .big-link::before {
