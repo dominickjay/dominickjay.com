@@ -97,7 +97,7 @@ const randomPost = posts[random];
 	      document.body.classList.remove("cur-sm"),
 	    );
 	  });
-	  document.querySelectorAll("a:not([class]), button, .post-item").forEach((el) => {
+	  document.querySelectorAll("a:not([class]), .home-link, button, .post-item, .big-link").forEach((el) => {
 	    el.addEventListener("mouseenter", () =>
      	document.body.classList.remove("cur-sm"),
 	      document.body.classList.add("cur-lg"),

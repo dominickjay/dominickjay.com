@@ -29,7 +29,21 @@ const tools = defineCollection({
   })
 });
 
+const now = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.date(),
+    tracks: z.array(
+      z.object({ title: z.string(), artist: z.string() })
+    ).optional(),
+    draft: z.boolean().optional(),
+    excerpt: z.string().optional()
+  })
+});
+
 export const collections = {
   writing,
-  tools
+  tools,
+  now
 };

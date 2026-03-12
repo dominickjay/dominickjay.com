@@ -6,8 +6,8 @@
   /* ── CURSOR ── */
   #cur {
     position: fixed;
-    width: 14px;
-    height: 14px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     background: var(--color-light);
     pointer-events: none;
