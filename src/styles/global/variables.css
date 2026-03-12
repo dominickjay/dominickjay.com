@@ -9,6 +9,8 @@
         #222222 0%,
         var(--feature-color, #2c5364) 100%
       );
+      --color-surface: #f0ece0;
+      --color-surface-2: #e8e3d5;
       --color-accent: #2c5364;
       --color-accent-rgb: 44, 83, 100;
 

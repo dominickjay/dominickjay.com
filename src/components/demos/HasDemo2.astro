@@ -1,0 +1,159 @@
+<div class="has-demo-2">
+  <div class="cards-wrapper">
+    <div class="cards-grid">
+      <div class="card-item">
+        <input type="checkbox" id="card-1" name="plan">
+        <label for="card-1">
+          <span class="card-name">Starter</span>
+          <span class="card-meta">Free forever</span>
+        </label>
+      </div>
+      <div class="card-item">
+        <input type="checkbox" id="card-2" name="plan">
+        <label for="card-2">
+          <span class="card-name">Pro</span>
+          <span class="card-meta">£12/month</span>
+        </label>
+      </div>
+      <div class="card-item">
+        <input type="checkbox" id="card-3" name="plan">
+        <label for="card-3">
+          <span class="card-name">Team</span>
+          <span class="card-meta">£49/month</span>
+        </label>
+      </div>
+      <div class="card-item">
+        <input type="checkbox" id="card-4" name="plan">
+        <label for="card-4">
+          <span class="card-name">Enterprise</span>
+          <span class="card-meta">Custom pricing</span>
+        </label>
+      </div>
+    </div>
+    <p class="card-selection-status">
+      <span class="default-msg">Tap any card to select it</span>
+      <span class="selected-msg">✓ Plan selected</span>
+    </p>
+  </div>
+</div>
+
+<style>
+
+	@scope (.has-demo-2) {
+		:scope {
+			--bg: var(--color-light);
+	    --surface: #f0ece0;
+	    --surface-2: #e8e3d5;
+	    --border: color-mix(in srgb, var(--color-dark) 50%, transparent);
+	    --text: var(--color-dark);
+	    --text-dim: #6b6659;
+	    --accent: #b94a38;
+			--valid: #1e6b45;
+			--invalid: #b33a2a;
+	    --mono: var(--font-mono);
+	    --serif: var(--font-base);
+	    --r: 0;
+
+			background: var(--surface);
+	    border: 1px solid var(--border);
+	    padding: var(--space-xl) var(--space-l);
+	    position: relative;
+	    overflow: hidden;
+		}
+
+		/* ── Cards grid ── */
+		.cards-grid {
+			display: flex;
+			flex-wrap: wrap;
+		  gap: var(--space-s);
+		}
+
+		.card-item {
+		  position: relative;
+			width: 100%;
+		}
+
+		.card-item input[type="checkbox"] {
+		  position: absolute;
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		  pointer-events: none;
+		}
+
+		.card-item label {
+		  display: block;
+		  background: var(--surface-2);
+		  border: 1.5px solid var(--border);
+		  padding: var(--space-m) var(--space-s);
+		  cursor: pointer;
+		  transition: border-color 0.2s, opacity 0.25s, box-shadow 0.2s, background 0.2s;
+		  user-select: none;
+		  -webkit-tap-highlight-color: transparent;
+		  touch-action: manipulation;
+		  text-align: center;
+		}
+
+		.card-item label:active {
+		  transform: scale(0.97);
+		}
+
+		.card-name {
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  font-weight: 500;
+		  display: block;
+		  margin-bottom: var(--space-xs);
+		  color: var(--text);
+		  transition: color 0.2s;
+		}
+
+		.card-meta {
+			font-family: var(--font-base);
+			font-size: 10px;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		  color: var(--text-muted);
+		  display: block;
+		}
+
+		/* ── :has() — checked card gets accent border ── */
+		.card-item:has(input:checked) label {
+		  border-color: var(--color-accent);
+		  box-shadow: 0 0 0 1px var(--color-accent), 0 4px 16px rgba(44, 83, 100, 0.12);
+		  background: rgba(44, 83, 100, 0.06);
+		}
+
+		.card-item:has(input:checked) .card-name {
+		  color: var(--color-accent);
+		}
+
+		/* ── :has() — sibling cards dim when any is selected ── */
+		.cards-grid:has(input:checked) .card-item:not(:has(input:checked)) label {
+		  opacity: 0.3;
+		}
+
+		.cards-grid:has(input:checked) .card-item:not(:has(input:checked)) label:hover {
+		  opacity: 0.6;
+		}
+
+		/* ── Status message ── */
+		.card-selection-status {
+		  margin-top: var(--space-m);
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  color: var(--text-muted);
+		  min-height: 1.4em;
+			border: 1px solid color-mix(in srgb, var(--color-dark) 85%, transparent);
+			width: fit-content;
+			padding: var(--space-s);
+		}
+
+		.cards-wrapper:has(input:checked) .card-selection-status .default-msg { display: none; }
+		.selected-msg { display: none; }
+		.cards-wrapper:has(input:checked) .selected-msg {
+		  display: inline;
+		  color: var(--color-accent);
+		}
+	}
+</style>

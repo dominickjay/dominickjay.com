@@ -21,6 +21,7 @@
     .post-title {
       font-family: var(--font-base);
       font-size: 22px;
+      text-wrap: pretty;
       letter-spacing: -0.01em;
       line-height: 1.25;
       color: var(--color-dark);

@@ -1,0 +1,182 @@
+<div class="has-demo-1">
+  <form novalidate="">
+    <div class="field-group">
+      <label for="demo-name">Your name</label>
+      <input type="text" id="demo-name" name="name" placeholder="e.g. Dominick Jay" minlength="2" required="" autocomplete="name">
+      <span class="field-hint">At least 2 characters</span>
+    </div>
+
+    <div class="field-group">
+      <label for="demo-email">Email address</label>
+      <input type="email" id="demo-email" name="email" placeholder="you@example.com" required="" autocomplete="email">
+      <span class="field-hint">Must be a valid email address</span>
+    </div>
+
+    <div class="field-group">
+      <label for="demo-message">Message</label>
+      <textarea id="demo-message" name="message" placeholder="What are you building?" autocomplete="off"></textarea>
+      <span class="field-hint">Optional — tell us more</span>
+    </div>
+
+    <div class="form-footer">
+      <button type="submit" class="submit-btn">Send message</button>
+      <span class="form-status" aria-live="polite">
+        <span class="valid-msg">✓ Ready to send</span>
+      </span>
+    </div>
+  </form>
+</div>
+
+<style>
+
+	@scope (.has-demo-1) {
+		:scope {
+			--bg: var(--color-light);
+	    --surface: #f0ece0;
+	    --surface-2: #e8e3d5;
+	    --border: color-mix(in srgb, var(--color-dark) 50%, transparent);
+	    --text: var(--color-dark);
+	    --text-dim: #6b6659;
+	    --accent: #b94a38;
+			--valid: #1e6b45;
+			--invalid: #b33a2a;
+	    --mono: var(--font-mono);
+	    --serif: var(--font-base);
+	    --r: 0;
+
+			background: var(--surface);
+	    border: 1px solid var(--border);
+	    padding: var(--space-xl) var(--space-l);
+	    position: relative;
+	    overflow: hidden;
+		}
+
+		/* ── Form ── */
+		form {
+		  display: flex;
+		  flex-direction: column;
+		  gap: var(--space-l);
+		}
+
+		.field-group {
+		  display: flex;
+		  flex-direction: column;
+		  gap: var(--space-xs);
+		}
+
+		.field-group label {
+		  font-family: var(--font-mono);
+		  transition: color 0.2s;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+		}
+
+		.field-group input,
+		.field-group textarea {
+		  background: var(--bg);
+		  border: 1.5px solid var(--border);
+		  color: var(--text);
+		  font-family: var(--font-mono);
+		  font-size: 0.9rem;
+		  padding: 0.65rem 0.85rem;
+		  outline: none;
+		  transition: border-color 0.2s, box-shadow 0.2s;
+		  width: 100%;
+		  -webkit-appearance: none;
+		}
+
+		.field-group textarea {
+		  resize: vertical;
+		  min-height: 80px;
+		}
+
+		.field-group input:focus,
+		.field-group textarea:focus {
+		  border-color: var(--color-accent);
+		  box-shadow: 0 0 0 3px rgba(44, 83, 100, 0.12);
+		}
+
+		/* ── :has() — label colour reacts to field validity ── */
+		.field-group:has(input:not(:placeholder-shown):valid) label {
+		  color: var(--valid);
+		}
+
+		.field-group:has(input:not(:placeholder-shown):invalid) label {
+		  color: var(--invalid);
+		}
+
+		/* ── :has() — input border reacts to validity ── */
+		.field-group input:not(:placeholder-shown):valid {
+		  border-color: var(--valid);
+		}
+
+		.field-group input:not(:placeholder-shown):invalid {
+		  border-color: var(--invalid);
+		}
+
+		/* ── :has() — hint appears on focus ── */
+		.field-hint {
+		  font-family: var(--font-mono);
+		  font-size: 0.65rem;
+		  color: transparent;
+		  transition: color 0.2s;
+		  min-height: 1em;
+		  line-height: 1.4;
+		}
+
+		.field-group:has(input:focus) .field-hint,
+		.field-group:has(textarea:focus) .field-hint {
+		  color: var(--text-muted);
+		}
+
+		.field-group:has(input:not(:placeholder-shown):invalid) .field-hint {
+		  color: var(--invalid);
+		}
+
+		/* ── :has() — submit disabled when any input invalid ── */
+		.form-footer {
+		  display: flex;
+		  align-items: center;
+		  gap: var(--space-m);
+		  flex-wrap: wrap;
+		}
+
+		.submit-btn {
+		  background: var(--color-dark);
+		  color: var(--color-light);
+		  border: none;
+		  font-family: var(--font-base);
+		  font-weight: 400;
+		  font-size: 0.9rem;
+		  padding: 0.7rem var(--space-l);
+		  cursor: pointer;
+		  transition: background 0.2s, transform 0.1s;
+		  -webkit-appearance: none;
+		  touch-action: manipulation;
+		  min-height: 44px;
+		}
+
+		.submit-btn:hover { background: var(--color-accent); }
+		.submit-btn:active { transform: scale(0.98); }
+
+		form:has(input:invalid) .submit-btn {
+		  opacity: 0.3;
+		  pointer-events: none;
+		  cursor: not-allowed;
+		}
+
+		/* ── :has() — status message reacts to form state ── */
+		.form-status {
+		  font-family: var(--font-mono);
+		  font-size: 0.68rem;
+		  color: transparent;
+		  transition: color 0.2s;
+		}
+
+		form:has(input:not(:placeholder-shown)):not(:has(input:invalid)) .form-status {
+		  color: var(--valid);
+		}
+	}
+</style>

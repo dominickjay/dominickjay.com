@@ -1,0 +1,232 @@
+<div class="has-demo-3">
+  <div class="quantity-controls">
+    <button class="qty-btn" id="add-card" aria-label="Add card">+ Add card</button>
+    <button class="qty-btn" id="remove-card" aria-label="Remove card">− Remove</button>
+    <span class="qty-count" id="qty-counter" aria-live="polite">2 cards</span>
+  </div>
+
+  <div class="qty-grid" id="qty-grid">
+    <div class="qty-card"><strong>Card 01</strong><span>Design tokens</span></div>
+    <div class="qty-card"><strong>Card 02</strong><span>Components</span></div>
+  </div>
+
+  <div class="layout-indicator" aria-live="polite">
+    <span>Layout:</span>
+    <span class="layout-pill" id="pill-2">2-col</span>
+    <span class="layout-pill" id="pill-3">3-col</span>
+    <span class="layout-pill" id="pill-2b">back to 2-col</span>
+    <span class="layout-pill" id="pill-3b">back to 3-col</span>
+  </div>
+</div>
+
+<style>
+
+	@scope (.has-demo-3) {
+		:scope {
+			--bg: var(--color-light);
+	    --surface: #f0ece0;
+	    --surface-2: #e8e3d5;
+	    --border: color-mix(in srgb, var(--color-dark) 50%, transparent);
+	    --text: var(--color-dark);
+	    --text-dim: #6b6659;
+	    --accent: #b94a38;
+			--valid: #1e6b45;
+			--invalid: #b33a2a;
+	    --mono: var(--font-mono);
+	    --serif: var(--font-base);
+	    --r: 0;
+
+			background: var(--surface);
+	    border: 1px solid var(--border);
+	    padding: var(--space-xl) var(--space-l);
+	    position: relative;
+	    overflow: hidden;
+		}
+
+		/* ── Controls ── */
+		.quantity-controls {
+		  display: flex;
+		  gap: var(--space-s);
+		  margin-bottom: var(--space-l);
+		  align-items: center;
+		  flex-wrap: wrap;
+		}
+
+		.qty-btn {
+		  background: var(--color-dark);
+		  color: var(--color-light);
+		  border: none;
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  padding: var(--space-s) var(--space-m);
+		  cursor: pointer;
+		  transition: background 0.15s, transform 0.1s;
+		  touch-action: manipulation;
+		  -webkit-tap-highlight-color: transparent;
+		  min-width: 44px;
+		  min-height: 44px;
+		}
+
+		.qty-btn:hover { background: var(--color-accent); }
+		.qty-btn:active { transform: scale(0.96); }
+		.qty-btn:disabled { opacity: 0.3; pointer-events: none; }
+
+		.qty-count {
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  color: var(--color-accent);
+		  background: rgba(44, 83, 100, 0.1);
+		  border: 1px solid rgba(44, 83, 100, 0.2);
+		  padding: 0.2em 0.65em;
+			margin-inline-start: auto;
+		}
+
+		/* ── Grid ── */
+		.qty-grid {
+		  display: grid;
+		  grid-template-columns: repeat(2, 1fr);
+		  gap: var(--space-s);
+		}
+
+		/* ── :has() — layout switches based on child count ── */
+		.qty-grid:has(.qty-card:nth-child(3)) {
+		  grid-template-columns: repeat(3, 1fr);
+		}
+
+		.qty-grid:has(.qty-card:nth-child(5)) {
+		  grid-template-columns: repeat(2, 1fr);
+		}
+
+		.qty-grid:has(.qty-card:nth-child(7)) {
+		  grid-template-columns: repeat(3, 1fr);
+		}
+
+		.qty-card {
+		  background: var(--surface-2);
+		  border: 1px solid var(--border);
+		  padding: var(--space-m) var(--space-s);
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  color: var(--text-muted);
+		  display: flex;
+		  flex-direction: column;
+		  gap: var(--space-xs);
+		  min-height: 60px;
+		  animation: cardIn 0.22s ease both;
+		}
+
+		@keyframes cardIn {
+		  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+		  to   { opacity: 1; transform: none; }
+		}
+
+		.qty-card strong {
+		  color: var(--text);
+		  font-size: 1rem;
+		}
+
+		/* ── Layout indicator ── */
+		.layout-indicator {
+		  display: flex;
+		  align-items: center;
+		  gap: var(--space-s);
+		  margin-top: var(--space-m);
+		  flex-wrap: wrap;
+		  font-family: var(--font-mono);
+		  font-size: 0.85rem;
+		  color: var(--text-muted);
+		}
+
+		.layout-pill {
+		  padding: 0.2em 0.6em;
+		  border: 1px solid var(--border);
+		  color: var(--text-muted);
+		  font-size: 0.85rem;
+		  transition: background 0.2s, color 0.2s, border-color 0.2s;
+		}
+
+		.layout-pill.active {
+		  background: rgba(44, 83, 100, 0.1);
+		  border-color: var(--color-accent);
+		  color: var(--color-accent);
+		}
+	}
+
+	/* Outside @scope — global so JS-created cards inherit it */
+	:global(.has-demo-3 .qty-card) {
+	  background: var(--surface-2);
+	  border: 1px solid var(--border);
+	  padding: var(--space-m) var(--space-s);
+	  font-family: var(--font-mono);
+	  font-size: 0.85rem;
+	  color: var(--text-muted);
+	  display: flex;
+	  flex-direction: column;
+	  gap: var(--space-xs);
+	  min-height: 60px;
+	  animation: cardIn 0.22s ease both;
+	}
+
+	:global(.has-demo-3 .qty-card strong) {
+	  color: var(--text);
+	  font-size: 1rem;
+	}
+
+	/* @keyframes must be global and unwrapped */
+	@keyframes cardIn {
+	  from { opacity: 0; transform: translateY(6px) scale(0.97); }
+	  to   { opacity: 1; transform: none; }
+	}
+</style>
+
+<script>
+  const grid      = document.getElementById('qty-grid');
+  const counter   = document.getElementById('qty-counter');
+  const addBtn    = document.getElementById('add-card');
+  const removeBtn = document.getElementById('remove-card');
+
+  const cardTitles = [
+    ['Card 03','Typography'], ['Card 04','Spacing'], ['Card 05','Motion'],
+    ['Card 06','Colour'],     ['Card 07','Layout'],  ['Card 08','Patterns'],
+    ['Card 09','Icons']
+  ];
+
+  const pills = {
+    2:   document.getElementById('pill-2'),
+    3:   document.getElementById('pill-3'),
+    '2b': document.getElementById('pill-2b'),
+    '3b': document.getElementById('pill-3b'),
+  };
+
+  function update() {
+    const count = grid.children.length;
+    counter.textContent = `${count} card${count !== 1 ? 's' : ''}`;
+    addBtn.disabled    = count >= 9;
+    removeBtn.disabled = count <= 1;
+
+    Object.values(pills).forEach(p => p.classList.remove('active'));
+    if      (count >= 7) pills['3b'].classList.add('active');
+    else if (count >= 5) pills['2b'].classList.add('active');
+    else if (count >= 3) pills['3'].classList.add('active');
+    else                 pills['2'].classList.add('active');
+  }
+
+  addBtn.addEventListener('click', () => {
+    const count = grid.children.length;
+    if (count >= 9) return;
+    const [title, sub] = cardTitles[count - 2] || [`Card ${String(count + 1).padStart(2, '0')}`, 'Item'];
+    const card = document.createElement('div');
+    card.className = 'qty-card';
+    card.innerHTML = `<strong>${title}</strong><span>${sub}</span>`;
+    grid.appendChild(card);
+    update();
+  });
+
+  removeBtn.addEventListener('click', () => {
+    if (grid.children.length <= 1) return;
+    grid.removeChild(grid.lastElementChild);
+    update();
+  });
+
+  update();
+</script>
