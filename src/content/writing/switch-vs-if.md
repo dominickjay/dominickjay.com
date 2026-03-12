@@ -10,7 +10,7 @@ draft: true
 
 ## Introduction
 
-When working on agency websites, we often face decisions about which control flow structure to use. Both `switch` and `if` statements are fundamental to JavaScript, but they serve different purposes and have distinct use cases. Let's explore when and why you might choose one over the other.
+When working on agency websites, we often face decisions about which control flow structure to use. Both `switch` and `if` statements are fundamental to JavaScript, but they serve different purposes and have distinct use cases. 
 
 ## If Statements
 

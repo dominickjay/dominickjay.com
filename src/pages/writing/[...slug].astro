@@ -200,6 +200,7 @@ const compatDataStatus = compatData?.status;
 >
   <div class="min-w-0 flow prose">
     <Content />
+    {musicData && <MusicGrid musicData={musicData} />}
   </div>
   <div class="post-recommendations flex flex-col justify-end">
     <div
@@ -254,8 +255,8 @@ const compatDataStatus = compatData?.status;
       </div>
     </div>
   </div>
-  {musicData && <MusicGrid musicData={musicData} />}
-  {raindropData && <RaindropGrid raindropData={raindropData} />}
+  <!-- {musicData && <MusicGrid musicData={musicData} />}
+  {raindropData && <RaindropGrid raindropData={raindropData} />} -->
 </BlogPost>
 <script is:inline>
   const ICON_COPY = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
