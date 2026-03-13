@@ -4,15 +4,19 @@
 import "../styles/global.css";
 
 interface Props {
-	title: string;
-	description: string;
-	image?: string;
+  title: string;
+  description: string;
+  image?: string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, showName = true, image = "/seo-image.png" } = Astro.props;
-
+const {
+  title,
+  description,
+  showName = true,
+  image = "/seo-image.png",
+} = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -23,18 +27,18 @@ const { title, description, showName = true, image = "/seo-image.png" } = Astro.
 
 <!-- Font preloads -->
 <link
-	rel="preload"
-	href="/fonts/InknutAntiqua-Regular.woff"
-	as="font"
-	type="font/woff"
-	crossorigin
+  rel="preload"
+  href="/fonts/InknutAntiqua-Regular.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
 />
 <link
-	rel="preload"
-	href="/fonts/InknutAntiqua-Light.woff"
-	as="font"
-	type="font/woff"
-	crossorigin
+  rel="preload"
+  href="/fonts/InknutAntiqua-Light.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
 />
 
 <!-- Canonical URL -->
@@ -60,15 +64,17 @@ const { title, description, showName = true, image = "/seo-image.png" } = Astro.
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <script>
-	import collapse from "@alpinejs/collapse";
-	import focus from "@alpinejs/focus";
+  import collapse from "@alpinejs/collapse";
+  import focus from "@alpinejs/focus";
+  import { initScramble } from "../utils/scramble.js";
+  document.addEventListener("DOMContentLoaded", initScramble);
 
-	document.addEventListener("alpine:init", () => {
-		// @ts-ignore
-		const Alpine = window.Alpine;
-		if (Alpine) {
-			Alpine.plugin(collapse);
-			Alpine.plugin(focus);
-		}
-	});
+  document.addEventListener("alpine:init", () => {
+    // @ts-ignore
+    const Alpine = window.Alpine;
+    if (Alpine) {
+      Alpine.plugin(collapse);
+      Alpine.plugin(focus);
+    }
+  });
 </script>
