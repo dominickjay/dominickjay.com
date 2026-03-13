@@ -1,0 +1,17 @@
+@layer components {
+  @layer base {
+    :has(> .pattern) {
+      position: absolute;
+      margin-inline: auto;
+      left: -312px;
+      top: -2px;
+      bottom: 0;
+      right: 0;
+    }
+    @scope (.pattern) {
+      :scope {
+        opacity: 0.1;
+      }
+    }
+  }
+}

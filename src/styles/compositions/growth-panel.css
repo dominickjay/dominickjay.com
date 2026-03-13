@@ -1,0 +1,47 @@
+@layer components {
+  @layer base {
+    @scope (.growth-panel) {
+      :scope {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+      }
+
+      .growth-panel__item {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: var(--space-m);
+      }
+
+      .growth-panel__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-s);
+
+        @media (width < 768px) {
+          flex-direction: column;
+        }
+      }
+    }
+
+    @scope (.growth-panel) {
+      .growth-panel__item {
+        --flow-space: var(--space-xs);
+      }
+
+      .growth-panel__item:first-child {
+        padding-block-start: 0;
+        border-block-start: none;
+      }
+
+      .growth-panel__description {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: var(--space-s);
+        max-inline-size: 768px;
+      }
+    }
+  }
+}

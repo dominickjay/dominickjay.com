@@ -9,11 +9,10 @@
 @import "./global/typography.css";
 @import "./global/variables.css";
 @import "./global/global-styles.css";
-@import "./global/big-link.css";
-
+@import "./global/animations.css";
 /* @import-glob 'compositions/*.css'; */
-@import "./compositions/grid.css";
 @import "./compositions/container.css";
+@import "./compositions/grid.css";
 @import "./compositions/centered.css";
 @import "./compositions/cluster.css";
 @import "./compositions/flow.css";
@@ -21,12 +20,16 @@
 @import "./compositions/marquee.css";
 @import "./compositions/sidebar.css";
 @import "./compositions/switcher.css";
+
 @import "./compositions/hero.css";
 @import "./compositions/feature-panel.css";
+@import "./compositions/growth-panel.css";
+@import "./compositions/testimonials.css";
 
 /* @import-glob 'blocks/*.css'; */
 
 @import "./blocks/pages.css";
+@import "./blocks/big-link.css";
 @import "./blocks/site-head.css";
 @import "./blocks/header.css";
 @import "./blocks/navigation.css";
@@ -64,6 +67,8 @@
 
 @import "./blocks/hero.css";
 @import "./blocks/featured-panel.css";
+@import "./blocks/pattern.css";
+@import "./blocks/testimonials.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";

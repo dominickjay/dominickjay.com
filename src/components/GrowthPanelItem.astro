@@ -1,0 +1,44 @@
+---
+import FeatureListItem from "../components/FeatureListItem.astro";
+import BigLink from "../components/BigLink.astro";
+
+const { section } = Astro.props;
+
+
+---
+<div class="growth-panel__item flow">
+  <div class="max-md:flex-col flex justify-between gap-[var(--space-s)]">
+    <div
+      class="growth-panel__description"
+    >
+      <h3 class="h3">{section.title}</h3>
+      <p>
+        {section.description}
+      </p>
+    </div>
+    <BigLink
+      href={`/writing?growth=${section.query}`}
+      text={`See all ${section.query} posts`}
+    />
+  </div>
+  <ol
+    class="post-list feature-list"
+  >
+    {
+    	section.posts
+        .slice(0, 5)
+        .map((post: any, i: number) => (
+          <FeatureListItem
+            i={String(i + 1).padStart(2, "0")}
+            title={post.data.title}
+            description={post.data.description}
+            tags={post.data.tags}
+            pubDate={post.data.pubDate}
+            lastModified={post.lastModified}
+            id={post.id}
+            theme="narrow"
+          />
+        ))
+    }
+  </ol>
+</div>

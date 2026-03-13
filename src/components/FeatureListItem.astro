@@ -30,7 +30,7 @@ const {
         <span class="post-topics-label">{tags.join(", ")}</span>
         {
           growth !== undefined && (
-            <span class={`growth growth--${growth}`} title={growth}>
+            <span class={`growth`} data-growth={growth}>
               {growth}
             </span>
           )

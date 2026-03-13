@@ -47,8 +47,12 @@
   .post-meta {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: var(--space-m);
     flex-wrap: wrap;
+
+    @media (width < 640px) {
+      gap: var(--space-s);
+    }
   }
 
   time {

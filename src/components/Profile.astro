@@ -3,6 +3,7 @@ import { Picture } from "astro:assets";
 import { PROFILE_IMAGES } from "../consts";
 
 const random = Astro.props.random ? Astro.props.random : false;
+const sticky = Astro.props.sticky ? Astro.props.sticky : false;
 
 function getRandom() {
 	return Math.floor(Math.random() * PROFILE_IMAGES.length);
@@ -12,7 +13,7 @@ const active = random ? getRandom() : 0;
 const selectedImage = PROFILE_IMAGES[active];
 ---
 
-<div class="profile">
+<div class="profile" data-sticky={sticky ? "true" : undefined}>
 	<Picture
 		layout="full-width"
 		src={selectedImage.src}
