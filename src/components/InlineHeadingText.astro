@@ -8,23 +8,32 @@ const words = heading.split(/\s+/).map((word, i) => ({
 }));
 ---
 
-<h1 id="heroTitle" class="heading-tagline" x-data="headingScramble()">
-  {
-    words.map((w, i) => (
-      <>
-        <span
-          class:list={["sw", w.italic && "italic gradient-text"]}
-          style={[w.italic && "background-image: var(--color-gradient)"]}
-          data-word={w.text}
-          x-on:mouseenter="scramble($event.currentTarget)"
-        >
-          {w.text}
-        </span>
-        {i < words.length - 1 ? " " : ""}
-      </>
-    ))
-  }
-</h1>
+<div class="inline-heading-text">
+	<h1
+		id="headingTagline"
+		class="heading-tagline"
+		x-data="headingScramble()">
+	  {
+	    words.map((w, i) => (
+	      <>
+	        <span
+	          class:list={["sw", w.italic && "italic gradient-text"]}
+	          style={[w.italic && "background-image: var(--color-gradient)"]}
+	          data-word={w.text}
+	          x-on:mouseenter="scramble($event.currentTarget)"
+	        >
+	          {w.text}
+	        </span>
+	        {i < words.length - 1 ? " " : ""}
+	      </>
+	    ))
+	  }
+	</h1>
+
+	<h2 class="intro">
+	  {text}
+	</h2>
+</div>
 
 <script>
   const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%·—";
@@ -79,7 +88,3 @@ const words = heading.split(/\s+/).map((word, i) => ({
     font-style: italic;
   }
 </style>
-
-<div class="intro shrink-0">
-  {text}
-</div>

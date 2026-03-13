@@ -21,6 +21,9 @@
 @import "./compositions/marquee.css";
 @import "./compositions/sidebar.css";
 @import "./compositions/switcher.css";
+@import "./compositions/hero.css";
+@import "./compositions/feature-panel.css";
+
 /* @import-glob 'blocks/*.css'; */
 
 @import "./blocks/pages.css";
@@ -58,6 +61,9 @@
 @import "./blocks/now-page.css";
 @import "./blocks/inline-callout.css";
 @import "./blocks/series-strip.css";
+
+@import "./blocks/hero.css";
+@import "./blocks/featured-panel.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";
