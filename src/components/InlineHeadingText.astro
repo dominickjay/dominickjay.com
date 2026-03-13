@@ -1,6 +1,7 @@
 ---
 /** @type {{ heading: string; text: string; italicIndices?: number[] }} */
 const { heading, text, italicIndices = [] } = Astro.props;
+
 /** @type {Array<{ text: string; italic: boolean }>} */
 const words = heading.split(/\s+/).map((word, i) => ({
   text: word,
@@ -8,36 +9,31 @@ const words = heading.split(/\s+/).map((word, i) => ({
 }));
 ---
 
-<h1 id="heroTitle" class="heading-tagline" data-scramble-on-load>
-  {
-    words.map((w, i) => (
-      <>
-        <span
-          class:list={["sw", w.italic && "italic gradient-text"]}
-          style={
-            w.italic ? "background-image: var(--color-gradient)" : undefined
-          }
-          data-scramble={w.text}
-        >
-          {w.text}
-        </span>
-        {i < words.length - 1 ? " " : ""}
-      </>
-    ))
-  }
-</h1>
+<div class="inline-heading-text">
+	<h1
+		id="headingTagline"
+		class="heading-tagline"
+	 	data-scramble-on-load
+	>
+	  {
+	   words.map((w, i) => (
+	      <>
+	        <span
+	          class:list={["sw", w.italic && "italic gradient-text"]}
+	          style={
+	            w.italic ? "background-image: var(--color-gradient)" : undefined
+	          }
+	          data-scramble={w.text}
+	        >
+	          {w.text}
+	        </span>
+	        {i < words.length - 1 ? " " : ""}
+	      </>
+	    ))
+	  }
+	</h1>
 
-<style>
-  .sw {
-    display: inline-block;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .sw.italic {
-    font-style: italic;
-  }
-</style>
-
-<div class="intro shrink-0">
-  {text}
+	<h2 class="intro">
+	  {text}
+	</h2>
 </div>

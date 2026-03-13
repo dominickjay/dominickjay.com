@@ -20,5 +20,4 @@ try {
 } catch {
   data = raw.slice(0, 200);
 }
-console.log("Body:", typeof data === "string" ? data : JSON.stringify(data, null, 2));
 process.exit(res.ok ? 0 : 1);
