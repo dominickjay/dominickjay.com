@@ -13,6 +13,7 @@
       .hero__content {
         display: flex;
         justify-content: space-between;
+        align-items: flex-end;
         inline-size: 100%;
         grid-column: 1 / span 2;
       }
