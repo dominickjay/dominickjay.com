@@ -13,24 +13,22 @@
   }
 
   body {
-    background: var(--color-light);
     color: var(--color-primary);
     font-family: var(--font-base);
     font-size-adjust: from-font;
-    margin: 0;
     font-weight: 300;
     font-size: clamp(15px, 1.5vw, 16px);
     line-height: 1.6;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
-    min-height: 100svh;
+    text-wrap: balance;
   }
 
   main {
     flex: 1 0 auto;
     position: relative;
     overflow: clip;
-    /* padding-block-end: 64px; */
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -46,11 +44,11 @@
   a:not([class]) {
     font-style: italic;
     font-weight: 600;
-    color: #2c5364;
+    color: var(--color-accent);
     text-decoration: none;
     background-image: linear-gradient(
-      rgba(44, 83, 100, 0.5),
-      rgba(44, 83, 100, 0.5)
+      rgba(var(--color-accent-rgb), 0.5),
+      rgba(var(--color-accent-rgb), 0.5)
     );
     background-size: 0% 100%;
     background-repeat: no-repeat;

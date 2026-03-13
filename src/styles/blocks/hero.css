@@ -1,0 +1,56 @@
+@layer components {
+  @layer base {
+    @scope (.hero) {
+      :scope {
+        position: relative;
+        padding-block: 64px;
+
+        @media (width < 768px) {
+          padding-block: 32px;
+        }
+      }
+
+      .hero__content {
+        display: flex;
+        justify-content: space-between;
+        inline-size: 100%;
+        grid-column: 1 / span 2;
+      }
+
+      .hero__media {
+        position: relative;
+        overflow: hidden;
+        grid-column: 1 / span 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 32px;
+
+        @media (width < 768px) {
+          flex-direction: column;
+          gap: 16px;
+          align-items: flex-start;
+        }
+
+        .profile {
+          flex: 1 1 450px;
+          aspect-ratio: 5 / 4;
+
+          @media (width < 768px) {
+            max-inline-size: 100%;
+            aspect-ratio: 5 / 4;
+            flex: 1 1 auto;
+          }
+        }
+
+        .featured-panel {
+          max-inline-size: 650px;
+
+          @media (width < 768px) {
+            max-inline-size: 100%;
+          }
+        }
+      }
+    }
+  }
+}

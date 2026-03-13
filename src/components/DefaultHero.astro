@@ -1,5 +1,13 @@
 ---
 const { title, description, growth, lastModified, updatedDate } = Astro.props;
+const date = lastModified ?? updatedDate;
+const formattedDate =
+  date &&
+  date.toLocaleDateString("en-us", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 ---
 
 <header class="relative py-[32px]">
@@ -11,29 +19,29 @@ const { title, description, growth, lastModified, updatedDate } = Astro.props;
       {
         growth && (
           <div class="h-fit h4 flex items-baseline gap-[8px]">
-            <span class={`growth growth--${growth}`}>
+            <span class={`growth`} data-growth={growth}>
               {growth.charAt(0).toUpperCase() + growth.slice(1)}
             </span>
           </div>
         )
       }
-      {(lastModified ?? updatedDate) && (
-        <div
-          class="last-updated"
-        >
-          Last updated:{" "}
-          <span class="page-header__date">
-	          <time datetime={(lastModified ?? updatedDate).toISOString()}>
-	            {(lastModified ?? updatedDate).toLocaleDateString("en-us", {
-	              year: "numeric",
-	              month: "short",
-	              day: "numeric",
-	            })}
-	          </time>
-          </span>
-        </div>
-      )}
-      <h1 class="h1 gradient-text md:max-w-[85vw]" style="--flow-space: var(--space-l)">{title}</h1>
+      {
+        date && (
+          <div class="last-updated" data-scramble-on-load>
+            <span data-scramble=`Last updated: ${formattedDate}` aria-hidden="true" />
+            <span class="sr-only">
+              Last updated:
+              <time datetime={date.toISOString()}>{formattedDate}</time>
+            </span>
+          </div>
+        )
+      }
+      <h1
+        class="h1 gradient-text md:max-w-[85vw]"
+        style="--flow-space: var(--space-l)"
+      >
+        {title}
+      </h1>
       <h2 class="intro">{description}</h2>
     </div>
   </div>

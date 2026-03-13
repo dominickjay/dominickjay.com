@@ -149,7 +149,8 @@
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: rgba(from r g b var(--color-dark), 0.6);
-      margin-left: auto;
+      inline-size: fit-content;
+      block-size: 22px;
     }
 
     pre {

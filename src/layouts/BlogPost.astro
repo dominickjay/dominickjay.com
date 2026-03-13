@@ -34,8 +34,12 @@ const { title, description, pubDate, updatedDate, tags, growth, lastModified } =
 
         <PatternBanner />
         <div
-          class="post-container container prose pt-[32px] md:pt-[64px] gap-[43px] [--gutter:16px] md:[--gutter:43px]"
+          class="post-container container prose pt-[32px] gap-[43px] [--gutter:16px] md:[--gutter:43px]"
         >
+
+        { growth == 'seedling' &&
+        	<div class="fyi-block fyi-block--note">This is a Seedling — the idea is here, the rest of the words aren't yet. Check back soon, or don't, and catch it when it's done.</div>
+			  }
           <!-- <div
 						class="hidden md:flex pin-rail col-start-1 col-span-full md:col-span-4 flow"
 						aria-hidden="true"

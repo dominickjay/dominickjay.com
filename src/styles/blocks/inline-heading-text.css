@@ -1,19 +1,31 @@
 @layer blocks {
-	.inline-heading-text {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+  .inline-heading-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-m);
+    inline-size: 100%;
+    container: inline-heading-text / inline-size;
 
-		@media (width > 992px) {
-			flex-direction: row;
-			align-items: flex-end;
-		}
+    @media (width < 992px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-		.intro {
-			@media (width > 768px) {
-				inline-size: 500px;
-				padding-block-end: 20px;
-			}
-		}
-	}
+    h1 {
+      flex-grow: 1;
+    }
+
+    .intro {
+      inline-size: 450px;
+      padding-block-end: 20px;
+      flex-shrink: 0;
+      text-wrap: pretty;
+
+      @container inline-heading-text (width < 850px) {
+        inline-size: 100%;
+      }
+    }
+  }
 }
