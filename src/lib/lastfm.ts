@@ -103,21 +103,11 @@ export async function getTopTracks(
 
 export async function getArtistInfo(artist: string, apiKey: string): Promise<LastFmArtist> {
   if (!artist?.trim() || !apiKey?.trim()) {
-    console.debug('[lastfm:getArtistInfo] skip:', { artist: artist ?? null, hasKey: !!apiKey?.trim() });
     throw new Error('artist and apiKey are required');
   }
   const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&autocorrect=1`;
-  console.debug('[lastfm:getArtistInfo] fetch:', { artist });
   const response = await fetch(url);
   const data = await response.json();
-  console.debug('[lastfm:getArtistInfo] response:', {
-    status: response.status,
-    ok: response.ok,
-    error: data.error ?? null,
-    message: data.message ?? null,
-    hasArtist: !!data?.artist,
-    mbid: data?.artist?.mbid ?? null,
-  });
   if (data.error) {
     throw new Error(data.message);
   }
@@ -132,7 +122,6 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
         `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=10`
       );
       const imagesData = await imagesResponse.json();
-      console.debug('[lastfm:getArtistInfo] getImages:', { artist, error: imagesData?.error ?? null });
       if (!imagesData?.error) {
         const imgs = imagesData?.images?.image;
         const arr = !imgs ? [] : Array.isArray(imgs) ? imgs : [imgs];
@@ -145,19 +134,12 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
         }
       }
     } catch (error) {
-      console.debug('[lastfm:getArtistInfo] getImages error:', { artist, error });
     }
   }
-
-  console.debug('[lastfm:getArtistInfo] result:', {
-    artist: data.artist?.name,
-    mbid: data.artist?.mbid ?? null,
-  });
   return data.artist;
 }
 
 export async function getAlbumInfo(artist: string, album: string, apiKey: string): Promise<LastFmAlbum> {
-  console.debug('[lastfm:getAlbumInfo] fetch:', { artist, album });
   try {
     const response = await fetch(
       `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
@@ -165,7 +147,6 @@ export async function getAlbumInfo(artist: string, album: string, apiKey: string
 
     // Check if response is ok
     if (!response.ok) {
-      console.debug('[lastfm:getAlbumInfo] non-ok:', { status: response.status, artist, album });
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
@@ -181,24 +162,19 @@ export async function getAlbumInfo(artist: string, album: string, apiKey: string
 
     // Check for Last.fm API errors
     if (data.error) {
-      console.debug('[lastfm:getAlbumInfo] api error:', { artist, album, error: data.error, message: data.message });
       throw new Error(`Last.fm API error: ${data.message}`);
     }
 
-    console.debug('[lastfm:getAlbumInfo] ok:', { artist, album });
     return data.album;
   } catch (error) {
-    console.debug('[lastfm:getAlbumInfo] error:', { artist, album, error });
     throw error;
   }
 }
 
 export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
   if (!apiKey?.trim()) {
-    console.debug('[lastfm:getRecentTracks] skip: no apiKey');
     throw new Error('apiKey is required');
   }
-  console.debug('[lastfm:getRecentTracks] fetch');
   const response = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${apiKey}&format=json`
   );
@@ -206,14 +182,6 @@ export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
   const trackCount = Array.isArray(data?.recenttracks?.track)
     ? data.recenttracks.track.length
     : 0;
-  console.debug('[lastfm:getRecentTracks] response:', {
-    status: response.status,
-    ok: response.ok,
-    error: data.error ?? null,
-    message: data.message ?? null,
-    trackCount,
-    firstArtist: data?.recenttracks?.track?.[0]?.artist?.['#text'] ?? null,
-  });
   return data;
 }
 

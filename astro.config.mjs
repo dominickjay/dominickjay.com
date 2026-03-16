@@ -7,16 +7,21 @@ import sitemap from "@astrojs/sitemap";
 import alpinejs from "@astrojs/alpinejs";
 import tailwindcss from "@tailwindcss/vite";
 import netlify from "@astrojs/netlify";
-import db from "@astrojs/db";
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
+import opengraphImages, { presets } from "astro-opengraph-images";
+import * as fs from "node:fs";
+import { blogRenderer } from "./src/opengraph/blogRenderer";
+import { env } from "node:process";
 
 const require = createRequire(import.meta.url);
 const domTheme = require("./src/styles/dom-shiki-theme.json");
 
+console.log("BASE_URL", env.BASE_URL);
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://dominickjay.com",
+  site: env.BASE_URL ?? "https://dominickjay.com",
   markdown: {
     remarkPlugins: [remarkModifiedTime],
   },
@@ -38,10 +43,28 @@ export default defineConfig({
     }),
     sitemap(),
     alpinejs(),
-    db({
-      studio: false,
-    }),
     react(),
+    opengraphImages({
+      options: {
+        fonts: [
+          {
+            name: "Gentle",
+            weight: 400,
+            style: "normal",
+            data: fs.readFileSync("public/fonts/gentle.woff"),
+          },
+          {
+            name: "Tiempos",
+            weight: 400,
+            style: "normal",
+            data: fs.readFileSync(
+              "public/fonts/testtiempostext-regular-bf66457a50cd521-webfont.woff",
+            ),
+          },
+        ],
+      },
+      render: blogRenderer,
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

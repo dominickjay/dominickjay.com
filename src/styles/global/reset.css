@@ -86,7 +86,7 @@
     blockquote {
       hanging-punctuation: first last;
 
-      @screen md {
+      @media (width > 768px) {
         text-wrap: pretty;
       }
     }

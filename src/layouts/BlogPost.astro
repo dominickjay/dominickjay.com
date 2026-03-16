@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { Temporal } from "@js-temporal/polyfill";
 import BaseHead from "../components/BaseHead.astro";
+import { getImagePath } from "astro-opengraph-images";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
@@ -18,11 +19,13 @@ type Props = CollectionEntry<"writing">["data"] & {
 
 const { title, description, pubDate, updatedDate, tags, growth, lastModified } =
   Astro.props;
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} image={ogImage} />
   </head>
 
   <body>

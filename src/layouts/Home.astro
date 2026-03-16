@@ -1,6 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
+import { getImagePath } from "astro-opengraph-images";
+
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
 
 type Props = {
   title: string;
@@ -12,7 +16,12 @@ const { title, description } = Astro.props;
 
 <html lang="en">
   <head>
-    <BaseHead title={title} showName={false} description={description} />
+    <BaseHead
+      title={title}
+      showName={false}
+      description={description}
+      image={ogImage}
+    />
   </head>
 
   <body>
@@ -57,7 +66,9 @@ const { title, description } = Astro.props;
       );
     });
     document
-      .querySelectorAll("a:not([class]), .home-link, button, .post-item, .big-link")
+      .querySelectorAll(
+        "a:not([class]), .home-link, button, .post-item, .big-link",
+      )
       .forEach((el) => {
         el.addEventListener(
           "mouseenter",

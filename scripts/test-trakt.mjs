@@ -2,11 +2,11 @@
 /**
  * Test the Trakt "currently watching" function locally.
  * Run: netlify dev (in one terminal), then node scripts/test-trakt.mjs
- * Or against production: TRAKT_BASE=https://dominickjay.com node scripts/test-trakt.mjs
+ * Or against production: BASE_URL=https://dominickjay.com node scripts/test-trakt.mjs
  */
 import "dotenv/config";
 
-const base = process.env.TRAKT_BASE || "http://localhost:8888";
+const base = process.env.BASE_URL || "http://localhost:8888";
 const origin = base.startsWith("http") ? base : `http://${base}`;
 const url = `${origin}/.netlify/functions/trakt-watching`;
 

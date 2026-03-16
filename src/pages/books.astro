@@ -4,6 +4,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BookItem from "../components/BookItem.astro";
+import { getImagePath } from "astro-opengraph-images";
 
 // Simple in-memory cache to avoid rate limiting during development
 const cache = new Map<string, { data: any; expires: number }>();
@@ -261,6 +262,9 @@ const goalPct = goalTotal
   ? Math.round((readCount.length / goalTotal) * 100)
   : 0;
 const toGo = Math.max(0, goalTotal - readCount.length);
+
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
 ---
 
 <!doctype html>
@@ -269,6 +273,7 @@ const toGo = Math.max(0, goalTotal - readCount.length);
     <BaseHead
       title="What I'm reading"
       description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list."
+      image={ogImage}
     />
   </head>
   <body>
