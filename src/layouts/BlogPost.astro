@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { Temporal } from "@js-temporal/polyfill";
 import BaseHead from "../components/BaseHead.astro";
+import FYIBlock from "../components/FYIBlock.astro";
 import { getImagePath } from "astro-opengraph-images";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -41,7 +42,10 @@ const ogImage = getImagePath({ url, site });
         >
 
         { growth == 'seedling' &&
-        	<div class="fyi-block fyi-block--note">This is a Seedling — the idea is here, the rest of the words aren't yet. Check back soon, or don't, and catch it when it's done.</div>
+					<FYIBlock type="note">
+						<span slot="title">This is a Seedling</span>
+						The idea is here, the rest of the words aren't yet. Check back soon, or don't, and catch it when it's done.
+					</FYIBlock>
 			  }
           <!-- <div
 						class="hidden md:flex pin-rail col-start-1 col-span-full md:col-span-4 flow"
