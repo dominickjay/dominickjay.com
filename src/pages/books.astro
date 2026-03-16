@@ -31,11 +31,6 @@ function setCached(key: string, data: any): void {
 
 const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
 
-console.log("🔧 Config:", {
-  hasToken: !!hardcoverToken,
-  tokenLength: hardcoverToken.length,
-});
-
 if (!hardcoverToken) {
   console.warn(
     "Warning: hardcoverToken environment variable is not set. " +
@@ -84,11 +79,8 @@ async function hardcoverGraphQL(
     body: JSON.stringify({ query, variables }),
   });
 
-  console.log("🌐 GraphQL Response status:", response.status);
-
   if (!response.ok) {
     const errorText = await response.text();
-    console.error("🌐 GraphQL Error response:", errorText);
 
     // If rate limited, wait a bit and suggest using cache
     if (response.status === 429) {
@@ -274,7 +266,10 @@ const toGo = Math.max(0, goalTotal - readCount.length);
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="What I'm reading" description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list." />
+    <BaseHead
+      title="What I'm reading"
+      description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list."
+    />
   </head>
   <body>
     <div id="cur"></div>
@@ -523,7 +518,9 @@ const toGo = Math.max(0, goalTotal - readCount.length);
       );
     });
     document
-      .querySelectorAll("a:not([class]), .home-link, button, .post-item, .big-link")
+      .querySelectorAll(
+        "a:not([class]), .home-link, button, .post-item, .big-link",
+      )
       .forEach((el) => {
         el.addEventListener(
           "mouseenter",
