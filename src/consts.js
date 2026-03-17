@@ -52,67 +52,31 @@ export const SITE_DESCRIPTION =
 export const SITE_TAGLINE = "Leave it better than you found it";
 export const CURRENT_POSITION = "Front-End Developer";
 export const CURRENT_COMPANY = "Series Eight";
-export const ABOUT_INTRO_SHORT = `Hi, I'm Dom, a [${CURRENT_POSITION}] `;
-export const ABOUT_INTRO_MEDIUM = `${ABOUT_INTRO_SHORT} from Plymouth, UK.`;
-export const ABOUT_INTRO_LONG = `${ABOUT_INTRO_SHORT} from Plymouth, UK. I am passionate about crafting great user experiences and sharing web development insights through my blog and CodePen experiments`;
-
-export const ABOUT_INTRO = {
-  short: ABOUT_INTRO_SHORT,
-  medium: ABOUT_INTRO_MEDIUM,
-  long: ABOUT_INTRO_LONG,
-};
+export const ABOUT_INTRO = `Hi, I'm Dom, a [${CURRENT_POSITION}] from Plymouth, UK.`;
 
 export const ABOUT_COMPANIES = [
   {
-    id: "series-eight",
     label: "Series Eight",
     date: "2022 - Present",
     jobTitle: "Front-End Developer",
-    content: `At Series Eight, my professional journey has taken me through a variety of dynamic environments, including public and private sector companies like [Rowe IT], [GOSS Interactive], [n9Design], and [Logo CCP]. These experiences have been instrumental in shaping my holistic understanding of user experience, where thoughtful design and creative solutions are always top of mind.`,
   },
+  { label: "Rowe IT", date: "2019 - 2022", jobTitle: "Software Developer" },
   {
-    id: "rowe-it",
-    label: "Rowe IT",
-    date: "2019 - 2022",
-    jobTitle: "Software Developer",
-    content: `At Rowe IT, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`,
-    featuredWork: [],
-  },
-  {
-    id: "goss-interactive",
     label: "GOSS Interactive",
     date: "2017 - 2019",
     jobTitle: "Creative Developer",
-    content: `At GOSS Interactive, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`,
-    featuredWork: [],
   },
   {
-    id: "n9-design",
     label: "n9 Design",
     date: "2016 - 2017",
     jobTitle: "Junior Front-End Developer",
-    content: `At n9 Design, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`,
-    featuredWork: [],
   },
   {
-    id: "logo-ccp",
     label: "Logo CCP",
     date: "2015 - 2016",
     jobTitle: "Junior Front-End Developer",
-    content: `At Logo CCP, I was responsible for the development of a variety of websites, including a variety of e-commerce sites and a variety of custom built sites. I was also responsible for the development of a variety of mobile apps, including a variety of e-commerce apps and a variety of custom built apps.`,
-    featuredWork: [],
   },
 ];
-
-export const ABOUT_CONTENT = {
-  short: `I have a background in crafting thoughtful user experiences gained from working in various design agencies and the private sector. This site serves as my personal space to explore new web technologies, which I actively share through my blog and hands-on projects on CodePen.`,
-  medium: `My diverse background has shaped my focus on creating intuitive and engaging user experiences. This website is my space to explore new technologies and processes, which you can see in my blog and on my CodePen projects.`,
-  long: `My professional journey has taken me through a variety of dynamic environments, including public and private sector companies like [Rowe IT], [GOSS Interactive], [n9Design], and [Logo CCP]. These experiences have been instrumental in shaping my holistic understanding of user experience, where thoughtful design and creative solutions are always top of mind.
-
-    You can delve deeper into my work history on my resume. In my current role at ${CURRENT_COMPANY}, I'm fortunate to engage with a broad spectrum of cutting-edge technologies and development processes. Beyond my daily work, I maintain this website as a personal hub for exploration and knowledge sharing. I consistently update it with both visual enhancements and new content, treating it as a live playground to experiment with the latest concepts and techniques I'm learning or eager to adopt. My blog serves as a space for more in-depth reflections and insights, and you can also find smaller, focused projects showcasing my skills and explorations over on CodePen.
-
-    This site truly embodies my continuous commitment to growth and my enthusiasm for sharing what I discover in the ever-evolving world of front-end development.`,
-};
 
 export const PROFILE_IMAGES = [
   {

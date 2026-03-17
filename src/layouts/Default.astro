@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, tags, headings, timeToRead } =
+const { title, description } =
   Astro.props;
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });

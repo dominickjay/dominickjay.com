@@ -4,12 +4,11 @@ import Profile from "../components/Profile.astro";
 import Testimonials from "../components/Testimonials.astro";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
-import { ABOUT_INTRO, ABOUT_CONTENT, ABOUT_COMPANIES } from "../consts";
+import { ABOUT_INTRO, ABOUT_COMPANIES } from "../consts";
 import BigLink from "../components/BigLink.astro";
-import FormattedDate from "../components/FormattedDate.astro";
 
 const showMarquee = true;
-const contentIntro = ABOUT_INTRO.medium
+const contentIntro = ABOUT_INTRO
   .replaceAll("[", '<span class="current-job">')
   .replaceAll("]", "</span>");
 
@@ -24,7 +23,6 @@ const companies = ABOUT_COMPANIES;
     pubDate: new Date("August 08 2021"),
     tags: [],
     headings: [],
-    timeToRead: 0,
   } as any}
 >
   <div class="about flow">
