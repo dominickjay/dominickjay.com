@@ -1,0 +1,88 @@
+---
+import CardDemo from "../CardDemo.astro";
+---
+
+<div class="line-clamp-demo-1 flow">
+  <div class="big-toggle" role="group" aria-label="Toggle clamping">
+    <div class="toggle">
+      <input type="radio" name="d1" id="d1-off" value="off" checked />
+      <label for="d1-off">
+        <span class="t-label">Before: </span>
+        <span class="t-code">no clamp</span>
+      </label>
+    </div>
+    <div class="toggle">
+      <input type="radio" name="d1" id="d1-on" value="on" />
+      <label for="d1-on">
+        <span class="t-label">After line-clamp: </span>
+        <span class="t-code">line-clamp: 3</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="canvas">
+    <div class="card-state">
+      <span class="card-state-dot bad" id="d1-dot"></span>
+      <span class="card-state-label bad" id="d1-state-label"
+        >Full text — card height driven by content</span
+      >
+    </div>
+    <CardDemo
+      id="d1-card"
+      ratio="16 / 9"
+      title="Card heading"
+      text="Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit."
+    />
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const d1Card = document.getElementById("d1-card");
+    const d1Para = d1Card?.querySelector(".flow p");
+    if (!d1Para) return;
+    const d1Dot = document.getElementById("d1-dot");
+    const d1Label = document.getElementById("d1-state-label");
+
+    document.querySelectorAll('input[name="d1"]').forEach((r) => {
+      r.addEventListener("change", () => {
+        const on = r.value === "on";
+        d1Para.className = on ? "p-clamped" : "p-unclamped";
+        d1Dot.className = "card-state-dot " + (on ? "good" : "bad");
+        d1Label.className = "card-state-label " + (on ? "good" : "bad");
+        d1Label.textContent = on
+          ? "Clamped to 3 lines — consistent card height"
+          : "Full text — card height driven by content";
+      });
+    });
+  });
+</script>
+
+<style>
+  .line-clamp-demo-1 > * + * {
+    --flow-space: var(--space-s);
+  }
+
+  .line-clamp-demo-1 .big-toggle {
+    border: 1px solid var(--color-dark);
+    padding: var(--space-s) var(--space-m);
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    width: fit-content;
+  }
+
+  .line-clamp-demo-1 .toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .line-clamp-demo-1 .toggle label {
+    padding-block-start: 2px;
+  }
+
+  .line-clamp-demo-1 .toggle input[type="radio"] {
+    accent-color: var(--feature-color);
+  }
+</style>
