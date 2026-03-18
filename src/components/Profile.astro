@@ -6,7 +6,7 @@ const random = Astro.props.random ? Astro.props.random : false;
 const sticky = Astro.props.sticky ? Astro.props.sticky : false;
 
 function getRandom() {
-	return Math.floor(Math.random() * PROFILE_IMAGES.length);
+  return Math.floor(Math.random() * PROFILE_IMAGES.length);
 }
 
 const active = random ? getRandom() : 0;
@@ -14,11 +14,13 @@ const selectedImage = PROFILE_IMAGES[active];
 ---
 
 <div class="profile" data-sticky={sticky ? "true" : undefined}>
-	<Picture
-		layout="full-width"
-		src={selectedImage.src}
-		formats={["avif", "webp"]}
-		alt="{selectedImage.alt}"
-		loading="eager"
-	/>
+  <Picture
+    layout="full-width"
+    src={selectedImage.src}
+    formats={["avif", "webp"]}
+    alt="{selectedImage.alt}"
+    loading="eager"
+    height={894}
+    width={906}
+  />
 </div>

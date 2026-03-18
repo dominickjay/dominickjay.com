@@ -151,6 +151,7 @@
       color: rgba(from r g b var(--color-dark), 0.6);
       inline-size: fit-content;
       block-size: 22px;
+      width: 100% !important;
     }
 
     pre {

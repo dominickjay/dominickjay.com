@@ -13,12 +13,12 @@ import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import HasDemo1 from '../../components/demos/HasDemo1.astro';
 import HasDemo2 from '../../components/demos/HasDemo2.astro';
 import HasDemo3 from '../../components/demos/HasDemo3.astro';
+import FYIBlock from "../../components/FYIBlock.astro";
 
-
-<div class="fyi-block fyi-block--success">
-  <span>Update - 23rd December, 2024</span>
-  <p>This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</p>
-</div>
+<FYIBlock type="success">
+	<span slot="title">Update - 23rd December, 2024</span>
+	<div slot="body">This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</div>
+</FYIBlock>
 
 ## The problem with siblings
 

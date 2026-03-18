@@ -27,8 +27,14 @@ const lastTended =
     : rawPosts.length > 0
       ? Temporal.PlainDate.from(
           new Date(
-            Math.max(...rawPosts.map((p) => (p.data.updatedDate ?? p.data.pubDate).valueOf()))
-          ).toISOString().slice(0, 10)
+            Math.max(
+              ...rawPosts.map((p) =>
+                (p.data.updatedDate ?? p.data.pubDate).valueOf(),
+              ),
+            ),
+          )
+            .toISOString()
+            .slice(0, 10),
         )
       : Temporal.Now.plainDateISO();
 
@@ -324,7 +330,7 @@ const gardenNav = [
 <style>
   .site-footer {
     --footer-bg: #1a1a18;
-    --footer-muted: rgba(251, 248, 239, 0.3);
+    --footer-muted: rgba(251, 248, 239, 0.5);
     --footer-text: rgba(251, 248, 239, 0.65);
     --footer-heading: rgba(251, 248, 239, 0.88);
     --footer-hover: #fbf8ef;
@@ -478,19 +484,23 @@ const gardenNav = [
 
   .now-tabs {
     display: flex;
-    gap: var(--space-xs);
+    gap: var(--space-s);
     margin-block-start: var(--space-s);
   }
 
   .now-tab {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     border: none;
     background: var(--footer-muted);
     cursor: pointer;
     padding: 0;
     transition: background 0.2s;
+
+    &::before {
+      content: none;
+    }
   }
 
   .now-tab[aria-selected="true"] {

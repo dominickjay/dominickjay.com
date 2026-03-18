@@ -10,7 +10,7 @@
       align-items: center;
       gap: var(--space-xs);
       border: 1px solid var(--growth-option);
-      padding: var(--space-s) var(--space-s) var(--space-xs);
+      padding: var(--space-xs) var(--space-s) 0;
       width: fit-content;
 
       @media (width < 768px) {

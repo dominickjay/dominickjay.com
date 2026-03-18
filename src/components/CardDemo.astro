@@ -1,0 +1,101 @@
+---
+import PlaceholderImage from "./PlaceholderImage.astro";
+const { ratio, title, text, id, classes = "" } = Astro.props;
+---
+
+<div class={`card ${classes}`} id={id}>
+  <PlaceholderImage ratio={ratio} />
+  <div class="flow">
+    <h3 class="heading">{title}</h3>
+    <p>{text}</p>
+  </div>
+</div>
+
+<style>
+  .card {
+    width: fit-content;
+    height: fit-content;
+    border: 2px solid black;
+    margin-block: 20px;
+  }
+
+  @media (width > 768px) {
+    .card {
+      max-width: 50ch;
+    }
+  }
+
+  .card--thin {
+    max-width: 24ch;
+  }
+
+  .card--mh {
+    height: 100%;
+    max-height: 405px;
+    overflow: hidden;
+  }
+
+  .card-grid {
+    column-gap: 40px;
+  }
+
+  .card .flow {
+    padding-inline: 25px;
+    padding-block: 30px;
+  }
+
+  .card .flow > * + * {
+    margin-block-start: 1.5rem;
+  }
+
+  .card h3 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 0;
+  }
+
+  .card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .card .clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card--truncate {
+    width: auto;
+  }
+
+  .card--truncate p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .card--mh {
+      max-height: 375px;
+    }
+  }
+
+  @media (max-width: 395px) {
+    .card--mh {
+      max-height: 335px;
+    }
+  }
+
+  .p-clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .p-unclamped {
+    overflow: visible;
+  }
+</style>

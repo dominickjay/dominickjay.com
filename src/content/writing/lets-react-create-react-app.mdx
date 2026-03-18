@@ -8,6 +8,8 @@ tags:
 growth: evergreen
 ---
 
+import FYIBlock from "../../components/FYIBlock.astro";
+
 ## What is 'Create React App'?
 
 So, what is it? 'Create React App' is a tool to create single-page React applications, and generates a project holding a skeleton structure of files and folders. According to the official [documentation](https://reactjs.org/docs/create-a-new-react-app.html#create-react-app) this setup allows the use of _"the latest JavaScript features, provides a nice developer experience, and optimizes your app for production"_.
@@ -61,10 +63,10 @@ Run `yarn start` to open the project up on the default port of 3000 - and get st
 
 The CRA has a distinct advantage of only having one dependency to manage - `react-scripts`. While it is great to only have to manage one dependency, and not have to deal with the underlying packages, sometime we need/want to. So what then? In this instance, the CRA team included a command `npm run eject`. This command takes all the configuration files and other dependencies such as webpack and Babel and copies them into your projects `package.json` file as seperate dependencies.
 
-<div class="fyi-block fyi-block--warning">
-  <span class="heading">Point of no return</span>
-  <p>Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.</p>
-</div>
+<FYIBlock type="warning">
+	<span slot="title">Point of no return</span>
+	<div slot="body">Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.</div>
+</FYIBlock>
 
 #### Eject alternatives
 

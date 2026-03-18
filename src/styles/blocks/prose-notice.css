@@ -1,0 +1,135 @@
+@layer components {
+  @layer base {
+    @scope (.prose-notice) {
+      :scope {
+        --notice-warning: #a06010;
+        --notice-info: #2c5364;
+        --notice-tip: #4a7c3f;
+        --notice-danger: #8b2020;
+        --notice-note: #555050;
+
+        --notice-color: var(--notice-note);
+
+        position: relative;
+        padding-inline-start: var(--space-l);
+        padding-block: var(--space-l);
+        margin-block-end: var(--flow-space);
+
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: color-mix(in srgb, var(--notice-color) 3%, transparent);
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset-block: 0;
+          inset-inline-start: 0;
+          width: 1px;
+          background: linear-gradient(
+            to bottom,
+            transparent,
+            var(--notice-color) 20%,
+            var(--notice-color) 80%,
+            transparent
+          );
+          opacity: 0.5;
+          transition:
+            opacity 0.4s,
+            width 0.3s;
+        }
+
+        &:hover::before {
+          opacity: 1;
+          width: 2px;
+        }
+      }
+
+      .prose-notice__eyebrow {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        color: var(--notice-color);
+        margin-block-end: var(--space-s);
+        font-family: var(--font-base);
+        font-size: 14px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-block-end: 8px !important;
+        display: block;
+      }
+
+      .prose-notice__icon {
+        font-style: normal;
+        font-size: 0.85rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
+      .prose-notice__body {
+        color: color-mix(in srgb, var(--color-dark) 85%, transparent);
+        transition: color 0.3s;
+        position: relative;
+        z-index: 1;
+      }
+
+      :scope:hover .prose-notice__body {
+        color: color-mix(in srgb, var(--color-dark) 80%, transparent);
+      }
+
+      /* Links inside the body inherit the notice colour */
+      .prose-notice__body a {
+        color: var(--notice-color);
+        text-underline-offset: 3px;
+        text-decoration-color: color-mix(
+          in srgb,
+          var(--notice-color) 40%,
+          transparent
+        );
+        transition: text-decoration-color 0.2s;
+      }
+
+      .prose-notice__body a:hover {
+        text-decoration-color: var(--notice-color);
+      }
+
+      /* Mobile: reduce indent so body text has more room */
+      @media (width < 480px) {
+        .prose-notice {
+          padding-inline-start: var(--space-m);
+        }
+      }
+    }
+  }
+
+  @layer variations {
+    @scope (.prose-notice) {
+      :scope[data-variant="warning"] {
+        --notice-color: var(--notice-warning);
+      }
+      :scope[data-variant="info"] {
+        --notice-color: var(--notice-info);
+      }
+      :scope[data-variant="tip"] {
+        --notice-color: var(--notice-tip);
+      }
+      :scope[data-variant="danger"] {
+        --notice-color: var(--notice-danger);
+      }
+      :scope[data-variant="note"] {
+        --notice-color: var(--notice-note);
+      }
+
+      /* Danger gets a very subtle background tint — the only variant that warrants it */
+      :scope[data-variant="danger"] {
+        background: color-mix(in srgb, var(--notice-danger) 4%, transparent);
+        border-radius: 2px;
+        padding-block: var(--space-s);
+        padding-inline-end: var(--space-s);
+      }
+    }
+  }
+}

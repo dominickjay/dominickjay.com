@@ -1,13 +1,12 @@
 ---
-
-const { type = 'warning' } = Astro.props;
+const { type = "warning" } = Astro.props;
 ---
 
-<div class="fyi-block fyi-block--warning">
-    <div class="fyi-block__title">
-        <slot name="title" />
-    </div>
-    <div class="fyi-block__content">
-        <slot />
-    </div>
+<div class="prose-notice" data-variant={`${type}`} role="note">
+	<div class="prose-notice__eyebrow">
+  	<slot name="title" class="prose-notice__eyebrow" />
+	</div>
+	<div class="prose-notice__body">
+		<slot name="body"/>
+	</div>
 </div>

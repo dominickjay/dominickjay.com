@@ -41,7 +41,6 @@
 @import "./blocks/toc.css";
 @import "./blocks/browser-support-table.css";
 @import "./blocks/music-card.css";
-@import "./blocks/fyi-block.css";
 @import "./blocks/joke.css";
 @import "./blocks/song.css";
 @import "./blocks/demos.css";
@@ -70,6 +69,7 @@
 @import "./blocks/featured-panel.css";
 @import "./blocks/pattern.css";
 @import "./blocks/testimonials.css";
+@import "./blocks/prose-notice.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";

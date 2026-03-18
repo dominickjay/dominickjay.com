@@ -10,6 +10,8 @@ draft: true
 growth: evergreen
 ---
 
+import FYIBlock from "../../components/FYIBlock.astro";
+
 <link
   rel="preload"
   href="/fonts/Poppins-Bold.woff"
@@ -39,7 +41,7 @@ So we're going to start with our main bit of content, right? Without that, the w
 
 I'll style this up with the font I've got in this project atm.
 
-<style>
+<style>{`
     .demo {
         font-family: "Poppins", sans-serif;
         font-size: 100px;
@@ -76,7 +78,7 @@ I'll style this up with the font I've got in this project atm.
             0 6px 6px rgba(76, 116, 121, 0.4);
             -webkit-text-stroke: 1.5px #203140;
     }
-</style>
+`}</style>
 
 <p class="demo demo-pseudo">leave it better than you found it</p>
 
@@ -124,10 +126,10 @@ We can see this starting to come together now, we've got our repeated text posit
 
 Almost there, but the colors along with the opacity are a bit hard on my eyes - almost look like it's out of focus. Let's apply a `stroke` around the `before` content, and also a small `text-shadow` just to push it out a bit into the foreground.
 
-<div class="fyi-block fyi-block--warning">
-  <span class="fyi-block__title">Text Stroke</span>
-  <p>The `-webkit-text-stroke` we use here is a non-standard CSS property that creates a stroke - or outline - around the text. It's a shorthand property that combines `-webkite-text-stroke-width` and `-webkite-text-stroke-color`. However, it is **only** available on Webkit-based browsers e.g. Safari and older versions of Chrome</p>
-</div>
+<FYIBlock type="warning">
+	<span slot="title">Text Stroke</span>
+	<div slot="body">The `-webkit-text-stroke` we use here is a non-standard CSS property that creates a stroke - or outline - around the text. It's a shorthand property that combines `-webkite-text-stroke-width` and `-webkite-text-stroke-color`. However, it is **only** available on Webkit-based browsers e.g. Safari and older versions of Chrome</div>
+</FYIBlock>
 
 ## Blend Modes and Isolation
 
@@ -171,7 +173,7 @@ SVG provides more control over text effects and better browser support. Here's h
 </svg>
 ```
 
-<style>
+<style>{`
     .text-effect {
         width: 100%;
         height: auto;
@@ -191,7 +193,7 @@ SVG provides more control over text effects and better browser support. Here's h
     .text-front {
         fill: #FC4A1A;
     }
-</style>
+`}</style>
 
 <svg class="text-effect">
   <text x="50%" y="50%" text-anchor="middle" class="text-front">leave it better than you found it</text>
@@ -230,7 +232,7 @@ If you want to avoid pseudo-elements entirely, you can use multiple text shadows
 }
 ```
 
-<style>
+<style>{`
     .text-shadow-effect {
         font-family: "Poppins", sans-serif;
         font-size: 100px;
@@ -241,7 +243,7 @@ If you want to avoid pseudo-elements entirely, you can use multiple text shadows
             -7px -7px 0 #FCB733,
             -7px -7px 2px rgba(0,0,0,0.2);
     }
-</style>
+`}</style>
 
 <p class="text-shadow-effect">Leave it better than you found it</p>
 
@@ -249,7 +251,7 @@ If you want to avoid pseudo-elements entirely, you can use multiple text shadows
 
 Let's make our text effect more dynamic with some interactive elements:
 
-<style>
+<style>{`
     .interactive-demo {
         transition: transform 0.3s ease;
     }
@@ -262,7 +264,7 @@ Let's make our text effect more dynamic with some interactive elements:
     .interactive-demo:hover::before {
         transform: translate(-12px, -12px);
     }
-</style>
+`}</style>
 
 <p class="demo demo-pseudo step-2 pseudo-step-1 pseudo-step-2 interactive-demo"  data-text="leave it better than you found it">Leave it better than you found it</p>
 

@@ -63,6 +63,10 @@ const {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
+<script type="module">
+  import "@js-temporal/polyfill";
+</script>
+
 <script>
   import collapse from "@alpinejs/collapse";
   import focus from "@alpinejs/focus";
