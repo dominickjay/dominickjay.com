@@ -1,9 +1,10 @@
 @import "tailwindcss";
 @import "./global/fonts.css";
 
-@layer core, third-party, layout, components, utility;
+@layer core, third-party, layout;
 /* @layer third-party.imports, third-party.overrides; */
 @layer components, components.base, components.variations;
+@layer utility;
 
 @import "./global/reset.css";
 @import "./global/typography.css";
