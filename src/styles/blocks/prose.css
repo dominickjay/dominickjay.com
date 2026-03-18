@@ -1,54 +1,54 @@
 .prose {
-	--flow-space: var(--space-xl);
+  --flow-space: var(--space-xl);
 }
 
 .prose h2 {
-	font-size: clamp(1rem, 1.236rem + 0.8532vw, 2rem);
+  font-size: clamp(1rem, 1.236rem + 0.8532vw, 2rem);
 }
 
 .prose h3 {
-	font-size: clamp(1rem, 1.3315rem + 0.802vw, 1.6531rem);
+  font-size: clamp(1rem, 1.3315rem + 0.802vw, 1.6531rem);
 }
 
 .prose :is(ul, ol):not([class]) {
-	padding-inline-start: var(--space-xl);
+  padding-inline-start: var(--space-xl);
 }
 
 .prose :is(ul):not([class]) {
-	list-style-type: disc;
+  list-style-type: disc;
 }
 
 .prose :is(ol):not([class]) {
-	list-style-type: decimal-leading-zero;
+  list-style-type: decimal-leading-zero;
 }
 
 .prose .post-recommendations + * {
-	margin-block-start: 0;
+  margin-block-start: 0;
 }
 
 :is(.topics, .toc, .post-list feature-list) :is(ul, ol) {
-	list-style-type: none;
-	padding-inline-start: 0;
+  list-style-type: none;
+  padding-inline-start: 0;
 }
 
 .prose :is(h1, h2, h3) {
-	overflow-wrap: anywhere;
-	-webkit-hyphens: auto;
-	hyphens: auto;
-	font-family: var(--font-base);
-	font-style: italic;
+  overflow-wrap: anywhere;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  font-family: var(--font-base);
+  font-style: italic;
 }
 
 .prose :is(p, li, dl, figcaption, blockquote) {
-	text-wrap: pretty;
+  text-wrap: pretty;
 }
 
 .prose :is(h1, h2, h3, h4, .body-s, .caption) + *:not([class]) {
-	--flow-space: var(--space-m);
+  --flow-space: var(--space-m);
 }
 
 .prose :is(h5, h6, .body-s) + *:not([class]) {
-	--flow-space: var(--space-m);
+  --flow-space: var(--space-m);
 }
 
 /* .prose *:not([class]) + :is(h1, h2, h3, h4),
@@ -59,62 +59,81 @@
 /* Add more space on and around figures and tables */
 .prose :is(figure, table),
 .prose :is(figure, table) + * {
-	--flow-space: var(--space-l);
+  --flow-space: var(--space-l);
 }
 
 /* Add more space to headings on block start */
 .prose * + :is(h1, h2, h3, h4):not([class]) {
-	--flow-space: var(--space-xl);
-	font-family: var(--font-base);
-	font-style: italic;
+  --flow-space: var(--space-xl);
+  font-family: var(--font-base);
+  font-style: italic;
 }
 
 .prose :is(ul, ol) {
-	--flow-space: var(--space-s);
+  --flow-space: var(--space-s);
 }
 
 .prose :is(ul, ol):not([class]) li + li,
 .prose :is(ul, ol):not([class]) li > :is(ol, ul) {
-	--flow-space: var(--space-xs);
+  --flow-space: var(--space-xs);
 }
 
 .prose ol:not([class]) > li,
 .prose ul:not([class]) > li {
-	--flow-space: var(--space-xs);
-	&:first-child {
-		margin-top: var(--flow-space);
-	}
+  --flow-space: var(--space-xs);
+  &:first-child {
+    margin-top: var(--flow-space);
+  }
 }
 
 .prose .caption + .caption {
-	--flow-space: var(--space-s);
+  --flow-space: var(--space-s);
 }
 
 .prose hr {
-	--flow-space: var(--space-xl);
+  --flow-space: var(--space-xl);
 }
 
 .prose table {
-	width: 100%;
+  width: 100%;
 }
 
 .prose .blockquote,
 blockquote {
-	padding-inline-start: 24px;
-	border-left: 4px solid var(--color-dark);
-	font-style: italic;
-	font-size: 1.5rem;
-	line-height: 1.5;
+  position: relative;
+  padding-inline-start: 24px;
+  /*border-left: 4px solid var(--color-dark);*/
+  font-style: italic;
+  font-size: 1.15rem;
 
-	@variant md {
-		padding-inline-start: 40px;
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 3px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--feature-color) 20%,
+      var(--feature-color) 80%,
+      transparent
+    );
+    opacity: 0.5;
+    transition:
+      opacity 0.4s,
+      width 0.3s;
+  }
+
+  @variant md {
+    padding-inline-start: 40px;
+  }
 }
 
 @variant md {
-	.prose :is(h1, h2, h3) {
-		overflow-wrap: unset;
-		-webkit-hyphens: unset;
-		hyphens: unset;
-	}
+  .prose :is(h1, h2, h3) {
+    overflow-wrap: unset;
+    -webkit-hyphens: unset;
+    hyphens: unset;
+  }
 }

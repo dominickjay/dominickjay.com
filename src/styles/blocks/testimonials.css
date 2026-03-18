@@ -73,7 +73,25 @@
         color: var(--color-dark);
         font-style: italic;
         padding-inline-start: var(--space-l);
-        border-inline-start: 4px solid var(--color-dark);
+        position: relative;
+        border-left: none !important;
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset-block: 0;
+          inset-inline-start: 0;
+          width: 3px;
+          background: linear-gradient(
+            to bottom,
+            transparent,
+            var(--color-dark) 20%,
+            var(--color-dark) 80%,
+            transparent
+          );
+          opacity: 0.5;
+          transition: opacity;
+        }
 
         @media (width < 900px) {
           padding-inline-start: 0;

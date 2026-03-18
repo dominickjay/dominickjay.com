@@ -1,13 +1,12 @@
 @layer components {
   @layer base {
     @scope (.prose-notice) {
-
       :scope {
         --notice-warning: #a06010;
-        --notice-info:    #2c5364;
-        --notice-tip:     #4a7c3f;
-        --notice-danger:  #8b2020;
-        --notice-note:    #555050;
+        --notice-info: #2c5364;
+        --notice-tip: #4a7c3f;
+        --notice-danger: #8b2020;
+        --notice-note: #555050;
 
         --notice-color: var(--notice-note);
 
@@ -37,7 +36,9 @@
             transparent
           );
           opacity: 0.5;
-          transition: opacity 0.4s, width 0.3s;
+          transition:
+            opacity 0.4s,
+            width 0.3s;
         }
 
         &:hover::before {
@@ -71,6 +72,8 @@
       .prose-notice__body {
         color: color-mix(in srgb, var(--color-dark) 85%, transparent);
         transition: color 0.3s;
+        position: relative;
+        z-index: 1;
       }
 
       :scope:hover .prose-notice__body {
@@ -81,7 +84,11 @@
       .prose-notice__body a {
         color: var(--notice-color);
         text-underline-offset: 3px;
-        text-decoration-color: color-mix(in srgb, var(--notice-color) 40%, transparent);
+        text-decoration-color: color-mix(
+          in srgb,
+          var(--notice-color) 40%,
+          transparent
+        );
         transition: text-decoration-color 0.2s;
       }
 
@@ -100,11 +107,21 @@
 
   @layer variations {
     @scope (.prose-notice) {
-      :scope[data-variant="warning"] { --notice-color: var(--notice-warning); }
-      :scope[data-variant="info"]    { --notice-color: var(--notice-info); }
-      :scope[data-variant="tip"]     { --notice-color: var(--notice-tip); }
-      :scope[data-variant="danger"]  { --notice-color: var(--notice-danger); }
-      :scope[data-variant="note"]    { --notice-color: var(--notice-note); }
+      :scope[data-variant="warning"] {
+        --notice-color: var(--notice-warning);
+      }
+      :scope[data-variant="info"] {
+        --notice-color: var(--notice-info);
+      }
+      :scope[data-variant="tip"] {
+        --notice-color: var(--notice-tip);
+      }
+      :scope[data-variant="danger"] {
+        --notice-color: var(--notice-danger);
+      }
+      :scope[data-variant="note"] {
+        --notice-color: var(--notice-note);
+      }
 
       /* Danger gets a very subtle background tint — the only variant that warrants it */
       :scope[data-variant="danger"] {

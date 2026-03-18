@@ -281,7 +281,7 @@ const ogImage = getImagePath({ url, site });
     <Header />
     <main>
       <div
-        class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px] md:!max-w-[992px]"
+        class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[32px] md:!max-w-[992px]"
         style="--grid-placement: 12; --gutter: 43px;"
       >
         <div class="flex flex-col gap-[32px] w-full relative">
@@ -291,11 +291,10 @@ const ogImage = getImagePath({ url, site });
           >
             <div class="reading-goal-hero__main">
               <div class="reading-goal-hero__count">
+              	<span class="reading-goal-hero__caption">2026 goal</span>
                 <span class="reading-goal-hero__number">
-                  {readCount.length}<sup>/ {goalTotal}</sup>
-                </span>
+                  {readCount.length}/{goalTotal}</span>
                 <span class="reading-goal-hero__eyebrow">Books read</span>
-                <span class="reading-goal-hero__caption">2026 goal</span>
               </div>
               <div class="reading-goal-hero__progress-wrap">
                 <div class="reading-goal-hero__progress-meta">

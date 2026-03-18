@@ -14,6 +14,7 @@ const externalNavigation = EXTERNAL_NAVIGATION;
   x-data="{ openMenu: false }"
   x-bind:class="{ 'header--open': openMenu }"
   @keydown.escape="openMenu = false"
+  @click.outside="openMenu = false"
 >
   <div class="container flex justify-between flex-wrap items-center w-full">
     <a

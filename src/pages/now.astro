@@ -173,29 +173,33 @@ const base =
       : Astro.url.origin;
 const origin = base.startsWith("http") ? base : `http://${base}`;
 const traktUrl = `${origin}/.netlify/functions/trakt-watching`;
+const isFunctionsReachable =
+  !origin.includes("localhost") || origin.includes(":8888");
 
 let traktTitle: string | null = null;
 let traktSeason: number | undefined;
 let traktEpisode: number | undefined;
 
-try {
-  const res = await fetch(traktUrl);
-  const raw = await res.text();
-  if (res.ok && raw.startsWith("{")) {
-    const data = JSON.parse(raw) as {
-      title?: string | null;
-      season?: number;
-      episode?: number;
-      error?: string;
-    };
-    if (data.title) {
-      traktTitle = data.title;
-      traktSeason = data.season;
-      traktEpisode = data.episode;
+if (isFunctionsReachable) {
+  try {
+    const res = await fetch(traktUrl);
+    const raw = await res.text();
+    if (res.ok && raw.startsWith("{")) {
+      const data = JSON.parse(raw) as {
+        title?: string | null;
+        season?: number;
+        episode?: number;
+        error?: string;
+      };
+      if (data.title) {
+        traktTitle = data.title;
+        traktSeason = data.season;
+        traktEpisode = data.episode;
+      }
     }
+  } catch (err) {
+    console.warn("[Now] Trakt fetch failed", err);
   }
-} catch (err) {
-  console.warn("[Now] Trakt fetch failed", err);
 }
 
 const lastUpdateFormatted = currentPost

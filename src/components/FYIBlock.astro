@@ -3,10 +3,10 @@ const { type = "warning" } = Astro.props;
 ---
 
 <div class="prose-notice" data-variant={`${type}`} role="note">
-  <p class="prose-notice__eyebrow">
-    <slot name="title" />
-  </p>
-  <p class="prose-notice__body">
-    <slot />
-  </p>
+	<div class="prose-notice__eyebrow">
+  	<slot name="title" class="prose-notice__eyebrow" />
+	</div>
+	<div class="prose-notice__body">
+		<slot name="body"/>
+	</div>
 </div>
