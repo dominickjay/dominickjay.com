@@ -35,7 +35,8 @@
   @layer variations {
   }
 
-  article header {
+  article header,
+  main header {
     position: relative;
     padding-block: var(--space-xl);
   }

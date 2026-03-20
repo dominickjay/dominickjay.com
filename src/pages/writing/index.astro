@@ -11,6 +11,11 @@ import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
 
 let rawPosts = [];
+let randomSuperhero = "";
+const superheroes = [
+	"Batman", "Wolverine", "Gambit", "Iron Man", "Spider-Man", "90s Cartoon Superhero Bananaman", "Captain Planet", "Colin Robinson",
+];
+randomSuperhero = superheroes[Math.floor(Math.random() * superheroes.length)];
 
 if (import.meta.env.ENVIRONMENT === "production") {
 	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
@@ -91,7 +96,7 @@ const ogImage = getImagePath({ url, site });
 		<main>
 			<DefaultHero
 				title="From the Desk"
-				description={`${postLength} posts about CSS, career anxiety, and the slow realisation that knowing more just reveals how much more there is to know. Also: not Batman.`}
+				description={`${postLength} posts about CSS, career anxiety, and the slow realisation that knowing more just reveals how much more there is to know. Also: not ${randomSuperhero}.`}
 			/>
 			<PatternBanner />
 			<section
