@@ -9,7 +9,7 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        gap: var(--space-s);
+        gap: var(--space-m);
         height: 100%;
         cursor: none;
         transition:

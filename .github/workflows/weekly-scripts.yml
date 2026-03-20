@@ -8,18 +8,13 @@ on:
   workflow_dispatch:
 jobs:
   weekly-scripts:
-    name: "Run generate-now, generate-books, sync-music, test-trakt"
+    name: "Run generate-books, sync-music, test-trakt"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm install
-      - name: generate-now
-        run: npm run generate-now
-        env:
-          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
       - name: generate-books
         run: npm run generate-books
         env:
