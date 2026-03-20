@@ -1,0 +1,25 @@
+name: "Weekly generate and sync"
+on:
+  schedule:
+    - cron: "00 00 01 */3 *"
+  push:
+    branches:
+      - feat/staging
+  workflow_dispatch:
+jobs:
+  weekly-scripts:
+    name: "Run generate-now"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - name: generate-now
+        run: npm run generate-now
+        env:
+          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Weekly generate-now, books, sync-music, test-trakt
