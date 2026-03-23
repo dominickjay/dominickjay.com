@@ -42,7 +42,7 @@ const cache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL = 30000;
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
-const hardcoverToken = (import.meta.env.hardcoverToken ?? "").trim();
+const hardcoverToken = (import.meta.env.HARDCOVER_TOKEN ?? "").trim();
 
 interface HardcoverMe {
   user_books: { book: { title: string; contributions: { author: { name: string } }[] } }[];
