@@ -13,7 +13,9 @@
     "generate-now": "node scripts/now.js",
     "generate-books": "node scripts/books.js",
     "generate-music": "node scripts/syncMusic.mjs",
-    "generate-tv": "node scripts/test-trakt.mjs"
+    "generate-music-local": "node --env-file=.env scripts/syncMusic.mjs",
+    "generate-tv": "node scripts/syncTV.mjs",
+    "generate-tv-local": "node --env-file=.env scripts/syncTV.mjs"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.14.8",

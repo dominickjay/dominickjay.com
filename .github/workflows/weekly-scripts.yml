@@ -29,6 +29,11 @@ jobs:
         run: npm run generate-tv
         env:
           BASE_URL: ${{ secrets.BASE_URL || 'https://dominickjay.com' }}
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_USERNAME: ${{ secrets.TRAKT_USERNAME }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Weekly generate-now, books, generate-music, generate-tv
+          commit_message: Weekly generate-music, generate-tv
