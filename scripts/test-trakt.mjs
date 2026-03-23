@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Test the Trakt "currently watching" function locally.
- * Run: netlify dev (in one terminal), then node scripts/test-trakt.mjs
- * Or against production: BASE_URL=https://dominickjay.com node scripts/test-trakt.mjs
+ * Run: netlify dev (in one terminal), then node scripts/generate-tv.mjs
+ * Or against production: BASE_URL=https://dominickjay.com node scripts/generate-tv.mjs
  */
 import "dotenv/config";
 

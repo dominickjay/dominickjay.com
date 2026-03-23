@@ -8,25 +8,25 @@ on:
   workflow_dispatch:
 jobs:
   weekly-scripts:
-    name: "Run sync-music, test-trakt"
+    name: "Run generate-music, generate-tv"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - name: sync-music
-        run: npm run sync-music
+          node-version: "22"
+      - name: generate-music
+        run: npm run generate-music
         env:
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
           LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
           FANART_API_KEY: ${{ secrets.FANART_API_KEY }}
-      - name: test-trakt
-        run: npm run test-trakt
+      - name: generate-tv
+        run: npm run generate-tv
         env:
           BASE_URL: ${{ env.BASE_URL || 'https://dominickjay.com' }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Weekly generate-now, books, sync-music, test-trakt
+          commit_message: Weekly generate-now, books, generate-music, generate-tv
