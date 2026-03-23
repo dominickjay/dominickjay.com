@@ -28,7 +28,7 @@ jobs:
       - name: generate-tv
         run: npm run generate-tv
         env:
-          BASE_URL: ${{ secrets.BASE_URL || 'https://dominickjay.com' }}
+          BASE_URL: 'https://loquacious-praline-e6a057.netlify.app'
           SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
           SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
           SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
