@@ -12,7 +12,7 @@
     "generate-links": "node scripts/links.js",
     "generate-now": "node scripts/now.js",
     "generate-books": "node scripts/books.js",
-    "generate-music": "node --env-file=.env scripts/syncMusic.mjs",
+    "generate-music": "node scripts/syncMusic.mjs",
     "generate-tv": "node scripts/generate-tv.mjs"
   },
   "dependencies": {
