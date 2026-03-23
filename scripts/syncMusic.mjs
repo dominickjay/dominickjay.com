@@ -114,12 +114,8 @@ async function enrichArtistImage(artistName) {
 
 const enrichedArtists = await Promise.all(
   artists.map(async (a) => {
-    const image = a.mbid?.trim()
-      ? await getArtistArtFromFanart(a.mbid)
-      : await enrichArtistImage(a.name);
-    const fallback = toImageArray(a?.image);
-    const finalImage = image?.length ? image : fallback;
-    return { ...a, image: finalImage };
+    const image = a.mbid?.trim() ? await getArtistArtFromFanart(a.mbid) : null;
+    return { ...a, image: image ?? [] };
   }),
 );
 

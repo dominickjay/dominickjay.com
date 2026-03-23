@@ -31,15 +31,9 @@ Let's start by breaking down Ryan's demo a bit. There’s very little functional
 
 So, to rip a use case out of the mdn docs;
 
-**“When used in a quotation (`[<q>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)`) or block quote (`[<blockquote>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)`), it generally indicates text which is of special interest but is not marked in the original source material, or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.”**
+> “When used in a quotation (`[<q>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/q)`) or block quote (`[<blockquote>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)`), it generally indicates text which is of special interest but is not marked in the original source material, or material which needs special scrutiny even though the original author didn't think it was of particular importance. Think of this like using a highlighter pen in a book to mark passages that you find of interest.”
 
 Pretty interesting, that’s one for the next project if needs be then.
-
-<div class="pull-quote pull-quote--right">
-
-  bulk of the content is in a main element, as expected, with some content wrapped in a mark element with a class of text-highlight. Easy stuff, apart from…what’s a mark element
-
-</div>
 
 Outside of the setup, the real meat of the demo comes from the styles for the various animations on scroll. For the purpose of keeping this focused, those styles increase the size of a background color across the element, that being setup as a pseudo-underline rather than using ‘text-decoration: underline’. The dropdown values are used as part of an attribute on the `body` element, which allows us to style it like this;
 

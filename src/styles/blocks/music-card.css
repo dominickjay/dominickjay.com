@@ -7,7 +7,9 @@
   border: 1px solid var(--track-color);
   background: var(--surface);
   cursor: none;
-  transition: border-color .3s, transform .3s cubic-bezier(.23, 1, .32, 1);
+  transition:
+    border-color 0.3s,
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
   width: 100%;
 
@@ -15,6 +17,9 @@
     position: relative;
     overflow: hidden;
     aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     & img {
       width: 100%;
       height: 100%;
@@ -22,7 +27,7 @@
       object-position: center;
     }
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -32,9 +37,30 @@
       opacity: 0.35;
     }
   }
-  .artist-info { padding: 8px 10px 10px; }
-  .artist-rank { font-family: var(--font-base); font-size: 14px; letter-spacing: .12em; color: var(--color-dark); margin-bottom: 3px; }
-  .artist-name { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.3; transition: color .2s; }
-  .artist-card:hover .artist-name { color: var(--accent); }
-  .artist-plays { font-family: var(--font-base); font-size: 14px; color: var(--color-dark); margin-top: 2px; }
+  .artist-info {
+    padding: 8px 10px 10px;
+  }
+  .artist-rank {
+    font-family: var(--font-base);
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: var(--color-dark);
+    margin-bottom: 3px;
+  }
+  .artist-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+    transition: color 0.2s;
+  }
+  .artist-card:hover .artist-name {
+    color: var(--accent);
+  }
+  .artist-plays {
+    font-family: var(--font-base);
+    font-size: 14px;
+    color: var(--color-dark);
+    margin-top: 2px;
+  }
 }
