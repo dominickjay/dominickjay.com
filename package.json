@@ -13,7 +13,7 @@
     "generate-now": "node scripts/now.js",
     "generate-books": "node scripts/books.js",
     "generate-music": "node scripts/syncMusic.mjs",
-    "generate-tv": "node scripts/generate-tv.mjs"
+    "generate-tv": "node scripts/test-trakt.mjs"
   },
   "dependencies": {
     "@alpinejs/collapse": "^3.14.8",
