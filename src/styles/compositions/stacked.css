@@ -1,0 +1,7 @@
+@layer layout {
+  .stacked {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gutter, var(--space-s));
+  }
+}

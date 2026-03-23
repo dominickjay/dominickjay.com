@@ -21,11 +21,13 @@
 @import "./compositions/marquee.css";
 @import "./compositions/sidebar.css";
 @import "./compositions/switcher.css";
+@import "./compositions/stacked.css";
 
 @import "./compositions/hero.css";
 @import "./compositions/feature-panel.css";
 @import "./compositions/growth-panel.css";
 @import "./compositions/testimonials.css";
+@import "./compositions/resume.css";
 
 /* @import-glob 'blocks/*.css'; */
 

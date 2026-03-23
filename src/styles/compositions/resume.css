@@ -1,0 +1,42 @@
+@layer layout {
+  @scope (.resume) {
+    :scope {
+      --grid-placement: 2;
+
+      @media (width < 768px) {
+        --grid-placement: 1;
+      }
+    }
+
+    header {
+      grid-column: 1 / span 2;
+      display: flex;
+      gap: var(--space-m);
+
+      a {
+        flex-shrink: 0;
+        min-width: 192px;
+        height: fit-content;
+      }
+    }
+
+    section {
+      --grid-placement: 3;
+      --gutter: var(--space-s);
+      grid-column: 1 / span 2;
+    }
+
+    section:last-of-type {
+      --grid-placement: 4;
+    }
+
+    h2 {
+      font-family: var(--font-base);
+      font-style: italic;
+    }
+
+    h3 {
+      font-family: var(--font-base);
+    }
+  }
+}

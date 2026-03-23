@@ -1,0 +1,97 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Default.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { Picture } from "astro:assets";
+
+---
+
+<Layout
+  {...{
+    title: "Dom Jay — CSS, JS, and the occasional existential crisis",
+    description:
+      "Dom Jay's digital garden. CSS, JavaScript, and the web platform — written honestly, published impatiently, and updated whenever guilt kicks in.",
+  } as any}
+>
+  <main>
+  	<div class="container resume grid">
+   		<header>
+    		<div class="stacked">
+	    		<h1>Dominick Jay</h1>
+					<p>I'm a front-of-the-front-end developer with 10+ years of experience, with a strong focus on semantic HTML, modern CSS, and vanilla JavaScript. I'm drawn to open-source culture — building transparently, in collaboration with a community, and with a real sense of purpose behind the work.</p>
+	      </div>
+				<a href="mailto:hi@dominickjay.com">hi@dominickjay.com</a>
+    	</header>
+     	<section class="stacked">
+      	<h2>Recent Full Time Experience</h2>
+       	<div class="grid">
+        	<div class="experience-card">
+
+        		<h3 class=""><span>Job Position</span> - Company Name</h3>
+        		<date>Start Date - End Date</date>
+          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
+        	</div>
+        	<div class="experience-card">
+        		<h3 class=""><span>Job Position</span> - Company Name</h3>
+        		<date>Start Date - End Date</date>
+          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
+        	</div>
+        	<div class="experience-card">
+        		<h3 class=""><span>Job Position</span> - Company Name</h3>
+        		<date>Start Date - End Date</date>
+          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
+        	</div>
+        	<div class="experience-card">
+        		<h3 class=""><span>Job Position</span> - Company Name</h3>
+        		<date>Start Date - End Date</date>
+          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
+        	</div>
+        	<div class="experience-card">
+        		<h3 class=""><span>Job Position</span> - Company Name</h3>
+        		<date>Start Date - End Date</date>
+          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
+        	</div>
+        </div>
+      </section>
+     	<section class="stacked">
+      	<h2>Relevant Experience</h2>
+	      <div class="grid">
+					<div class="stacked">
+						<h3>HTML</h3>
+						<ul class="">
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+						</ul>
+					</div>
+					<div class="stacked">
+						<h3>CSS</h3>
+						<ul class="">
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+						</ul>
+					</div>
+					<div class="stacked">
+						<h3>Javascript</h3>
+						<ul class="">
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+						</ul>
+					</div>
+					<div class="stacked">
+						<h3>Accessibility</h3>
+						<ul class="">
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+							<li>Semantic document structure and SEO optimization.</li>
+						</ul>
+					</div>
+				</div>
+      </section>
+   	</div>
+  </main>
+</Layout>
