@@ -23,4 +23,4 @@ jobs:
           LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Weekly generate-now, books, generate-music, generate-tv
+          commit_message: 3-Monthly generate-now

@@ -28,7 +28,7 @@ jobs:
       - name: generate-tv
         run: npm run generate-tv
         env:
-          BASE_URL: ${{ env.BASE_URL || 'https://dominickjay.com' }}
+          BASE_URL: ${{ secrets.BASE_URL || 'https://dominickjay.com' }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Weekly generate-now, books, generate-music, generate-tv
