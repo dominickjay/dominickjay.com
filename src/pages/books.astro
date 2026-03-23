@@ -339,7 +339,7 @@ const ogImage = getImagePath({ url, site });
             <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
             <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks?.map(
+                currentListBooks?.slice().reverse().map(
                   (book) =>
                     book.book.user_books[0].user_book_status.slug ==
                       "currently-reading" && (
