@@ -28,7 +28,7 @@ jobs:
       - name: generate-tv
         run: npm run generate-tv
         env:
-          BASE_URL: 'https://loquacious-praline-e6a057.netlify.app/'
+          BASE_URL: 'https://loquacious-praline-e6a057.netlify.app'
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Weekly generate-now, books, generate-music, generate-tv
