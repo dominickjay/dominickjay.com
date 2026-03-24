@@ -52,7 +52,7 @@ const maskId = `mask-${id}`;
 </li>
 
 <script>
-  const checkboxes = document.querySelectorAll(".checklist-item input");
+const checkboxes = document.querySelectorAll<HTMLInputElement>(".checklist-item input");
   checkboxes.forEach((cb) => {
     const key = `checklist-${cb.id}`;
     cb.checked = localStorage.getItem(key) === "true";

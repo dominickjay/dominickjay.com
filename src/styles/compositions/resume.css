@@ -97,6 +97,7 @@
 
       div {
         padding-block-start: var(--space-s);
+        opacity: 0.8;
       }
     }
 
