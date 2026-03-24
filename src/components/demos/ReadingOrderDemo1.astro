@@ -32,7 +32,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 } as object);
 ---
 
-<div class="min-w-0 overflow-x-auto">
+<div class="" id="reading-order-demo-1">
   <!-- Tabs -->
   <div class="demo-tabs" role="tablist">
     <button
@@ -63,12 +63,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   >
     <div class="legend">
       <div class="legend-item">
-        <span class="badge badge-dom">1</span>
-        DOM order (how assistive tech reads it)
-      </div>
-      <div class="legend-item">
-        <span class="badge badge-visual">V</span>
-        Visual order (what sighted users see)
+      The cards below are visually ordered CTA → Article A → Article B using CSS order. But the DOM hasn't changed - assistive tech and keyboard users still encounter them as Article A → Article B → CTA. Tab through to see the disconnect.
       </div>
     </div>
 
@@ -121,7 +116,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       </div>
     </div>
 
-    <div class="explainer problem">
+    <div class="explainer problem prose-notice">
       <strong>What sighted users see:</strong> CTA → Article A → Article B<br />
       <strong>What keyboard/screen reader users get:</strong> Article A → Article
       B → CTA<br /><br />
@@ -135,7 +130,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     <!-- Focus tracker -->
     <p class="section-label">Tab focus sequence</p>
     <div class="focus-tracker">
-      <p class="focus-tracker-label">Focus order as you tab through</p>
       <div class="focus-sequence" id="focus-seq-problem">
         <span class="focus-step" id="step-p-a">Article A (DOM 1st)</span>
         <span class="focus-arrow">→</span>
@@ -143,8 +137,8 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         <span class="focus-arrow">→</span>
         <span class="focus-step" id="step-p-cta">CTA (DOM 3rd)</span>
       </div>
-      <div class="focus-verdict verdict-bad" id="verdict-problem">
-        ⚠ Focus follows DOM order. The CTA appears visually first but receives
+      <div class="prose-notice" data-variant="warning" id="verdict-problem">
+        Focus follows DOM order. The CTA appears visually first but receives
         focus last — a WCAG 2.4.3 failure.
       </div>
     </div>
@@ -159,12 +153,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   <div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
     <div class="legend">
       <div class="legend-item">
-        <span class="badge badge-dom">1</span>
-        DOM order (unchanged)
-      </div>
-      <div class="legend-item">
-        <span class="badge badge-dom-fix">✓</span>
-        Focus + reading order (now matches visual)
+        Adding reading-order: auto to the flex container tells the browser to follow visual order for focus and reading too. Now DOM order, focus order, and visual order all match. Tab through — the sequence is consistent.
       </div>
     </div>
 
@@ -217,7 +206,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       <strong>Visual order:</strong> CTA → Article A → Article B (unchanged)<br
       />
       <strong>Focus + reading order:</strong> CTA → Article A → Article B (now matches
-      ✓)<br /><br />
+      )<br /><br />
       <code>reading-flow: flex-visual</code> on the container + <code
         >reading-order</code
       > integers on each child tell the browser's Accessibility Tree to follow visual
@@ -230,7 +219,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     <!-- Focus tracker -->
     <p class="section-label">Tab focus sequence</p>
     <div class="focus-tracker">
-      <p class="focus-tracker-label">Focus order as you tab through</p>
       <div class="focus-sequence" id="focus-seq-solution">
         <span class="focus-step" id="step-s-cta">CTA (visual 1st)</span>
         <span class="focus-arrow">→</span>
@@ -238,15 +226,15 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         <span class="focus-arrow">→</span>
         <span class="focus-step" id="step-s-b">Article B (visual 3rd)</span>
       </div>
-      <div class="focus-verdict verdict-good">
-        ✓ Focus follows visual order. Keyboard users and screen reader users now
+      <div class="prose-notice" data-variant="tip">
+        Focus follows visual order. Keyboard users and screen reader users now
         experience the same sequence as sighted users.
       </div>
     </div>
 
     <div class="hint hint-mobile">
       <button class="play-btn button" id="play-solution" type="button">
-        ▶ Simulate focus order
+        Simulate focus order
       </button>
     </div>
 
@@ -266,19 +254,19 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
           <td>CTA</td>
           <td><span class="tag tag-dom">3rd</span></td>
           <td><span class="tag tag-visual">1st</span></td>
-          <td><span class="tag tag-focus">1st ✓</span></td>
+          <td><span class="tag tag-focus">1st</span></td>
         </tr>
         <tr>
           <td>Article A</td>
           <td><span class="tag tag-dom">1st</span></td>
           <td><span class="tag tag-visual">2nd</span></td>
-          <td><span class="tag tag-focus">2nd ✓</span></td>
+          <td><span class="tag tag-focus">2nd</span></td>
         </tr>
         <tr>
           <td>Article B</td>
           <td><span class="tag tag-dom">2nd</span></td>
           <td><span class="tag tag-visual">3rd</span></td>
-          <td><span class="tag tag-focus">3rd ✓</span></td>
+          <td><span class="tag tag-focus">3rd</span></td>
         </tr>
       </tbody>
     </table>
@@ -288,18 +276,20 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 <script>
   // ── Tab switching ──────────────────────────────────────────────────────────
   function switchTab(which) {
-    document.querySelectorAll(".tab-btn").forEach((b) => {
-      b.classList.toggle("active", b.classList.contains(which));
-      b.setAttribute(
-        "aria-selected",
-        b.classList.contains(which) && b.classList.contains(which)
-          ? "true"
-          : "false",
-      );
-    });
-    document.querySelectorAll(".demo-panel").forEach((p) => {
-      p.classList.toggle("active", p.id === "panel-" + which);
-    });
+	  document.querySelectorAll("#reading-order-demo-1").forEach((demo) => {
+	    demo.querySelectorAll(".tab-btn").forEach((b) => {
+	      b.classList.toggle("active", b.classList.contains(which));
+	      b.setAttribute(
+	        "aria-selected",
+	        b.classList.contains(which) && b.classList.contains(which)
+	          ? "true"
+	          : "false",
+	      );
+	    });
+	    demo.querySelectorAll(".demo-panel").forEach((p) => {
+	      p.classList.toggle("active", p.id === "panel-" + which);
+	    });
+	  });
   }
   window.switchTab = switchTab;
 
@@ -476,51 +466,41 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     line-height: 1.7;
   }
 
-  /* ── Tabs ── */
-  .demo-tabs {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 0;
-    background: var(--color-light);
-    border: 1px solid var(--color-dark);
-    border-bottom: none;
-    padding: 6px 6px 0;
-  }
-
   .tab-btn {
-    font-family: var(--mono);
-    font-size: 14px;
+	  font-family: var(--font-base);
+	  font-size: 14px;
+	  letter-spacing: 0.14em;
+	  color: var(--feature-color);
+		opacity: 0.85;
+	  text-transform: uppercase;
+	  margin-block-end: 8px;
     padding: 8px 16px;
     background: transparent;
     border: none;
-    color: var(--color-dark);
     cursor: pointer;
     transition:
       color 0.15s,
       background 0.15s;
-    letter-spacing: 0.03em;
+
+    &[aria-selected="true"] {
+      border-block-end: 2px solid var(--color-dark);
+      color: var(--feature-color);
+      opacity: 1;
+    }
+
+    &::before {
+      content: none;
+    }
   }
 
   .tab-btn:hover {
     color: var(--color-dark);
-    background: var(--color-light);
-  }
-
-  .tab-btn.active {
-    color: var(--color-dark);
-    background: var(--bg);
-  }
-  .tab-btn.active.problem {
-    color: var(--color-accent);
-  }
-  .tab-btn.active.solution {
-    color: var(--feature-color);
   }
 
   /* ── Panel ── */
   .demo-panel {
     background: var(--bg);
-    border: 1px solid var(--color-dark);
+    border-block-end: 1px solid var(--color-dark);
     padding: 1.5rem;
     display: none;
   }
@@ -575,12 +555,12 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Section label ── */
   .section-label {
-    font-family: var(--font-base);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 8px;
+	  font-family: var(--font-base);
+	  font-size: 14px;
+	  letter-spacing: 0.14em;
+	  color: var(--accent);
+	  text-transform: uppercase;
+	  margin-block-end: 8px;
   }
 
   .section-label::after {
@@ -663,10 +643,10 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .card.playing {
-    outline: 2px solid var(--playing-color, var(--accent));
+    outline: 2px solid var(--feature-color, var(--accent));
     outline-offset: -2px;
     box-shadow:
-      inset 0 0 0 1px var(--playing-color, var(--accent)),
+      inset 0 0 0 1px var(--feature-color, var(--accent)),
       0 8px 12px rgba(0, 0, 0, 0.12);
     transition:
       outline 0.2s,
@@ -747,7 +727,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     left: 8px;
     font-size: 14px;
     background: #222;
-    border: 1px solid #444;
+    border: 1px solid color-mix(in srgb, var(--color-light) 60%, transparent);
     color: var(--color-light);
     padding: 2px 7px;
     font-family: var(--font-base);
@@ -771,22 +751,22 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     margin-bottom: 0.5rem;
   }
   .card-cta .card-link {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
+ 		background: rgb(from var(--feature-color) r g b / 0.2);
+  	border-color: var(--color-accent);
   }
   .panel-solution .card-cta .card-link {
-    background: var(--feature-color);
-    border-color: var(--feature-color);
-    color: #000;
+ 		background: rgb(from var(--feature-color) r g b / 0.2);
+  	border-color: var(--color-accent);
   }
   .card-cta .card-link:hover {
     opacity: 0.9;
   }
 
   .play-btn {
-    font-family: var(--font-mono);
-    font-size: 12px;
+  	font-family: var(--font-mono);
+	  font-size: 14px;
+	  letter-spacing: 0.05em;
+	  text-transform: uppercase;
     padding: 8px 16px;
     background: rgb(from var(--feature-color) r g b / 0.2);
     border: 1px solid var(--color-dark);
@@ -798,6 +778,10 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     align-items: center;
     gap: 8px;
     width: fit-content;
+
+    &::before {
+     	content: none;
+    }
   }
 
   .play-btn:hover {
@@ -819,11 +803,13 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     border: 1px solid var(--color-dark);
     padding: 1rem;
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
   }
 
   .focus-tracker-label {
     color: var(--color-dark);
-    margin-bottom: 0.75rem;
     font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -842,7 +828,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     font-size: 14px;
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
-    background: var(--color-light);
+    background: color-mix(in srgb, var(--feature-color) 30%, transparent);
     transition: all 0.2s;
     white-space: nowrap;
   }
@@ -850,7 +836,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .focus-step.active-problem {
     --color-dark: #8b2500;
     --color-dark: #8b2500;
-    color: #fff;
   }
 
   .focus-step.active-solution {
@@ -887,29 +872,20 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     color: var(--feature-color);
   }
 
-  /* ── Explainer boxes ── */
-  .explainer {
-    background: rgb(from var(--feature-color) r g b / 0.12);
-    border-left: 3px solid var(--color-dark);
-    padding: 1rem;
-    margin: 1.5rem 0;
-    font-size: 14px;
-    color: var(--color-dark);
-    line-height: 1.7;
+  .prose-notice {
+    margin-block-end: 0;
   }
 
-  .explainer.problem {
+  .prose-notice:has(+ .eyebrow) {
+    margin-block-end: var(--space-m);
+  }
+
+  .prose-notice.problem {
     border-color: var(--color-accent);
   }
-  .explainer.solution {
+  .prose-notice.solution {
     border-color: var(--feature-color);
   }
-
-  .explainer strong {
-    color: var(--color-dark);
-    font-weight: 500;
-  }
-
   /* ── Code snippet ── */
   .code-block {
     background: var(--color-light);
@@ -928,12 +904,8 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Hint ── */
   .hint {
-    font-size: 14px;
     color: var(--color-dark);
     margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
   }
 
   .key {
@@ -958,12 +930,14 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     text-align: left;
     padding: 6px 10px;
     background: var(--color-light);
-    color: var(--color-dark);
-    font-weight: 400;
-    border-bottom: 1px solid var(--color-dark);
+    font-family: var(--font-base);
     font-size: 14px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.14em;
+    color: var(--accent);
     text-transform: uppercase;
+    margin-block-end: 8px;
+    border-bottom: 1px solid var(--color-dark);
+    font-weight: 400;
   }
 
   .order-table td {

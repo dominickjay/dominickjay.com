@@ -85,7 +85,7 @@ pre,
 }
 
 :not(pre) > code {
-  background: rgb(from var(--feature-color) r g b / 0.2);
+  background: rgb(from var(--feature-color) r g b / 0.15);
   border: 1px solid rgb(from var(--feature-color) r g b / 0.3);
   top: -1px;
   position: relative;

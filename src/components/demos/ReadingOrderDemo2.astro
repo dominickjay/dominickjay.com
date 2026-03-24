@@ -2,9 +2,9 @@
 import PlaceholderImage from "../PlaceholderImage.astro";
 ---
 
-<div class="min-w-0 overflow-x-auto">
+<div class="min-w-0 overflow-x-auto" id="reading-order-demo-2">
   <!-- Layout diagram -->
-  <p class="slabel" style="margin-bottom: .75rem;">Visual layout</p>
+  <p class="eyebrow">Visual layout</p>
   <div class="layout-diagram" aria-hidden="true">
     <div class="ld-cell ld-cta">
       <span class="name">CTA</span>
@@ -31,28 +31,28 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   <!-- Tabs -->
   <div class="tabs" role="tablist">
     <button
-      class="tab is-bad active"
+      class="tab-btn is-bad active"
       role="tab"
       aria-selected="true"
       aria-controls="panel-bad"
-      onclick="show('bad')"
+      onclick="switchTab('bad')"
     >
-      ❌ Without reading-flow
+      Without reading-flow
     </button>
     <button
-      class="tab is-good"
+      class="tab-btn is-good"
       role="tab"
       aria-selected="false"
       aria-controls="panel-good"
-      onclick="show('good')"
+      onclick="switchTab('good')"
     >
-      ✅ With reading-flow: grid-rows
+      With reading-flow: grid-rows
     </button>
   </div>
 
   <!-- ═══ BAD PANEL ═══ -->
-  <div class="panel panel-bad active" id="panel-bad" role="tabpanel">
-    <div class="explainer bad" style="margin-bottom:1.25rem">
+  <div class="demo-panel panel-bad active" id="panel-bad" role="tabpanel">
+    <div class="prose-notice" data-variant="warning">
       <strong>The problem:</strong> CTA is placed top-left via <code
         >grid-template-areas</code
       >, but it's the <strong>4th item in the DOM</strong>. Tab key ignores grid
@@ -60,7 +60,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       Article A → Article B → CTA: the opposite of what the layout implies.
     </div>
 
-    <p class="slabel">Live layout — try tabbing through</p>
+    <p class="eyebrow">Live layout — try tabbing through</p>
 
     <div class="editorial-grid" id="grid-bad">
       <!-- DOM 1st -->
@@ -113,7 +113,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
       <!-- DOM 4th — but visual top-left via grid-area: cta -->
       <article class="cell cell-cta">
-        <span class="dom-tag">DOM: 4th ⚠️</span>
+        <span class="dom-tag">DOM: 4th</span>
         <span class="cell-label">Promoted</span>
         <h2 class="cell-title">New: reading-flow & reading-order</h2>
         <a href="#" class="cell-link" id="bad-cta" onclick="return false"
@@ -134,8 +134,8 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <span class="t-arrow">→</span>
         <span class="t-step" id="bs-cta">CTA (DOM 4)</span>
       </div>
-      <div class="verdict bad">
-        ⚠ Focus reaches the CTA last — but it's visually first. A keyboard user
+      <div class="prose-notice" data-variant="warning">
+        Focus reaches the CTA last — but it's visually first. A keyboard user
         navigates the grid in a sequence that contradicts what they see. WCAG
         2.4.3 failure.
       </div>
@@ -148,15 +148,15 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   </div>
 
   <!-- ═══ GOOD PANEL ═══ -->
-  <div class="panel panel-good" id="panel-good" role="tabpanel">
-    <div class="explainer good" style="margin-bottom:1.25rem">
+  <div class="demo-panel panel-good" id="panel-good" role="tabpanel">
+    <div class="prose-notice" data-variant="note">
       <strong>The fix:</strong> Add <code>reading-flow: grid-rows</code> to the container.
       The browser now reads focus order row by row, matching the visual grid — CTA
       → Feature → Article A → Article B. DOM order is unchanged; only focus order
       is corrected.
     </div>
 
-    <p class="slabel">Live layout — try tabbing through</p>
+    <p class="eyebrow">Live layout — try tabbing through</p>
 
     <div class="editorial-grid grid-solution" id="grid-good">
       <!-- DOM 1st — but reading-flow: grid-rows puts focus on CTA first (top-left) -->
@@ -227,21 +227,21 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         <span class="t-arrow">→</span>
         <span class="t-step" id="gs-artb">Article B (visual btm-right)</span>
       </div>
-      <div class="verdict good">
-        ✓ Focus now moves left-to-right, top-to-bottom — exactly how a sighted
+      <div class="prose-notice" data-variant="tip">
+        Focus now moves left-to-right, top-to-bottom — exactly how a sighted
         user reads the grid. DOM order is unchanged; <code>reading-flow</code> corrects
         the accessibility layer only.
       </div>
     </div>
 
     <div class="hint hint-mobile">
-      <button class="play-btn" onclick="playSequence('good')" id="play-good"
-        >▶ Simulate focus order</button
+      <button class="play-btn button" onclick="playSequence('good')" id="play-good"
+        >Simulate focus order</button
       >
     </div>
 
     <!-- The CSS -->
-    <p class="slabel" style="margin-top:1.5rem">The CSS</p>
+    <p class="eyebrow" style="margin-top:1.5rem">The CSS</p>
     <div class="code">
       <span class="c-sel">.editorial-grid</span> &#123;
       <span class="c-prop">display</span>: <span class="c-val">grid</span>;
@@ -280,52 +280,70 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     </div>
 
     <!-- Order map -->
-    <p class="slabel">How the orders map</p>
-    <div class="map-grid">
-      <div class="mh">Cell</div>
-      <div class="mh">DOM position</div>
-      <div class="mh">Visual position</div>
-      <div class="mh">Focus position</div>
-
-      <div class="mc">CTA</div>
-      <div class="mc"><span class="t-dom">4th</span></div>
-      <div class="mc"><span class="t-vis">top-left</span></div>
-      <div class="mc"><span class="t-fix">1st</span></div>
-
-      <div class="mc">Feature</div>
-      <div class="mc"><span class="t-dom">1st</span></div>
-      <div class="mc"><span class="t-vis">top-right</span></div>
-      <div class="mc"><span class="t-fix">2nd</span></div>
-
-      <div class="mc">Article A</div>
-      <div class="mc"><span class="t-dom">2nd</span></div>
-      <div class="mc"><span class="t-vis">btm-left</span></div>
-      <div class="mc"><span class="t-fix">3rd</span></div>
-
-      <div class="mc">Article B</div>
-      <div class="mc"><span class="t-dom">3rd</span></div>
-      <div class="mc"><span class="t-vis">btm-right</span></div>
-      <div class="mc"><span class="t-fix">4th</span></div>
-    </div>
+    <p class="eyebrow">How the orders map</p>
+    <table class="order-table">
+      <thead>
+        <tr>
+	        <th>Card</th>
+	        <th>DOM position</th>
+	        <th>Visual position (<code>order</code>)</th>
+	        <th>Focus position (<code>reading-order</code>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CTA</td>
+          <td><span class="tag tag-dom">4th</span></td>
+          <td><span class="tag tag-visual">top-left</span></td>
+          <td><span class="tag tag-focus">1st</span></td>
+        </tr>
+        <tr>
+          <td>Feature</td>
+          <td><span class="tag tag-dom">1st</span></td>
+          <td><span class="tag tag-visual">top-right</span></td>
+          <td><span class="tag tag-focus">2nd</span></td>
+        </tr>
+        <tr>
+          <td>Article A</td>
+          <td><span class="tag tag-dom">2nd</span></td>
+          <td><span class="tag tag-visual">btm-left</span></td>
+          <td><span class="tag tag-focus">3rd</span></td>
+        </tr>
+        <tr>
+          <td>Article B</td>
+          <td><span class="tag tag-dom">3rd</span></td>
+          <td><span class="tag tag-visual">btm-right</span></td>
+          <td><span class="tag tag-focus">4th</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div><!-- /good panel -->
 </div>
 
 <script>
   // ── Tab switching ──────────────────────────────────────────────────────────
-  function show(which) {
-    document.querySelectorAll(".tab").forEach((t) => {
-      const match = t.classList.contains("is-" + which);
-      t.classList.toggle("active", match);
-      t.setAttribute("aria-selected", match ? "true" : "false");
+  function switchTab(which) {
+    document.querySelectorAll("#reading-order-demo-2").forEach((demo) => {
+      demo.querySelectorAll(".tab-btn").forEach((t) => {
+        const match = t.classList.contains("is-" + which);
+        t.classList.toggle("active", match);
+        t.setAttribute("aria-selected", match ? "true" : "false");
+      });
+      demo.querySelectorAll(".demo-panel").forEach((p) => {
+        p.classList.toggle("active", p.id === "panel-" + which);
+      });
+      // Move focus to the first card link so tab flows through the demo
+      const firstLink = demo.querySelector("#panel-" + which + " .cell-link");
+      if (firstLink) firstLink.focus();
     });
-    document.querySelectorAll(".panel").forEach((p) => {
+    document.querySelectorAll(".demo-panel").forEach((p) => {
       p.classList.toggle("active", p.id === "panel-" + which);
     });
     // Move focus to the first card link so tab flows through the demo
     const firstLink = document.querySelector("#panel-" + which + " .cell-link");
     if (firstLink) firstLink.focus();
   }
-  window.show = show;
+  window.switchTab = switchTab;
 
   // ── Focus tracker ─────────────────────────────────────────────────────────
   const focusMap = {
@@ -483,14 +501,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     padding-block-end: 32px;
   }
 
-  .eyebrow {
-    font-size: 14px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.6rem;
-  }
-
   h1 {
     font-family: var(--serif);
     font-size: clamp(1.5rem, 3.5vw, 2.2rem);
@@ -511,34 +521,38 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     line-height: 1.7;
   }
 
-  /* ── Tabs ── */
-  .tabs {
-    display: flex;
-    gap: 2px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-bottom: none;
-    padding: 6px 6px 0;
+  .tab-btn {
+  	font-family: var(--font-base);
+	  font-size: 14px;
+	  letter-spacing: 0.14em;
+	  color: var(--feature-color);
+		opacity: 0.85;
+	  text-transform: uppercase;
+	  margin-block-end: 8px;
+	   padding: 8px 16px;
+	   background: transparent;
+	   border: none;
+	   cursor: pointer;
+	   transition:
+	     color 0.15s,
+	     background 0.15s;
+
+	  &[aria-selected="true"] {
+	    border-block-end: 2px solid var(--color-dark);
+	    color: var(--feature-color);
+	    opacity: 1;
+	  }
+
+    &::before {
+      content: none;
+    }
+
+    &:hover {
+      color: var(--color-dark);
+    }
   }
 
-  .tab {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    padding: 8px 16px;
-    background: transparent;
-    border: none;
-    color: var(--color-dark);
-    cursor: pointer;
-    transition:
-      color 0.15s,
-      background 0.15s;
-    letter-spacing: 0.03em;
-  }
-
-  .tab:hover {
-    color: var(--text);
-    background: var(--surface-2);
-  }
+  .tab-btn
   .tab.active {
     color: var(--text);
     background: var(--bg);
@@ -551,34 +565,25 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   /* ── Panel ── */
-  .panel {
-    display: none;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
+  .demo-panel {
+	  background: var(--bg);
+	  border-block-end: 1px solid var(--color-dark);
+	  padding: 1.5rem;
+	  display: none;
   }
 
-  .panel.active {
+  .demo-panel.active {
     display: block;
   }
 
   /* ── Section label ── */
-  .slabel {
-    font-size: 14px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .slabel::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--border);
+  .eyebrow {
+	  font-family: var(--mono);
+	  font-size: 14px;
+	  letter-spacing: 0.15em;
+	  text-transform: uppercase;
+	  color: var(--color-accent);
+	  margin-bottom: 0.75rem;
   }
 
   /* ── THE GRID ── */
@@ -597,7 +602,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .editorial-grid {
     display: grid;
     gap: 1px;
-    background: var(--border); /* gap colour via bg trick */
+    background: color-mix(in srgb, var(--color-light) 60%, transparent); /* gap colour via bg trick */
     border: 1px solid var(--border);
     overflow: hidden;
     margin-bottom: 1.5rem;
@@ -742,12 +747,16 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* CTA cell accent */
   .cell-cta {
-    background: #161616;
+    background: var(--color-dark);
     border-left: 3px solid var(--border);
   }
 
+  .cell-cta .cell-title,
+  .cell-cta .cell-label {
+    color: var(--color-light);
+  }
+
   .panel-bad .cell-cta {
-    border-color: #9a6200;
     & .cell-title,
     & .cell-label {
       color: var(--color-light);
@@ -880,6 +889,21 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     color: var(--good);
   }
 
+  .prose-notice {
+  	margin-block-end: 0;
+  }
+
+  .prose-notice:has(+ .eyebrow) {
+    margin-block-end: var(--space-m);
+  }
+
+  .prose-notice.problem {
+    border-color: var(--color-accent);
+  }
+  .prose-notice.solution {
+    border-color: var(--feature-color);
+  }
+
   /* ── Code ── */
   .code {
     background: var(--surface);
@@ -912,52 +936,59 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   /* ── Order map ── */
-  .map-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    font-size: 14px;
+  .order-table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  font-size: 14px;
+	  margin: 1rem 0;
   }
 
-  .map-grid .mh {
-    background: var(--surface-2);
+  .order-table th {
+    text-align: left;
     padding: 6px 10px;
-    color: var(--color-dark);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    background: var(--color-light);
+    font-family: var(--font-base);
     font-size: 14px;
-  }
-
-  .map-grid .mc {
-    background: var(--surface);
-    padding: 8px 10px;
-    color: var(--text);
-  }
-
-  .map-grid .mc span {
-    display: inline-block;
-    padding: 2px 7px;
-    font-size: 14px;
-  }
-
-  .t-dom {
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    color: var(--color-dark);
-  }
-  .t-vis {
-    background: rgba(185, 74, 56, 0.1);
-    border: 1px solid rgba(185, 74, 56, 0.25);
+    letter-spacing: 0.14em;
     color: var(--accent);
+    text-transform: uppercase;
+    margin-block-end: 8px;
+    border-bottom: 1px solid var(--color-dark);
+    font-weight: 400;
   }
-  .t-fix {
-    background: rgba(44, 83, 100, 0.1);
-    border: 1px solid rgba(44, 83, 100, 0.25);
-    color: var(--good);
+
+  .order-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    vertical-align: middle;
+  }
+
+  .order-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    width: 100%;
+  }
+
+  .tag-dom {
+    background: var(--color-light);
+    border: 1px dashed var(--color-dark);
+    color: var(--color-dark);
+    border: 1px solid #444;
+  }
+  .tag-visual {
+    background: rgba(255, 92, 53, 0.12);
+    color: var(--color-accent);
+    border: 1px solid rgba(255, 92, 53, 0.3);
+  }
+  .tag-focus {
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--feature-color);
+    border: 1px solid rgba(74, 222, 128, 0.3);
   }
 
   /* ── Hint ── */
@@ -982,8 +1013,10 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   .play-btn {
-    font-family: var(--font-mono);
-    font-size: 12px;
+  	font-family: var(--font-mono);
+	  font-size: 14px;
+	  letter-spacing: 0.05em;
+	  text-transform: uppercase;
     padding: 8px 16px;
     background: rgb(from var(--feature-color) r g b / 0.2);
     border: 1px solid var(--color-dark);
@@ -995,6 +1028,10 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     align-items: center;
     gap: 8px;
     width: fit-content;
+
+    &::before {
+    	content: none;
+    }
   }
 
   .play-btn:hover {

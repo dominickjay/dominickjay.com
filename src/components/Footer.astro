@@ -329,7 +329,7 @@ const gardenNav = [
 
 <style>
   .site-footer {
-    --footer-bg: #1a1a18;
+    --footer-bg: var(--color-dark);
     --footer-muted: rgba(251, 248, 239, 0.5);
     --footer-text: rgba(251, 248, 239, 0.65);
     --footer-heading: rgba(251, 248, 239, 0.88);
@@ -400,7 +400,7 @@ const gardenNav = [
     font-family: var(--font-base);
     font-size: 14px;
     letter-spacing: 0.14em;
-    color: var(--accent);
+    color: color-mix(in srgb, var(--accent) 60%, var(--color-light));
     text-transform: uppercase;
     margin-block-end: 8px;
   }
