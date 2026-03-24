@@ -8,10 +8,10 @@
     font-family: var(--font-base);
     font-size: 10px;
     letter-spacing: 0.14em;
-    color: var(--color-dark);
+    color: var(--feature-color);
     text-transform: uppercase;
-    margin-block-end: 8px;
     padding-block-start: 4px;
+    font-style: normal;
   }
 }
 

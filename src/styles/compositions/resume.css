@@ -3,12 +3,16 @@
     :scope {
       --grid-placement: 2;
 
-      @media (width < 768px) {
+      container: resume / inline-size;
+
+      @container resume (width < 768px) {
         --grid-placement: 1;
+        --gutter: var(--space-m);
       }
     }
 
     header {
+      --gutter: var(--space-m);
       grid-column: 1 / span 2;
       display: flex;
       gap: var(--space-m);
@@ -18,16 +22,48 @@
         min-width: 192px;
         height: fit-content;
       }
+
+      @container resume (width < 768px) {
+        --gutter: var(--space-s);
+        flex-direction: column;
+      }
     }
 
     section {
       --grid-placement: 3;
-      --gutter: var(--space-s);
+      --gutter: var(--space-m);
+
       grid-column: 1 / span 2;
+
+      @container resume (width < 768px) {
+        --gutter: var(--space-m);
+        --grid-placement: 2;
+      }
+
+      @container resume (width < 480px) {
+        --grid-placement: 1;
+      }
+
+      .grid {
+        --gutter: var(--space-m);
+
+        @container resume (width < 480px) {
+          --gutter: var(--space-l);
+        }
+      }
     }
 
     section:last-of-type {
       --grid-placement: 4;
+
+      @container resume (width < 768px) {
+        --gutter: var(--space-m);
+        --grid-placement: 2;
+      }
+
+      @container resume (width < 480px) {
+        --grid-placement: 1;
+      }
     }
 
     h2 {
@@ -35,8 +71,51 @@
       font-style: italic;
     }
 
-    h3 {
-      font-family: var(--font-base);
+    @scope (.experience-card) {
+      :scope {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+      }
+
+      picture {
+        margin-block-end: var(--space-s);
+      }
+
+      h3 {
+        font-family: var(--font-base);
+        font-size: 16px;
+      }
+
+      date {
+        font-family: var(--font-base);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        text-transform: uppercase;
+      }
+
+      div {
+        padding-block-start: var(--space-s);
+      }
+    }
+
+    @scope (.skills-list) {
+      :scope {
+        --gutter: var(--space-m);
+        display: flex;
+        flex-direction: column;
+      }
+
+      h3 {
+        font-family: var(--font-base);
+        font-size: 16px;
+        font-style: italic;
+      }
+
+      ul {
+        --gutter: var(--space-xs);
+      }
     }
   }
 }

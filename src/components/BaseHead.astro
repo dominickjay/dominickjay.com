@@ -7,6 +7,7 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  showName?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -69,7 +70,6 @@ const {
 
 <script>
   import collapse from "@alpinejs/collapse";
-  import focus from "@alpinejs/focus";
   import { initScramble } from "../utils/scramble.js";
   document.addEventListener("DOMContentLoaded", initScramble);
 

@@ -8,9 +8,6 @@
       bottom: 0;
       right: 0;
     }
-    :has(> .pattern-banner) {
-      overflow: hidden;
-    }
     @scope (.pattern) {
       :scope {
         opacity: 0.1;
