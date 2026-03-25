@@ -1,8 +1,9 @@
 ---
 import { codeToHtml } from "shiki";
+import type { ThemeRegistrationRaw } from "shiki";
 import domTheme from "../../styles/dom-shiki-theme.json";
 // Shiki normalizes VS Code-style theme (tokenColors) at runtime
-const theme = domTheme as Parameters<typeof codeToHtml>[1]["theme"];
+const theme = domTheme as unknown as ThemeRegistrationRaw;
 
 const bemCss = `/* 6 selectors, block repeated throughout */
 

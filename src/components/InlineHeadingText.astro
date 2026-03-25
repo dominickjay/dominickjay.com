@@ -3,7 +3,7 @@
 const { heading, text, italicIndices = [] } = Astro.props;
 
 /** @type {Array<{ text: string; italic: boolean }>} */
-const words = heading.split(/\s+/).map((word, i) => ({
+const words = heading.split(/\s+/).map((word: string, i: number) => ({
   text: word,
   italic: italicIndices.includes(i),
 }));
@@ -16,7 +16,7 @@ const words = heading.split(/\s+/).map((word, i) => ({
 	 	data-scramble-on-load
 	>
 	  {
-	   words.map((w, i) => (
+	   words.map((w: { text: string; italic: boolean }, i: number) => (
 	      <>
 	        <span
 	          class:list={["sw", w.italic && "italic gradient-text"]}

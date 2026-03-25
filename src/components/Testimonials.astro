@@ -87,13 +87,13 @@ const testimonials = TESTIMONIALS;
           <span x-text="pad(total)">05</span>
         </span>
         <button
-          class="testimonials-refresh js-link"
+          class="big-link js-link"
           aria-label="Next testimonial"
           @click="goNext()"
           :disabled="locked"
+          data-scramble-on-load
         >
-          <span class="refresh-icon" :class="{ 'is-spinning': locked }">↻</span>
-          <span>Refresh</span>
+          <span data-scramble="Refresh">Refresh</span>
         </button>
       </div>
     </div>

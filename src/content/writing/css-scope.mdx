@@ -237,11 +237,10 @@ So, if the above sounds like a good fit for the next time you're building out a 
 ### Before you start
 
 <ul class="checklist">
-	<ChecklistItem>Check your browser support requirements. `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. If you're supporting anything older, wrap your scoped styles in a feature query and keep BEM as the fallback: `@supports (selector(@scope)) { @scope (.card) { … } }` — it adds two lines and costs nothing.</ChecklistItem>
-	<ChecklistItem>Pick one component to migrate first. Don't rewrite everything. Choose a self-contained component — a card, a nav item, a badge — and use it as your proof of concept before touching shared or global styles.</ChecklistItem>
-	<ChecklistItem>Have the original BEM styles open alongside. You're not deleting them yet. Migration goes: write the scoped version → confirm it works → remove the BEM version.</ChecklistItem>
+	<ChecklistItem id="pre-browser-support">Check your browser support requirements. `@scope` is supported in Chrome 118+, Firefox 120+, and Safari 17.2+. If you're supporting anything older, wrap your scoped styles in a feature query and keep BEM as the fallback: `@supports (selector(@scope)) { @scope (.card) { … } }` — it adds two lines and costs nothing.</ChecklistItem>
+	<ChecklistItem id="pre-pick-one-component">Pick one component to migrate first. Don't rewrite everything. Choose a self-contained component — a card, a nav item, a badge — and use it as your proof of concept before touching shared or global styles.</ChecklistItem>
+	<ChecklistItem id="pre-keep-bem-open">Have the original BEM styles open alongside. You're not deleting them yet. Migration goes: write the scoped version → confirm it works → remove the BEM version.</ChecklistItem>
 </ul>
-
 
 ### Step 1 — Identify your scope root
 Your BEM block becomes your @scope selector. The block class is the only class you need to keep on the HTML element.
@@ -258,11 +257,10 @@ Your BEM block becomes your @scope selector. The block class is the only class y
 ```
 
 <ul class="checklist">
-	<ChecklistItem>Identify the block class — this becomes your @scope (.block-name) selector</ChecklistItem>
-	<ChecklistItem>Keep the block class on the HTML element (.card, .nav, .badge) — it's now the scope root, not just a selector</ChecklistItem>
-	<ChecklistItem>Remove the block prefix from every element class in your markup — card__image becomes image, or just gets removed in favour of an element selector (see step 2)</ChecklistItem>
+	<ChecklistItem id="s1-identify-block-class">Identify the block class — this becomes your @scope (.block-name) selector</ChecklistItem>
+	<ChecklistItem id="s1-keep-block-class">Keep the block class on the HTML element (.card, .nav, .badge) — it's now the scope root, not just a selector</ChecklistItem>
+	<ChecklistItem id="s1-remove-block-prefix">Remove the block prefix from every element class in your markup — card__image becomes image, or just gets removed in favour of an element selector (see step 2)</ChecklistItem>
 </ul>
-
 
 ### Step 2 — Replace element classes with element selectors where possible
 This is the cleanest win. BEM element classes exist to prevent style leakage — @scope handles that, so you can target img, h3, p, a directly inside the scope without them bleeding out.
@@ -283,9 +281,9 @@ This is the cleanest win. BEM element classes exist to prevent style leakage —
 ```
 
 <ul class="checklist">
-	<ChecklistItem>For each BEM element class, ask: is this targeting a semantically unique element within the component? (__image → img, __heading → h3)</ChecklistItem>
-	<ChecklistItem>If yes — replace with the element selector inside the scope, remove the class from the HTML</ChecklistItem>
-	<ChecklistItem>If no — the element isn't semantically unique (two different div wrappers, multiple span types) — keep a class, but drop the BEM prefix. .card__content becomes .content inside the scope; the scope handles the leakage</ChecklistItem>
+	<ChecklistItem id="s2-ask-semantically-unique">For each BEM element class, ask: is this targeting a semantically unique element within the component? (__image → img, __heading → h3)</ChecklistItem>
+	<ChecklistItem id="s2-replace-with-element-selector">If yes — replace with the element selector inside the scope, remove the class from the HTML</ChecklistItem>
+	<ChecklistItem id="s2-keep-non-unique-class">If no — the element isn't semantically unique (two different div wrappers, multiple span types) — keep a class, but drop the BEM prefix. .card__content becomes .content inside the scope; the scope handles the leakage</ChecklistItem>
 </ul>
 
 
@@ -326,43 +324,39 @@ Where the modifier is driven by content or state rather than an explicit class.
 ```
 
 <ul class="checklist">
-	<ChecklistItem>List every --modifier class in the component</ChecklistItem>
-	<ChecklistItem>Decide per modifier: simplified class, data attribute, or :has() condition</ChecklistItem>
-	<ChecklistItem>Update the HTML and CSS together — don't leave orphaned modifier classes in the markup</ChecklistItem>
+	<ChecklistItem id="s3-list-modifiers">List every --modifier class in the component</ChecklistItem>
+	<ChecklistItem id="s3-decide-per-modifier">Decide per modifier: simplified class, data attribute, or :has() condition</ChecklistItem>
+	<ChecklistItem id="s3-update-html-css">Update the HTML and CSS together — don't leave orphaned modifier classes in the markup</ChecklistItem>
 </ul>
-
 
 ### Step 4 — Migrate scoped variables
 If you've read the design tokens section above, you already know the full picture here. The short version for the migration:
 
 <ul class="checklist">
-	<ChecklistItem>Identify any custom properties currently set on the block class</ChecklistItem>
-	<ChecklistItem>Move them inside @scope — they now only apply within the component</ChecklistItem>
-	<ChecklistItem>Check that global tokens (:root variables) still resolve correctly from inside the scope — they will, but worth confirming if you're overriding the same property name</ChecklistItem>
-	<ChecklistItem>If the component needs context-based theming (different values in a banner, a sidebar, a dark section) — set those token overrides on the parent element rather than using a modifier class on the component itself</ChecklistItem>
+	<ChecklistItem id="s4-identify-custom-props">Identify any custom properties currently set on the block class</ChecklistItem>
+	<ChecklistItem id="s4-move-inside-scope">Move them inside @scope — they now only apply within the component</ChecklistItem>
+	<ChecklistItem id="s4-check-global-tokens">Check that global tokens (:root variables) still resolve correctly from inside the scope — they will, but worth confirming if you're overriding the same property name</ChecklistItem>
+	<ChecklistItem id="s4-context-theming">If the component needs context-based theming (different values in a banner, a sidebar, a dark section) — set those token overrides on the parent element rather than using a modifier class on the component itself</ChecklistItem>
 </ul>
-
 
 ### Step 5 — Add a lower boundary if components nest
 You've seen this in the donut hole section above — just the decision checklist here:
 
 <ul class="checklist">
-	<ChecklistItem>Does this component ever nest inside itself, or inside a component with the same element selectors?</ChecklistItem>
-	<ChecklistItem>If yes — add a lower boundary: `@scope (.card) to (.card) { … }`</ChecklistItem>
-	<ChecklistItem>If no — skip this step</ChecklistItem>
+	<ChecklistItem id="s5-check-nesting">Does this component ever nest inside itself, or inside a component with the same element selectors?</ChecklistItem>
+	<ChecklistItem id="s5-add-lower-boundary">If yes — add a lower boundary: `@scope (.card) to (.card) { … }`</ChecklistItem>
+	<ChecklistItem id="s5-skip-if-no-nesting">If no — skip this step</ChecklistItem>
 </ul>
-
 
 ### Step 6 — Clean up the HTML
 Once the scoped CSS is confirmed working, the markup gets leaner.
 
 <ul class="checklist">
-	<ChecklistItem>Remove all block__element classes now targeted by element selectors</ChecklistItem>
-	<ChecklistItem>Remove all block__element classes now targeted by simplified classes</ChecklistItem>
-	<ChecklistItem>Keep: the block class (scope root) + any remaining modifier/variant classes</ChecklistItem>
-	<ChecklistItem>The card from this post goes from 7 classes to 1 — just .card on the wrapper</ChecklistItem>
+	<ChecklistItem id="s6-remove-element-classes">Remove all block__element classes now targeted by element selectors</ChecklistItem>
+	<ChecklistItem id="s6-remove-simplified-classes">Remove all block__element classes now targeted by simplified classes</ChecklistItem>
+	<ChecklistItem id="s6-keep-block-and-modifiers">Keep: the block class (scope root) + any remaining modifier/variant classes</ChecklistItem>
+	<ChecklistItem id="s6-seven-to-one">The card from this post goes from 7 classes to 1 — just .card on the wrapper</ChecklistItem>
 </ul>
-
 
 Before:
 
@@ -398,11 +392,10 @@ After:
 Only once the scoped version is confirmed working in all target browsers.
 
 <ul class="checklist">
-  <ChecklistItem>Delete the original BEM block and element declarations</ChecklistItem>
-  <ChecklistItem>Run a search for the old class names in your templates and markup — confirm none remain</ChecklistItem>
-  <ChecklistItem>If you added an @supports fallback, confirm it's still in place and the BEM styles inside it are intentional</ChecklistItem>
+	<ChecklistItem id="s7-delete-bem-declarations">Delete the original BEM block and element declarations</ChecklistItem>
+  <ChecklistItem id="s7-search-old-classnames">Run a search for the old class names in your templates and markup — confirm none remain</ChecklistItem>
+  <ChecklistItem id="s7-check-supports-fallback">If you added an @supports fallback, confirm it's still in place and the BEM styles inside it are intentional</ChecklistItem>
 </ul>
-
 
 ### What you're not migrating
 A few BEM patterns that @scope doesn't replace — keep these as-is:

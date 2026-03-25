@@ -3,7 +3,7 @@ const { tags } = Astro.props;
 ---
 
 <ul class="tags flex flex-wrap topics__list">
-    {tags.map((tag, i) =>
+    {tags.map((tag: String, i: number) =>
     <li>
         {i != 0 && '/'}{tag}
     </li>

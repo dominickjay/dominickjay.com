@@ -272,8 +272,16 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 </div>
 
 <script>
+
+	declare global {
+	  interface Window {
+	    switchPanel: (which: string) => void;
+	    runDemo: (panel: string) => void;
+	  }
+	}
+
   // ── Panel switching ────────────────────────────────────────────────────────
-  function switchPanel(which) {
+  function switchPanel(which: string) {
     document.querySelectorAll(".tab").forEach((t) => {
       const match = t.classList.contains("is-" + which);
       t.classList.toggle("active", match);
@@ -289,7 +297,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   window.switchPanel = switchPanel;
 
   // ── Demo simulation ────────────────────────────────────────────────────────
-  function runDemo(panel) {
+  function runDemo(panel: string) {
     const grid = document.getElementById("grid-" + panel);
     const log = document.getElementById("log-" + panel);
     const btn = document.getElementById("btn-" + panel);

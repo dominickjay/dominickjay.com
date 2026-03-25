@@ -37,25 +37,6 @@
         gap: var(--space-xs);
       }
 
-      .testimonials-refresh {
-        font-family: var(--font-base);
-        background: none;
-        padding: var(--space-s) var(--space-m);
-        line-height: 1.3;
-        cursor: none;
-        display: flex;
-        align-items: center;
-        gap: var(--space-s);
-        transition:
-          color 0.2s,
-          border-color 0.2s;
-      }
-
-      .testimonials-refresh:hover {
-        color: var(--color-accent);
-        border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
-      }
-
       .refresh-icon {
         display: inline-block;
         transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);

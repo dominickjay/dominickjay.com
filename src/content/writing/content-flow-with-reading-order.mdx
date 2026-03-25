@@ -7,13 +7,13 @@ tags:
   - css
   - accessibility
 growth: growing
-draft: true
 ---
 
 import ReadingOrderDemo1 from '../../components/demos/ReadingOrderDemo1.astro';
 import ReadingOrderDemo2 from '../../components/demos/ReadingOrderDemo2.astro';
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
 import FYIBlock from '../../components/FYIBlock.astro';
+import CardDemo from '../../components/CardDemo.astro';
 
 ## The Accessibility Gap: When Visual Order Betrays Logical Order
 
@@ -85,20 +85,7 @@ If we have for example, a traditional card layout that has 3 elements; a date (t
 }
 ```
 
-<article class="card card-b" tabindex="-1">
-    <span class="dom-badge">DOM: 2nd</span>
-    <PlaceholderImage ratio="16 / 5" />
-    <div class="card-body">
-    <span class="card-meta">18 Oct 2025 · Article</span>
-    <h3 class="card-title">Article B</h3>
-    <a
-        href="#"
-        class="card-link"
-        id="link-b"
-        onclick="return false"
-    >Read more →</a>
-    </div>
-</article>
+<CardDemo ratio="16/5" title="Card heading" text="Laborum sint laborum nostrud est. Est exercitation et occaecat ut proident non voluptate et. Laborum non id voluptate tempor ea anim anim eu irure laborum velit labore ullamco. Non ipsum labore consequat adipisicing amet ut reprehenderit." />
 
 Visually, we've got our card layout looking like this; an image, then a date, then a title. Pretty generic stuff, but when a screen reader user traverses this layout, the order of the content is not what we would expect. The image is announced first, then the date, then the title. This is because the screen reader is reading the content in the order of the DOM, not the visual order.
 

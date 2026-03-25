@@ -1,5 +1,5 @@
 ---
-const { ariahidden = false } = Astro.props;
+const { "aria-hidden": ariaHidden = false } = Astro.props;
 
 import {
   getRecentTracksWithTags,
@@ -141,7 +141,7 @@ if (recentTracksData.recentTracks) {
 }
 ---
 
-<div class="info-panel__details marquee__content" {ariahidden} x-cloak>
+<div class="info-panel__details marquee__content" aria-hidden={ariaHidden} x-cloak>
   {
     recentTracks?.name && recentTracks?.artist?.["#text"] && (
       <div

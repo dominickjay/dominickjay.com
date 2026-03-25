@@ -52,14 +52,23 @@ const maskId = `mask-${id}`;
 </li>
 
 <script>
-const checkboxes = document.querySelectorAll<HTMLInputElement>(".checklist-item input");
-  checkboxes.forEach((cb) => {
-    const key = `checklist-${cb.id}`;
-    cb.checked = localStorage.getItem(key) === "true";
-    cb.addEventListener("change", () => {
-      localStorage.setItem(key, cb.checked);
-    });
-  });
+	function initCheckboxes() {
+	  const checkboxes = document.querySelectorAll<HTMLInputElement>(
+	    ".checklist-item input:not([data-init])"
+	  );
+	  checkboxes.forEach((cb) => {
+	    cb.dataset.init = "true";
+	    const key = `checklist-${cb.id}`;
+	    cb.checked = localStorage.getItem(key) === "true";
+	    cb.addEventListener("change", () => {
+	      console.log(cb.checked);
+	      localStorage.setItem(key, cb.checked.toString());
+	    });
+	  });
+	}
+
+	initCheckboxes();
+
 </script>
 
 <style>

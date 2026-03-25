@@ -26,7 +26,7 @@ const currentPath = Astro.url.pathname;
     <summary class="series-strip__tag">{tagline}</summary>
     <div class="series-strip__links">
       {
-        articles.map((article, i) => (
+        articles.map((article: { title: string; link: string; description: string }, i: number) => (
           <div
             class={`series-strip__item ${currentPath.split("/")[2] === article.link.split("/")[1] ? "series-strip__item--current" : ""}`}
           >

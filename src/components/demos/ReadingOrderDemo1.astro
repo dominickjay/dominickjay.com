@@ -3,7 +3,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 import { codeToHtml } from "shiki";
 import domTheme from "../../styles/dom-shiki-theme.json";
 
-const theme = domTheme as object;
+const theme = domTheme as any;
 
 const problemCss = `/* Visual order achieved with CSS order — */
 /* but DOM (and focus) order is unchanged */
@@ -25,11 +25,13 @@ const solutionCss = `/* Same visual order — but now focus matches */
 const problemCodeHighlighted = await codeToHtml(problemCss, {
   lang: "css",
   theme,
-} as object);
+});
+
 const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   lang: "css",
   theme,
-} as object);
+});
+
 ---
 
 <div class="" id="reading-order-demo-1">
@@ -274,8 +276,15 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 </div>
 
 <script>
+
+	declare global {
+	  interface Window {
+	    switchPanel: (which: string) => void;
+	    runDemo: (panel: string) => void;
+	  }
+	}
   // ── Tab switching ──────────────────────────────────────────────────────────
-  function switchTab(which) {
+  function switchTab(which: string) {
 	  document.querySelectorAll("#reading-order-demo-1").forEach((demo) => {
 	    demo.querySelectorAll(".tab-btn").forEach((b) => {
 	      b.classList.toggle("active", b.classList.contains(which));
@@ -295,7 +304,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   // ── Focus tracking ─────────────────────────────────────────────────────────
   // Simulates the focus indicator in the tracker — also works with real tab
-  const focusMaps = {
+  const focusMaps: Record<string, { step: string; panel: string }> = {
     "link-a": { step: "step-p-a", panel: "problem" },
     "link-b": { step: "step-p-b", panel: "problem" },
     "link-cta": { step: "step-p-cta", panel: "problem" },
@@ -332,7 +341,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   // ── Mobile playback ───────────────────────────────────────────────────────
   // Sequences: [{ cardSelector, stepId, badge }]
-  const sequences = {
+  const sequences: Record<string, { card: string; step: string; n: number }[]> = {
     problem: [
       { card: ".panel-problem .card-a", step: "step-p-a", n: 1 },
       { card: ".panel-problem .card-b", step: "step-p-b", n: 2 },
@@ -345,7 +354,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     ],
   };
 
-  function playSequence(panel) {
+  function playSequence(panel: string) {
     const steps = sequences[panel];
     if (!steps?.length) return;
     const btn = document.getElementById("play-" + panel);
@@ -365,7 +374,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     });
     // Reset card highlights
     steps.forEach(({ card }) => {
-      const el = document.querySelector(card);
+    	const el = document.querySelector<HTMLElement>(card);
       if (!el) return;
       el.classList.remove("playing");
       el.style.removeProperty("--playing-color");
@@ -373,12 +382,12 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       if (badge) badge.textContent = "";
     });
 
-    steps.forEach(({ card, step, n }, i) => {
+    steps.forEach(({ card, step, n }, i: number) => {
       // Highlight card
       setTimeout(() => {
         // Clear previous
         if (i > 0) {
-          const prev = document.querySelector(steps[i - 1].card);
+        	const prev = document.querySelector<HTMLElement>(steps[i - 1].card);
           if (prev) {
             prev.classList.remove("playing");
             const prevBadge = prev.querySelector(".play-badge");
@@ -913,7 +922,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     background: var(--color-light);
     border: 1px solid #444;
     border-bottom: 2px solid #444;
-    padding: 1px 6px;
+    padding: 1px 6px 0;
     font-size: 14px;
     color: var(--color-dark);
   }

@@ -125,12 +125,12 @@ blockquote {
       width 0.3s;
   }
 
-  @variant md {
+  @media (width > 768px) {
     padding-inline-start: 40px;
   }
 }
 
-@variant md {
+@media (width > 768px) {
   .prose :is(h1, h2, h3) {
     overflow-wrap: unset;
     -webkit-hyphens: unset;
