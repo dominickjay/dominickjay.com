@@ -68,19 +68,19 @@ The CRA has a distinct advantage of only having one dependency to manage - `reac
 	<div slot="body">Running the `npm run eject` or `yarn eject` commands is irreversible, so make sure you choose wisely as to whether or not you want to run this command. There is an alternative however, which we will cover below, so don't be too trigger happy.</div>
 </FYIBlock>
 
-#### Eject alternatives
+## Eject alternatives
 
 Running eject isn't highly recommended however, as there are tools that can allow for overriding dependencies _without_ ejecting. CRACO for example, which stands for Create React App Configuration Override can override parts of the create-react-app tool while still allowing for the advantage of CRA's one dependecy to be taken advantage of.
 
-## Advantages & Disadvantages
+### Advantages & Disadvantages
 
 Ultimately, using the CRA tool seems like a great way forward to creating Single Page Applications in React, but surely there's some downsides? Let's run through some advantages and disadvantages of using this.
 
-### Advantages
+#### Advantages
 
 A great start to this is that there's **less to learn**, you don't need to find out the ins-and-outs to configure any of the build tools used such as Webpack or Babel, and there's also instant browser reload to help with development. There's also **only one dependency** so when it comes to the pieces that make up the CRA, we don't need to worry about versions being out-of-date, or not being compatible.
 
-### Disadvantages
+#### Disadvantages
 
 It's not all sunshine though, as always there are some downsides. The CRA does have a lot of dependencies stored in it that will be included regardless of it actually being used. Running the `eject` command on our previously installed CRA app, will result in a vastly different `package.json` file which you can see below. For context, I've removed the content around the dependencies section.
 

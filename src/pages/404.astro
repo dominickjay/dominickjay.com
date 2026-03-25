@@ -2,14 +2,8 @@
 import BaseHead from "../components/BaseHead.astro";
 import { getImagePath } from "astro-opengraph-images";
 import Header from "../components/Header.astro";
-import Pattern from "../components/Pattern.astro";
-import InfoPanel from "../components/InfoPanel.astro";
-import FeaturePanel from "../components/FeaturePanel.astro";
-import GrowthPanel from "../components/GrowthPanel.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
+import Footer	 from "../components/Footer.astro";
 import { getCollection } from "astro:content";
-import Profile from "../components/Profile.astro";
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
 let posts = [];
 
@@ -48,7 +42,7 @@ const ogImage = getImagePath({ url, site });
           style=""
         >
           <h1
-            class="heading-tagline !text-[45vw] md:!text-[460px] blur-[5px] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
+            class="heading-tagline !text-[45vw] md:!text-[460px] opacity-[0.10] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
             style="background-image: var(--color-gradient);"
           >
             404
@@ -67,7 +61,7 @@ const ogImage = getImagePath({ url, site });
         </div>
       </div>
     </main>
-    <PatternBanner fill="rgba(0, 0, 0, 0.8)" />
+    <Footer />
   </body>
 </html>
 

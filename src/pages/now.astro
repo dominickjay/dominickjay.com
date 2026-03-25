@@ -10,7 +10,7 @@ import { getCollection, render } from "astro:content";
 import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
 
-const showMarquee = true;
+const showMarquee = false;
 
 let nowPosts: Awaited<ReturnType<typeof getCollection<"now">>> = [];
 
