@@ -154,6 +154,15 @@
       width: 100% !important;
     }
 
+    .eyebrow {
+      font-family: var(--font-base);
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 400;
+    }
+
     pre {
       font-size: 14px;
     }

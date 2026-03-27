@@ -290,12 +290,6 @@ const ogImage = getImagePath({ url, site });
             style={`--_pct: calc(${readCount.length} / ${goalTotal || 1} * 100%)`}
           >
             <div class="reading-goal-hero__main">
-              <div class="reading-goal-hero__count">
-              	<span class="reading-goal-hero__caption">2026 goal</span>
-                <span class="reading-goal-hero__number">
-                  {readCount.length}/{goalTotal}</span>
-                <span class="reading-goal-hero__eyebrow">Books read</span>
-              </div>
               <div class="reading-goal-hero__progress-wrap">
                 <div class="reading-goal-hero__progress-meta">
                   <span>{goalPct}% complete</span>
@@ -453,7 +447,7 @@ const ogImage = getImagePath({ url, site });
                         </span>
                       </summary>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] gap-y-[var(--space-m)] mt-[var(--space-m)]"
+                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (

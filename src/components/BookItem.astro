@@ -1,7 +1,7 @@
 <---
 import FormattedDate from "../components/FormattedDate.astro";
 
-const { i, title, author, rating, cover, started, finished, status, showStrikethrough, queued } =
+const { i, title, author } =
   Astro.props;
 
 ---
@@ -18,10 +18,6 @@ const { i, title, author, rating, cover, started, finished, status, showStriketh
       <span class="post-title">{title}</span>
       <div class="post-meta">
         {author && <span class="post-topics-label">{author}</span>}
-        {status === "currently-reading" && (
-          <span class="post-topics-label ml-auto">Currently Reading</span>
-        )}
-        {queued && <span class="post-topics-label ml-auto">Queued</span>}
       </div>
     </div>
   </>

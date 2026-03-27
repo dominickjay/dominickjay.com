@@ -7,10 +7,7 @@ Astro.response.headers.set(
 import Layout from "../layouts/Default.astro";
 import { getTopTracks } from "../lib/lastfm";
 import { getCollection, render } from "astro:content";
-import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
-
-const showMarquee = false;
 
 let nowPosts: Awaited<ReturnType<typeof getCollection<"now">>> = [];
 
@@ -238,8 +235,7 @@ const goalPercent =
   <article class="container now-page">
     <header class="page-header">
 	    <div class="page-header__title">
-	      {showMarquee && <MarqueeHeading title="Now" />}
-	      {!showMarquee && <ScrollHeading title="Now" />}
+	      <ScrollHeading title="Now" />
 	    </div>
       <div class="page-header__meta">
         {lastUpdateFormatted && (

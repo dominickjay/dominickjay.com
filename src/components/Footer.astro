@@ -164,7 +164,7 @@ const gardenNav = [
     <div class="footer-body">
       <div class="footer-nav-grid">
         <nav class="footer-nav-group" aria-label="Pages">
-          <p class="footer-nav-label">Pages</p>
+          <p class="footer-nav-label eyebrow">Pages</p>
           <ul class="footer-nav-list">
             {
               MAIN_NAVIGATION.map((item) => (
@@ -178,7 +178,7 @@ const gardenNav = [
           </ul>
         </nav>
         <nav class="footer-nav-group" aria-label="Garden">
-          <p class="footer-nav-label">Garden</p>
+          <p class="footer-nav-label eyebrow">Garden</p>
           <ul class="footer-nav-list">
             {
               gardenNav.map((item) => (
@@ -192,7 +192,7 @@ const gardenNav = [
           </ul>
         </nav>
         <nav class="footer-nav-group" aria-label="Social">
-          <p class="footer-nav-label">Social</p>
+          <p class="footer-nav-label eyebrow">Social</p>
           <ul class="footer-nav-list">
             {
               EXTERNAL_NAVIGATION.map((item) => (
@@ -247,7 +247,7 @@ const gardenNav = [
               aria-labelledby="now-tab-listening"
               aria-hidden="false"
             >
-              <p class="now-label">Listening</p>
+              <p class="now-label eyebrow">Listening</p>
               <p class="now-value">
                 {listeningTrack || "—"}
               </p>
@@ -260,7 +260,7 @@ const gardenNav = [
               aria-labelledby="now-tab-reading"
               aria-hidden="true"
             >
-              <p class="now-label">Reading</p>
+              <p class="now-label eyebrow">Reading</p>
               <p class="now-value">
                 {readingTitle || "—"}
               </p>
@@ -397,11 +397,7 @@ const gardenNav = [
 
   .footer-nav-label,
   .now-label {
-    font-family: var(--font-base);
-    font-size: 14px;
-    letter-spacing: 0.14em;
     color: color-mix(in srgb, var(--accent) 60%, var(--color-light));
-    text-transform: uppercase;
     margin-block-end: 8px;
   }
 

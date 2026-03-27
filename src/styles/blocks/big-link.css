@@ -22,11 +22,11 @@
         padding: var(--space-m) var(--space-l);
         background-color: color-mix(
           in srgb,
-          var(--feature-color) 50%,
+          var(--feature-color) 20%,
           var(--color-dark)
         );
         display: block;
-        min-width: calc(250px + 50px);
+        min-width: calc(250px + 85px);
       }
     }
   }

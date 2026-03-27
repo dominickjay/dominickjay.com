@@ -7,12 +7,17 @@ import Pattern from "../components/Pattern.astro";
 import InfoPanel from "../components/InfoPanel.astro";
 import FeaturePanel from "../components/FeaturePanel.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
+import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import Footer from "../components/Footer.astro";
+
+type PostWithLastModified = {
+  post: CollectionEntry<'writing'>;
+  lastModified: Date | undefined;
+};
 
 let rawPosts = [];
 
@@ -32,7 +37,7 @@ const postsWithLastModified = await Promise.all(
   }),
 );
 
-const sortDate = ({ post, lastModified }) =>
+const sortDate = ({ post, lastModified }: PostWithLastModified) =>
   (lastModified ?? post.data.pubDate).valueOf();
 postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
 
@@ -85,8 +90,8 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
       </div>
     </section>
 
-    <section class="pb-[var(--space-l)] md:py-[var(--space-xxl)] relative">
-      <div class="container flex flex-col gap-y-[64px] justify-center">
+    <section>
+      <div class="container stacked" style="--gutter: 64px">
         <GrowthPanel
           evergreen={evergreen}
           growing={growing}
@@ -95,6 +100,5 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
       </div>
     </section>
   </main>
-  <!-- <PatternBanner fill="rgba(0, 0, 0, 0.8)" /> -->
   <Footer />
 </Layout>

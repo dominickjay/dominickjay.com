@@ -6,7 +6,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ArtistCard from "../components/ArtistCard.astro";
 import CurrentlyPlaying from "../components/CurrentlyPlaying";
-import { SITE_DESCRIPTION } from "../consts";
 import { sanityClient } from "sanity:client";
 import { getRecentTracks, getArtistInfo } from "../lib/lastfm";
 import { getArtistArt } from "../lib/fanart";
@@ -24,7 +23,7 @@ let artists: Array<{
   image?: Array<{ "#text": string; size?: string }>;
   info?: { image?: Array<{ "#text": string }> };
 }> = [];
-let tracks: Array<{ name: string; artist: string }> = [];
+let tracks: Array<{ name: string; artist: string; title: string }> = [];
 const trackColor = "#000000";
 
 if (cache?.topTracksJson) {
@@ -33,11 +32,12 @@ if (cache?.topTracksJson) {
     const list = data?.toptracks?.track;
     const raw = Array.isArray(list) ? list.slice(0, 10) : [];
     tracks = raw.map(
-      (t: {
+    (t: {
         name?: string;
         artist?: { "#text"?: string; name?: string } | string;
       }) => ({
         name: t.name ?? "",
+        title: t.name ?? "",
         artist:
           typeof t.artist === "string"
             ? t.artist
@@ -112,21 +112,20 @@ if (apiKey && fanartApiKey) {
     <div id="cur"></div>
     <Header />
     <main>
-      <div class="flex justify-end items-end relative overflow-hidden">
-        <CurrentlyPlaying
-          client:load
-          artistBannerUrl={artistBannerUrl || undefined}
-        />
-      </div>
       <div
-        class="container flex flex-col-reverse md:flex-row gap-[32px] md:gap-[64px] py-[32px] md:py-[64px]"
+        class="container stacked py-[32px]"
+        style="--gutter: 32px"
       >
-        <div class="flex flex-col gap-[20px] w-full">
+	      <CurrentlyPlaying
+	        client:load
+	        artistBannerUrl={artistBannerUrl || undefined}
+	      />
+        <div class="stacked w-full" style="--gutter: 20px">
           <div class="grid !grid-cols-4 gap-[20px]">
             <div
               class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
             >
-              <h1 class="label col-span-full">Recent Artists</h1>
+              <h1 class="eyebrow col-span-full">Recent Artists</h1>
               <div
                 class="col-span-full !grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
               >
@@ -161,7 +160,7 @@ if (apiKey && fanartApiKey) {
 
               <div class="col-span-full mt-[var(--space-m)]">
                 <h2
-                  class="text-[10px] uppercase tracking-[0.14em] text-[var(--color-accent)]"
+                  class="eyebrow"
                 >
                   Top 10 Tracks
                 </h2>

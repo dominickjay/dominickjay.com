@@ -1,118 +1,120 @@
-.np-pill {
-  z-index: 3;
-  background: var(--color-dark);
-  border: 1px solid var(--track-color, var(--color-accent));
-  backdrop-filter: blur(12px);
-  padding: 9px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: border-color 0.3s;
-  width: 100%;
-  z-index: 100;
+@layer components {
+  .np-pill {
+    z-index: 3;
+    background: var(--color-dark);
+    border: 1px solid var(--track-color, var(--color-accent));
+    backdrop-filter: blur(12px);
+    padding: 9px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: border-color 0.3s;
+    width: 100%;
+    z-index: 100;
 
-  @media (width >= 768px) {
-    width: fit-content;
+    @media (width >= 768px) {
+      width: fit-content;
+    }
   }
-}
 
-.np-pill--light {
-  background: transparent;
-}
-
-.np-pill.is-playing {
-  border-color: rgba(var(--color-accent-rgb), 0.3);
-}
-
-.np-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 14px;
-  flex-shrink: 0;
-}
-.np-bar {
-  width: 3px;
-  background: var(--color-light);
-  border-radius: 2px;
-  transform-origin: bottom;
-}
-
-.np-pill--transparent .np-bar {
-  background: var(--color-dark);
-}
-
-.np-pill--transparent.is-playing .np-bar,
-.np-pill.is-playing .np-bar {
-  animation: npBar 0.9s ease-in-out infinite alternate;
-}
-.np-bar:nth-child(1) {
-  animation-delay: 0s;
-  height: 40%;
-}
-.np-bar:nth-child(2) {
-  animation-delay: 0.14s;
-  height: 90%;
-}
-.np-bar:nth-child(3) {
-  animation-delay: 0.28s;
-  height: 55%;
-}
-.np-bar:nth-child(4) {
-  animation-delay: 0.42s;
-  height: 100%;
-}
-.np-bar:nth-child(5) {
-  animation-delay: 0.08s;
-  height: 50%;
-}
-@keyframes npBar {
-  from {
-    transform: scaleY(0.25);
+  .np-pill--light {
+    background: transparent;
   }
-  to {
-    transform: scaleY(1);
-  }
-}
-.np-text {
-  font-family: var(--font-base);
-  font-size: 16px;
-  letter-spacing: 0.06em;
-  min-width: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  @media (width >= 768px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-}
-.np-track {
-  color: var(--color-light);
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-wrap: wrap;
-}
-.np-artist {
-  color: var(--color-light);
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 14px;
-}
-.np-status {
-  color: var(--color-light);
-  font-size: 10px;
-  margin-left: auto;
-  padding-block-start: 4px;
-  min-width: fit-content;
 
-  @media (width >= 768px) {
-    margin-left: 0;
-    padding-block-start: 0;
+  .np-pill.is-playing {
+    border-color: rgba(var(--color-accent-rgb), 0.3);
+  }
+
+  .np-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .np-bar {
+    width: 3px;
+    background: var(--color-light);
+    border-radius: 2px;
+    transform-origin: bottom;
+  }
+
+  .np-pill--transparent .np-bar {
+    background: var(--color-dark);
+  }
+
+  .np-pill--transparent.is-playing .np-bar,
+  .np-pill.is-playing .np-bar {
+    animation: npBar 0.9s ease-in-out infinite alternate;
+  }
+  .np-bar:nth-child(1) {
+    animation-delay: 0s;
+    height: 40%;
+  }
+  .np-bar:nth-child(2) {
+    animation-delay: 0.14s;
+    height: 90%;
+  }
+  .np-bar:nth-child(3) {
+    animation-delay: 0.28s;
+    height: 55%;
+  }
+  .np-bar:nth-child(4) {
+    animation-delay: 0.42s;
+    height: 100%;
+  }
+  .np-bar:nth-child(5) {
+    animation-delay: 0.08s;
+    height: 50%;
+  }
+  @keyframes npBar {
+    from {
+      transform: scaleY(0.25);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  .np-text {
+    font-family: var(--font-base);
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    @media (width >= 768px) {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+  .np-track {
+    color: var(--color-light);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: wrap;
+  }
+  .np-artist {
+    color: var(--color-light);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+  .np-status {
+    color: var(--color-light);
+    font-size: 10px;
+    margin-left: auto;
+    padding-block-start: 4px;
+    min-width: fit-content;
+
+    @media (width >= 768px) {
+      margin-left: 0;
+      padding-block-start: 0;
+    }
   }
 }

@@ -72,6 +72,7 @@
 @import "./blocks/pattern.css";
 @import "./blocks/testimonials.css";
 @import "./blocks/prose-notice.css";
+@import "./blocks/currently-playing.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";
@@ -83,3 +84,4 @@
 @import "./utilities/theme.css";
 @import "./utilities/growth.css";
 @import "./utilities/cursor.css";
+@import "./utilities/overlay.css";
