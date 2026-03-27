@@ -1,0 +1,12 @@
+@layer utilities {
+  @scope (.overlay) {
+    background-color: rgb(
+      from var(--overlay-color, var(--color-dark)) r g b / 0.25
+    );
+    position: absolute;
+    inset: 0;
+    block-size: 100%;
+    inline-size: 100%;
+    z-index: 10;
+  }
+}

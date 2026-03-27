@@ -1,0 +1,39 @@
+name: "Weekly generate and sync"
+on:
+  schedule:
+    - cron: "0 0 * * 1"
+  push:
+    branches:
+      - feat/staging
+  workflow_dispatch:
+jobs:
+  weekly-scripts:
+    name: "Run generate-music, generate-tv"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm ci
+      - name: generate-music
+        run: npm run generate-music
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
+          FANART_API_KEY: ${{ secrets.FANART_API_KEY }}
+      - name: generate-tv
+        run: npm run generate-tv
+        env:
+          BASE_URL: 'https://loquacious-praline-e6a057.netlify.app'
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          TRAKT_CLIENT_ID: ${{ secrets.TRAKT_CLIENT_ID }}
+          TRAKT_USERNAME: ${{ secrets.TRAKT_USERNAME }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Weekly generate-music, generate-tv
