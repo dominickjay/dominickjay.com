@@ -3,7 +3,6 @@
     z-index: 3;
     background: var(--color-dark);
     border: 1px solid var(--track-color, var(--color-accent));
-    backdrop-filter: blur(12px);
     padding: 9px 16px;
     display: flex;
     align-items: center;

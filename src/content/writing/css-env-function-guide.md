@@ -2,7 +2,8 @@
 title: "CSS env() Function: A Developer's Guide"
 description: "Explore the CSS env() function and its practical applications for responsive, device-aware layouts."
 pubDate: 2025-01-27
-tags: ["css"]
+tags:
+  - css
 draft: true
 growth: seedling
 supported: bcd.css["types"].env.__compat
