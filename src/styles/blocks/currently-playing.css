@@ -19,7 +19,8 @@
       }
     }
 
-    .currently-playing__background {
+    .currently-playing__background,
+    .card-img-wrap {
       position: relative;
       inset: 0;
       z-index: 0;

@@ -4,6 +4,7 @@ pubDate: 2026-03-30
 description: "A list of links and demos I've collected over March 2026, with the intention of posting monthly"
 tags:
   - page turners
+draft: true
 ---
 <ul class="page-turners stacked">
 <li>
@@ -14,7 +15,7 @@ tags:
         </div>
         <div class="body stacked">
           <span class="title h3">Top ten Figma betrayals</span>
-          <p>The one where I discuss classic Figma mistakes (not a listicle)</p>
+          <p>Nice article on the quirks that can come out of just assuming that every possibility has been covered in a figma design by using hero designs that degrade responsively as a common example.</p>
           <img src=https://dbushell.com/images/articles/2026-03-23-top-ten-figma-betrayls.png alt="" loading="lazy">
         </div>
       </a>
@@ -27,21 +28,8 @@ tags:
         </div>
         <div class="body stacked">
           <span class="title h3">The Last Quiet Thing | Terry Godier</span>
-          <p>Building software that respects your attention.</p>
+          <p>Incredible design and writing. Really resonated with me on this topic and the 'how very helpful' vs 'I cannot function without this' trade off is well worth the thought.</p>
           <img src=https://rdl.ink/render/https%3A%2F%2Fterrygodier.com%2F alt="" loading="lazy">
-        </div>
-      </a>
-    </li>
-<li>
-      <a class="link-item stacked" href=https://trysound.io/try-not-to-get-scammed-while-looking-for-work/?utm_source=the-index&utm_medium=newsletter target="_blank" rel="noopener">
-        <div class="meta">
-          <span class="domain">trysound.io</span>
-          <span class="type eyebrow">articles</span>
-        </div>
-        <div class="body stacked">
-          <span class="title h3">Try not to get scammed while looking for work | Bogdan Chadkin</span>
-          <p>Couple weeks ago a CTO contacted me about a role at their company. After three failed calls, I figured they are trying to access my machine.</p>
-          <img src=https://trysound.io/trysound.jpg alt="" loading="lazy">
         </div>
       </a>
     </li>
@@ -66,8 +54,7 @@ tags:
         </div>
         <div class="body stacked">
           <span class="title h3">How?!</span>
-          <p>#css only games are incredible</p>
-          null
+          <p>CSS wizardry at it's finest. No idea how much time got put into making this game, and Kevin seems equally as baffled by it!</p>
         </div>
       </a>
     </li>
@@ -105,7 +92,7 @@ tags:
         </div>
         <div class="body stacked">
           <span class="title h3">© Jin Su Park — Oasis One</span>
-          <p>Portfolio of Jin Su Park — A product designer focused on craft and polish, creating AI-powered experiences through thoughtful design systems.</p>
+          <p>Woah. Really nice spin on a portfolio site and definetely one of the more unique versions I've seen in a long time.</p>
           <img src=https://jinsupark.com/ogImage.jpg alt="" loading="lazy">
         </div>
       </a>
@@ -118,21 +105,8 @@ tags:
         </div>
         <div class="body stacked">
           <span class="title h3">Scope donuts – Nicole Sullivan</span>
-          <p></p>
+          <p>I read about this while rewriting some of my [Put Your CSS In Its Place with @scope](/writing/css-scope) post. Super interesting.</p>
           <img src=https://farm3.static.flickr.com/2495/3922481017_2fbac85fa1.jpg alt="" loading="lazy">
-        </div>
-      </a>
-    </li>
-<li>
-      <a class="link-item stacked" href=https://piccalil.li/projects/personal-site/3/ target="_blank" rel="noopener">
-        <div class="meta">
-          <span class="domain">piccalil.li</span>
-          <span class="type eyebrow">link</span>
-        </div>
-        <div class="body stacked">
-          <span class="title h3">Wrapping up the planning</span>
-          <p>Let's wrap up the planning with some sketching, diagramming and iterating. With this part wrapping up, we're getting ever closer to actually writing some code.</p>
-          <img src=https://piccalil.li/images/personal-site-social-share.png alt="" loading="lazy">
         </div>
       </a>
     </li>

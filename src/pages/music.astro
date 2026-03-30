@@ -5,7 +5,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ArtistCard from "../components/ArtistCard.astro";
-import CurrentlyPlaying from "../components/CurrentlyPlaying";
+import CurrentlyPlaying from "../components/CurrentlyPlaying.astro";
 import { sanityClient } from "sanity:client";
 import { getRecentTracks, getArtistInfo } from "../lib/lastfm";
 import { getArtistArt } from "../lib/fanart";
@@ -116,10 +116,7 @@ if (apiKey && fanartApiKey) {
         class="container stacked py-[32px]"
         style="--gutter: 32px"
       >
-	      <CurrentlyPlaying
-	        client:load
-	        artistBannerUrl={artistBannerUrl || undefined}
-	      />
+      <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
         <div class="stacked w-full" style="--gutter: 20px">
           <div class="grid !grid-cols-4 gap-[20px]">
             <div
