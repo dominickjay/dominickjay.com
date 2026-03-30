@@ -1,6 +1,6 @@
 @layer components {
   @layer base {
-    @scope (.page-turners) {
+    .page-turners {
       --gutter: 16px;
 
       .link-item {
