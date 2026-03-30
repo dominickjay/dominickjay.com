@@ -81,11 +81,11 @@
           }
         }
 
-        :scope:hover .title {
+        :hover .title {
           color: var(--feature-color);
         }
 
-        :scope:hover img {
+        :hover img {
           filter: grayscale(15%);
           opacity: 1;
         }
