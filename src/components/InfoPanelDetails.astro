@@ -175,7 +175,7 @@ if (recentTracksData.recentTracks) {
       <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
     </svg>
     <span>
-      <span>{currentlyReading[1]?.book.title || "No book currently reading"}</span>
+      <span>{currentlyReading[1]?.book.title ? currentlyReading[0].book.title : "No book currently reading"}</span>
       {" "}by{" "}
       <span class="music__artist">
         {currentlyReading[1]?.book.contributions[0].author.name || "Unknown author"}
