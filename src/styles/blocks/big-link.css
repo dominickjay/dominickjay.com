@@ -22,8 +22,8 @@
         padding: var(--space-m) var(--space-l);
         background-color: color-mix(
           in srgb,
-          var(--feature-color) 20%,
-          var(--color-dark)
+          var(--feature-color) 90%,
+          var(--color-light)
         );
         display: block;
         min-width: calc(250px + 85px);
