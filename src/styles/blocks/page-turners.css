@@ -1,0 +1,92 @@
+@layer components {
+  @layer base {
+    @scope (.page-turners) {
+      --gutter: 16px;
+
+      @scope (.link-item) {
+        :scope {
+          --gutter: var(--space-l);
+
+          align-items: start;
+          padding-block: var(--space-l);
+          border-block-start: 1px solid
+            color-mix(in srgb, var(--color-dark) 20%, transparent);
+          text-decoration: none;
+          color: var(--color-dark);
+          transition: color 0.15s;
+
+          @media (width >= 768px) {
+            --gutter: var(--space-xl);
+
+            display: grid !important;
+            grid-template-columns: 9rem 1fr;
+          }
+        }
+
+        .meta {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-s);
+          padding-block-start: 0.2rem;
+
+          .domain {
+            font-family: var(--font-base);
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            color: color-mix(
+              in srgb,
+              var(--feature-color) 90%,
+              var(--color-dark)
+            );
+            word-break: break-all;
+            transition: color 0.15s;
+            line-height: 1.4;
+          }
+
+          .type {
+            color: color-mix(in srgb, var(--color-dark) 60%, transparent);
+            border: 1px solid currentColor;
+            padding: 4px var(--space-s) 0;
+            width: fit-content;
+            transition:
+              border-color 0.15s,
+              color 0.15s;
+          }
+        }
+
+        .body {
+          --gutter: var(--space-m);
+
+          .title {
+            font-family: var(--font-base);
+            font-style: italic;
+            transition: color 0.15s ease-in-out;
+          }
+
+          p {
+            max-inline-size: 54ch;
+            display: block;
+          }
+
+          img {
+            width: 100%;
+            max-inline-size: 48rem !important;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--color-dark);
+            opacity: 0.75;
+            filter: grayscale(15%);
+            transition:
+              opacity 0.2s,
+              filter 0.2s;
+          }
+        }
+
+        :scope:hover .title {
+          color: var(--feature-color);
+        }
+      }
+    }
+  }
+}
