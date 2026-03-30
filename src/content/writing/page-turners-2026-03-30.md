@@ -1,7 +1,7 @@
 ---
 title: "Page Turners - March 2026"
 pubDate: 2026-03-30
-description: "A list of links and demos I've collected over March 2026, with the intention of posting monthly"
+description: "This months page turners have articles written by Terry Godier, David Bushell, Nicole Sullivan, Stuart Robson and Abbey Perini. Plus a crazy video of a CSS game and a unique portfolio site."
 tags:
   - page turners
 draft: true
