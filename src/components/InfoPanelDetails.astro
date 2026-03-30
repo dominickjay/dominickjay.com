@@ -3,7 +3,6 @@ const { "aria-hidden": ariaHidden = false } = Astro.props;
 
 import {
   getRecentTracksWithTags,
-  type LastFmArtist,
   type LastFmTrack,
 } from "../lib/lastfm";
 
@@ -11,6 +10,8 @@ let currentlyReading = [];
 
 const apiKey = import.meta.env.LAST_FM_API_KEY;
 const hardcoverToken = (import.meta.env.HARDCOVER_TOKEN ?? "").trim();
+let book = "";
+let author = "";
 
 const CACHE_TTL = 30000;
 const cache = new Map<string, { data: any; expires: number }>();
@@ -128,6 +129,9 @@ try {
   );
 
   currentlyReading = currentDataAndList.data.me[0].user_books || [];
+  book = currentlyReading[1] ? currentlyReading[1].book.title : currentlyReading[0].book.title ?? "No book currently reading";
+  author = currentlyReading[1] ? currentlyReading[1].book.contributions[0].author.name : currentlyReading[0].book.contributions[0].author.name ?? "Unknown author";
+
 } catch (error) {
   console.error(error);
 }
@@ -175,10 +179,10 @@ if (recentTracksData.recentTracks) {
       <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
     </svg>
     <span>
-      <span>{currentlyReading[1]?.book.title ? currentlyReading[0].book.title : "No book currently reading"}</span>
+      <span>{book}</span>
       {" "}by{" "}
       <span class="music__artist">
-        {currentlyReading[1]?.book.contributions[0].author.name || "Unknown author"}
+        { author }
       </span>
     </span>
   </div>

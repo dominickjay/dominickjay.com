@@ -3,15 +3,15 @@ import { format, startOfMonth } from "date-fns";
 import fs from "fs";
 
 const { RAINDROP_BOOKMARKS: collectionId, RAINDROP_API_KEY: token } =
-	process.env;
+  process.env;
 
 if (!collectionId || !token) {
-	console.error(
-		"Missing required environment variables:",
-		!collectionId ? "- RAINDROP_BOOKMARKS" : "",
-		!token ? "- RAINDROP_API_KEY" : "",
-	);
-	process.exit(1);
+  console.error(
+    "Missing required environment variables:",
+    !collectionId ? "- RAINDROP_BOOKMARKS" : "",
+    !token ? "- RAINDROP_API_KEY" : "",
+  );
+  process.exit(1);
 }
 
 const today = new Date();
@@ -21,82 +21,101 @@ const formattedToday = format(today, "yyyy-MM-dd");
 const monthYear = format(today, "MMMM yyyy");
 
 async function fetchLinks() {
-	const url = new URL(
-		`https://api.raindrop.io/rest/v1/raindrops/${collectionId}`,
-	);
-	url.search = new URLSearchParams({
-		search: `created:>${formattedFirstOfMonth} created:<${formattedToday}`,
-	}).toString();
+  const url = new URL(
+    `https://api.raindrop.io/rest/v1/raindrops/${collectionId}`,
+  );
+  url.search = new URLSearchParams({
+    search: `created:>${formattedFirstOfMonth} created:<${formattedToday}`,
+  }).toString();
 
-	// console.log('Fetching from:', url.toString());
+  // console.log('Fetching from:', url.toString());
 
-	try {
-		const rsp = await fetch(url, {
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		if (!rsp.ok) throw new Error(`HTTP error! status: ${rsp.status}`);
+  try {
+    const rsp = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!rsp.ok) throw new Error(`HTTP error! status: ${rsp.status}`);
 
-		const data = await rsp.json();
-		if (!data?.items) throw new Error("Invalid API response format");
+    const data = await rsp.json();
+    if (!data?.items) throw new Error("Invalid API response format");
 
-		return data;
-	} catch (error) {
-		console.error("Error fetching links:", error.message);
-		throw error;
-	}
+    return data;
+  } catch (error) {
+    console.error("Error fetching links:", error.message);
+    throw error;
+  }
 }
 
 function writePost(raindrops) {
-	const formatLink = ({ link, title, excerpt, note }) =>
-		`* [${title}](${link}) - ${note || excerpt}`;
+  const formatLink = ({ link, title, excerpt, tags, cover, media }) =>
+    `<li>
+      <a class="link-item stacked" href=${link} target="_blank" rel="noopener">
+        <div class="meta">
+          <span class="domain">${new URL(link).hostname}</span>
+          <span class="type eyebrow">${tags[0] || "link"}</span>
+        </div>
+        <div class="body stacked">
+          <span class="title h3">${title}</span>
+          <p>${excerpt}</p>
+          ${
+            (cover && tags[0] != "videos") ||
+            (media?.[0]?.link && tags[0] != "videos")
+              ? `<img src=${cover || media?.[0]?.link} alt="" loading="lazy">`
+              : null
+          }
+        </div>
+      </a>
+    </li>`;
 
-	const { articles, demos, sites, videos } = raindrops.reduce(
-		(acc, item) => {
-			const category = item.tags?.includes("demos")
-				? "demos"
-				: item.tags?.includes("sites")
-					? "sites"
-					: item.tags?.includes("videos")
-						? "videos"
-						: "articles";
-			acc[category].push(formatLink(item));
-			return acc;
-		},
-		{ articles: [], demos: [], sites: [], videos: [] },
-	);
+  const { links, articles, demos, sites, videos } = raindrops.reduce(
+    (acc, item) => {
+      const category = item.tags?.includes("demos")
+        ? "demos"
+        : item.tags?.includes("sites")
+          ? "sites"
+          : item.tags?.includes("videos")
+            ? "videos"
+            : "articles";
+      acc[category].push(formatLink(item));
+      acc.links.push(formatLink(item));
+      return acc;
+    },
+    { links: [], articles: [], demos: [], sites: [], videos: [] },
+  );
 
-	const postContent = fs
-		.readFileSync("./scripts/link_template.md", "utf8")
-		.replace(/{{monthYear}}/g, monthYear)
-		.replace(/{{date}}/g, formattedToday)
-		.replace("{{articles}}", articles.join("\n") || "No articles this month")
-		.replace("{{sites}}", sites.join("\n") || "No sites this month")
-		.replace("{{videos}}", videos.join("\n") || "No videos this month")
-		.replace("{{demos}}", demos.join("\n") || "No demos this month");
+  const postContent = fs
+    .readFileSync("./scripts/link_template.md", "utf8")
+    .replace(/{{monthYear}}/g, monthYear)
+    .replace(/{{date}}/g, formattedToday)
+    .replace("{{links}}", links.join("\n") || "No links this month")
+    .replace("{{articles}}", articles.join("\n") || "No articles this month")
+    .replace("{{sites}}", sites.join("\n") || "No sites this month")
+    .replace("{{videos}}", videos.join("\n") || "No videos this month")
+    .replace("{{demos}}", demos.join("\n") || "No demos this month");
 
-	if (process.env.DEBUG) {
-		// console.log(postContent);
-		return;
-	}
+  if (process.env.DEBUG) {
+    // console.log(postContent);
+    return;
+  }
 
-	fs.writeFileSync(
-		`./src/content/writing/page-turners-${formattedToday}.md`,
-		postContent,
-	);
+  fs.writeFileSync(
+    `./src/content/writing/page-turners-${formattedToday}.md`,
+    postContent,
+  );
 }
 
 async function main() {
-	try {
-		const { items } = await fetchLinks();
-		if (!items?.length) {
-			console.log("No links found for this period, exiting");
-			process.exit(0);
-		}
-		writePost(items);
-	} catch (error) {
-		console.error("Failed to generate links:", error.message);
-		process.exit(1);
-	}
+  try {
+    const { items } = await fetchLinks();
+    if (!items?.length) {
+      console.log("No links found for this period, exiting");
+      process.exit(0);
+    }
+    writePost(items);
+  } catch (error) {
+    console.error("Failed to generate links:", error.message);
+    process.exit(1);
+  }
 }
 
 main().catch(console.error);

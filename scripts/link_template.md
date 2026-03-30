@@ -5,15 +5,6 @@ description: "A list of links and demos I've collected over {{monthYear}}, with 
 tags:
   - page turners
 ---
-
-## Articles
-{{articles}}
-
-## Demos
-{{demos}}
-
-## Sites
-{{sites}}
-
-## Videos
-{{videos}}
+<ul class="page-turners stacked">
+{{links}}
+</ul>

@@ -73,6 +73,7 @@
 @import "./blocks/testimonials.css";
 @import "./blocks/prose-notice.css";
 @import "./blocks/currently-playing.css";
+@import "./blocks/page-turners.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";
