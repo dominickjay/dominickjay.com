@@ -125,7 +125,7 @@ if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
       true,
     );
     const books = data?.data?.me?.[0]?.user_books ?? [];
-    const first = books[1]?.book ? books[0].book : null;
+    const first = books[1] ? books[1]?.book : books[0].book ?? null;
     if (first?.title) readingTitle = first.title;
     if (first?.contributions?.[0]?.author?.name)
       readingAuthor = first.contributions[0].author.name;

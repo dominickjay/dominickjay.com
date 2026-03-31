@@ -24,8 +24,15 @@
 
       /* z-index stacking context only — no layout */
       .testimonials-inner {
+        --gutter: var(--space-m);
+
         position: relative;
         z-index: 1;
+
+        @media (width < 640px) {
+          --gutter: var(--space-s);
+          --direction: column-reverse;
+        }
       }
 
       .testimonials-counter {
@@ -95,25 +102,31 @@
         height: 1px;
         background: var(--color-dark);
         flex-shrink: 0;
+        position: relative;
+        top: -3px;
       }
 
       .testimonial-name {
-        font-family: var(--font-base);
         color: var(--color-dark);
       }
 
       .testimonial-role {
-        font-family: var(--font-base);
-        color: var(--color-dark);
         display: flex;
         align-items: center;
         gap: var(--space-s);
-        font-style: italic;
+        opacity: 0.85;
+        /*font-style: italic;*/
 
         &::before {
           content: "·";
         }
       }
     }
+  }
+}
+
+@media (width < 640px) {
+  .testimonials-section::before {
+    content: none;
   }
 }

@@ -72,7 +72,7 @@ const testimonials = TESTIMONIALS;
     if ($event.key === 'ArrowLeft') goTo((current - 1 + total) % total);
   "
 >
-  <div class="testimonials-inner">
+  <div class="testimonials-inner stacked">
     <div class="testimonials-header">
       <p class="sr-only" style="margin-bottom:0;flex:1">Testimonials</p>
       <div
@@ -112,8 +112,8 @@ const testimonials = TESTIMONIALS;
         </blockquote>
         <div class="testimonial-attr">
           <span class="testimonial-attr-line"></span>
-          <span class="testimonial-name" x-text="displayed?.name ?? ''"></span>
-          <span class="testimonial-role" x-text="displayed?.role ?? ''"></span>
+          <span class="testimonial-name eyebrow" x-text="displayed?.name ?? ''"></span>
+          <span class="testimonial-role eyebrow" x-text="displayed?.role ?? ''"></span>
         </div>
       </div>
     </div>

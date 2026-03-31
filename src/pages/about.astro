@@ -34,11 +34,8 @@ const companies = ABOUT_COMPANIES;
         <Profile sticky={true} />
       </div>
       <div class="col-span-full md:col-span-4 flow">
-        <div class="flow">
-          <div class="overflow-clip">
-            {showMarquee && <MarqueeHeading title="About" />}
-            {!showMarquee && <ScrollHeading title="About" />}
-          </div>
+        <div class="flow overflow-hidden">
+        	<ScrollHeading title="About" />
           <h2 class="h2" set:html={contentIntro} />
           <div
             class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)] prose"

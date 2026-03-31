@@ -3,11 +3,8 @@ const { title } = Astro.props;
 ---
 
 {title && (
-<div class="
-    scroll-heading
-    [--gap: 32px]
-">
-    {Array.from({ length: 8 }).map(() => (
+<div class="scroll-heading [--gap: 32px]">
+    {Array.from({ length: 3 }).map(() => (
       <div class="scroll-heading__content">
         <svg class="size-[29px] shrink-0" width="29" height="24" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_2130_2802" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="39" height="34">

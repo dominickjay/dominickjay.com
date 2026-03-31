@@ -14,13 +14,10 @@ const words = text.split(/\s+/).map((word: string, i: number) => ({
 	href={href}
 	class="big-link"
 >
-	<span data-scramble={words.map((w) => w.text).join(" ")}>
+	<span class="gradient-background" data-scramble={words.map((w) => w.text).join(" ")}>
 		{words.map((w, i) => (
 			<span
-				class:list={["sw", w.italic && "italic gradient-text"]}
-				style={
-					w.italic ? "background-image: var(--color-gradient)" : undefined
-				}
+				class:list={["sw", w.italic && "italic"]}
 			>
 				{w.text}
 			</span>

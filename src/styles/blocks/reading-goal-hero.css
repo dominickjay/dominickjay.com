@@ -81,6 +81,10 @@
     gap: var(--space-s);
     padding: var(--space-s) var(--space-m);
     border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+
+    @media (width < 640px) {
+      padding: var(--space-xs) var(--space-m);
+    }
   }
 
   .reading-goal-hero__stat:first-child {
@@ -93,12 +97,8 @@
   }
 
   .reading-goal-hero__stat-label {
-    /*font-size: 0.75rem;*/
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.15em;
+    font-size: 0.75rem;
     color: var(--color-light);
-    /*opacity: 0.85;*/
   }
 
   @media (width < 480px) {

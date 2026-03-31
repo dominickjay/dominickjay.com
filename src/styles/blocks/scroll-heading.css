@@ -1,7 +1,17 @@
 @layer components {
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
   .scroll-heading {
     --gap: var(--space-l);
     --scroll-range: 50vh;
+
     display: flex;
     user-select: none;
     gap: var(--gap);
@@ -26,15 +36,6 @@
 
     @media (width <= 768px) {
       --scroll-range: 25vh;
-    }
-  }
-
-  @keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - var(--gap)));
     }
   }
 }
