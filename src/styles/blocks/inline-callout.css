@@ -1,11 +1,11 @@
 .inline-callout {
+  --gutter: var(--space-s);
+
   margin: 2rem 0;
   padding: 1.125rem 1.25rem 1.125rem 1.5rem;
   background: rgb(from var(--feature-color) r g b / 0.12);
   border-left: 4px solid var(--feature-color);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem 1.5rem;
+  column-gap: 1.5rem;
   align-items: start;
   text-decoration: none;
   color: inherit;
@@ -20,13 +20,13 @@
   }
 }
 
-.inline-callout__tag {
+/*.inline-callout__tag {
   font-family: var(--font-base);
   font-size: 14px;
   letter-spacing: 0.14em;
   color: var(--accent);
   text-transform: uppercase;
-}
+}*/
 
 .inline-callout__title {
   font-family: var(--font-base);
@@ -42,5 +42,5 @@
   color: var(--feature-color);
   line-height: 1.5;
   font-weight: 300;
-  margin-top: 0.3rem;
+  margin-top: var(--space-s);
 }

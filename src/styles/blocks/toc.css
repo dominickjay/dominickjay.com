@@ -1,0 +1,55 @@
+@layer components {
+  @layer base {
+    @scope (.toc) {
+      :scope {
+        --gutter: var(--space-s);
+      }
+
+      .toc-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        border-left: 2px solid rgb(from var(--feature-color) r g b / 0.25);
+      }
+
+      .toc-item .toc-link {
+        display: block;
+        font-family: var(--font-base);
+        font-size: 14px;
+        color: var(--color-dark);
+        text-decoration: none;
+        padding: 5px 5px 5px 12px;
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          padding-left 0.2s;
+        font-style: normal;
+        font-weight: 400;
+        background: none;
+        opacity: 0.8;
+        border-left: 2px solid rgb(from var(--feature-color) r g b / 0);
+        left: -1px;
+        position: relative;
+
+        &::before,
+        &::after {
+          content: none;
+        }
+      }
+
+      .toc-item a:hover {
+        color: var(--color-dark);
+        border-left-color: var(--feature-color);
+        padding-left: 16px;
+      }
+
+      .toc-item .active-toc-item {
+        border-left-color: var(--feature-color);
+        padding-left: 16px;
+        font-style: italic;
+        opacity: 1;
+        font-weight: 600;
+      }
+    }
+  }
+}

@@ -24,21 +24,14 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 
 {
   grouppedHeadings.length > 1 && (
-    <nav class="toc" id="table-of-contents" aria-label="Table Of Contents">
-      <span
-        style="font-family: var(--font-base);
-            font-size: 10px;
-            letter-spacing: 0.14em;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 8px;"
-      >
+    <nav class="toc stacked" id="table-of-contents" aria-label="Table Of Contents">
+      <span class="label">
         Contents:{" "}
       </span>
       <ol class="toc-list">
         {grouppedHeadings.map((h) => (
           <li class="toc-item" data-target={`#${h.slug}`}>
-            <a href={`#${h.slug}`}>{h.text}</a>
+            <a class="toc-link" href={`#${h.slug}`}>{h.text}</a>
           </li>
         ))}
       </ol>
@@ -87,48 +80,3 @@ const grouppedHeadings = headings.reduce((array, heading) => {
     });
   });
 </script>
-
-<style>
-  .toc-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    margin-block-start: var(--space-m);
-    border-left: 2px solid rgb(from var(--feature-color) r g b / 0.25);
-  }
-  .toc-item a {
-    display: block;
-    font-family: var(--font-base);
-    font-size: 14px;
-    color: var(--color-dark);
-    text-decoration: none;
-    padding: 5px 0 5px 12px;
-    transition:
-      color 0.2s,
-      border-color 0.2s,
-      padding-left 0.2s;
-    font-style: normal;
-    font-weight: 400;
-    background: none;
-    opacity: 0.8;
-    border-left: 2px solid rgb(from var(--feature-color) r g b / 0);
-    left: -1px;
-    position: relative;
-    &::before,
-    &::after {
-      content: none;
-    }
-  }
-  .toc-item a:hover {
-    color: var(--color-dark);
-    border-left-color: var(--feature-color);
-    padding-left: 16px;
-  }
-  .toc-item .active-toc-item {
-    border-left-color: var(--feature-color);
-    padding-left: 16px;
-    font-style: italic;
-    opacity: 1;
-    font-weight: 600;
-  }
-</style>

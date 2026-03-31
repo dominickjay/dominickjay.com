@@ -209,28 +209,21 @@ const compatDataStatus = compatData?.status;
           )
         }
       </div>
-      <div class="prose flex flex-col justify-end gap-y-[var(--space-s)]">
-        <h3
-          style="
-						font-family: var(--font-base);
-						font-size: 10px;
-						letter-spacing: 0.14em;
-						color: var(--accent);
-						text-transform: uppercase;
-						margin-bottom: 8px;
-						font-style: normal;
-					"
+      <div class="stacked prose" style="--gutter: var(--space-s)">
+        <span
+        	class="label"
         >
           You might also like...
-        </h3>
+        </span>
         <div
-          class="flex flex-col gap-[var(--space-s)]"
-          style="--grid-placement: auto-fit"
+          class="stacked"
+          style="--gutter: var(--space-m)"
         >
           {
             allPosts1.map((post) => (
               <div key={post.id} class="">
                 <a
+                	class="body font-[var(--font-base)] text-[14px] opacity-[0.8] hover:opacity-100 leading-[1.4]"
                   href={`/writing/${post.id}`}
                   style="--flow-space: var(--space-s)"
                 >
