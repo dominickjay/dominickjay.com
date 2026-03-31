@@ -53,6 +53,7 @@ export function initScramble() {
   const targets = document.querySelectorAll("[data-scramble]");
   targets.forEach((el) => {
     el.addEventListener("mouseenter", () => scramble(el));
+    el.addEventListener("touchstart", () => scramble(el));
   });
 
   document
