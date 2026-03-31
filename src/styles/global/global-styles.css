@@ -66,8 +66,8 @@
     }
 
     *::selection {
-      background-color: rgb(from var(--feature-color) r g b / 0.15);
-      color: var(--color-dark);
+      background-color: rgb(from var(--feature-color) r g b / 0.85);
+      color: var(--color-light);
     }
 
     /* a[class] {

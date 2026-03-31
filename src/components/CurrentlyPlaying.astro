@@ -1,0 +1,172 @@
+---
+import PlaceholderImage from "./PlaceholderImage.astro";
+
+interface Props {
+  artistBannerUrl?: string;
+}
+
+const { artistBannerUrl = "" } = Astro.props;
+---
+
+<div class="currently-playing">
+  <div
+    class="container currently-playing__container relative stacked"
+    x-data={`currentlyPlaying('${artistBannerUrl}')`}
+  >
+    <PlaceholderImage />
+    <div class="currently-playing__background" x-show="displayImageUrl" x-cloak>
+      <img
+        :src="displayImageUrl"
+        alt=""
+        width="2180"
+        height="1224"
+        aria-hidden="true"
+      />
+      <div class="overlay" :style="overlayStyle"></div>
+    </div>
+    <div
+      aria-live="polite"
+      :class="{ 'is-playing': nowPlaying }"
+      class="np-pill"
+      id="npPill"
+    >
+      <div class="np-bars">
+        <div class="np-bar"></div>
+        <div class="np-bar"></div>
+        <div class="np-bar"></div>
+        <div class="np-bar"></div>
+        <div class="np-bar"></div>
+      </div>
+      <div class="np-text">
+        <div>
+          <span class="np-track" id="npTrack" x-text="trackName"></span>
+          <span class="np-artist" id="npArtist" x-text="artistName"></span>
+        </div>
+        <span class="np-status" id="npStatus" x-text="statusText"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { hashStringToHsl, rgbToHsl } from "../lib/color";
+  import { extractImageColor } from "../lib/colorExtraction";
+
+  const toHttps = (url: string) =>
+    url?.startsWith("http://") ? url.replace(/^http:\/\//i, "https://") : url;
+
+  function isNowPlayingAttr(track: Record<string, unknown> | null): boolean {
+    const attr = track?.["@attr"] as
+      | { nowplaying?: boolean | string }
+      | undefined;
+    return attr?.nowplaying === true || String(attr?.nowplaying) === "true";
+  }
+
+  document.addEventListener("alpine:init", () => {
+    // @ts-ignore
+    window.Alpine.data("currentlyPlaying", (initialBannerUrl: string) => ({
+      track: null as Record<string, unknown> | null,
+      loading: true,
+      fetchedBannerUrl: toHttps(initialBannerUrl ?? ""),
+      extractedColor: null as string | null,
+      _pollId: null as ReturnType<typeof setInterval> | null,
+      _cancelColorExtract: false,
+
+      get nowPlaying(): boolean {
+        return isNowPlayingAttr(this.track);
+      },
+
+      get trackName(): string {
+        return (this.track as any)?.name ?? "";
+      },
+
+      get artistName(): string {
+        return (this.track as any)?.artist?.["#text"] ?? "";
+      },
+
+      get statusText(): string {
+        return this.nowPlaying ? "Now playing" : "Last played";
+      },
+
+      get displayImageUrl(): string {
+        return this.fetchedBannerUrl ?? "";
+      },
+
+      get overlayStyle(): string {
+        const color = this.overlayColorHsl;
+        return color ? `--overlay-color: ${color}` : "";
+      },
+
+      get overlayColorHsl(): string | null {
+        const raw = this.extractedColor ?? this.fallbackColor;
+        if (!raw) return null;
+        const hsl = raw.startsWith("rgb(") ? rgbToHsl(raw) : raw;
+        return hsl.startsWith("hsl(") ? hsl : "hsl(0, 0%, 10%)";
+      },
+
+      get fallbackColor(): string | null {
+        const artist = this.artistName;
+        const name = this.trackName;
+        if (artist) return hashStringToHsl(artist);
+        if (name) return hashStringToHsl(name);
+        return null;
+      },
+
+      init() {
+        this.fetchTrack();
+        this._pollId = setInterval(() => this.fetchTrack(), 90000);
+
+        // @ts-ignore Alpine magic
+        this.$watch("artistName", (val: string) => {
+          if (val) this.fetchArtistBanner(val);
+          else this.fetchedBannerUrl = "";
+        });
+
+        // @ts-ignore Alpine magic
+        this.$watch("displayImageUrl", (val: string) => {
+          if (val) this.extractColor(val);
+          else this.extractedColor = null;
+        });
+      },
+
+      destroy() {
+        if (this._pollId !== null) clearInterval(this._pollId);
+      },
+
+      fetchTrack() {
+        fetch(`/api/recent-tracks?t=${Date.now()}`)
+          .then((r) => r.json())
+          .then((data) => {
+            const list = data?.recenttracks?.track;
+            this.track =
+              Array.isArray(list) && list.length > 0 ? list[0] : null;
+            this.loading = false;
+          })
+          .catch(() => {
+            this.loading = false;
+          });
+      },
+
+      fetchArtistBanner(artist: string) {
+        fetch(`/api/artist-banner?artist=${encodeURIComponent(artist)}`)
+          .then((r) => r.json())
+          .then((data) => {
+            this.fetchedBannerUrl = data?.url ? toHttps(data.url) : "";
+          })
+          .catch(() => {
+            this.fetchedBannerUrl = "";
+          });
+      },
+
+      extractColor(url: string) {
+        extractImageColor(url).then((result) => {
+          if (result.success) {
+            this.extractedColor = rgbToHsl(result.color);
+          } else {
+            this.extractedColor = null;
+          }
+        });
+      },
+    }));
+  });
+</script>

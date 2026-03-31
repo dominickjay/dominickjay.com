@@ -34,7 +34,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
 ---
 
-<div class="" id="reading-order-demo-1">
+<div id="reading-order-demo-1">
   <!-- Tabs -->
   <div class="demo-tabs" role="tablist">
     <button
@@ -145,10 +145,11 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       </div>
     </div>
 
-    <p class="hint">
-      Try pressing <kbd class="key">Tab</kbd> to navigate through the cards above
-      and watch the sequence light up.
-    </p>
+    <div class="hint hint-mobile">
+      <button class="play-btn button" id="play-problem" type="button">
+        Simulate focus order
+      </button>
+    </div>
   </div><!-- /problem panel -->
 
   <!-- Solution Panel -->
@@ -279,6 +280,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
 	declare global {
 	  interface Window {
+			switchTab: (which: string) => void;
 	    switchPanel: (which: string) => void;
 	    runDemo: (panel: string) => void;
 	  }
@@ -428,7 +430,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         }
         if (btn) {
           btn.disabled = false;
-          btn.textContent = "▶ Simulate focus order";
+          btn.textContent = "Simulate focus order";
         }
       },
       steps.length * STEP_MS + 600,
@@ -439,6 +441,10 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   document.getElementById("play-solution")?.addEventListener("click", () => {
     playSequence("solution");
   });
+
+  document.getElementById("play-problem")?.addEventListener("click", () => {
+    playSequence("problem");
+  });
 </script>
 
 <style>
@@ -448,11 +454,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .eyebrow {
-    font-family: var(--mono);
-    font-size: 14px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--color-accent);
     margin-bottom: 0.75rem;
   }
 
@@ -473,6 +474,11 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .intro {
     font-size: 13px;
     line-height: 1.7;
+  }
+
+  .tabs {
+ 		display: flex;
+  	gap: var(--space-s);
   }
 
   .tab-btn {
@@ -510,7 +516,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .demo-panel {
     background: var(--bg);
     border-block-end: 1px solid var(--color-dark);
-    padding: 1.5rem;
+    padding: 1.5rem 0;
     display: none;
   }
 
@@ -898,8 +904,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   /* ── Code snippet ── */
   .code-block {
     background: var(--color-light);
-    border: 1px solid var(--color-dark);
-    padding: 1rem;
     font-size: 14px;
     line-height: 1.7;
     overflow-x: auto;

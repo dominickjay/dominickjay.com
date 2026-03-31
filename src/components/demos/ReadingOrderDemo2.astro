@@ -1,5 +1,39 @@
 ---
 import PlaceholderImage from "../PlaceholderImage.astro";
+import { codeToHtml } from "shiki";
+import domTheme from "../../styles/dom-shiki-theme.json";
+
+const theme = domTheme as any;
+
+const problemCss = `/* Visual order achieved with CSS order — */
+/* but DOM (and focus) order is unchanged */
+
+.card-a { order: 2; } /* DOM: 1st, visual: 2nd */
+.card-b { order: 3; } /* DOM: 2nd, visual: 3rd */
+.card-cta { order: 1; } /* DOM: 3rd, visual: 1st ⚠️ */`;
+
+const solutionCss = `.editorial-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-areas:
+	"cta feature" "art-a art-b";
+	reading-flow: grid-rows; /* ← one line fixes it */
+}
+
+/* DOM order: feature · art-a · art-b · cta */ /* Focus order after fix: cta → feature → art-a → art-b */ .cell-feature { grid-area: feature; }
+.cell-art-a { grid-area: art-a; }
+.cell-art-b { grid-area: art-b; }
+.cell-cta { grid-area: cta; } /* DOM: last, visual: top-left */ `;
+
+const problemCodeHighlighted = await codeToHtml(problemCss, {
+  lang: "css",
+  theme,
+});
+
+const solutionCodeHighlighted = await codeToHtml(solutionCss, {
+  lang: "css",
+  theme,
+});
 ---
 
 <div class="min-w-0 overflow-x-auto" id="reading-order-demo-2">
@@ -35,7 +69,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       role="tab"
       aria-selected="true"
       aria-controls="panel-bad"
-      onclick="switchTab('bad')"
+      data-tab="bad"
     >
       Without reading-flow
     </button>
@@ -44,7 +78,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       role="tab"
       aria-selected="false"
       aria-controls="panel-good"
-      onclick="switchTab('good')"
+      data-tab="good"
     >
       With reading-flow: grid-rows
     </button>
@@ -141,10 +175,11 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       </div>
     </div>
 
-    <p class="hint">
-      Press <kbd class="key">Tab</kbd> to navigate the grid above and watch the sequence
-      light up.
-    </p>
+    <div class="hint hint-mobile">
+      <button class="play-btn button" onclick="playSequence('bad')" id="play-good"
+        >Simulate focus order</button
+      >
+    </div>
   </div>
 
   <!-- ═══ GOOD PANEL ═══ -->
@@ -242,42 +277,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
     <!-- The CSS -->
     <p class="eyebrow" style="margin-top:1.5rem">The CSS</p>
-    <div class="code">
-      <span class="c-sel">.editorial-grid</span> &#123;
-      <span class="c-prop">display</span>: <span class="c-val">grid</span>;
-      <span class="c-prop">grid-template-columns</span>: <span class="c-val"
-        >1fr 1fr</span
-      >;
-      <span class="c-prop">grid-template-areas</span>:
-      <span class="c-area">"cta feature"</span>
-      <span class="c-area">"art-a art-b"</span>;
-      <span class="c-new">reading-flow</span>: <span class="c-new"
-        >grid-rows</span
-      >; <span class="c-comment">/* ← one line fixes it */</span>
-      &#125;
-
-      <span class="c-comment"
-        >/* DOM order: feature · art-a · art-b · cta */</span
-      >
-      <span class="c-comment"
-        >/* Focus order after fix: cta → feature → art-a → art-b */</span
-      >
-
-      <span class="c-sel">.cell-feature</span> &#123; <span class="c-prop"
-        >grid-area</span
-      >: <span class="c-area">feature</span>; &#125;
-      <span class="c-sel">.cell-art-a</span> &#123; <span class="c-prop"
-        >grid-area</span
-      >: <span class="c-area">art-a</span>; &#125;
-      <span class="c-sel">.cell-art-b</span> &#123; <span class="c-prop"
-        >grid-area</span
-      >: <span class="c-area">art-b</span>; &#125;
-      <span class="c-sel">.cell-cta</span> &#123; <span class="c-prop"
-        >grid-area</span
-      >: <span class="c-area">cta</span>; &#125; <span class="c-comment"
-        >/* DOM: last, visual: top-left */</span
-      >
-    </div>
+    <div class="code-block" set:html={solutionCodeHighlighted} />
 
     <!-- Order map -->
     <p class="eyebrow">How the orders map</p>
@@ -321,29 +321,33 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 </div>
 
 <script>
+
+  declare global {
+    interface Window {
+      switchPanel: (which: string) => void;
+      runDemo: (panel: string) => void;
+    }
+  }
+
   // ── Tab switching ──────────────────────────────────────────────────────────
-  function switchTab(which) {
-    document.querySelectorAll("#reading-order-demo-2").forEach((demo) => {
-      demo.querySelectorAll(".tab-btn").forEach((t) => {
-        const match = t.classList.contains("is-" + which);
-        t.classList.toggle("active", match);
-        t.setAttribute("aria-selected", match ? "true" : "false");
+  const demo2 = document.getElementById("reading-order-demo-2");
+  demo2?.querySelectorAll<HTMLElement>(".tab-btn[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const which = btn.dataset.tab!;
+      demo2.querySelectorAll(".tab-btn").forEach((t) => {
+        const isActive = t === btn;
+        t.classList.toggle("active", isActive);
+        t.setAttribute("aria-selected", isActive ? "true" : "false");
       });
-      demo.querySelectorAll(".demo-panel").forEach((p) => {
+      demo2.querySelectorAll(".demo-panel").forEach((p) => {
         p.classList.toggle("active", p.id === "panel-" + which);
       });
-      // Move focus to the first card link so tab flows through the demo
-      const firstLink = demo.querySelector("#panel-" + which + " .cell-link");
-      if (firstLink) firstLink.focus();
+      const firstLink = demo2.querySelector<HTMLElement>(
+        "#panel-" + which + " .cell-link",
+      );
+      firstLink?.focus();
     });
-    document.querySelectorAll(".demo-panel").forEach((p) => {
-      p.classList.toggle("active", p.id === "panel-" + which);
-    });
-    // Move focus to the first card link so tab flows through the demo
-    const firstLink = document.querySelector("#panel-" + which + " .cell-link");
-    if (firstLink) firstLink.focus();
-  }
-  window.switchTab = switchTab;
+  });
 
   // ── Focus tracker ─────────────────────────────────────────────────────────
   const focusMap = {
@@ -473,7 +477,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
         }
         if (btn) {
           btn.disabled = false;
-          btn.textContent = "▶ Simulate focus order";
+          btn.textContent = "Simulate focus order";
         }
       },
       steps.length * STEP_MS + 600,
@@ -519,6 +523,11 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     color: var(--color-dark);
     max-width: 540px;
     line-height: 1.7;
+  }
+
+  .tabs {
+  	display: flex;
+   	gap: var(--space-s);
   }
 
   .tab-btn {
@@ -568,22 +577,28 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   .demo-panel {
 	  background: var(--bg);
 	  border-block-end: 1px solid var(--color-dark);
-	  padding: 1.5rem;
+	  padding: 1.5rem 0;
 	  display: none;
   }
 
   .demo-panel.active {
     display: block;
+    padding-inline: 0;
   }
 
   /* ── Section label ── */
   .eyebrow {
-	  font-family: var(--mono);
-	  font-size: 14px;
-	  letter-spacing: 0.15em;
-	  text-transform: uppercase;
-	  color: var(--color-accent);
 	  margin-bottom: 0.75rem;
+  }
+
+  @media (max-width: 768px) {
+    .demo-panel .eyebrow {
+      display: none;
+    }
+
+    .demo-panel .code {
+    	display: none;
+    }
   }
 
   /* ── THE GRID ── */
@@ -614,14 +629,9 @@ import PlaceholderImage from "../PlaceholderImage.astro";
       "art-a   art-b";
   }
 
-  @media (max-width: 520px) {
+  @media (max-width: 768px) {
     .editorial-grid {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "cta"
-        "feature"
-        "art-a"
-        "art-b";
+      display: none;
     }
   }
 
@@ -904,6 +914,12 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     border-color: var(--feature-color);
   }
 
+  @media (max-width: 768px) {
+    .prose-notice {
+      display: none;
+    }
+  }
+
   /* ── Code ── */
   .code {
     background: var(--surface);
@@ -989,6 +1005,20 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     background: rgba(74, 222, 128, 0.12);
     color: var(--feature-color);
     border: 1px solid rgba(74, 222, 128, 0.3);
+  }
+
+  /* ── Code snippet ── */
+  .code-block {
+    background: var(--color-light);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+
+  .code-block pre {
+    margin: 0;
+    white-space: pre;
   }
 
   /* ── Hint ── */

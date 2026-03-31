@@ -1,26 +1,24 @@
 @layer components {
   @layer base {
-    @scope (.page-turners) {
+    .page-turners {
       --gutter: 16px;
 
-      @scope (.link-item) {
-        :scope {
-          --gutter: var(--space-l);
+      .link-item {
+        --gutter: var(--space-l);
 
-          align-items: start;
-          padding-block: var(--space-l);
-          border-block-start: 1px solid
-            color-mix(in srgb, var(--color-dark) 20%, transparent);
-          text-decoration: none;
-          color: var(--color-dark);
-          transition: color 0.15s;
+        align-items: start;
+        padding-block: var(--space-l);
+        border-block-start: 1px solid
+          color-mix(in srgb, var(--color-dark) 20%, transparent);
+        text-decoration: none;
+        color: var(--color-dark);
+        transition: color 0.15s;
 
-          @media (width >= 768px) {
-            --gutter: var(--space-xl);
+        @media (width >= 768px) {
+          --gutter: var(--space-xl);
 
-            display: grid !important;
-            grid-template-columns: 9rem 1fr;
-          }
+          display: grid !important;
+          grid-template-columns: 11rem 1fr;
         }
 
         .meta {
@@ -76,15 +74,20 @@
             display: block;
             border: 1px solid var(--color-dark);
             opacity: 0.75;
-            filter: grayscale(15%);
+            filter: grayscale(50%);
             transition:
               opacity 0.2s,
               filter 0.2s;
           }
         }
 
-        :scope:hover .title {
+        :hover .title {
           color: var(--feature-color);
+        }
+
+        :hover img {
+          filter: grayscale(15%);
+          opacity: 1;
         }
       }
     }
