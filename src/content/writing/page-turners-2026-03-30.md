@@ -4,10 +4,9 @@ pubDate: 2026-03-30
 description: "This months page turners have articles written by Terry Godier, David Bushell, Nicole Sullivan, Stuart Robson and Abbey Perini. Plus a crazy video of a CSS game and a unique portfolio site."
 tags:
   - page turners
-draft: true
 ---
 <ul class="page-turners stacked">
-<li>
+	<li>
       <a class="link-item stacked" href=https://dbushell.com/2026/03/23/top-ten-figma-betrayls/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">dbushell.com</span>
@@ -20,7 +19,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://terrygodier.com/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">terrygodier.com</span>
@@ -33,7 +32,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://nerdy.dev/css-logical-rhythm target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">nerdy.dev</span>
@@ -46,7 +45,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://youtube.com/shorts/ir_SB_vqaQY?si=pfK12kHiLfCLQ_PE target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">youtube.com</span>
@@ -58,7 +57,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://www.alwaystwisted.com/articles/beyond-the-blur-css-backdrop-filter?utm_source=the-index&utm_medium=newsletter target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">www.alwaystwisted.com</span>
@@ -71,7 +70,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://piccalil.li/blog/finding-an-accessibility-first-culture-in-npmx/?utm_source=the-index&utm_medium=newsletter target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">piccalil.li</span>
@@ -84,7 +83,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://jinsupark.com/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">jinsupark.com</span>
