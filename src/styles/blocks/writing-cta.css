@@ -1,14 +1,16 @@
 @layer components {
-  @scope (.writing-cta) {
-    :scope {
-      --gutter: var(--space-s);
+  @layer base {
+    @scope (.writing-cta) {
+      :scope {
+        --gutter: var(--space-s);
 
-      display: flex;
-      align-items: flex-end;
-      gap: var(--space-m);
-      padding-block: var(--space-xl);
-      position: relative;
-      flex-wrap: wrap;
+        display: flex;
+        align-items: flex-end;
+        gap: var(--space-m);
+        padding-block: var(--space-xl);
+        position: relative;
+        flex-wrap: wrap;
+      }
 
       &::before {
         content: "";
