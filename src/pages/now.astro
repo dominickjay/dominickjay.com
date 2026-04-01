@@ -4,6 +4,8 @@ Astro.response.headers.set(
   "public, max-age=300, s-maxage=86400",
 );
 
+import { sanityClient } from "sanity:client";
+
 import Layout from "../layouts/Default.astro";
 import { getTopTracks } from "../lib/lastfm";
 import { getCollection, render } from "astro:content";
@@ -162,42 +164,25 @@ if (apiKey) {
   }
 }
 
-const base =
-  typeof import.meta.env.BASE_URL === "string" &&
-  import.meta.env.BASE_URL
-    ? import.meta.env.BASE_URL
-    : typeof import.meta.env.SITE === "string" && import.meta.env.SITE
-      ? import.meta.env.SITE
-      : Astro.url.origin;
-const origin = base.startsWith("http") ? base : `http://${base}`;
-const traktUrl = `${origin}/.netlify/functions/trakt-watching`;
-const isFunctionsReachable =
-  !origin.includes("localhost") || origin.includes(":8888");
-
 let traktTitle: string | null = null;
 let traktSeason: number | undefined;
 let traktEpisode: number | undefined;
 
-if (isFunctionsReachable) {
-  try {
-    const res = await fetch(traktUrl);
-    const raw = await res.text();
-    if (res.ok && raw.startsWith("{")) {
-      const data = JSON.parse(raw) as {
-        title?: string | null;
-        season?: number;
-        episode?: number;
-        error?: string;
-      };
-      if (data.title) {
-        traktTitle = data.title;
-        traktSeason = data.season;
-        traktEpisode = data.episode;
-      }
-    }
-  } catch (err) {
-    console.warn("[Now] Trakt fetch failed", err);
+try {
+  const tvCache = await sanityClient.fetch(`*[_id == "global-tv-cache"][0]{ tvJson }`);
+  if (tvCache?.tvJson) {
+    const parsed = JSON.parse(tvCache.tvJson) as {
+      title?: string | null;
+      season?: number;
+      episode?: number;
+    };
+    traktTitle = parsed.title ?? null;
+    traktSeason = parsed.season;
+    traktEpisode = parsed.episode;
+    console.log("[Now] Trakt Sanity fetch succeeded", { traktTitle, traktSeason, traktEpisode });
   }
+} catch (err) {
+  console.warn("[Now] Trakt Sanity fetch failed", err);
 }
 
 const lastUpdateFormatted = currentPost
@@ -252,7 +237,7 @@ const goalPercent =
 
     <div class="now-layout sidebar" data-reversed>
 
-      <aside class="now-snapshot">
+      <!-- <aside class="now-snapshot">
         <div class="snap-card">
           <div class="snap-card__head">
             <span class="snap-card__label">Currently reading</span>
@@ -330,6 +315,87 @@ const goalPercent =
           </div>
         </div>
       </aside>
+       -->
+
+
+      <div class="stacked prose now-snapshot" style="--gutter: var(--space-xl)">
+       	<div class="stacked" style="--gutter: var(--space-m)">
+       		<span class="label">
+		        Currently reading
+			    </span>
+					<div
+		         class="stacked"
+		         style="--gutter: var(--space-m)"
+		       >
+		      	{currentlyReading.slice(0, 2).map((entry) => (
+					   	<div class="now-item stacked">
+					      <span class="title">{entry.book.title}</span>
+					      <span class="author">
+					        {entry.book.contributions?.[0]?.author?.name ?? ""}
+					      </span>
+								<div class="goal-bar">
+		              <div class="goal-bar__track">
+		                <div
+		                  class="goal-bar__fill"
+		                  style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
+		                />
+		              </div>
+		              <div class="goal-bar__meta">
+		                <span>{booksRead} of {goalTotal} · 2026 goal</span>
+		                <span>{goalPercent}%</span>
+		              </div>
+		            </div>
+					   	</div>
+	          ))}
+					</div>
+        </div>
+        <div class="stacked" style="--gutter: var(--space-m)">
+       		<span class="label">
+		        Currently watching
+			    </span>
+					<div
+		         class="stacked"
+		         style="--gutter: var(--space-m)"
+		      >
+		      	{traktTitle ? (
+              <div class="now-item stacked">
+                <span class="title">{traktTitle}</span>
+                {(traktSeason != null || traktEpisode != null) && (
+                  <span class="meta">
+                    {traktSeason != null && `Season ${traktSeason}`}
+                    {traktSeason != null && traktEpisode != null && " · "}
+                    {traktEpisode != null && `Episode ${traktEpisode}`}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span class="watching-item__meta">Nothing yet</span>
+            )}
+          </div>
+        </div>
+        <div class="stacked" style="--gutter: var(--space-m)">
+       		<span class="label">
+         		Top tracks this month
+			    </span>
+					<div
+		         class="stacked"
+		         style="--gutter: var(--space-m)"
+		      >
+	      		<ol class="track-list">
+              {topTracks.slice(0, 10).map((track, i) => (
+                <li class="track-item">
+                  <span class="track-item__name" title={track.name}>
+                    {track.name}
+                  </span>
+                  <span class="track-item__artist">
+                    {track.artist?.name ?? track.artist?.["#text"] ?? ""}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
       <main class="now-written">
         {currentPost && CurrentContent && (
           <div class="now-written-content flow prose">
