@@ -21,9 +21,9 @@ const { artistBannerUrl = "" } = Astro.props;
         width="2180"
         height="1224"
         aria-hidden="true"
-        loading="eager"
+        loading="lazy"
         decoding="async"
-        fetchpriority="high"
+        fetchpriority="low"
       />
       <div class="overlay" :style="overlayStyle"></div>
     </div>
