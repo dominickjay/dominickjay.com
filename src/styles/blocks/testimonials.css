@@ -106,6 +106,17 @@
         top: -3px;
       }
 
+      .meta {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-s);
+
+        @media (width < 768px) {
+          flex-direction: column;
+          gap: 0;
+        }
+      }
+
       .testimonial-name {
         color: var(--color-dark);
       }
@@ -119,6 +130,10 @@
 
         &::before {
           content: "·";
+
+          @media (width < 768px) {
+            content: none;
+          }
         }
       }
     }

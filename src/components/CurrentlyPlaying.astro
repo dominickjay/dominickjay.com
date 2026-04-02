@@ -13,14 +13,15 @@ const { artistBannerUrl = "" } = Astro.props;
     class="container currently-playing__container relative stacked"
     x-data={`currentlyPlaying('${artistBannerUrl}')`}
   >
-    <PlaceholderImage />
     <div class="currently-playing__background" x-show="displayImageUrl" x-cloak>
+    	<PlaceholderImage />
       <img
         :src="displayImageUrl"
         alt=""
         width="2180"
         height="1224"
         aria-hidden="true"
+        loading="eager"
       />
       <div class="overlay" :style="overlayStyle"></div>
     </div>
@@ -42,7 +43,7 @@ const { artistBannerUrl = "" } = Astro.props;
           <span class="np-track" id="npTrack" x-text="trackName"></span>
           <span class="np-artist" id="npArtist" x-text="artistName"></span>
         </div>
-        <span class="np-status" id="npStatus" x-text="statusText"></span>
+        <span class="np-status eyebrow" id="npStatus" x-text="statusText"></span>
       </div>
     </div>
   </div>

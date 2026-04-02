@@ -1,5 +1,5 @@
 ---
-export const prerender = false;
+export const prerender = true;
 
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
@@ -113,7 +113,7 @@ if (apiKey && fanartApiKey) {
     <Header />
     <main>
       <div
-        class="container stacked py-[32px]"
+        class="container stacked"
         style="--gutter: 32px"
       >
       <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
@@ -156,9 +156,7 @@ if (apiKey && fanartApiKey) {
               </div>
 
               <div class="col-span-full mt-[var(--space-m)]">
-                <h2
-                  class="eyebrow"
-                >
+                <h2 class="eyebrow">
                   Top 10 Tracks
                 </h2>
                 <TracksList tracks={tracks} />

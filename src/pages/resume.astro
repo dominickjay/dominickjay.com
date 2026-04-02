@@ -27,29 +27,35 @@ import { Picture } from "astro:assets";
      	<h2>Recent Full Time Experience</h2>
      	<div class="grid">
        	<div class="experience-card">
-       		<Picture
-           layout="full-width"
-           src="/images/companies/series-eight-logo.png"
-           formats={["avif", "webp"]}
-           alt="Logo for Series Eight"
-           loading="lazy"
-           height={25}
-           width={140}
-         />
+	       	<div class="flex items-center">
+	       		<Picture
+		           layout="full-width"
+		           src="/images/companies/series-eight-logo.png"
+		           formats={["avif", "webp"]}
+		           alt="Logo for Series Eight"
+		           loading="lazy"
+		           height={25}
+		           width={140}
+							 class="h-[35px]"
+						/>
+	        </div>
       		<h3 class=""><span>Front End Developer </span> - Series Eight</h3>
       		<date>April 2022 - present</date>
          	<div class="">At Series Eight, I've worked with multiple CMS's - Shopify, CraftCMS and Webflow - providing award winning websites and user experiences. Most recently, I've been part of a specialised team to handle retained and ongoin clients - allowing for improved client relationships and improved processes.</div>
        	</div>
        	<div class="experience-card">
-         	<Picture
-		        layout="full-width"
-	          src="/images/companies/rowe-it-logo.png"
-	          formats={["avif", "webp"]}
-						alt="Logo for Rowe IT"
-          	loading="lazy"
-           	height={25}
-	          width={140}
-	         />
+        	<div class="flex items-center">
+	         	<Picture
+			        layout="full-width"
+		          src="/images/companies/rowe-it-logo.png"
+		          formats={["avif", "webp"]}
+							alt="Logo for Rowe IT"
+	          	loading="lazy"
+	           	height={35}
+		          width={140}
+							class="h-[35px]"
+		        />
+         </div>
       		<h3 class=""><span>Software Engineer</span> - Rowe IT</h3>
       		<date>November 2019 - April 2022</date>
          	<div class="">At Rowe IT, I was part of multiple teams, conducting work using AWS Lambdas as well as conducting accessibility testing and improvements against the Met Office systems.</div>
