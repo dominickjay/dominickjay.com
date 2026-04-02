@@ -102,10 +102,19 @@ if (apiKey && fanartApiKey) {
       description="What I've been listening to lately — pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids."
     />
     <script>
-      import ColorThief from "colorthief";
       import { initializeColorExtraction } from "../lib/colorExtraction";
-      (window as any).ColorThief = ColorThief;
-      initializeColorExtraction();
+
+      const initColorExtraction = async () => {
+        const { default: ColorThief } = await import("colorthief");
+        (window as any).ColorThief = ColorThief;
+        initializeColorExtraction();
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => void initColorExtraction());
+      } else {
+        window.setTimeout(() => void initColorExtraction(), 0);
+      }
     </script>
   </head>
   <body>
@@ -192,33 +201,48 @@ if (apiKey && fanartApiKey) {
 </style>
 
 <script is:inline>
-  document.addEventListener("mousemove", (e) => {
-    const cur = document.getElementById("cur");
-    if (cur) {
-      cur.style.left = e.clientX + "px";
-      cur.style.top = e.clientY + "px";
-    }
-  });
+  const cur = document.getElementById("cur");
+  const body = document.body;
+
+  if (cur) {
+    let rafId = 0;
+    let x = 0;
+    let y = 0;
+
+    const renderCursor = () => {
+      cur.style.left = `${x}px`;
+      cur.style.top = `${y}px`;
+      rafId = 0;
+    };
+
+    document.addEventListener(
+      "pointermove",
+      (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        if (!rafId) {
+          rafId = window.requestAnimationFrame(renderCursor);
+        }
+      },
+      { passive: true },
+    );
+  }
+
   document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-    el.addEventListener("mouseenter", () =>
-      document.body.classList.add("cur-sm"),
-    );
-    el.addEventListener("mouseleave", () =>
-      document.body.classList.remove("cur-sm"),
-    );
+    el.addEventListener("mouseenter", () => body.classList.add("cur-sm"));
+    el.addEventListener("mouseleave", () => body.classList.remove("cur-sm"));
   });
+
   document
     .querySelectorAll("a:not([class]), .home-link, button, .post-item, .big-link")
     .forEach((el) => {
-      el.addEventListener(
-        "mouseenter",
-        () => document.body.classList.remove("cur-sm"),
-        document.body.classList.add("cur-lg"),
-      );
-      el.addEventListener(
-        "mouseleave",
-        () => document.body.classList.add("cur-sm"),
-        document.body.classList.remove("cur-lg"),
-      );
+      el.addEventListener("mouseenter", () => {
+        body.classList.remove("cur-sm");
+        body.classList.add("cur-lg");
+      });
+      el.addEventListener("mouseleave", () => {
+        body.classList.add("cur-sm");
+        body.classList.remove("cur-lg");
+      });
     });
 </script>
