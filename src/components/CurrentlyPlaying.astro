@@ -11,10 +11,10 @@ const { artistBannerUrl = "" } = Astro.props;
 <div class="currently-playing">
   <div
     class="container currently-playing__container relative stacked"
-    x-data={`currentlyPlaying('${artistBannerUrl}')`}
+    x-data={`currentlyPlaying(${JSON.stringify(artistBannerUrl)})`}
   >
     <div class="currently-playing__background" x-show="displayImageUrl" x-cloak>
-    	<PlaceholderImage />
+      <PlaceholderImage />
       <img
         :src="displayImageUrl"
         alt=""
@@ -22,6 +22,8 @@ const { artistBannerUrl = "" } = Astro.props;
         height="1224"
         aria-hidden="true"
         loading="eager"
+        decoding="async"
+        fetchpriority="high"
       />
       <div class="overlay" :style="overlayStyle"></div>
     </div>
@@ -71,7 +73,10 @@ const { artistBannerUrl = "" } = Astro.props;
       fetchedBannerUrl: toHttps(initialBannerUrl ?? ""),
       extractedColor: null as string | null,
       _pollId: null as ReturnType<typeof setInterval> | null,
-      _cancelColorExtract: false,
+      _lastArtistFetched: "",
+      _lastColorUrl: "",
+      _trackAbort: null as AbortController | null,
+      _bannerAbort: null as AbortController | null,
 
       get nowPlaying(): boolean {
         return isNowPlayingAttr(this.track);
@@ -120,22 +125,36 @@ const { artistBannerUrl = "" } = Astro.props;
         // @ts-ignore Alpine magic
         this.$watch("artistName", (val: string) => {
           if (val) this.fetchArtistBanner(val);
-          else this.fetchedBannerUrl = "";
+          else {
+            this._lastArtistFetched = "";
+            this.fetchedBannerUrl = "";
+          }
         });
 
         // @ts-ignore Alpine magic
         this.$watch("displayImageUrl", (val: string) => {
           if (val) this.extractColor(val);
-          else this.extractedColor = null;
+          else {
+            this._lastColorUrl = "";
+            this.extractedColor = null;
+          }
         });
       },
 
       destroy() {
         if (this._pollId !== null) clearInterval(this._pollId);
+        this._trackAbort?.abort();
+        this._bannerAbort?.abort();
       },
 
       fetchTrack() {
-        fetch(`/api/recent-tracks?t=${Date.now()}`)
+        this._trackAbort?.abort();
+        this._trackAbort = new AbortController();
+
+        fetch("/api/recent-tracks", {
+          cache: "no-store",
+          signal: this._trackAbort.signal,
+        })
           .then((r) => r.json())
           .then((data) => {
             const list = data?.recenttracks?.track;
@@ -143,27 +162,41 @@ const { artistBannerUrl = "" } = Astro.props;
               Array.isArray(list) && list.length > 0 ? list[0] : null;
             this.loading = false;
           })
-          .catch(() => {
+          .catch((error) => {
+            if (error?.name === "AbortError") return;
             this.loading = false;
           });
       },
 
       fetchArtistBanner(artist: string) {
-        fetch(`/api/artist-banner?artist=${encodeURIComponent(artist)}`)
+        if (artist === this._lastArtistFetched) return;
+
+        this._lastArtistFetched = artist;
+        this._bannerAbort?.abort();
+        this._bannerAbort = new AbortController();
+
+        fetch(`/api/artist-banner?artist=${encodeURIComponent(artist)}`, {
+          signal: this._bannerAbort.signal,
+        })
           .then((r) => r.json())
           .then((data) => {
             this.fetchedBannerUrl = data?.url ? toHttps(data.url) : "";
           })
-          .catch(() => {
+          .catch((error) => {
+            if (error?.name === "AbortError") return;
             this.fetchedBannerUrl = "";
           });
       },
 
       extractColor(url: string) {
+        if (url === this._lastColorUrl) return;
+
         extractImageColor(url).then((result) => {
           if (result.success) {
+            this._lastColorUrl = url;
             this.extractedColor = rgbToHsl(result.color);
           } else {
+            this._lastColorUrl = "";
             this.extractedColor = null;
           }
         });
