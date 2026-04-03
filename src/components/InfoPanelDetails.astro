@@ -150,6 +150,7 @@ if (recentTracksData.recentTracks) {
     recentTracks?.name && recentTracks?.artist?.["#text"] && (
       <div
         class={`info-panel__detail music relative np-pill--transparent ${recentTracks?.["@attr"]?.nowplaying ? "is-playing" : ""}`}
+        data-info-panel-music
       >
         <div class="np-bars">
           <div class="np-bar" />
@@ -159,8 +160,8 @@ if (recentTracksData.recentTracks) {
           <div class="np-bar" />
         </div>
         <span>
-          <span>{recentTracks?.name}</span> by{" "}
-          <span>{recentTracks?.artist?.["#text"]}</span>
+          <span data-track-name>{recentTracks?.name}</span> by{" "}
+          <span data-artist-name>{recentTracks?.artist?.["#text"]}</span>
         </span>
       </div>
     )
@@ -216,3 +217,61 @@ if (recentTracksData.recentTracks) {
     <span class="time"></span>
   </div>
 </div>
+
+<script>
+  type RecentTrack = {
+    name?: string;
+    artist?: { "#text"?: string };
+    "@attr"?: { nowplaying?: boolean | string };
+  } | null;
+
+  const POLL_INTERVAL_MS = 90000;
+  let abortController: AbortController | null = null;
+
+  function isNowPlaying(track: RecentTrack): boolean {
+    return track?.["@attr"]?.nowplaying === true
+      || String(track?.["@attr"]?.nowplaying) === "true";
+  }
+
+  function updateMusicRows(track: RecentTrack) {
+    if (!track) return;
+
+    const trackName = track?.name ?? "";
+    const artistName = track?.artist?.["#text"] ?? "";
+    const nowPlaying = isNowPlaying(track);
+
+    document.querySelectorAll<HTMLElement>("[data-info-panel-music]").forEach((row) => {
+      const trackNameEl = row.querySelector<HTMLElement>("[data-track-name]");
+      const artistNameEl = row.querySelector<HTMLElement>("[data-artist-name]");
+
+      if (trackNameEl) trackNameEl.textContent = trackName;
+      if (artistNameEl) artistNameEl.textContent = artistName;
+      row.classList.toggle("is-playing", nowPlaying);
+    });
+  }
+
+  async function fetchLatestTrack() {
+    abortController?.abort();
+    abortController = new AbortController();
+
+    try {
+      const response = await fetch("/api/recent-tracks", {
+        cache: "no-store",
+        signal: abortController.signal,
+      });
+      const data = await response.json();
+      const list = data?.recenttracks?.track;
+      const latestTrack = Array.isArray(list) && list.length > 0 ? list[0] : null;
+
+      updateMusicRows(latestTrack);
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+    }
+  }
+
+  if (!(window as any).__infoPanelMusicPollerInitialized) {
+    (window as any).__infoPanelMusicPollerInitialized = true;
+    fetchLatestTrack();
+    setInterval(fetchLatestTrack, POLL_INTERVAL_MS);
+  }
+</script>
