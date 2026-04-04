@@ -197,7 +197,7 @@ const ogImage = getImagePath({ url, site });
 				cur.style.top = e.clientY + "px";
 			}
 		});
-		document.querySelectorAll("a, button, .post-item").forEach((el) => {
+		document.querySelectorAll("a, button, .item").forEach((el) => {
 			el.addEventListener("mouseenter", () =>
 				document.body.classList.add("cur-lg"),
 			);
@@ -217,7 +217,7 @@ const ogImage = getImagePath({ url, site });
 		let searchQuery = '';
 
 		const section = document.querySelector('.container.flow');
-		const getItems = () => section ? section.querySelectorAll('.post-item') : [];
+		const getItems = () => section ? section.querySelectorAll('.item') : [];
 
 		function applyFilters() {
 		  const items = getItems();
@@ -265,7 +265,7 @@ const ogImage = getImagePath({ url, site });
 
 		// Stagger reveal (per list)
 		document.querySelectorAll('.post-list').forEach(postList => {
-			const items = postList.querySelectorAll('.post-item');
+			const items = postList.querySelectorAll('.item');
 			const obs = new IntersectionObserver(entries => {
 				entries.forEach(e => {
 					if (!e.isIntersecting) return;

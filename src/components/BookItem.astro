@@ -1,4 +1,4 @@
-<---
+---
 import FormattedDate from "../components/FormattedDate.astro";
 
 const { i, title, author } =
@@ -7,17 +7,17 @@ const { i, title, author } =
 ---
 
 <li
-  class="post-item visible"
+  class="item visible"
   data-title={title?.toLowerCase() ?? ""}
 >
-  <div class="post-link post-link--small">
+  <div class="link link--small" data-small>
   	{i &&
-    	<span class="post-n">{i}</span>
+    	<span class="index">{i}</span>
     }
-    <div class="post-body">
-      <span class="post-title">{title}</span>
-      <div class="post-meta">
-        {author && <span class="post-topics-label">{author}</span>}
+    <div class="body">
+      <span class="title">{title}</span>
+      <div class="meta">
+        {author && <span class="topics">{author}</span>}
       </div>
     </div>
   </>

@@ -10,6 +10,12 @@
     }
   }
 
+  .big-link {
+    & span {
+      min-width: 0;
+    }
+  }
+
   .testimonials-header {
     display: flex;
     align-items: center;

@@ -63,7 +63,7 @@ Ok, so we've got our variable font in our project, and it looks cool, but it doe
     font-family: 'Rocher';
     letter-spacing: -3.5px;
     line-height: 1;
-    margin-bottom: 40px;
+    margin-block-end: 40px;
     display: block;
   }
 

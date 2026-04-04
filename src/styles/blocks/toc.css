@@ -9,7 +9,7 @@
         list-style: none;
         display: flex;
         flex-direction: column;
-        border-left: 2px solid rgb(from var(--feature-color) r g b / 0.25);
+        border-left: 2px solid rgb(from var(--color-feature) r g b / 0.25);
       }
 
       .toc-item .toc-link {
@@ -27,7 +27,7 @@
         font-weight: 400;
         background: none;
         opacity: 0.8;
-        border-left: 2px solid rgb(from var(--feature-color) r g b / 0);
+        border-left: 2px solid rgb(from var(--color-feature) r g b / 0);
         left: -1px;
         position: relative;
 
@@ -39,12 +39,12 @@
 
       .toc-item a:hover {
         color: var(--color-dark);
-        border-left-color: var(--feature-color);
+        border-left-color: var(--color-feature);
         padding-left: 16px;
       }
 
       .toc-item .active-toc-item {
-        border-left-color: var(--feature-color);
+        border-left-color: var(--color-feature);
         padding-left: 16px;
         font-style: italic;
         opacity: 1;

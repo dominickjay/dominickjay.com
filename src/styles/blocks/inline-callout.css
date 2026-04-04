@@ -1,46 +1,40 @@
-.inline-callout {
-  --gutter: var(--space-s);
+@scope (.inline-callout) {
+  :scope {
+    --gutter: var(--space-s);
 
-  margin: 2rem 0;
-  padding: 1.125rem 1.25rem 1.125rem 1.5rem;
-  background: rgb(from var(--feature-color) r g b / 0.12);
-  border-left: 4px solid var(--feature-color);
-  column-gap: 1.5rem;
-  align-items: start;
-  text-decoration: none;
-  color: inherit;
-  position: relative;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
+    margin: 2rem 0;
+    padding: 1.125rem 1.25rem 1.125rem 1.5rem;
+    background: rgb(from var(--color-feature) r g b / 0.08);
+    border-left: 4px solid var(--color-feature);
+    column-gap: 1.5rem;
+    align-items: start;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition:
+      border-color 0.15s ease,
+      background 0.15s ease;
 
-  &:hover,
-  &:focus {
-    background: rgb(from var(--feature-color) r g b / 0.25);
+    &:hover,
+    &:focus {
+      background: rgb(from var(--color-feature) r g b / 0.25);
+    }
   }
-}
 
-/*.inline-callout__tag {
-  font-family: var(--font-base);
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  text-transform: uppercase;
-}*/
+  .title {
+    font-family: var(--font-base);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--color-feature);
+  }
 
-.inline-callout__title {
-  font-family: var(--font-base);
-  font-size: 1.25rem;
-  font-style: italic;
-  line-height: 1.35;
-  color: var(--feature-color);
-}
-
-.inline-callout__description {
-  font-family: var(--font-base);
-  font-size: 1rem;
-  color: var(--feature-color);
-  line-height: 1.5;
-  font-weight: 300;
-  margin-top: var(--space-s);
+  .description {
+    font-family: var(--font-base);
+    font-size: 1rem;
+    color: var(--color-feature);
+    line-height: 1.5;
+    font-weight: 300;
+    margin-block-start: var(--space-s);
+  }
 }

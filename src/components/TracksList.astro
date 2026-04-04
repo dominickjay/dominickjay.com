@@ -16,13 +16,13 @@ const { tracks = [] } = Astro.props;
 >
   {
     tracks.map((track, i) => (
-      <li class="post-item">
-        <div class="post-link post-link--small">
-          <span class="post-n">{String(i + 1).padStart(2, "0")}</span>
-          <div class="post-body">
-            <span class="post-title">
+      <li class="item">
+        <div class="link link--small" data-small>
+          <span class="index">{String(i + 1).padStart(2, "0")}</span>
+          <div class="body">
+            <span class="title">
               {track.title || track.name}{" "}
-              <span class="post-artist">by {track.artist}</span>
+              <span class="artist">by {track.artist}</span>
             </span>
           </div>
         </div>
@@ -33,7 +33,7 @@ const { tracks = [] } = Astro.props;
 
 <script is:inline>
   // Stagger reveal
-  const items = document.querySelectorAll(".post-item");
+  const items = document.querySelectorAll(".item");
   const obs = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {

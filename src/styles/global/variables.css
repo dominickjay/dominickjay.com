@@ -7,7 +7,7 @@
       --color-gradient: linear-gradient(
         in oklch 151deg,
         #222222 0%,
-        var(--feature-color, #2c5364) 100%
+        var(--color-feature, #2c5364) 100%
       );
       --color-surface: #f0ece0;
       --color-surface-2: #e8e3d5;

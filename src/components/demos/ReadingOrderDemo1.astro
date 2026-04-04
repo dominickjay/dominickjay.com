@@ -242,7 +242,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <!-- How it works table -->
-    <p class="section-label" style="margin-top: 1.5rem;">How the orders map</p>
+    <p class="section-label" style="margin-block-start: 1.5rem;">How the orders map</p>
     <table class="order-table">
       <thead>
         <tr>
@@ -454,7 +454,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .eyebrow {
-    margin-bottom: 0.75rem;
+    margin-block-end: 0.75rem;
   }
 
   h1 {
@@ -463,7 +463,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     font-weight: 300;
     line-height: 1.2;
     color: var(--color-dark);
-    margin-bottom: 1rem;
+    margin-block-end: 1rem;
   }
 
   h1 em {
@@ -485,7 +485,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 	  font-family: var(--font-base);
 	  font-size: 14px;
 	  letter-spacing: 0.14em;
-	  color: var(--feature-color);
+	  color: var(--color-feature);
 		opacity: 0.85;
 	  text-transform: uppercase;
 	  margin-block-end: 8px;
@@ -499,7 +499,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
     &[aria-selected="true"] {
       border-block-end: 2px solid var(--color-dark);
-      color: var(--feature-color);
+      color: var(--color-feature);
       opacity: 1;
     }
 
@@ -529,7 +529,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
     padding: 1rem;
     background: var(--color-light);
     border: 1px solid var(--color-dark);
@@ -564,7 +564,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     color: #fff;
   }
   .badge-dom-fix {
-    background: var(--feature-color);
+    background: var(--color-feature);
     color: #000;
   }
 
@@ -587,7 +587,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Card grid ── */
   .cards-wrap {
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
   }
 
   /* Problem: order reorders visually but DOM stays wrong */
@@ -658,10 +658,10 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .card.playing {
-    outline: 2px solid var(--feature-color, var(--accent));
+    outline: 2px solid var(--color-feature, var(--accent));
     outline-offset: -2px;
     box-shadow:
-      inset 0 0 0 1px var(--feature-color, var(--accent)),
+      inset 0 0 0 1px var(--color-feature, var(--accent)),
       0 8px 12px rgba(0, 0, 0, 0.12);
     transition:
       outline 0.2s,
@@ -701,7 +701,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .card-link {
-    margin-top: auto;
+    margin-block-start: auto;
     display: inline-block;
     font-size: 14px;
     padding: 6px 10px;
@@ -732,7 +732,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
   .panel-solution .card-link:focus-visible {
     box-shadow: var(--focus-ring-fix);
-    border-color: var(--feature-color);
+    border-color: var(--color-feature);
   }
 
   /* DOM order badge on each card */
@@ -763,14 +763,14 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     font-size: 13px;
     font-style: italic;
     color: var(--color-dark);
-    margin-bottom: 0.5rem;
+    margin-block-end: 0.5rem;
   }
   .card-cta .card-link {
- 		background: rgb(from var(--feature-color) r g b / 0.2);
+ 		background: rgb(from var(--color-feature) r g b / 0.2);
   	border-color: var(--color-accent);
   }
   .panel-solution .card-cta .card-link {
- 		background: rgb(from var(--feature-color) r g b / 0.2);
+ 		background: rgb(from var(--color-feature) r g b / 0.2);
   	border-color: var(--color-accent);
   }
   .card-cta .card-link:hover {
@@ -783,11 +783,11 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 	  letter-spacing: 0.05em;
 	  text-transform: uppercase;
     padding: 8px 16px;
-    background: rgb(from var(--feature-color) r g b / 0.2);
+    background: rgb(from var(--color-feature) r g b / 0.2);
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     cursor: pointer;
-    margin-top: 1rem;
+    margin-block-start: 1rem;
     transition: background 0.15s;
     display: flex;
     align-items: center;
@@ -843,7 +843,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     font-size: 14px;
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
-    background: color-mix(in srgb, var(--feature-color) 30%, transparent);
+    background: color-mix(in srgb, var(--color-feature) 30%, transparent);
     transition: all 0.2s;
     white-space: nowrap;
   }
@@ -869,7 +869,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .focus-verdict {
-    margin-top: 0.75rem;
+    margin-block-start: 0.75rem;
     padding: 0.5rem 0.75rem;
     font-size: 14px;
     line-height: 1.5;
@@ -884,7 +884,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .verdict-good {
     background: rgba(74, 222, 128, 0.08);
     border: 1px solid rgba(74, 222, 128, 0.2);
-    color: var(--feature-color);
+    color: var(--color-feature);
   }
 
   .prose-notice {
@@ -899,7 +899,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     border-color: var(--color-accent);
   }
   .prose-notice.solution {
-    border-color: var(--feature-color);
+    border-color: var(--color-feature);
   }
   /* ── Code snippet ── */
   .code-block {
@@ -918,7 +918,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   /* ── Hint ── */
   .hint {
     color: var(--color-dark);
-    margin-top: 1rem;
+    margin-block-start: 1rem;
   }
 
   .key {
@@ -983,13 +983,13 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
   .tag-focus {
     background: rgba(74, 222, 128, 0.12);
-    color: var(--feature-color);
+    color: var(--color-feature);
     border: 1px solid rgba(74, 222, 128, 0.3);
   }
 
   /* ── Footer ── */
   .footer-note {
-    margin-top: 2.5rem;
+    margin-block-start: 2.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-dark);
     font-size: 14px;

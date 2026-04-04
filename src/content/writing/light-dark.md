@@ -318,8 +318,8 @@ Here's how a complete theme system works with system preferences:
 
   <div class="system-demo p-6 rounded-lg border"
        style="background-color: light-dark(#ffffff, #1a1a1a); color: light-dark(#333333, #e0e0e0); border-color: light-dark(#e5e7eb, #374151);">
-    <h3 style="color: light-dark(#000000, #ffffff); margin-bottom: 1rem;">System Preference Demo</h3>
-    <p style="color: light-dark(#666666, #cccccc); margin-bottom: 1rem;">
+    <h3 style="color: light-dark(#000000, #ffffff); margin-block-end: 1rem;">System Preference Demo</h3>
+    <p style="color: light-dark(#666666, #cccccc); margin-block-end: 1rem;">
       Try changing your system theme.
     </p>
     <div style="background-color: light-dark(#f8f9fa, #2d3748); padding: 12px; border-radius: 6px; border: 1px solid light-dark(#e9ecef, #4a5568);">
@@ -393,8 +393,8 @@ Here's how a complete theme system works with system preferences:
 
   <div class="demo-example p-6 rounded-lg border"
        style="background-color: light-dark(#ffffff, #1a1a1a); color: light-dark(#333333, #e0e0e0); border-color: light-dark(#e5e7eb, #374151);">
-    <h2 style="color: light-dark(#000000, #ffffff); margin-bottom: 1rem;">Example Heading</h2>
-    <p style="color: light-dark(#666666, #cccccc); margin-bottom: 1rem;">This paragraph demonstrates how text colors automatically adapt to the selected color scheme using the light-dark() function.</p>
+    <h2 style="color: light-dark(#000000, #ffffff); margin-block-end: 1rem;">Example Heading</h2>
+    <p style="color: light-dark(#666666, #cccccc); margin-block-end: 1rem;">This paragraph demonstrates how text colors automatically adapt to the selected color scheme using the light-dark() function.</p>
     <p style="color: light-dark(#666666, #cccccc);">Notice how the background, text, and border colors all change seamlessly when you toggle between light and dark modes.</p>
   </div>
 </div>
@@ -540,13 +540,13 @@ Here's how a complete theme system works with system preferences:
     </nav>
 
     <!-- Cards -->
-    <div style="display: grid; gap: 16px; margin-bottom: 24px;">
+    <div style="display: grid; gap: 16px; margin-block-end: 24px;">
       <!-- Card 1 -->
       <div style="background-color: light-dark(#f6f8fa, #161b22); border: 1px solid light-dark(#d0d7de, #30363d); border-radius: 8px; padding: 16px;">
-        <div style="border-bottom: 1px solid light-dark(#d8dee4, #21262d); padding-bottom: 8px; margin-bottom: 12px;">
+        <div style="border-bottom: 1px solid light-dark(#d8dee4, #21262d); padding-bottom: 8px; margin-block-end: 12px;">
           <h3 style="color: light-dark(#24292f, #f0f6fc); font-size: 1.25rem; font-weight: 600; margin: 0;">Welcome Card</h3>
         </div>
-        <div style="color: light-dark(#656d76, #8b949e); line-height: 1.5; margin-bottom: 16px;">
+        <div style="color: light-dark(#656d76, #8b949e); line-height: 1.5; margin-block-end: 16px;">
           This card demonstrates the complete theme system using CSS custom properties with light-dark() functions.
         </div>
         <div style="display: flex; gap: 8px;">
@@ -557,11 +557,11 @@ Here's how a complete theme system works with system preferences:
 
       <!-- Card 2 -->
       <div style="background-color: light-dark(#f6f8fa, #161b22); border: 1px solid light-dark(#d0d7de, #30363d); border-radius: 8px; padding: 16px;">
-        <div style="border-bottom: 1px solid light-dark(#d8dee4, #21262d); padding-bottom: 8px; margin-bottom: 12px;">
+        <div style="border-bottom: 1px solid light-dark(#d8dee4, #21262d); padding-bottom: 8px; margin-block-end: 12px;">
           <h3 style="color: light-dark(#24292f, #f0f6fc); font-size: 1.25rem; font-weight: 600; margin: 0;">Form Example</h3>
         </div>
-        <div style="margin-bottom: 16px;">
-          <label style="display: block; color: light-dark(#24292f, #f0f6fc); font-weight: 500; margin-bottom: 4px;">Email Address</label>
+        <div style="margin-block-end: 16px;">
+          <label style="display: block; color: light-dark(#24292f, #f0f6fc); font-weight: 500; margin-block-end: 4px;">Email Address</label>
           <input type="email" placeholder="Enter your email" style="width: 100%; padding: 8px 12px; background-color: light-dark(#ffffff, #0d1117); border: 1px solid light-dark(#d0d7de, #30363d); border-radius: 6px; color: light-dark(#24292f, #f0f6fc); font-size: 14px;" onfocus="this.style.borderColor = 'light-dark(#0969da, #58a6ff)'; this.style.boxShadow = '0 0 0 3px light-dark(rgba(9, 105, 218, 0.1), rgba(88, 166, 255, 0.1))'" onblur="this.style.borderColor = 'light-dark(#d0d7de, #30363d)'; this.style.boxShadow = 'none'">
         </div>
         <div style="color: light-dark(#8c959f, #6e7681); font-size: 14px;">
@@ -618,7 +618,7 @@ body {
 .card-header {
   border-bottom: 1px solid var(--border-secondary);
   padding-bottom: 8px;
-  margin-bottom: 12px;
+  margin-block-end: 12px;
 }
 
 .card-title {
@@ -685,14 +685,14 @@ body {
 
 /* Form Elements */
 .form-group {
-  margin-bottom: 16px;
+  margin-block-end: 16px;
 }
 
 .form-label {
   display: block;
   color: var(--text-primary);
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-block-end: 4px;
 }
 
 .form-input {
@@ -868,13 +868,13 @@ Here's a live example showing how high-contrast mode affects your `light-dark()`
 
   <div class="high-contrast-demo p-6 rounded-lg border"
        style="background-color: light-dark(Canvas, Canvas); color: light-dark(CanvasText, CanvasText); border-color:light-dark(CanvasText, CanvasText); ">
-    <h3 style="color: light-dark(CanvasText, CanvasText); margin-bottom: 1rem;">High-Contrast Mode Demo</h3>
-    <p style="color: light-dark(CanvasText, CanvasText); margin-bottom: 1rem;">
+    <h3 style="color: light-dark(CanvasText, CanvasText); margin-block-end: 1rem;">High-Contrast Mode Demo</h3>
+    <p style="color: light-dark(CanvasText, CanvasText); margin-block-end: 1rem;">
       This example shows how your custom colors interact with high-contrast mode.
       <strong>Enable high-contrast mode in your OS settings</strong> to see how the browser overrides these colors.
     </p>
 
-    <div style="background-color: light-dark(#f8f9fa, #2d3748); padding: 12px; border-radius: 6px; border: 1px solid light-dark(#e9ecef, #4a5568); margin-bottom: 16px;">
+    <div style="background-color: light-dark(#f8f9fa, #2d3748); padding: 12px; border-radius: 6px; border: 1px solid light-dark(#e9ecef, #4a5568); margin-block-end: 16px;">
       <p style="color: light-dark(#495057, #a0aec0); margin: 0; font-size: 14px;">
         <strong>Current system preference:</strong> <span x-text="systemPreference"></span><br>
         <strong>Active color scheme:</strong> <span x-text="colorScheme === 'system' ? systemPreference : colorScheme"></span><br>
@@ -902,14 +902,14 @@ Here's a live example showing how high-contrast mode affects your `light-dark()`
       </div>
     </div>
 
-    <div style="margin-top: 16px; padding: 12px; background-color: light-dark(#fff3cd, #664d03); border: 1px solid light-dark(#ffeaa7, #ffc107); border-radius: 6px;">
+    <div style="margin-block-start: 16px; padding: 12px; background-color: light-dark(#fff3cd, #664d03); border: 1px solid light-dark(#ffeaa7, #ffc107); border-radius: 6px;">
       <p style="color: light-dark(#856404, #ffecb5); margin: 0; font-size: 14px;">
         <strong>💡 Tip:</strong> In high-contrast mode, browsers prioritize accessibility over your custom colors.
         This is intentional and helps users with visual impairments read your content more easily.
       </p>
     </div>
 
-    <div style="margin-top: 16px; display: flex; gap: 8px;">
+    <div style="margin-block-start: 16px; display: flex; gap: 8px;">
       <button style="background-color: light-dark(#007bff, #0056b3); color: white; border: none; padding: 8px 16px; border-radius: 4px; font-size: 14px;">
         Custom Button
       </button>

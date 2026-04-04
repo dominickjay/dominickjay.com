@@ -57,7 +57,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       <span class="pos">visual: btm-right</span>
     </div>
   </div>
-  <p style="font-size: 14px; margin-bottom: 2rem;">
+  <p style="font-size: 14px; margin-block-end: 2rem;">
     DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) — CTA is last
     in the DOM but placed top-left visually.
   </p>
@@ -276,7 +276,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <!-- The CSS -->
-    <p class="eyebrow" style="margin-top:1.5rem">The CSS</p>
+    <p class="eyebrow" style="margin-block-start:1.5rem">The CSS</p>
     <div class="code-block" set:html={solutionCodeHighlighted} />
 
     <!-- Order map -->
@@ -510,7 +510,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     font-size: clamp(1.5rem, 3.5vw, 2.2rem);
     font-weight: 300;
     line-height: 1.2;
-    margin-bottom: 0.75rem;
+    margin-block-end: 0.75rem;
   }
 
   h1 em {
@@ -534,7 +534,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   	font-family: var(--font-base);
 	  font-size: 14px;
 	  letter-spacing: 0.14em;
-	  color: var(--feature-color);
+	  color: var(--color-feature);
 		opacity: 0.85;
 	  text-transform: uppercase;
 	  margin-block-end: 8px;
@@ -548,7 +548,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
 	  &[aria-selected="true"] {
 	    border-block-end: 2px solid var(--color-dark);
-	    color: var(--feature-color);
+	    color: var(--color-feature);
 	    opacity: 1;
 	  }
 
@@ -588,7 +588,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Section label ── */
   .eyebrow {
-	  margin-bottom: 0.75rem;
+	  margin-block-end: 0.75rem;
   }
 
   @media (max-width: 768px) {
@@ -620,7 +620,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     background: color-mix(in srgb, var(--color-light) 60%, transparent); /* gap colour via bg trick */
     border: 1px solid var(--border);
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
 
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
@@ -678,7 +678,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     color: var(--color-dark);
     padding: 2px 8px;
     align-self: flex-start;
-    margin-bottom: 0.25rem;
+    margin-block-end: 0.25rem;
   }
 
   .cell-label {
@@ -718,7 +718,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .cell-link {
-    margin-top: auto;
+    margin-block-start: auto;
     align-self: flex-start;
     font-family: var(--font-mono);
     font-size: 14px;
@@ -805,7 +805,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Explainer ── */
   .explainer {
-    background: rgb(from var(--feature-color) r g b / 0.12);
+    background: rgb(from var(--color-feature) r g b / 0.12);
     border-left: 3px solid var(--color-dark);
     padding: 1rem;
     margin: 1.5rem 0;
@@ -841,7 +841,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--color-dark);
-    margin-bottom: 0.75rem;
+    margin-block-end: 0.75rem;
   }
 
   .tracker-row {
@@ -850,7 +850,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     align-items: center;
     gap: 6px;
     min-height: 30px;
-    margin-bottom: 0.75rem;
+    margin-block-end: 0.75rem;
   }
 
   .t-step {
@@ -911,7 +911,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     border-color: var(--color-accent);
   }
   .prose-notice.solution {
-    border-color: var(--feature-color);
+    border-color: var(--color-feature);
   }
 
   @media (max-width: 768px) {
@@ -929,7 +929,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     line-height: 1.8;
     overflow-x: auto;
     white-space: pre;
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
   }
 
   .c-comment {
@@ -1003,7 +1003,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
   .tag-focus {
     background: rgba(74, 222, 128, 0.12);
-    color: var(--feature-color);
+    color: var(--color-feature);
     border: 1px solid rgba(74, 222, 128, 0.3);
   }
 
@@ -1025,7 +1025,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .hint {
     font-size: 14px;
     color: var(--color-dark);
-    margin-top: 1rem;
+    margin-block-start: 1rem;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -1048,11 +1048,11 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 	  letter-spacing: 0.05em;
 	  text-transform: uppercase;
     padding: 8px 16px;
-    background: rgb(from var(--feature-color) r g b / 0.2);
+    background: rgb(from var(--color-feature) r g b / 0.2);
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     cursor: pointer;
-    margin-top: 1rem;
+    margin-block-start: 1rem;
     transition: background 0.15s;
     display: flex;
     align-items: center;
@@ -1136,7 +1136,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     grid-template-rows: 64px 64px;
     grid-template-areas: "cta feature" "art-a art-b";
     gap: 2px;
-    margin-bottom: 1rem;
+    margin-block-end: 1rem;
     font-size: 14px;
     max-width: 640px;
   }
@@ -1183,7 +1183,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   /* ── Footer ── */
   .footer {
-    margin-top: 2.5rem;
+    margin-block-start: 2.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
     font-size: 14px;

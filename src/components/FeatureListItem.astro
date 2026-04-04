@@ -13,21 +13,21 @@ const {
 ---
 
 <li
-  class="post-item"
+  class="item"
   data-stage={growth ?? "all"}
   data-topics={tags?.join(",") ?? ""}
   data-title={title?.toLowerCase() ?? ""}
 >
   <a
     href={`/writing/${id}/`}
-    class={`post-link ${theme != "default" ? "post-link--" + theme : ""}`}
+    class={`link ${theme != "default" ? "link--" + theme : ""}`}
   >
-    <span class="post-n">{i}</span>
-    <div class="post-body">
-      <span class="post-title">{title}</span>
-      <div class="post-meta">
+    <span class="index">{i}</span>
+    <div class="body">
+      <span class="title">{title}</span>
+      <div class="meta">
         <FormattedDate date={lastModified ?? pubDate} />
-        <span class="post-topics-label">{tags.join(", ")}</span>
+        <span class="topics">{tags.join(", ")}</span>
         {
           growth !== undefined && (
             <span class={`growth`} data-growth={growth}>

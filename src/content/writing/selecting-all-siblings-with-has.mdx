@@ -180,7 +180,7 @@ See where this is going? Now, we're going to move our selector from `.box` to th
 
 <style>{`
   #has-example-row-4 > * {
-    background-color: color-mix(in srgb, var(--feature-color) 100%, transparent);;
+    background-color: color-mix(in srgb, var(--color-feature) 100%, transparent);;
   }
 `}</style>
 
@@ -229,7 +229,7 @@ Almost there. Let's remove `.outline` from our statement, replacing it with anot
   }
 
   #has-example-row-6:has( *:hover ) > *:not(:hover) {
-    background-color: var(--feature-color, #ff5f1f);
+    background-color: var(--color-feature, #ff5f1f);
   }
 `}</style>
 

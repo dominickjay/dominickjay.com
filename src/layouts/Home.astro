@@ -68,7 +68,7 @@ const { title, description } = Astro.props;
     });
     document
       .querySelectorAll(
-        "a:not([class]), .home-link, button, .post-item, .big-link",
+        "a:not([class]), .home-link, button, .item, .big-link",
       )
       .forEach((el) => {
         el.addEventListener(
@@ -85,7 +85,7 @@ const { title, description } = Astro.props;
 
     // Stagger reveal (per list)
     document.querySelectorAll(".post-list").forEach((postList) => {
-      const items = postList.querySelectorAll(".post-item");
+      const items = postList.querySelectorAll(".item");
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {

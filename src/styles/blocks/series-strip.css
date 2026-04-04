@@ -1,8 +1,8 @@
 .series-strip {
   margin: 2rem 0;
   padding: 1.125rem 1.25rem 1.125rem 1.5rem;
-  background: rgb(from var(--feature-color) r g b / 0.1);
-  border-left: 4px solid var(--feature-color);
+  background: rgb(from var(--color-feature) r g b / 0.1);
+  border-left: 4px solid var(--color-feature);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -91,7 +91,7 @@
   font-size: 1.25rem;
   font-style: italic;
   line-height: 1.35;
-  color: var(--feature-color);
+  color: var(--color-feature);
 }
 
 .series-strip__links {
@@ -111,7 +111,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: var(--space-m);
-  background: rgb(from var(--feature-color) r g b / 0.08);
+  background: rgb(from var(--color-feature) r g b / 0.08);
   transition: background 0.25s ease-in-out;
 
   @container series-strip (width <= 768px) {
@@ -121,14 +121,14 @@
 
 .series-strip__item:hover,
 .series-strip__item--current {
-  background: rgb(from var(--feature-color) r g b / 0.15);
+  background: rgb(from var(--color-feature) r g b / 0.15);
 }
 
 .series-strip__description {
   font-family: var(--font-base);
   font-size: 0.875rem;
   line-height: 1.35;
-  color: var(--feature-color);
+  color: var(--color-feature);
 }
 
 .series-strip__current {

@@ -290,10 +290,6 @@ const gardenNav = [
             </button>
           </div>
         </div>
-
-        <div class="footer-pattern-wrap">
-          <PatternSmall />
-        </div>
       </div>
     </div>
 
@@ -519,20 +515,6 @@ const gardenNav = [
     border: 0;
   }
 
-  .footer-pattern-wrap {
-    flex: 1;
-    min-height: 96px;
-    height: 96px;
-    overflow: hidden;
-  }
-
-  .footer-pattern-wrap :global(svg) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    opacity: 0.85;
-  }
-
   .footer-pattern {
     position: absolute;
     inset: 0;
@@ -586,10 +568,6 @@ const gardenNav = [
   @media (max-width: 700px) {
     .footer-body {
       grid-template-columns: 1fr;
-    }
-
-    .footer-pattern-wrap {
-      display: none;
     }
 
     .footer-bottom {

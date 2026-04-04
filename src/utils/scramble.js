@@ -45,9 +45,9 @@ export function initScramble() {
   // Lock the container dimensions before any scramble runs.
   // A single offsetWidth read here prevents Safari from reflowing
   // the surrounding layout on every frame of the animation.
-  document.querySelectorAll("[data-scramble-on-load]").forEach((container) => {
-    container.style.width = container.offsetWidth + "px";
-    container.style.height = container.offsetHeight + "px";
+  document.querySelectorAll("[data-scramble]").forEach((container) => {
+    container.style.width = container.offsetWidth + 60 + "px";
+    // container.style.height = container.offsetHeight + "px";
   });
 
   const targets = document.querySelectorAll("[data-scramble]");

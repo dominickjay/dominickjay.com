@@ -100,7 +100,7 @@ There's also quite a list of available colorspace options; `srgb`, `srgb-linear`
 
 .color-mix-block ol {
   list-style: none;
-  margin-top: 2rem;
+  margin-block-start: 2rem;
 }
 
 .color-mix {

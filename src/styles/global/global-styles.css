@@ -8,7 +8,7 @@
 	    */
 
     * {
-      scrollbar-color: color-mix(in srgb, var(--feature-color) 50%, transparent)
+      scrollbar-color: color-mix(in srgb, var(--color-feature) 50%, transparent)
         var(--color-light);
       scrollbar-width: thin;
     }
@@ -66,7 +66,7 @@
     }
 
     *::selection {
-      background-color: rgb(from var(--feature-color) r g b / 0.85);
+      background-color: rgb(from var(--color-feature) r g b / 0.85);
       color: var(--color-light);
     }
 

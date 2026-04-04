@@ -1,6 +1,6 @@
 @layer components {
   .reading-goal-hero {
-    background: color-mix(in srgb, var(--feature-color) 15%, var(--color-dark));
+    background: color-mix(in srgb, var(--color-feature) 15%, var(--color-dark));
     color: var(--color-light);
     font-family: var(--font-mono);
   }
@@ -54,7 +54,7 @@
     width: var(--_pct, 0);
     background: color-mix(
       in srgb,
-      var(--feature-color) 40%,
+      var(--color-feature) 40%,
       var(--color-light)
     );
     transition: width 0.2s ease;

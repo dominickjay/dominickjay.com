@@ -1,35 +1,35 @@
 :root {
-	/* Default / Fallback */
-	--feature-color: #2c5364;
-	transition:
-		background-color 1.5s ease-in-out,
-		color 1.5s ease-in-out;
+  /* Default / Fallback */
+  --color-feature: #2c5364;
+  transition:
+    background-color 1.5s ease-in-out,
+    color 1.5s ease-in-out;
 }
 
 [data-time="early-morning"] {
-	--feature-color: #c4856a;
+  --color-feature: #c4856a;
 }
 
 [data-time="late-morning"] {
-	--feature-color: #a07820;
+  --color-feature: #a07820;
 }
 
 [data-time="early-afternoon"] {
-	--feature-color: #1e5c9a;
+  --color-feature: #1e5c9a;
 }
 
 [data-time="mid-afternoon"] {
-	--feature-color: #2e7a5a;
+  --color-feature: #2e7a5a;
 }
 
 [data-time="last-afternoon"] {
-	--feature-color: #b85a20;
+  --color-feature: #b85a20;
 }
 
 [data-time="evening"] {
-	--feature-color: #7a3a8a;
+  --color-feature: #7a3a8a;
 }
 
 [data-time="night"] {
-	--feature-color: #2a3560;
+  --color-feature: #2a3560;
 }

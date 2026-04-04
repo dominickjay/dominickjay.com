@@ -33,7 +33,7 @@
             letter-spacing: 0.06em;
             color: color-mix(
               in srgb,
-              var(--feature-color) 90%,
+              var(--color-feature) 90%,
               var(--color-dark)
             );
             word-break: break-all;
@@ -82,7 +82,7 @@
         }
 
         :hover .title {
-          color: var(--feature-color);
+          color: var(--color-feature);
         }
 
         :hover img {

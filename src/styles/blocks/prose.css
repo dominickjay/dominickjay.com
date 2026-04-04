@@ -1,5 +1,5 @@
 .prose {
-  --flow-space: var(--space-xl);
+  --flow-space: var(--space-m);
 }
 
 .prose h2 {
@@ -82,7 +82,7 @@
 .prose ul:not([class]) > li {
   --flow-space: var(--space-xs);
   &:first-child {
-    margin-top: var(--flow-space);
+    margin-block-start: var(--flow-space);
   }
 }
 
@@ -115,8 +115,8 @@ blockquote {
     background: linear-gradient(
       to bottom,
       transparent,
-      var(--feature-color) 20%,
-      var(--feature-color) 80%,
+      var(--color-feature) 20%,
+      var(--color-feature) 80%,
       transparent
     );
     opacity: 0.5;

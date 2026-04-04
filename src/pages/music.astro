@@ -234,7 +234,7 @@ if (apiKey && fanartApiKey) {
   });
 
   document
-    .querySelectorAll("a:not([class]), .home-link, button, .post-item, .big-link")
+    .querySelectorAll("a:not([class]), .home-link, button, .item, .big-link")
     .forEach((el) => {
       el.addEventListener("mouseenter", () => {
         body.classList.remove("cur-sm");

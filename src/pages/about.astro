@@ -80,13 +80,13 @@ const companies = ABOUT_COMPANIES;
                   companies.map((company, i) => {
                     let { jobTitle, label, date } = company;
                     return (
-                      <li class="post-item visible">
-                        <div class="post-info post-info--small">
-                          <span class="post-n min-w-[110px]">{date}</span>
-                          <div class="post-body">
-                            <span class="post-title">{jobTitle}</span>
-                            <div class="post-meta">
-                              <span class="post-topics-label">{label}</span>
+                      <li class="item visible">
+                        <div class="info info--small" data-small>
+                          <span class="index min-w-[110px]">{date}</span>
+                          <div class="body">
+                            <span class="title">{jobTitle}</span>
+                            <div class="meta">
+                              <span class="eyebrow">{label}</span>
                             </div>
                           </div>
                         </div>

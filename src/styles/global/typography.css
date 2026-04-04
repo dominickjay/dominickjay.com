@@ -140,9 +140,7 @@
     }
 
     .last-updated {
-      display: flex;
-      /*flex-direction: column;*/
-      align-items: flex-end;
+      display: block;
       gap: var(--space-xs);
       font-family: var(--font-mono);
       font-size: 14px;
