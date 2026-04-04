@@ -214,67 +214,68 @@ const ogImage = getImagePath({ url, site });
 			);
 		});
 
-		let searchQuery = '';
+			let searchQuery = "";
+			let inputDebounce;
 
-		const section = document.querySelector('.container.flow');
-		const getItems = () => section ? section.querySelectorAll('.post-item') : [];
+			const section = document.querySelector(".container.flow");
+			const stageSelect = section?.querySelector("select");
+			const resultsEl = document.getElementById("resultsCount");
+			const emptyEl = document.getElementById("emptyState");
+			const searchInput = document.getElementById("searchInput");
+			const itemMeta = [...(section?.querySelectorAll(".post-item") ?? [])].map((item) => ({
+				item,
+				stage: item.dataset.stage ?? "",
+				title: (item.dataset.title ?? "").toLowerCase(),
+				topics: new Set(
+					(item.dataset.topics ?? "")
+						.split(",")
+						.map((topic) => topic.trim())
+						.filter(Boolean),
+				),
+			}));
 
-		function applyFilters() {
-		  const items = getItems();
-		  const activeStage = section?.querySelector('select')?.value ?? 'all';
-		  const activeTopic = section?.querySelector('.category-filter.active')?.dataset.category ?? 'All';
-		  let visible = 0;
-		  items.forEach(item => {
-		    const stageOk  = activeStage === 'all' || item.dataset.stage === activeStage;
-		    const topicOk  = activeTopic === 'All' || (item.dataset.topics || '').split(',').map(t => t.trim()).includes(activeTopic);
-		    const searchOk = !searchQuery || (item.dataset.title || '').includes(searchQuery.toLowerCase());
+			function applyFilters() {
+			  const activeStage = stageSelect?.value ?? "all";
+			  const activeTopic = section?.querySelector(".category-filter.active")?.dataset.category ?? "All";
+			  const normalizedQuery = searchQuery.toLowerCase();
+			  let visible = 0;
 
-		    const show = stageOk && topicOk && searchOk;
-		    item.classList.toggle('hidden', !show);
+			  itemMeta.forEach(({ item, stage, title, topics }) => {
+			    const stageOk = activeStage === "all" || stage === activeStage;
+			    const topicOk = activeTopic === "All" || topics.has(activeTopic);
+			    const searchOk = !normalizedQuery || title.includes(normalizedQuery);
+			    const show = stageOk && topicOk && searchOk;
 
-		    if (show) {
-		      item.classList.remove('visible');
-		      setTimeout(() => item.classList.add('visible'), visible * 26);
-		      visible++;
-		    }
-		  });
+			    item.classList.toggle("hidden", !show);
+			    item.classList.toggle("visible", show);
+			    if (show) visible++;
+			  });
 
-		  const resultsEl = document.getElementById('resultsCount');
-		  if (resultsEl) resultsEl.textContent = visible + ' posts';
-		  const emptyEl = document.getElementById('emptyState');
-		  if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
-		}
+			  if (resultsEl) resultsEl.textContent = `${visible} posts`;
+			  if (emptyEl) emptyEl.style.display = visible === 0 ? "block" : "none";
+			}
 
-		document.getElementById('searchInput').addEventListener('input', e => {
-		  searchQuery = e.target.value.trim();
-		  applyFilters();
-		});
+			searchInput?.addEventListener("input", (e) => {
+			  const target = e.target;
+			  searchQuery = target && "value" in target ? target.value.trim() : "";
+			  clearTimeout(inputDebounce);
+			  inputDebounce = setTimeout(applyFilters, 120);
+			});
 
-		section?.addEventListener('click', (e) => {
-		  if (e.target.closest('.category-filter')) applyFilters();
-		});
+			section?.addEventListener("click", (e) => {
+			  const target = e.target;
+			  if (target instanceof Element && target.closest(".category-filter")) {
+			    applyFilters();
+			  }
+			});
 
-		section?.querySelector('select')?.addEventListener('change', applyFilters);
+			stageSelect?.addEventListener("change", applyFilters);
 
-		const growthFromUrl = new URLSearchParams(window.location.search).get('growth');
-		if (growthFromUrl && ['all', 'evergreen', 'growing', 'seedling'].includes(growthFromUrl)) {
-		  const sel = section?.querySelector('select');
-		  if (sel) sel.value = growthFromUrl;
-		}
+			const growthFromUrl = new URLSearchParams(window.location.search).get('growth');
+			if (growthFromUrl && ['all', 'evergreen', 'growing', 'seedling'].includes(growthFromUrl)) {
+			  if (stageSelect) stageSelect.value = growthFromUrl;
+			}
 		applyFilters();
 
-		// Stagger reveal (per list)
-		document.querySelectorAll('.post-list').forEach(postList => {
-			const items = postList.querySelectorAll('.post-item');
-			const obs = new IntersectionObserver(entries => {
-				entries.forEach(e => {
-					if (!e.isIntersecting) return;
-					const i = [...items].indexOf(e.target);
-					setTimeout(() => e.target.classList.add('visible'), i * 26);
-					obs.unobserve(e.target);
-				});
-			}, { threshold: 0.05 });
-			items.forEach(el => obs.observe(el));
-		});
-	</script>
-</html>
+		</script>
+	</html>
