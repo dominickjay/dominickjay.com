@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
 import { SITE_DESCRIPTION } from "../../consts";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
@@ -23,15 +23,10 @@ if (import.meta.env.ENVIRONMENT === "production") {
 	rawPosts = await getCollection("writing");
 }
 
-const postsWithLastModified = await Promise.all(
-	rawPosts.map(async (post) => {
-		const { remarkPluginFrontmatter } = await render(post);
-		const lastModified = remarkPluginFrontmatter?.lastModified
-			? new Date(remarkPluginFrontmatter.lastModified)
-			: undefined;
-		return { post, lastModified };
-	}),
-);
+const postsWithLastModified = rawPosts.map((post) => ({
+	post,
+	lastModified: post.data.updatedDate,
+}));
 
 const sortDate = ({ post, lastModified }) =>
 	(lastModified ?? post.data.pubDate).valueOf();
