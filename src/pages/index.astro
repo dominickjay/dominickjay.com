@@ -8,7 +8,7 @@ import InfoPanel from "../components/InfoPanel.astro";
 import FeaturePanel from "../components/FeaturePanel.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
 import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
@@ -27,15 +27,10 @@ if (import.meta.env.ENVIRONMENT === "production") {
   rawPosts = await getCollection("writing");
 }
 
-const postsWithLastModified = await Promise.all(
-  rawPosts.map(async (post) => {
-    const { remarkPluginFrontmatter } = await render(post);
-    const lastModified = remarkPluginFrontmatter?.lastModified
-      ? new Date(remarkPluginFrontmatter.lastModified)
-      : undefined;
-    return { post, lastModified };
-  }),
-);
+const postsWithLastModified = rawPosts.map((post) => ({
+  post,
+  lastModified: post.data.updatedDate,
+}));
 
 const sortDate = ({ post, lastModified }: PostWithLastModified) =>
   (lastModified ?? post.data.pubDate).valueOf();
