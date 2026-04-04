@@ -64,21 +64,26 @@ const {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<script type="module">
-  import "@js-temporal/polyfill";
-</script>
-
 <script>
-  import collapse from "@alpinejs/collapse";
-  import { initScramble } from "../utils/scramble.js";
-  document.addEventListener("DOMContentLoaded", initScramble);
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.querySelector("[data-scramble]")) {
+      import("../utils/scramble.js")
+        .then(({ initScramble }) => initScramble())
+        .catch(() => {});
+    }
+  });
 
-  document.addEventListener("alpine:init", () => {
+  document.addEventListener("alpine:init", async () => {
     // @ts-ignore
     const Alpine = window.Alpine;
-    if (Alpine) {
+    if (!Alpine) return;
+    if (!document.querySelector("[x-collapse]")) return;
+
+    try {
+      const { default: collapse } = await import("@alpinejs/collapse");
       Alpine.plugin(collapse);
-      Alpine.plugin(focus);
+    } catch {
+      // no-op
     }
   });
 </script>
