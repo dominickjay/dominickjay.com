@@ -4,11 +4,13 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
-import { SITE_DESCRIPTION } from "../../consts";
+import { SITE_DESCRIPTION, EXTERNAL_WRITING } from "../../consts";
 import { getCollection, render } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
+
+let externalPosts = EXTERNAL_WRITING;
 
 let rawPosts = [];
 let randomSuperhero = "";
@@ -136,31 +138,51 @@ const ogImage = getImagePath({ url, site });
 							<span class="results-count" id="resultsCount">35 posts</span>
 						</div>
 					</div>
-					<ol class="!pb-[56px] post-list feature-list flow col-span-full md:col-span-3" style="--flow-space: 0;">
-						{
-							posts.map((post: any, i: number) => (
-						<FeatureListItem
-							i={String(i + 1).padStart(2, "0")}
-							title={post.data.title}
-							description={post.data.description}
-							tags={post.data.tags}
-							pubDate={post.data.pubDate}
-							lastModified={post.lastModified}
-							id={post.id}
-							growth={post.data.growth}
-						/>
-							))
-						}
-						<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
-							No posts match your filters.
-						</li>
-					</ol>
+					<div class="col-span-full md:col-span-3">
+						<ol class="!pb-[56px] post-list feature-list flow" style="--flow-space: 0;">
+							{
+								posts.map((post: any, i: number) => (
+									<FeatureListItem
+										i={String(i + 1).padStart(2, "0")}
+										title={post.data.title}
+										description={post.data.description}
+										tags={post.data.tags}
+										pubDate={post.data.pubDate}
+										lastModified={post.lastModified}
+										id={post.id}
+										growth={post.data.growth}
+										external="false"
+									/>
+								))
+							}
+							<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
+								No posts match your filters.
+							</li>
+						</ol>
+						<div class="stacked">
+							<h3 class="eyebrow">Writing elsewhere</h3>
+							<ol class="!pb-[56px] post-list feature-list flow" style="--flow-space: 0;">
+								{
+									externalPosts.map((post: any, i: number) => (
+										<FeatureListItem
+											title={post.label}
+											id={post.href}
+											external="true"
+										/>
+									))
+								}
+								<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
+									No posts match your filters.
+								</li>
+							</ol>
+						</div>
+					</div>
 					<div
 						class="col-span-full md:col-span-1 relative"
 					>
 						<div class="md:sticky md:top-[120px]">
 							<span class="h3" data-category=""> Topics </span>
-							<div id="sideTopics" class="flex max-md:flex-wrap md:flex-col gap-[var(--space-s)] pt-[var(--space-m)]">
+							<div id="sideTopics" class="flex max-md:flex-wrap md:flex-col gap-[var(--space-s)] pt-[var(--space-m)] md:max-h-[70vh] md:overflow-auto">
 								<button
 									class="category-filter w-fit"
 									data-category="All"

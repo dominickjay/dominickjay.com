@@ -31,7 +31,6 @@
 
         @media (width < 640px) {
           --gutter: var(--space-s);
-          --direction: column-reverse;
         }
       }
 

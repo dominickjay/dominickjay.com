@@ -74,28 +74,26 @@ const companies = ABOUT_COMPANIES;
             </p>
           </div>
           <div class="flow [--flow-space:var(--space-s)] prose">
-            <p>
-              <ol class="post-list feature-list flow" style="--flow-space: 0;">
-                {
-                  companies.map((company, i) => {
-                    let { jobTitle, label, date } = company;
-                    return (
-                      <li class="item visible">
-                        <div class="info info--small" data-small>
-                          <span class="index min-w-[110px]">{date}</span>
-                          <div class="body">
-                            <span class="title">{jobTitle}</span>
-                            <div class="meta">
-                              <span class="eyebrow">{label}</span>
-                            </div>
+            <ol class="post-list feature-list flow" style="--flow-space: 0;">
+              {
+                companies.map((company, i) => {
+                  let { jobTitle, label, date } = company;
+                  return (
+                    <li class="item visible">
+                      <div class="info info--small" data-small>
+                        <span class="index min-w-[110px]">{date}</span>
+                        <div class="body">
+                          <span class="title">{jobTitle}</span>
+                          <div class="meta">
+                            <span class="eyebrow">{label}</span>
                           </div>
                         </div>
-                      </li>
-                    );
-                  })
-                }
-              </ol>
-            </p>
+                      </div>
+                    </li>
+                  );
+                })
+              }
+            </ol>
             <BigLink text="View my resume." href="/resume" />
           </div>
           <div>

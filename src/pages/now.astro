@@ -327,26 +327,28 @@ const goalPercent =
 		         class="stacked"
 		         style="--gutter: var(--space-m)"
 		       >
-		      	{currentlyReading.slice(0, 2).map((entry) => (
-					   	<div class="now-item stacked">
-					      <span class="title">{entry.book.title}</span>
-					      <span class="author">
-					        {entry.book.contributions?.[0]?.author?.name ?? ""}
-					      </span>
-								<div class="goal-bar">
-		              <div class="goal-bar__track">
-		                <div
-		                  class="goal-bar__fill"
-		                  style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
-		                />
-		              </div>
-		              <div class="goal-bar__meta">
-		                <span>{booksRead} of {goalTotal} · 2026 goal</span>
-		                <span>{goalPercent}%</span>
-		              </div>
-		            </div>
-					   	</div>
-	          ))}
+				   	<div class="now-item stacked" style="--gutter: var(--space-m)">
+			      	{currentlyReading.slice(0, 2).map((entry) => (
+								<div class="stacked" style="--gutter: var(--space-s)">
+						      <span class="title">{entry.book.title}</span>
+						      <span class="author">
+						        {entry.book.contributions?.[0]?.author?.name ?? ""}
+						      </span>
+								</div>
+		          ))}
+				   	</div>
+						<div class="goal-bar">
+              <div class="goal-bar__track">
+                <div
+                  class="goal-bar__fill"
+                  style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
+                />
+              </div>
+              <div class="goal-bar__meta">
+                <span>{booksRead} of {goalTotal} · 2026 goal</span>
+                <span>{goalPercent}%</span>
+              </div>
+            </div>
 					</div>
         </div>
         <div class="stacked" style="--gutter: var(--space-m)">

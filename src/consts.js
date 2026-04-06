@@ -1,6 +1,17 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+export const EXTERNAL_WRITING = [
+  {
+    href: "https://serieseight.com/journal/technical-debt",
+    label: "4 ways to reduce technical debt during front-end dev",
+  },
+  {
+    href: "https://serieseight.com/journal/hey-all-day-2024",
+    label: "The biggest things we learned at Hey! All Day 2024",
+  },
+];
+
 export const MAIN_NAVIGATION = [
   {
     href: "/writing",

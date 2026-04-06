@@ -37,6 +37,7 @@
   font-family: var(--font-base);
   font-weight: 600;
   cursor: pointer;
+  text-align: left;
 
   &::before {
     content: none;

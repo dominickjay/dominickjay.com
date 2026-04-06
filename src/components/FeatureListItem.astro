@@ -9,25 +9,33 @@ const {
   growth,
   i,
   theme = "default",
+  external = "false"
 } = Astro.props;
 ---
 
 <li
   class="item"
-  data-stage={growth ?? "all"}
-  data-topics={tags?.join(",") ?? ""}
-  data-title={title?.toLowerCase() ?? ""}
+  {...external === "false" ? {
+    "data-stage": growth ?? "all",
+    "data-topics": tags?.join(",") ?? "",
+    "data-title": title?.toLowerCase() ?? ""
+  } : {}}
 >
   <a
-    href={`/writing/${id}/`}
-    class={`link ${theme != "default" ? "link--" + theme : ""}`}
+  	href={external === "false" ? `/writing/${id}/` : id}
+  	class={`link ${theme != "default" ? "link--" + theme : ""}`}
+    {...external == "true" ? { target: "_blank", rel: "noopener noreferrer" } : {}}
   >
-    <span class="index">{i}</span>
+  	{i &&
+    	<span class="index">{i}</span>
+    }
     <div class="body">
       <span class="title">{title}</span>
       <div class="meta">
-        <FormattedDate date={lastModified ?? pubDate} />
-        <span class="topics">{tags.join(", ")}</span>
+      	{external == false &&
+        	<FormattedDate date={lastModified ?? pubDate} />
+        }
+        <span class="topics">{tags?.join(", ")}</span>
         {
           growth !== undefined && (
             <span class={`growth`} data-growth={growth}>
