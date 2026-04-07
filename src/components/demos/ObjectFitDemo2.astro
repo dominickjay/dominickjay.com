@@ -6,7 +6,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   <!-- Image selector -->
   <div class="img-selector">
-    <span class="img-selector-label">Test image:</span>
+    <span class="eyebrow">Test image:</span>
     <button
       class="img-thumb-btn active"
       onclick="setImage(0, this)"
@@ -26,7 +26,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   </div>
 
   <!-- Value grid -->
-  <p class="slabel">The five values — click to explore</p>
+  <p class="eyebrow">The five values — click to explore</p>
   <div class="values-grid">
     <div class="value-card active" onclick="selectValue('cover', this)">
       <div class="value-preview v-cover">
@@ -81,7 +81,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   </div>
 
   <!-- Detail panel -->
-  <p class="slabel">Detail</p>
+  <p class="eyebrow">Detail</p>
   <div class="detail">
     <div class="detail-preview" id="detail-preview">
       <img
@@ -96,7 +96,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   </div>
 
   <!-- object-position section -->
-  <p class="slabel">Bonus: object-position</p>
+  <p class="eyebrow">Bonus: object-position</p>
   <div class="position-section">
     <p class="position-title">
     	<code>object-position</code> works alongside any value that clips the image — cover being the most common in production. The demo here uses object-fit: none so the full image is visible and the repositioning effect is obvious. With cover, the same coordinates apply — you'd just be moving the crop window rather than the whole image.
@@ -149,17 +149,19 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     </div>
   </div>
 
-  <footer class="footer">
-    <code>object-fit</code> works on any replaced element — <code
-      >&lt;img&gt;</code
-    >, <code>&lt;video&gt;</code>, <code>&lt;iframe&gt;</code>. Browser support:
-    Chrome 32+, Firefox 36+, Safari 10+, Edge 16+. ·
-    <a
-      href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit"
-      target="_blank"
-      rel="noopener">MDN reference ↗</a
-    >
-  </footer>
+  <div class="prose-notice" data-variant="info">
+	  <div class="prose-notice__body">
+	    <code>object-fit</code> works on any replaced element — <code
+	      >&lt;img&gt;</code
+	    >, <code>&lt;video&gt;</code>, <code>&lt;iframe&gt;</code>. Browser support:
+	    Chrome 32+, Firefox 36+, Safari 10+, Edge 16+. ·
+	    <a
+	      href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit"
+	      target="_blank"
+	      rel="noopener">MDN reference ↗</a
+	    >
+	  </div>
+  </div>
 </div>
 
 <script is:inline>
@@ -284,9 +286,9 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     if (!btn) return;
     currentPosition = pos;
     const posImg = document.getElementById("pos-img");
-    const posLabel = document.getElementById("pos-label");
+    const poeyebrow = document.getElementById("pos-label");
     if (posImg) posImg.style.objectPosition = pos;
-    if (posLabel) posLabel.textContent = pos;
+    if (poeyebrow) poeyebrow.textContent = pos;
 
     document
       .querySelectorAll(".pos-btn")
@@ -323,10 +325,6 @@ import PlaceholderImage from "../PlaceholderImage.astro";
 
   /* ── Header ── */
   .eyebrow {
-    font-size: 14px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
     margin-block-end: 8px;
   }
 
@@ -390,7 +388,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
   }
 
   /* ── Value grid — 5 thumbnails ── */
-  .slabel {
+  .eyebrow {
     font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -668,11 +666,14 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     font-size: 14px;
     padding: 8px;
     background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
+    border: 1px solid var(--color-feature);
     cursor: pointer;
     text-align: center;
     transition: all 0.15s;
+
+    &::before {
+    	content: none;
+    }
   }
 
   .pos-btn:hover {

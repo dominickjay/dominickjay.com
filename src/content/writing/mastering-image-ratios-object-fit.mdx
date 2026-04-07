@@ -47,13 +47,17 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
 	slug="/writing/css-object-fit"
 />
 
+Images without fixed dimensions cause content to jump as they load — a
+Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it
+happen, then see how two lines of CSS prevent it entirely.
+
 <ObjectFitDemo1 />
 
 ## How object-fit works
 
-`object-fit` controls the relationship between an image's natural dimensions and the space its container has reserved for it. Without it, the browser makes that decision for you — and it almost always chooses wrong for UI components like cards, headers, and profile images.
+`object-fit` controls the relationship between an image's natural dimensions and the space its container has reserved for it. Without it, the browser makes that decision for you, and almost always it will choose the wrong choice for cards, headers, and profile images.
 
-The property accepts five values. The starter guide covers all of them in detail — the one that matters for CLS and consistent card layouts is cover.
+The property accepts five values. The [starter guide](/writing/css-object-fit) covers all of them in detail — the one that matters for CLS and consistent card layouts is `cover`.
 
 The `object-fit` property controls the relationship between an image's dimensions and the space it's placed in.
 
@@ -64,7 +68,8 @@ img {
   object-fit: cover;
 }
 ```
-cover fills the container completely, cropping the image if the aspect ratios don't match. The image is never distorted, never letterboxed — it just fits, cleanly, whatever the container dimensions are. That's the fix the demo above is using.
+
+`cover` fills the container completely, cropping the image if the aspect ratios don't match. The image is never distorted, never letterboxed — it just fits, cleanly, whatever the container dimensions are. That's the fix the demo above is using.
 
 Its companion property is object-position, which controls which part of the image stays visible when cover crops it. The default is center — which works for most images — but for a portrait photo where the subject's face is at the top, object-position: top prevents the crop from cutting them out.
 
