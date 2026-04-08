@@ -22,29 +22,17 @@
 .category-filter {
   color: #2c5364;
   text-decoration: none;
-  background-image: linear-gradient(
-    rgba(44, 83, 100, 0.35),
-    rgba(44, 83, 100, 0.35)
-  );
-  background-size: 0% 100%;
-  background-repeat: no-repeat;
-  background-position: left bottom;
   transition:
     background-size 0.85s cubic-bezier(0.23, 1, 0.32, 1),
     color 0.2s;
   padding: 2px 4px;
   border: none;
   font-family: var(--font-base);
-  font-weight: 600;
   cursor: pointer;
   text-align: left;
 
   &::before {
     content: none;
-  }
-
-  &:hover {
-    background-size: 100% 100%;
   }
 
   &.active {

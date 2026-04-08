@@ -6,11 +6,15 @@ const token = process.env.SANITY_API_TOKEN?.trim();
 const traktClientId = process.env.TRAKT_CLIENT_ID?.trim();
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME?.trim();
 
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing SANITY_PROJECT_ID, SANITY_DATASET, or SANITY_API_TOKEN",
-  );
+if (!projectId) {
+  console.error("Missing SANITY_PROJECT_ID");
   process.exit(1);
+}
+if (!dataset) {
+  console.error("Missing SANITY_DATASET");
+}
+if (!token) {
+  console.error("Missing SANITY_API_TOKEN");
 }
 if (!traktClientId || !TRAKT_USERNAME) {
   console.error("Missing TRAKT_CLIENT_ID or TRAKT_USERNAME");

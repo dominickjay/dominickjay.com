@@ -1,6 +1,6 @@
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%·—";
 const FRAMES = 14;
-const INTERVAL_MS = 38;
+const INTERVAL_MS = 50;
 
 /**
  * Scrambles an element's text content, resolving
@@ -47,7 +47,7 @@ export function initScramble() {
   // the surrounding layout on every frame of the animation.
   document.querySelectorAll("[data-scramble]").forEach((container) => {
     container.style.width = container.offsetWidth + 60 + "px";
-    // container.style.height = container.offsetHeight + "px";
+    container.style.height = container.offsetHeight + "px";
   });
 
   const targets = document.querySelectorAll("[data-scramble]");

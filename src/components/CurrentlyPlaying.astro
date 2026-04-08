@@ -1,5 +1,5 @@
 ---
-import PlaceholderImage from "./PlaceholderImage.astro";
+import PlaceholderImageLarge from "./PlaceholderImageLarge.astro";
 
 interface Props {
   artistBannerUrl?: string;
@@ -10,11 +10,11 @@ const { artistBannerUrl = "" } = Astro.props;
 
 <div class="currently-playing">
   <div
-    class="container currently-playing__container relative stacked"
+    class="container stacked"
     x-data={`currentlyPlaying(${JSON.stringify(artistBannerUrl)})`}
   >
-    <div class="currently-playing__background" x-show="displayImageUrl" x-cloak>
-      <PlaceholderImage />
+    <div class="background">
+      <PlaceholderImageLarge />
       <img
         :src="displayImageUrl"
         alt=""
@@ -24,6 +24,7 @@ const { artistBannerUrl = "" } = Astro.props;
         loading="lazy"
         decoding="async"
         fetchpriority="low"
+        x-show="displayImageUrl" x-cloak
       />
       <div class="overlay" :style="overlayStyle"></div>
     </div>

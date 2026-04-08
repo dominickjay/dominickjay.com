@@ -31,19 +31,21 @@ const {
     }
     <div class="body">
       <span class="title">{title}</span>
-      <div class="meta">
-      	{external == false &&
-        	<FormattedDate date={lastModified ?? pubDate} />
-        }
-        <span class="topics">{tags?.join(", ")}</span>
-        {
-          growth !== undefined && (
-            <span class={`growth`} data-growth={growth}>
-              {growth}
-            </span>
-          )
-        }
-      </div>
+      {tags &&
+	      <div class="meta">
+	      	{external == false &&
+	        	<FormattedDate date={lastModified ?? pubDate} />
+	        }
+	        <span class="topics">{tags?.join(", ")}</span>
+	        {
+	          growth !== undefined && (
+	            <span class={`growth`} data-growth={growth}>
+	              {growth}
+	            </span>
+	          )
+	        }
+	      </div>
+      }
     </div>
   </a>
 </li>

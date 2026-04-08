@@ -6,11 +6,11 @@
 
   & h3 {
     font-family: var(--font-base);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.14em;
     color: var(--color-feature);
-    text-transform: uppercase;
     padding-block-start: 4px;
+    font-style: normal;
   }
 }
 

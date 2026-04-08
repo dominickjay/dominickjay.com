@@ -199,7 +199,7 @@ const ogImage = getImagePath({ url, site });
 											@click.prevent={`category = '${category}'`}
 											:class={`{ 'active': category === '${category}' }`}
 										>
-											{category} <span class="opacity-60">({tagCounts[category]})</span>
+											<span data-scramble={category}>{category} <span class="opacity-60">({tagCounts[category]})</span></span>
 										</button>
 									))
 								}

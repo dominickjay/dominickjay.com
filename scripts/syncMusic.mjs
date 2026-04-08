@@ -7,10 +7,8 @@ const token = process.env.SANITY_API_TOKEN?.trim();
 const apiKey = process.env.LAST_FM_API_KEY?.trim();
 const fanartApiKey = process.env.FANART_API_KEY?.trim();
 
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing SANITY_PROJECT_ID, SANITY_DATASET, or SANITY_API_TOKEN",
-  );
+if (!projectId) {
+  console.error("Missing SANITY_PROJECT_ID");
   process.exit(1);
 }
 if (!apiKey) {
