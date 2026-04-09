@@ -13,6 +13,7 @@ import InlineCalloutCluster from '../../components/InlineCalloutCluster.astro';
 import InlineCallout from '../../components/InlineCallout.astro';
 import ObjectFitDemo1 from '../../components/demos/ObjectFitDemo1.astro';
 import ObjectFitDemo2 from '../../components/demos/ObjectFitDemo2.astro';
+import { Picture } from "astro:assets";
 
 <InlineCalloutCluster 
 	tagline="From Object-Fit to Zero CLS · 2-part series"
@@ -38,7 +39,7 @@ Two lines of CSS fix it. The demo below shows exactly what's happening and why.
 
 ## The Problem
 
-This is the problem we're trying to solve	with Object-Fit. It's quite prevalent on older sites, or ones that haven't yet adopted effective responsive design practices. By refreshing the page, if it wasn't noticeable on page load, the example below - our 'bad behavior' demo - will highlight exactly the issue that Object-Fit solves. These images have none of these practices, nor size attributes which means that not only do we have a decreased Cumulative Layout Shift (CLS) score, but a poor user experience. The card content will appear first at the top of the row, until the image loads, where it will then shift down to its expected position. Pretty nasty, right? Couple this with a slow internet connection, and it can become a real nightmare, and fast.
+This is the problem we're trying to solve	with Object-Fit. It's quite prevalent on older sites, or ones that haven't yet adopted effective responsive design practices. By refreshing the page, if it wasn't noticeable on page load, the example below - our 'bad behavior' demo - will highlight exactly the issue that Object-Fit solves. These images have none of these practices, nor size attributes which means that not only do you have a decreased Cumulative Layout Shift (CLS) score, but a poor user experience. The card content will appear first at the top of the row, until the image loads, where it will then shift down to its expected position. Pretty nasty, right? Couple this with a slow internet connection, and it can become a real nightmare, and fast.
 
 <InlineCallout
 	tagline="New to Object-Fit?"
@@ -47,46 +48,35 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
 	slug="/writing/css-object-fit"
 />
 
-Images without fixed dimensions cause content to jump as they load — a
-Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it
-happen, then see how two lines of CSS prevent it entirely.
+Images without fixed dimensions cause content to jump as they load — a Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it happen, then see how two lines of CSS prevent it entirely.
 
 <ObjectFitDemo1 />
 
 ## How object-fit works
 
-`object-fit` controls the relationship between an image's natural dimensions and the space its container has reserved for it. Without it, the browser makes that decision for you, and almost always it will choose the wrong choice for cards, headers, and profile images.
+`object-fit` controls the relationship between an image's natural dimensions and the space its container has reserved for it. Without it, the browser makes that decision for you, and almost always it will choose the wrong choice for cards, headers, and profile images. Overall, there's five values you can use, but the most typically used one would be `cover`.
 
-The property accepts five values. The [starter guide](/writing/css-object-fit) covers all of them in detail — the one that matters for CLS and consistent card layouts is `cover`.
+`cover` fills the container completely, cropping the image if the aspect ratios don't match. The image is never distorted or forced to fit...it just fits cleanly, whatever the container dimensions are.
 
-The `object-fit` property controls the relationship between an image's dimensions and the space it's placed in.
+It's even more beneficial when you use this alongsite its companion property, `object-position`. This property controls which part of the image stays visible when cover crops it. The default is `center`, which works for most images, but for a portrait photo where the subject's face is at the top, `object-position: top` prevents the crop from cutting them out. Otherwise...
 
-```css
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-```
+<div class="h-[300px] w-[768px] overflow-hidden relative">
+  <Picture
+    class="h-full w-full object-cover object-center absolute"
+    src="/images/profile-image.png"
+    formats={["avif", "webp"]}
+    alt="Profile photo cropped at center — the top of the head is cut off"
+    loading="eager"
+    height={894}
+    width={906}
+  />
+</div>
 
-`cover` fills the container completely, cropping the image if the aspect ratios don't match. The image is never distorted, never letterboxed — it just fits, cleanly, whatever the container dimensions are. That's the fix the demo above is using.
-
-Its companion property is object-position, which controls which part of the image stays visible when cover crops it. The default is center — which works for most images — but for a portrait photo where the subject's face is at the top, object-position: top prevents the crop from cutting them out.
-
-```css
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-```
-
-But `object-fit` alone doesn't prevent layout shift. It controls how the image fills its container — it doesn't tell the browser how big that container should be before the image loads.
+Fantastic.
 
 ## Every object-fit value, on the same image
 
-Click any value to see it in detail. Switch the source image to test how each value behaves with portrait, landscape, and square content.
+To really drill down into it, here's a small demo that shows a few different image sources with different dimensions. Clicking any value will make it available to test how it behaves with portrait, landscape, and square content.
 
 <ObjectFitDemo2 />
 
@@ -111,15 +101,15 @@ The fix is aspect-ratio on the container:
 }
 ```
 
-`aspect-ratio` tells the browser exactly how tall the slot will be before any image arrives. Space is reserved instantly. When the image loads, it has a container waiting for it — nothing on the page moves.
+`aspect-ratio` tells the browser exactly how much space you should reserve for the image for when it arrives, so when it does load it has a container waiting for it and nothing on the page moves.
 
-You might have seen the old approach to this: the padding hack, where a percentage padding-top on a container with position: relative faked a fixed ratio. It worked, but it was fragile, unintuitive, and a nightmare to explain to the next developer. aspect-ratio replaced it entirely and has been Baseline since 2021.
+You might have seen an old classic at use for this: the padding hack, where a percentage value for the padding-top property is set on a container with position: relative to fake a fixed ratio. It worked, but it was nasty, and a nightmare to explain to the next developer. `aspect-ratio` replaced it entirely and has been supported in all browsers since September 2021.
 
 ## The performance upside
 
-Once the container has a fixed ratio, you know its exact display dimensions at every breakpoint. That's not just useful for layout stability — it means you can serve precisely sized images.
+Once the container has a fixed ratio, you know its exact display dimensions at every breakpoint. That's not just useful for layout stability — it means you can serve precisely sized images. Using an aspect ratio of 16/9 within a container that's 600px wide, you know that the display size is 600x338px, so you can then use `srcset` to serve an image that works with those dimensions, rather than downloading a 1200px original and letting `object-fit: cover` deal with the crop in the browser.
 
-Without a fixed ratio, you're guessing. You serve a large image and hope the browser crops it acceptably. With `aspect-ratio: 16 / 9` on a container that's 600px wide, you know the display size is 600×338px. You can use srcset to serve an image that matches those dimensions exactly, instead of downloading a 1200px original and letting `object-fit: cover` handle the crop in the browser.
+Without using a fixed ratio, there's guesswork. Serving a large image and then hoping/praying that the browser crops it correctly, or at least to a somewhat passable degree.
 
 ```html
 <div class="card-img-wrap">
@@ -138,12 +128,11 @@ Without a fixed ratio, you're guessing. You serve a large image and hope the bro
   </picture>
 </div>
 ```
-The width and height attributes on the `<img>` element reinforce the aspect ratio as a hint to the browser before the CSS loads — a belt-and-braces approach that's worth the two extra attributes.
-	
-The result: smaller file transfers, no layout shift, and consistent cropping across every card in the grid. That's what the CLS demo at the top of this post is showing — not just a visual fix, but a performance strategy.
+
+The code aboves has width and height attributes on the `<img>` element to help establish the aspect ratio as a hint to the browser before the CSS loads. The result is smaller file transfers, no layout shift, and consistent cropping across every card in the grid. That's what the CLS demo at the top of this post is showing. It's not just a visual fix, but a performance strategy as well.
 
 ## Go fix your images
 
-If you've got a card grid in production, open DevTools and run a Lighthouse audit. A CLS score above 0.1 on image-heavy pages is almost always this — unsized images loading into unsized containers. Two properties, five minutes, done.
+If you've got a card grid in production, open DevTools and run a Lighthouse audit. A CLS score above 0.1 on image-heavy pages is almost always this — unsized images loading into unsized containers. Two properties, five minutes, and you can wrap it up.
 
-`aspect-ratio` reserves the space. `object-fit: cover` fills it cleanly. Add `width`, `height`, and `loading="lazy"` while you're there. That's the whole pattern — no library, no build step, no polyfill needed.
+`aspect-ratio` reserves the space. `object-fit: cover` fills it cleanly. Add `width`, `height`, and `loading="lazy"` while you're there. That's the whole pattern. No need for a library, or build step, or a polyfill.

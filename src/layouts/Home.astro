@@ -27,10 +27,12 @@ const { title, description } = Astro.props;
   <body>
     <div id="cur"></div>
     <slot />
-  </body><script
+  </body>
+  <script
     data-goatcounter="https://dominickjay.goatcounter.com/count"
     async
-    src="//gc.zgo.at/count.js"></script>
+    src="//gc.zgo.at/count.js"
+  ></script>
   <script is:inline>
 	  function updateTimeTheme() {
 	    const hour = typeof Temporal !== "undefined"
