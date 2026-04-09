@@ -5,9 +5,8 @@ intro: ""
 pubDate: '2025-02-10'
 tags:
   - css
-
 draft: true
-growth: growing
+growth: seedling
 supported: bcd.css["types"].color.color-mix.__compat
 ---
 <style>
@@ -17,9 +16,9 @@ supported: bcd.css["types"].color.color-mix.__compat
     padding: 10px 16px;
     width: fit-content;
     height: fit-content;
-    border: 2px solid black;
+    border: 1px solid var(--color-dark);
     margin-block: 20px;
-    font-family: 'Erode', sans-serif;
+    font-family: var(--font-mono);
   }
 
   .breakdown span {
@@ -28,65 +27,30 @@ supported: bcd.css["types"].color.color-mix.__compat
   }
 
   .breakdown .colorspace {
-    background-color: #e63946;
+    background-color: color-mix(in srgb, #e63946 60%, white);
   }
 
   .breakdown .from-color {
-    background-color: #ff5f1f;
+    background-color: color-mix(in srgb, #ff5f1f 60%, white);
   }
 
   .breakdown .to-color {
-    background-color: #0ba95b;
+    background-color: color-mix(in srgb, #0ba95b 60%, white);
   }
 
   .breakdown .percentage {
-    background-color: #f38ba3;
+    background-color: color-mix(in srgb, #f38ba3 60%, white);
   }
 
 </style>
-
-We're going to toe the line of browser support with this one, so as usual, let's check out the support first.
-
-
-{% imagePlaceholder "./src/assets/images/posts/caniuse-color-mix.png", "A screenshot from caniuse showing support for color-mix as of March, 2023", "Support for color-mix from caniuse as of March, 2023", "(min-width: 30em) 25vw, 25vw" %}
-
-<div class="pull-quote pull-quote--left">
-
-  It's a new property, so roll out to browsers will take a while. Despite this, we *can* use it in Firefox and Safari
-
-</div>
-
-Yuck, big thumbs down for support here. It's a new property, so roll out to browsers will take a while. Despite this, we *can* use it in Firefox and Safari - just needs a couple of things done first. It's also available for the latest version of Chrome (111-113+). Lets go through how to get it enabled in Firefox and Safari.
-
-<details class="details">
-  <summary>
-    Enable it for Firefox
-  </summary>
-  <div> <!-- optional wrapper (for styling) -->
-
-    In Firefox, go to `about:config` and use the search bar to find `layout.css.color-mix.enabled`, click the toggle button on the far right to enable it. Done!
-
-  </div>
-</details>
-
-<details class="details">
-  <summary>
-    Enable it for Safari
-  </summary>
-  <div> <!-- optional wrapper (for styling) -->
-    Likewise for Safari, you'll need <a href="https://developer.apple.com/safari/technology-preview">Safari Technology Preview</a> and head to the Develop tab->Experimental Features->CSS color-mix() and click it to enable it. Nice.
-  </div>
-</details>
-
-Now we've got that enabled in the right places, we can start seeing the results when we use this in development.
 
 The `color-mix()` function takes two color values into it, and passes back a mix of the two in a colorspace by a certain amount. Like our own B&Q (Home Depot for an American equivalent...maybe) paint mixing service, or kids loose with a bunch of paintbrushes and neon paint. So altogether, it takes 2 color values but also a percentage parameter as well, for example: `background-color: color-mix(in srgb, #34c9eb 40%, white)`.
 
 <div class="breakdown">background-color: color-mix(in <span class="colorspace">srgb</span>, <span class="from-color">#34c9eb</span> <span class="percentage">40%</span>, <span class="to-color">white</span>)</div>
 
-There's also quite a list of available colorspace options; `srgb`, `srgb-linear`, `lab`, `oklab`, `xyz`, `xyz-d50`, `xyz-d65`, `hsl`, `hwb`, `lch`, `oklch`. There is no default.
+There's also quite a list of available colorspace options; `srgb`, `srgb-linear`, `lab`, `oklab`, `xyz`, `xyz-d50`, `xyz-d65`, `hsl`, `hwb`, `lch`, `oklch`. There is no default, and I have **no** idea what half of these are.
 
-### what does it look like?
+### What does it look like?
 
 <style>
 
@@ -94,13 +58,16 @@ There's also quite a list of available colorspace options; `srgb`, `srgb-linear`
   max-width: 80ch;
   padding-block: 2rem;
   padding-inline: 2rem;
-  background-color: rgba(255, 95, 31, 0.85);
-  border: 10px solid #010f0a;
+  border: 1px solid var(--color-dark);
 }
 
 .color-mix-block ol {
   list-style: none;
-  margin-block-start: 2rem;
+  padding-inline-start: 0;
+}
+
+.color-mix-block li {
+	list-style: none;
 }
 
 .color-mix {
@@ -126,9 +93,8 @@ There's also quite a list of available colorspace options; `srgb`, `srgb-linear`
 }
 </style>
 
-<div class="color-mix-block">
-  <span class="h3 heading">Color Mix Results</span>
-  <ol>
+<div class="color-mix-block gradient-background">
+  <ol class="color-mix-block-list">
     <li>
       <p class="color-mix percentage-0">Text at 0%</p>
     </li>
