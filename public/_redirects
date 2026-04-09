@@ -1,6 +1,6 @@
 # Redirects from what the browser requests to what we serve
 /writing/@scope                /writing/css-scope
 /writing/why-devs-never-feel-smart-enough /writing/the-feed-never-stops
-/resume /about
+/resume/ /about
 /365albums /music
 /365albums/* /music
