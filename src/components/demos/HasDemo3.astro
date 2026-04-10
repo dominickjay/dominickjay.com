@@ -6,8 +6,8 @@
   </div>
 
   <div class="qty-grid" id="qty-grid">
-    <div class="qty-card"><strong>Card 01</strong><span>Design tokens</span></div>
-    <div class="qty-card"><strong>Card 02</strong><span>Components</span></div>
+    <div class="qty-card"><strong class="eyebrow">Card 01</strong><span>Design tokens</span></div>
+    <div class="qty-card"><strong class="eyebrow">Card 02</strong><span>Components</span></div>
   </div>
 
   <div class="layout-indicator" aria-live="polite">
@@ -122,7 +122,7 @@
 
 		.qty-card strong {
 		  color: var(--text);
-		  font-size: 1rem;
+		  /*font-size: 1rem;*/
 		}
 
 		/* ── Layout indicator ── */
@@ -169,7 +169,7 @@
 
 	:global(.has-demo-3 .qty-card strong) {
 	  color: var(--text);
-	  font-size: 1rem;
+		font-weight: 400;
 	}
 
 	/* @keyframes must be global and unwrapped */

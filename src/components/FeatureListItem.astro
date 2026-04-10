@@ -33,9 +33,7 @@ const {
       <span class="title">{title}</span>
       {tags &&
 	      <div class="meta">
-	      	{external == false &&
 	        	<FormattedDate date={lastModified ?? pubDate} />
-	        }
 	        <span class="topics">{tags?.join(", ")}</span>
 	        {
 	          growth !== undefined && (

@@ -1,19 +1,19 @@
 <div class="has-demo-1">
-  <form novalidate="">
+	<form class="stacked" novalidate="">
     <div class="field-group">
-      <label for="demo-name">Your name</label>
+      <label class="eyebrow" for="demo-name">Your name</label>
       <input type="text" id="demo-name" name="name" placeholder="e.g. Dominick Jay" minlength="2" required="" autocomplete="name">
       <span class="field-hint">At least 2 characters</span>
     </div>
 
     <div class="field-group">
-      <label for="demo-email">Email address</label>
+      <label class="eyebrow" for="demo-email">Email address</label>
       <input type="email" id="demo-email" name="email" placeholder="you@example.com" required="" autocomplete="email">
       <span class="field-hint">Must be a valid email address</span>
     </div>
 
     <div class="field-group">
-      <label for="demo-message">Message</label>
+      <label class="eyebrow" for="demo-message">Message</label>
       <textarea id="demo-message" name="message" placeholder="What are you building?" autocomplete="off"></textarea>
       <span class="field-hint">Optional — tell us more</span>
     </div>
@@ -53,9 +53,7 @@
 
 		/* ── Form ── */
 		form {
-		  display: flex;
-		  flex-direction: column;
-		  gap: var(--space-l);
+			--gutter: var(--space-m);
 		}
 
 		.field-group {
@@ -65,12 +63,7 @@
 		}
 
 		.field-group label {
-		  font-family: var(--font-mono);
 		  transition: color 0.2s;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      color: var(--text-muted);
-      text-transform: uppercase;
 		}
 
 		.field-group input,
@@ -119,7 +112,7 @@
 		/* ── :has() — hint appears on focus ── */
 		.field-hint {
 		  font-family: var(--font-mono);
-		  font-size: 0.65rem;
+		  font-size: 0.85rem;
 		  color: transparent;
 		  transition: color 0.2s;
 		  min-height: 1em;

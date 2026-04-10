@@ -295,22 +295,22 @@ Here's how a complete theme system works with system preferences:
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
+      x-bind:class="colorScheme === 'light' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'dark' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'system' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       System (<span x-text="systemPreference"></span>)
     </button>
@@ -370,22 +370,22 @@ Here's how a complete theme system works with system preferences:
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
+      x-bind:class="colorScheme === 'light' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 transition-colors text-sm font-[var(--font-base)]"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'dark' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'system' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       System (<span x-text="systemPreference"></span>)
     </button>
@@ -426,22 +426,22 @@ Here's how a complete theme system works with system preferences:
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
+      x-bind:class="colorScheme === 'light' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 transition-colors text-sm font-[var(--font-base)]"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'dark' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'system' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       System (<span x-text="systemPreference"></span>)
     </button>
@@ -506,22 +506,22 @@ Here's how a complete theme system works with system preferences:
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      x-bind:class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
+      x-bind:class="colorScheme === 'light' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 transition-colors text-sm font-[var(--font-base)]"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      x-bind:class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'dark' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      x-bind:class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
+      x-bind:class="colorScheme === 'system' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       System (<span x-text="systemPreference"></span>)
     </button>
@@ -845,22 +845,22 @@ Here's a live example showing how high-contrast mode affects your `light-dark()`
   <div class="demo-controls mb-4">
     <button
       @click="colorScheme = 'light'; updateColorScheme()"
-      :class="colorScheme === 'light' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-l-md border border-gray-300 transition-colors text-sm"
+      :class="colorScheme === 'light' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 transition-colors text-sm"
     >
       Light
     </button>
     <button
       @click="colorScheme = 'dark'; updateColorScheme()"
-      :class="colorScheme === 'dark' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm"
+      :class="colorScheme === 'dark' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       Dark
     </button>
     <button
       @click="colorScheme = 'system'; updateColorScheme()"
-      :class="colorScheme === 'system' ? 'bg-black text-white' : 'bg-gray-200 text-gray-700'"
-      class="px-3 py-2 rounded-r-md border border-gray-300 border-l-0 transition-colors text-sm"
+      :class="colorScheme === 'system' ? 'bg-[var(--color-dark)] text-white' : 'bg-gray-200 text-gray-700'"
+      class="px-3 py-2 border border-gray-300 border-l-0 transition-colors text-sm font-[var(--font-base)]"
     >
       System (<span x-text="systemPreference"></span>)
     </button>

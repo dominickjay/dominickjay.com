@@ -4,7 +4,7 @@
 
     margin: 2rem 0;
     padding: 1.125rem 1.25rem 1.125rem 1.5rem;
-    background: rgb(from var(--color-feature) r g b / 0.08);
+    background: rgb(from var(--color-feature) r g b / 0.05);
     border-left: 4px solid var(--color-feature);
     column-gap: 1.5rem;
     align-items: start;
@@ -17,7 +17,7 @@
 
     &:hover,
     &:focus {
-      background: rgb(from var(--color-feature) r g b / 0.25);
+      background: rgb(from var(--color-feature) r g b / 0.1);
     }
   }
 
