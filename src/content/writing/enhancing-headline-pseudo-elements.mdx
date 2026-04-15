@@ -47,17 +47,21 @@ I'll style this up with the font I've got in this project atm.
         font-size: 100px;
         line-height: 1.25;
         position: relative;
+        
+        @media (max-width: 768px) {
+         	font-size: 60px;
+        }
     }
 
     .demo.demo-pseudo::before {
-        content: attr(data-text);
+      content: attr(data-text);
     }
 
     .pseudo-step-1::before {
-        content: attr(data-text);
-        position: absolute;
-        top: -7px;
-        left: -7px;
+      content: attr(data-text);
+      position: absolute;
+      top: -7px;
+      left: -7px;
     }
 
     .step-2 {
@@ -91,9 +95,9 @@ So currently, we don't see any change here, right? Or at least, you shouldn't do
 Next, we're going to assign this data attribute content inside a pseudo-element of `before` on our text.
 
 ```
-    p::before {
-        content: attr(data-text);
-    }
+p::before {
+	content: attr(data-text);
+}
 ```
 
 <p class="demo demo-pseudo" data-text="leave it better than you found it">leave it better than you found it</p>
@@ -101,12 +105,12 @@ Next, we're going to assign this data attribute content inside a pseudo-element 
 After assigning the data-attribute content to the `before` pseudo element, we can see that now the contents of the `data-text` attribute are shown before the contents of our `p` tag. We want it to sit behind our text though, and offset slightly up and to the left. Let's adjust this by setting the `before` content to an `absolute` position, and assigning some `top` and `left` properties, ensuring also that we remember to assign our `p` tag a `relative` position to ensure the `absolute`-ly positioned content doesn't float away.
 
 ```
-    p::before {
-        content: attr(data-text);
-        position: absolute;
-        top: -7px;
-        left: -7px;
-    }
+p::before {
+  content: attr(data-text);
+  position: absolute;
+  top: -7px;
+  left: -7px;
+}
 ```
 
 <p class="demo demo-pseudo pseudo-step-1" data-text="leave it better than you found it">leave it better than you found it</p>
@@ -114,14 +118,14 @@ After assigning the data-attribute content to the `before` pseudo element, we ca
 We can see this starting to come together now, we've got our repeated text positioned in the right place to where we want it. But given that it's all the same color, it's a bit difficult to look and distinguish one from the other, so we'll add some different colors to the `p` tag and the `before` content. We've also got a bit of opacity on the `before` content, so let's apply that.
 
 ```
-    p {
-        color: #FC4A1A;
-    }
+p {
+  color: #FC4A1A;
+}
 
-    p::before {
-        color: #FCB733;
-        opacity: 0.7;
-    }
+p::before {
+  color: #FCB733;
+  opacity: 0.7;
+}
 ```
 
 Almost there, but the colors along with the opacity are a bit hard on my eyes - almost look like it's out of focus. Let's apply a `stroke` around the `before` content, and also a small `text-shadow` just to push it out a bit into the foreground.
@@ -181,6 +185,10 @@ SVG provides more control over text effects and better browser support. Here's h
         font-size: 100px;
         line-height: 1.25;
         position: relative;
+        
+        @media (max-width: 768px) {
+         	font-size: 60px;
+        }
     }
 
     .text-back {
@@ -233,16 +241,20 @@ If you want to avoid pseudo-elements entirely, you can use multiple text shadows
 ```
 
 <style>{`
-    .text-shadow-effect {
-        font-family: "Poppins", sans-serif;
-        font-size: 100px;
-        line-height: 1.25;
-        position: relative;
-        color: #FC4A1A;
-        text-shadow:
-            -7px -7px 0 #FCB733,
-            -7px -7px 2px rgba(0,0,0,0.2);
+	.text-shadow-effect {
+    font-family: "Poppins", sans-serif;
+    font-size: 100px;
+    line-height: 1.25;
+    position: relative;
+    color: #FC4A1A;
+    text-shadow:
+    	-7px -7px 0 #FCB733,
+      -7px -7px 2px rgba(0,0,0,0.2);
+      
+    @media (max-width: 768px) {
+     	font-size: 60px;
     }
+  }
 `}</style>
 
 <p class="text-shadow-effect">Leave it better than you found it</p>
@@ -262,7 +274,7 @@ Let's make our text effect more dynamic with some interactive elements:
     }
 
     .interactive-demo:hover::before {
-        transform: translate(-12px, -12px);
+        transform: translate(12px, 12px);
     }
 `}</style>
 
@@ -275,95 +287,7 @@ Let's make our text effect more dynamic with some interactive elements:
 }
 
 .interactive-demo:hover::before {
-  transform: translate(-12px, -12px);
+  transform: translate(12px, 12px);
   opacity: 0.5;
 }
 ```
-
-### Animation
-```css
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-.animated-demo {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animated-demo::before {
-  animation: float 3s ease-in-out infinite;
-  animation-delay: 0.1s;
-}
-```
-
-## Code Optimization
-
-Let's make our code more maintainable and reusable:
-
-### CSS Custom Properties
-```css
-:root {
-  --text-primary: #FC4A1A;
-  --text-secondary: #FCB733;
-  --text-offset: -7px;
-  --text-opacity: 0.7;
-  --text-stroke: 1.5px #203140;
-}
-
-.optimized-demo {
-  color: var(--text-primary);
-  position: relative;
-}
-
-.optimized-demo::before {
-  content: attr(data-text);
-  position: absolute;
-  top: var(--text-offset);
-  left: var(--text-offset);
-  color: var(--text-secondary);
-  opacity: var(--text-opacity);
-  -webkit-text-stroke: var(--text-stroke);
-}
-```
-
-### Modular Approach
-Break down the effect into reusable classes:
-
-```css
-.text-effect {
-  position: relative;
-}
-
-.text-effect--offset::before {
-  content: attr(data-text);
-  position: absolute;
-  top: var(--text-offset);
-  left: var(--text-offset);
-}
-
-.text-effect--color::before {
-  color: var(--text-secondary);
-  opacity: var(--text-opacity);
-}
-
-.text-effect--stroke::before {
-  -webkit-text-stroke: var(--text-stroke);
-}
-```
-
-Usage:
-```html
-<p class="text-effect text-effect--offset text-effect--color text-effect--stroke"
-   data-text="leave it better than you found it">
-  leave it better than you found it
-</p>
-```
-
-This modular approach makes it easier to:
-- Mix and match effects
-- Maintain the code
-- Add new variations
-- Debug issues
-- Reuse across different projects

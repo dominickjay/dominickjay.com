@@ -1,6 +1,7 @@
 @layer components {
   @layer base {
     .header {
+      border: 1px solid var(--color-feature);
       background-color: var(--color-dark);
       color: var(--color-light);
       margin-inline: auto;
@@ -22,6 +23,10 @@
         left: 0;
         right: 0;
         padding-block: var(--space-m);
+      }
+
+      .container {
+        padding-inline: 16px !important;
       }
     }
   }
