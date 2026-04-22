@@ -1,0 +1,18 @@
+{
+  "name": "dominickjay.com API catalog",
+  "documentation": "/docs/api",
+  "apis": [
+    {
+      "path": "/api/artist-banner",
+      "description": "Returns artist banner data used by music components."
+    },
+    {
+      "path": "/api/raindrop",
+      "description": "Returns curated links from Raindrop collections."
+    },
+    {
+      "path": "/api/recent-tracks",
+      "description": "Returns recent listening activity and related metadata."
+    }
+  ]
+}
