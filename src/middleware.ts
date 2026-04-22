@@ -7,10 +7,25 @@ function wantsMarkdown(acceptHeader: string | null): boolean {
     return false;
   }
 
-  return acceptHeader
-    .split(",")
-    .map((part) => part.trim().toLowerCase())
-    .some((part) => part.startsWith(MARKDOWN_ACCEPT) || part === "*/*");
+  return acceptHeader.split(",").some((value) => {
+    const [typePart, ...paramParts] = value
+      .trim()
+      .toLowerCase()
+      .split(";")
+      .map((part) => part.trim());
+
+    if (typePart !== MARKDOWN_ACCEPT) {
+      return false;
+    }
+
+    const qValue = paramParts.find((part) => part.startsWith("q="));
+    if (!qValue) {
+      return true;
+    }
+
+    const parsed = Number.parseFloat(qValue.slice(2));
+    return Number.isFinite(parsed) && parsed > 0;
+  });
 }
 
 function estimateMarkdownTokens(markdown: string): number {
