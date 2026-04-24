@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /404
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /404
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /404
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /404
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /404
+
+Sitemap: https://dominickjay.com/sitemap-index.xml
