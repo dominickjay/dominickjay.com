@@ -212,25 +212,42 @@ try {
     ),
   ]);
 
-  allBooks = listInfo.data.me[0].user_books || [];
-  backlog = toReadData.data.me[0].user_books || [];
-  currentlyReading = currentDataAndList.data.me[0].user_books || [];
-  currentList = currentDataAndList.data.me[0].lists[0] || [];
-  currentListCount = currentList.books_count;
-  currentListBooks = currentList.list_books;
+  const me = currentDataAndList.data?.me?.[0];
+  const list = me?.lists?.[0];
+
+  allBooks = listInfo.data?.me?.[0]?.user_books ?? [];
+  backlog = toReadData.data?.me?.[0]?.user_books ?? [];
+  currentlyReading = me?.user_books ?? [];
+  currentList = list ?? [];
+  currentListCount = list?.books_count ?? 0;
+  currentListBooks = list?.list_books ?? [];
 } catch (error) {
   console.error(error);
   // Expected output: ReferenceError: nonExistentFunction is not defined
   // (Note: the exact output may be browser-dependent)
 }
+const getListBookUserBook = (listBook) => listBook?.book?.user_books?.[0] ?? null;
+const getListBookStatus = (listBook) =>
+  getListBookUserBook(listBook)?.user_book_status?.slug;
+const getPrimaryAuthor = (book) =>
+  book?.contributions?.[0]?.author?.name || "Unknown Author";
+
 const readCount = currentListBooks.filter(
-  (book) => book.book.user_books[0].user_book_status.slug == "read",
+  (book) => getListBookStatus(book) === "read",
 );
+const currentlyReadingListBooks = currentListBooks
+  ?.slice()
+  .reverse()
+  .filter((book) => getListBookStatus(book) === "currently-reading");
+const queuedListBooks = currentListBooks?.filter((book) => {
+  const status = getListBookStatus(book);
+  return status !== "currently-reading" && status !== "read";
+});
 
 let booksByYear = allBooks.reduce((acc, entry) => {
   const title = entry.book.title;
 
-  entry.user_book_reads.forEach((read) => {
+  entry.user_book_reads?.forEach((read) => {
     if (read.finished_at) {
       const year = new Date(read.finished_at).getFullYear();
       if (!acc[year]) acc[year] = [];
@@ -240,8 +257,8 @@ let booksByYear = allBooks.reduce((acc, entry) => {
         acc[year].push({
           id: entry.book.id,
           title,
-          author: entry.book.contributions[0].author.name,
-          finished: entry.user_book_reads[0].finished_at,
+          author: getPrimaryAuthor(entry.book),
+          finished: entry.user_book_reads?.[0]?.finished_at,
         });
         // console.log(acc[year]);
       }
@@ -333,36 +350,23 @@ const ogImage = getImagePath({ url, site });
             <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
             <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks?.slice().reverse().map(
-                  (book) =>
-                    book.book.user_books[0].user_book_status.slug ==
-                      "currently-reading" && (
-                      <BookItem
-                        title={book.book.title}
-                        author={
-                          book.book.contributions[0]?.author.name ||
-                          "Unknown Author"
-                        }
-                        rating={book.book.rating}
-                        cover={book.book.cover}
-                        started={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.started_at
-                        }
-                        finished={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.finished_at
-                        }
-                        status={book.book.user_books[0].user_book_status.slug}
-                        showStrikethrough={
-                          book.book.user_books[0].user_book_status.slug ===
-                          "read"
-                            ? true
-                            : false
-                        }
-                      />
-                    ),
-                )
+                currentlyReadingListBooks.map((book) => {
+                  const userBook = getListBookUserBook(book);
+                  const status = getListBookStatus(book);
+
+                  return (
+                    <BookItem
+                      title={book.book.title}
+                      author={getPrimaryAuthor(book.book)}
+                      rating={book.book.rating}
+                      cover={book.book.cover}
+                      started={userBook?.user_book_reads?.[0]?.started_at}
+                      finished={userBook?.user_book_reads?.[0]?.finished_at}
+                      status={status}
+                      showStrikethrough={status === "read"}
+                    />
+                  );
+                })
               }
             </ol>
           </div>
@@ -371,42 +375,25 @@ const ogImage = getImagePath({ url, site });
             <h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
             <ol class="post-list feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks
-                  ?.filter(
-                    (book) =>
-                      book.book.user_books[0].user_book_status.slug !==
-                        "currently-reading" &&
-                      book.book.user_books[0].user_book_status.slug !== "read",
-                  )
-                  ?.map((book, i) => (
+                queuedListBooks.map((book, i) => {
+                  const userBook = getListBookUserBook(book);
+                  const status = getListBookStatus(book);
+
+                  return (
                     <BookItem
                       i={String(i + 1).padStart(2, "0")}
                       title={book.book.title}
-                      author={
-                        book.book.contributions[0]?.author.name ||
-                        "Unknown Author"
-                      }
+                      author={getPrimaryAuthor(book.book)}
                       rating={book.book.rating}
                       cover={book.book.cover}
-                      queued={
-                        book.book.user_books[0].user_book_status.slug === "read"
-                          ? true
-                          : false
-                      }
-                      started={
-                        book.book.user_books[0]?.user_book_reads[0]?.started_at
-                      }
-                      finished={
-                        book.book.user_books[0]?.user_book_reads[0]?.finished_at
-                      }
-                      status={book.book.user_books[0].user_book_status.slug}
-                      showStrikethrough={
-                        book.book.user_books[0].user_book_status.slug === "read"
-                          ? true
-                          : false
-                      }
+                      queued={status === "read"}
+                      started={userBook?.user_book_reads?.[0]?.started_at}
+                      finished={userBook?.user_book_reads?.[0]?.finished_at}
+                      status={status}
+                      showStrikethrough={status === "read"}
                     />
-                  ))
+                  );
+                })
               }
             </ol>
           </div>
@@ -482,10 +469,7 @@ const ogImage = getImagePath({ url, site });
                         i={String(i + 1).padStart(2, "0")}
                         key={book.book.id}
                         title={book.book.title}
-                        author={
-                          book.book.contributions[0]?.author.name ||
-                          "Unknown Author"
-                        }
+                        author={getPrimaryAuthor(book.book)}
                         rating={book.book.rating}
                         cover={book.book.cover}
                       />
