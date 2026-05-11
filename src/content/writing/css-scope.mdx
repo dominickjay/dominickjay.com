@@ -131,9 +131,7 @@ You might have noticed the `@scope` card example already does something quiet bu
 }
 ```
 
-That `--color-dark: grey` declaration lives *inside* the scope. It overrides whatever `--color-dark` is set to globally, but only within this card. Every other component on the page using `--color-dark` is unaffected.
-
-That's not just a neat little pattern — it changes what's possible with component theming.
+That `--color-dark: grey` value lives *within* the scope, and overrides whatever `--color-dark` is set to globally, but only within this card component. Everything else is given mercy and left alone completely.
 
 ### The problem with global tokens
 

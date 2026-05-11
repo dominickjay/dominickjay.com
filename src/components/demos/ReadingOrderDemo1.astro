@@ -146,7 +146,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <div class="hint hint-mobile">
-      <button class="play-btn button" id="play-problem" type="button">
+      <button class="play-btn button eyebrow" id="play-problem" type="button">
         Simulate focus order
       </button>
     </div>
@@ -236,7 +236,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <div class="hint hint-mobile">
-      <button class="play-btn button" id="play-solution" type="button">
+      <button class="play-btn button eyebrow" id="play-solution" type="button">
         Simulate focus order
       </button>
     </div>
@@ -744,7 +744,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     background: #222;
     border: 1px solid color-mix(in srgb, var(--color-light) 60%, transparent);
     color: var(--color-light);
-    padding: 2px 7px;
+    padding: 4px 7px 0px;
     font-family: var(--font-base);
     letter-spacing: 0.05em;
     z-index: 1;
@@ -778,10 +778,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .play-btn {
-  	font-family: var(--font-mono);
-	  font-size: 14px;
-	  letter-spacing: 0.05em;
-	  text-transform: uppercase;
     padding: 8px 16px;
     background: rgb(from var(--color-feature) r g b / 0.2);
     border: 1px solid var(--color-dark);

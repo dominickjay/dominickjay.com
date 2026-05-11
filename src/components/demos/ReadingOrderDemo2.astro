@@ -176,7 +176,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <div class="hint hint-mobile">
-      <button class="play-btn button" onclick="playSequence('bad')" id="play-good"
+      <button class="play-btn button eyebrow" onclick="playSequence('bad')" id="play-good"
         >Simulate focus order</button
       >
     </div>
@@ -270,7 +270,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
 
     <div class="hint hint-mobile">
-      <button class="play-btn button" onclick="playSequence('good')" id="play-good"
+      <button class="play-btn button eyebrow" onclick="playSequence('good')" id="play-good"
         >Simulate focus order</button
       >
     </div>
@@ -758,7 +758,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   /* CTA cell accent */
   .cell-cta {
     background: var(--color-dark);
-    border-left: 3px solid var(--border);
+    /*border-left: 3px solid var(--border);*/
   }
 
   .cell-cta .cell-title,
@@ -1043,10 +1043,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   }
 
   .play-btn {
-  	font-family: var(--font-mono);
-	  font-size: 14px;
-	  letter-spacing: 0.05em;
-	  text-transform: uppercase;
     padding: 8px 16px;
     background: rgb(from var(--color-feature) r g b / 0.2);
     border: 1px solid var(--color-dark);
