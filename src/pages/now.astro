@@ -262,7 +262,7 @@ const goalPercent =
                   style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
                 />
               </div>
-              <div class="goal-bar__meta">
+              <div class="goal-bar__meta eyebrow">
                 <span>{booksRead} of {goalTotal} · 2026 goal</span>
                 <span>{goalPercent}%</span>
               </div>
@@ -327,7 +327,7 @@ const goalPercent =
 		         class="stacked"
 		         style="--gutter: var(--space-m)"
 		       >
-				   	<div class="now-item stacked" style="--gutter: var(--space-m)">
+				   	<div class="now-item stacked" style="--gutter: var(--space-s)">
 			      	{currentlyReading.slice(0, 2).map((entry) => (
 								<div class="stacked" style="--gutter: var(--space-s)">
 						      <span class="title">{entry.book.title}</span>
@@ -337,18 +337,6 @@ const goalPercent =
 								</div>
 		          ))}
 				   	</div>
-						<div class="goal-bar">
-              <div class="goal-bar__track">
-                <div
-                  class="goal-bar__fill"
-                  style={`width: ${goalTotal > 0 ? (booksRead / goalTotal) * 100 : 0}%`}
-                />
-              </div>
-              <div class="goal-bar__meta">
-                <span>{booksRead} of {goalTotal} · 2026 goal</span>
-                <span>{goalPercent}%</span>
-              </div>
-            </div>
 					</div>
         </div>
         <div class="stacked" style="--gutter: var(--space-m)">
@@ -360,7 +348,10 @@ const goalPercent =
 		         style="--gutter: var(--space-m)"
 		      >
 		      	{traktTitle ? (
-              <div class="now-item stacked">
+              <div
+              	class="now-item stacked"
+               	style="--gutter: var(--space-s)"
+              >
                 <span class="title">{traktTitle}</span>
                 {(traktSeason != null || traktEpisode != null) && (
                   <span class="meta">

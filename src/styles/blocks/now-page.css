@@ -59,6 +59,9 @@
     }
 
     @media (width < 768px) {
+      .now-layout {
+        --gutter: var(--space-xl);
+      }
       .now-written {
         padding: 0;
         border-right: none;
@@ -89,6 +92,7 @@
 
     .now-snapshot {
       --sidebar-target-width: 250px;
+      --gutter: var(--space-xl);
 
       padding-block: var(--space-xl);
       position: sticky;
@@ -97,6 +101,10 @@
       .eyebrow {
         font-size: 12px;
       }
+
+      .stacked {
+        --gutter: var(--space-m);
+      }
     }
 
     @media (width < 768px) {
@@ -104,6 +112,10 @@
         padding: 0;
         position: static;
         order: 2;
+
+        .stacked {
+          --gutter: var(--space-xs);
+        }
       }
     }
 
@@ -180,6 +192,10 @@
         display: flex;
         flex-direction: column;
         gap: var(--space-xs);
+
+        @media (width < 720px) {
+          margin-block-start: 0;
+        }
       }
 
       .goal-bar__track {

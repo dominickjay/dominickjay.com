@@ -348,7 +348,7 @@ const ogImage = getImagePath({ url, site });
           </section>
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
-            <ol class="post-list feature-list flow" style="--flow-space: 0;">
+            <ol class="feature-list flow" style="--flow-space: 0;">
               {
                 currentlyReadingListBooks.map((book) => {
                   const userBook = getListBookUserBook(book);
@@ -373,7 +373,7 @@ const ogImage = getImagePath({ url, site });
 
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
-            <ol class="post-list feature-list flow" style="--flow-space: 0;">
+            <ol class="feature-list flow" style="--flow-space: 0;">
               {
                 queuedListBooks.map((book, i) => {
                   const userBook = getListBookUserBook(book);
@@ -411,7 +411,7 @@ const ogImage = getImagePath({ url, site });
                         </span>
                       </h2>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
+                        class="feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
@@ -434,7 +434,7 @@ const ogImage = getImagePath({ url, site });
                         </span>
                       </summary>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
+                        class="feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
@@ -460,7 +460,7 @@ const ogImage = getImagePath({ url, site });
                   Backlog{" "}
                 </h2>
                 <ol
-                  class="post-list feature-list flow max-md:mx-[-16px]"
+                  class="feature-list flow max-md:mx-[-16px]"
                   style="--flow-space: 0;"
                 >
                   {

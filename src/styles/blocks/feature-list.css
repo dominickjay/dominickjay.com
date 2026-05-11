@@ -195,5 +195,21 @@
     [data-stage="growing"] {
       --growth: rgb(from var(--color-growing) r g b / var(--opacity));
     }
+    [data-type="book"] {
+      .index {
+        display: none;
+      }
+    }
+    @media (width <= 640px) {
+      [data-small] {
+        padding: 8px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      [data-type="track"] {
+        flex-direction: row;
+      }
+    }
   }
 }

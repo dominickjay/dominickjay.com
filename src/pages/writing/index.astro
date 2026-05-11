@@ -139,7 +139,7 @@ const ogImage = getImagePath({ url, site });
 						</div>
 					</div>
 					<div class="col-span-full md:col-span-3">
-						<ol class="!pb-[56px] post-list feature-list flow" style="--flow-space: 0;">
+						<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
 							{
 								posts.map((post: any, i: number) => (
 									<FeatureListItem
@@ -161,7 +161,7 @@ const ogImage = getImagePath({ url, site });
 						</ol>
 						<div class="stacked">
 							<h3 class="eyebrow">Writing elsewhere</h3>
-							<ol class="!pb-[56px] post-list feature-list flow" style="--flow-space: 0;">
+							<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
 								{
 									externalPosts.map((post: any, i: number) => (
 										<FeatureListItem
@@ -286,7 +286,7 @@ const ogImage = getImagePath({ url, site });
 		applyFilters();
 
 		// Stagger reveal (per list)
-		document.querySelectorAll('.post-list').forEach(postList => {
+		document.querySelectorAll('.feature-list').forEach(postList => {
 			const items = postList.querySelectorAll('.item');
 			const obs = new IntersectionObserver(entries => {
 				entries.forEach(e => {

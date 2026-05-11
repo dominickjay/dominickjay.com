@@ -11,13 +11,13 @@ const { tracks = [] } = Astro.props;
 ---
 
 <ol
-  class="post-list feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
+  class="feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
   style="--flow-space: 0;"
 >
   {
     tracks.map((track, i) => (
       <li class="item">
-        <div class="link link--small" data-small>
+        <div class="link link--small" data-small data-type="track">
           <span class="index">{String(i + 1).padStart(2, "0")}</span>
           <div class="body">
             <span class="title">
