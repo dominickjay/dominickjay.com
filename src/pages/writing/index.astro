@@ -139,7 +139,7 @@ const ogImage = getImagePath({ url, site });
 						</div>
 					</div>
 					<div class="col-span-full md:col-span-3">
-						<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+						<ol class="!pb-[56px] feature-list flow" data-internal-posts style="--flow-space: 0;">
 							{
 								posts.map((post: any, i: number) => (
 									<FeatureListItem
@@ -161,7 +161,7 @@ const ogImage = getImagePath({ url, site });
 						</ol>
 						<div class="stacked">
 							<h3 class="eyebrow">Writing elsewhere</h3>
-							<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+							<ol class="!pb-[56px] feature-list flow" data-external-posts style="--flow-space: 0;">
 								{
 									externalPosts.map((post: any, i: number) => (
 										<FeatureListItem
@@ -199,7 +199,8 @@ const ogImage = getImagePath({ url, site });
 											@click.prevent={`category = '${category}'`}
 											:class={`{ 'active': category === '${category}' }`}
 										>
-											<span data-scramble={category}>{category} <span class="opacity-60">({tagCounts[category]})</span></span>
+											<span data-scramble={category}>{category}</span>
+											<span class="opacity-60">({tagCounts[category]})</span>
 										</button>
 									))
 								}
@@ -238,8 +239,10 @@ const ogImage = getImagePath({ url, site });
 
 		let searchQuery = '';
 
-		const section = document.querySelector('.container.flow');
-		const getItems = () => section ? section.querySelectorAll('.item') : [];
+		const internalList = document.querySelector("[data-internal-posts]");
+		const section = internalList?.closest("section.container.flow");
+		const getItems = () =>
+			internalList ? internalList.querySelectorAll(".item") : [];
 
 		function applyFilters() {
 		  const items = getItems();
@@ -263,8 +266,8 @@ const ogImage = getImagePath({ url, site });
 
 		  const resultsEl = document.getElementById('resultsCount');
 		  if (resultsEl) resultsEl.textContent = visible + ' posts';
-		  const emptyEl = document.getElementById('emptyState');
-		  if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
+		  const emptyEl = internalList?.querySelector("#emptyState");
+		  if (emptyEl) emptyEl.style.display = visible === 0 ? "block" : "none";
 		}
 
 		document.getElementById('searchInput').addEventListener('input', e => {

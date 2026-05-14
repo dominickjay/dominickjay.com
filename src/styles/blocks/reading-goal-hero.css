@@ -2,7 +2,7 @@
   .reading-goal-hero {
     background: color-mix(in srgb, var(--color-feature) 15%, var(--color-dark));
     color: var(--color-light);
-    font-family: var(--font-mono);
+    font-size: 1rem;
   }
 
   .reading-goal-hero *::selection {
@@ -17,7 +17,7 @@
   }
 
   .reading-goal-hero__eyebrow {
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--color-light);
@@ -37,6 +37,7 @@
   }
 
   .reading-goal-hero__progress-meta {
+    font-size: 1.25rem;
     display: flex;
     justify-content: space-between;
     color: var(--color-light);
@@ -61,7 +62,7 @@
   }
 
   .reading-goal-hero__summary {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: var(--color-light);
     /*opacity: 0.85;*/
     margin: 0;
@@ -91,17 +92,13 @@
     border-inline-start: none;
   }
 
-  .reading-goal-hero__stat-num {
-    font-size: 1.25rem;
-    color: var(--color-light);
-  }
-
   .reading-goal-hero__stat-label {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: var(--color-light);
+    text-transform: capitalize;
   }
 
-  @media (width < 480px) {
+  @media (width < 640px) {
     .reading-goal-hero__main {
       grid-template-columns: 1fr;
       padding: var(--space-m);

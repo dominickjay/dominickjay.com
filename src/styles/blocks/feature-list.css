@@ -61,6 +61,13 @@
         @container feature-list-item (max-width: 640px) {
           gap: var(--space-s);
         }
+
+        .meta__item {
+          display: flex;
+          align-items: baseline;
+          gap: var(--space-m);
+          flex-wrap: wrap;
+        }
       }
 
       time {

@@ -33,8 +33,10 @@ const {
       <span class="title">{title}</span>
       {tags &&
 	      <div class="meta">
-	        	<FormattedDate date={lastModified ?? pubDate} />
-	        <span class="topics">{tags?.join(", ")}</span>
+          <div class="meta__item">
+            <FormattedDate date={lastModified ?? pubDate} />
+            <span class="topics">{tags?.join(", ")}</span>
+          </div>
 	        {
 	          growth !== undefined && (
 	            <span class={`growth`} data-growth={growth}>

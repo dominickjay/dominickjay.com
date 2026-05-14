@@ -23,7 +23,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 } as object);
 ---
 
-<div class="min-w-0 overflow-x-auto">
+<div>
   <div class="tabs" role="tablist">
     <button
       class="tab is-bad active eyebrow"
@@ -425,6 +425,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   .tabs {
   	display: flex;
    	gap: var(--space-s);
+    overflow-x: auto;
   }
 
   .tab {
@@ -439,6 +440,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 	  background: transparent;
 	  border: none;
 	  cursor: pointer;
+		flex-shrink: 0;
 	  transition:
 	    color 0.15s,
 	    background 0.15s;

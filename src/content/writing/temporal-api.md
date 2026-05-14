@@ -4,8 +4,6 @@ description: 'A modern approach to handling dates and times in JavaScript'
 pubDate: '2024-03-15'
 tags:
   - javascript
-  - ByteSize
-  - web
 draft: true
 layout: BlogPost
 growth: growing

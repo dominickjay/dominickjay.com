@@ -141,25 +141,6 @@ const gardenNav = [
 
 <footer class="site-footer" role="contentinfo">
   <div class="footer-inner container">
-    <div class="footer-status" aria-label="Garden status">
-      <span class="status-pill">
-        <span class="status-dot status-dot--evergreen" aria-hidden="true"
-        ></span>
-        <span>Evergreen</span>
-        <span class="status-count">({evergreen})</span>
-      </span>
-      <span class="status-pill">
-        <span class="status-dot status-dot--growing" aria-hidden="true"></span>
-        <span>Growing</span>
-        <span class="status-count">({growing})</span>
-      </span>
-      <span class="status-pill">
-        <span class="status-dot status-dot--seedlings" aria-hidden="true"
-        ></span>
-        <span>Seedlings</span>
-        <span class="status-count">({seedlings})</span>
-      </span>
-    </div>
 
     <div class="footer-body">
       <div class="footer-nav-grid">
@@ -383,6 +364,7 @@ const gardenNav = [
     grid-template-columns: 1fr 1fr;
     gap: var(--space-xl);
     margin-block-end: var(--space-l);
+    padding-block-start: var(--space-l);
   }
 
   .footer-nav-grid {

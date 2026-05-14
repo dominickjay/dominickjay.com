@@ -139,15 +139,15 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   ══════════════════════════════ -->
   <div class="tab-strip" role="tablist">
     <button
-      class="tab-btn active"
+      class="tab-btn active eyebrow"
       role="tab"
       aria-selected="true"
       data-tab="markup">Markup</button
     >
-    <button class="tab-btn" role="tab" aria-selected="false" data-tab="output"
+    <button class="tab-btn eyebrow" role="tab" aria-selected="false" data-tab="output"
       >Output</button
     >
-    <button class="tab-btn" role="tab" aria-selected="false" data-tab="css"
+    <button class="tab-btn eyebrow" role="tab" aria-selected="false" data-tab="css"
       >CSS</button
     >
   </div>
@@ -160,7 +160,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- BEM -->
       <div class="col">
         <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
+          <span class="badge badge--bem eyebrow">BEM</span>
           <span class="head-label">Markup</span>
           <span class="stat"><strong>7</strong> classes</span>
         </div>
@@ -169,7 +169,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
           <span class="code-neutral" set:html={bemMarkupHighlighted} />
         </div>
         <div class="class-count">
-          <div class="label">Classes in markup</div>
+          <div class="eyebrow">Classes in markup</div>
           <div class="pills">
             <span class="pill">card</span>
             <span class="pill">card__image-container</span>
@@ -190,7 +190,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- @scope -->
       <div class="col">
         <div class="head head--scope">
-          <span class="badge badge--scope">@scope</span>
+          <span class="badge badge--scope eyebrow">@scope</span>
           <span class="head-label">Markup</span>
           <span class="stat"><strong>1</strong> class</span>
         </div>
@@ -199,7 +199,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
           <span class="code-neutral" set:html={scopeMarkupHighlighted} />
         </div>
         <div class="class-count">
-          <div class="label">Classes in markup</div>
+          <div class="eyebrow">Classes in markup</div>
           <div class="pills">
             <span class="pill pill--scope">card</span>
             <span class="pill pill--removed">card__image-container</span>
@@ -227,7 +227,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- BEM output -->
       <div class="col">
         <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
+          <span class="badge badge--bem eyebrow">BEM</span>
           <span class="head-label">Rendered output</span>
         </div>
         <div class="preview">
@@ -252,7 +252,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- @scope output -->
       <div class="col">
         <div class="head head--scope">
-          <span class="badge badge--scope">@scope</span>
+          <span class="badge badge--scope eyebrow">@scope</span>
           <span class="head-label">Rendered output</span>
         </div>
         <div class="preview">
@@ -286,24 +286,24 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
        TAB: CSS
   ══════════════════════════════ -->
   <div class="tab-panel" id="tab-css" role="tabpanel">
-    <div class="css-diff">
-      <div class="head-cols">
-        <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
-          <span class="head-label">Flat selectors, block prefix repeated</span>
-        </div>
+    <div class="split">
+     	<div class="col">
+       	<div class="head head--bem">
+         <span class="badge badge--bem">BEM</span>
+         <span class="head-label">Flat selectors, block prefix repeated</span>
+	      </div>
+       	<div set:html={bemHighlighted} />
+     	</div>
+      <div class="col">
         <div class="head head--scope">
           <span class="badge badge--scope">@scope</span>
           <span class="head-label">Nested, element selectors, one root</span>
         </div>
+       	<div set:html={scopeHighlighted} />
       </div>
-      <div class="cols">
-        <div class="col col--shiki" set:html={bemHighlighted} />
-        <div class="col col--shiki" set:html={scopeHighlighted} />
-      </div><!-- /.cols -->
-    </div><!-- /.css-diff -->
-  </div><!-- /.tab-panel -->
-</div><!-- /.demo-wrapper -->
+    </div>
+  </div>
+</div>
 
 <script is:inline>
   const tabs = document.querySelectorAll(".tab-btn");
@@ -348,10 +348,6 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     }
 
     .tab-btn {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       padding: 0.6rem 1.25rem;
       border: none;
       background: none;
@@ -427,13 +423,10 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     }
 
     .badge {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      letter-spacing: 0.12em;
       color: var(--color-dark);
-      text-transform: uppercase;
       padding: 0.15rem 0.5rem;
       border-radius: 2px;
+      line-height: 1.8;
     }
 
     .badge--bem,
@@ -449,19 +442,10 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       background: rgb(from var(--color-feature) r g b / 0.3);
     }
 
-    .head-label {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--color-dark);
-    }
-
     .stat {
       margin-inline-start: auto;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      color: var(--color-dark);
-      text-transform: uppercase;
     }
+
     .stat strong {
       font-weight: 600;
       color: var(--color-dark);
@@ -560,7 +544,6 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       border-radius: 2px;
       background: rgb(from var(--color-feature) r g b / 0.2);
       color: var(--color-dark);
-      letter-spacing: 0.12em;
     }
     .pill--scope {
       background: rgb(from var(--color-feature) r g b / 0.3);
@@ -590,7 +573,6 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   @scope (.css-diff) {
     :scope {
       border: 1px solid rgb(from var(--color-feature) r g b / 0.5);
-      border-top: none;
       overflow: hidden;
     }
     .head-cols {

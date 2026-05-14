@@ -36,7 +36,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
 <div id="reading-order-demo-1">
   <!-- Tabs -->
-  <div class="demo-tabs" role="tablist">
+  <div class="tabs" role="tablist">
     <button
       class="tab-btn problem active"
       role="tab"
@@ -479,37 +479,41 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .tabs {
  		display: flex;
   	gap: var(--space-s);
+   	overflow-x: auto;
   }
 
   .tab-btn {
-	  font-family: var(--font-base);
+  font-family: var(--font-base);
 	  font-size: 14px;
 	  letter-spacing: 0.14em;
 	  color: var(--color-feature);
 		opacity: 0.85;
 	  text-transform: uppercase;
 	  margin-block-end: 8px;
-    padding: 8px 16px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition:
-      color 0.15s,
-      background 0.15s;
+	  padding: 8px 16px;
+	  background: transparent;
+	  border: none;
+	  cursor: pointer;
+		flex-shrink: 0;
+	  transition:
+	    color 0.15s,
+	    background 0.15s;
 
-    &[aria-selected="true"] {
-      border-block-end: 2px solid var(--color-dark);
-      color: var(--color-feature);
-      opacity: 1;
-    }
+		&[aria-selected="true"] {
+	  	border-block-end: 2px solid var(--color-dark);
+	    color: var(--color-feature);
+	    opacity: 1;
+	  }
 
-    &::before {
-      content: none;
-    }
-  }
+		&:hover {
+	  	border-block-end: 2px solid color-mix(var(--color-dark) 45%, transparent);
+	    color: var(--color-feature);
+	    opacity: 1;
+	  }
 
-  .tab-btn:hover {
-    color: var(--color-dark);
+   &::before {
+     content: none;
+   }
   }
 
   /* ── Panel ── */

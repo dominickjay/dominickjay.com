@@ -4,8 +4,6 @@ description: 'A new CSS color function for effortless light/dark mode theming'
 pubDate: '2025-09-25'
 tags:
   - css
-  - web
-  - CSSentials
 draft: true
 layout: BlogPost
 growth: growing

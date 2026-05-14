@@ -6,6 +6,7 @@
         flex-direction: column;
         gap: var(--space-xl);
         padding-block-end: var(--space-xl);
+        padding-block: 64px;
       }
 
       .growth-panel__item {
