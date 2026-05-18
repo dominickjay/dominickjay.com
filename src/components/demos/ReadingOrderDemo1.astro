@@ -38,7 +38,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   <!-- Tabs -->
   <div class="tabs" role="tablist">
     <button
-      class="tab-btn problem active"
+      class="tab problem active"
       role="tab"
       aria-selected="true"
       aria-controls="panel-problem"
@@ -47,7 +47,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       Without reading-order
     </button>
     <button
-      class="tab-btn solution"
+      class="tab solution"
       role="tab"
       aria-selected="false"
       aria-controls="panel-solution"
@@ -288,7 +288,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   // ── Tab switching ──────────────────────────────────────────────────────────
   function switchTab(which: string) {
 	  document.querySelectorAll("#reading-order-demo-1").forEach((demo) => {
-	    demo.querySelectorAll(".tab-btn").forEach((b) => {
+	    demo.querySelectorAll(".tab").forEach((b) => {
 	      b.classList.toggle("active", b.classList.contains(which));
 	      b.setAttribute(
 	        "aria-selected",
@@ -474,46 +474,6 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   .intro {
     font-size: 13px;
     line-height: 1.7;
-  }
-
-  .tabs {
- 		display: flex;
-  	gap: var(--space-s);
-   	overflow-x: auto;
-  }
-
-  .tab-btn {
-  font-family: var(--font-base);
-	  font-size: 14px;
-	  letter-spacing: 0.14em;
-	  color: var(--color-feature);
-		opacity: 0.85;
-	  text-transform: uppercase;
-	  margin-block-end: 8px;
-	  padding: 8px 16px;
-	  background: transparent;
-	  border: none;
-	  cursor: pointer;
-		flex-shrink: 0;
-	  transition:
-	    color 0.15s,
-	    background 0.15s;
-
-		&[aria-selected="true"] {
-	  	border-block-end: 2px solid var(--color-dark);
-	    color: var(--color-feature);
-	    opacity: 1;
-	  }
-
-		&:hover {
-	  	border-block-end: 2px solid color-mix(var(--color-dark) 45%, transparent);
-	    color: var(--color-feature);
-	    opacity: 1;
-	  }
-
-   &::before {
-     content: none;
-   }
   }
 
   /* ── Panel ── */

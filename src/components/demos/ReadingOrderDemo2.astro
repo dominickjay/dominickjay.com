@@ -65,7 +65,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   <!-- Tabs -->
   <div class="tabs" role="tablist">
     <button
-      class="tab-btn is-bad active"
+      class="tab is-bad active"
       role="tab"
       aria-selected="true"
       aria-controls="panel-bad"
@@ -74,7 +74,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       Without reading-flow
     </button>
     <button
-      class="tab-btn is-good"
+      class="tab is-good"
       role="tab"
       aria-selected="false"
       aria-controls="panel-good"
@@ -331,10 +331,10 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
 
   // ── Tab switching ──────────────────────────────────────────────────────────
   const demo2 = document.getElementById("reading-order-demo-2");
-  demo2?.querySelectorAll<HTMLElement>(".tab-btn[data-tab]").forEach((btn) => {
+  demo2?.querySelectorAll<HTMLElement>(".tab[data-tab]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const which = btn.dataset.tab!;
-      demo2.querySelectorAll(".tab-btn").forEach((t) => {
+      demo2.querySelectorAll(".tab").forEach((t) => {
         const isActive = t === btn;
         t.classList.toggle("active", isActive);
         t.setAttribute("aria-selected", isActive ? "true" : "false");
@@ -525,50 +525,16 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     line-height: 1.7;
   }
 
-  .tabs {
-  	display: flex;
-   	gap: var(--space-s);
-  }
-
-  .tab-btn {
-  	font-family: var(--font-base);
-	  font-size: 14px;
-	  letter-spacing: 0.14em;
-	  color: var(--color-feature);
-		opacity: 0.85;
-	  text-transform: uppercase;
-	  margin-block-end: 8px;
-	   padding: 8px 16px;
-	   background: transparent;
-	   border: none;
-	   cursor: pointer;
-	   transition:
-	     color 0.15s,
-	     background 0.15s;
-
-	  &[aria-selected="true"] {
-	    border-block-end: 2px solid var(--color-dark);
-	    color: var(--color-feature);
-	    opacity: 1;
-	  }
-
-    &::before {
-      content: none;
-    }
-
-    &:hover {
-      color: var(--color-dark);
-    }
-  }
-
-  .tab-btn
+  .tab
   .tab.active {
     color: var(--text);
     background: var(--bg);
   }
+
   .tab.active.is-bad {
     color: var(--accent);
   }
+
   .tab.active.is-good {
     color: var(--good);
   }
