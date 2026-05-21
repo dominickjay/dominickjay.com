@@ -108,7 +108,12 @@ const ogImage = getImagePath({ url, site });
 					growthDescription: '${growthOptions.find((option) => option.value === growth)?.description || ""}',
 					growthOptions: ${JSON.stringify(growthOptions)},
 					category: 'All',
-					categoryOptions: ${JSON.stringify(categories)}
+					categoryOptions: ${JSON.stringify(categories)},
+
+					init() {
+						this.growth = new URLSearchParams(window.location.search).get('growth');
+						console.log(this.growth);
+					}
 				}`}
 			>
 				<div class="!grid grid-cols-4 gap-[var(--space-m)]">

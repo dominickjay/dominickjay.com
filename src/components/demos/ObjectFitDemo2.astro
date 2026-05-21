@@ -624,6 +624,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     border: 1px solid var(--border);
     padding: 20px;
     margin-block-end: 24px;
+    container: position-section / inline-size;
   }
 
   .position-title {
@@ -694,9 +695,9 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     gap: 16px;
     align-items: center;
 
-    @media (width < 640px) {
-   		flex-direction: column;
-     	margin-block-start: var(--space-m);
+    @container position-section (max-width: 640px) {
+			flex-direction: column;
+			margin-block-start: var(--space-m);
     }
   }
 
@@ -717,7 +718,7 @@ import PlaceholderImage from "../PlaceholderImage.astro";
     object-position: center;
     transition: object-position 0.4s ease;
     display: block;
-    width: 450px;
+   	width: 100%;
     height: 100%;
   }
 
