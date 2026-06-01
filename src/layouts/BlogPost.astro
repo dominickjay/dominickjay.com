@@ -4,6 +4,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import BaseHead from "../components/BaseHead.astro";
 import FYIBlock from "../components/FYIBlock.astro";
 import { getImagePath } from "astro-opengraph-images";
+import Cursor from "../components/Cursor.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
@@ -30,7 +31,7 @@ const ogImage = getImagePath({ url, site });
   </head>
 
   <body>
-    <div id="cur"></div>
+    <Cursor />
     <Header />
     <main>
       <article>
@@ -85,31 +86,6 @@ const ogImage = getImagePath({ url, site });
 
   updateTimeTheme();
 
-  document.addEventListener("mousemove", (e) => {
-	    const cur = document.getElementById("cur");
-	    if (cur) {
-	      cur.style.left = e.clientX + "px";
-	      cur.style.top = e.clientY + "px";
-	    }
-	  });
-	  document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-	      document.body.classList.add("cur-sm"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-	      document.body.classList.remove("cur-sm"),
-	    );
-	  });
-	  document.querySelectorAll("a:not([class]), .home-link, button, .item, .big-link").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-     	document.body.classList.remove("cur-sm"),
-	      document.body.classList.add("cur-lg"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-     	document.body.classList.add("cur-sm"),
-	      document.body.classList.remove("cur-lg"),
-	    );
-	  });
 </script>
 
 <style is:inline>
@@ -225,29 +201,3 @@ const ogImage = getImagePath({ url, site });
     }
   }
 </style>
-
-<script is:inline>
-	  document.addEventListener("mousemove", (e) => {
-	    const cur = document.getElementById("cur");
-	    if (cur) {
-	      cur.style.left = e.clientX + "px";
-	      cur.style.top = e.clientY + "px";
-	    }
-	  });
-	  document.querySelectorAll("a, button, .item").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-	      document.body.classList.add("cur-lg"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-	      document.body.classList.remove("cur-lg"),
-	    );
-	  });
-	  document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-	    el.addEventListener("mouseenter", () =>
-	      document.body.classList.add("cur-sm"),
-	    );
-	    el.addEventListener("mouseleave", () =>
-	      document.body.classList.remove("cur-sm"),
-	    );
-	  });
-</script>

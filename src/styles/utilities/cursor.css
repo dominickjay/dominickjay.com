@@ -5,32 +5,32 @@
   }
   /* ── CURSOR ── */
   #cur {
+    inline-size: var(--cursor-width, 25px);
+    block-size: var(--cursor-height, 25px);
+    border-radius: var(--cursor-radius, 50%);
     position: fixed;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
     background: var(--color-light);
     pointer-events: none;
     z-index: 9999;
-    top: -50%;
-    left: -50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+
+    transform: translate(-999px, -999px) translate(-50%, -50%);
     mix-blend-mode: difference;
+
     transition:
       width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
       height 0.22s cubic-bezier(0.23, 1, 0.32, 1);
   }
-  body.cur-link #cur {
-    width: 38px;
-    height: 38px;
+
+  body.cur-sm {
+    --cursor-width: 1px;
+    --cursor-height: 22px;
+    --cursor-radius: 1px;
   }
-  body.cur-sm #cur {
-    width: 1px;
-    height: 22px;
-    border-radius: 1px;
-  }
-  body.cur-lg #cur {
-    width: 43px;
-    height: 43px;
+
+  body.cur-lg {
+    --cursor-width: 43px;
+    --cursor-height: 43px;
   }
 }

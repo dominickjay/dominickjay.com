@@ -1,6 +1,7 @@
 ---
 // Astro.response.headers.set("Cache-Control", "p currently ublic, max-age=300, s-maxage=86400");
 import BaseHead from "../components/BaseHead.astro";
+import Cursor from "../components/Cursor.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BookItem from "../components/BookItem.astro";
@@ -294,7 +295,7 @@ const ogImage = getImagePath({ url, site });
     />
   </head>
   <body>
-    <div id="cur"></div>
+    <Cursor />
     <Header />
     <main>
       <div
@@ -483,37 +484,5 @@ const ogImage = getImagePath({ url, site });
       </div>
     </main>
     <Footer />
-  </body><script is:inline>
-    document.addEventListener("mousemove", (e) => {
-      const cur = document.getElementById("cur");
-      if (cur) {
-        cur.style.left = e.clientX + "px";
-        cur.style.top = e.clientY + "px";
-      }
-    });
-    document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-      el.addEventListener("mouseenter", () =>
-        document.body.classList.add("cur-sm"),
-      );
-      el.addEventListener("mouseleave", () =>
-        document.body.classList.remove("cur-sm"),
-      );
-    });
-    document
-      .querySelectorAll(
-        "a:not([class]), .home-link, button, .item, .big-link",
-      )
-      .forEach((el) => {
-        el.addEventListener(
-          "mouseenter",
-          () => document.body.classList.remove("cur-sm"),
-          document.body.classList.add("cur-lg"),
-        );
-        el.addEventListener(
-          "mouseleave",
-          () => document.body.classList.add("cur-sm"),
-          document.body.classList.remove("cur-lg"),
-        );
-      });
-  </script>
+  </body>
 </html>
