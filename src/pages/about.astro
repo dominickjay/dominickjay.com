@@ -6,11 +6,23 @@ import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
 import { ABOUT_INTRO, ABOUT_COMPANIES } from "../consts";
 import BigLink from "../components/BigLink.astro";
+import { sanityClient } from "sanity:client";
 
-const showMarquee = false;
-const contentIntro = ABOUT_INTRO
+type AboutPage = {
+  intro?: string;
+};
+
+const aboutPage = await sanityClient.fetch<AboutPage>(
+  `*[_type == "about" && _id == "about"][0]{
+  	about_intro
+  }`,
+);
+
+const contentIntro = (aboutPage?.about_intro ?? "")
   .replaceAll("[", '<span class="current-job">')
   .replaceAll("]", "</span>");
+
+// console.log(contentIntro);
 
 const companies = ABOUT_COMPANIES;
 ---

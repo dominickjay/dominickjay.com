@@ -56,8 +56,44 @@ const { artistBannerUrl = "" } = Astro.props;
   import { hashStringToHsl, rgbToHsl } from "../lib/color";
   import { extractImageColor } from "../lib/colorExtraction";
 
+  const DEFAULT_REFRESH_MS = 90000;
+  const MIN_REFRESH_MS = 30000;
+  const REFRESH_BUFFER_MS = 10000;
+  const MAX_REFRESH_MS = 10 * 60 * 1000;
+
   const toHttps = (url: string) =>
     url?.startsWith("http://") ? url.replace(/^http:\/\//i, "https://") : url;
+
+  function clampRefreshDelay(delay: number): number {
+      return Math.min(Math.max(delay, MIN_REFRESH_MS), MAX_REFRESH_MS);
+    }
+
+  function getTrackDurationMs(track: Record<string, unknown> | null): number | null {
+    const duration = track?.duration;
+    console.log('duration is: ' + duration);
+    if (typeof duration === "number" && Number.isFinite(duration) && duration > 0) {
+      return duration < 1000 ? duration * 1000 : duration;
+    }
+
+    if (typeof duration === "string") {
+      const parsed = Number(duration);
+      if (Number.isFinite(parsed) && parsed > 0) {
+        return parsed < 1000 ? parsed * 1000 : parsed;
+      }
+    }
+
+    return null;
+  }
+
+  function getRefreshDelayMs(track: Record<string, unknown> | null): number {
+    const duration = getTrackDurationMs(track);
+    console.log('duration is: ' + duration);
+    if (isNowPlayingAttr(track) && duration) {
+      return clampRefreshDelay(duration + REFRESH_BUFFER_MS);
+    }
+
+    return DEFAULT_REFRESH_MS;
+  }
 
   function isNowPlayingAttr(track: Record<string, unknown> | null): boolean {
     const attr = track?.["@attr"] as
@@ -73,7 +109,8 @@ const { artistBannerUrl = "" } = Astro.props;
       loading: true,
       fetchedBannerUrl: toHttps(initialBannerUrl ?? ""),
       extractedColor: null as string | null,
-      _pollId: null as ReturnType<typeof setInterval> | null,
+      _refreshTimeout: null as ReturnType<typeof setTimeout> | null,
+      _isDestroyed: false,
       _lastArtistFetched: "",
       _lastColorUrl: "",
       _trackAbort: null as AbortController | null,
@@ -121,7 +158,6 @@ const { artistBannerUrl = "" } = Astro.props;
 
       init() {
         this.fetchTrack();
-        this._pollId = setInterval(() => this.fetchTrack(), 90000);
 
         // @ts-ignore Alpine magic
         this.$watch("artistName", (val: string) => {
@@ -143,18 +179,39 @@ const { artistBannerUrl = "" } = Astro.props;
       },
 
       destroy() {
-        if (this._pollId !== null) clearInterval(this._pollId);
+      	this._isDestroyed = true;
+        this.clearRefreshTimeout();
         this._trackAbort?.abort();
         this._bannerAbort?.abort();
       },
 
+      clearRefreshTimeout() {
+      	console.log(this._refreshTimeout);
+        if (this._refreshTimeout !== null) {
+          clearTimeout(this._refreshTimeout);
+          this._refreshTimeout = null;
+        }
+      },
+
+      scheduleNextFetch() {
+        if (this._isDestroyed) return;
+
+        this.clearRefreshTimeout();
+        this._refreshTimeout = setTimeout(
+          () => this.fetchTrack(),
+          getRefreshDelayMs(this.track),
+        );
+      },
+
       fetchTrack() {
+        this.clearRefreshTimeout();
         this._trackAbort?.abort();
-        this._trackAbort = new AbortController();
+        const controller = new AbortController();
+        this._trackAbort = controller;
 
         fetch("/api/recent-tracks", {
           cache: "no-store",
-          signal: this._trackAbort.signal,
+          signal: controller.signal,
         })
           .then((r) => r.json())
           .then((data) => {
@@ -166,6 +223,10 @@ const { artistBannerUrl = "" } = Astro.props;
           .catch((error) => {
             if (error?.name === "AbortError") return;
             this.loading = false;
+          })
+          .finally(() => {
+          	console.log('controller is: ' + controller.signal);
+            if (!controller.signal.aborted) this.scheduleNextFetch();
           });
       },
 

@@ -19,7 +19,11 @@ export async function getArtistArt(
   const m = mbid?.trim();
   const hasKey = !!apiKey?.trim();
   if (!m || !hasKey) {
-    console.debug("[getArtistArt] skip:", { hasMbid: !!m, hasKey, mbid: mbid ?? null });
+    console.debug("[getArtistArt] skip:", {
+      hasMbid: !!m,
+      hasKey,
+      mbid: mbid ?? null,
+    });
     return "";
   }
   const key = apiKey!.trim();
@@ -41,12 +45,6 @@ export async function getArtistArt(
     const bg = data?.artistbackground?.[0]?.url?.trim();
     const thumb = data?.artistthumb?.[0]?.url?.trim();
     const out = bg ?? thumb ?? "";
-    console.debug("[getArtistArt] result:", {
-      mbid: m,
-      hasArtistbackground: !!data?.artistbackground?.length,
-      hasArtistthumb: !!data?.artistthumb?.length,
-      url: out ? `${out.slice(0, 50)}...` : "(empty)",
-    });
     return out;
   } catch (err) {
     console.debug("[getArtistArt] error:", err);

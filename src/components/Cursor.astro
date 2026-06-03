@@ -16,7 +16,8 @@
     document.addEventListener(
       "pointermove",
       (event) => {
-      	cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
+	     	cursor.style.left = `${event.clientX}px`;
+	      cursor.style.top = `${event.clientY}px`;
 
         const target = event.target instanceof Element ? event.target : null;
         const isLarge = !!target?.closest(largeTargets);

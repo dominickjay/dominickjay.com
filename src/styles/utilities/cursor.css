@@ -12,15 +12,18 @@
     background: var(--color-light);
     pointer-events: none;
     z-index: 9999;
-    top: 0;
-    left: 0;
-
-    transform: translate(-999px, -999px) translate(-50%, -50%);
+    top: -50%;
+    left: -50%;
+    transform: translate(-50%, -50%);
     mix-blend-mode: difference;
-
     transition:
       width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
       height 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body.cur-link {
+    --cursor-width: 38px;
+    --cursor-height: 38px;
   }
 
   body.cur-sm {
