@@ -117,7 +117,7 @@
 		  display: block;
 		}
 
-		/* ── :has() — checked card gets accent border ── */
+		/* ── :has() - checked card gets accent border ── */
 		.card-item:has(input:checked) label {
 		  border-color: var(--color-accent);
 		  box-shadow: 0 0 0 1px var(--color-accent), 0 4px 16px rgba(44, 83, 100, 0.12);
@@ -128,7 +128,7 @@
 		  color: var(--color-accent);
 		}
 
-		/* ── :has() — sibling cards dim when any is selected ── */
+		/* ── :has() - sibling cards dim when any is selected ── */
 		.cards-grid:has(input:checked) .card-item:not(:has(input:checked)) label {
 		  opacity: 0.3;
 		}

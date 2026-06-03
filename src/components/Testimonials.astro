@@ -33,22 +33,22 @@ const testimonials = TESTIMONIALS;
       // Freeze height so the page doesn't jump during the swap
       stage.style.minHeight = card.offsetHeight + 'px';
 
-      // Step 1 — exit: add .exiting, CSS animation plays
+      // Step 1 - exit: add .exiting, CSS animation plays
       card.classList.remove('stable');
       card.classList.add('exiting');
 
       card.addEventListener('animationend', () => {
-        // Step 2 — swap: update Alpine reactive data while opacity is 0
+        // Step 2 - swap: update Alpine reactive data while opacity is 0
         this.displayed = this.testimonials[this.current];
 
-        // Step 3 — enter: wait one tick for Alpine to flush the DOM,
+        // Step 3 - enter: wait one tick for Alpine to flush the DOM,
         // then play the enter animation
         this.\$nextTick(() => {
           card.classList.remove('exiting');
           card.classList.add('entering');
 
           card.addEventListener('animationend', () => {
-            // Step 4 — settle: back to normal flow
+            // Step 4 - settle: back to normal flow
             card.classList.remove('entering');
             card.classList.add('stable');
             stage.style.minHeight = card.offsetHeight + 'px';
@@ -101,7 +101,7 @@ const testimonials = TESTIMONIALS;
     <!--
     Single card. Alpine only ever touches `displayed` (the data).
     All animation is driven by class swaps + CSS keyframes,
-    sequenced by animationend — not setTimeout, not x-transition.
+    sequenced by animationend - not setTimeout, not x-transition.
   -->
     <div class="testimonials-stage" id="tStage">
       <div class="testimonial-card stable" id="tCard">

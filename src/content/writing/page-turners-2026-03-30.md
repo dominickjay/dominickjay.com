@@ -66,7 +66,7 @@ showCTA: false
         </div>
         <div class="body stacked">
           <span class="title h3">A Guide to the CSS Backdrop-Filter Property</span>
-          <p>A concise guide to CSS backdrop-filter for glassmorphism and translucent overlays — how it works, why order matters, and an interactive CodePen playground.</p>
+          <p>A concise guide to CSS backdrop-filter for glassmorphism and translucent overlays - how it works, why order matters, and an interactive CodePen playground.</p>
           <img src=https://www.alwaystwisted.com/images/articles/meta-images/backdrop-filter.png alt="" loading="lazy">
         </div>
       </a>
@@ -79,7 +79,7 @@ showCTA: false
         </div>
         <div class="body stacked">
           <span class="title h3">Finding an accessibility-first culture in npmx</span>
-          <p>Today is the alpha release of npmx — an alternative browser for the npm registry. Abbey Perini joined early and soon discovered accessibility was a deep part of the culture, right from the start, which was both refreshing and incredibly productive.</p>
+          <p>Today is the alpha release of npmx - an alternative browser for the npm registry. Abbey Perini joined early and soon discovered accessibility was a deep part of the culture, right from the start, which was both refreshing and incredibly productive.</p>
           <img src=https://piccalil.li/images/social-share/npmx-alpha-launch.png alt="" loading="lazy">
         </div>
       </a>
@@ -91,7 +91,7 @@ showCTA: false
           <span class="type eyebrow">sites</span>
         </div>
         <div class="body stacked">
-          <span class="title h3">© Jin Su Park — Oasis One</span>
+          <span class="title h3">© Jin Su Park - Oasis One</span>
           <p>Woah. Really nice spin on a portfolio site and definetely one of the more unique versions I've seen in a long time.</p>
           <img src=https://jinsupark.com/ogImage.jpg alt="" loading="lazy">
         </div>

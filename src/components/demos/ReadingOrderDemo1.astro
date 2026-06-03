@@ -5,14 +5,14 @@ import domTheme from "../../styles/dom-shiki-theme.json";
 
 const theme = domTheme as any;
 
-const problemCss = `/* Visual order achieved with CSS order — */
+const problemCss = `/* Visual order achieved with CSS order - */
 /* but DOM (and focus) order is unchanged */
 
 .card-a { order: 2; } /* DOM: 1st, visual: 2nd */
 .card-b { order: 3; } /* DOM: 2nd, visual: 3rd */
 .card-cta { order: 1; } /* DOM: 3rd, visual: 1st ⚠️ */`;
 
-const solutionCss = `/* Same visual order — but now focus matches */
+const solutionCss = `/* Same visual order - but now focus matches */
 .cards {
   display: flex;
   reading-flow: flex-visual; /* ← on the container */
@@ -122,7 +122,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       <strong>What sighted users see:</strong> CTA → Article A → Article B<br />
       <strong>What keyboard/screen reader users get:</strong> Article A → Article
       B → CTA<br /><br />
-      The CTA appears first visually via <code>order: 1</code> — but it's third in
+      The CTA appears first visually via <code>order: 1</code> - but it's third in
       the DOM. Tab key follows the DOM.
     </div>
 
@@ -141,7 +141,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       </div>
       <div class="prose-notice" data-variant="warning" id="verdict-problem">
         Focus follows DOM order. The CTA appears visually first but receives
-        focus last — a WCAG 2.4.3 failure.
+        focus last - a WCAG 2.4.3 failure.
       </div>
     </div>
 
@@ -156,7 +156,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   <div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
     <div class="legend">
       <div class="legend-item">
-        Adding reading-order: auto to the flex container tells the browser to follow visual order for focus and reading too. Now DOM order, focus order, and visual order all match. Tab through — the sequence is consistent.
+        Adding reading-order: auto to the flex container tells the browser to follow visual order for focus and reading too. Now DOM order, focus order, and visual order all match. Tab through - the sequence is consistent.
       </div>
     </div>
 
@@ -305,7 +305,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   window.switchTab = switchTab;
 
   // ── Focus tracking ─────────────────────────────────────────────────────────
-  // Simulates the focus indicator in the tracker — also works with real tab
+  // Simulates the focus indicator in the tracker - also works with real tab
   const focusMaps: Record<string, { step: string; panel: string }> = {
     "link-a": { step: "step-p-a", panel: "problem" },
     "link-b": { step: "step-p-b", panel: "problem" },
@@ -571,7 +571,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     }
   }
 
-  /* The DOM order: A=1, B=2, CTA=3 — but visually CTA appears first */
+  /* The DOM order: A=1, B=2, CTA=3 - but visually CTA appears first */
   .cards-problem .card-a {
     order: 2;
   }

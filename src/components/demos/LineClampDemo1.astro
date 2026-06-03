@@ -24,7 +24,7 @@ import CardDemo from "../CardDemo.astro";
     <div class="card-state">
       <span class="card-state-dot bad" id="d1-dot"></span>
       <span class="card-state-label bad" id="d1-state-label"
-        >Full text — card height driven by content</span
+        >Full text - card height driven by content</span
       >
     </div>
     <CardDemo
@@ -51,8 +51,8 @@ import CardDemo from "../CardDemo.astro";
         d1Dot.className = "card-state-dot " + (on ? "good" : "bad");
         d1Label.className = "card-state-label " + (on ? "good" : "bad");
         d1Label.textContent = on
-          ? "Clamped to 3 lines — consistent card height"
-          : "Full text — card height driven by content";
+          ? "Clamped to 3 lines - consistent card height"
+          : "Full text - card height driven by content";
       });
     });
   });

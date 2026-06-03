@@ -22,7 +22,7 @@
         }
       }
 
-      /* z-index stacking context only — no layout */
+      /* z-index stacking context only - no layout */
       .testimonials-inner {
         --gutter: var(--space-m);
 

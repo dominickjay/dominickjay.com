@@ -33,7 +33,7 @@ import { Picture } from "astro:assets";
 
 ## The Silent Killer of Web Performance
 
-Images are patient. They'll wait until the last possible moment to load, and when they do, they'll take exactly as much space as their natural dimensions require — regardless of what's already on the page. For users, that means content jumping. For Core Web Vitals, it means a CLS hit. For you, it means a client bug ticket.
+Images are patient. They'll wait until the last possible moment to load, and when they do, they'll take exactly as much space as their natural dimensions require - regardless of what's already on the page. For users, that means content jumping. For Core Web Vitals, it means a CLS hit. For you, it means a client bug ticket.
 
 Two lines of CSS fix it. The demo below shows exactly what's happening and why.
 
@@ -44,11 +44,11 @@ This is the problem we're trying to solve	with Object-Fit. It's quite prevalent 
 <InlineCallout
 	tagline="New to Object-Fit?"
 	title="CSS Object-Fit Property"
-	description="This post picks up from the CSS Object-Fit Property starter guide — worth a read if you want the foundations before diving into CLS and aspect ratios."
+	description="This post picks up from the CSS Object-Fit Property starter guide - worth a read if you want the foundations before diving into CLS and aspect ratios."
 	slug="/writing/css-object-fit"
 />
 
-Images without fixed dimensions cause content to jump as they load — a Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it happen, then see how two lines of CSS prevent it entirely.
+Images without fixed dimensions cause content to jump as they load - a Cumulative Layout Shift (CLS) failure. Hit reload on each panel to watch it happen, then see how two lines of CSS prevent it entirely.
 
 <ObjectFitDemo1 />
 
@@ -65,7 +65,7 @@ It's even more beneficial when you use this alongsite its companion property, `o
     class="h-full w-full object-cover object-center absolute"
     src="/images/profile-image.png"
     formats={["avif", "webp"]}
-    alt="Profile photo cropped at center — the top of the head is cut off"
+    alt="Profile photo cropped at center - the top of the head is cut off"
     loading="eager"
     height={894}
     width={906}
@@ -82,9 +82,9 @@ To really drill down into it, here's a small demo that shows a few different ima
 
 ## Two properties, not one
 
-`object-fit` controls how an image fills its container. It doesn't control how big that container is before the image loads — and that's the gap that causes layout shift.
+`object-fit` controls how an image fills its container. It doesn't control how big that container is before the image loads - and that's the gap that causes layout shift.
 
-Without a fixed container size, the browser doesn't know how much vertical space to reserve for an image slot. It allocates nothing, renders the surrounding content, and then reshuffles everything when the image arrives. That's CLS — and object-fit alone can't prevent it.
+Without a fixed container size, the browser doesn't know how much vertical space to reserve for an image slot. It allocates nothing, renders the surrounding content, and then reshuffles everything when the image arrives. That's CLS - and object-fit alone can't prevent it.
 The fix is aspect-ratio on the container:
 
 ```css
@@ -107,7 +107,7 @@ You might have seen an old classic at use for this: the padding hack, where a pe
 
 ## The performance upside
 
-Once the container has a fixed ratio, you know its exact display dimensions at every breakpoint. That's not just useful for layout stability — it means you can serve precisely sized images. Using an aspect ratio of 16/9 within a container that's 600px wide, you know that the display size is 600x338px, so you can then use `srcset` to serve an image that works with those dimensions, rather than downloading a 1200px original and letting `object-fit: cover` deal with the crop in the browser.
+Once the container has a fixed ratio, you know its exact display dimensions at every breakpoint. That's not just useful for layout stability - it means you can serve precisely sized images. Using an aspect ratio of 16/9 within a container that's 600px wide, you know that the display size is 600x338px, so you can then use `srcset` to serve an image that works with those dimensions, rather than downloading a 1200px original and letting `object-fit: cover` deal with the crop in the browser.
 
 Without using a fixed ratio, there's guesswork. Serving a large image and then hoping/praying that the browser crops it correctly, or at least to a somewhat passable degree.
 
@@ -133,6 +133,6 @@ The code aboves has width and height attributes on the `<img>` element to help e
 
 ## Go fix your images
 
-If you've got a card grid in production, open DevTools and run a Lighthouse audit. A CLS score above 0.1 on image-heavy pages is almost always this — unsized images loading into unsized containers. Two properties, five minutes, and you can wrap it up.
+If you've got a card grid in production, open DevTools and run a Lighthouse audit. A CLS score above 0.1 on image-heavy pages is almost always this - unsized images loading into unsized containers. Two properties, five minutes, and you can wrap it up.
 
 `aspect-ratio` reserves the space. `object-fit: cover` fills it cleanly. Add `width`, `height`, and `loading="lazy"` while you're there. That's the whole pattern. No need for a library, or build step, or a polyfill.

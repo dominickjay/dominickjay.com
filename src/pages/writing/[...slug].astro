@@ -320,7 +320,7 @@ if (post.data.showCTA !== undefined && availability === "available") {
     }
   }
 
-  // Event delegation — one listener covers all copy buttons
+  // Event delegation - one listener covers all copy buttons
   document.addEventListener("click", (e) => {
     const btn = e.target.closest(".code-block-header__copy");
     if (btn) handleCopy(btn);

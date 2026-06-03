@@ -48,7 +48,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
   <!-- ═══ BAD ═══ -->
   <div class="panel active flow" id="panel-bad" role="tabpanel">
     <div class="bad prose-notice" data-variant="warning">
-      <strong>No constraints.</strong> Images load at their natural sizes — a tall
+      <strong>No constraints.</strong> Images load at their natural sizes - a tall
       portrait image gets a tall slot, a wide landscape gets a wide one. As each image
       arrives, it pushes everything below it down. The text you're reading moves.
       That's CLS.
@@ -77,7 +77,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">20 Oct 2025 · Article</p>
-          <h3 class="card-title">Portrait image — 2:3 ratio</h3>
+          <h3 class="card-title">Portrait image - 2:3 ratio</h3>
           <p class="card-excerpt">
             This content jumps when the tall image above it loads in.
           </p>
@@ -95,7 +95,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">18 Oct 2025 · Article</p>
-          <h3 class="card-title">Square image — 1:1 ratio</h3>
+          <h3 class="card-title">Square image - 1:1 ratio</h3>
           <p class="card-excerpt">
             A different height to its neighbour. The grid is already broken.
           </p>
@@ -113,7 +113,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">15 Oct 2025 · Article</p>
-          <h3 class="card-title">Wide landscape — 16:9 ratio</h3>
+          <h3 class="card-title">Wide landscape - 16:9 ratio</h3>
           <p class="card-excerpt">
             Loads first because it's small. But the row height is wrong.
           </p>
@@ -131,7 +131,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">12 Oct 2025 · Article</p>
-          <h3 class="card-title">Another tall image — 3:4 ratio</h3>
+          <h3 class="card-title">Another tall image - 3:4 ratio</h3>
           <p class="card-excerpt">
             The last to arrive. Watch the grid shift one final time.
           </p>
@@ -154,7 +154,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       <code>aspect-ratio: 16 / 9</code> on the container tells the browser exactly
       how tall each slot will be before any image arrives. <code
         >object-fit: cover</code
-      > handles the cropping. Images load into pre-reserved space — no shift, no jump.
+      > handles the cropping. Images load into pre-reserved space - no shift, no jump.
     </div>
 
     <div class="controls">
@@ -180,9 +180,9 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">20 Oct 2025 · Article</p>
-          <h3 class="card-title">Portrait image — 2:3 ratio</h3>
+          <h3 class="card-title">Portrait image - 2:3 ratio</h3>
           <p class="card-excerpt">
-            Same tall image — but the slot is already 16:9. It loads into
+            Same tall image - but the slot is already 16:9. It loads into
             reserved space.
           </p>
         </div>
@@ -199,7 +199,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">18 Oct 2025 · Article</p>
-          <h3 class="card-title">Square image — 1:1 ratio</h3>
+          <h3 class="card-title">Square image - 1:1 ratio</h3>
           <p class="card-excerpt">
             object-fit: cover crops it to 16:9. No layout disruption at all.
           </p>
@@ -217,7 +217,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">15 Oct 2025 · Article</p>
-          <h3 class="card-title">Wide landscape — 16:9 ratio</h3>
+          <h3 class="card-title">Wide landscape - 16:9 ratio</h3>
           <p class="card-excerpt">
             Loads first. Space was already there. Nothing moves.
           </p>
@@ -235,7 +235,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
         </div>
         <div class="card-body">
           <p class="card-label">12 Oct 2025 · Article</p>
-          <h3 class="card-title">Another tall image — 3:4 ratio</h3>
+          <h3 class="card-title">Another tall image - 3:4 ratio</h3>
           <p class="card-excerpt">
             The last to arrive. The grid hasn't moved once.
           </p>
@@ -354,7 +354,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
               entry.innerHTML = `
                 <span class="jump-pill shift">Shift</span>
-                <span>Card ${i + 1} loaded — layout moved <strong>${Math.round(shift)}px</strong>. Running CLS: <strong>${totalCLS}</strong></span>
+                <span>Card ${i + 1} loaded - layout moved <strong>${Math.round(shift)}px</strong>. Running CLS: <strong>${totalCLS}</strong></span>
               `;
               score.textContent = totalCLS;
               score.className =
@@ -362,18 +362,18 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
             } else {
               entry.innerHTML = `
                 <span class="jump-pill stable">✓ no shift</span>
-                <span>Card ${i + 1} loaded — no significant layout shift.</span>
+                <span>Card ${i + 1} loaded - no significant layout shift.</span>
               `;
             }
             log.appendChild(entry);
           });
         } else {
-          // Good panel — just log stability
+          // Good panel - just log stability
           const entry = document.createElement("div");
           entry.className = "jump-entry";
           entry.innerHTML = `
             <span class="jump-pill stable">Stable</span>
-            <span>Card ${i + 1} loaded — no layout shift detected.</span>
+            <span>Card ${i + 1} loaded - no layout shift detected.</span>
           `;
           log.appendChild(entry);
 
@@ -394,7 +394,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
       score.className = "cls-score " + (finalScore > 0.1 ? "high" : "low");
       if (isBad && shiftCount === 0) {
         log.innerHTML =
-          '<span class="log-empty">Images may have been cached — shifts not detected. Try a hard refresh.</span>';
+          '<span class="log-empty">Images may have been cached - shifts not detected. Try a hard refresh.</span>';
       }
     }, maxDelay + 400);
   }
@@ -530,7 +530,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
 
   /* BAD: no sizing constraints on image container */
   .card-bad .card-img-wrap {
-    /* nothing — images load at natural size */
+    /* nothing - images load at natural size */
     overflow: hidden;
   }
 
@@ -585,7 +585,7 @@ const cssHighlighted = await codeToHtml(goodPanelCss, {
     line-height: 1.6;
   }
 
-  /* Loading state — hide image until JS reveals it */
+  /* Loading state - hide image until JS reveals it */
   .card-img-wrap img.loading {
     opacity: 0;
   }

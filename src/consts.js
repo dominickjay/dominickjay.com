@@ -115,7 +115,7 @@ export const TESTIMONIALS = [
     role: "Project Manager",
     company: "Series Eight",
     description:
-      "Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates — he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
+      "Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates - he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
   },
   {
     id: "testimonial-4",

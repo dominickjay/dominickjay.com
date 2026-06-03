@@ -5,7 +5,7 @@ import domTheme from "../../styles/dom-shiki-theme.json";
 
 const theme = domTheme as any;
 
-const problemCss = `/* Visual order achieved with CSS order — */
+const problemCss = `/* Visual order achieved with CSS order - */
 /* but DOM (and focus) order is unchanged */
 
 .card-a { order: 2; } /* DOM: 1st, visual: 2nd */
@@ -58,7 +58,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     </div>
   </div>
   <p style="font-size: 14px; margin-block-end: 2rem;">
-    DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) — CTA is last
+    DOM order: Feature(1) · Article A(2) · Article B(3) · CTA(4) - CTA is last
     in the DOM but placed top-left visually.
   </p>
 
@@ -90,11 +90,11 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
       <strong>The problem:</strong> CTA is placed top-left via <code
         >grid-template-areas</code
       >, but it's the <strong>4th item in the DOM</strong>. Tab key ignores grid
-      placement entirely — it follows DOM order. A keyboard user hits Feature →
+      placement entirely - it follows DOM order. A keyboard user hits Feature →
       Article A → Article B → CTA: the opposite of what the layout implies.
     </div>
 
-    <p class="eyebrow">Live layout — try tabbing through</p>
+    <p class="eyebrow">Live layout - try tabbing through</p>
 
     <div class="editorial-grid" id="grid-bad">
       <!-- DOM 1st -->
@@ -145,7 +145,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         >
       </article>
 
-      <!-- DOM 4th — but visual top-left via grid-area: cta -->
+      <!-- DOM 4th - but visual top-left via grid-area: cta -->
       <article class="cell cell-cta">
         <span class="dom-tag">DOM: 4th</span>
         <span class="cell-label">Promoted</span>
@@ -169,7 +169,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         <span class="t-step" id="bs-cta">CTA (DOM 4)</span>
       </div>
       <div class="prose-notice" data-variant="warning">
-        Focus reaches the CTA last — but it's visually first. A keyboard user
+        Focus reaches the CTA last - but it's visually first. A keyboard user
         navigates the grid in a sequence that contradicts what they see. WCAG
         2.4.3 failure.
       </div>
@@ -186,15 +186,15 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
   <div class="demo-panel panel-good" id="panel-good" role="tabpanel">
     <div class="prose-notice" data-variant="note">
       <strong>The fix:</strong> Add <code>reading-flow: grid-rows</code> to the container.
-      The browser now reads focus order row by row, matching the visual grid — CTA
+      The browser now reads focus order row by row, matching the visual grid - CTA
       → Feature → Article A → Article B. DOM order is unchanged; only focus order
       is corrected.
     </div>
 
-    <p class="eyebrow">Live layout — try tabbing through</p>
+    <p class="eyebrow">Live layout - try tabbing through</p>
 
     <div class="editorial-grid grid-solution" id="grid-good">
-      <!-- DOM 1st — but reading-flow: grid-rows puts focus on CTA first (top-left) -->
+      <!-- DOM 1st - but reading-flow: grid-rows puts focus on CTA first (top-left) -->
       <article class="cell cell-feature">
         <span class="dom-tag">DOM: 1st</span>
         <span class="cell-label">Feature</span>
@@ -263,7 +263,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
         <span class="t-step" id="gs-artb">Article B (visual btm-right)</span>
       </div>
       <div class="prose-notice" data-variant="tip">
-        Focus now moves left-to-right, top-to-bottom — exactly how a sighted
+        Focus now moves left-to-right, top-to-bottom - exactly how a sighted
         user reads the grid. DOM order is unchanged; <code>reading-flow</code> corrects
         the accessibility layer only.
       </div>
@@ -706,7 +706,7 @@ const solutionCodeHighlighted = await codeToHtml(solutionCss, {
     outline: none;
   }
 
-  /* Focus rings — orange for broken, green for fixed */
+  /* Focus rings - orange for broken, green for fixed */
   .panel-bad .cell-link:focus-visible {
     box-shadow:
       0 0 0 2px var(--bg),

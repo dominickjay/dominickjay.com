@@ -16,7 +16,7 @@ showCTA: false
         </div>
         <div class="body stacked">
           <span class="title h3">CSSwind | CSS and Tailwind Quiz | Frontend Challenge</span>
-          <p>Test your CSS and Tailwind knowledge — choose your difficulty, question count, and mode, then type the answers from memory.</p>
+          <p>Test your CSS and Tailwind knowledge - choose your difficulty, question count, and mode, then type the answers from memory.</p>
           <img src=https://www.csswind.com/og.png alt="" loading="lazy">
         </div>
       </a>
@@ -93,7 +93,7 @@ showCTA: false
           <span class="type eyebrow">articles</span>
         </div>
         <div class="body stacked">
-          <span class="title h3">How To Use Standard HTML Video &amp; Audio Lazy-Loading on the Web Today — Squarespace Engineering Blog</span>
+          <span class="title h3">How To Use Standard HTML Video &amp; Audio Lazy-Loading on the Web Today - Squarespace Engineering Blog</span>
           <p>HTML video and audio lazy loading is now a web standard and quickly gaining support in all major browsers.</p>
           <img src=http://static1.squarespace.com/static/56ab961ecbced617ccd2461e/56aba24fc6fc08c6cb69a290/69c72ab8a96ffb6f1b96b674/1775662204986/lazy-article-2-preview.png?format=1500w alt="" loading="lazy">
         </div>

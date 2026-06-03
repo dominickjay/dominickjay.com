@@ -88,7 +88,7 @@
 		  gap: var(--space-s);
 		}
 
-		/* ── :has() — layout switches based on child count ── */
+		/* ── :has() - layout switches based on child count ── */
 		.qty-grid:has(.qty-card:nth-child(3)) {
 		  grid-template-columns: repeat(3, 1fr);
 		}
@@ -152,7 +152,7 @@
 		}
 	}
 
-	/* Outside @scope — global so JS-created cards inherit it */
+	/* Outside @scope - global so JS-created cards inherit it */
 	:global(.has-demo-3 .qty-card) {
 	  background: var(--surface-2);
 	  border: 1px solid var(--border);

@@ -15,7 +15,7 @@
     <div class="field-group">
       <label class="eyebrow" for="demo-message">Message</label>
       <textarea id="demo-message" name="message" placeholder="What are you building?" autocomplete="off"></textarea>
-      <span class="field-hint">Optional — tell us more</span>
+      <span class="field-hint">Optional - tell us more</span>
     </div>
 
     <div class="form-footer">
@@ -91,7 +91,7 @@
 		  box-shadow: 0 0 0 3px rgba(44, 83, 100, 0.12);
 		}
 
-		/* ── :has() — label colour reacts to field validity ── */
+		/* ── :has() - label colour reacts to field validity ── */
 		.field-group:has(input:not(:placeholder-shown):valid) label {
 		  color: var(--valid);
 		}
@@ -100,7 +100,7 @@
 		  color: var(--invalid);
 		}
 
-		/* ── :has() — input border reacts to validity ── */
+		/* ── :has() - input border reacts to validity ── */
 		.field-group input:not(:placeholder-shown):valid {
 		  border-color: var(--valid);
 		}
@@ -109,7 +109,7 @@
 		  border-color: var(--invalid);
 		}
 
-		/* ── :has() — hint appears on focus ── */
+		/* ── :has() - hint appears on focus ── */
 		.field-hint {
 		  font-family: var(--font-mono);
 		  font-size: 0.85rem;
@@ -128,7 +128,7 @@
 		  color: var(--invalid);
 		}
 
-		/* ── :has() — submit disabled when any input invalid ── */
+		/* ── :has() - submit disabled when any input invalid ── */
 		.form-footer {
 		  display: flex;
 		  align-items: center;
@@ -160,7 +160,7 @@
 		  cursor: not-allowed;
 		}
 
-		/* ── :has() — status message reacts to form state ── */
+		/* ── :has() - status message reacts to form state ── */
 		.form-status {
 		  font-family: var(--font-mono);
 		  font-size: 0.68rem;
