@@ -80,7 +80,7 @@ export async function blogRenderer({
               lineHeight: 1.6,
               fontFamily: "Tiempos",
               fontWeight: 600,
-              color: "rgba(251, 248, 239, 0.75)",
+              color: "rgba(251, 248, 239, 0.85)",
             }}
           >
             {description}
