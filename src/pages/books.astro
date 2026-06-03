@@ -59,7 +59,6 @@ async function hardcoverGraphQL(
   const cacheKey = JSON.stringify({ query, variables });
   const cached = getCached(cacheKey);
   if (cached) {
-    console.log("💾 Using cached response for query");
     return cached;
   }
 
@@ -98,7 +97,6 @@ async function hardcoverGraphQL(
 
   const json = await response.json();
   setCached(cacheKey, json);
-  // console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
   return json;
 }
 
@@ -261,7 +259,6 @@ let booksByYear = allBooks.reduce((acc, entry) => {
           author: getPrimaryAuthor(entry.book),
           finished: entry.user_book_reads?.[0]?.finished_at,
         });
-        // console.log(acc[year]);
       }
     }
   });

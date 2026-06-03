@@ -47,7 +47,6 @@ if (topTracksData?.error) {
   process.exit(1);
 }
 const topTracksJson = JSON.stringify(topTracksData);
-console.log("Top tracks JSON length:", topTracksJson?.length ?? 0);
 
 const topArtistsData = await topArtistsRes.json();
 if (topArtistsData?.error) {
@@ -59,8 +58,6 @@ if (topArtistsData?.error) {
   process.exit(1);
 }
 const artists = topArtistsData?.topartists?.artist ?? [];
-console.log(artists);
-console.log("Artists count:", artists.length);
 
 function toImageArray(img) {
   if (!img) return [];
@@ -129,7 +126,6 @@ try {
     topTracksJson,
     recentArtistsJson,
   });
-  console.log("Music cache sync complete.");
 } catch (e) {
   console.error("Sanity write failed:", e.message || e);
   process.exit(1);

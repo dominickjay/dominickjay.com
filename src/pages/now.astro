@@ -179,7 +179,6 @@ try {
     traktTitle = parsed.title ?? null;
     traktSeason = parsed.season;
     traktEpisode = parsed.episode;
-    console.log("[Now] Trakt Sanity fetch succeeded", { traktTitle, traktSeason, traktEpisode });
   }
 } catch (err) {
   console.warn("[Now] Trakt Sanity fetch failed", err);

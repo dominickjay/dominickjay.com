@@ -61,7 +61,6 @@ const maskId = `mask-${id}`;
 	    const key = `checklist-${cb.id}`;
 	    cb.checked = localStorage.getItem(key) === "true";
 	    cb.addEventListener("change", () => {
-	      console.log(cb.checked);
 	      localStorage.setItem(key, cb.checked.toString());
 	    });
 	  });

@@ -39,7 +39,6 @@ async function hardcoverGraphQL(query: string, variables: any, useAuth = false) 
   const cacheKey = JSON.stringify({ query, variables });
   const cached = getCached(cacheKey);
   if (cached) {
-    console.log("💾 Using cached response for query");
     return cached;
   }
 
@@ -59,8 +58,6 @@ async function hardcoverGraphQL(query: string, variables: any, useAuth = false) 
     headers,
     body: JSON.stringify({ query, variables }),
   });
-
-  console.log("🌐 GraphQL Response status:", response.status);
 
   if (!response.ok) {
     const errorText = await response.text();
