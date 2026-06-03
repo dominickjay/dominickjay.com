@@ -1,0 +1,69 @@
+---
+import type { MarkdownHeading } from "astro";
+
+type Props = {
+	headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
+---
+
+{
+	tocHeadings.length > 1 && (
+		<nav class="toc stacked" id="table-of-contents" aria-label="Table Of Contents">
+			<span class="eyebrow">
+				Contents:{" "}
+			</span>
+			<ol class="list stacked">
+				{tocHeadings.map((h) => (
+					<li class="item" data-target={`#${h.slug}`}>
+						<a class="link" href={`#${h.slug}`}>{h.text}</a>
+					</li>
+				))}
+			</ol>
+		</nav>
+	)
+}
+
+<script is:inline>
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				const headingFragment = `#${entry.target.id}`;
+				const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
+
+				if (!tocItem) return;
+
+				if (entry.isIntersecting) {
+					// Remove active class from any previously active items
+					document
+						.querySelectorAll(".active")
+						.forEach((item) => item.classList.remove("active"));
+
+					// Add active class to current item
+					tocItem.classList.add("active");
+				}
+			});
+		},
+		{
+			root: null,
+			rootMargin: "0px", // Adds some margin to when the heading is considered "visible"
+			threshold: 0.05, // Trigger when heading is 50% visible
+		},
+	);
+
+	// Wait for DOM to be ready
+	document.addEventListener("DOMContentLoaded", () => {
+		// Get all h2 headings
+		const headings = document.querySelectorAll("h2");
+
+		// Observe each heading
+		headings.forEach((heading) => {
+			if (heading.id) {
+				// Only observe headings with IDs
+				observer.observe(heading);
+			}
+		});
+	});
+</script>

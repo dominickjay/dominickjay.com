@@ -1,0 +1,18 @@
+@layer layout {
+  html {
+    --container-width: 1456px;
+    --real-container-width: min(100vw, var(--container-width));
+    --container-padding: clamp(9px, calc(20vw - 64px), 32px);
+  }
+
+  .container {
+    --_container-width: var(--container-width);
+    --real-container-width: min(100vw, var(--_container-width));
+    --_container-padding: var(--container-padding);
+
+    padding-inline: var(--_container-padding);
+    margin-inline: auto;
+    inline-size: 100%;
+    max-inline-size: var(--_container-width);
+  }
+}

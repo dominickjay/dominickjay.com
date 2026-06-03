@@ -1,0 +1,136 @@
+import { createClient } from "@sanity/client";
+
+const LAST_FM_USER = "zerosandones217";
+const projectId = process.env.SANITY_PROJECT_ID?.trim();
+const dataset = process.env.SANITY_DATASET?.trim();
+const token = process.env.SANITY_API_TOKEN?.trim();
+const apiKey = process.env.LAST_FM_API_KEY?.trim();
+const fanartApiKey = process.env.FANART_API_KEY?.trim();
+
+if (!projectId) {
+  console.error("Missing SANITY_PROJECT_ID");
+  process.exit(1);
+}
+if (!apiKey) {
+  console.error("Missing LAST_FM_API_KEY");
+  process.exit(1);
+}
+if (!fanartApiKey) {
+  console.error("Missing FANART_API_KEY");
+  process.exit(1);
+}
+
+const client = createClient({
+  projectId,
+  dataset,
+  apiVersion: "2024-01-01",
+  token,
+  useCdn: false,
+});
+
+const [topTracksRes, topArtistsRes] = await Promise.all([
+  fetch(
+    `https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=${LAST_FM_USER}&period=7day&api_key=${apiKey}&limit=20&format=json`,
+  ),
+  fetch(
+    `https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&user=${LAST_FM_USER}&period=7day&api_key=${apiKey}&limit=20&format=json`,
+  ),
+]);
+
+const topTracksData = await topTracksRes.json();
+if (topTracksData?.error) {
+  console.error(
+    "Last.fm top tracks error:",
+    topTracksData.error,
+    topTracksData.message,
+  );
+  process.exit(1);
+}
+const topTracksJson = JSON.stringify(topTracksData);
+console.log("Top tracks JSON length:", topTracksJson?.length ?? 0);
+
+const topArtistsData = await topArtistsRes.json();
+if (topArtistsData?.error) {
+  console.error(
+    "Last.fm top artists error:",
+    topArtistsData.error,
+    topArtistsData.message,
+  );
+  process.exit(1);
+}
+const artists = topArtistsData?.topartists?.artist ?? [];
+console.log(artists);
+console.log("Artists count:", artists.length);
+
+function toImageArray(img) {
+  if (!img) return [];
+  return Array.isArray(img) ? img : [img];
+}
+
+async function getArtistArtFromFanart(mbid) {
+  if (!mbid?.trim() || !fanartApiKey) return null;
+  try {
+    const url = `https://webservice.fanart.tv/v3/music/${encodeURIComponent(mbid.trim())}?api_key=${encodeURIComponent(fanartApiKey)}`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json();
+    const bg = data?.artistthumb?.[0]?.url?.trim();
+    if (bg) return [{ "#text": bg, size: "large" }];
+  } catch (_) {}
+  return null;
+}
+
+const MUSICBRAINZ_UA =
+  "dominickjay.com-syncMusic/1.0 (https://dominickjay.com)";
+
+async function getMbidByArtistName(artistName) {
+  const q = artistName?.trim();
+  if (!q) return null;
+  try {
+    const url = `https://musicbrainz.org/ws/2/artist/?query=${encodeURIComponent(q)}&fmt=json&limit=5`;
+    const res = await fetch(url, { headers: { "User-Agent": MUSICBRAINZ_UA } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const first = data?.artists?.[0];
+    return first?.id?.trim() ?? null;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function enrichArtistImage(artistName) {
+  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artistName)}&username=${LAST_FM_USER}&api_key=${apiKey}&format=json`;
+  const data = await fetch(url).then((r) => r.json());
+  if (data.error || !data.artist) return null;
+  let mbid = data.artist?.mbid?.trim();
+  if (!mbid) {
+    mbid = await getMbidByArtistName(artistName);
+  }
+  if (!mbid) return null;
+  return getArtistArtFromFanart(mbid);
+}
+
+const enrichedArtists = await Promise.all(
+  artists.map(async (a) => {
+    const image = a.mbid?.trim() ? await getArtistArtFromFanart(a.mbid) : null;
+    return { ...a, image: image ?? [] };
+  }),
+);
+
+const recentArtistsJson = JSON.stringify({
+  topartists: { artist: enrichedArtists },
+});
+
+try {
+  await client.createOrReplace({
+    _id: "global-music-cache",
+    _type: "musicCache",
+    lastUpdated: new Date().toISOString(),
+    topTracksJson,
+    recentArtistsJson,
+  });
+  console.log("Music cache sync complete.");
+} catch (e) {
+  console.error("Sanity write failed:", e.message || e);
+  process.exit(1);
+}

@@ -1,0 +1,39 @@
+---
+/** @type {{ heading: string; text: string; italicIndices?: number[] }} */
+const { heading, text, italicIndices = [] } = Astro.props;
+
+/** @type {Array<{ text: string; italic: boolean }>} */
+const words = heading.split(/\s+/).map((word: string, i: number) => ({
+  text: word,
+  italic: italicIndices.includes(i),
+}));
+---
+
+<div class="inline-heading-text">
+	<h1
+		id="headingTagline"
+		class="heading-tagline"
+	 	data-scramble-on-load
+	>
+	  {
+	   words.map((w: { text: string; italic: boolean }, i: number) => (
+	      <>
+	        <span
+	          class:list={["sw", w.italic && "italic gradient-text"]}
+	          style={
+	            w.italic ? "background-image: var(--color-gradient)" : undefined
+	          }
+	          data-scramble={w.text}
+	        >
+	          {w.text}
+	        </span>
+	        {i < words.length - 1 ? " " : ""}
+	      </>
+	    ))
+	  }
+	</h1>
+
+	<h2 class="intro">
+	  {text}
+	</h2>
+</div>

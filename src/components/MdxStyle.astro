@@ -1,0 +1,7 @@
+---
+interface Props {
+  css: string;
+}
+const { css } = Astro.props;
+---
+<style set:html={css} />

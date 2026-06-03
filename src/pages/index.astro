@@ -1,0 +1,99 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Home.astro";
+import Header from "../components/Header.astro";
+import Pattern from "../components/Pattern.astro";
+import InfoPanel from "../components/InfoPanel.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
+import GrowthPanel from "../components/GrowthPanel.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import Profile from "../components/Profile.astro";
+import InlineHeadingText from "../components/InlineHeadingText.astro";
+import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
+import Footer from "../components/Footer.astro";
+
+type PostWithLastModified = {
+  post: CollectionEntry<'writing'>;
+  lastModified: Date | undefined;
+};
+
+let rawPosts = [];
+
+if (import.meta.env.ENVIRONMENT === "production") {
+  rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
+} else {
+  rawPosts = await getCollection("writing");
+}
+
+const postsWithLastModified = await Promise.all(
+  rawPosts.map(async (post) => {
+    const { remarkPluginFrontmatter } = await render(post);
+    const lastModified = remarkPluginFrontmatter?.lastModified
+      ? new Date(remarkPluginFrontmatter.lastModified)
+      : undefined;
+    return { post, lastModified };
+  }),
+);
+
+const sortDate = ({ post, lastModified }: PostWithLastModified) =>
+  (lastModified ?? post.data.pubDate).valueOf();
+postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
+
+const posts = postsWithLastModified.map(({ post, lastModified }) => ({
+  ...post,
+  lastModified,
+}));
+
+const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
+const growing = posts.filter((post: any) => post.data.growth === "growing");
+const seedling = posts.filter((post: any) => post.data.growth === "seedling");
+
+const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
+---
+
+<Layout
+  {...{
+    title: "Dom Jay - CSS, JS, and the occasional existential crisis",
+    description:
+      "Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
+  } as any}
+>
+  <Header />
+  <main>
+    <!-- <div>
+      <Pattern />
+    </div> -->
+    <section>
+      <div>
+        <InfoPanel />
+      </div>
+      <div
+        class="container hero grid"
+        style=""
+      >
+     		<div class="hero__content">
+		       <InlineHeadingText
+		         heading={SITE_TAGLINE}
+		         text={SITE_DESCRIPTION}
+		         italicIndices={[2, 5]}
+		       />
+        </div>
+      </div>
+    </section>
+
+    <PatternBanner />
+
+    <section>
+      <div class="container stacked" style="--gutter: 64px">
+        <GrowthPanel
+          evergreen={evergreen}
+          growing={growing}
+          seedling={seedling}
+        />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

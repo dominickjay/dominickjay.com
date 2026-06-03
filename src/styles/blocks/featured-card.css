@@ -1,0 +1,71 @@
+@layer components {
+  @layer base {
+    @scope (.featured-post) {
+      :scope {
+        background: var(--color-light);
+        border: 1px solid var(--color-dark);
+        padding: var(--space-m);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-m);
+        height: 100%;
+        cursor: none;
+        transition:
+          border-color 0.3s,
+          transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .featured-post__title {
+        position: relative;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+
+      :scope::before,
+      :scope::after {
+        content: "";
+        position: absolute;
+      }
+
+      /* Top accent bar */
+      :scope::before {
+        inset-block-start: 0;
+        inset-inline: 0;
+        block-size: 2px;
+        background: var(--color-feature);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      /* Radial gradient overlay */
+      :scope::after {
+        inset: 0;
+        background: radial-gradient(
+          circle at var(--mx, 50%) var(--my, 50%),
+          color-mix(in srgb, var(--color-feature) 20%, transparent),
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+      }
+
+      :scope:hover {
+        border-color: var(--color-dark);
+        color: var(--color-dark);
+      }
+
+      :scope:hover::before {
+        transform: scaleX(1);
+        background: var(--color-dark);
+      }
+
+      :scope:hover::after {
+        opacity: 1;
+      }
+    }
+  }
+}

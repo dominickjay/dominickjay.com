@@ -15,11 +15,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm install
+      - name: Install dependencies
+        run: npm ci
       - name: generate-now
         run: npm run generate-now
         env:
           LAST_FM_API_KEY: ${{ secrets.LAST_FM_API_KEY }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Weekly generate-now, books, sync-music, test-trakt
+          commit_message: 3-Monthly generate-now

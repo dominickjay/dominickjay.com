@@ -1,0 +1,88 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import { getImagePath } from "astro-opengraph-images";
+import Cursor from "../components/Cursor.astro";
+import Header from "../components/Header.astro";
+import Footer	 from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+let posts = [];
+
+if (import.meta.env.ENVIRONMENT === "production") {
+  posts = await getCollection("writing", ({ data }) => !data?.draft);
+} else {
+  posts = await getCollection("writing");
+}
+
+posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const random = Math.floor(Math.random() * posts.length);
+const randomPost = posts[random];
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="Lost? Same."
+      description="You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that."
+      image={ogImage}
+    />
+  </head>
+  <body>
+    <Cursor />
+    <Header />
+    <main>
+      <div
+        class="bg-[var(--color-light)] relative min-h-[calc(100svh-290px)] flex items-center justify-center"
+      >
+        <div
+          class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
+        >
+          <h1
+            class="heading-tagline !text-[45vw] md:!text-[460px] opacity-[0.10] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
+            style="background-image: var(--color-gradient);"
+          >
+            404
+          </h1>
+
+          <div class="intro md:max-w-[550px] text-pretty md:pb-[20px] relative">
+            You found a page that doesn't exist. I probably renamed it and
+            forgot to set up a redirect. Sorry about that.
+          </div>
+
+          <div class="relative">
+            Want something random? Try this <a
+              href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script is:inline>
+function updateTimeTheme() {
+   const hour = typeof Temporal !== "undefined"
+     ? Temporal.Now.zonedDateTimeISO().hour
+     : new Date().getHours();
+
+   let period = "";
+   if (hour >= 5 && hour < 9) period = "early-morning";
+   else if (hour >= 9 && hour < 12) period = "late-morning";
+   else if (hour >= 12 && hour < 15) period = "early-afternoon";
+   else if (hour >= 15 && hour < 17) period = "mid-afternoon";
+   else if (hour >= 17 && hour < 19) period = "last-afternoon";
+   else if (hour >= 19 && hour < 22) period = "evening";
+   else period = "night";
+
+   document.documentElement.setAttribute("data-time", period);
+ }
+
+  updateTimeTheme();
+
+</script>

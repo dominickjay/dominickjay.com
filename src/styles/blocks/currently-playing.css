@@ -1,0 +1,61 @@
+@layer blocks {
+  @scope (.currently-playing) {
+    :scope {
+      overflow: hidden;
+      position: relative;
+
+      @media (width > 768px) {
+        padding-block-start: 32px;
+      }
+    }
+
+    .container {
+      --gutter: var(--space-s);
+
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      z-index: 100;
+      aspect-ratio: 16 / 7;
+      padding-inline: 0;
+
+      @media (width > 768px) {
+        --gutter: var(--space-m);
+
+        aspect-ratio: 16 / 9;
+        padding: var(--space-m);
+      }
+    }
+
+    .card-img-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      block-size: 100%;
+      inline-size: 100%;
+    }
+
+    .background {
+      position: relative;
+      inset: 0;
+      z-index: 0;
+      block-size: 100%;
+      inline-size: 100%;
+      overflow: hidden;
+
+      @media (width > 768px) {
+        position: absolute;
+      }
+
+      img {
+        object-fit: cover;
+        position: absolute;
+        inset: 0;
+        block-size: 100%;
+        inline-size: 100%;
+        object-position: top 30% right 0;
+      }
+    }
+  }
+}

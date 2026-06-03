@@ -1,0 +1,104 @@
+---
+import Layout from "../layouts/Default.astro";
+import Profile from "../components/Profile.astro";
+import Testimonials from "../components/Testimonials.astro";
+import MarqueeHeading from "../components/MarqueeHeading.astro";
+import ScrollHeading from "../components/ScrollHeading.astro";
+import { ABOUT_INTRO, ABOUT_COMPANIES } from "../consts";
+import BigLink from "../components/BigLink.astro";
+
+const showMarquee = false;
+const contentIntro = ABOUT_INTRO
+  .replaceAll("[", '<span class="current-job">')
+  .replaceAll("]", "</span>");
+
+const companies = ABOUT_COMPANIES;
+---
+
+{/* @ts-ignore */}
+<Layout
+  {...{
+    title: "A bit about me",
+    description: "I'm Dom Jay - a developer and writer based in the UK. I write about CSS, JavaScript, and the messy reality of working on the web.",
+    pubDate: new Date("August 08 2021"),
+    tags: [],
+    headings: [],
+  } as any}
+>
+  <div class="about flow">
+    <div
+      class="grid grid-cols-6 container"
+      style="--grid-placement: 6; --gutter: 43px;"
+    >
+      <div class="col-span-full md:col-span-2">
+        <Profile sticky={true} />
+      </div>
+      <div class="col-span-full md:col-span-4 flow overflow-hidden">
+        <div class="flow">
+        	<ScrollHeading title="About" />
+          <h2 class="h2" set:html={contentIntro} />
+          <div
+            class="intro flow [--flow-space:var(--space-s)] pt-[var(--space-l)] prose"
+          >
+            <p>
+              I'm a front-end developer at <a href="https://serieseight.com/">Series Eight</a>, based in the UK. Strong opinions about CSS, music, and other things nobody asked about - slowly turning into blog posts.
+            </p>
+          </div>
+          <div
+            class="flow [--flow-space:var(--space-s)] pt-[var(--space-m)] prose"
+          >
+            <h3>Professional</h3>
+            <p>
+            I build performant, accessible websites for a living - mostly with Tailwind, Alpine, CraftCMS and Shopify, which sounds less exciting than it is. I've spent time across design agencies and the private sector over the years, which has given me a fairly good radar for when something is being built right and when it's being built fast. Currently at <i class="font-semibold"><a href="https://serieseight.com/">Series Eight</a></i>, where the answer is usually both.
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] prose">
+            <h3>This Site</h3>
+            <p>
+              I treat this corner of the internet as a digital playground. It’s
+              a space where I can break things, try out new CSS techniques, and
+              document what I’m learning. Whether it’s a small project on
+              CodePen or a deep dive on my blog, this site is a living
+              reflection of my professional and personal evolution.
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] prose">
+            <h3 class="h3">Personal Interests</h3>
+            <p>
+            During working hours I build websites - something I've done for the past decade or so - but it's not my whole identity. With two awesome kids, I'm unlikely to slave away into the night writing code. When I'm not being a Dad, I'm a multi-instrumentalist, having played the piano, guitar, drums and ukulele to various degrees of success (but well enough to call myself a mult-instrumentalist). I'm also an avid D&D player, with my current character being a Barbarian Goliath who remains relatively silent while I get better at improv conversations!</p>
+
+            <p>I'm also an <a href="/reading-list">avid reader</a> and have a strong interest in Norse & Greek Mythology. I'm partial to the odd random fact and am a good hand at the music round of a quiz.</p>
+            <p>To see more about what I'm up currently, you can check out my <a href="/now">"Now" updates.</a>
+            </p>
+          </div>
+          <div class="flow [--flow-space:var(--space-s)] prose">
+            <ol class="feature-list flow" style="--flow-space: 0;">
+              {
+                companies.map((company, i) => {
+                  let { jobTitle, label, date } = company;
+                  return (
+                    <li class="item visible">
+                      <div class="info info--small" data-small>
+                        <span class="index min-w-[110px]">{date}</span>
+                        <div class="body">
+                          <span class="title">{jobTitle}</span>
+                          <div class="meta">
+                            <span class="eyebrow">{label}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })
+              }
+            </ol>
+            <!-- <BigLink text="View my resume." href="/resume" /> -->
+          </div>
+          <div>
+            <Testimonials />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

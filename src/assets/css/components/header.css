@@ -1,9 +1,0 @@
-header.light div nav li {
-  @apply border-l-white/[0.85];
-}
-
-header.light div nav a,
-header.light .logo,
-header.light button {
-  @apply text-white;
-}

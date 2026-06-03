@@ -1,0 +1,5 @@
+@layer components {
+    .marquee-heading {
+        --gap: 32px;
+    }
+}

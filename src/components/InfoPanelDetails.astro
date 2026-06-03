@@ -1,0 +1,277 @@
+---
+const { "aria-hidden": ariaHidden = false } = Astro.props;
+
+import {
+  getRecentTracksWithTags,
+  type LastFmTrack,
+} from "../lib/lastfm";
+
+let currentlyReading = [];
+
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+const hardcoverToken = (import.meta.env.HARDCOVER_TOKEN ?? "").trim();
+let book = "";
+let author = "";
+
+const CACHE_TTL = 30000;
+const cache = new Map<string, { data: any; expires: number }>();
+
+function getCached(key: string): any | null {
+  const cached = cache.get(key);
+  if (cached && cached.expires > Date.now()) return cached.data;
+  cache.delete(key);
+  return null;
+}
+
+function setCached(key: string, data: any): void {
+  cache.set(key, { data, expires: Date.now() + CACHE_TTL });
+}
+
+async function hardcoverGraphQL(query: string, variables: any, useAuth = false) {
+  if (useAuth && !hardcoverToken) {
+    throw new Error(
+      "Hardcover token is required for authenticated requests. " +
+      "Please set the hardcoverToken environment variable. " +
+      "Get your token from https://hardcover.app/account/api",
+    );
+  }
+
+  const cacheKey = JSON.stringify({ query, variables });
+  const cached = getCached(cacheKey);
+  if (cached) {
+    console.log("💾 Using cached response for query");
+    return cached;
+  }
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "User-Agent": "dominickjay.com/1.0",
+  };
+
+  if (useAuth) {
+    headers["authorization"] = hardcoverToken.startsWith("Bearer ")
+      ? hardcoverToken
+      : `Bearer ${hardcoverToken}`;
+  }
+
+  const response = await fetch("https://api.hardcover.app/v1/graphql", {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ query, variables }),
+  });
+
+  console.log("🌐 GraphQL Response status:", response.status);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("🌐 GraphQL Error response:", errorText);
+    if (response.status === 429) {
+      console.warn("⚠️ Rate limited! Consider waiting 60 seconds or using cached responses.");
+    }
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+  }
+
+  const json = await response.json();
+  setCached(cacheKey, json);
+  return json;
+}
+
+try {
+  const currentDataAndList = await hardcoverGraphQL(
+    `query getCurrentReadingAndList {
+      me {
+        user_books(where: { status_id: { _eq: 2 } }) {
+          rating
+          book {
+            id
+            title
+            contributions {
+              author {
+                name
+              }
+            }
+          }
+        }
+        lists(where: {id: {_eq: 328925}}) {
+          id
+          name
+          books_count
+          list_books {
+            book {
+              id
+              title
+              contributions {
+                author {
+                  name
+                }
+              }
+              user_books(
+                where: {user_id: {_eq: 28090}}
+                limit: 1
+                order_by: {updated_at: desc}
+              ) {
+                user_book_status {
+                  status
+                  slug
+                }
+                user_book_reads(limit: 1, order_by: {finished_at: desc_nulls_first}) {
+                  started_at
+                  finished_at
+                }
+              }
+            }
+          }
+        }
+      }
+    }`,
+    {},
+    true,
+  );
+
+  currentlyReading = currentDataAndList.data.me[0].user_books || [];
+  book = currentlyReading[1] ? currentlyReading[1].book.title : currentlyReading[0].book.title ?? "No book currently reading";
+  author = currentlyReading[1] ? currentlyReading[1].book.contributions[0].author.name : currentlyReading[0].book.contributions[0].author.name ?? "Unknown author";
+
+} catch (error) {
+  console.error(error);
+}
+
+let recentTracks: LastFmTrack | null = null;
+
+const recentTracksData = await getRecentTracksWithTags(apiKey, 5);
+
+if (recentTracksData.recentTracks) {
+  recentTracks = recentTracksData.recentTracks;
+}
+---
+
+<div class="info-panel__details marquee__content" aria-hidden={ariaHidden} x-cloak>
+  {
+    recentTracks?.name && recentTracks?.artist?.["#text"] && (
+      <div
+        class={`info-panel__detail music relative np-pill--transparent ${recentTracks?.["@attr"]?.nowplaying ? "is-playing" : ""}`}
+        data-info-panel-music
+      >
+        <div class="np-bars">
+          <div class="np-bar" />
+          <div class="np-bar" />
+          <div class="np-bar" />
+          <div class="np-bar" />
+          <div class="np-bar" />
+        </div>
+        <span>
+          <span data-track-name>{recentTracks?.name}</span> by{" "}
+          <span data-artist-name>{recentTracks?.artist?.["#text"]}</span>
+        </span>
+      </div>
+    )
+  }
+  <div class="info-panel__detail book">
+    <svg
+      class="shrink-0"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+    </svg>
+    <span>
+      <span>{book}</span>
+      {" "}by{" "}
+      <span class="music__artist">
+        { author }
+      </span>
+    </span>
+  </div>
+  <div class="info-panel__detail weather">
+    <svg
+      class="shrink-0"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+      <circle cx="12" cy="12" r="4"></circle>
+    </svg>
+    <span class="temp">11 ° 7 °</span>
+  </div>
+  <div class="info-panel__detail min-w-[125px]">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+    <span class="time"></span>
+  </div>
+</div>
+
+<script>
+  type RecentTrack = {
+    name?: string;
+    artist?: { "#text"?: string };
+    "@attr"?: { nowplaying?: boolean | string };
+  } | null;
+
+  const POLL_INTERVAL_MS = 90000;
+  let abortController: AbortController | null = null;
+
+  function isNowPlaying(track: RecentTrack): boolean {
+    return track?.["@attr"]?.nowplaying === true
+      || String(track?.["@attr"]?.nowplaying) === "true";
+  }
+
+  function updateMusicRows(track: RecentTrack) {
+    if (!track) return;
+
+    const trackName = track?.name ?? "";
+    const artistName = track?.artist?.["#text"] ?? "";
+    const nowPlaying = isNowPlaying(track);
+
+    document.querySelectorAll<HTMLElement>("[data-info-panel-music]").forEach((row) => {
+      const trackNameEl = row.querySelector<HTMLElement>("[data-track-name]");
+      const artistNameEl = row.querySelector<HTMLElement>("[data-artist-name]");
+
+      if (trackNameEl) trackNameEl.textContent = trackName;
+      if (artistNameEl) artistNameEl.textContent = artistName;
+      row.classList.toggle("is-playing", nowPlaying);
+    });
+  }
+
+  async function fetchLatestTrack() {
+    abortController?.abort();
+    abortController = new AbortController();
+
+    try {
+      const response = await fetch("/api/recent-tracks", {
+        cache: "no-store",
+        signal: abortController.signal,
+      });
+      const data = await response.json();
+      const list = data?.recenttracks?.track;
+      const latestTrack = Array.isArray(list) && list.length > 0 ? list[0] : null;
+
+      updateMusicRows(latestTrack);
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+    }
+  }
+
+  if (!(window as any).__infoPanelMusicPollerInitialized) {
+    (window as any).__infoPanelMusicPollerInitialized = true;
+    fetchLatestTrack();
+    setInterval(fetchLatestTrack, POLL_INTERVAL_MS);
+  }
+</script>

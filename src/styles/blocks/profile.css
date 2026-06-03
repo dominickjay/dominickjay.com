@@ -1,0 +1,33 @@
+@layer components {
+  @scope (.profile) {
+    :scope {
+      position: relative;
+      overflow: hidden;
+      mix-blend-mode: luminosity;
+      aspect-ratio: 5 / 4;
+      border: 1px solid currentColor;
+      width: 100%;
+      max-inline-size: 450px;
+      flex-shrink: 0;
+
+      @media (width < 768px) {
+        max-inline-size: 100%;
+        aspect-ratio: 5 / 4;
+      }
+
+      &[data-sticky="true"] {
+        position: sticky;
+        top: 120px;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      background: rgba(0, 0, 0, 0.8);
+      mix-blend-mode: luminosity;
+    }
+  }
+}

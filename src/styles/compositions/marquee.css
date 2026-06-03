@@ -1,0 +1,33 @@
+@layer components {
+  .marquee {
+    --gap: var(--space-s);
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+  }
+
+  .marquee__content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 0;
+    gap: var(--gap);
+    animation: scroll 20s linear infinite;
+    padding-inline: var(--inline-spacing, 0);
+  }
+
+  .marquee:hover .marquee__content {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}

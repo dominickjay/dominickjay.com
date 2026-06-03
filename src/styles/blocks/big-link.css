@@ -1,0 +1,34 @@
+@layer components {
+  @scope (.big-link) {
+    :scope {
+      border: none; /* border lives on ::before */
+      position: relative;
+      height: fit-content;
+      color: var(--color-light);
+      font-weight: 400;
+      font-family: var(--font-base);
+      text-align: center;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 2px;
+      display: inline-flex;
+      line-height: 1.8;
+
+      @media (width < 768px) {
+        width: 100%;
+        justify-content: center;
+      }
+
+      &::before,
+      &::after {
+        content: none;
+      }
+
+      & > span {
+        padding: var(--space-m) var(--space-l);
+        display: block;
+      }
+    }
+  }
+}

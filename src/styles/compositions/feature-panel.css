@@ -1,0 +1,7 @@
+@layer layout {
+  @scope (.featured-panel) {
+    :scope {
+      --grid-placement: 1;
+    }
+  }
+}

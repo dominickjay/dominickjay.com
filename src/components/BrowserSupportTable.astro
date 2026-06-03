@@ -1,0 +1,48 @@
+---
+const { browserSupport, compatDataStatus } = Astro.props;
+
+const browserConfig = {
+  chrome: { icon: "/images/icons/chrome.svg", label: "Chrome" },
+  firefox: { icon: "/images/icons/firefox.svg", label: "Firefox" },
+  safari: { icon: "/images/icons/safari.svg", label: "Safari" },
+  edge: { icon: "/images/icons/edge.svg", label: "Edge" },
+};
+---
+
+<div class="prose">
+  <h2 class="sr-only">Browser Support</h2>
+  <div class="browser-support-table">
+    {compatDataStatus?.experimental && <h3>Experimental</h3>}
+    {compatDataStatus?.deprecated && <h3>Deprecated</h3>}
+    {
+      compatDataStatus?.standard_track &&
+        !compatDataStatus?.experimental &&
+        !compatDataStatus?.deprecated && (
+          <h3 class="eyebrow">
+            Fully supported
+          </h3>
+        )
+    }
+    <div
+      class="!grid grid-cols-2 gap-[var(--space-s)] flex-wrap items-center w-full"
+    >
+      {
+        browserSupport.map((item: { browser: string; version: string; prefix?: string; support: "Supported" | "Partial" | "Unsupported" }) => {
+          const config = browserConfig[item.browser as keyof typeof browserConfig];
+          if (!config) return null;
+          return (
+            <div
+              class={`col-span-1 items-baseline gap-x-[3px] border px-[var(--space-s)] py-[var(--space-xs)] flex flex-wrap justify-center text-center ${item.support === "Supported" ? "" : "opacity-50"}`}
+            >
+              <span class="text-sm">{config.label}</span>
+              <span class="text-sm text-[var(--color-accent)] font-semibold">
+                {item.version}
+                {item.prefix && ` (${item.prefix})`}
+              </span>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>

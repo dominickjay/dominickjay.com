@@ -1,0 +1,7 @@
+@layer components {
+  button {
+    border: none; /* border lives on ::before */
+    position: relative;
+    height: fit-content;
+  }
+}

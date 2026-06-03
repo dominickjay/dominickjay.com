@@ -1,0 +1,34 @@
+@layer core {
+  @layer tokens {
+    :root {
+      --color-light: #fbf8ef;
+      --color-dark: #222222;
+      --color-primary: var(--color-dark, #222222);
+      --color-gradient: linear-gradient(
+        in oklch 151deg,
+        #222222 0%,
+        var(--color-feature, #2c5364) 100%
+      );
+      --color-surface: #f0ece0;
+      --color-surface-2: #e8e3d5;
+      --color-accent: #2c5364;
+      --color-accent-rgb: 44, 83, 100;
+
+      --font-base: "Tiempos", serif;
+      --font-heading: "Gentle", serif;
+      --font-mono: "DM Mono", monospace;
+      --leading-standard: 1.6;
+
+      --space-xs: 4px;
+      --space-s: 8px;
+      --space-m: 16px;
+      --space-l: 24px;
+      --space-xl: 32px;
+      --space-xxl: 48px;
+
+      --color-evergreen: #2f5c3a;
+      --color-seedling: #5a7a1e;
+      --color-growing: #4a6b2a;
+    }
+  }
+}

@@ -1,0 +1,123 @@
+---
+import { TESTIMONIALS } from "../consts";
+const testimonials = TESTIMONIALS;
+---
+
+<section
+  class="testimonials-section"
+  id="testimonials"
+  data-testimonials={JSON.stringify(testimonials)}
+  x-data="{
+    testimonials: JSON.parse($el.dataset.testimonials || '[]'),
+    current: 0,
+    locked: false,
+    displayed: null,
+
+    get total() { return this.testimonials.length },
+    pad(n) { return String(n).padStart(2, '0') },
+
+    init() {
+      this.displayed = this.testimonials[0] || {};
+    },
+
+    goTo(next) {
+      if (this.locked || next === this.current) return;
+      if (next < 0 || next >= this.total) return;
+
+      this.locked = true;
+      this.current = next;
+
+      const card  = document.getElementById('tCard');
+      const stage = document.getElementById('tStage');
+
+      // Freeze height so the page doesn't jump during the swap
+      stage.style.minHeight = card.offsetHeight + 'px';
+
+      // Step 1 - exit: add .exiting, CSS animation plays
+      card.classList.remove('stable');
+      card.classList.add('exiting');
+
+      card.addEventListener('animationend', () => {
+        // Step 2 - swap: update Alpine reactive data while opacity is 0
+        this.displayed = this.testimonials[this.current];
+
+        // Step 3 - enter: wait one tick for Alpine to flush the DOM,
+        // then play the enter animation
+        this.\$nextTick(() => {
+          card.classList.remove('exiting');
+          card.classList.add('entering');
+
+          card.addEventListener('animationend', () => {
+            // Step 4 - settle: back to normal flow
+            card.classList.remove('entering');
+            card.classList.add('stable');
+            stage.style.minHeight = card.offsetHeight + 'px';
+            this.locked = false;
+          }, { once: true });
+        });
+      }, { once: true });
+    },
+
+    goNext() {
+      if (this.total <= 1) return;
+      let next = Math.floor(Math.random() * this.total);
+      if (next === this.current) next = (next + 1) % this.total;
+      this.goTo(next);
+    }
+  }"
+  @keydown.window="
+    const r = $el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    if ($event.key === 'ArrowRight') goNext();
+    if ($event.key === 'ArrowLeft') goTo((current - 1 + total) % total);
+  "
+>
+  <div class="testimonials-inner stacked">
+    <div class="testimonials-header">
+      <p class="sr-only" style="margin-block-end:0;flex:1">Testimonials</p>
+      <div
+        class="ml-auto"
+        style="display:flex;align-items:center;gap:20px;flex-shrink:0;"
+      >
+        <span class="testimonials-counter">
+          <span class="testimonials-counter-current" x-text="pad(current + 1)"
+            >01</span
+          >
+          <span>/</span>
+          <span x-text="pad(total)">05</span>
+        </span>
+        <button
+          class="big-link js-link"
+          aria-label="Next testimonial"
+          @click="goNext()"
+          :disabled="locked"
+          data-scramble-on-load
+        >
+          <span class="gradient-background" data-scramble="Refresh">Refresh</span>
+        </button>
+      </div>
+    </div>
+
+    <!--
+    Single card. Alpine only ever touches `displayed` (the data).
+    All animation is driven by class swaps + CSS keyframes,
+    sequenced by animationend - not setTimeout, not x-transition.
+  -->
+    <div class="testimonials-stage" id="tStage">
+      <div class="testimonial-card stable" id="tCard">
+        <blockquote
+          class="testimonial-quote"
+          x-html="displayed?.description ?? ''"
+        >
+        </blockquote>
+        <div class="testimonial-attr">
+          <span class="testimonial-attr-line"></span>
+          <div class="meta">
+	          <span class="testimonial-name eyebrow" x-text="displayed?.name ?? ''"></span>
+	          <span class="testimonial-role eyebrow" x-text="displayed?.role ?? ''"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

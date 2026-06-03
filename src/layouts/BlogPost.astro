@@ -1,0 +1,203 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Temporal } from "@js-temporal/polyfill";
+import BaseHead from "../components/BaseHead.astro";
+import FYIBlock from "../components/FYIBlock.astro";
+import { getImagePath } from "astro-opengraph-images";
+import Cursor from "../components/Cursor.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import { generateCategoryData } from "../utils/utils.mjs";
+import TableOfContents from "../components/TableOfContents.astro";
+import DefaultHero from "../components/DefaultHero.astro";
+import Tags from "../components/Tags.astro";
+
+type Props = CollectionEntry<"writing">["data"] & {
+  headings?: any[];
+  timeToRead?: number;
+};
+
+const { title, description, pubDate, updatedDate, tags, growth, lastModified } =
+  Astro.props;
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={ogImage} />
+  </head>
+
+  <body>
+    <Cursor />
+    <Header />
+    <main>
+      <article>
+        <DefaultHero title={title} description={description} growth={growth} lastModified={lastModified} updatedDate={updatedDate} />
+
+        <PatternBanner />
+        <div
+          class="post-container container prose py-[32px] gap-[43px] [--gutter:16px] md:[--gutter:43px]"
+        >
+
+        { growth == 'seedling' &&
+					<FYIBlock type="note">
+						<span slot="title">This is a Seedling</span>
+						<div slot="body">The idea is here, the rest of the words aren't yet. Check back soon, or don't, and catch it when it's done.</div>
+					</FYIBlock>
+			  }
+
+          <div
+            class="content-flow content !col-span-full grid grid-rows-auto md:[--grid-placement:12] !gap-y-0 overflow-clip flow prose"
+            style="--flow-space: var(--space-m); display: grid; grid-template-columns: 1fr 260px;"
+          >
+            <slot />
+          </div>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+  <script
+    data-goatcounter="https://dominickjay.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"></script>
+</html>
+
+<script is:inline>
+	function updateTimeTheme() {
+    const hour = typeof Temporal !== "undefined"
+      ? Temporal.Now.zonedDateTimeISO().hour
+      : new Date().getHours();
+
+    let period = "";
+    if (hour >= 5 && hour < 9) period = "early-morning";
+    else if (hour >= 9 && hour < 12) period = "late-morning";
+    else if (hour >= 12 && hour < 15) period = "early-afternoon";
+    else if (hour >= 15 && hour < 17) period = "mid-afternoon";
+    else if (hour >= 17 && hour < 19) period = "last-afternoon";
+    else if (hour >= 19 && hour < 22) period = "evening";
+    else period = "night";
+
+    document.documentElement.setAttribute("data-time", period);
+  }
+
+  updateTimeTheme();
+
+</script>
+
+<style is:inline>
+  #progress {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 64px;
+
+    transform-origin: 0 50%;
+    animation: grow-progress auto linear;
+    animation-timeline: --page-scroll;
+  }
+
+  #progress > *:first-child {
+    position: relative;
+    transform: translateY(-50%);
+  }
+
+  .content-flow > * {
+      grid-column: 1 / span 2;
+    }
+
+    @media (width >= 992px) {
+      .content-flow > * {
+        grid-column: 1 / span 1;
+      }
+
+      .content-flow > .post-recommendations {
+        grid-column: 2 / span 1;
+        grid-row: 1 / span 999;
+      }
+    }
+  }
+
+  @media (width >= 1024px) {
+    .embedded-pin-target {
+      opacity: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      transition: opacity 0.3s;
+      display: none;
+    }
+
+    /* 2. PIN RAIL (The Fixed Sidebar) */
+    .pin-rail {
+      overflow: hidden;
+      position: sticky;
+      top: 0;
+      left: 0;
+      /* Offset to the right of the content flow */
+      margin-inline-end: -480px;
+      width: 100%;
+      height: 100vh;
+      padding: 50px 20px;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+
+    /* 3. PIN CONTAINER: Where the visible content is placed */
+    .pin-container {
+      position: relative;
+      height: 90vh;
+      width: 100%;
+    }
+
+    /* 4. BASE STYLES for the CLONED Pinned Content */
+    .pin-container > .cloned-pin {
+      position: absolute;
+      top: 50%;
+      /* transform: scale(0.95); */
+
+      width: 100%;
+      height: auto;
+      box-sizing: border-box;
+
+      /* CRITICAL: Default state is invisible */
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.4s,
+        transform 0.4s,
+        visibility 0.4s;
+    }
+
+    /* 5. ACTIVE STATE: Applied by JS */
+    .pin-container > .cloned-pin.active-pin {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) scale(1);
+      z-index: 10;
+    }
+
+    .cloned-pin blockquote {
+      font-size: 1.25rem;
+      line-height: 1.5;
+      font-style: italic;
+      font-weight: 400;
+      padding-inline-start: 0;
+      border-left: none;
+    }
+
+    pre.cloned-pin {
+      padding: var(--space-s);
+    }
+
+    .cloned-pin {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-m);
+    }
+  }
+</style>

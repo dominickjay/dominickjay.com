@@ -1,0 +1,963 @@
+---
+import PlaceholderImage from "../PlaceholderImage.astro";
+import { codeToHtml } from "shiki";
+import domTheme from "../../styles/dom-shiki-theme.json";
+
+const theme = domTheme as any;
+
+const problemCss = `/* Visual order achieved with CSS order - */
+/* but DOM (and focus) order is unchanged */
+
+.card-a { order: 2; } /* DOM: 1st, visual: 2nd */
+.card-b { order: 3; } /* DOM: 2nd, visual: 3rd */
+.card-cta { order: 1; } /* DOM: 3rd, visual: 1st ⚠️ */`;
+
+const solutionCss = `/* Same visual order - but now focus matches */
+.cards {
+  display: flex;
+  reading-flow: flex-visual; /* ← on the container */
+}
+
+.card-a { order: 2; reading-order: 2; }
+.card-b { order: 3; reading-order: 3; }
+.card-cta { order: 1; reading-order: 1; }`;
+
+const problemCodeHighlighted = await codeToHtml(problemCss, {
+  lang: "css",
+  theme,
+});
+
+const solutionCodeHighlighted = await codeToHtml(solutionCss, {
+  lang: "css",
+  theme,
+});
+
+---
+
+<div id="reading-order-demo-1">
+  <!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button
+      class="tab problem active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-problem"
+      onclick="switchTab('problem')"
+    >
+      Without reading-order
+    </button>
+    <button
+      class="tab solution"
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-solution"
+      onclick="switchTab('solution')"
+    >
+      With reading-order
+    </button>
+  </div>
+
+  <!-- Problem Panel -->
+  <div
+    class="demo-panel panel-problem active"
+    id="panel-problem"
+    role="tabpanel"
+  >
+    <div class="legend">
+      <div class="legend-item">
+      The cards below are visually ordered CTA → Article A → Article B using CSS order. But the DOM hasn't changed - assistive tech and keyboard users still encounter them as Article A → Article B → CTA. Tab through to see the disconnect.
+      </div>
+    </div>
+
+    <p class="section-label">Layout</p>
+
+    <div class="cards-wrap">
+      <div class="cards-problem" id="problem-cards">
+        <!-- DOM order: 1 = Article A -->
+        <article class="card card-a" tabindex="-1">
+          <span class="dom-badge">DOM: 1st</span>
+          <div class="card-thumb">
+            <PlaceholderImage ratio="16 / 5" />
+          </div>
+          <div class="card-body">
+            <span class="card-meta">20 Oct 2025 · Article</span>
+            <h3 class="card-title">Article A</h3>
+            <a href="#" class="card-link" id="link-a" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <!-- DOM order: 2 = Article B -->
+        <article class="card card-b" tabindex="-1">
+          <span class="dom-badge">DOM: 2nd</span>
+          <PlaceholderImage ratio="16 / 5" />
+          <div class="card-body">
+            <span class="card-meta">18 Oct 2025 · Article</span>
+            <h3 class="card-title">Article B</h3>
+            <a href="#" class="card-link" id="link-b" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <!-- DOM order: 3 = CTA, but visually first via order: 1 -->
+        <article class="card card-cta" tabindex="-1">
+          <span class="dom-badge">DOM: 3rd</span>
+          <div class="card-thumb">
+            <PlaceholderImage ratio="16 / 5" />
+          </div>
+          <div class="card-body">
+            <span class="card-meta">Promoted</span>
+            <h3 class="card-title">CTA Card</h3>
+            <a href="#" class="card-link" id="link-cta" onclick="return false"
+              >Get started →</a
+            >
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="explainer problem prose-notice">
+      <strong>What sighted users see:</strong> CTA → Article A → Article B<br />
+      <strong>What keyboard/screen reader users get:</strong> Article A → Article
+      B → CTA<br /><br />
+      The CTA appears first visually via <code>order: 1</code> - but it's third in
+      the DOM. Tab key follows the DOM.
+    </div>
+
+    <!-- Code -->
+    <div class="code-block" set:html={problemCodeHighlighted} />
+
+    <!-- Focus tracker -->
+    <p class="section-label">Tab focus sequence</p>
+    <div class="focus-tracker">
+      <div class="focus-sequence" id="focus-seq-problem">
+        <span class="focus-step" id="step-p-a">Article A (DOM 1st)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-p-b">Article B (DOM 2nd)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-p-cta">CTA (DOM 3rd)</span>
+      </div>
+      <div class="prose-notice" data-variant="warning" id="verdict-problem">
+        Focus follows DOM order. The CTA appears visually first but receives
+        focus last - a WCAG 2.4.3 failure.
+      </div>
+    </div>
+
+    <div class="hint hint-mobile">
+      <button class="play-btn button eyebrow" id="play-problem" type="button">
+        Simulate focus order
+      </button>
+    </div>
+  </div><!-- /problem panel -->
+
+  <!-- Solution Panel -->
+  <div class="demo-panel panel-solution" id="panel-solution" role="tabpanel">
+    <div class="legend">
+      <div class="legend-item">
+        Adding reading-order: auto to the flex container tells the browser to follow visual order for focus and reading too. Now DOM order, focus order, and visual order all match. Tab through - the sequence is consistent.
+      </div>
+    </div>
+
+    <p class="section-label">Layout</p>
+
+    <div class="cards-wrap">
+      <div class="cards-solution" id="solution-cards">
+        <article class="card card-a" tabindex="-1">
+          <span class="dom-badge">DOM: 1st</span>
+          <PlaceholderImage ratio="16 / 5" />
+          <div class="card-body">
+            <span class="card-meta">20 Oct 2025 · Article</span>
+            <h3 class="card-title">Article A</h3>
+            <a href="#" class="card-link" id="link-a-fix" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <article class="card card-b" tabindex="-1">
+          <span class="dom-badge">DOM: 2nd</span>
+          <PlaceholderImage ratio="16 / 5" />
+          <div class="card-body">
+            <span class="card-meta">18 Oct 2025 · Article</span>
+            <h3 class="card-title">Article B</h3>
+            <a href="#" class="card-link" id="link-b-fix" onclick="return false"
+              >Read more →</a
+            >
+          </div>
+        </article>
+
+        <article class="card card-cta" tabindex="-1">
+          <span class="dom-badge">DOM: 3rd</span>
+          <PlaceholderImage ratio="16 / 5" />
+          <div class="card-body">
+            <span class="card-meta">Promoted</span>
+            <h3 class="card-title">CTA Card</h3>
+            <a
+              href="#"
+              class="card-link"
+              id="link-cta-fix"
+              onclick="return false">Get started →</a
+            >
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="explainer solution">
+      <strong>Visual order:</strong> CTA → Article A → Article B (unchanged)<br
+      />
+      <strong>Focus + reading order:</strong> CTA → Article A → Article B (now matches
+      )<br /><br />
+      <code>reading-flow: flex-visual</code> on the container + <code
+        >reading-order</code
+      > integers on each child tell the browser's Accessibility Tree to follow visual
+      order instead of DOM order.
+    </div>
+
+    <!-- Code -->
+    <div class="code-block" set:html={solutionCodeHighlighted} />
+
+    <!-- Focus tracker -->
+    <p class="section-label">Tab focus sequence</p>
+    <div class="focus-tracker">
+      <div class="focus-sequence" id="focus-seq-solution">
+        <span class="focus-step" id="step-s-cta">CTA (visual 1st)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-s-a">Article A (visual 2nd)</span>
+        <span class="focus-arrow">→</span>
+        <span class="focus-step" id="step-s-b">Article B (visual 3rd)</span>
+      </div>
+      <div class="prose-notice" data-variant="tip">
+        Focus follows visual order. Keyboard users and screen reader users now
+        experience the same sequence as sighted users.
+      </div>
+    </div>
+
+    <div class="hint hint-mobile">
+      <button class="play-btn button eyebrow" id="play-solution" type="button">
+        Simulate focus order
+      </button>
+    </div>
+
+    <!-- How it works table -->
+    <p class="section-label" style="margin-block-start: 1.5rem;">How the orders map</p>
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Card</th>
+          <th>DOM position</th>
+          <th>Visual position (<code>order</code>)</th>
+          <th>Focus position (<code>reading-order</code>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CTA</td>
+          <td><span class="tag tag-dom">3rd</span></td>
+          <td><span class="tag tag-visual">1st</span></td>
+          <td><span class="tag tag-focus">1st</span></td>
+        </tr>
+        <tr>
+          <td>Article A</td>
+          <td><span class="tag tag-dom">1st</span></td>
+          <td><span class="tag tag-visual">2nd</span></td>
+          <td><span class="tag tag-focus">2nd</span></td>
+        </tr>
+        <tr>
+          <td>Article B</td>
+          <td><span class="tag tag-dom">2nd</span></td>
+          <td><span class="tag tag-visual">3rd</span></td>
+          <td><span class="tag tag-focus">3rd</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+
+	declare global {
+	  interface Window {
+			switchTab: (which: string) => void;
+	    switchPanel: (which: string) => void;
+	    runDemo: (panel: string) => void;
+	  }
+	}
+  // ── Tab switching ──────────────────────────────────────────────────────────
+  function switchTab(which: string) {
+	  document.querySelectorAll("#reading-order-demo-1").forEach((demo) => {
+	    demo.querySelectorAll(".tab").forEach((b) => {
+	      b.classList.toggle("active", b.classList.contains(which));
+	      b.setAttribute(
+	        "aria-selected",
+	        b.classList.contains(which) && b.classList.contains(which)
+	          ? "true"
+	          : "false",
+	      );
+	    });
+	    demo.querySelectorAll(".demo-panel").forEach((p) => {
+	      p.classList.toggle("active", p.id === "panel-" + which);
+	    });
+	  });
+  }
+  window.switchTab = switchTab;
+
+  // ── Focus tracking ─────────────────────────────────────────────────────────
+  // Simulates the focus indicator in the tracker - also works with real tab
+  const focusMaps: Record<string, { step: string; panel: string }> = {
+    "link-a": { step: "step-p-a", panel: "problem" },
+    "link-b": { step: "step-p-b", panel: "problem" },
+    "link-cta": { step: "step-p-cta", panel: "problem" },
+    "link-cta-fix": { step: "step-s-cta", panel: "solution" },
+    "link-a-fix": { step: "step-s-a", panel: "solution" },
+    "link-b-fix": { step: "step-s-b", panel: "solution" },
+  };
+
+  document.querySelectorAll(".card-link").forEach((link) => {
+    link.addEventListener("focus", () => {
+      const map = focusMaps[link.id];
+      if (!map) return;
+      const panel = map.panel;
+      const activeClass = "active-" + panel;
+
+      // Reset all steps in this panel
+      document.querySelectorAll(`#panel-${panel} .focus-step`).forEach((s) => {
+        s.classList.remove(activeClass, "visited");
+      });
+
+      // Mark visited steps and active step
+      const allSteps = [
+        ...document.querySelectorAll(`#panel-${panel} .focus-step`),
+      ];
+      const activeStep = document.getElementById(map.step);
+      const activeIndex = allSteps.indexOf(activeStep);
+
+      allSteps.forEach((s, i) => {
+        if (i < activeIndex) s.classList.add("visited");
+        if (i === activeIndex) s.classList.add(activeClass);
+      });
+    });
+  });
+
+  // ── Mobile playback ───────────────────────────────────────────────────────
+  // Sequences: [{ cardSelector, stepId, badge }]
+  const sequences: Record<string, { card: string; step: string; n: number }[]> = {
+    problem: [
+      { card: ".panel-problem .card-a", step: "step-p-a", n: 1 },
+      { card: ".panel-problem .card-b", step: "step-p-b", n: 2 },
+      { card: ".panel-problem .card-cta", step: "step-p-cta", n: 3 },
+    ],
+    solution: [
+      { card: ".panel-solution .card-cta", step: "step-s-cta", n: 1 },
+      { card: ".panel-solution .card-a", step: "step-s-a", n: 2 },
+      { card: ".panel-solution .card-b", step: "step-s-b", n: 3 },
+    ],
+  };
+
+  function playSequence(panel: string) {
+    const steps = sequences[panel];
+    if (!steps?.length) return;
+    const btn = document.getElementById("play-" + panel);
+    const isProblem = panel === "problem";
+    const color = isProblem ? "#8b2500" : "#2a5c3f";
+    const litClass = isProblem ? "active-problem" : "active-solution";
+    const STEP_MS = 900;
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "▶ Playing…";
+    }
+
+    // Reset tracker
+    document.querySelectorAll(`#panel-${panel} .focus-step`).forEach((s) => {
+      s.classList.remove(litClass, "visited");
+    });
+    // Reset card highlights
+    steps.forEach(({ card }) => {
+    	const el = document.querySelector<HTMLElement>(card);
+      if (!el) return;
+      el.classList.remove("playing");
+      el.style.removeProperty("--playing-color");
+      const badge = el.querySelector(".play-badge");
+      if (badge) badge.textContent = "";
+    });
+
+    steps.forEach(({ card, step, n }, i: number) => {
+      // Highlight card
+      setTimeout(() => {
+        // Clear previous
+        if (i > 0) {
+        	const prev = document.querySelector<HTMLElement>(steps[i - 1].card);
+          if (prev) {
+            prev.classList.remove("playing");
+            const prevBadge = prev.querySelector(".play-badge");
+            if (prevBadge) prevBadge.textContent = "";
+          }
+          const prevStep = document.getElementById(steps[i - 1].step);
+          if (prevStep) prevStep.classList.add("visited");
+        }
+
+        // Activate current card
+        const el = document.querySelector(card);
+        if (el) {
+          el.style.setProperty("--playing-color", color);
+          el.classList.add("playing");
+          const badge = el.querySelector(".play-badge");
+          if (badge) {
+            badge.textContent = n;
+            badge.style.background = color;
+          }
+          // Scroll card into view on mobile
+          el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+
+        // Activate tracker step
+        const stepEl = document.getElementById(step);
+        if (stepEl) stepEl.classList.add(litClass);
+      }, i * STEP_MS);
+    });
+
+    // Clean up after last step
+    setTimeout(
+      () => {
+        const last = document.querySelector(steps[steps.length - 1].card);
+        if (last) {
+          last.classList.remove("playing");
+          const badge = last.querySelector(".play-badge");
+          if (badge) badge.textContent = "";
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Simulate focus order";
+        }
+      },
+      steps.length * STEP_MS + 600,
+    );
+  }
+  window.playSequence = playSequence;
+
+  document.getElementById("play-solution")?.addEventListener("click", () => {
+    playSequence("solution");
+  });
+
+  document.getElementById("play-problem")?.addEventListener("click", () => {
+    playSequence("problem");
+  });
+</script>
+
+<style>
+  /* ── Header ── */
+  .demo-header {
+    padding-block-end: 32px;
+  }
+
+  .eyebrow {
+    margin-block-end: 0.75rem;
+  }
+
+  h1 {
+    font-family: var(--font-base);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--color-dark);
+    margin-block-end: 1rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--color-dark);
+  }
+
+  .intro {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* ── Panel ── */
+  .demo-panel {
+    background: var(--bg);
+    border-block-end: 1px solid var(--color-dark);
+    padding: 1.5rem 0;
+    display: none;
+  }
+
+  .demo-panel.active {
+    display: block;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-block-end: 1.5rem;
+    padding: 1rem;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    font-size: 14px;
+    color: var(--color-dark);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .badge-dom {
+    background: rgb(from var(--color-dark) r g b / 0.2);
+    color: var(--color-dark);
+    border: 1px solid #555;
+  }
+  .badge-visual {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .badge-dom-fix {
+    background: var(--color-feature);
+    color: #000;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+	  font-family: var(--font-base);
+	  font-size: 14px;
+	  letter-spacing: 0.14em;
+	  color: var(--accent);
+	  text-transform: uppercase;
+	  margin-block-end: 8px;
+  }
+
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-dark);
+  }
+
+  /* ── Card grid ── */
+  .cards-wrap {
+    margin-block-end: 1.5rem;
+  }
+
+  /* Problem: order reorders visually but DOM stays wrong */
+  .cards-problem {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-cta > * {
+    color: var(--color-light);
+  }
+
+  @media (min-width: 500px) {
+    .cards-problem {
+      flex-direction: row;
+    }
+  }
+
+  /* The DOM order: A=1, B=2, CTA=3 - but visually CTA appears first */
+  .cards-problem .card-a {
+    order: 2;
+  }
+  .cards-problem .card-b {
+    order: 3;
+  }
+  .cards-problem .card-cta {
+    order: 1;
+  }
+
+  /* Solution: reading-flow + reading-order aligns focus with visual */
+  .cards-solution {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    reading-flow: flex-visual;
+  }
+
+  @media (min-width: 500px) {
+    .cards-solution {
+      flex-direction: row;
+    }
+  }
+
+  .cards-solution .card-a {
+    order: 2;
+    reading-order: 2;
+  }
+  .cards-solution .card-b {
+    order: 3;
+    reading-order: 3;
+  }
+  .cards-solution .card-cta {
+    order: 1;
+    reading-order: 1;
+  }
+
+  /* ── Card styles ── */
+  .card {
+    flex: 1;
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+
+  .card.playing {
+    outline: 2px solid var(--color-feature, var(--accent));
+    outline-offset: -2px;
+    box-shadow:
+      inset 0 0 0 1px var(--color-feature, var(--accent)),
+      0 8px 12px rgba(0, 0, 0, 0.12);
+    transition:
+      outline 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .card-thumb {
+    background: var(--color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .card-meta {
+    font-size: 10px;
+    color: var(--color-dark);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-family: var(--font-base);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--color-dark);
+  }
+
+  .card-link {
+    margin-block-start: auto;
+    display: inline-block;
+    font-size: 14px;
+    padding: 6px 10px;
+    background: var(--color-light);
+    color: var(--color-dark);
+    text-decoration: none;
+    border: 1px solid var(--color-dark);
+    cursor: pointer;
+    font-family: var(--mono);
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+    align-self: flex-start;
+  }
+
+  .card-link:hover {
+    background: var(--color-dark);
+    color: var(--color-light);
+  }
+
+  /* Focus styles */
+  .card-link:focus {
+    outline: none;
+  }
+  .panel-problem .card-link:focus-visible {
+    box-shadow: var(--focus-ring);
+    border-color: var(--color-accent);
+  }
+  .panel-solution .card-link:focus-visible {
+    box-shadow: var(--focus-ring-fix);
+    border-color: var(--color-feature);
+  }
+
+  /* DOM order badge on each card */
+  .dom-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 14px;
+    background: #222;
+    border: 1px solid color-mix(in srgb, var(--color-light) 60%, transparent);
+    color: var(--color-light);
+    padding: 4px 7px 0px;
+    font-family: var(--font-base);
+    letter-spacing: 0.05em;
+    z-index: 1;
+  }
+
+  /* CTA card variant */
+  .card-cta .card-thumb {
+    background: #1e1e1e;
+  }
+  .card-cta .card-thumb-inner {
+    text-align: center;
+    padding: 1rem;
+  }
+  .card-cta .card-thumb-inner p {
+    font-family: var(--font-base);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--color-dark);
+    margin-block-end: 0.5rem;
+  }
+  .card-cta .card-link {
+ 		background: rgb(from var(--color-feature) r g b / 0.2);
+  	border-color: var(--color-accent);
+  }
+  .panel-solution .card-cta .card-link {
+ 		background: rgb(from var(--color-feature) r g b / 0.2);
+  	border-color: var(--color-accent);
+  }
+  .card-cta .card-link:hover {
+    opacity: 0.9;
+  }
+
+  .play-btn {
+    padding: 8px 16px;
+    background: rgb(from var(--color-feature) r g b / 0.2);
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    cursor: pointer;
+    margin-block-start: 1rem;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+
+    &::before {
+     	content: none;
+    }
+  }
+
+  .play-btn:hover {
+    background: var(--color-dark);
+    color: var(--color-light);
+  }
+  .play-btn:active {
+    transform: scale(0.98);
+  }
+  .play-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Focus tracker ── */
+  .focus-tracker {
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+    padding: 1rem;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .focus-tracker-label {
+    color: var(--color-dark);
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .focus-sequence {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  .focus-step {
+    padding: 4px 10px;
+    font-size: 14px;
+    border: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    background: color-mix(in srgb, var(--color-feature) 30%, transparent);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .focus-step.active-problem {
+    --color-dark: #8b2500;
+    --color-dark: #8b2500;
+  }
+
+  .focus-step.active-solution {
+    --color-dark: #2a5c3f;
+    --color-dark: #2a5c3f;
+    color: #000;
+  }
+
+  .focus-step.visited {
+    opacity: 0.5;
+  }
+
+  .focus-arrow {
+    color: var(--color-dark);
+    font-size: 10px;
+  }
+
+  .focus-verdict {
+    margin-block-start: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .verdict-bad {
+    background: rgba(255, 92, 53, 0.08);
+    border: 1px solid rgba(255, 92, 53, 0.2);
+    color: var(--color-accent);
+  }
+
+  .verdict-good {
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    color: var(--color-feature);
+  }
+
+  .prose-notice {
+    margin-block-end: 0;
+  }
+
+  .prose-notice:has(+ .eyebrow) {
+    margin-block-end: var(--space-m);
+  }
+
+  .prose-notice.problem {
+    border-color: var(--color-accent);
+  }
+  .prose-notice.solution {
+    border-color: var(--color-feature);
+  }
+  /* ── Code snippet ── */
+  .code-block {
+    background: var(--color-light);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+
+  .code-block pre {
+    margin: 0;
+    white-space: pre;
+  }
+
+  /* ── Hint ── */
+  .hint {
+    color: var(--color-dark);
+    margin-block-start: 1rem;
+  }
+
+  .key {
+    display: inline-block;
+    background: var(--color-light);
+    border: 1px solid #444;
+    border-bottom: 2px solid #444;
+    padding: 1px 6px 0;
+    font-size: 14px;
+    color: var(--color-dark);
+  }
+
+  /* ── How it works ── */
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 1rem 0;
+  }
+
+  .order-table th {
+    text-align: left;
+    padding: 6px 10px;
+    background: var(--color-light);
+    font-family: var(--font-base);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-block-end: 8px;
+    border-bottom: 1px solid var(--color-dark);
+    font-weight: 400;
+  }
+
+  .order-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--color-dark);
+    color: var(--color-dark);
+    vertical-align: middle;
+  }
+
+  .order-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    width: 100%;
+  }
+
+  .tag-dom {
+    background: var(--color-light);
+    border: 1px dashed var(--color-dark);
+    color: var(--color-dark);
+    border: 1px solid #444;
+  }
+  .tag-visual {
+    background: rgba(255, 92, 53, 0.12);
+    color: var(--color-accent);
+    border: 1px solid rgba(255, 92, 53, 0.3);
+  }
+  .tag-focus {
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--color-feature);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+  }
+
+  /* ── Footer ── */
+  .footer-note {
+    margin-block-start: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-dark);
+    font-size: 14px;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  .footer-note a {
+    color: var(--color-dark);
+  }
+</style>

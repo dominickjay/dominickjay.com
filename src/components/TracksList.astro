@@ -1,0 +1,49 @@
+---
+export interface Props {
+  tracks?: Array<{
+    title: string;
+    artist: string;
+    name: string;
+  }>;
+}
+
+const { tracks = [] } = Astro.props;
+---
+
+<ol
+  class="feature-list flow max-md:!mx-[-16px] !list-none !pl-0 pt-[16px]"
+  style="--flow-space: 0;"
+>
+  {
+    tracks.map((track, i) => (
+      <li class="item">
+        <div class="link link--small" data-small data-type="track">
+          <span class="index">{String(i + 1).padStart(2, "0")}</span>
+          <div class="body">
+            <span class="title">
+              {track.title || track.name}{" "}
+              <span class="artist">by {track.artist}</span>
+            </span>
+          </div>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<script is:inline>
+  // Stagger reveal
+  const items = document.querySelectorAll(".item");
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const i = [...items].indexOf(e.target);
+        setTimeout(() => e.target.classList.add("visible"), i * 26);
+        obs.unobserve(e.target);
+      });
+    },
+    { threshold: 0.05 },
+  );
+  items.forEach((el) => obs.observe(el));
+</script>

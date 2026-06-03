@@ -1,0 +1,7 @@
+.about {
+    --flow-space: var(--space-l);
+
+    @media (width >= 768px) {
+        --flow-space: 64px;
+    }
+}

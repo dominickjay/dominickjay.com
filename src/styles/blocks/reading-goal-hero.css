@@ -1,0 +1,125 @@
+@layer components {
+  .reading-goal-hero {
+    background: color-mix(in srgb, var(--color-feature) 15%, var(--color-dark));
+    color: var(--color-light);
+    font-size: 1rem;
+  }
+
+  .reading-goal-hero *::selection {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: var(--color-dark);
+  }
+
+  .reading-goal-hero__main {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: var(--space-m);
+  }
+
+  .reading-goal-hero__eyebrow {
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-light);
+    font-family: var(--font-base);
+  }
+
+  .reading-goal-hero__caption {
+    font-family: var(--font-base);
+    color: var(--color-light);
+  }
+
+  .reading-goal-hero__progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    justify-content: center;
+  }
+
+  .reading-goal-hero__progress-meta {
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-light);
+    /*opacity: 0.85;*/
+  }
+
+  .reading-goal-hero__progress-track {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    width: 100%;
+  }
+
+  .reading-goal-hero__progress-fill {
+    height: 100%;
+    width: var(--_pct, 0);
+    background: color-mix(
+      in srgb,
+      var(--color-feature) 40%,
+      var(--color-light)
+    );
+    transition: width 0.2s ease;
+  }
+
+  .reading-goal-hero__summary {
+    font-size: 1rem;
+    color: var(--color-light);
+    /*opacity: 0.85;*/
+    margin: 0;
+  }
+
+  .reading-goal-hero__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-block-start: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .reading-goal-hero__stat {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+
+    @media (width < 640px) {
+      padding: var(--space-xs) var(--space-m);
+    }
+  }
+
+  .reading-goal-hero__stat:first-child {
+    border-inline-start: none;
+  }
+
+  .reading-goal-hero__stat-label {
+    font-size: 1rem;
+    color: var(--color-light);
+    text-transform: capitalize;
+    letter-spacing: 0;
+  }
+
+  @media (width < 640px) {
+    .reading-goal-hero__main {
+      grid-template-columns: 1fr;
+      padding: var(--space-m);
+    }
+
+    .reading-goal-hero__count {
+      padding-block-end: var(--space-m);
+      border-block-end: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .reading-goal-hero__progress-wrap {
+      padding-block-start: var(--space-m);
+    }
+
+    .reading-goal-hero__stats {
+      grid-template-columns: 1fr;
+    }
+
+    .reading-goal-hero__stat {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+}

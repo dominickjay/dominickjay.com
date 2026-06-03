@@ -1,0 +1,432 @@
+---
+title: 'Selecting all siblings with the :has() function'
+description: "Reaching an element's siblings in CSS used to be tough. :has() changes everything."
+intro: "I was experimenting with the :has() function recently, and put together a quick demonstration of how to select all an elements siblings and style them. It ended up being picked by CodePen, so this post is demonstrating how that was put together."
+pubDate: '2023-04-26'
+tags:
+  - css
+supported: bcd.css["selectors"].has.__compat
+growth: evergreen
+---
+
+import PlaceholderImage from '../../components/PlaceholderImage.astro';
+import HasDemo1 from '../../components/demos/HasDemo1.astro';
+import HasDemo2 from '../../components/demos/HasDemo2.astro';
+import HasDemo3 from '../../components/demos/HasDemo3.astro';
+import FYIBlock from "../../components/FYIBlock.astro";
+
+<FYIBlock type="success">
+	<span slot="title">Update - 23rd December, 2024</span>
+	<div slot="body">This is now supported in all evergreen browsers, so need for an enabled flag to deal with this support - hooray!</div>
+</FYIBlock>
+
+## The problem with siblings
+
+It's been notoriously difficult to select elements depending on their children (almost as hard as that one level on Crash Bandicoot when you have to ride a tiger down the Great Wall of China, or that level on Max Payne with the crying baby and the blood line path), or siblings that came before it. Super easy to say _"let's make this box red when it is an element following on from an element with a class of outline"_.
+
+`.outline + .red`
+
+<style>{`
+  .box {
+  	width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    background-color: var(--color-dark);
+  }
+
+  .outline {
+    background-color: white;
+    border: 1px solid color-mix(in srgb, var(--color-dark) 25%, transparent);
+  }
+
+  #one-red-box .outline + .box,
+  .outline + .box + .box + .box + .box {
+    background-color: #b94a38;
+  }
+
+  .box-row {
+    display: flex;
+    column-gap: 25px;
+    margin-block: 20px;
+    background-color: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-dark) 50%, transparent);
+    padding: 15px;
+  }
+`}</style>
+
+<div class="box-row" id="one-red-box">
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+</div>
+
+But how do we get the 3rd or 4th element away from that outlined box, and make it red? Keep on chaining selectors, like this `.outline + .box + .box + .box + .box`?
+
+```css
+.outline + .box,
+.outline + .box + .box + .box + .box {
+  background-color: #b94a38;
+}
+```
+
+<div class="box-row">
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+Yeah that did it too....but blimey it's awful isn't it. We also can't make the 1st box red if the third box our outlined box, based on the `.outline` class. There's no example I can think of that would demonstrate how it doesn't work - feel free to enlighten me and I'll add it to this post.
+
+## Enter :has()
+
+With this complication comes the perfect excuse to take `:has()` for a spin. We can use it to style our intended box red, when the element after it has the `.outline` class.
+
+```css
+.box:has( + .outline) {
+  background-color: #b94a38;
+}
+```
+
+<style>{`
+  #has-example-row .box:has( + .outline) {
+    background-color: #b94a38;
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+### Adding hover states
+
+So given that we've got access to previous siblings, we've got the ability to add states to them. Make that red box turn orange on hover? No problemo.
+
+```css
+.box:has( + .outline) {
+  background-color: #b94a38;
+  transition: .3s ease-in-out background-color;
+}
+
+/* Apply this when our box is hovered AND
+has the outline classed box next to it */
+.box:hover:has( + .outline) {
+  background-color: #ff5f1f;
+}
+```
+
+<style>{`
+  #has-example-row-2 .box:has( + .outline) {
+    background-color: #b94a38;
+    transition: .3s ease-in-out background-color;
+  }
+  #has-example-row-2 .box:hover:has( + .outline) {
+    background-color: #ff5f1f;
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-2">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+## Flipping the relationship
+
+What if we _flipped_ this, and have the red box go orange when the **outlined** box is hovered? With `:has()` it's easy enough.
+
+```css
+.box:has( + .outline) {
+  background-color: #b94a38;
+  transition: .3s ease-in-out background-color;
+}
+
+/* Apply this when our box is hovered AND
+has the outline classed box next to it */
+.box:has( + .outline:hover) {
+  background-color: #ff5f1f;
+}
+```
+<style>{`
+  #has-example-row-3 .box:has( + .outline) {
+    background-color: #b94a38;
+    transition: .3s ease-in-out background-color;
+  }
+  #has-example-row-3 .box:has( + .outline:hover) {
+    background-color: #ff5f1f;
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-3">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+## Selecting all siblings at once
+
+See where this is going? Now, we're going to move our selector from `.box` to the parent `.box-row` and use a `*` to select all the elements in the row, turning them orange.
+
+<style>{`
+  #has-example-row-4 > * {
+    background-color: color-mix(in srgb, var(--color-feature) 100%, transparent);;
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-4">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+Then we'll change it, using `:has()` on the parent element to check if any of the `.outline` classes are hovered. Then we can apply a style using `:not()`, passing the `:hover` state through. Effectively saying that in this block, any boxes that aren't hovered, should turn orange when our `.outline` class is hovered.
+
+```css
+#has-example-row-5:has( .outline:hover ) > *:not(:hover) {
+  background-color: #ff5f1f;
+}
+```
+
+<style>{`
+  #has-example-row-5:has( .outline:hover ) > *:not(:hover) {
+    background-color: #ff5f1f;
+    transition: .3s ease-in-out background-color;
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-5">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box outline"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+Almost there. Let's remove `.outline` from our statement, replacing it with another `*` selector. So now in this block, any boxes that aren't hovered, should turn orange when ~~our `.outline` class~~ any of our elements are hovered.
+
+```css
+#has-example-row-6:has( *:hover ) > *:not(:hover) {
+  background-color: #ff5f1f;
+}
+```
+
+<style>{`
+  #has-example-row-6 > * {
+    transition: .3s ease-in-out background-color;
+  }
+
+  #has-example-row-6:has( *:hover ) > *:not(:hover) {
+    background-color: var(--color-feature, #ff5f1f);
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-6">
+  <div class="box "></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+## Blurring the rest
+
+We're so close, but only because the rest is not specifically `:has()` related. We're going to use `placeskull.com` to provide some images in our row blocks. Now we don't benefit from the background color, let's use `filter: blur(4px)` and apply that to the image at the end of our `:has()` statement. We'll also need `overflow: hidden` on the images parent div to prevent the blur from going over the edges - this keeps it nice and contained.
+
+```css
+#has-example-row-7 > * {
+  transition: .3s ease-in-out all;
+}
+
+#has-example-row-7:has( *:hover ) > *:not(:hover) img {
+  filter: blur(4px);
+}
+```
+
+<style>{`
+  #has-example-row-7 > * {
+    overflow: hidden;
+  }
+
+  #has-example-row-7 > *{
+    transition: .3s ease-in-out all;
+  }
+
+  #has-example-row-7:has( *:hover ) > *:not(:hover) {
+    filter: blur(4px);
+  }
+`}</style>
+
+<div class="box-row" id="has-example-row-7">
+  <div class="box">
+    <PlaceholderImage ratio="1 / 1" />
+  </div>
+  <div class="box">
+  	<PlaceholderImage ratio="1 / 1" />
+  </div>
+  <div class="box">
+  	<PlaceholderImage ratio="1 / 1" />
+  </div>
+  <div class="box">
+  	<PlaceholderImage ratio="1 / 1" />
+  </div>
+  <div class="box">
+  	<PlaceholderImage ratio="1 / 1" />
+  </div>
+</div>
+
+Lastly, we'll put a `transform: scale()` on the image, and also add a background color to the images parent block to be able to cover the whitespace caused by the scale, and voila!
+
+<style>{`
+  .main-container {
+    border: 1px solid color-mix(in srgb, var(--color-dark) 50%, transparent);
+    padding: 20px;
+    margin-block: 20px;
+    position: relative;
+  }
+
+  .has-grid {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 1rem;
+    place-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .has-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .cell {
+    grid-column: span 2/span 2;
+    overflow: hidden;
+    background: black;
+  }
+
+  .cell {
+    width: 100%;
+    {/* transition: .65s cubic-bezier(0.680, -0.550, 0.265, 1.550) all; */}
+    transition: all 0.25s ease-in-out;
+  }
+
+  .has-grid:has( > *:hover ) > *:not(:hover) {
+    transition: all 0.25s ease-in-out;
+    filter: blur(4px);
+    transform: scale(0.95);
+  }
+
+  .attribute {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    text-align: center;
+    max-width: 750px;
+    font-family: 'Erode', sans-serif;
+  }
+
+  .attribute a {
+    font-weight: 500;
+  }
+
+  .helpful-hint {
+    margin-block: 40px;
+    font-size: 1.85rem;
+    text-align: center;
+    font-family: 'Erode', sans-serif;
+  }
+`}</style>
+
+<div class="main-container">
+	<div class="has-grid">
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+		<div class="cell">
+			<PlaceholderImage ratio="1 / 1" />
+		</div>
+	</div>
+</div>
+
+## Where :has() really earns its keep
+
+Our demo above is a pretty straightforward example of :has() in action, but it really shows it's worth when it's replacing JavaScript. Below are three real-world patterns that benefit from using :has() instead.
+
+### Form state styling
+
+The demo below shows how to highlight a label or fieldset when the input inside it is invalid.
+
+```css
+.field:has(input:invalid) {
+  --field-border: var(--color-error);
+  --field-label: var(--color-error);
+}
+```
+
+The `.field` wrapper responds to how valid the input inside it is. One rule handles every field in the form.
+
+<HasDemo1 />
+
+### Card selection with sibling dimming
+
+When one card is selected, dim the others without toggling classes or writing JS.
+
+```css
+.cards:has(input:checked) .card:not(:has(input:checked)) {
+  opacity: 0.35;
+}
+```
+
+The `.cards` grid detects any checked input and targets every sibling that doesn't have one. The selection state lives in the checkbox and `:has()` does the rest.
+
+<HasDemo2 />
+
+### Card grid layout
+
+Switch a grid from two columns to three when a third card is present - no container queries, no JS counting children.
+
+```css
+.card-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.card-grid:has(.card:nth-child(3)) {
+  grid-template-columns: repeat(3, 1fr);
+}
+```
+
+The grid adapts to its own content, updating the layout according to the amount of cards present.
+
+<HasDemo3 />

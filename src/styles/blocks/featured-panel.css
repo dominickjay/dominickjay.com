@@ -1,0 +1,25 @@
+@layer components {
+  @layer base {
+    .featured-panel {
+      --gutter: var(--space-s);
+
+      container: featured-panel / inline-size;
+    }
+
+    @scope (.featured-panel) {
+      :scope {
+        inline-size: 100%;
+
+        ul {
+          --grid-placement: 2;
+        }
+
+        @container (width < 640px) {
+          ul {
+            --grid-placement: 1;
+          }
+        }
+      }
+    }
+  }
+}

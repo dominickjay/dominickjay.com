@@ -15,8 +15,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npm install
-      - run: npm run generate-links
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate Links
+        run: npm run generate-links
         env:
           RAINDROP_API_KEY: ${{ secrets.RAINDROP_API_KEY }}
           RAINDROP_BOOKMARKS: ${{ secrets.RAINDROP_BOOKMARKS }}

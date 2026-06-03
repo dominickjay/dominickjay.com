@@ -1,0 +1,41 @@
+.category-filters {
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  gap: 0;
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-snap-align: start;
+  scroll-snap-align: start;
+  position: relative;
+
+  .category-filter:last-child {
+    margin-inline-end: var(--space-l);
+  }
+
+  .h3 {
+    margin-inline-end: var(--space-s);
+  }
+}
+
+.category-filter {
+  color: #2c5364;
+  text-decoration: none;
+  transition:
+    background-size 0.85s cubic-bezier(0.23, 1, 0.32, 1),
+    color 0.2s;
+  padding: 2px 4px;
+  border: none;
+  font-family: var(--font-base);
+  cursor: pointer;
+  text-align: left;
+
+  &::before {
+    content: none;
+  }
+
+  &.active {
+    background-size: 100% 100%;
+  }
+}

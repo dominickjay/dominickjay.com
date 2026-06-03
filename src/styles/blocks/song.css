@@ -1,0 +1,15 @@
+.song {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    @media (min-width: 725px) {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        width: fit-content;
+    }
+}

@@ -1,0 +1,41 @@
+---
+import GrowthPanelItem from "../components/GrowthPanelItem.astro";
+
+const { evergreen, growing, seedling } = Astro.props;
+
+const evergreenSection = {
+	title: "Evergreen (Stable Knowledge)",
+	description: "Stable and fully realised. These posts reflect current best practice and aren't likely to need significant updates.",
+	posts: evergreen,
+	query: "evergreen",
+}
+
+const growingSection = {
+	title: "Growing (Active Learning)",
+	description: "Active learning. These posts are being actively updated and reflect the latest best practice.",
+	posts: growing,
+	query: "growing",
+}
+
+const seedlingSection = {
+	title: "Seedling (New Knowledge)",
+	description: "New knowledge. These posts are being written and are not yet stable.",
+	posts: seedling,
+	query: "seedling",
+}
+
+const sections = [evergreenSection, growingSection, seedlingSection];
+---
+
+<div class="growth-panel">
+  <h2 class="sr-only">My Digital Garden</h2>
+  <div
+    class="growth-panel__content flex flex-col justify-center gap-[32px] md:gap-[32px]"
+  >
+    <div class="flex flex-col gap-[32px] md:gap-[64px]">
+    	{sections.map((section) => (
+    		<GrowthPanelItem section={section} />
+    	))}
+    </div>
+  </div>
+</div>

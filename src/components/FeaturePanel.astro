@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Props = {
+  featuredPosts: CollectionEntry<'writing'>[];
+}
+
+const { featuredPosts } = Astro.props;
+---
+
+<div class="featured-panel grid">
+	<ul class="grid">
+	  {
+	    featuredPosts.map((post) => (
+	      <li>
+	        <a href={`/writing/${post.id}/`} class={`featured-post js-spotlight`}>
+	          <span class={`growth`} data-growth={post.data.growth}>
+	            {post.data.growth}
+	          </span>
+	          <span class="featured-post__title">{post.data.title}</span>
+	        </a>
+	      </li>
+	    ))
+	  }
+	</ul>
+</div>
+
+<script>
+  /** @type {HTMLElement[]} */
+  const cards = document.querySelectorAll<HTMLElement>(".js-spotlight");
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty(
+        "--mx",
+        ((e.clientX - r.left) / r.width) * 100 + "%",
+      );
+      card.style.setProperty(
+        "--my",
+        ((e.clientY - r.top) / r.height) * 100 + "%",
+      );
+    });
+  });
+</script>

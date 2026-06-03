@@ -1,0 +1,32 @@
+@layer components {
+  @scope (.growth) {
+    :scope {
+      font-family: var(--font-base);
+      font-size: 0.875rem;
+      letter-spacing: 0.14em;
+      color: var(--growth-option);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border: 1px solid var(--growth-option);
+      padding: var(--space-xs) var(--space-s) 0;
+      width: fit-content;
+
+      @media (width < 768px) {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  /* Exceptions: data attribute drives the token, not modifier classes */
+  .growth[data-growth="evergreen"] {
+    --growth-option: var(--color-evergreen);
+  }
+  .growth[data-growth="growing"] {
+    --growth-option: var(--color-growing);
+  }
+  .growth[data-growth="seedling"] {
+    --growth-option: var(--color-seedling);
+  }
+}

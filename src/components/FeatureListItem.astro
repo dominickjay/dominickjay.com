@@ -1,0 +1,51 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+const {
+  title,
+  tags,
+  pubDate,
+  lastModified,
+  id,
+  growth,
+  i,
+  theme = "default",
+  external = "false"
+} = Astro.props;
+---
+
+<li
+  class="item"
+  {...external === "false" ? {
+    "data-stage": growth ?? "all",
+    "data-topics": tags?.join(",") ?? "",
+    "data-title": title?.toLowerCase() ?? ""
+  } : {}}
+>
+  <a
+  	href={external === "false" ? `/writing/${id}/` : id}
+  	class={`link ${theme != "default" ? "link--" + theme : ""}`}
+    {...external == "true" ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+  >
+  	{i &&
+    	<span class="index">{i}</span>
+    }
+    <div class="body">
+      <span class="title">{title}</span>
+      {tags &&
+	      <div class="meta">
+          <div class="meta__item">
+            <FormattedDate date={lastModified ?? pubDate} />
+            <span class="topics">{tags?.join(", ")}</span>
+          </div>
+	        {
+	          growth !== undefined && (
+	            <span class={`growth`} data-growth={growth}>
+	              {growth}
+	            </span>
+	          )
+	        }
+	      </div>
+      }
+    </div>
+  </a>
+</li>

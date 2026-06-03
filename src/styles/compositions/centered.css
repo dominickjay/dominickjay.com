@@ -1,0 +1,9 @@
+@layer layout {
+    .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--gutter, var(--space-s));
+        margin-inline: auto;
+    }
+}

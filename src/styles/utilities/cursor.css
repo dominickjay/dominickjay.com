@@ -1,0 +1,36 @@
+@media (hover: hover) {
+  html {
+    cursor: none;
+    scroll-behavior: smooth;
+  }
+  /* ── CURSOR ── */
+  #cur {
+    position: fixed;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--color-light);
+    pointer-events: none;
+    z-index: 9999;
+    top: -50%;
+    left: -50%;
+    transform: translate(-50%, -50%);
+
+    mix-blend-mode: difference;
+
+    transition:
+      width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
+      height 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body.cur-sm {
+    --cursor-width: 1px;
+    --cursor-height: 22px;
+    --cursor-radius: 1px;
+  }
+
+  body.cur-lg {
+    --cursor-width: 43px;
+    --cursor-height: 43px;
+  }
+}
