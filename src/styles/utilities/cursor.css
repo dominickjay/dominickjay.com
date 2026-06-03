@@ -5,17 +5,17 @@
   }
   /* ── CURSOR ── */
   #cur {
-    inline-size: var(--cursor-width, 25px);
-    block-size: var(--cursor-height, 25px);
-    border-radius: var(--cursor-radius, 50%);
     position: fixed;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
     background: var(--color-light);
     pointer-events: none;
     z-index: 9999;
-    top: 0;
-    left: 0;
+    top: -50%;
+    left: -50%;
+    transform: translate(-50%, -50%);
 
-    transform: translate(-999px, -999px) translate(-50%, -50%);
     mix-blend-mode: difference;
 
     transition:
