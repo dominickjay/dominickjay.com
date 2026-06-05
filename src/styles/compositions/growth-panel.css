@@ -13,6 +13,12 @@
         display: grid;
         grid-template-rows: auto 1fr;
         gap: var(--space-m);
+
+        @media (width < 768px) {
+          .big-link {
+            order: 2;
+          }
+        }
       }
 
       .growth-panel__header {
