@@ -26,6 +26,7 @@
     "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@bramus/sda-utilities": "^1.1.1",
+    "@bryanguffey/astro-standard-site": "^1.0.3",
     "@js-temporal/polyfill": "^0.5.1",
     "@mdn/browser-compat-data": "^7.1.12",
     "@sanity/astro": "^3.2.11",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "@chromatic-com/playwright": "^0.12.7",
     "chromatic": "^13.3.0",
+    "gray-matter": "^4.0.3",
     "netlify-cli": "^21.5.0"
   }
 }

@@ -1,0 +1,176 @@
+---
+title: 'Falling Inline - Adding the Standard.site Plugin to Astro'
+description: ""
+pubDate: '2026-06-05'
+tags:
+  - astro
+growth: growing
+draft: true
+---
+
+[https://standard.site/](https://standard.site/)
+
+[https://npmx.dev/package/@bryanguffey/astro-standard-site](https://npmx.dev/package/@bryanguffey/astro-standard-site)
+
+Run `npm install @bryanguffey/astro-standard-site`
+
+Two different options;
+1. Display Bluesky Comments on Your Blog
+2. Full Setup: Publish to ATProto
+
+## Full Setup: Publish to ATProto
+
+Create an app password at [https://bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords) and make a note of it.
+Create a publication record in `scripts/`.
+
+```ts
+// scripts/create-publication.ts
+import { StandardSitePublisher } from '@bryanguffey/astro-standard-site';
+
+const publisher = new StandardSitePublisher({
+  handle: 'you.bsky.social',
+  appPassword: process.env.ATPROTO_APP_PASSWORD!,
+});
+
+await publisher.login();
+
+const result = await publisher.publishPublication({
+  name: 'My Awesome Blog',
+  url: 'https://yourblog.com',
+  description: 'Thoughts on code, life, and everything',
+  // Optional: customize your theme colors (RGB 0-255)
+  basicTheme: {
+    background: { r: 13, g: 17, b: 23 },
+    foreground: { r: 230, g: 237, b: 243 },
+    accent: { r: 74, g: 124, b: 155 },
+    accentForeground: { r: 255, g: 255, b: 255 },
+  },
+});
+
+console.log('Publication created!');
+console.log('AT-URI:', result.uri);
+console.log('Save this rkey for verification:', result.uri.split('/').pop());
+```
+
+walk through basicTheme
+
+```ts
+basicTheme: {
+  background: { r: 13, g: 17, b: 23 },
+  foreground: { r: 230, g: 237, b: 243 },
+  accent: { r: 74, g: 124, b: 155 },
+  accentForeground: { r: 255, g: 255, b: 255 },
+},
+```
+
+run `ATPROTO_APP_PASSWORD="xxxx-xxxx-xxxx-xxxx" npx tsx scripts/create-publication.ts` in terminal
+
+It looks like a mistake in the docs;
+
+```ts
+const publisher = new StandardSitePublisher({
+  handle: 'you.bsky.social',
+  appPassword: process.env.ATPROTO_APP_PASSWORD!,
+});
+
+```
+
+should be
+
+```ts
+const publisher = new StandardSitePublisher({
+  identifier: "dominickjay.bsky.social",
+  password: process.env.ATPROTO_APP_PASSWORD!,
+});
+```
+
+Created github issue here [https://github.com/musicjunkieg/astro-standard-site/issues/5](https://github.com/musicjunkieg/astro-standard-site/issues/5)
+
+
+```ts
+import "dotenv/config";
+import { readdir, readFile } from "fs/promises";
+import { join } from "path";
+import matter from "gray-matter";
+import {
+  StandardSitePublisher,
+  transformContent,
+  type PublishDocumentInput,
+} from "@bryanguffey/astro-standard-site";
+
+const SITE_URL = "https://dominickjay.com";
+const CONTENT_DIR = "src/content/writing";
+
+const identifier = process.env.ATPROTO_IDENTIFIER?.trim();
+const password = process.env.ATPROTO_APP_PASSWORD?.trim();
+
+if (!identifier || !password) {
+  console.error("Missing ATPROTO_IDENTIFIER or ATPROTO_APP_PASSWORD in .env");
+  process.exit(1);
+}
+
+function toDocument(
+  path: string,
+  data: Record<string, unknown>,
+  body: string,
+): PublishDocumentInput {
+  const { markdown, textContent } = transformContent(body, {
+    siteUrl: SITE_URL,
+    postPath: path,
+  });
+
+  return {
+    site: SITE_URL,
+    path,
+    title: data.title as string,
+    description: (data.description as string) ?? "",
+    publishedAt: new Date(data.pubDate as string | Date).toISOString(),
+    updatedAt: data.updatedDate
+      ? new Date(data.updatedDate as string | Date).toISOString()
+      : undefined,
+    tags: (data.tags as string[]) ?? [],
+    textContent,
+    content: {
+      $type: "site.standard.content.markdown",
+      text: markdown,
+      version: "1.0",
+    },
+  };
+}
+
+const publisher = new StandardSitePublisher({ identifier, password });
+
+await publisher.login();
+
+const existingByPath = new Map(
+  (await publisher.listDocuments()).map((d) => [d.value.path, d]),
+);
+
+const files = (await readdir(CONTENT_DIR)).filter((f) => /\.(md|mdx)$/.test(f));
+
+const posts = await Promise.all(
+  files.map(async (file) => {
+    const { data, content: body } = matter(
+      await readFile(join(CONTENT_DIR, file), "utf-8"),
+    );
+    return { file, data, body };
+  }),
+);
+
+for (const { file, data, body } of posts) {
+  if (!data.title || !data.pubDate || data.draft) continue;
+
+  const path = `/writing/${file.replace(/\.(md|mdx)$/, "")}`;
+  const doc = toDocument(path, data, body);
+  const existing = existingByPath.get(path);
+
+  if (existing) {
+    const rkey = existing.uri.split("/").pop()!;
+    const result = await publisher.updateDocument(rkey, doc);
+    console.log(`Updated: ${data.title}\n  → ${result.uri}`);
+  } else {
+    const result = await publisher.publishDocument(doc);
+    console.log(`Published: ${data.title}\n  → ${result.uri}`);
+  }
+}
+```
