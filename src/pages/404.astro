@@ -6,27 +6,6 @@ import Header from "../components/Header.astro";
 import Footer	 from "../components/Footer.astro";
 import { getCollection } from "astro:content";
 
-const staticRoutes = [
-  {
-    href: "/books",
-    title: "Reading List",
-    aliases: ["/reading-list", "/book", "/reading"],
-  },
-];
-
-// let posts = [];
-
-// if (import.meta.env.ENVIRONMENT === "production") {
-//   posts = await getCollection("writing", ({ data }) => !data?.draft);
-// } else {
-//   posts = await getCollection("writing");
-// }
-
-// posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// const random = Math.floor(Math.random() * posts.length);
-// const randomPost = posts[random];
-
 function levenshteinDistance(a, b) {
   a = a.toLowerCase();
   b = b.toLowerCase();
@@ -54,14 +33,46 @@ function levenshteinDistance(a, b) {
   return distances[b.length];
 }
 
+const posts =
+  import.meta.env.ENVIRONMENT === "production"
+    ? await getCollection("writing", ({ data }) => !data?.draft)
+    : await getCollection("writing");
+
+const staticRoutes = [
+  {
+    href: "/books",
+    title: "Reading List",
+    paths: ["/books", "/reading-list", "/book", "/reading"],
+  },
+  {
+    href: "/music",
+    title: "Music",
+    paths: ["/music", "/music-list", "/song", "/songs"],
+  }
+];
+
+const postRoutes = posts.map((post) => ({
+  href: `/writing/${post.id}`,
+  title: post.data.title,
+  paths: [`/writing/${post.id}`],
+}));
+
+const possibleRoutes = [...staticRoutes, ...postRoutes];
+
 const requestedPath = Astro.url.pathname;
 
 const recommendedRoute = possibleRoutes
-  .map((route) => ({
-    ...route,
-    distance: levenshteinDistance(requestedPath, route.href),
-  }))
+  .flatMap((route) =>
+    route.paths.map((path) => ({
+      href: route.href,
+      title: route.title,
+      distance: levenshteinDistance(requestedPath, path),
+    })),
+  )
   .sort((a, b) => a.distance - b.distance)[0];
+
+const showRecommendation =
+  recommendedRoute != null && recommendedRoute.distance <= 8;
 
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
@@ -98,11 +109,13 @@ const ogImage = getImagePath({ url, site });
             forgot to set up a redirect. Sorry about that.
           </div>
 
-          <div class="relative">
-            Want something random? Try this <a
-              href={`/writing/${randomPost.id}`}>{randomPost.data.title}</a
-            >
-          </div>
+          {
+            showRecommendation && (
+              <div class="relative">
+                Did you mean <a href={recommendedRoute.href}>{recommendedRoute.title}</a>?
+              </div>
+            )
+          }
         </div>
       </div>
     </main>
