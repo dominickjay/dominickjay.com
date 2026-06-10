@@ -2,13 +2,14 @@
 title: 'Google Has Opinions About What Your Posts Say'
 description: 'In software development, the goalposts constantly move. Every new framework, spec, or API brings the anxiety of having to be the all-knowing expert. This article unpacks the universal Imposter Tax of the profession and offers four actionable strategies—shifting your value from knowledge storage to knowledge translation.'
 draft: true
-layout: BlogPost
 pubDate: '2025-10-26'
 growth: seedling
 tags:
   - seo
   - ai
 ---
+
+import FYIBlock from '../../components/FYIBlock.astro';
 
 Last year, while working on a refresh of a client site, we noticed something odd about the way the pages appeared in Google's search results. The title was right, the image was right, the URL was right...but the description underneath it? Well, that wasn't exactly correct. In fact, it was completely wrong. I mean, don't get me wrong, it wasn't a site that was talking about bricks with a description talking about unicorns, but the description certainly wasn't what I'd set it as. Originally, I considered that this was correct once, that maybe the old description was this a while ago, and I'd fallen prey to needing a reindexing of the site to show the new one. Was it that? Nope.
 
@@ -24,14 +25,22 @@ This is, unfortunately, the new baseline. Google's AI Overviews, and now AI Mode
 
 Google clarified this more in January 2024, updating documentation further to remove language that implied that structured data and the meta description element are the primary sources for the snippets used.
 
-This is the new baseline. Google's AI Overviews - and now AI Mode, its more conversational sibling - don't just pull your meta description anymore. They interpret your page. They synthesise it. And if your content is even slightly ambiguous, they'll resolve that ambiguity in whatever direction they find most useful to the searcher, not necessarily the direction you intended.
+This is the new baseline. Google's AI Overviews - and now AI Mode, its more conversational sibling - don't just pull your meta description anymore. They absorb your page like a sponge and - whether you like it or not - they'll resolve whatever vagueness they find with whatever they find most useful for the searcher, rather than the direction that is actually intended.
 
-The good news is there are tools to push back. They're already in the spec. Most developers just haven't had a reason to reach for them until now.
+<FYIBlock type="info">
+	<span slot="title">Writers Opinion</span>
+	<div slot="body">Sounds pretty messy, right? Even if the vagueness wasn't intended, having Google fill in the gap to attempt to explain what it thinks is right, is a pretty bad idea and leaves way to an intepretation that is wildly inaccurate. Bricks and unicorns. Maybe AIsplaining is the right term.</div>
+</FYIBlock>
 
-## What's actually happening
-For years, Google's snippet was mostly predictable. It would pull from your <meta name="description"> tag if it existed, or fall back to the first readable chunk of your page content if it didn't. Occasionally it would grab a passage that best matched the search query. Either way, the text came from your page, more or less verbatim.
+But good news, regardless of whether we think this is the right way forwards, there's tools that we can reach for to push back a bit and get it in line. Even better news! They're already in the spec, so we're not waiting around for a 'one day' possibility to come to fruition.
 
-That contract has quietly changed. Google's AI features - AI Overviews, AI Mode, and increasingly standard search snippets too - now use Gemini-based models to generate descriptions rather than extract them. The model reads your page, decides what it's about, and writes a summary optimised for the searcher's presumed intent. Your meta description becomes one input signal among many, not a binding instruction.
+## So, what's going on?
+
+In what seems like a lifetime ago, Google's snippet in their search results would pull from the `<meta name="description">` tag if it was present - if not, it would fallback to the first readable chunk of page content. Occasionally, it would grab text that best matched the search query. Either way, the text came from your page, more or less.
+
+Recently, that has quietly changed. Google's AI features - AI Overviews, AI Mode, and increasingly standard search snippets too - now use Gemini-based models to generate descriptions rather than extract them. The model reads through your page, makes a snap decision on what it's about, and then writes a summary that is optimised for the searcher's assumed intention. The meta description of the site isn't just the deciding factor, it's one of many to aid that decision.
+
+Google's position on this is that of a feature - AI takes into consideration multiple signals
 
 Google itself positions this as a feature: AI considers multiple signals - meta description, on-page content, structured data, headings, and semantic relevancy - to produce a coherent summary. From a user experience standpoint, that's often genuinely useful. From a developer's standpoint, it means the words appearing under your site's name in search results are no longer entirely yours to write.
 
