@@ -1,0 +1,11 @@
+@layer components {
+  .post-container {
+    & .blockquote {
+      margin-block: var(--space-xl) !important;
+
+      @media (width < 640px) {
+        margin-block: var(--space-m) !important;
+      }
+    }
+  }
+}

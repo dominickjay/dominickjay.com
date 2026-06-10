@@ -12,9 +12,9 @@ const words = text.split(/\s+/).map((word: string, i: number) => ({
 <a
 	data-scramble-on-load
 	href={href}
-	class="big-link"
+	class="big-link gradient-background"
 >
-	<span class="gradient-background" data-scramble={words.map((w) => w.text).join(" ")}>
+	<span data-scramble={words.map((w) => w.text).join(" ")}>
 		{words.map((w, i) => (
 			<span
 				class:list={["sw", w.italic && "italic"]}

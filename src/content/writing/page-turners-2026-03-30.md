@@ -4,10 +4,10 @@ pubDate: 2026-03-30
 description: "This months page turners have articles written by Terry Godier, David Bushell, Nicole Sullivan, Stuart Robson and Abbey Perini. Plus a crazy video of a CSS game and a unique portfolio site."
 tags:
   - page turners
-draft: true
+showCTA: false
 ---
 <ul class="page-turners stacked">
-<li>
+	<li>
       <a class="link-item stacked" href=https://dbushell.com/2026/03/23/top-ten-figma-betrayls/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">dbushell.com</span>
@@ -20,7 +20,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://terrygodier.com/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">terrygodier.com</span>
@@ -33,7 +33,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://nerdy.dev/css-logical-rhythm target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">nerdy.dev</span>
@@ -46,7 +46,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://youtube.com/shorts/ir_SB_vqaQY?si=pfK12kHiLfCLQ_PE target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">youtube.com</span>
@@ -58,7 +58,7 @@ draft: true
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://www.alwaystwisted.com/articles/beyond-the-blur-css-backdrop-filter?utm_source=the-index&utm_medium=newsletter target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">www.alwaystwisted.com</span>
@@ -66,12 +66,12 @@ draft: true
         </div>
         <div class="body stacked">
           <span class="title h3">A Guide to the CSS Backdrop-Filter Property</span>
-          <p>A concise guide to CSS backdrop-filter for glassmorphism and translucent overlays — how it works, why order matters, and an interactive CodePen playground.</p>
+          <p>A concise guide to CSS backdrop-filter for glassmorphism and translucent overlays - how it works, why order matters, and an interactive CodePen playground.</p>
           <img src=https://www.alwaystwisted.com/images/articles/meta-images/backdrop-filter.png alt="" loading="lazy">
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://piccalil.li/blog/finding-an-accessibility-first-culture-in-npmx/?utm_source=the-index&utm_medium=newsletter target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">piccalil.li</span>
@@ -79,19 +79,19 @@ draft: true
         </div>
         <div class="body stacked">
           <span class="title h3">Finding an accessibility-first culture in npmx</span>
-          <p>Today is the alpha release of npmx — an alternative browser for the npm registry. Abbey Perini joined early and soon discovered accessibility was a deep part of the culture, right from the start, which was both refreshing and incredibly productive.</p>
+          <p>Today is the alpha release of npmx - an alternative browser for the npm registry. Abbey Perini joined early and soon discovered accessibility was a deep part of the culture, right from the start, which was both refreshing and incredibly productive.</p>
           <img src=https://piccalil.li/images/social-share/npmx-alpha-launch.png alt="" loading="lazy">
         </div>
       </a>
     </li>
-<li>
+    <li>
       <a class="link-item stacked" href=https://jinsupark.com/ target="_blank" rel="noopener">
         <div class="meta">
           <span class="domain">jinsupark.com</span>
           <span class="type eyebrow">sites</span>
         </div>
         <div class="body stacked">
-          <span class="title h3">© Jin Su Park — Oasis One</span>
+          <span class="title h3">© Jin Su Park - Oasis One</span>
           <p>Woah. Really nice spin on a portfolio site and definetely one of the more unique versions I've seen in a long time.</p>
           <img src=https://jinsupark.com/ogImage.jpg alt="" loading="lazy">
         </div>

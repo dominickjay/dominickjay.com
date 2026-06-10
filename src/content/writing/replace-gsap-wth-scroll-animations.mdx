@@ -163,14 +163,14 @@ So anyway, where were we, so by setting this up this way, this starts the underl
 A great tool to work with for finding out the correct values here is [https://scroll-driven-animations.style](https://scroll-driven-animations.style/tools/view-timeline/ranges/#range-start-name=cover&range-start-percentage=0&range-end-name=cover&range-end-percentage=50&view-timeline-axis=block&view-timeline-inset=0&subject-size=smaller&subject-animation=none&interactivity=clicktodrag&show-areas=yes&show-fromto=yes&show-labels=yes), a super helpful visualizer for this. Tinkering around with it, we can change `animation-range: entry 0% entry 100%;` to `animation-range: cover 0% cover 60%`, so the highlighting effect starts when it appears in the bottom of the viewport, and finishes when it's 60% of the way up the screen.
 
 <Picture
-    layout="full-width"
-    src="/images/projects/view-timeline-screenshot.png"
-    formats={["avif", "webp"]}
-    alt="A screenshot from scroll-driven-animations.style showing support the setup for a timeline range"
-    loading="eager"
-    height={894}
-    width={906}
-  />
+  layout="full-width"
+  src="/images/view-timeline-screenshot.png"
+  formats={["avif", "webp"]}
+  alt="A screenshot from scroll-driven-animations.style showing support the setup for a timeline range"
+  loading="eager"
+  height={894}
+  width={906}
+/>	
 
 Bingo. That seemed to do the trick pretty well, check out our final demo below. Again, this was very much written while I was learning, so if there's anything that could be done differently, please let me know!
 

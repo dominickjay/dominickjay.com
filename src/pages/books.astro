@@ -1,6 +1,7 @@
 ---
 // Astro.response.headers.set("Cache-Control", "p currently ublic, max-age=300, s-maxage=86400");
 import BaseHead from "../components/BaseHead.astro";
+import Cursor from "../components/Cursor.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BookItem from "../components/BookItem.astro";
@@ -58,7 +59,6 @@ async function hardcoverGraphQL(
   const cacheKey = JSON.stringify({ query, variables });
   const cached = getCached(cacheKey);
   if (cached) {
-    console.log("💾 Using cached response for query");
     return cached;
   }
 
@@ -97,7 +97,6 @@ async function hardcoverGraphQL(
 
   const json = await response.json();
   setCached(cacheKey, json);
-  // console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
   return json;
 }
 
@@ -212,25 +211,42 @@ try {
     ),
   ]);
 
-  allBooks = listInfo.data.me[0].user_books || [];
-  backlog = toReadData.data.me[0].user_books || [];
-  currentlyReading = currentDataAndList.data.me[0].user_books || [];
-  currentList = currentDataAndList.data.me[0].lists[0] || [];
-  currentListCount = currentList.books_count;
-  currentListBooks = currentList.list_books;
+  const me = currentDataAndList.data?.me?.[0];
+  const list = me?.lists?.[0];
+
+  allBooks = listInfo.data?.me?.[0]?.user_books ?? [];
+  backlog = toReadData.data?.me?.[0]?.user_books ?? [];
+  currentlyReading = me?.user_books ?? [];
+  currentList = list ?? [];
+  currentListCount = list?.books_count ?? 0;
+  currentListBooks = list?.list_books ?? [];
 } catch (error) {
   console.error(error);
   // Expected output: ReferenceError: nonExistentFunction is not defined
   // (Note: the exact output may be browser-dependent)
 }
+const getListBookUserBook = (listBook) => listBook?.book?.user_books?.[0] ?? null;
+const getListBookStatus = (listBook) =>
+  getListBookUserBook(listBook)?.user_book_status?.slug;
+const getPrimaryAuthor = (book) =>
+  book?.contributions?.[0]?.author?.name || "Unknown Author";
+
 const readCount = currentListBooks.filter(
-  (book) => book.book.user_books[0].user_book_status.slug == "read",
+  (book) => getListBookStatus(book) === "read",
 );
+const currentlyReadingListBooks = currentListBooks
+  ?.slice()
+  .reverse()
+  .filter((book) => getListBookStatus(book) === "currently-reading");
+const queuedListBooks = currentListBooks?.filter((book) => {
+  const status = getListBookStatus(book);
+  return status !== "currently-reading" && status !== "read";
+});
 
 let booksByYear = allBooks.reduce((acc, entry) => {
   const title = entry.book.title;
 
-  entry.user_book_reads.forEach((read) => {
+  entry.user_book_reads?.forEach((read) => {
     if (read.finished_at) {
       const year = new Date(read.finished_at).getFullYear();
       if (!acc[year]) acc[year] = [];
@@ -240,10 +256,9 @@ let booksByYear = allBooks.reduce((acc, entry) => {
         acc[year].push({
           id: entry.book.id,
           title,
-          author: entry.book.contributions[0].author.name,
-          finished: entry.user_book_reads[0].finished_at,
+          author: getPrimaryAuthor(entry.book),
+          finished: entry.user_book_reads?.[0]?.finished_at,
         });
-        // console.log(acc[year]);
       }
     }
   });
@@ -277,7 +292,7 @@ const ogImage = getImagePath({ url, site });
     />
   </head>
   <body>
-    <div id="cur"></div>
+    <Cursor />
     <Header />
     <main>
       <div
@@ -302,14 +317,14 @@ const ogImage = getImagePath({ url, site });
                   <div class="reading-goal-hero__progress-fill"></div>
                 </div>
                 <p class="reading-goal-hero__summary">
-                  {readCount.length} books read this year — {toGo} more to hit the
+                  {readCount.length} books read this year - {toGo} more to hit the
                   goal.
                 </p>
               </div>
             </div>
             <div class="reading-goal-hero__stats">
               <div class="reading-goal-hero__stat">
-                <span class="reading-goal-hero__stat-num">
+                <span>
                   {currentlyReading.length}
                 </span>
                 <span class="reading-goal-hero__stat-label eyebrow">
@@ -317,12 +332,12 @@ const ogImage = getImagePath({ url, site });
                 </span>
               </div>
               <div class="reading-goal-hero__stat">
-                <span class="reading-goal-hero__stat-num">{backlog.length}</span
+                <span>{backlog.length}</span
                 >
                 <span class="reading-goal-hero__stat-label eyebrow">In backlog</span>
               </div>
               <div class="reading-goal-hero__stat">
-                <span class="reading-goal-hero__stat-num">
+                <span>
                   {totalReadCount}
                 </span>
                 <span class="reading-goal-hero__stat-label eyebrow">All time read</span>
@@ -331,82 +346,52 @@ const ogImage = getImagePath({ url, site });
           </section>
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">Currently Reading</h2>
-            <ol class="post-list feature-list flow" style="--flow-space: 0;">
+            <ol class="feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks?.slice().reverse().map(
-                  (book) =>
-                    book.book.user_books[0].user_book_status.slug ==
-                      "currently-reading" && (
-                      <BookItem
-                        title={book.book.title}
-                        author={
-                          book.book.contributions[0]?.author.name ||
-                          "Unknown Author"
-                        }
-                        rating={book.book.rating}
-                        cover={book.book.cover}
-                        started={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.started_at
-                        }
-                        finished={
-                          book.book.user_books[0]?.user_book_reads[0]
-                            ?.finished_at
-                        }
-                        status={book.book.user_books[0].user_book_status.slug}
-                        showStrikethrough={
-                          book.book.user_books[0].user_book_status.slug ===
-                          "read"
-                            ? true
-                            : false
-                        }
-                      />
-                    ),
-                )
+                currentlyReadingListBooks.map((book) => {
+                  const userBook = getListBookUserBook(book);
+                  const status = getListBookStatus(book);
+
+                  return (
+                    <BookItem
+                      title={book.book.title}
+                      author={getPrimaryAuthor(book.book)}
+                      rating={book.book.rating}
+                      cover={book.book.cover}
+                      started={userBook?.user_book_reads?.[0]?.started_at}
+                      finished={userBook?.user_book_reads?.[0]?.finished_at}
+                      status={status}
+                      showStrikethrough={status === "read"}
+                    />
+                  );
+                })
               }
             </ol>
           </div>
 
           <div class="flex flex-col gap-[20px]">
             <h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
-            <ol class="post-list feature-list flow" style="--flow-space: 0;">
+            <ol class="feature-list flow" style="--flow-space: 0;">
               {
-                currentListBooks
-                  ?.filter(
-                    (book) =>
-                      book.book.user_books[0].user_book_status.slug !==
-                        "currently-reading" &&
-                      book.book.user_books[0].user_book_status.slug !== "read",
-                  )
-                  ?.map((book, i) => (
+                queuedListBooks.map((book, i) => {
+                  const userBook = getListBookUserBook(book);
+                  const status = getListBookStatus(book);
+
+                  return (
                     <BookItem
                       i={String(i + 1).padStart(2, "0")}
                       title={book.book.title}
-                      author={
-                        book.book.contributions[0]?.author.name ||
-                        "Unknown Author"
-                      }
+                      author={getPrimaryAuthor(book.book)}
                       rating={book.book.rating}
                       cover={book.book.cover}
-                      queued={
-                        book.book.user_books[0].user_book_status.slug === "read"
-                          ? true
-                          : false
-                      }
-                      started={
-                        book.book.user_books[0]?.user_book_reads[0]?.started_at
-                      }
-                      finished={
-                        book.book.user_books[0]?.user_book_reads[0]?.finished_at
-                      }
-                      status={book.book.user_books[0].user_book_status.slug}
-                      showStrikethrough={
-                        book.book.user_books[0].user_book_status.slug === "read"
-                          ? true
-                          : false
-                      }
+                      queued={status === "read"}
+                      started={userBook?.user_book_reads?.[0]?.started_at}
+                      finished={userBook?.user_book_reads?.[0]?.finished_at}
+                      status={status}
+                      showStrikethrough={status === "read"}
                     />
-                  ))
+                  );
+                })
               }
             </ol>
           </div>
@@ -424,7 +409,7 @@ const ogImage = getImagePath({ url, site });
                         </span>
                       </h2>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
+                        class="feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
@@ -447,7 +432,7 @@ const ogImage = getImagePath({ url, site });
                         </span>
                       </summary>
                       <ol
-                        class="post-list feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
+                        class="feature-list flow max-md:mx-[-16px] mt-[var(--space-m)]"
                         style="--flow-space: 0;"
                       >
                         {booksByYear[year].map((book, i) => (
@@ -473,7 +458,7 @@ const ogImage = getImagePath({ url, site });
                   Backlog{" "}
                 </h2>
                 <ol
-                  class="post-list feature-list flow max-md:mx-[-16px]"
+                  class="feature-list flow max-md:mx-[-16px]"
                   style="--flow-space: 0;"
                 >
                   {
@@ -482,10 +467,7 @@ const ogImage = getImagePath({ url, site });
                         i={String(i + 1).padStart(2, "0")}
                         key={book.book.id}
                         title={book.book.title}
-                        author={
-                          book.book.contributions[0]?.author.name ||
-                          "Unknown Author"
-                        }
+                        author={getPrimaryAuthor(book.book)}
                         rating={book.book.rating}
                         cover={book.book.cover}
                       />
@@ -499,37 +481,5 @@ const ogImage = getImagePath({ url, site });
       </div>
     </main>
     <Footer />
-  </body><script is:inline>
-    document.addEventListener("mousemove", (e) => {
-      const cur = document.getElementById("cur");
-      if (cur) {
-        cur.style.left = e.clientX + "px";
-        cur.style.top = e.clientY + "px";
-      }
-    });
-    document.querySelectorAll(".prose, .body, .intro").forEach((el) => {
-      el.addEventListener("mouseenter", () =>
-        document.body.classList.add("cur-sm"),
-      );
-      el.addEventListener("mouseleave", () =>
-        document.body.classList.remove("cur-sm"),
-      );
-    });
-    document
-      .querySelectorAll(
-        "a:not([class]), .home-link, button, .post-item, .big-link",
-      )
-      .forEach((el) => {
-        el.addEventListener(
-          "mouseenter",
-          () => document.body.classList.remove("cur-sm"),
-          document.body.classList.add("cur-lg"),
-        );
-        el.addEventListener(
-          "mouseleave",
-          () => document.body.classList.add("cur-sm"),
-          document.body.classList.remove("cur-lg"),
-        );
-      });
-  </script>
+  </body>
 </html>

@@ -39,7 +39,6 @@ function writePost(tracks) {
     .replace("{{tracks}}", tracksJson);
 
   if (process.env.DEBUG) {
-    // console.log(postContent);
     return;
   }
 
@@ -47,11 +46,9 @@ function writePost(tracks) {
 }
 
 async function main() {
-  console.log("Starting main function");
   try {
     const items = await getTopTracks(apiKey, 10);
     if (!items?.length) {
-      console.log("No links found for this period, exiting");
       process.exit(0);
     }
     writePost(items);

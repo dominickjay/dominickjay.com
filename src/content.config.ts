@@ -21,7 +21,7 @@ const writing = defineCollection({
     linksFrom: z.string().optional(),
     linksTo: z.string().optional(),
     growth: z.enum(["evergreen", "growing", "seedling"]).optional(),
-    showCTA: z.boolean().optional() || true,
+    showCTA: z.boolean().optional() || false,
   }),
 });
 

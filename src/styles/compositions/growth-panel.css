@@ -6,12 +6,19 @@
         flex-direction: column;
         gap: var(--space-xl);
         padding-block-end: var(--space-xl);
+        padding-block: 64px;
       }
 
       .growth-panel__item {
         display: grid;
         grid-template-rows: auto 1fr;
         gap: var(--space-m);
+
+        @media (width < 768px) {
+          .big-link {
+            order: 2;
+          }
+        }
       }
 
       .growth-panel__header {

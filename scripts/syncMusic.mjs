@@ -7,10 +7,8 @@ const token = process.env.SANITY_API_TOKEN?.trim();
 const apiKey = process.env.LAST_FM_API_KEY?.trim();
 const fanartApiKey = process.env.FANART_API_KEY?.trim();
 
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing SANITY_PROJECT_ID, SANITY_DATASET, or SANITY_API_TOKEN",
-  );
+if (!projectId) {
+  console.error("Missing SANITY_PROJECT_ID");
   process.exit(1);
 }
 if (!apiKey) {
@@ -49,7 +47,6 @@ if (topTracksData?.error) {
   process.exit(1);
 }
 const topTracksJson = JSON.stringify(topTracksData);
-console.log("Top tracks JSON length:", topTracksJson?.length ?? 0);
 
 const topArtistsData = await topArtistsRes.json();
 if (topArtistsData?.error) {
@@ -61,8 +58,6 @@ if (topArtistsData?.error) {
   process.exit(1);
 }
 const artists = topArtistsData?.topartists?.artist ?? [];
-console.log(artists);
-console.log("Artists count:", artists.length);
 
 function toImageArray(img) {
   if (!img) return [];
@@ -131,7 +126,6 @@ try {
     topTracksJson,
     recentArtistsJson,
   });
-  console.log("Music cache sync complete.");
 } catch (e) {
   console.error("Sanity write failed:", e.message || e);
   process.exit(1);

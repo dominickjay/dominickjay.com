@@ -22,7 +22,7 @@
         }
       }
 
-      /* z-index stacking context only — no layout */
+      /* z-index stacking context only - no layout */
       .testimonials-inner {
         --gutter: var(--space-m);
 
@@ -31,7 +31,6 @@
 
         @media (width < 640px) {
           --gutter: var(--space-s);
-          --direction: column-reverse;
         }
       }
 
@@ -106,6 +105,17 @@
         top: -3px;
       }
 
+      .meta {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-s);
+
+        @media (width < 768px) {
+          flex-direction: column;
+          gap: 0;
+        }
+      }
+
       .testimonial-name {
         color: var(--color-dark);
       }
@@ -119,6 +129,10 @@
 
         &::before {
           content: "·";
+
+          @media (width < 768px) {
+            content: none;
+          }
         }
       }
     }

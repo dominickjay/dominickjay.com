@@ -1,6 +1,17 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+export const EXTERNAL_WRITING = [
+  {
+    href: "https://serieseight.com/journal/technical-debt",
+    label: "4 ways to reduce technical debt during front-end dev",
+  },
+  {
+    href: "https://serieseight.com/journal/hey-all-day-2024",
+    label: "The biggest things we learned at Hey! All Day 2024",
+  },
+];
+
 export const MAIN_NAVIGATION = [
   {
     href: "/writing",
@@ -48,7 +59,7 @@ export const EXTERNAL_NAVIGATION = [
 ];
 export const SITE_TITLE = "Dom Jay | Developer & Writer";
 export const SITE_DESCRIPTION =
-  "Writing about CSS, JavaScript, and the web platform by Dom Jay — a developer and writer based in the UK.";
+  "Writing about CSS, JavaScript, and the web platform by Dom Jay - a developer and writer based in the UK.";
 export const SITE_TAGLINE = "Leave it better than you found it";
 export const CURRENT_POSITION = "Front-End Developer";
 export const CURRENT_COMPANY = "Series Eight";
@@ -104,7 +115,7 @@ export const TESTIMONIALS = [
     role: "Project Manager",
     company: "Series Eight",
     description:
-      "Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates — he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
+      "Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates - he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
   },
   {
     id: "testimonial-4",

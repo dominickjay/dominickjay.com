@@ -1,0 +1,49 @@
+.browser-support-table {
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  .browser-support-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+
+  .browser-support-table caption {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .browser-support-table th,
+  .browser-support-table td {
+    padding: 0.75rem;
+    border: 1px solid var(--color-dark);
+    text-align: left;
+  }
+
+  .browser-support-table th {
+    background-color: var(--color-bg-secondary);
+    font-weight: 700;
+  }
+
+  .browser-support-table thead th {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+  }
+
+  .browser-support-table .support-yes {
+    color: var(--color-success);
+  }
+
+  .browser-support-table .support-no {
+    color: var(--color-error);
+  }
+
+  .browser-support-table thead {
+    border-bottom: 1px solid var(--color-dark);
+  }
+
+  .browser-support-table tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }

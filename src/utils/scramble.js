@@ -1,6 +1,14 @@
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%·—";
 const FRAMES = 14;
-const INTERVAL_MS = 38;
+const INTERVAL_MS = 50;
+
+/**
+ * Unique characters from a string for the scramble pool.
+ * @param {string} str
+ * @returns {string[]}
+ */
+function poolFromString(str) {
+  return [...new Set(str)];
+}
 
 /**
  * Scrambles an element's text content, resolving
@@ -15,13 +23,19 @@ export function scramble(el) {
   const original =
     el.dataset.scramble ?? (el.dataset.scramble = el.textContent ?? "");
 
+  const pool = poolFromString(original);
+  if (!pool.length) {
+    el._busy = false;
+    return;
+  }
+
   let frame = 0;
   const id = setInterval(() => {
     el.textContent = [...original]
       .map((char, i) =>
         frame / FRAMES > i / original.length
           ? char
-          : CHARS[Math.floor(Math.random() * CHARS.length)],
+          : pool[Math.floor(Math.random() * pool.length)],
       )
       .join("");
     if (++frame > FRAMES) {
@@ -45,8 +59,8 @@ export function initScramble() {
   // Lock the container dimensions before any scramble runs.
   // A single offsetWidth read here prevents Safari from reflowing
   // the surrounding layout on every frame of the animation.
-  document.querySelectorAll("[data-scramble-on-load]").forEach((container) => {
-    container.style.width = container.offsetWidth + "px";
+  document.querySelectorAll("[data-scramble]").forEach((container) => {
+    container.style.width = container.offsetWidth + 60 + "px";
     container.style.height = container.offsetHeight + "px";
   });
 

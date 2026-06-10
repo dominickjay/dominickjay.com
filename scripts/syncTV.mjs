@@ -6,18 +6,20 @@ const token = process.env.SANITY_API_TOKEN?.trim();
 const traktClientId = process.env.TRAKT_CLIENT_ID?.trim();
 const TRAKT_USERNAME = process.env.TRAKT_USERNAME?.trim();
 
-if (!projectId || !dataset || !token) {
-  console.error(
-    "Missing SANITY_PROJECT_ID, SANITY_DATASET, or SANITY_API_TOKEN",
-  );
+if (!projectId) {
+  console.error("Missing SANITY_PROJECT_ID");
   process.exit(1);
+}
+if (!dataset) {
+  console.error("Missing SANITY_DATASET");
+}
+if (!token) {
+  console.error("Missing SANITY_API_TOKEN");
 }
 if (!traktClientId || !TRAKT_USERNAME) {
   console.error("Missing TRAKT_CLIENT_ID or TRAKT_USERNAME");
   process.exit(1);
 }
-
-console.log(`Syncing TV for ${TRAKT_USERNAME}...`);
 
 const client = createClient({
   projectId,
@@ -69,10 +71,6 @@ if (item.type === "movie") {
   episode = item.episode?.number;
 }
 
-console.log(
-  `Last watched: ${title}${season != null ? ` S${String(season).padStart(2, "0")}E${String(episode).padStart(2, "0")}` : ""}`,
-);
-
 const tvJson = JSON.stringify({
   title,
   season,
@@ -87,8 +85,6 @@ try {
     lastUpdated: new Date().toISOString(),
     tvJson,
   });
-  console.log("TV cache sync complete.");
 } catch (e) {
-  console.error("Sanity write failed:", e.message || e);
   process.exit(1);
 }

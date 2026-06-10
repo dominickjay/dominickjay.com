@@ -32,7 +32,7 @@
     </div>
     <p class="card-selection-status">
       <span class="default-msg">Tap any card to select it</span>
-      <span class="selected-msg">✓ Plan selected</span>
+      <span class="selected-msg">Plan selected</span>
     </p>
   </div>
 </div>
@@ -103,7 +103,7 @@
 		  font-size: 0.85rem;
 		  font-weight: 500;
 		  display: block;
-		  margin-bottom: var(--space-xs);
+		  margin-block-end: var(--space-xs);
 		  color: var(--text);
 		  transition: color 0.2s;
 		}
@@ -117,7 +117,7 @@
 		  display: block;
 		}
 
-		/* ── :has() — checked card gets accent border ── */
+		/* ── :has() - checked card gets accent border ── */
 		.card-item:has(input:checked) label {
 		  border-color: var(--color-accent);
 		  box-shadow: 0 0 0 1px var(--color-accent), 0 4px 16px rgba(44, 83, 100, 0.12);
@@ -128,7 +128,7 @@
 		  color: var(--color-accent);
 		}
 
-		/* ── :has() — sibling cards dim when any is selected ── */
+		/* ── :has() - sibling cards dim when any is selected ── */
 		.cards-grid:has(input:checked) .card-item:not(:has(input:checked)) label {
 		  opacity: 0.3;
 		}
@@ -139,14 +139,14 @@
 
 		/* ── Status message ── */
 		.card-selection-status {
-		  margin-top: var(--space-m);
+		  margin-block-start: var(--space-m);
 		  font-family: var(--font-mono);
 		  font-size: 0.85rem;
 		  color: var(--text-muted);
 		  min-height: 1.4em;
 			border: 1px solid color-mix(in srgb, var(--color-dark) 85%, transparent);
 			width: fit-content;
-			padding: var(--space-s);
+			padding: var(--space-xs) var(--space-m);
 		}
 
 		.cards-wrapper:has(input:checked) .card-selection-status .default-msg { display: none; }

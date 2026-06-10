@@ -1,7 +1,7 @@
 /* ── Injected wrapper ──────────────────────────────────────── */
 .code-block-wrap {
   position: relative;
-  margin-bottom: 32px;
+  margin-block-end: 32px;
   overflow: hidden;
 }
 
@@ -85,8 +85,8 @@ pre,
 }
 
 :not(pre) > code {
-  background: rgb(from var(--feature-color) r g b / 0.15);
-  border: 1px solid rgb(from var(--feature-color) r g b / 0.3);
+  background: rgb(from var(--color-feature) r g b / 0.15);
+  border: 1px solid rgb(from var(--color-feature) r g b / 0.3);
   top: -1px;
   position: relative;
   padding: 2px 7px;

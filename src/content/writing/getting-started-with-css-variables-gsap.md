@@ -7,8 +7,6 @@ growth: seedling
 tags:
   - javascript
   - css
-  - CSSentials
-  - ByteSize
 ---
 
 ## Key Benefits

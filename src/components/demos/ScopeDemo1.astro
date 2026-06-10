@@ -137,17 +137,17 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   <!-- ══════════════════════════════
        TAB STRIP
   ══════════════════════════════ -->
-  <div class="tab-strip" role="tablist">
+  <div class="tabs" role="tablist">
     <button
-      class="tab-btn active"
+      class="tab active eyebrow"
       role="tab"
       aria-selected="true"
       data-tab="markup">Markup</button
     >
-    <button class="tab-btn" role="tab" aria-selected="false" data-tab="output"
+    <button class="tab eyebrow" role="tab" aria-selected="false" data-tab="output"
       >Output</button
     >
-    <button class="tab-btn" role="tab" aria-selected="false" data-tab="css"
+    <button class="tab eyebrow" role="tab" aria-selected="false" data-tab="css"
       >CSS</button
     >
   </div>
@@ -160,7 +160,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- BEM -->
       <div class="col">
         <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
+          <span class="badge badge--bem eyebrow">BEM</span>
           <span class="head-label">Markup</span>
           <span class="stat"><strong>7</strong> classes</span>
         </div>
@@ -169,7 +169,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
           <span class="code-neutral" set:html={bemMarkupHighlighted} />
         </div>
         <div class="class-count">
-          <div class="label">Classes in markup</div>
+          <div class="eyebrow">Classes in markup</div>
           <div class="pills">
             <span class="pill">card</span>
             <span class="pill">card__image-container</span>
@@ -190,7 +190,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- @scope -->
       <div class="col">
         <div class="head head--scope">
-          <span class="badge badge--scope">@scope</span>
+          <span class="badge badge--scope eyebrow">@scope</span>
           <span class="head-label">Markup</span>
           <span class="stat"><strong>1</strong> class</span>
         </div>
@@ -199,7 +199,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
           <span class="code-neutral" set:html={scopeMarkupHighlighted} />
         </div>
         <div class="class-count">
-          <div class="label">Classes in markup</div>
+          <div class="eyebrow">Classes in markup</div>
           <div class="pills">
             <span class="pill pill--scope">card</span>
             <span class="pill pill--removed">card__image-container</span>
@@ -227,7 +227,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- BEM output -->
       <div class="col">
         <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
+          <span class="badge badge--bem eyebrow">BEM</span>
           <span class="head-label">Rendered output</span>
         </div>
         <div class="preview">
@@ -252,7 +252,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       <!-- @scope output -->
       <div class="col">
         <div class="head head--scope">
-          <span class="badge badge--scope">@scope</span>
+          <span class="badge badge--scope eyebrow">@scope</span>
           <span class="head-label">Rendered output</span>
         </div>
         <div class="preview">
@@ -276,7 +276,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       </div>
 
       <div class="same-output-banner">
-        Identical output — the difference is entirely in the markup and
+        Identical output - the difference is entirely in the markup and
         stylesheet, not the result
       </div>
     </div>
@@ -286,24 +286,24 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
        TAB: CSS
   ══════════════════════════════ -->
   <div class="tab-panel" id="tab-css" role="tabpanel">
-    <div class="css-diff">
-      <div class="head-cols">
-        <div class="head head--bem">
-          <span class="badge badge--bem">BEM</span>
-          <span class="head-label">Flat selectors, block prefix repeated</span>
-        </div>
+    <div class="split">
+     	<div class="col">
+       	<div class="head head--bem">
+         <span class="badge badge--bem">BEM</span>
+         <span class="head-label">Flat selectors, block prefix repeated</span>
+	      </div>
+       	<div set:html={bemHighlighted} />
+     	</div>
+      <div class="col">
         <div class="head head--scope">
           <span class="badge badge--scope">@scope</span>
           <span class="head-label">Nested, element selectors, one root</span>
         </div>
+       	<div set:html={scopeHighlighted} />
       </div>
-      <div class="cols">
-        <div class="col col--shiki" set:html={bemHighlighted} />
-        <div class="col col--shiki" set:html={scopeHighlighted} />
-      </div><!-- /.cols -->
-    </div><!-- /.css-diff -->
-  </div><!-- /.tab-panel -->
-</div><!-- /.demo-wrapper -->
+    </div>
+  </div>
+</div>
 
 <script is:inline>
   const tabs = document.querySelectorAll(".tab-btn");
@@ -348,17 +348,13 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     }
 
     .tab-btn {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       padding: 0.6rem 1.25rem;
       border: none;
       background: none;
       cursor: pointer;
       color: var(--color-dark);
       border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
+      margin-block-end: -2px;
       transition:
         color 0.15s,
         border-color 0.15s;
@@ -369,13 +365,13 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     }
     .tab-btn:hover {
       color: var(--color-dark);
-      background: rgb(from var(--feature-color) r g b / 0.1);
+      background: rgb(from var(--color-feature) r g b / 0.1);
       transition: background 0.15s ease-in-out;
     }
     .tab-btn.active {
       color: var(--color-dark);
-      background: rgb(from var(--feature-color) r g b / 0.1);
-      border-bottom-color: rgb(from var(--feature-color) r g b);
+      background: rgb(from var(--color-feature) r g b / 0.1);
+      border-bottom-color: rgb(from var(--color-feature) r g b);
     }
   }
 
@@ -403,10 +399,10 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
     .col {
-      border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-right: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
     .col:last-of-type {
       border-right: none;
@@ -417,23 +413,20 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-bottom: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
     .head--bem {
-      background: rgb(from var(--feature-color) r g b / 0.1);
+      background: rgb(from var(--color-feature) r g b / 0.1);
     }
     .head--scope {
-      background: rgb(from var(--feature-color) r g b / 0.2);
+      background: rgb(from var(--color-feature) r g b / 0.2);
     }
 
     .badge {
-      font-family: var(--font-mono);
-      font-size: 14px;
-      letter-spacing: 0.12em;
       color: var(--color-dark);
-      text-transform: uppercase;
       padding: 0.15rem 0.5rem;
       border-radius: 2px;
+      line-height: 1.8;
     }
 
     .badge--bem,
@@ -442,26 +435,17 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     }
 
     .badge--bem {
-      background: rgb(from var(--feature-color) r g b / 0.2);
+      background: rgb(from var(--color-feature) r g b / 0.2);
     }
 
     .badge--scope {
-      background: rgb(from var(--feature-color) r g b / 0.3);
-    }
-
-    .head-label {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: var(--color-dark);
+      background: rgb(from var(--color-feature) r g b / 0.3);
     }
 
     .stat {
-      margin-left: auto;
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      color: var(--color-dark);
-      text-transform: uppercase;
+      margin-inline-start: auto;
     }
+
     .stat strong {
       font-weight: 600;
       color: var(--color-dark);
@@ -491,14 +475,14 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       letter-spacing: 0.12em;
       color: var(--color-dark);
       text-transform: uppercase;
-      margin-bottom: 0.75rem;
+      margin-block-end: 0.75rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid #3a3630;
     }
 
     .same-output-banner {
       grid-column: 1 / -1;
-      background: rgb(from var(--feature-color) r g b / 0.1);
+      background: rgb(from var(--color-feature) r g b / 0.1);
       border-top: 1px solid #b8ddc0;
       padding: 0.6rem 1.25rem;
       display: flex;
@@ -516,7 +500,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       }
       .col:first-child {
         border-right: none;
-        border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+        border-bottom: 1px solid rgb(from var(--color-feature) r g b / 0.5);
       }
       .same-output-banner {
         grid-column: 1;
@@ -534,11 +518,11 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   @scope (.class-count) {
     :scope {
       padding: 1rem;
-      border-top: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-top: 1px solid rgb(from var(--color-feature) r g b / 0.5);
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      background: rgb(from var(--feature-color) r g b / 0.1);
+      background: rgb(from var(--color-feature) r g b / 0.1);
     }
     .label {
       font-family: var(--font-mono);
@@ -546,7 +530,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--color-dark);
-      margin-bottom: 0.25rem;
+      margin-block-end: 0.25rem;
     }
     .pills {
       display: flex;
@@ -558,23 +542,21 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       font-size: 14px;
       padding: 0.15rem 0.5rem;
       border-radius: 2px;
-      background: rgb(from var(--feature-color) r g b / 0.2);
+      background: rgb(from var(--color-feature) r g b / 0.2);
       color: var(--color-dark);
-      letter-spacing: 0.12em;
     }
     .pill--scope {
-      background: rgb(from var(--feature-color) r g b / 0.3);
+      background: rgb(from var(--color-feature) r g b / 0.3);
       color: var(--color-dark);
-      border: 1px solid rgb(from var(--feature-color) r g b / 0.4);
+      border: 1px solid rgb(from var(--color-feature) r g b / 0.4);
     }
     .pill--removed {
-      background: rgb(from var(--feature-color) r g b / 0.2);
+      background: rgb(from var(--color-feature) r g b / 0.2);
       color: var(--color-dark);
       text-decoration: line-through;
       opacity: 0.6;
     }
     .note {
-      font-size: 0.85rem;
       color: var(--color-dark);
       font-weight: 400;
       padding-block-start: var(--space-m);
@@ -590,22 +572,21 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   ════════════════════════════════════════ */
   @scope (.css-diff) {
     :scope {
-      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
-      border-top: none;
+      border: 1px solid rgb(from var(--color-feature) r g b / 0.5);
       overflow: hidden;
     }
     .head-cols {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-bottom: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
     .head-cols .head {
       border-bottom: none;
     }
     .head {
-      background: rgb(from var(--feature-color) r g b / 0.1);
+      background: rgb(from var(--color-feature) r g b / 0.1);
       padding: 0.5rem 1rem;
-      border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-bottom: 1px solid rgb(from var(--color-feature) r g b / 0.5);
       font-family: var(--font-mono);
       font-size: 14px;
       letter-spacing: 0.12em;
@@ -629,7 +610,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       line-height: 1.75;
       color: var(--color-dark);
       overflow-x: auto;
-      border-right: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border-right: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
 
     pre {
@@ -654,7 +635,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
       }
       .col:first-child {
         border-right: none;
-        border-bottom: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+        border-bottom: 1px solid rgb(from var(--color-feature) r g b / 0.5);
       }
     }
   }
@@ -666,7 +647,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
   .card-bem {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+    border: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     max-width: 260px;
     width: 100%;
     font-family: var(--font-base);
@@ -728,7 +709,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     :scope {
       display: flex;
       flex-direction: column;
-      border: 1px solid rgb(from var(--feature-color) r g b / 0.5);
+      border: 1px solid rgb(from var(--color-feature) r g b / 0.5);
     }
     img {
       width: 100%;

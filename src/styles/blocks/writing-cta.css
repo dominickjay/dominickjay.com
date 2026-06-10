@@ -1,14 +1,16 @@
 @layer components {
-  @scope (.writing-cta) {
-    :scope {
-      --gutter: var(--space-s);
+  @layer base {
+    @scope (.writing-cta) {
+      :scope {
+        --gutter: var(--space-s);
 
-      display: flex;
-      align-items: flex-end;
-      gap: var(--space-m);
-      padding-block: var(--space-xl);
-      position: relative;
-      flex-wrap: wrap;
+        display: flex;
+        align-items: flex-end;
+        gap: var(--space-m);
+        padding-block: var(--space-xl);
+        position: relative;
+        flex-wrap: wrap;
+      }
 
       &::before {
         content: "";
@@ -16,12 +18,12 @@
         inset-block: 0;
         inset-inline-start: 0;
         width: 100%;
-        height: 1px;
+        height: 2px;
         background: linear-gradient(
           to right,
           transparent,
-          var(--feature-color) 20%,
-          var(--feature-color) 80%,
+          var(--color-feature) 20%,
+          var(--color-feature) 80%,
           transparent
         );
         opacity: 0.5;
@@ -51,7 +53,7 @@
       }
 
       strong {
-        color: var(--feature-color);
+        color: var(--color-feature);
       }
 
       a {

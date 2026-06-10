@@ -5,7 +5,7 @@ import Layout from "../layouts/Home.astro";
 import Header from "../components/Header.astro";
 import Pattern from "../components/Pattern.astro";
 import InfoPanel from "../components/InfoPanel.astro";
-import FeaturePanel from "../components/FeaturePanel.astro";
+import PatternBanner from "../components/Pattern-Banner.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
@@ -55,16 +55,16 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 
 <Layout
   {...{
-    title: "Dom Jay — CSS, JS, and the occasional existential crisis",
+    title: "Dom Jay - CSS, JS, and the occasional existential crisis",
     description:
-      "Dom Jay's digital garden. CSS, JavaScript, and the web platform — written honestly, published impatiently, and updated whenever guilt kicks in.",
+      "Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
   } as any}
 >
   <Header />
   <main>
-    <div>
+    <!-- <div>
       <Pattern />
-    </div>
+    </div> -->
     <section>
       <div>
         <InfoPanel />
@@ -80,15 +80,10 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 		         italicIndices={[2, 5]}
 		       />
         </div>
-        <div class="hero__media">
-            <Profile
-              random="true"
-            />
-            <FeaturePanel featuredPosts={featuredPosts} />
-	        </div>
-        </div>
       </div>
     </section>
+
+    <PatternBanner />
 
     <section>
       <div class="container stacked" style="--gutter: 64px">

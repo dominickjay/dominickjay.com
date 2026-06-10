@@ -13,7 +13,7 @@ tags:
 * [How to optimize SVG files: A complete guide for beginners](https://penpot.app/blog/how-to-optimize-svg-files-a-complete-guide-for-beginners/) - SVG files use mathematical formulas to create graphics, allowing infinite scaling without losing quality, and making them perfect for high-res displays and responsive design.
 * [Instant snapport](https://cssence.com/2025/scroll-margin-scroll-padding/) - How to tweak the optimal viewing region of the scrollport.
 * [Styling siblings with CSS has never been easier. Experimenting with sibling-count and sibling-index | utilitybend](https://utilitybend.com/blog/styling-siblings-with-CSS-has-never-been-easier.-Experimenting-with-sibling-count-and-sibling-index) - Ready to spice up your CSS? This article dives into the new sibling-count() and sibling-index() functions, showing you how they can simplify your styling and create cool effects.
-* [Front-End Field Notes – by Sara Soueidan](https://sarasoueidan.com/newsletter/) - — The personal website of Sara Soueidan, inclusive Web UI engineer
+* [Front-End Field Notes – by Sara Soueidan](https://sarasoueidan.com/newsletter/) - - The personal website of Sara Soueidan, inclusive Web UI engineer
 
 ## Demos
 * [CSS scoped custom property trail grid 👨‍🍳](https://codepen.io/jh3y/pen/wBMXOVz) - ...

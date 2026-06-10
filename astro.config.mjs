@@ -17,8 +17,6 @@ import { env } from "node:process";
 const require = createRequire(import.meta.url);
 const domTheme = require("./src/styles/dom-shiki-theme.json");
 
-console.log("BASE_URL", env.BASE_URL);
-
 // https://astro.build/config
 export default defineConfig({
   site: env.BASE_URL ?? "https://dominickjay.com",
@@ -37,9 +35,9 @@ export default defineConfig({
     mdx({
       extendMarkdownConfig: true,
       smartypants: true,
-			shikiConfig: {
-				theme: domTheme,
-			},
+      shikiConfig: {
+        theme: domTheme,
+      },
     }),
     sitemap(),
     alpinejs(),

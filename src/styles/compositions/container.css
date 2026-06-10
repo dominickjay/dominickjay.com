@@ -2,7 +2,7 @@
   html {
     --container-width: 1456px;
     --real-container-width: min(100vw, var(--container-width));
-    --container-padding: clamp(9px, calc(20vw - 64px), 16px);
+    --container-padding: clamp(9px, calc(20vw - 64px), 32px);
   }
 
   .container {

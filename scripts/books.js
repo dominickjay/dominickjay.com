@@ -30,11 +30,6 @@ function setCached(key, data) {
 async function getTopTracks(apiKey, limit) {
   const hardcoverToken = (process.env.HARDCOVER_TOKEN ?? "").trim();
 
-  console.log("🔧 Config:", {
-    hasToken: !!hardcoverToken,
-    tokenLength: hardcoverToken.length,
-  });
-
   if (!hardcoverToken) {
     console.warn(
       "Warning: hardcoverToken environment variable is not set. " +
@@ -57,7 +52,6 @@ async function getTopTracks(apiKey, limit) {
     const cacheKey = JSON.stringify({ query, variables });
     const cached = getCached(cacheKey);
     if (cached) {
-      console.log("💾 Using cached response for query");
       return cached;
     }
 
@@ -73,19 +67,11 @@ async function getTopTracks(apiKey, limit) {
         : `Bearer ${hardcoverToken}`;
     }
 
-    // console.log("🌐 GraphQL Request:", {
-    //   useAuth,
-    //   variables,
-    //   query: query.substring(0, 100) + "...",
-    // });
-
     const response = await fetch("https://api.hardcover.app/v1/graphql", {
       method: "POST",
       headers,
       body: JSON.stringify({ query, variables }),
     });
-
-    // console.log("🌐 GraphQL Response status:", response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -105,7 +91,6 @@ async function getTopTracks(apiKey, limit) {
 
     const json = await response.json();
     setCached(cacheKey, json);
-    // console.log("🌐 GraphQL Response data:", JSON.stringify(json, null, 2));
     return json;
   }
 
@@ -230,39 +215,11 @@ async function getTopTracks(apiKey, limit) {
 
     // Sort years descending (2026, 2025, etc.)
     const sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
-    // const booksByYear = userBooks.reduce((acc, entry) => {
-    //   const title = entry.book.title;
-
-    //   // A book might have multiple read dates (re-reads)
-    //   entry.user_book_reads.forEach(read => {
-    //     if (read.finished_at) {
-    //       const year = new Date(read.finished_at).getFullYear();
-
-    //       if (!acc[year]) acc[year] = [];
-    //       acc[year].push({ title, date: read.finished_at });
-    //     }
-    //   });
-
-    //   return acc;
-    // }, {});
-
-    // // Sort the years descending
-    // const sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
-
-    // sortedYears.forEach(year => {
-    //   console.log(`--- ${year} ---`);
-    //   booksByYear[year].forEach(b => console.log(`- ${b.title} (${b.date})`));
-    // });
-
-    // console.log("📚 To-read data response:", JSON.stringify(toReadData, null, 2));
-    // console.log("📚 Current data and list response:", JSON.stringify(currentDataAndList, null, 2));
 
     // Extract list books_count
     const readingList = currentDataAndList.data?.me[0].lists[0];
     listBooksCount = readingList.books_count || 0;
     listBooks = readingList.list_books;
-    // console.log("📋 List books_count:", JSON.stringify(list.books_count, null));
-    // console.log("📋 List:", listBooks, null);
 
     const allToReadBooks =
       toReadData.data?.me?.user_books?.map((item) => ({
@@ -274,9 +231,7 @@ async function getTopTracks(apiKey, limit) {
             name: c.author.name,
           })) || [],
       })) || [];
-    // console.log("📚 All to-read books (before filter):", allToReadBooks);
     toReadBooks = allToReadBooks.filter((book) => !listBookIds.has(book.id));
-    // console.log("📚 To-read books (after filter):", toReadBooks);
 
     currentBooks =
       currentDataAndList.data?.me?.user_books?.map((item) => ({
@@ -289,14 +244,10 @@ async function getTopTracks(apiKey, limit) {
           })) || [],
         rating: item.rating,
       })) || [];
-    console.log("📚 Current books:", allToReadBooks);
   } catch (error) {
-    console.error("Error fetching books:", error);
     toReadBooks = [];
     currentBooks = [];
   }
-
-  console.log(currentBooks);
 }
 
 function writePost(tracks) {
@@ -305,8 +256,6 @@ function writePost(tracks) {
     artist: artist.name,
   }));
 
-  console.log(formattedToday);
-
   const tracksJson = JSON.stringify(tracksData, null, 2);
   const postContent = fs
     .readFileSync("./scripts/now_template.mdx", "utf8")
@@ -314,7 +263,6 @@ function writePost(tracks) {
     .replace("{{tracks}}", tracksJson);
 
   if (process.env.DEBUG) {
-    // console.log(postContent);
     return;
   }
 
@@ -322,16 +270,13 @@ function writePost(tracks) {
 }
 
 async function main() {
-  console.log("Starting main function");
   try {
     const items = await getTopTracks(apiKey, 10);
     if (!items?.length) {
-      console.log("No books found for this period, exiting");
       process.exit(0);
     }
     writePost(items);
   } catch (error) {
-    console.error("Failed to generate links:", error.message);
     process.exit(1);
   }
 }

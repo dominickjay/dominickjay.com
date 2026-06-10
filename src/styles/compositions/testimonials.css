@@ -10,6 +10,12 @@
     }
   }
 
+  .big-link {
+    & span {
+      min-width: 0;
+    }
+  }
+
   .testimonials-header {
     display: flex;
     align-items: center;
@@ -38,5 +44,9 @@
     display: flex;
     align-items: center;
     gap: var(--space-s);
+
+    @media (width < 768px) {
+      gap: var(--space-m);
+    }
   }
 }

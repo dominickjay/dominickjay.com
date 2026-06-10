@@ -28,8 +28,6 @@ async function fetchLinks() {
     search: `created:>${formattedFirstOfMonth} created:<${formattedToday}`,
   }).toString();
 
-  // console.log('Fetching from:', url.toString());
-
   try {
     const rsp = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
@@ -94,7 +92,6 @@ function writePost(raindrops) {
     .replace("{{demos}}", demos.join("\n") || "No demos this month");
 
   if (process.env.DEBUG) {
-    // console.log(postContent);
     return;
   }
 
@@ -108,7 +105,6 @@ async function main() {
   try {
     const { items } = await fetchLinks();
     if (!items?.length) {
-      console.log("No links found for this period, exiting");
       process.exit(0);
     }
     writePost(items);
