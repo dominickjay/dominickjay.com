@@ -1,6 +1,6 @@
 ---
 title: 'Google Has Opinions About What Your Posts Say'
-description: 'In software development, the goalposts constantly move. Every new framework, spec, or API brings the anxiety of having to be the all-knowing expert. This article unpacks the universal Imposter Tax of the profession and offers four actionable strategies—shifting your value from knowledge storage to knowledge translation.'
+description: "Google's search results are summarising your page. Its opinions aren't always right - they just need to look like yours."
 draft: true
 pubDate: '2025-10-26'
 growth: seedling
@@ -10,6 +10,9 @@ tags:
 ---
 
 import FYIBlock from '../../components/FYIBlock.astro';
+import MaxSnippetWidget from '../../components/demos/MaxWidgetDemo.astro';
+import NoSnippetPreview from '../../components/demos/NoSnippetPreview.astro';
+import ChecklistItem from '../../components/ChecklistItem.astro';
 
 Last year, while working on a refresh of a client site, we noticed something odd about the way the pages appeared in Google's search results. The title was right, the image was right, the URL was right...but the description underneath it? Well, that wasn't exactly correct. In fact, it was completely wrong. I mean, don't get me wrong, it wasn't a site that was talking about bricks with a description talking about unicorns, but the description certainly wasn't what I'd set it as. Originally, I considered that this was correct once, that maybe the old description was this a while ago, and I'd fallen prey to needing a reindexing of the site to show the new one. Was it that? Nope.
 
@@ -21,6 +24,7 @@ This is, unfortunately, the new baseline. Google's AI Overviews, and now AI Mode
 
 <blockquote class="blockquote stacked" style="--gutter: var(--space-s)">
 	Snippets are primarily created from the page content itself. However, Google sometimes uses the meta description HTML element if it might give users a more accurate description of the page than content taken directly from the page.
+	<cite>[https://developers.google.com/search/docs/appearance/snippet](https://developers.google.com/search/docs/appearance/snippet)</cite>
 </blockquote>
 
 Google clarified this more in January 2024, updating documentation further to remove language that implied that structured data and the meta description element are the primary sources for the snippets used.
@@ -40,61 +44,75 @@ In what seems like a lifetime ago, Google's snippet in their search results woul
 
 Recently, that has quietly changed. Google's AI features - AI Overviews, AI Mode, and increasingly standard search snippets too - now use Gemini-based models to generate descriptions rather than extract them. The model reads through your page, makes a snap decision on what it's about, and then writes a summary that is optimised for the searcher's assumed intention. The meta description of the site isn't just the deciding factor, it's one of many to aid that decision.
 
-Google's position on this is that of a feature - AI takes into consideration multiple signals
+Google's position on this is that of a feature - AI takes into account multiple signals; meta description, content on the page, structured data, headings and semantic relevancy - to put together a summary of the page. From a user experience POV, that's most likely pretty useful. But it also means that you don't have ownership over the words anymore, and when it gets it's summary wrong, that's when it gets sticky. Again, bricks and unicorns. An extreme example, unless of course, your site is giving expert knowledge on unicorn shaped bricks. But the AI isn't lying, it's compressing information, and that's when it loses nuance.
 
-Google itself positions this as a feature: AI considers multiple signals - meta description, on-page content, structured data, headings, and semantic relevancy - to produce a coherent summary. From a user experience standpoint, that's often genuinely useful. From a developer's standpoint, it means the words appearing under your site's name in search results are no longer entirely yours to write.
+## The tools at our disposal
 
-The failure modes are subtle but real. A technical post framed as a "this is how I approached a problem" exploration can be summarised as "a guide to [thing]", stripping the caveats and the learning-in-public context that made it worth reading. A post about an experimental CSS feature - one you explicitly noted was behind a flag - can appear in search as though it's production-ready advice. The AI isn't lying. It's compressing. And compression loses nuance.
+We've mentioned that these controls exist at the HTML level, and the good news is - they're not complicated at all. Google updated it's [robots meta tag documentation](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag), specifically the nosnippet rule definition, to confirm that these directives now apply to AI Overviews and AI Mode - not just the traditional search snippets.
 
-## The developer's toolkit
-The good news: these controls exist at the HTML level, and they're not complicated. Google updated its robots meta tag documentation in 2025 to explicitly confirm that these directives now apply to AI Overviews and AI Mode, not just traditional search snippets.
+<blockquote class="blockquote stacked" style="--gutter: var(--space-s)">
+	Do not show a text snippet or video preview in the search results for this page. A static image thumbnail (if available) may still be visible, when it results in a better user experience. This applies to all forms of search results (at Google: web search, Google Images, Discover, AI Overviews, AI Mode) and will also prevent the content from being used as a direct input for AI Overviews and AI Mode.
+	<cite>[https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag)</cite>
+</blockquote>
 
-The nosnippet and max-snippet directives now apply to all forms of Google search results, including web search, Images, Discover, AI Overviews, and AI Mode. That's a meaningful expansion. Let's go through each tool in order of precision.
+So the `nosnippet` and `max-snippet` directives now apply to all forms of Google search results, including web search, Images, Discover, AI Overviews, and AI Mode, which is quite the expansion. Let's go through each tool from low-impact to high.
 
 ### max-snippet - the constraint
 `<meta name="robots" content="max-snippet:150">`
 
-This tells Google it can generate a snippet, but it must stay under the character limit you specify. It's the lightest touch: you're not blocking interpretation, you're putting a fence around how much of your page can be fed into it.
+This tells Google it can make a snippet, but it has to stay under the character limit that you specify. It's the smallest thing to implement - you're not blocking an interpretation, but you're controlling just how much of your page can be used for that generated content. The effect that comes from doing this is that because the model has less material to work with, it ends up making shorter, less confident summaries - and a further effect from that is that it can't stray far from your actual content. There's just less room for error.
 
-The practical effect is that the model has less material to work with, which tends to produce shorter, less confident summaries - and less room to stray from your actual content. If your post has a clear first paragraph that accurately represents the whole, a tight max-snippet value pushes the AI toward using it rather than synthesising from deeper in the page.
+This snippet is a good one to reach for first as a low-impact change - it limits the generated summary without eliminating search visibility.
 
-This is the directive I'd reach for first on most content: it limits exposure without eliminating search visibility.
+<MaxSnippetWidget />
 
 ### data-nosnippet - the scalpel
+
 This part can be used in a snippet.
 `<span data-nosnippet>This part cannot.</span>`
 
-data-nosnippet is an HTML attribute - not a meta tag - applied directly to span, div, or section elements. It tells Google: this specific content is off-limits for snippet generation. Everything else on the page is still fair game.
+`data-nosnippet` is an HTML attribute rather than a meta tag, which can apply directly to `span`, `div` or `section` elements. Adding this attribute tells Google, "Hey Google, this specific content is off-limits for snippet generation. Everything else on the page is still fair game".
 
-This is the precision tool. It's particularly useful for:
-- Disclaimers and caveats that, taken out of context, would misrepresent the post (e.g. "this feature is experimental and flag-only" - something you want readers to see, but don't want the AI summarising away)
-- Date-sensitive information that may appear outdated in a snippet even though the surrounding content is still accurate
-- Personal context - first-person framing that the AI tends to drop or flatten into third-person authority statements
+It's like using a scalpel, being useful for;
+- Disclaimers and caveats that, if taken out of context, would misrepresent the post e.g. something you want readers to see, but don't want possibly being included in a AI summary.
+- Date-sensitive information that may appear outdated in a snippet - despite the surrounding content being accurate.
+- Personal context - first person experiences that a generated summary would reframe as a third-person authority statement
 
-One thing worth knowing: structured data remains usable even inside data-nosnippet elements - the attribute only excludes content from text snippets, not from rich results driven by schema markup. So you can protect prose without losing recipe cards or FAQ structured data.
+<FYIBlock type="info">
+	<span slot="title">One more thing...</span>
+	<div slot="body">Structured data remains usable even when this attribute is being used - it only excludes it from being used in text snippets, rather than rich results used in schema markups. So using the attribute for information here for product data or FAQs is still protected and visible.</div>
+</FYIBlock>
 
 ### nosnippet - the circuit breaker
 `<meta name="robots" content="nosnippet" />`
 
-This is the nuclear option, and it's worth being clear about what it costs. nosnippet doesn't just block AI interpretation - it removes meta descriptions and rich snippets entirely, preventing Google from showing any text or video snippet for the page across all search features.
+<blockquote class="blockquote stacked" style="--gutter: var(--space-s)">
+	Now I am become nosnippet, the destroyer of interpretation.
+</blockquote>
 
-The result in search is a result with no description text at all - just your title and URL. That's a meaningful hit to click-through rate, because searchers rely on that description to decide whether to click.
+This is the nuclear option, and it's worth being clear about what it costs. `nosnippet` doesn't just block AI interpretation, it removes both meta descriptions and rich snippets entirely. Doing that stops Google from showing any text or video snippets for the page ***across all search features***
+
+Using `nosnippet` ends up showing the results as one with no description at all, just a title, favicon and the URL.
+
+<NoSnippetPreview />
+
+That's quite the hit to click-throughs, because searches really need that valuable description to decide whether or not they want to click through to the page.
 
 Use this for:
-- Pages where the trade-off is worth it - typically high-value proprietary content, or pages where any AI summarisation creates a real accuracy or brand integrity risk
-- Pages that already have low organic visibility and where you'd rather have no snippet than a misleading one
-- Don't use it as a first resort. Most content doesn't warrant the visibility cost.
+- Pages where *not* having the description is worth it, most likely where AI summarisation creates a real accuracy or a risk to the brand integrity.
+- Pages that already have low visibility organically, and having no snippet is a better option that having a misleading one.
+- This is the most extreme case - the sledgehammer - so it shouldn't be used as a first option, most content doesn't need the cost to visibility, so things have to be *wild* to use it.
 
-## The awkward trade-off nobody talks about
-Here's the part the toolkit documentation doesn't fully address: there is currently no way to opt out of AI Overviews while maintaining normal search presence. Google offers no mechanism to prevent your content from appearing in AI Overviews while keeping your standard snippets and descriptions intact - publishers are forced into difficult trade-off decisions.
+## The not-so-good trade-off
 
-nosnippet blocks everything. max-snippet and data-nosnippet constrain the inputs but don't prevent AI generation altogether. If you want to appear in search results with your own description, the honest answer is that you can influence the output but not fully control it.
+Moving on to the bit that Google docs sneakily doesn't mention. Simply put, there is not a mechanism to stop your content from appearing in AI Overviews whilst also keeping the standard setup for snippets and descriptions intact, there's just no way to opt out of it. So we have to reach for the tools above as we're forced into making difficult trade-offs. `nosnippet` blocks everything, the others - `max-snippet` and `data-nosnippet` constrain the description but don't prevent AI generation altogehter. If you want to appear in search results consistently, then you're left with a situation where you can influce, but not fully control, the output.
 
 What you can do is make the AI's job harder by writing with more precision. Counterintuitively, writing clearly and specifically tends to produce more accurate AI summaries - the model has less ambiguity to resolve. Posts with a strong first paragraph that accurately summarises the whole, with the most important caveats front-loaded rather than buried, tend to survive summarisation better.
 
 That's not a complete solution. It's just worth knowing that some of the defence is in the writing itself.
 
 ## Treating your content as an API
+
 There's a framing shift that's helped me think about this more clearly. Your site's content isn't just text that humans read - it's data that machines consume and re-serve. The accuracy of what those machines say about your site is a form of quality control that previously didn't exist, because snippets came from your page verbatim.
 
 That's changed. The AI is now making claims about your work, to your potential readers, under your URL. The directives above are your mechanism for asserting some control over those claims - not unlimited control, but enough to protect the places where accuracy matters most.
@@ -102,10 +120,13 @@ That's changed. The AI is now making claims about your work, to your potential r
 A useful audit practice: search for your most important posts in an incognito window. Read the snippet cold, as a first-time visitor would. If the description is wrong, or flattened, or missing a caveat that changes how someone would understand the post - now you have the tools to push back.
 
 ## Implementation checklist
-- Audit your highest-traffic pages first. Search for them in incognito and read the AI-generated descriptions critically.
-- Use max-snippet as your default constraint on content where you want search visibility but tighter control over summarisation.
-- Use data-nosnippet on specific elements that are likely to be misrepresented - experimental flags, date-sensitive sections, or heavy caveats.
-- Use nosnippet only where the accuracy or brand risk of any AI representation outweighs the value of the description entirely.
-- Front-load your caveats. The strongest paragraphs in terms of AI summarisation are the first one or two - write the most important nuance there, not in a footnote.
-- Check structured data separately. Schema markup behaves independently of snippet directives. If you have rich results you want to protect, that's a separate audit.
-- The robots meta tag documentation is maintained by Google's Search Central team and was last updated March 5th 2025. Directive behaviour, particularly around AI Mode, continues to evolve - worth re-checking the official docs before making site-wide changes.
+
+<ul class="checklist">
+	<ChecklistItem id="audit-high-traffic">Audit your highest-traffic pages first. Search for them in incognito and read the AI-generated descriptions critically.</ChecklistItem>
+	<ChecklistItem id="use-max-snippet">Use max-snippet as your default constraint on content where you want search visibility but tighter control over summarisation..</ChecklistItem>
+	<ChecklistItem id="use-data-no-snippet">Use data-nosnippet on specific elements that are likely to be misrepresented - experimental flags, date-sensitive sections, or heavy caveats.</ChecklistItem>
+	<ChecklistItem id="use-nosnippet">Use nosnippet only where the accuracy or brand risk of any AI representation outweighs the value of the description entirely.</ChecklistItem>
+	<ChecklistItem id="front-loading">Front-load your caveats. The strongest paragraphs in terms of AI summarisation are the first one or two - write the most important nuance there, not in a footnote.</ChecklistItem>
+	<ChecklistItem id="check-structured-data">Check structured data separately. Schema markup behaves independently of snippet directives. If you have rich results you want to protect, that's a separate audit.</ChecklistItem>
+	<ChecklistItem id="recheck-meta-tag-docs">The robots meta tag documentation is maintained by Google's Search Central team and was last updated March 5th 2025. Directive behaviour, particularly around AI Mode, continues to evolve - worth re-checking the official docs before making site-wide changes.</ChecklistItem>
+</ul>

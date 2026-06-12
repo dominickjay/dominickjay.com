@@ -6,8 +6,8 @@
   /* ── CURSOR ── */
   #cur {
     position: fixed;
-    width: 25px;
-    height: 25px;
+    width: var(--cursor-width, 25px);
+    height: var(--cursor-height, 25px);
     border-radius: 50%;
     background: var(--color-light);
     pointer-events: none;
@@ -30,7 +30,7 @@
   }
 
   body.cur-lg {
-    --cursor-width: 43px;
-    --cursor-height: 43px;
+    --cursor-width: 35px;
+    --cursor-height: 35px;
   }
 }

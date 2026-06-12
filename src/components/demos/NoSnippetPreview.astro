@@ -1,0 +1,207 @@
+---
+import { SITE_DESCRIPTION } from "../../consts"
+---
+<div class="snippet-preview">
+  <div class="snippet-preview__result">
+    <div class="snippet-preview__url-row">
+			<img loading="lazy" width="16" height="16" class="snippet-preview__favicon" alt="favicon of this site" src="/favicon.svg" />
+      <span class="snippet-preview__url">dominickjay.com</span>
+    </div>
+    <p class="snippet-preview__title">Google has opinions about what your posts say</p>
+  </div>
+</div>
+
+<style>
+  .snippet-preview {
+    --c-accent: var(--color-feature);
+    --c-warning: #b5651d;
+    --c-success: #2f5c3a;
+
+    font-family: var(--font-base);
+    color: var(--color-dark);
+    background-color: #ffffff;
+    width: 100%;
+    padding-inline: var(--space-l);
+    padding-block: var(--space-m);
+    border: 1px solid var(--color-dark);
+  }
+
+  .snippet-preview__container {
+  	max-width: 38rem;
+  }
+
+  .snippet-preview .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .snippet-preview label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-dark);
+    opacity: 0.7;
+    margin-block-end: var(--space-xs);
+  }
+
+  .snippet-preview textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-s) var(--space-m);
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid var(--c-accent);
+    background: #fff;
+    color: var(--color-dark);
+    resize: vertical;
+  }
+
+  .snippet-preview__slider-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-block: var(--space-m) var(--space-l);
+  }
+
+  .snippet-preview__slider-row label {
+    margin: 0;
+    white-space: nowrap;
+    font-family: var(--font-mono, "DM Mono", monospace);
+  }
+
+  .snippet-preview__slider-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--c-accent);
+  }
+
+  .snippet-preview__slider-row span {
+    font-weight: 600;
+    min-width: 2.5em;
+    text-align: right;
+    font-family: var(--font-mono, "DM Mono", monospace);
+  }
+
+  .snippet-preview__result {
+    background: #fff;
+    border: 1px solid var(--c-accent);
+    padding: var(--space-m) var(--space-l);
+  }
+
+  .snippet-preview__url-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    margin-block-end: var(--space-xs);
+  }
+
+  .snippet-preview__favicon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .snippet-preview__url {
+    font-size: 0.8rem;
+    color: var(--color-dark);
+    opacity: 0.6;
+  }
+
+  .snippet-preview__title {
+    font-size: 1.1rem;
+    color: #1a0dab;
+    margin: 0 0 var(--space-xs);
+    font-weight: 600;
+  }
+
+  .snippet-preview__desc {
+    font-size: 0.9rem;
+    color: var(--color-dark);
+    opacity: 0.75;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .snippet-preview__meta-row {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: var(--space-s);
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .snippet-preview__meta-row #cut-flag.is-warning {
+    color: var(--c-warning);
+  }
+
+  .snippet-preview__meta-row #cut-flag.is-success {
+    color: var(--c-success);
+  }
+</style>
+
+<script>
+  (function () {
+    const input = document.getElementById('meta-input');
+    const limit = document.getElementById('limit');
+    const limitOut = document.getElementById('limit-out');
+    const snippetOut = document.getElementById('snippet-out');
+    const charCount = document.getElementById('char-count');
+    const cutFlag = document.getElementById('cut-flag');
+
+    if (!(input instanceof HTMLTextAreaElement)) return;
+    if (!(limit instanceof HTMLInputElement)) return;
+    if (!(limitOut instanceof HTMLElement)) return;
+    if (!(snippetOut instanceof HTMLElement)) return;
+    if (!(charCount instanceof HTMLElement)) return;
+    if (!(cutFlag instanceof HTMLElement)) return;
+
+    /** @type {HTMLTextAreaElement} */
+    const metaInput = input;
+    /** @type {HTMLInputElement} */
+    const rangeInput = limit;
+    /** @type {HTMLElement} */
+    const limitOutEl = limitOut;
+    /** @type {HTMLElement} */
+    const snippetOutEl = snippetOut;
+    /** @type {HTMLElement} */
+    const charCountEl = charCount;
+    /** @type {HTMLElement} */
+    const cutFlagEl = cutFlag;
+
+    function update() {
+      const text = metaInput.value;
+      const max = parseInt(rangeInput.value, 10);
+      limitOutEl.textContent = String(max);
+
+      let display = text;
+      let cut = false;
+
+      if (text.length > max) {
+        cut = true;
+        let truncated = text.slice(0, max);
+        const lastSpace = truncated.lastIndexOf(' ');
+        if (lastSpace > 0) {
+          truncated = truncated.slice(0, lastSpace);
+        }
+        display = truncated + '...';
+      }
+
+      snippetOutEl.textContent = display;
+      charCountEl.textContent = text.length + ' characters written';
+
+      if (cut) {
+        cutFlagEl.textContent = 'Truncated to fit max-snippet:' + max;
+        cutFlagEl.className = 'is-warning';
+      } else {
+        cutFlagEl.textContent = 'Fits within max-snippet:' + max;
+        cutFlagEl.className = 'is-success';
+      }
+    }
+
+    metaInput.addEventListener('input', update);
+    rangeInput.addEventListener('input', update);
+    update();
+  })();
+</script>
