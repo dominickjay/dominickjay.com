@@ -32,7 +32,7 @@ This is the new baseline. Google's AI Overviews - and now AI Mode, its more conv
 
 <FYIBlock type="info">
 	<span slot="title">Writers Opinion</span>
-	<div slot="body">Sounds pretty messy, right? Even if the vagueness wasn't intended, having Google fill in the gap to attempt to explain what it thinks is right, is a pretty bad idea and leaves way to an intepretation that is wildly inaccurate. Bricks and unicorns. Maybe AIsplaining is the right term.</div>
+	<div slot="body">Sounds pretty messy, right? Even if the vagueness wasn't intended, having Google fill in the gap to attempt to explain what it thinks is right, is a pretty bad idea and leaves way to an interpretation that is wildly inaccurate. Bricks and unicorns. Maybe AIsplaining is the right term.</div>
 </FYIBlock>
 
 But good news, regardless of whether we think this is the right way forwards, there's tools that we can reach for to push back a bit and get it in line. Even better news! They're already in the spec, so we're not waiting around for a 'one day' possibility to come to fruition.
@@ -73,7 +73,7 @@ This part can be used in a snippet.
 `data-nosnippet` is an HTML attribute rather than a meta tag, which can apply directly to `span`, `div` or `section` elements. Adding this attribute tells Google, "Hey Google, this specific content is off-limits for snippet generation. Everything else on the page is still fair game".
 
 It's like using a scalpel, being useful for;
-- Disclaimers and caveats that, if taken out of context, would misrepresent the post e.g. something you want readers to see, but don't want possibly being included in a AI summary.
+- Disclaimers and caveats that, if taken out of context, would misrepresent the post e.g. something you want readers to see, but don't want possibly being included in an AI summary.
 - Date-sensitive information that may appear outdated in a snippet - despite the surrounding content being accurate.
 - Personal context - first person experiences that a generated summary would reframe as a third-person authority statement
 
@@ -99,16 +99,16 @@ That's quite the hit to click-throughs, because searches really need that valuab
 
 Use this for:
 - Pages where *not* having the description is worth it, most likely where AI summarisation creates a real accuracy or a risk to the brand integrity.
-- Pages that already have low visibility organically, and having no snippet is a better option that having a misleading one.
+- Pages that already have low visibility organically, and having no snippet is a better option than having a misleading one.
 - This is the most extreme case - the sledgehammer - so it shouldn't be used as a first option, most content doesn't need the cost to visibility, so things have to be *wild* to use it.
 
 ## The not-so-good trade-off
 
-Moving on to the bit that Google docs sneakily doesn't mention. Simply put, there is not a mechanism to stop your content from appearing in AI Overviews whilst also keeping the standard setup for snippets and descriptions intact, there's just no way to opt out of it. So we have to reach for the tools above as we're forced into making difficult trade-offs. `nosnippet` blocks everything, the others - `max-snippet` and `data-nosnippet` constrain the description but don't prevent AI generation altogehter. If you want to appear in search results consistently, then you're left with a situation where you can influce, but not fully control, the output.
+Moving on to the bit that Google docs sneakily doesn't mention. Simply put, there is not a mechanism to stop your content from appearing in AI Overviews whilst also keeping the standard setup for snippets and descriptions intact, there's just no way to opt out of it. So we have to reach for the tools above as we're forced into making difficult trade-offs. `nosnippet` blocks everything, the others - `max-snippet` and `data-nosnippet` constrain the description but don't prevent AI generation altogether. If you want to appear in search results consistently, then you're left with a situation where you can influce, but not fully control, the output.
 
-What you can do is make the AI's job harder by writing with more precision. Counterintuitively, writing clearly and specifically tends to produce more accurate AI summaries - the model has less ambiguity to resolve. Posts with a strong first paragraph that accurately summarises the whole, with the most important caveats front-loaded rather than buried, tend to survive summarisation better.
+What you *can* do is make the AI's job much harder by writing with more precision. This might seem counterintuitive - **"why would I put loads of thought into this if AI is just going to guess-timate off the back of it"** - but writing clearly and specifically tends to make AI summaries more accurate as the model has to fill in more gaps. Posts with a strong first paragraph that accurately summarises the whole piece, with the most important parts front and center rather than buried in the post, tend to get through to the summary better.
 
-That's not a complete solution. It's just worth knowing that some of the defence is in the writing itself.
+Don't get my wrong, that's not a complete solution, but it's worth knowing that some of the defence against this is in the writing itself.
 
 ## Treating your content as an API
 
