@@ -5,9 +5,9 @@
       background-color: var(--color-dark);
       color: var(--color-light);
       margin-inline: auto;
-      max-width: min(992px, calc(100svw - var(--space-m)));
+      max-width: min(720px, calc(100svw - var(--space-m)));
       padding-block: 9px;
-      padding-inline: var(--space-s);
+      /*padding-inline: var(--space-s);*/
       display: flex;
       align-items: center;
       justify-content: center;
@@ -23,10 +23,6 @@
         left: 0;
         right: 0;
         padding-block: var(--space-m);
-      }
-
-      .container {
-        padding-inline: 16px !important;
       }
     }
   }

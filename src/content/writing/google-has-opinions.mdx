@@ -19,7 +19,7 @@ So what was the text? Well, the site was a collection of services, but the summa
 
 The worrying part is, it wasn't badly wrong at a glance. It was fluent nonsense though. The kind of wrong that a reader wouldn't question, again it wasn't talking about unicorns when actually it's bricks, because it sounds exactly what you would expect the page to say.
 
-This is, unfortunately, the new baseline. Google's AI Overviews, and now AI Mode, it's worrying conversational sibling, don't just pull your meta description anymore. In fact, Google hasn't used it as a primary source since January 2024! Google's own documentation [states that](https://developers.google.com/search/docs/appearance/snippet) snippets are now created from the page content itself, and that it only uses the meta description if it might give users a more accurate description of the page than when it takes content straight from the page.
+This is, unfortunately, the new baseline. Google's AI Overviews, and now AI Mode, it's worrying conversational sibling, don't just pull your meta description anymore. In fact, [Google's documentation](https://developers.google.com/search/docs/appearance/snippet) has confirmed since January 2024 that snippets are now created from the page content itself, and that it only uses the meta description if it might give users a more accurate description of the page than when it takes content straight from the page.
 
 <blockquote class="blockquote stacked" style="--gutter: var(--space-s)">
 	Snippets are primarily created from the page content itself. However, Google sometimes uses the meta description HTML element if it might give users a more accurate description of the page than content taken directly from the page.
@@ -47,7 +47,7 @@ Google's position on this is that of a feature - AI takes into account multiple 
 
 ## The tools at our disposal
 
-We've mentioned that these controls exist at the HTML level, and the good news is - they're not complicated at all. Google updated it's [robots meta tag documentation](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag), specifically the nosnippet rule definition, to confirm that these directives now apply to AI Overviews and AI Mode - not just the traditional search snippets.
+We've mentioned that these controls exist at the HTML level, and the good news is - they're not complicated at all. Google updated its [robots meta tag documentation](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag), specifically the nosnippet rule definition, to confirm that these directives now apply to AI Overviews and AI Mode - not just the traditional search snippets.
 
 <blockquote class="blockquote stacked" style="--gutter: var(--space-s)">
 	Do not show a text snippet or video preview in the search results for this page. A static image thumbnail (if available) may still be visible, when it results in a better user experience. This applies to all forms of search results (at Google: web search, Google Images, Discover, AI Overviews, AI Mode) and will also prevent the content from being used as a direct input for AI Overviews and AI Mode.
@@ -89,13 +89,13 @@ It's like using a scalpel, being useful for;
 	Now I am become nosnippet, the destroyer of interpretation.
 </blockquote>
 
-This is the nuclear option, and it's worth being clear about what it costs. `nosnippet` doesn't just block AI interpretation, it removes both meta descriptions and rich snippets entirely. Doing that stops Google from showing any text or video snippets for the page ***across all search features***
+This is the nuclear option, and it's worth being clear about what it costs. `nosnippet` doesn't just block AI interpretation, it removes both meta descriptions and rich snippets entirely. Doing that stops Google from showing any text or video snippets for the page ***across all search features***.
 
 Using `nosnippet` ends up showing the results as one with no description at all, just a title, favicon and the URL.
 
 <NoSnippetPreview />
 
-That's quite the hit to click-throughs, because searches really need that valuable description to decide whether or not they want to click through to the page.
+That's quite the hit to click-throughs, because searchers that valuable description to decide whether or not they want to click through to the page.
 
 Use this for:
 - Pages where *not* having the description is worth it, most likely where AI summarisation creates a real accuracy or a risk to the brand integrity.
