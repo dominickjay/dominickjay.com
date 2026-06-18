@@ -1,3 +1,18 @@
+.symbol {
+  opacity: 0;
+  scale: 0;
+  width: 0;
+  height: 0;
+
+  @media (hover: none) and (pointer: coarse) {
+    display: none;
+  }
+
+  .fills {
+    fill: var(--color-dark);
+  }
+}
+
 @media (hover: hover) {
   html {
     cursor: none;
@@ -21,21 +36,6 @@
     transition:
       width 0.22s cubic-bezier(0.23, 1, 0.32, 1),
       height 0.22s cubic-bezier(0.23, 1, 0.32, 1);
-
-    & .symbol {
-      opacity: 0;
-      scale: 0;
-      width: 0;
-      height: 0;
-
-      @media (hover: none) and (pointer: coarse) {
-        display: none;
-      }
-
-      .fills {
-        fill: var(--color-dark);
-      }
-    }
   }
 
   body.cur-sm {
