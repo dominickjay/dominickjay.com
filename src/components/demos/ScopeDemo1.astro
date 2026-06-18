@@ -289,7 +289,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
     <div class="split">
      	<div class="col">
        	<div class="head head--bem">
-         <span class="badge badge--bem">BEM</span>
+         <span class="badge badge--bem eyebrow">BEM</span>
          <span class="head-label">Flat selectors, block prefix repeated</span>
 	      </div>
        	<div set:html={bemHighlighted} />
@@ -306,7 +306,7 @@ const scopeMarkupHighlighted = await codeToHtml(scopeHtml, {
 </div>
 
 <script is:inline>
-  const tabs = document.querySelectorAll(".tab-btn");
+  const tabs = document.querySelectorAll(".tab");
   const panels = document.querySelectorAll(".tab-panel");
 
   tabs.forEach((btn) => {

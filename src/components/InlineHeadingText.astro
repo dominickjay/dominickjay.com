@@ -13,17 +13,12 @@ const words = heading.split(/\s+/).map((word: string, i: number) => ({
 	<h1
 		id="headingTagline"
 		class="heading-tagline"
-	 	data-scramble-on-load
 	>
 	  {
 	   words.map((w: { text: string; italic: boolean }, i: number) => (
 	      <>
 	        <span
-	          class:list={["sw", w.italic && "italic gradient-text"]}
-	          style={
-	            w.italic ? "background-image: var(--color-gradient)" : undefined
-	          }
-	          data-scramble={w.text}
+	          class:list={["sw", w.italic && "sw--highlight"]}
 	        >
 	          {w.text}
 	        </span>

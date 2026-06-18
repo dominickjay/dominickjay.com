@@ -1,3 +1,18 @@
+.symbol {
+  opacity: 0;
+  scale: 0;
+  width: 0;
+  height: 0;
+
+  @media (hover: none) and (pointer: coarse) {
+    display: none;
+  }
+
+  .fills {
+    fill: var(--color-dark);
+  }
+}
+
 @media (hover: hover) {
   html {
     cursor: none;
@@ -29,8 +44,22 @@
     --cursor-radius: 1px;
   }
 
-  body.cur-lg {
-    --cursor-width: 35px;
-    --cursor-height: 35px;
+  body.cur-link {
+    --cursor-width: 40px;
+    --cursor-height: 40px;
+
+    #cur {
+      mix-blend-mode: normal;
+      background: var(--color-light);
+      padding: 4px;
+      border: 1px solid;
+    }
+
+    & #cur .symbol {
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+      scale: 1;
+    }
   }
 }

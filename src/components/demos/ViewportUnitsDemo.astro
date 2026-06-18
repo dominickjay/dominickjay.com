@@ -1,0 +1,612 @@
+---
+// ViewportUnitsDemo.astro
+// Interactive demo for svh/lvh/dvh post
+// Simulated phone frame with toggleable browser chrome
+---
+
+<div class="demo-wrapper" role="region" aria-label="Viewport units interactive demo">
+  <div class="demo-controls">
+    <p class="demo-label">Toggle the browser chrome to see how each unit responds</p>
+    <button
+      class="chrome-toggle"
+      id="chromeToggle"
+      aria-pressed="true"
+      aria-controls="phone-a phone-b phone-c"
+    >
+      <span class="toggle-icon" aria-hidden="true"></span>
+      <span class="toggle-text">Chrome visible</span>
+    </button>
+  </div>
+
+  <div class="phones" role="list">
+
+    <!-- Phone A: 100vh (the bug) -->
+    <div class="phone-wrapper" role="listitem">
+      <div class="phone" id="phone-a" data-chrome="true">
+        <div class="phone-chrome" aria-hidden="true">
+          <div class="chrome-bar">
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+          </div>
+          <div class="chrome-address">
+            <span class="chrome-url">dominickjay.com</span>
+          </div>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-content phone-content--vh">
+            <div class="content-inner">
+              <p class="content-eyebrow">Hero Section</p>
+              <p class="content-heading">The old way</p>
+              <p class="content-body">height: 100vh</p>
+            </div>
+            <div class="content-cta">
+              <span class="cta-label">Get started</span>
+              <span class="cta-arrow" aria-hidden="true">↓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">
+        <code>100vh</code>
+        <span class="caption-status caption-status--bad" aria-live="polite" id="status-a">CTA clipped</span>
+      </div>
+    </div>
+
+    <!-- Phone B: 100svh (the fix) -->
+    <div class="phone-wrapper" role="listitem">
+      <div class="phone" id="phone-b" data-chrome="true">
+        <div class="phone-chrome" aria-hidden="true">
+          <div class="chrome-bar">
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+          </div>
+          <div class="chrome-address">
+            <span class="chrome-url">dominickjay.com</span>
+          </div>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-content phone-content--svh">
+            <div class="content-inner">
+              <p class="content-eyebrow">Hero Section</p>
+              <p class="content-heading">Safe default</p>
+              <p class="content-body">height: 100svh</p>
+            </div>
+            <div class="content-cta">
+              <span class="cta-label">Get started</span>
+              <span class="cta-arrow" aria-hidden="true">↓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">
+        <code>100svh</code>
+        <span class="caption-status caption-status--good" aria-live="polite" id="status-b">CTA visible</span>
+      </div>
+    </div>
+
+    <!-- Phone C: 100dvh (live tracking) -->
+    <div class="phone-wrapper" role="listitem">
+      <div class="phone" id="phone-c" data-chrome="true">
+        <div class="phone-chrome" aria-hidden="true">
+          <div class="chrome-bar">
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+            <span class="chrome-dot"></span>
+          </div>
+          <div class="chrome-address">
+            <span class="chrome-url">dominickjay.com</span>
+          </div>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-content phone-content--dvh">
+            <div class="content-inner">
+              <p class="content-eyebrow">Hero Section</p>
+              <p class="content-heading">Live tracking</p>
+              <p class="content-body">height: 100dvh</p>
+            </div>
+            <div class="content-cta">
+              <span class="cta-label">Get started</span>
+              <span class="cta-arrow" aria-hidden="true">↓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-caption">
+        <code>100dvh</code>
+        <span class="caption-status caption-status--neutral" aria-live="polite" id="status-c">Tracks chrome</span>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="demo-note">
+    <strong>On a real mobile device:</strong> scroll up to see dvh track the chrome collapsing in real time.
+  </p>
+</div>
+
+<style>
+  /* ============================================
+     TOKENS — scoped to this component
+     Using site design tokens where possible
+  ============================================ */
+  .demo-wrapper {
+    --color-light: #fbf8ef;
+    --color-dark: #222222;
+    --color-accent: #2c5364;
+    --color-accent-light: #3a6b7f;
+    --color-good: #2a6b4a;
+    --color-bad: #8b2e2e;
+    --color-neutral: #5a4e3a;
+    --color-good-bg: #e8f5ed;
+    --color-bad-bg: #f5e8e8;
+    --color-neutral-bg: #f0ede3;
+
+    --chrome-height: 52px;
+    --phone-width: 160px;
+    --phone-height: 300px;
+    --phone-radius: 20px;
+    --phone-border: 6px;
+
+    --font-mono: "DM Mono", "Fira Mono", monospace;
+    --font-body: system-ui, sans-serif;
+
+    --transition-chrome: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    font-family: var(--font-body);
+    background-color: var(--color-light);
+    border: 2px dashed var(--color-accent);
+    border-radius: 4px;
+    padding: 2rem 1.5rem;
+    margin-block: 2rem;
+  }
+
+  /* ============================================
+     CONTROLS
+  ============================================ */
+  .demo-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-block-end: 2rem;
+  }
+
+  .demo-label {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-dark);
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .chrome-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-accent);
+    color: var(--color-light);
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .chrome-toggle:hover {
+    background: var(--color-accent-light);
+  }
+
+  .chrome-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .toggle-icon {
+    display: inline-block;
+    width: 14px;
+    height: 10px;
+    border: 2px solid currentColor;
+    border-radius: 1px;
+    position: relative;
+  }
+
+  .toggle-icon::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 1px;
+    right: 1px;
+    height: 3px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform var(--transition-chrome), opacity var(--transition-chrome);
+  }
+
+  /* When chrome is hidden, the address bar icon collapses */
+  .chrome-toggle[aria-pressed="false"] .toggle-icon::before {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  /* ============================================
+     PHONES LAYOUT
+  ============================================ */
+  .phones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: flex-end;
+    margin-block-end: 1.5rem;
+  }
+
+  .phone-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* ============================================
+     PHONE FRAME
+  ============================================ */
+  .phone {
+    width: var(--phone-width);
+    height: var(--phone-height);
+    background: #1a1a1a;
+    border-radius: var(--phone-radius);
+    padding: var(--phone-border);
+    box-shadow:
+      0 0 0 1px #333,
+      0 8px 32px rgba(0,0,0,0.35),
+      0 2px 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+    position: relative;
+    /* Notch */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: var(--phone-border);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 8px;
+    background: #1a1a1a;
+    border-radius: 0 0 6px 6px;
+    z-index: 10;
+  }
+
+  /* ============================================
+     CHROME BAR
+  ============================================ */
+  .phone-chrome {
+    background: #f2f2f2;
+    border-radius: calc(var(--phone-radius) - var(--phone-border)) calc(var(--phone-radius) - var(--phone-border)) 0 0;
+    overflow: hidden;
+    /* Height controlled by JS via CSS custom property */
+    height: var(--chrome-height);
+    transition: height var(--transition-chrome);
+    flex-shrink: 0;
+  }
+
+  /* When chrome is collapsed */
+  .phone[data-chrome="false"] .phone-chrome {
+    height: 0;
+  }
+
+  .chrome-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px 4px;
+  }
+
+  .chrome-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ccc;
+  }
+
+  .chrome-dot:nth-child(1) { background: #ff5f57; }
+  .chrome-dot:nth-child(2) { background: #febc2e; }
+  .chrome-dot:nth-child(3) { background: #28c840; }
+
+  .chrome-address {
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin: 0 8px;
+    padding: 3px 6px;
+    display: flex;
+    align-items: center;
+  }
+
+  .chrome-url {
+    font-family: var(--font-mono);
+    font-size: 7px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ============================================
+     PHONE SCREEN
+  ============================================ */
+  .phone-screen {
+    background: var(--color-light);
+    flex: 1;
+    border-radius: 0 0 calc(var(--phone-radius) - var(--phone-border)) calc(var(--phone-radius) - var(--phone-border));
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ============================================
+     CONTENT INSIDE PHONE
+     The key: each unit type uses a different
+     height calculation approach, demonstrated
+     via CSS custom properties set by JS
+  ============================================ */
+  .phone-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.6rem;
+    /* Height equals the available screen area */
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /*
+    vh simulation: always uses the FULL phone screen height
+    (ignores the chrome — that's the bug)
+  */
+  .phone-content--vh {
+    height: var(--sim-vh, 100%);
+    background: linear-gradient(160deg, #fbf8ef 60%, #f0e8d8 100%);
+  }
+
+  /*
+    svh simulation: always uses the SMALL (chrome-visible) height
+    Stays fixed — content never gets clipped
+  */
+  .phone-content--svh {
+    height: var(--sim-svh, 100%);
+    background: linear-gradient(160deg, #fbf8ef 60%, #e8f0eb 100%);
+  }
+
+  /*
+    dvh simulation: tracks current available height
+    Updates as chrome toggles
+  */
+  .phone-content--dvh {
+    height: var(--sim-dvh, 100%);
+    background: linear-gradient(160deg, #fbf8ef 60%, #e8ecf0 100%);
+  }
+
+  /* ============================================
+     CONTENT ELEMENTS
+  ============================================ */
+  .content-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.5rem;
+  }
+
+  .content-eyebrow {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  .content-heading {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-dark);
+    line-height: 1.2;
+  }
+
+  .content-body {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 7px;
+    color: #666;
+  }
+
+  .content-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-accent);
+    color: var(--color-light);
+    border-radius: 3px;
+    padding: 0.4rem 0.5rem;
+    /* This is what gets clipped on 100vh */
+    margin-block-end: 0.1rem;
+  }
+
+  .cta-label {
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .cta-arrow {
+    font-size: 8px;
+  }
+
+  /* ============================================
+     CAPTIONS
+  ============================================ */
+  .phone-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    text-align: center;
+  }
+
+  .phone-caption code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-dark);
+    background: rgba(44, 83, 100, 0.08);
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+  }
+
+  .caption-status {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .caption-status--bad {
+    background: var(--color-bad-bg);
+    color: var(--color-bad);
+  }
+
+  .caption-status--good {
+    background: var(--color-good-bg);
+    color: var(--color-good);
+  }
+
+  .caption-status--neutral {
+    background: var(--color-neutral-bg);
+    color: var(--color-neutral);
+  }
+
+  /* ============================================
+     DEMO NOTE
+  ============================================ */
+  .demo-note {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* ============================================
+     REDUCED MOTION
+  ============================================ */
+  @media (prefers-reduced-motion: reduce) {
+    .phone-chrome,
+    .toggle-icon::before,
+    .caption-status {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('chromeToggle');
+  const phones = document.querySelectorAll('.phone');
+  const statusA = document.getElementById('status-a');
+  const statusB = document.getElementById('status-b');
+  const statusC = document.getElementById('status-c');
+
+  // The chrome height in our simulation
+  const CHROME_HEIGHT = 52; // px — matches --chrome-height
+
+  function getScreenHeight(phone) {
+    // The inner screen area (phone frame minus padding and chrome)
+    return phone.querySelector('.phone-screen').clientHeight;
+  }
+
+  function updateSimulation(chromeVisible) {
+    phones.forEach(phone => {
+      phone.dataset.chrome = chromeVisible ? 'true' : 'false';
+
+      const screen = phone.querySelector('.phone-screen');
+      const totalScreen = screen.clientHeight;
+
+      // When chrome is visible, screen is SMALLER (less space available)
+      // When chrome is hidden, screen is LARGER (more space)
+      // svh = always the small (chrome-visible) measurement
+      // lvh = always the large (chrome-hidden) measurement
+      // dvh = current measurement (tracks live)
+      // vh  = always large (same as lvh) — that's the bug
+
+      // We simulate this by measuring the actual screen div height
+      // after chrome toggles (the screen flex-grows to fill)
+      requestAnimationFrame(() => {
+        const screenH = screen.clientHeight;
+
+        // vh: always uses lvh (full screen, no chrome)
+        // We approximate: if chrome visible, vh overflows by CHROME_HEIGHT
+        const vhH = chromeVisible
+          ? `calc(100% + ${CHROME_HEIGHT}px)`
+          : '100%';
+
+        // svh: always the small viewport — chrome visible height
+        // If chrome is now hidden, svh is still the smaller value
+        const svhH = chromeVisible
+          ? '100%'
+          : `calc(100% - ${CHROME_HEIGHT}px)`;
+
+        // dvh: tracks current state exactly
+        const dvhH = '100%';
+
+        const contentVh = phone.querySelector('.phone-content--vh');
+        const contentSvh = phone.querySelector('.phone-content--svh');
+        const contentDvh = phone.querySelector('.phone-content--dvh');
+
+        if (contentVh) contentVh.style.setProperty('--sim-vh', vhH);
+        if (contentSvh) contentSvh.style.setProperty('--sim-svh', svhH);
+        if (contentDvh) contentDvh.style.setProperty('--sim-dvh', dvhH);
+      });
+    });
+
+    // Update status labels
+    if (chromeVisible) {
+      statusA.textContent = 'CTA clipped ✗';
+      statusA.className = 'caption-status caption-status--bad';
+      statusB.textContent = 'CTA visible ✓';
+      statusB.className = 'caption-status caption-status--good';
+      statusC.textContent = 'CTA visible ✓';
+      statusC.className = 'caption-status caption-status--good';
+    } else {
+      statusA.textContent = 'CTA visible ✓';
+      statusA.className = 'caption-status caption-status--good';
+      statusB.textContent = 'Slightly short';
+      statusB.className = 'caption-status caption-status--neutral';
+      statusC.textContent = 'Fills screen ✓';
+      statusC.className = 'caption-status caption-status--good';
+    }
+
+    // Update toggle text and aria-pressed
+    toggle.setAttribute('aria-pressed', chromeVisible ? 'true' : 'false');
+    toggle.querySelector('.toggle-text').textContent = chromeVisible
+      ? 'Chrome visible'
+      : 'Chrome hidden';
+  }
+
+  let chromeVisible = true;
+
+  toggle.addEventListener('click', () => {
+    chromeVisible = !chromeVisible;
+    updateSimulation(chromeVisible);
+  });
+
+  // Init
+  updateSimulation(true);
+</script>

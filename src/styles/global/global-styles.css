@@ -33,13 +33,19 @@
       display: flex;
       flex-direction: column;
       z-index: 1;
-      background-color: var(--color-light);
+      background-color: color-mix(in srgb, var(--color-light) 95%, #ffffff);
       padding-block-start: 68px;
       padding-block-end: 36px;
     }
 
     * {
       scroll-margin-block-start: 150px;
+    }
+
+    a {
+      @media (hover: hover) {
+        cursor: none;
+      }
     }
 
     a:not([class]) {

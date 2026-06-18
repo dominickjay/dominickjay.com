@@ -15,35 +15,35 @@ import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import Footer from "../components/Footer.astro";
 
 type PostWithLastModified = {
-  post: CollectionEntry<'writing'>;
-  lastModified: Date | undefined;
+	post: CollectionEntry<'writing'>;
+	lastModified: Date | undefined;
 };
 
 let rawPosts = [];
 
 if (import.meta.env.ENVIRONMENT === "production") {
-  rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
+	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
 } else {
-  rawPosts = await getCollection("writing");
+	rawPosts = await getCollection("writing");
 }
 
 const postsWithLastModified = await Promise.all(
-  rawPosts.map(async (post) => {
-    const { remarkPluginFrontmatter } = await render(post);
-    const lastModified = remarkPluginFrontmatter?.lastModified
-      ? new Date(remarkPluginFrontmatter.lastModified)
-      : undefined;
-    return { post, lastModified };
-  }),
+	rawPosts.map(async (post) => {
+		const { remarkPluginFrontmatter } = await render(post);
+		const lastModified = remarkPluginFrontmatter?.lastModified
+			? new Date(remarkPluginFrontmatter.lastModified)
+			: undefined;
+		return { post, lastModified };
+	}),
 );
 
 const sortDate = ({ post, lastModified }: PostWithLastModified) =>
-  (lastModified ?? post.data.pubDate).valueOf();
+	(lastModified ?? post.data.pubDate).valueOf();
 postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
 
 const posts = postsWithLastModified.map(({ post, lastModified }) => ({
-  ...post,
-  lastModified,
+	...post,
+	lastModified,
 }));
 
 const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
@@ -54,46 +54,71 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 ---
 
 <Layout
-  {...{
-    title: "Dom Jay - CSS, JS, and the occasional existential crisis",
-    description:
-      "Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
-  } as any}
+	{...{
+		title: "Dom Jay - CSS, JS, and the occasional existential crisis",
+		description:
+			"Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
+	} as any}
 >
-  <Header />
-  <main>
-    <!-- <div>
-      <Pattern />
-    </div> -->
-    <section>
-      <div>
-        <InfoPanel />
-      </div>
-      <div
-        class="container hero grid"
-        style=""
-      >
-     		<div class="hero__content">
-		       <InlineHeadingText
-		         heading={SITE_TAGLINE}
-		         text={SITE_DESCRIPTION}
-		         italicIndices={[2, 5]}
-		       />
-        </div>
-      </div>
-    </section>
+	<Header />
+	<main>
+		<!-- <div>
+			<Pattern />
+		</div> -->
+		<section>
+			<div>
+				<InfoPanel />
+			</div>
+			<div
+				class="container hero grid"
+				style=""
+			>
+				<div class="hero__symbols">
+				    <svg
+							 class="symbol"
+							 viewBox="0 0 39 34"
+							 fill="none"
+							 xmlns="http://www.w3.org/2000/svg"
+						 ><path
+							 d="M0.766488 27.0081C0.45665 27.5271 0.508814 28.1155 0.780194 28.6039C0.703751 29.1597 0.873076 29.7239 1.48528 30.1568C2.05535 30.5596 2.62532 30.9627 3.19501 31.3657C4.19691 32.0739 5.76567 32.2974 6.74006 31.3657C11.166 27.1343 15.7945 23.0866 20.5926 19.1864C24.1598 22.0492 27.7703 24.8733 31.355 27.701C32.6131 28.6937 34.4342 28.3822 35.2257 27.1996C36.3787 26.7079 37.3132 26.067 38.086 24.9731C38.454 24.4519 38.4253 23.7939 38.086 23.2709C35.7718 19.7062 31.2987 16.5721 27.6209 13.6879C28.1131 13.3094 28.6015 12.9274 29.1036 12.5569C34.0586 8.90117 37.4009 6.5817 31.2 2.83339C31.1164 2.78281 31.0311 2.79402 30.9462 2.76447C30.8273 2.71738 30.7134 2.68418 30.5816 2.66559C30.5407 2.66421 30.5024 2.65828 30.4621 2.66104C30.3345 2.65211 30.2096 2.62419 30.0802 2.64602C26.7465 3.20755 23.6461 5.452 20.8333 7.9236C18.0931 5.60324 15.1753 3.38647 11.9669 2.07111C11.2031 1.75784 10.2924 1.94041 9.70425 2.37854C8.71814 2.31457 7.81906 2.84102 7.36786 3.59753C7.30105 3.63301 7.25797 3.6533 7.18559 3.69219C5.75196 4.46161 5.621 5.99396 6.68176 7.05019C9.07722 9.43501 11.6236 11.702 14.2193 13.9288C9.54552 17.8523 3.70952 22.0837 0.766488 27.0081Z"
+							 class="fills"></path></svg>
+						<svg class="symbol" xmlns="http://www.w3.org/2000/svg" height="4" viewBox="-15741 6215.5 4 4" style="-webkit-print-color-adjust::exact" fill="none"><path d="M-15739.5098 6218.2725c.1797-.2344.3555-.4649.5274-.6797.1758-.2149.3476-.4136.5156-.5894-.4687-.0449-.9375-.0893-1.4062-.1343.039.1148.082.2276.1308.339.0488.1112.1074.2245.1738.3358.0704.1114.1504.2227.2432.3282s.1982.205.3145.2954c.0937.0737.1923.142.2978.2065-.0469-.4687-.0976-.9375-.1445-1.4062-.124.121-.2266.2343-.3164.3344-.086.1011-.1592.189-.2149.2554-.0547.067-.0937.1133-.1054.129-.0079.0092-.0069.0097.0048.0038.0118-.0063.0342-.0195.0733-.0337a.54.54 0 0 1 .1406-.0366.6.6 0 0 1 .168.0054.4.4 0 0 1 .1133.0356c.0263.0137.0351.023.0351.0254-.003.0059-.0469-.0185-.1133-.0713-.0664-.0527-.1562-.1338-.2675-.2392-.6192-.5938-1.6856.3598-1.1582 1.0366.1093.1392.209.2598.3095.3677.1016.1074.2031.205.332.2949.0655.045.1358.0879.2208.125.083.0371.1777.0684.2822.0854.1055.0171.2187.0196.3262.0044a1.16 1.16 0 0 0 .2949-.08c.0869-.0371.1601-.0801.2226-.1211.0635-.043.1172-.084.1641-.125.0967-.0801.1719-.1558.246-.2305.0743-.0742.1446-.1484.2227-.2266a9 9 0 0 1 .255-.246c.0995-.0919.1718-.207.2187-.332a.89.89 0 0 0 .0537-.3912c-.0117-.1323-.0508-.2632-.1201-.3765-.0674-.1152-.1592-.2168-.2979-.3066a1.6 1.6 0 0 1-.1367-.0967 1.2 1.2 0 0 1-.1133-.0962 1 1 0 0 1-.1006-.1025 1.9 1.9 0 0 1-.1181-.1558 10 10 0 0 1-.1514-.2304c-.1338-.2149-.2353-.3125-.3574-.377a.835.835 0 0 0-.3975-.0957.81.81 0 0 0-.3945.1084c-.1211.0688-.2217.169-.2578.2295-.168.2895-.2969.586-.4063.877-.1054.2914-.1943.5786-.2783.8554-.1787.5762.6025.981.9697.502" class="fills"/></svg>
+				</div>
+				<div class="hero__content">
+					 <InlineHeadingText
+						 heading={SITE_TAGLINE}
+						 text={SITE_DESCRIPTION}
+						 italicIndices={[2, 5]}
+					 />
+				</div>
+			</div>
+		</section>
 
-    <PatternBanner />
+		<PatternBanner />
 
-    <section>
-      <div class="container stacked" style="--gutter: 64px">
-        <GrowthPanel
-          evergreen={evergreen}
-          growing={growing}
-          seedling={seedling}
-        />
-      </div>
-    </section>
-  </main>
-  <Footer />
+		<section>
+			<div class="container stacked" style="--gutter: 64px">
+				<GrowthPanel
+					evergreen={evergreen}
+					growing={growing}
+					seedling={seedling}
+				/>
+			</div>
+		</section>
+	</main>
+	<Footer />
 </Layout>
+
+<script is:inline>
+	// const symbolContainer = document.querySelectorAll('.hero__symbols')[0];
+	// const symbols = symbolContainer.querySelectorAll('.symbol');
+
+	// symbols.forEach((symbol) => {
+	// 	symbol.style.setProperty("--scale", Math.random() * (1.5 - 1.25) + 1.25);
+	// 	symbol.style.setProperty("--rotate", Math.random() * 360 - 180 + 'deg');
+	// 	symbol.style.setProperty("--rotateHover", Math.random() * 360 - 180 + 'deg');
+	// 	symbol.style.setProperty("--size", Math.random() * (60 - 25) + 25 + 'px');
+	// 	symbol.style.setProperty("--y", Math.floor(Math.random() * symbolContainer.clientHeight - symbol.clientHeight) - symbol.clientHeight + 'px');
+	// 	symbol.style.setProperty("--x", Math.floor(Math.random() * symbolContainer.clientWidth - symbol.clientWidth) - symbol.clientWidth + 'px');
+	// });
+</script>

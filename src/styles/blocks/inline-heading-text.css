@@ -1,22 +1,29 @@
 @layer blocks {
   .inline-heading-text {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: var(--space-m);
-    inline-size: 100%;
+    inline-size: 60%;
+    margin-inline: auto;
     container: inline-heading-text / inline-size;
-
-    @media (width < 1024px) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    text-align: center;
 
     h1 {
       flex-grow: 1;
       flex-shrink: 0;
       flex-basis: 65%;
+
+      .sw {
+        &.sw--highlight {
+          font-family: var(--font-heading);
+          -webkit-text-stroke: 0.5px rgb(from var(--color-feature) r g b / 1);
+          color: var(--color-light);
+          text-shadow: -4px 4px 4px rgb(from var(--color-feature) r g b / 0.5);
+          letter-spacing: -4px;
+        }
+      }
     }
 
     .intro {
@@ -24,11 +31,17 @@
       max-inline-size: 35%;
       padding-block-end: 20px;
       flex-shrink: 0;
-      text-wrap: pretty;
+      text-wrap: balance;
 
       @container inline-heading-text (width < 945px) {
-        max-inline-size: none;
+        max-inline-size: 100%;
       }
+    }
+
+    @media (width < 640px) {
+      inline-size: 100%;
+      padding-block-start: 35px;
+      text-align: left;
     }
   }
 }

@@ -9,6 +9,8 @@ growth: growing
 supported: bcd.css["selectors"].units
 ---
 
+import ViewportUnitsDemo from '../../components/demos/ViewportUnitsDemo.astro';
+
 The angle that isn't already everywhere: Every existing post covers what the three units are. None of them give you the decision rule clearly - which one to reach for and when, including the honest caveat that dvh is not a universal replacement for vh. That's the post.
 Companion posts to link: env() post (mobile/PWA safe area insets - same class of problem), object-fit post (CLS - same "invisible mobile layout shift" category), scrollbar-gutter (another layout-shift fix)
 
@@ -83,32 +85,11 @@ The demo should show a simulated mobile viewport with visible/hidden chrome togg
 Interaction: a "Show/Hide browser chrome" button that animates a simulated address bar and adjusts the viewport height accordingly. The dvh column tracks it live; svh stays fixed at the small measurement; lvh stays fixed at the large one.
 Note: the demo needs to simulate chrome behaviour because desktop browsers don't exhibit it natively. This is the core UX challenge - a `<div>` acting as the chrome, shrinking on scroll, adjusting the "viewport" height via a CSS variable or resize. Worth building carefully; a bad demo here is worse than no demo.
 
+<ViewportUnitsDemo />
+
 ## VI. Close - One Pattern to Take Away
 ~100 words
 No grand conclusions. One concrete takeaway and a link forward.
 The pattern: wherever you currently have height: 100vh or min-height: 100vh in your stylesheet, it's worth asking which of the three states you actually mean. In most cases - hero sections, modals, full-screen layouts - you mean svh. That's the one that will never clip your content below the fold on a real device.
 The 100vh bug has been responsible for more silent, unreported mobile UX failures than most developers realise, because it only appears on real hardware and users rarely report layout issues - they just leave.
 Link: see also env() for the companion problem of content hidden behind the iPhone notch.
-
-Production notes
-Code blocks needed:
-
-Section III: three short CSS snippets (one per unit, as shown in outline)
-Section IV: the two-line fallback pattern
-Optional: a combined "real-world hero" block showing the full pattern together
-
-What the demo needs to do (not build now - capture the spec):
-
-Simulated phone frame with a draggable or toggle-able address bar
-Three labelled columns, each using a different unit
-Chrome toggle animates the "address bar" height; dvh column tracks it, others don't
-Should work on desktop so readers can see the difference without needing a phone
-A note on the demo: "On a real mobile device, try scrolling to see dvh track the chrome"
-
-Voice note: This post is closest in register to line-clamp and text-wrap - short, direct, no throat-clearing. The hook is the bug, the body is the fix, the close is the one rule. Resist the urge to go broader than that. The density comes from precision, not length.
-What not to include:
-
-vw, svw, lvw, dvw in depth - one mention is enough
-vmin / vmax - different post
-History of the 100vh bug on iOS Safari specifically - interesting but bloats the post
-Performance benchmarks - not enough data to be authoritative, and the tradeoff is already captured in "use dvh deliberately"
