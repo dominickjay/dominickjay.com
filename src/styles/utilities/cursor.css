@@ -25,6 +25,12 @@
     & .symbol {
       opacity: 0;
       scale: 0;
+      width: 0;
+      height: 0;
+
+      @media (hover: none) and (pointer: coarse) {
+        display: none;
+      }
 
       .fills {
         fill: var(--color-dark);
