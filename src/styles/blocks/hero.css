@@ -4,9 +4,72 @@
       :scope {
         position: relative;
         padding-block: 64px;
+        overflow-y: hidden;
+        overflow-x: clip;
 
         @media (width < 768px) {
           padding-block: 32px;
+        }
+      }
+
+      .hero__symbols {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+
+        .symbol {
+          --y: 80%;
+          --x: 90%;
+          --size: 45px;
+          --scale: 1.25;
+          --rotate: 25deg;
+          --rotateHover: -35deg;
+
+          position: absolute;
+          width: var(--size, 25px);
+          height: var(--size, 25px);
+          top: var(--y);
+          left: var(--x);
+          rotate: var(--rotate);
+          transition:
+            scale 0.25s ease-in-out,
+            rotate 0.25s ease-in-out;
+
+          @media (width < 640px) {
+            display: none;
+          }
+
+          .fills {
+            fill: color-mix(
+              in srgb,
+              var(--color-feature) 10%,
+              var(--color-dark)
+            );
+          }
+
+          &:first-child {
+            --y: 25px;
+            --x: 50px;
+            --size: 85px;
+            --scale: 1.25;
+            --rotate: -45deg;
+            --rotateHover: -50deg;
+
+            @media (width < 640px) {
+              --y: 15px;
+              --x: 24px;
+              --size: 25px;
+              --scale: 1.15;
+
+              display: inline;
+            }
+          }
+
+          &:hover {
+            scale: var(--scale);
+            rotate: var(--rotateHover);
+          }
         }
       }
 
@@ -16,41 +79,8 @@
         align-items: flex-end;
         inline-size: 100%;
         grid-column: 1 / span 2;
-      }
-
-      .hero__media {
         position: relative;
-        overflow: hidden;
-        grid-column: 1 / span 2;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: 32px;
-
-        @media (width < 768px) {
-          flex-direction: column;
-          gap: 16px;
-          align-items: flex-start;
-        }
-
-        .profile {
-          flex: 1 1 450px;
-          aspect-ratio: 5 / 4;
-
-          @media (width < 768px) {
-            max-inline-size: 100%;
-            aspect-ratio: 5 / 4;
-            flex: 1 1 auto;
-          }
-        }
-
-        .featured-panel {
-          max-inline-size: 650px;
-
-          @media (width < 768px) {
-            max-inline-size: 100%;
-          }
-        }
+        pointer-events: none;
       }
     }
   }

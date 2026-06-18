@@ -1,11 +1,7 @@
 @layer layout {
   @scope (.hero) {
     :scope {
-      --grid-placement: 2;
-
-      @media (width < 768px) {
-        --grid-placement: 2;
-      }
+      --grid-placement: 1;
     }
   }
 }
