@@ -107,7 +107,7 @@ export const TESTIMONIALS = [
     role: "Senior Designer",
     company: "Series Eight",
     description:
-      "Working with Dom is always a pleasure. He’s incredibly knowledgeable, calm under pressure, and always willing to go the extra mile to get things right. As a designer, it’s refreshing to work with a developer who really understands the intent behind designs and executes them flawlessly. Couldn’t recommend him more.",
+      "<p><div>Working with Dom is always a pleasure. He’s </div><strong>incredibly knowledgeable</strong><div>,</div> <strong>calm under pressure</strong><div>, and always willing to go the extra mile to get things right. As a designer, it’s</div> <strong>refreshing</strong> <div>to work with a developer who really understands the intent behind designs and executes them flawlessly. Couldn’t recommend him more.</div>",
   },
   {
     id: "testimonial-5",
@@ -115,7 +115,7 @@ export const TESTIMONIALS = [
     role: "Project Manager",
     company: "Series Eight",
     description:
-      "Dom is one of the most reliable front-end developers I know and consistently delivers high-quality work. Beyond his technical ability, what really stands out is how clearly he communicates - he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is dependable from start to finish. A genuinely strong developer and a pleasure to work with.",
+      "<div>Dom is one of the most reliable front-end developers I know and consistently delivers</div> <strong>high-quality work</strong><div>. Beyond his technical ability, what really stands out is how clearly he communicates - he has a great way of explaining complex technical concepts in a way that’s easy for non-technical stakeholders to understand. He works well with both clients and internal teams, sets expectations clearly, and is</div> <strong>dependable</strong><div> from start to finish. A genuinely strong developer and a pleasure to work with.</div>",
   },
   {
     id: "testimonial-4",
@@ -123,7 +123,7 @@ export const TESTIMONIALS = [
     role: "Apprentice Software Engineer",
     company: "Rowe IT",
     description:
-      "Dom was a great line manager. He would always check up on me and would try his hardest to address any issues or answer any questions I may have. Great person to work with.",
+      "<div>Dom was a great line manager. He would always check up on me and would try his hardest to address any issues or answer any questions I may have.</div> <strong>Great person to work with</strong><div>.</div>",
   },
   {
     id: "testimonial-3",
@@ -131,7 +131,7 @@ export const TESTIMONIALS = [
     role: "Principal Technical Consultant",
     company: "Rowe IT",
     description:
-      "I have worked with Dom for a couple of years now and always found him friendly and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he rose to the challenge.",
+      "<div>I have worked with Dom for a couple of years now and always found him</div> <strong>friendly</strong> <div>and easy to work with. Several times during the time we worked together he was given tasks that required learning new skills and each time he</div> <strong>rose to the challenge</strong><div>.</div>",
   },
   {
     id: "testimonial-2",
@@ -139,7 +139,7 @@ export const TESTIMONIALS = [
     role: "Managing Director",
     company: "Knowthis",
     description:
-      "Dom is a pleasure to have around. A friendly, passionate, motivated individual who will stop at nothing to help if needed. Dom is a self driven guy who works equally well on his own as he does as part of a team. He is always looking for better ways to create solutions to problems and is great at dissecting code to create innovative creative. Highly recommended.",
+      "<div>Dom is a</div> <strong>pleasure to have around</strong><div>. A</div> <strong>friendly, passionate, motivated individual</strong> <div>who will stop at nothing to help if needed. Dom is a self driven guy who works equally well on his own as he does as part of a team. He is always looking for better ways to create solutions to problems and is great at dissecting code to create</div> <strong>innovative creative</strong><div>. Highly recommended.</div>",
   },
   {
     id: "testimonial-1",
