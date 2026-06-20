@@ -2,7 +2,7 @@
 import { StandardSitePublisher } from "@bryanguffey/astro-standard-site";
 
 const publisher = new StandardSitePublisher({
-  identifier: "dominickjay.bsky.social",
+  identifier: "dominickjay.com",
   password: process.env.ATPROTO_APP_PASSWORD!,
 });
 

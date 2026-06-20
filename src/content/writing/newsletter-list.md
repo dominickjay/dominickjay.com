@@ -1,10 +1,14 @@
 ---
-title: 'Feed the Writers'
-description: "With AI consolidating our research for us, here's a list of newsletters I'm currently subscribed to in order to keep those content publishers alive and visible"
+title: Feed the Writers
+description: >-
+  With AI consolidating our research for us, here's a list of newsletters I'm
+  currently subscribed to in order to keep those content publishers alive and
+  visible
 pubDate: '2026-06-19'
 tags:
   - personal
 growth: seedling
+atprotoDocumentRkey: 3mopuir7o5kyv
 ---
 
 This is very much written off the cuff, and I'll neaten it up at some point. As AI dramatically steamrolls it's way into our lives in every single aspect, I find it's easy to be lazy - especially when there's an answer being proposed **right there**. But if we consistently rely on the lazy, in your face answer, without just using the web - we're going to miss out on a ton of good content. Over reliance on that generated snippet of your search at the top of Google's searches mean a new way - for bad or good - of searching the web. Reliance on bitesized nuggets full of half-baked assumed content, rather than fully fleshed, organic ideas. Written by people - real people. Who eventually stop writing because no-one reads their content anymore. What a devastating turn of events. 
