@@ -10,6 +10,7 @@ import { getCollection, render } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
+import { ATPROTO_DID, PUBLICATION_RKEY } from "../../lib/atproto-config";
 
 let externalPosts = EXTERNAL_WRITING;
 
@@ -81,6 +82,8 @@ const growthOptions = [
 const growth = Astro.url.searchParams.get("growth") || "all";
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
+const documentRkey = PUBLICATION_RKEY;
+const documentUri = `at://did:plc:${ATPROTO_DID}/site.standard.document/${documentRkey}`;
 ---
 
 <!doctype html>
@@ -92,6 +95,8 @@ const ogImage = getImagePath({ url, site });
 			description={SITE_DESCRIPTION}
 			image={ogImage}
 		/>
+		<link rel="site.standard.publication" href={documentUri}>
+
 	</head>
 	<body>
 		<Cursor />
