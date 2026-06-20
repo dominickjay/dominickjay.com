@@ -10,4 +10,3 @@ export const GET: APIRoute = () =>
     }),
     { headers: { "Content-Type": "text/plain" } },
   );
-de;
