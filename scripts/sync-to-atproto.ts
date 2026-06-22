@@ -7,6 +7,7 @@ import {
   transformContent,
   type PublishDocumentInput,
 } from "@bryanguffey/astro-standard-site";
+import { PUBLICATION_URI } from "../src/lib/atproto-config.js";
 
 const SITE_URL = "https://dominickjay.com";
 const CONTENT_DIR = "src/content/writing";
@@ -30,7 +31,7 @@ function toDocument(
   });
 
   return {
-    site: SITE_URL,
+    site: PUBLICATION_URI,
     path,
     title: data.title as string,
     description: (data.description as string) ?? "",
