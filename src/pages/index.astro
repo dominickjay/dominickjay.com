@@ -13,8 +13,6 @@ import Profile from "../components/Profile.astro";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import Footer from "../components/Footer.astro";
-import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
-import { ATPROTO_DID, PUBLICATION_RKEY } from "../lib/atproto-config";
 
 type PostWithLastModified = {
 	post: CollectionEntry<'writing'>;
