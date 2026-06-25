@@ -2,12 +2,9 @@
 import Layout from "../layouts/Default.astro";
 import Profile from "../components/Profile.astro";
 import Testimonials from "../components/Testimonials.astro";
-import MarqueeHeading from "../components/MarqueeHeading.astro";
 import ScrollHeading from "../components/ScrollHeading.astro";
 import { ABOUT_INTRO, ABOUT_COMPANIES } from "../consts";
-import BigLink from "../components/BigLink.astro";
 
-const showMarquee = false;
 const contentIntro = ABOUT_INTRO
   .replaceAll("[", '<span class="current-job">')
   .replaceAll("]", "</span>");
@@ -69,6 +66,7 @@ const companies = ABOUT_COMPANIES;
 
             <p>I'm also an <a href="/reading-list">avid reader</a> and have a strong interest in Norse & Greek Mythology. I'm partial to the odd random fact and am a good hand at the music round of a quiz.</p>
             <p>To see more about what I'm up currently, you can check out my <a href="/now">"Now" updates.</a>
+            <p>Want to see what I've been up to professionally? You can check out my <a href="/resume">resume.</a>
             </p>
           </div>
           <div class="flow [--flow-space:var(--space-s)] prose">

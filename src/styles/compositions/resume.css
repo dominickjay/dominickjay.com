@@ -1,13 +1,76 @@
 @layer layout {
   @scope (.resume) {
     :scope {
+      --repel-vertical-alignment: flex-start;
       --grid-placement: 2;
 
       container: resume / inline-size;
+      padding-block-end: var(--space-l);
 
       @container resume (width < 768px) {
         --grid-placement: 1;
         --gutter: var(--space-m);
+      }
+    }
+
+    h2 {
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+    }
+
+    .feature-list {
+      grid-column: 2 / span 2;
+
+      @media (width < 992px) {
+        grid-column: 1 / span 3;
+      }
+
+      @media (width < 768px) {
+        grid-column: 1 / span 1;
+      }
+
+      .item {
+        padding: var(--space-m);
+        ::marker {
+          display: none;
+        }
+
+        h3 {
+          width: 90%;
+        }
+
+        details {
+          --gutter: var(--space-m);
+
+          div {
+            padding-block-start: var(--space-m);
+          }
+        }
+
+        summary {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-s);
+
+          @media (width > 768px) {
+            flex-direction: row;
+            align-items: center;
+            gap: var(--gutter);
+
+            date {
+              flex-basis: 150px;
+            }
+          }
+        }
+      }
+    }
+
+    .link {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
 
@@ -17,14 +80,26 @@
       display: flex;
       gap: var(--space-m);
 
+      p {
+        @media (width > 768px) {
+          max-width: 66%;
+        }
+      }
+
       a {
         flex-shrink: 0;
         min-width: 192px;
         height: fit-content;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
       @container resume (width < 768px) {
         --gutter: var(--space-s);
+
+        padding-block-end: 0;
         flex-direction: column;
       }
     }
@@ -37,11 +112,9 @@
 
       @container resume (width < 768px) {
         --gutter: var(--space-m);
-        --grid-placement: 2;
-      }
-
-      @container resume (width < 480px) {
         --grid-placement: 1;
+
+        grid-column: 1 / span 2;
       }
 
       .grid {
@@ -53,51 +126,23 @@
       }
     }
 
-    section:last-of-type {
-      --grid-placement: 4;
-
-      @container resume (width < 768px) {
-        --gutter: var(--space-m);
-        --grid-placement: 2;
-      }
-
-      @container resume (width < 480px) {
-        --grid-placement: 1;
-      }
-    }
-
     h2 {
       font-family: var(--font-base);
       font-style: italic;
     }
 
-    @scope (.experience-card) {
-      :scope {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-xs);
-      }
+    .testimonials-section {
+      max-width: 992px;
+      margin-inline: auto;
+    }
 
-      picture {
-        margin-block-end: var(--space-s);
-      }
+    .testimonials-header {
+      display: none;
+    }
 
-      h3 {
-        font-family: var(--font-base);
-        font-size: 16px;
-      }
-
-      date {
-        font-family: var(--font-base);
-        font-size: 10px;
-        letter-spacing: 0.14em;
-        color: var(--accent);
-        text-transform: uppercase;
-      }
-
-      div {
-        padding-block-start: var(--space-s);
-        opacity: 0.8;
+    .experience {
+      li:not(:first-child) {
+        opacity: 0.65;
       }
     }
 
@@ -106,16 +151,27 @@
         --gutter: var(--space-m);
         display: flex;
         flex-direction: column;
+        gap: var(--gutter);
+
+        @media (width > 768px) {
+          flex-direction: row;
+        }
       }
 
       h3 {
         font-family: var(--font-base);
         font-size: 16px;
         font-style: italic;
+        flex-shrink: 0;
+
+        @media (width > 768px) {
+          flex-basis: 150px;
+        }
       }
 
       ul {
         --gutter: var(--space-xs);
+        flex: 1 0 auto;
       }
     }
   }
