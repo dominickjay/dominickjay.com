@@ -3,6 +3,8 @@ import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Cursor from "../components/Cursor.astro";
 import { getImagePath } from "astro-opengraph-images";
+import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
+import { ATPROTO_DID, PUBLICATION_RKEY } from "../lib/atproto-config";
 
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
@@ -13,6 +15,7 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
+const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 ---
 
 <html lang="en">
@@ -23,6 +26,7 @@ const { title, description } = Astro.props;
       description={description}
       image={ogImage}
     />
+		<link rel="site.standard.publication" href={publicationUri}>
   </head>
 
   <body>

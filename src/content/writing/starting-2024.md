@@ -1,11 +1,18 @@
 ---
-title: 'Starting 2024'
-description: "I read Rach Smith's post 'a work from home reset for the new year' and had a thought about how I want to start the year off professionally."
-intro: "I read Rach Smith's post this morning on <a href='https://rachsmith.com/work-from-home-reset/'>'A work from home reset for the new year'</a> and had a thought about how I want to start the year off professionally."
+title: Starting 2024
+description: >-
+  I read Rach Smith's post 'a work from home reset for the new year' and had a
+  thought about how I want to start the year off professionally.
+intro: >-
+  I read Rach Smith's post this morning on <a
+  href='https://rachsmith.com/work-from-home-reset/'>'A work from home reset for
+  the new year'</a> and had a thought about how I want to start the year off
+  professionally.
 pubDate: '2024-01-02'
 tags:
   - personal
   - productivity
+atprotoDocumentRkey: 3mopuiu7aqk54
 ---
 
 I can relate to a lot of what was written in Rach's post, especially the chaos of kids being off school for a few more days after I returned. Luckily, both my kids were super young when I started WFH due to all that stuff that happened in 2020, so they've kind of grown up with me not _really_ being in an office/out of the house for work as much as their relatives are. Confusing for them at first, but those boundaries and understandings are reinforced pretty well now.

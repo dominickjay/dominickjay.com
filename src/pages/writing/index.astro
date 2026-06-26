@@ -10,6 +10,8 @@ import { getCollection, render } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
+import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
+import { ATPROTO_DID, PUBLICATION_RKEY } from "../../lib/atproto-config";
 
 let externalPosts = EXTERNAL_WRITING;
 
@@ -26,24 +28,9 @@ if (import.meta.env.ENVIRONMENT === "production") {
 	rawPosts = await getCollection("writing");
 }
 
-const postsWithLastModified = await Promise.all(
-	rawPosts.map(async (post) => {
-		const { remarkPluginFrontmatter } = await render(post);
-		const lastModified = remarkPluginFrontmatter?.lastModified
-			? new Date(remarkPluginFrontmatter.lastModified)
-			: undefined;
-		return { post, lastModified };
-	}),
+const posts = rawPosts.sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
-const sortDate = ({ post, lastModified }) =>
-	(lastModified ?? post.data.pubDate).valueOf();
-postsWithLastModified.sort((a, b) => sortDate(b) - sortDate(a));
-
-const posts = postsWithLastModified.map(({ post, lastModified }) => ({
-	...post,
-	lastModified,
-}));
 
 // Extract all unique tags from posts
 const allTags = posts.flatMap((post) => post.data.tags);
@@ -81,6 +68,7 @@ const growthOptions = [
 const growth = Astro.url.searchParams.get("growth") || "all";
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
+const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 ---
 
 <!doctype html>
@@ -92,6 +80,8 @@ const ogImage = getImagePath({ url, site });
 			description={SITE_DESCRIPTION}
 			image={ogImage}
 		/>
+		<link rel="site.standard.publication" href={publicationUri}>
+
 	</head>
 	<body>
 		<Cursor />

@@ -1,13 +1,16 @@
 ---
-title: "Page Turners - May 2025"
-pubDate: 2025-05-29
-date: 2025-05-29
-description: "A list of links and demos I've collected over May 2025, with the intention of posting monthly"
+title: Page Turners - May 2025
+pubDate: 2025-05-29T00:00:00.000Z
+date: 2025-05-29T00:00:00.000Z
+description: >-
+  A list of links and demos I've collected over May 2025, with the intention of
+  posting monthly
 tags:
   - page turners
 layout: post
-templateEngineOverride: njk,md
-shareimage: "page-turners-may-2025.jpg"
+templateEngineOverride: 'njk,md'
+shareimage: page-turners-may-2025.jpg
+atprotoDocumentRkey: 3mopuirf7v2my
 ---
 
 ## Articles

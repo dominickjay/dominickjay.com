@@ -1,13 +1,18 @@
 ---
-title: 'June Page Turners'
-description: "A collection of articles I've read over June 2024, with the intention of posting monthly"
-intro: "A collection of articles I've read over June 2024, with the intention of posting monthly"
-pubDate: 2024-06-25
-musicDateFrom: "1717227435"
-musicDateTo: "1719733035"
+title: June Page Turners
+description: >-
+  A collection of articles I've read over June 2024, with the intention of
+  posting monthly
+intro: >-
+  A collection of articles I've read over June 2024, with the intention of
+  posting monthly
+pubDate: 2024-06-25T00:00:00.000Z
+musicDateFrom: '1717227435'
+musicDateTo: '1719733035'
 tags:
   - page turners
   - css
+atprotoDocumentRkey: 3mopuisxr32bh
 ---
 
 ## Links

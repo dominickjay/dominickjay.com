@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { readdir, readFile } from "fs/promises";
+import { readdir, readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import matter from "gray-matter";
 import {
@@ -7,6 +7,7 @@ import {
   transformContent,
   type PublishDocumentInput,
 } from "@bryanguffey/astro-standard-site";
+import { PUBLICATION_URI } from "../src/lib/atproto-config.js";
 
 const SITE_URL = "https://dominickjay.com";
 const CONTENT_DIR = "src/content/writing";
@@ -30,7 +31,7 @@ function toDocument(
   });
 
   return {
-    site: SITE_URL,
+    site: PUBLICATION_URI,
     path,
     title: data.title as string,
     description: (data.description as string) ?? "",
@@ -46,6 +47,19 @@ function toDocument(
       version: "1.0",
     },
   };
+}
+
+async function writeRkeyToFrontmatter(
+  filePath: string,
+  rkey: string,
+): Promise<void> {
+  const raw = await readFile(filePath, "utf-8");
+  const { data, content } = matter(raw);
+
+  if (data.atprotoDocumentRkey === rkey) return;
+
+  data.atprotoDocumentRkey = rkey;
+  await writeFile(filePath, matter.stringify(content, data));
 }
 
 const publisher = new StandardSitePublisher({ identifier, password });
@@ -74,12 +88,16 @@ for (const { file, data, body } of posts) {
   const doc = toDocument(path, data, body);
   const existing = existingByPath.get(path);
 
+  let result;
   if (existing) {
     const rkey = existing.uri.split("/").pop()!;
-    const result = await publisher.updateDocument(rkey, doc);
+    result = await publisher.updateDocument(rkey, doc);
     console.log(`Updated: ${data.title}\n  → ${result.uri}`);
   } else {
-    const result = await publisher.publishDocument(doc);
+    result = await publisher.publishDocument(doc);
     console.log(`Published: ${data.title}\n  → ${result.uri}`);
   }
+
+  const rkey = result.uri.split("/").pop()!;
+  await writeRkeyToFrontmatter(join(CONTENT_DIR, file), rkey);
 }

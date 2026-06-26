@@ -1,9 +1,12 @@
 ---
-title: "Page Turners - July 2025"
-pubDate: 2025-07-31
-description: "A list of links and demos I've collected over July 2025, with the intention of posting monthly"
+title: Page Turners - July 2025
+pubDate: 2025-07-31T00:00:00.000Z
+description: >-
+  A list of links and demos I've collected over July 2025, with the intention of
+  posting monthly
 tags:
   - page turners
+atprotoDocumentRkey: 3mopuirqiac2y
 ---
 
 ## Articles

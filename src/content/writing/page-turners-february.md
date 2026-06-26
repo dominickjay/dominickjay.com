@@ -1,11 +1,16 @@
 ---
-title: 'February Page Turners'
-description: 'A collection of articles I`ve read over February 2024, with the intention of posting monthly'
-intro: 'A collection of articles I`ve read over February 2024, with the intention of posting monthly'
+title: February Page Turners
+description: >-
+  A collection of articles I`ve read over February 2024, with the intention of
+  posting monthly
+intro: >-
+  A collection of articles I`ve read over February 2024, with the intention of
+  posting monthly
 pubDate: '2024-03-09'
 tags:
   - page turners
   - css
+atprotoDocumentRkey: 3mopuiss5f2pu
 ---
 
 I started putting together this months list quite late into February, so it's quite short in comparison to what has actually been read irl - nonetheless, some great articles in here!
