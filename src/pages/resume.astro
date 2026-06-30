@@ -15,13 +15,16 @@ import Testimonials from "../components/Testimonials.astro";
   } as any}
 >
   <div class="container resume grid">
-		<header>
-		<div class="stacked">
-			<h1 class="gradient-text">Dominick Jay</h1>
-			<p>I'm a front-of-the-front-end developer with 10+ years of experience, with a strong focus on semantic HTML, modern CSS, and vanilla JavaScript. I'm drawn to open-source culture - building transparently, in collaboration with a community, and with a real sense of purpose behind the work.</p>
-		</div>
-			<a class="email" href="mailto:hi@dominickjay.com">hi@dominickjay.com</a>
-		</header>
+  	<div class="stacked header-stack">
+	  	<div class="resume-link">Want a printable version? Click <a href="resume.pdf">here</a></div>
+			<header>
+				<div class="stacked">
+					<h1 class="gradient-text">Dominick Jay</h1>
+					<p>I'm a front-of-the-front-end developer with 10+ years of experience, with a strong focus on semantic HTML, modern CSS, and vanilla JavaScript. I'm drawn to open-source culture - building transparently, in collaboration with a community, and with a real sense of purpose behind the work.</p>
+				</div>
+				<a class="email" href="mailto:hi@dominickjay.com">hi@dominickjay.com</a>
+			</header>
+   	</div>
    	<section class="grid">
      	<h2>Recent Full Time Experience</h2>
      	<ol
@@ -78,28 +81,29 @@ import Testimonials from "../components/Testimonials.astro";
         class="feature-list"
       >
       	<li class="item">
-       		<div class="repel skills-list">
+       		<div class="stacked skills-list">
 						<h3>HTML</h3>
 						<ul class="stacked">
-							<li>Semantic document structure and SEO optimization.</li>
-							<li>Advanced Webflow CMS architecture and data modeling.</li>
-							<li>Custom attributes and DOM manipulation for extended functionality.</li>
+							<li>Contributed to and extended design systems, with experience spotting consistency opportunities across tools.</li>
+							<li>Day-to-day usage of AlpinejS for functionality and progressive enhancements.</li>
+							<li>Strong CSS work including custom properties, animation, and utility-first approaches across a range of client builds.</li>
+							<li>10+ years writing semantic, accessible HTML across CMS-driven and headless projects.</li>
 						</ul>
          	</div>
        	</li>
         <li class="item">
-      		<div class="repel skills-list">
+      		<div class="stacked skills-list">
 						<h3>CSS</h3>
 						<ul class="stacked">
-							<li>Implementation of scalable systems.</li>
-							<li>Modern feature sets including CSS Grid, Flexbox, and Custom Properties.</li>
-							<li>Performant interaction design and complex web animations.</li>
-							<li>Responsive, fluid typography and layout systems.</li>
+							<li>Comfortable in agile, cross-functional teams working alongside designers, PMs, and other engineers.</li>
+							<li>Detail-oriented by habit and keen to ensure both the UX and any client facing editors work as seamless as possible.</li>
+							<li>Strong communicator - excellent at transferring technical knowledge into clear recommendations for clients and PMs.</li>
+							<li>10+ years writing semantic, accessible HTML across CMS-driven and headless projects.</li>
 						</ul>
 					</div>
        	</li>
         <li class="item">
-      		<div class="repel skills-list">
+      		<div class="stacked skills-list">
 						<h3>Javascript</h3>
 						<ul class="stacked">
 							<li>Modern ES6+ syntax</li>
@@ -109,19 +113,21 @@ import Testimonials from "../components/Testimonials.astro";
 					</div>
        	</li>
         <li class="item">
-      		<div class="repel skills-list">
+      		<div class="stacked skills-list">
 						<h3>Soft Skills</h3>
 						<ul class="stacked">
-							<li>Excellent communication skills</li>
+							<li>Previous experience with AWS, Lambda and CI pipelines such as Jenkins</li>
+							<li>Shopify platform depth - CLI, theme architecture, metafields, Checkout Blocks, and third-party app integration.</li>
+							<li>Netlify and Servd hosting experience - environment config, redirects, and build pipeline debugging.</li>
+							<li>Headless CMS fluency across CraftCMS and Sanity, including content modelling and editor experience considerations.</li>
 						</ul>
 					</div>
        	</li>
       </ol>
     </section>
-   	<Testimonials />
    	<section class="grid">
      	<h2>Education</h2>
-     	<ol class="feature-list">
+     	<ol class="feature-list education">
       	<li class="item">
 	       <details>
          	<summary>
@@ -142,6 +148,7 @@ import Testimonials from "../components/Testimonials.astro";
        </li>
       </ol>
     </section>
+   	<Testimonials />
  	</div>
 </Layout>
 

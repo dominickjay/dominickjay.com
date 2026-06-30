@@ -13,10 +13,43 @@
       }
     }
 
+    .header-stack {
+      --gutter: var(--space-s);
+      grid-column: 1 / span 3;
+
+      & header {
+        padding-block-start: var(--space-s);
+      }
+    }
+
+    .resume-link {
+      width: 100%;
+    }
+
+    .testimonials-section {
+      display: grid;
+      grid-template-columns: repeat(
+        var(--grid-placement, auto-fill),
+        minmax(0, 1fr)
+      );
+      gap: var(--gutter, var(--space-l));
+
+      & .testimonials-inner {
+        grid-column: 1 / span 3;
+
+        @media (width > 992px) {
+          grid-column: 2 / span 2;
+        }
+      }
+    }
+
     h2 {
-      position: sticky;
-      top: 120px;
       height: fit-content;
+
+      @media (width > 992px) {
+        position: sticky;
+        top: 120px;
+      }
     }
 
     .feature-list {
@@ -104,7 +137,8 @@
       }
     }
 
-    section {
+    section,
+    .testimonials-section {
       --grid-placement: 3;
       --gutter: var(--space-m);
 
@@ -131,16 +165,12 @@
       font-style: italic;
     }
 
-    .testimonials-section {
-      max-width: 992px;
-      margin-inline: auto;
-    }
-
     .testimonials-header {
       display: none;
     }
 
-    .experience {
+    .experience,
+    .education {
       li:not(:first-child) {
         opacity: 0.65;
       }
@@ -149,24 +179,13 @@
     @scope (.skills-list) {
       :scope {
         --gutter: var(--space-m);
-        display: flex;
-        flex-direction: column;
-        gap: var(--gutter);
-
-        @media (width > 768px) {
-          flex-direction: row;
-        }
       }
 
       h3 {
         font-family: var(--font-base);
-        font-size: 16px;
+        font-size: 18px;
         font-style: italic;
         flex-shrink: 0;
-
-        @media (width > 768px) {
-          flex-basis: 150px;
-        }
       }
 
       ul {
