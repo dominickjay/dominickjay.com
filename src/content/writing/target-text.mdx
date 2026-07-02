@@ -1,0 +1,42 @@
+---
+title: 'TBC Target Text'
+description: ''
+pubDate: July 1 2026
+supported: 'bcd.css["selectors"].target-text.__compat'
+tags:
+  - css
+growth: seedling
+---
+
+import TargetTextDemo from '../../components/demos/TargetTextDemo.astro';
+
+## The Problem It Solves
+
+Internal hash links (ToC, footnotes, cross-references) jump the page, but give no visual cue about what changed
+Common fix has been JS scroll-listeners + manual class toggling — brittle, extra weight, easy to get wrong
+
+## What ::target-text Actually Does
+
+Styles the exact text fragment a URL's text fragment (#:~:text=) or target anchor resolves to
+Browser-native, zero JS required
+Works alongside — not instead of — the :target pseudo-class (worth clarifying the distinction here)
+
+## Where It Shines
+
+Navigation — jump to "Key Features" and the exact heading/paragraph lights up
+Readability — removes ambiguity about which content a link was "about"
+Accessibility — gives keyboard/AT users a clear visual landing point, not just a scroll position
+
+## A Quick Example
+
+<TargetTextDemo />
+
+## Browser Support & Caveats
+
+Worth a real caveat section given actual support varies (I'd sanity-check current status before publishing rather than assuming full support)
+Progressive enhancement angle: fails silently/gracefully where unsupported
+
+## Try It Yourself / CTA
+
+Prompt to test on their own docs/ToC
+Hashtag block as-is

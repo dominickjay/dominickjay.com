@@ -19,7 +19,7 @@
           content: "";
           position: absolute;
           inset: 0;
-          background: color-mix(in srgb, var(--notice-color) 3%, transparent);
+          background: color-mix(in srgb, var(--notice-color) 8%, transparent);
         }
 
         &::before {
@@ -27,7 +27,7 @@
           position: absolute;
           inset-block: 0;
           inset-inline-start: 0;
-          width: 1px;
+          width: 2px;
           background: linear-gradient(
             to bottom,
             transparent,
@@ -35,15 +35,10 @@
             var(--notice-color) 80%,
             transparent
           );
-          opacity: 0.5;
+          opacity: 1;
           transition:
             opacity 0.4s,
             width 0.3s;
-        }
-
-        &:hover::before {
-          opacity: 1;
-          width: 2px;
         }
       }
 
