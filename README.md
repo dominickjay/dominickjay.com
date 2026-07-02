@@ -60,6 +60,25 @@ All commands are run from the root of the project, from a terminal:
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
 
+## ATProto maintenance scripts
+
+Required environment variables:
+
+- `ATPROTO_IDENTIFIER`
+- `ATPROTO_APP_PASSWORD`
+
+Fix document publication links (dry-run by default):
+
+```sh
+ATPROTO_IDENTIFIER="dominickjay.com" npx tsx scripts/fix-publication-links.ts
+```
+
+Apply document publication link fixes:
+
+```sh
+ATPROTO_IDENTIFIER="dominickjay.com" npx tsx scripts/fix-publication-links.ts --apply
+```
+
 ## 🚀 Deployment to Netlify
 
 This project is configured for deployment to Netlify with direct Turso database integration. The API endpoints connect directly to your Turso database.
