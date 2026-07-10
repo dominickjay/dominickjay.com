@@ -28,4 +28,4 @@ Below is a list of newsletters (as of today, June 19th, 2026) that I'm currently
 
 If you're not subscribed to any of these, I would highly recommend doing so. They are a treat to land in my inbox. The more visibility resources like these get, the more we can get use out of them.
   
-Any that I've missed? Always open to recommendations, so drop me a link on [Bluesky](https://bsky.app/profile/dominickjay.bsky.social) or [Mastodon](https://mastodon.social/@dominickjay) and let me know!
+Any that I've missed? Always open to recommendations, so drop me a link on [Bluesky](https://bsky.app/profile/dominickjay.com) or [Mastodon](https://mastodon.social/@dominickjay) and let me know!

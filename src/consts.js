@@ -45,7 +45,7 @@ export const EXTERNAL_NAVIGATION = [
     label: "LinkedIn",
   },
   {
-    href: "https://bsky.app/profile/dominickjay.bsky.social",
+    href: "https://bsky.app/profile/dominickjay.com",
     label: "Bluesky",
   },
   {
