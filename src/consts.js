@@ -59,7 +59,7 @@ export const EXTERNAL_NAVIGATION = [
 ];
 export const SITE_TITLE = "Dom Jay | Developer & Writer";
 export const SITE_DESCRIPTION =
-  "Writing about CSS, JavaScript, and the web platform by Dom Jay - a developer and writer based in the UK.";
+  "Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.";
 export const SITE_TAGLINE = "Leave it better than you found it";
 export const CURRENT_POSITION = "Front-End Developer";
 export const CURRENT_COMPANY = "Series Eight";

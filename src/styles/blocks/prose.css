@@ -125,6 +125,12 @@ blockquote {
       width 0.3s;
   }
 
+  cite {
+    display: block;
+    font-size: 0.9rem;
+    justify-self: flex-end;
+  }
+
   @media (width > 768px) {
     padding-inline-start: 40px;
   }

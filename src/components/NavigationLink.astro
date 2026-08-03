@@ -11,7 +11,7 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 
 <a
     href={href}
-    class="nav-link"
+    class="nav-link link"
     class:list={[className, { active: isActive }]}
     {...props}
 >

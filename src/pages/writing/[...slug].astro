@@ -194,12 +194,12 @@ if (post.data.showCTA !== undefined && availability === "available") {
     {musicData && <MusicGrid musicData={musicData} />}
     {showCTA == true && <WritingCTA />}
   </div>
-  <div class="post-recommendations flex flex-col justify-end">
+  <div class="post-recommendations contents md:flex flex-col justify-end">
     <div
-      class="md:sticky md:bottom-[var(--space-xxl)] flex flex-col gap-[var(--space-m)]"
+      class="md:sticky md:bottom-[var(--space-xxl)] contents md:flex flex-col gap-[var(--space-m)]"
     >
       <TableOfContents headings={headings} />
-      <div>
+      <div class="max-md:mt-[var(--space-l)] max-md:col-span-full">
         {
           browserSupport.length > 0 && (
             <BrowserSupportTable
@@ -209,7 +209,7 @@ if (post.data.showCTA !== undefined && availability === "available") {
           )
         }
       </div>
-      <div class="stacked prose" style="--gutter: var(--space-s)">
+      <div class="stacked prose max-md:col-span-full max-md:mt-[var(--space-l)]" style="--gutter: var(--space-s)">
         <span
         	class="eyebrow"
         >

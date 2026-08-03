@@ -16,7 +16,8 @@ const externalNavigation = EXTERNAL_NAVIGATION;
   @keydown.escape="openMenu = false"
   @click.outside="openMenu = false"
 >
-  <div class="container flex justify-between flex-wrap items-center w-full">
+  <div class="flex justify-between flex-wrap items-center w-full">
+  <div class="px-[16px] flex justify-between items-center flex-1">
     <a
       class="home-link h-fit flex items-center gap-x-[8px] overflow-hidden will-change-[width] hover:opacity-[0.85] transition ease-in-out duration-300"
       style="font-family: var(--font-heading)"
@@ -63,33 +64,32 @@ const externalNavigation = EXTERNAL_NAVIGATION;
         <span style="font-family: var(--font-heading)">MENU</span>
       </button>
     </div>
+  </div>
     <div
-      class="menubar switcher"
+      class="menubar stacked"
       x-collapse.duration.500ms
       x-cloak
       x-show="openMenu"
     >
       <nav
-        class="internal-links pt-[var(--space-m)]"
+        class="internal-links cluster"
         aria-label="Internal Site Links"
       >
-        <ul class="cluster">
+        <ul
+        	class="stacked feature-list"
+         	style="--gutter: 0"
+        >
           {
             navigation.map((item, index) => (
-              <li>
+              <li class="item">
                 <NavLink href={item.href}>{item.label}</NavLink>
-                <span
-                  class={`${index < navigation.length - 1 ? "separator" : "opacity-0"}`}
-                >
-                  /
-                </span>
               </li>
             ))
           }
         </ul>
       </nav>
       <nav
-        class="external-links pt-[var(--space-xs)] md:pt-[var(--space-m)]"
+        class="external-links"
         aria-label="External Site Links"
       >
         <ul class="cluster">
