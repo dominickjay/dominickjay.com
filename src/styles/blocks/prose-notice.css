@@ -12,6 +12,7 @@
 
         position: relative;
         padding-inline-start: var(--space-l);
+        padding-inline-end: var(--space-s);
         padding-block: var(--space-l);
         margin-block-end: var(--flow-space);
 

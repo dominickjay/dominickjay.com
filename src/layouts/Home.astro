@@ -58,8 +58,8 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 
     updateTimeTheme();
 
-    // Stagger reveal (per list)
-    document.querySelectorAll(".feature-list").forEach((postList) => {
+    // Stagger reveal (post lists only — header nav handles its own)
+    document.querySelectorAll("main .feature-list").forEach((postList) => {
       const items = postList.querySelectorAll(".item");
       const obs = new IntersectionObserver(
         (entries) => {
