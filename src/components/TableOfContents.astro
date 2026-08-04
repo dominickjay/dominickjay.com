@@ -27,43 +27,108 @@ const tocHeadings = headings.filter((heading) => heading.depth === 2);
 }
 
 <script is:inline>
-	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				const headingFragment = `#${entry.target.id}`;
-				const tocItem = document.querySelector(`a[href="${headingFragment}"]`);
+	(function initHeadingScrollSpy() {
+		const SCROLL_OFFSET = 150;
+		/** @type {Element[]} */
+		let headingEls = [];
+		/** @type {(() => void) | null} */
+		let removeListeners = null;
 
-				if (!tocItem) return;
+		function setActiveHeading(heading) {
+			if (!heading?.id) return;
 
-				if (entry.isIntersecting) {
-					// Remove active class from any previously active items
-					document
-						.querySelectorAll(".active")
-						.forEach((item) => item.classList.remove("active"));
+			const headingFragment = `#${heading.id}`;
+			const tocItem = document.querySelector(
+				`#table-of-contents a[href="${headingFragment}"]`,
+			);
 
-					// Add active class to current item
-					tocItem.classList.add("active");
-				}
-			});
-		},
-		{
-			root: null,
-			rootMargin: "0px", // Adds some margin to when the heading is considered "visible"
-			threshold: 0.05, // Trigger when heading is 50% visible
-		},
-	);
-
-	// Wait for DOM to be ready
-	document.addEventListener("DOMContentLoaded", () => {
-		// Get all h2 headings
-		const headings = document.querySelectorAll("h2");
-
-		// Observe each heading
-		headings.forEach((heading) => {
-			if (heading.id) {
-				// Only observe headings with IDs
-				observer.observe(heading);
+			if (tocItem) {
+				document
+					.querySelectorAll("#table-of-contents .active")
+					.forEach((item) => item.classList.remove("active"));
+				tocItem.classList.add("active");
 			}
-		});
-	});
+
+			const label = document.getElementById("reading-bar-section");
+			if (label) {
+				label.textContent = heading.textContent?.trim() ?? "";
+			}
+		}
+
+		function getCurrentHeading() {
+			let current = headingEls[0] ?? null;
+			for (const heading of headingEls) {
+				if (heading.getBoundingClientRect().top <= SCROLL_OFFSET) {
+					current = heading;
+				}
+			}
+			return current;
+		}
+
+		function updateActiveFromScroll() {
+			const current = getCurrentHeading();
+			if (current) setActiveHeading(current);
+		}
+
+		function scrollToHeading(heading) {
+			const top =
+				heading.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+			window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+			history.pushState(null, "", `#${heading.id}`);
+			setActiveHeading(heading);
+		}
+
+		function onTocClick(e) {
+			const link = e.target.closest("#table-of-contents a[href^='#']");
+			if (!link) return;
+
+			const id = link.getAttribute("href")?.slice(1);
+			if (!id) return;
+
+			const target = document.getElementById(id);
+			if (!target) return;
+
+			// Native hash jumps fail near the bottom when ancestors use overflow:clip
+			e.preventDefault();
+			scrollToHeading(target);
+		}
+
+		function setup() {
+			if (removeListeners) {
+				removeListeners();
+				removeListeners = null;
+			}
+
+			headingEls = [...document.querySelectorAll("h2[id]")];
+			if (!headingEls.length) return;
+
+			updateActiveFromScroll();
+
+			let ticking = false;
+			function onScroll() {
+				if (ticking) return;
+				ticking = true;
+				requestAnimationFrame(() => {
+					updateActiveFromScroll();
+					ticking = false;
+				});
+			}
+
+			document.addEventListener("click", onTocClick);
+			window.addEventListener("scroll", onScroll, { passive: true });
+
+			removeListeners = () => {
+				document.removeEventListener("click", onTocClick);
+				window.removeEventListener("scroll", onScroll);
+			};
+		}
+
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", setup);
+		} else {
+			setup();
+		}
+
+		document.addEventListener("astro:page-load", setup);
+	})();
 </script>
