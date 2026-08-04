@@ -78,6 +78,14 @@ const externalNavigation = EXTERNAL_NAVIGATION;
         <ul
         	class="stacked feature-list"
          	style="--gutter: 0"
+          x-effect="
+            $el.querySelectorAll('.item').forEach((el, i) => {
+              el.classList.remove('visible');
+              if (openMenu) {
+                setTimeout(() => el.classList.add('visible'), i * 26);
+              }
+            });
+          "
         >
           {
             navigation.map((item, index) => (
