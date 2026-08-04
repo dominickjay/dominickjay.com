@@ -9,34 +9,61 @@ growth: seedling
 ---
 
 import TargetTextDemo from '../../components/demos/TargetTextDemo.astro';
+import FYIBlock from '../../components/FYIBlock.astro';
 
 ## The Problem It Solves
 
-Internal hash links (ToC, footnotes, cross-references) jump the page, but give no visual cue about what changed
-Common fix has been JS scroll-listeners + manual class toggling — brittle, extra weight, easy to get wrong
+You've built a table of contents. Each entry links to a heading further down the page — #key-features, #installation, #faq. Click one, and the browser jumps you there instantly.
+
+But the jump is the only feedback you get. Land on a long page and you're staring at a wall of text with no visual cue about why you're here. Was it this heading? The paragraph underneath it? The whole section? Anyone who blinked, scrolled past the jump, or is navigating with a screen reader that doesn't announce scroll position at all just loses that context entirely.
+
+The usual fix has been to bolt this feedback on with JavaScript — a scroll listener watching for hash changes, then manually toggling a highlight class on whatever element matches. It works, but it's extra weight for something the browser already knows: it already knows exactly which text a hash link points to, because it just navigated you there. And it's brittle — miss an edge case (a hash that doesn't map to an id, nested headings, content that loaded after the listener was set up) and the highlight silently doesn't fire.
+
+::target-text sidesteps all of it, for the one case it's built for: a real navigation to a real destination on the page. No listener, no class toggling, no JS to maintain. The browser handles the targeting; you just style what it hands you.
 
 ## What ::target-text Actually Does
 
-Styles the exact text fragment a URL's text fragment (#:~:text=) or target anchor resolves to
-Browser-native, zero JS required
-Works alongside — not instead of — the :target pseudo-class (worth clarifying the distinction here)
+What ::target-text Actually Does
+
+`::target-text` is a pseudo-element that styles the exact span of text a URL's text fragment resolves to — the part after #:~:text= in a link. Click a link like https://example.com/docs#:~:text=Key%20Features, and the browser doesn't just scroll to where "Key Features" appears — it hands you a styleable hook onto that specific text, live in the page you landed on:
+
+```css
+::target-text {
+  background-color: var(--color-feature);
+  color: var(--color-dark);
+}
+```
+
+That's the whole API surface. No JavaScript, no querying the DOM for a match — the browser has already done the matching as part of resolving the navigation, and ::target-text is just where you style the result.
+
+It's easy to confuse this with :target, and worth being precise about the difference: :target matches an element — specifically, whichever element has an id matching the URL's fragment (#key-features). ::target-text matches text — a phrase the browser located via the text fragment syntax, with or without any id in sight. You can point at "the third sentence in a paragraph that has no heading, no anchor, no id at all," which :target was never able to do. They can coexist on the same page targeting completely different things.
+
+The part that matters most for how you use this: it only activates on an actual navigation. Following a link with a text fragment attached, or a browser typing/pasting a URL directly, triggers it. Changing the hash via JavaScript on a page that's already loaded, or highlighting text some other way client-side, does not — that's a different job, for a different API, which is exactly what pushed this into two posts in the first place.
 
 ## Where It Shines
 
-Navigation — jump to "Key Features" and the exact heading/paragraph lights up
+Navigation — jump to "Key Features" and the exact phrase lights up
 Readability — removes ambiguity about which content a link was "about"
-Accessibility — gives keyboard/AT users a clear visual landing point, not just a scroll position
+Accessibility — visible landing point for keyboard/AT users, not just a scroll position
+(Search dropped entirely — noted in scope as "not what this solves," see companion post)
 
 ## A Quick Example
 
-<TargetTextDemo />
+A real link with #:~:text= in the URL, pointing into this same post or a docs-style example — demonstrates actual browser behavior rather than simulating it
+
+<FYIBlock type="info">
+	<span slot="title">You've been tricked</span>
+	<div slot="body">This only works on real navigation — if you've seen a JS-driven version elsewhere, that's likely the Custom Highlight API, not this</div>
+</FYIBlock>
 
 ## Browser Support & Caveats
 
-Worth a real caveat section given actual support varies (I'd sanity-check current status before publishing rather than assuming full support)
-Progressive enhancement angle: fails silently/gracefully where unsupported
+Real caveat section — check current status via caniuse/BCD before publishing rather than assuming
+Progressive enhancement framing: unsupported browsers just don't highlight, nothing breaks
+supported frontmatter field already using the BCD path (bcd.css["selectors"].target-text.__compat) — good, keep that as your source of truth rather than hardcoding a browser list in prose
 
 ## Try It Yourself / CTA
 
-Prompt to test on their own docs/ToC
+Prompt to try it on their own docs/ToC
+Link forward to the Custom Highlight API post once it exists — "if you need this to work without a page load, or against dynamic content, that's a different tool"
 Hashtag block as-is
