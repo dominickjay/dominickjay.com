@@ -12,7 +12,7 @@ export const EXTERNAL_WRITING = [
   },
 ];
 
-export const MAIN_NAVIGATION = [
+export const PRIMARY_NAVIGATION = [
   {
     href: "/writing",
     label: "Writing",
@@ -21,13 +21,16 @@ export const MAIN_NAVIGATION = [
     href: "/about",
     label: "About",
   },
+];
+
+export const SECONDARY_NAVIGATION = [
   {
     href: "/now",
     label: "Now",
   },
   {
     href: "/books",
-    label: "Reading List",
+    label: "Reading",
   },
   {
     href: "/music",
@@ -35,26 +38,37 @@ export const MAIN_NAVIGATION = [
   },
 ];
 
+/** Combined for footer and any flat nav consumers */
+export const MAIN_NAVIGATION = [
+  ...PRIMARY_NAVIGATION,
+  ...SECONDARY_NAVIGATION,
+];
+
 export const EXTERNAL_NAVIGATION = [
   {
     href: "https://github.com/dominickjay",
     label: "GitHub",
+    icon: "github",
   },
   {
     href: "https://linkedin.com/in/dominickjay/",
     label: "LinkedIn",
+    icon: "linkedin",
   },
   {
     href: "https://bsky.app/profile/dominickjay.com",
     label: "Bluesky",
+    icon: "bluesky",
   },
   {
     href: "https://last.fm/user/zerosandones217",
     label: "Last.fm",
+    icon: "lastfm",
   },
   {
     href: "https://mastodon.social/@dominickjay",
     label: "Mastodon",
+    icon: "mastodon",
   },
 ];
 export const SITE_TITLE = "Dom Jay | Developer & Writer";

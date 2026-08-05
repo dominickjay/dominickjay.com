@@ -1,0 +1,153 @@
+---
+import type { MarkdownHeading } from "astro";
+import TableOfContents from "./TableOfContents.astro";
+
+type Props = {
+	headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+const tocHeadings = headings.filter((heading) => heading.depth === 2);
+const initialSection = tocHeadings[0]?.text ?? "";
+---
+
+{
+	tocHeadings.length > 1 && (
+		<aside
+			class="reading-bar"
+			id="reading-bar"
+			aria-label="Reading progress"
+			data-visible="false"
+			data-open="false"
+		>
+			<button
+				type="button"
+				class="reading-bar__trigger"
+				id="reading-bar-trigger"
+				aria-expanded="false"
+				aria-controls="reading-bar-panel"
+			>
+				<span class="reading-bar__mark" aria-hidden="true"></span>
+				<span class="reading-bar__section" id="reading-bar-section" aria-live="polite">
+					{initialSection}
+				</span>
+				<svg
+					class="reading-bar__progress"
+					viewBox="0 0 36 36"
+					aria-hidden="true"
+				>
+					<circle
+						class="reading-bar__track"
+						cx="18"
+						cy="18"
+						r="15.5"
+						fill="none"
+						stroke-width="2"
+					/>
+					<circle
+						class="reading-bar__ring"
+						cx="18"
+						cy="18"
+						r="15.5"
+						fill="none"
+						stroke-width="2"
+						pathLength="100"
+					/>
+				</svg>
+			</button>
+			<div class="reading-bar__panel" id="reading-bar-panel" hidden>
+				<TableOfContents headings={headings} />
+			</div>
+		</aside>
+	)
+}
+
+<script is:inline>
+	(function initReadingBar() {
+		/** @type {IntersectionObserver | null} */
+		let revealObserver = null;
+		/** @type {(() => void) | null} */
+		let removeListeners = null;
+
+		function setOpen(bar, open) {
+			bar.dataset.open = open ? "true" : "false";
+			const trigger = bar.querySelector("#reading-bar-trigger");
+			const panel = bar.querySelector("#reading-bar-panel");
+			if (trigger) trigger.setAttribute("aria-expanded", open ? "true" : "false");
+			if (panel) panel.hidden = !open;
+		}
+
+		function setup() {
+			const bar = document.getElementById("reading-bar");
+			const content = document.querySelector(".content-flow");
+			if (!bar || !content) return;
+
+			if (revealObserver) {
+				revealObserver.disconnect();
+				revealObserver = null;
+			}
+			if (removeListeners) {
+				removeListeners();
+				removeListeners = null;
+			}
+
+			setOpen(bar, false);
+
+			revealObserver = new IntersectionObserver(
+				([entry]) => {
+					const visible =
+						entry.isIntersecting || entry.boundingClientRect.top < 0;
+					bar.dataset.visible = visible ? "true" : "false";
+					if (!visible) setOpen(bar, false);
+				},
+				{ root: null, threshold: 0, rootMargin: "0px" },
+			);
+			revealObserver.observe(content);
+
+			const trigger = bar.querySelector("#reading-bar-trigger");
+
+			function onTriggerClick(e) {
+				e.stopPropagation();
+				setOpen(bar, bar.dataset.open !== "true");
+			}
+
+			function onDocClick(e) {
+				if (bar.dataset.open !== "true") return;
+				if (!bar.contains(e.target)) setOpen(bar, false);
+			}
+
+			function onKeydown(e) {
+				if (e.key === "Escape" && bar.dataset.open === "true") {
+					setOpen(bar, false);
+					trigger?.focus();
+				}
+			}
+
+			function onTocClick(e) {
+				if (e.target.closest("#table-of-contents a")) {
+					setOpen(bar, false);
+				}
+			}
+
+			trigger?.addEventListener("click", onTriggerClick);
+			document.addEventListener("click", onDocClick);
+			document.addEventListener("keydown", onKeydown);
+			bar.addEventListener("click", onTocClick);
+
+			removeListeners = () => {
+				trigger?.removeEventListener("click", onTriggerClick);
+				document.removeEventListener("click", onDocClick);
+				document.removeEventListener("keydown", onKeydown);
+				bar.removeEventListener("click", onTocClick);
+			};
+		}
+
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", setup);
+		} else {
+			setup();
+		}
+
+		document.addEventListener("astro:page-load", setup);
+	})();
+</script>
