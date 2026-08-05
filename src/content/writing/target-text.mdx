@@ -1,6 +1,6 @@
 ---
-title: 'TBC Target Text'
-description: ''
+title: "You Don't Need JavaScript to Highlight Hash Targets"
+description: 'Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation.'
 pubDate: July 1 2026
 supported: 'bcd.css["selectors"].target-text.__compat'
 tags:
@@ -11,21 +11,17 @@ growth: seedling
 import TargetTextDemo from '../../components/demos/TargetTextDemo.astro';
 import FYIBlock from '../../components/FYIBlock.astro';
 
-## The Problem It Solves
+## What Happens When Visual Feedback Is Minimal
 
-You've built a table of contents. Each entry links to a heading further down the page — #key-features, #installation, #faq. Click one, and the browser jumps you there instantly.
+Having a table of contents on a page full of rich text is a pretty common pattern, one exists on this page for the sheer ease of being able to jump through the content more decisively. Each item in the contents list jumps to a heading on the page instantly. Not particularly groundbreaking. But the 'jump' is the only feedback that's typically given. Was it this heading I've gone to? the paragraph below it? the whole section? The 'jump' could be missed; scrolling after the click, navigating with a screen reader (where the scroll position isn't announced) or merely blinked, then that context is gone in an instant.
 
-But the jump is the only feedback you get. Land on a long page and you're staring at a wall of text with no visual cue about why you're here. Was it this heading? The paragraph underneath it? The whole section? Anyone who blinked, scrolled past the jump, or is navigating with a screen reader that doesn't announce scroll position at all just loses that context entirely.
+The usual fix has been to add extra feedback with Javascript, typically having a scroll listener watching for hash changes which toggles a highlight class on whatever element matches. Which works...but it's extra weight to deal with something the browser already knows. It's got the info on what text a hash link points to, because it just sent you there. It's also a brittle solution most of the time. An edge case gets missed, like a hash that doesn't map to an id, nested headings or content that loaded after the listener initialised, and the highlight just doesn't fire.
 
-The usual fix has been to bolt this feedback on with JavaScript — a scroll listener watching for hash changes, then manually toggling a highlight class on whatever element matches. It works, but it's extra weight for something the browser already knows: it already knows exactly which text a hash link points to, because it just navigated you there. And it's brittle — miss an edge case (a hash that doesn't map to an id, nested headings, content that loaded after the listener was set up) and the highlight silently doesn't fire.
-
-::target-text sidesteps all of it, for the one case it's built for: a real navigation to a real destination on the page. No listener, no class toggling, no JS to maintain. The browser handles the targeting; you just style what it hands you.
+`::target-text` sidesteps all of that to use the case it's built for. A real navigation to a real destination on the page. No listener, no class toggling, no JS to maintain. The browser handles the targeting and you just style what it hands you.
 
 ## What ::target-text Actually Does
 
-What ::target-text Actually Does
-
-`::target-text` is a pseudo-element that styles the exact span of text a URL's text fragment resolves to — the part after #:~:text= in a link. Click a link like https://example.com/docs#:~:text=Key%20Features, and the browser doesn't just scroll to where "Key Features" appears — it hands you a styleable hook onto that specific text, live in the page you landed on:
+`::target-text` is a pseudo-element that styles the exact span of text a URL's text fragment resolves to — the part after `#:~:text=` in a link e.g. [/writing/target-text/#:~:text=Where%20It%20Shines](/writing/target-text/#:~:text=Where%20It%20Shines). Click this, and the browser doesn't just scroll to where "Where It Shines" appears, but also hands you a styleable hook onto that specific text, live in the page you landed on. Unsurprisingly, this also works for external URLs as well.
 
 ```css
 ::target-text {
@@ -34,36 +30,32 @@ What ::target-text Actually Does
 }
 ```
 
-That's the whole API surface. No JavaScript, no querying the DOM for a match — the browser has already done the matching as part of resolving the navigation, and ::target-text is just where you style the result.
+That's the whole API. We're not including JavaScript and querying the DOM for a match. The browser has already done the matching as part of resolving the navigation, and `::target-text` is just where you style the result.
 
-It's easy to confuse this with :target, and worth being precise about the difference: :target matches an element — specifically, whichever element has an id matching the URL's fragment (#key-features). ::target-text matches text — a phrase the browser located via the text fragment syntax, with or without any id in sight. You can point at "the third sentence in a paragraph that has no heading, no anchor, no id at all," which :target was never able to do. They can coexist on the same page targeting completely different things.
 
-The part that matters most for how you use this: it only activates on an actual navigation. Following a link with a text fragment attached, or a browser typing/pasting a URL directly, triggers it. Changing the hash via JavaScript on a page that's already loaded, or highlighting text some other way client-side, does not — that's a different job, for a different API, which is exactly what pushed this into two posts in the first place.
+<FYIBlock type="tip">
+	<span slot="title">Confusion awaits</span>
+	<div slot="body">It's easy to confuse this with `:target`. The difference: `:target` matches an element — specifically, whichever element has an id matching the URL's fragment (#key-features). `::target-text` matches text e.g. a phrase the browser located via the text fragment syntax, with or without any id in sight. You can point to specifics in content, like "the third sentence in a paragraph that has no heading, no anchor, no id at all," which `:target` was never able to do. They can coexist on the same page targeting completely different things.</div>
+</FYIBlock>
+
+The part that matters most for how you use this: it only activates on an actual navigation. Following a link with a text fragment attached, or a browser typing/pasting a URL directly, triggers it. Changing the hash via JavaScript on a page that's already loaded, or highlighting text some other way client-side, does not. For *that* we would need the [Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API).
 
 ## Where It Shines
 
-Navigation — jump to "Key Features" and the exact phrase lights up
+Navigation — jump to "Browser Support & Caveats" and the exact phrase lights up
 Readability — removes ambiguity about which content a link was "about"
 Accessibility — visible landing point for keyboard/AT users, not just a scroll position
-(Search dropped entirely — noted in scope as "not what this solves," see companion post)
-
-## A Quick Example
-
-A real link with #:~:text= in the URL, pointing into this same post or a docs-style example — demonstrates actual browser behavior rather than simulating it
-
-<FYIBlock type="info">
-	<span slot="title">You've been tricked</span>
-	<div slot="body">This only works on real navigation — if you've seen a JS-driven version elsewhere, that's likely the Custom Highlight API, not this</div>
-</FYIBlock>
 
 ## Browser Support & Caveats
 
-Real caveat section — check current status via caniuse/BCD before publishing rather than assuming
-Progressive enhancement framing: unsupported browsers just don't highlight, nothing breaks
-supported frontmatter field already using the BCD path (bcd.css["selectors"].target-text.__compat) — good, keep that as your source of truth rather than hardcoding a browser list in prose
+This one's Baseline as 'Newly available' as of December 2024. Full modern support, but recent enough that older browser versions may not have it. For anything from before then, there's no breakage here - links still work as expected, we just don't get that highlighting. We could depend on that brittle scroll listener solution, or we could just expect there to be no highlighting. It's a small win here, just a little nicety.
 
-## Try It Yourself / CTA
+## Try It Yourself
 
-Prompt to try it on their own docs/ToC
-Link forward to the Custom Highlight API post once it exists — "if you need this to work without a page load, or against dynamic content, that's a different tool"
-Hashtag block as-is
+The easiest way to feel what this actually does is to try it on something you already have. If your site has any kind of table of contents, footnote list, or "jump to" navigation, grab one of those links and see what happens when you add a text fragment styled with `::target-text` at the other end. You'll notice the difference in landing feel almost immediately, especially on a page long enough that the destination isn't obviously the top of the viewport.
+
+A couple of things worth trying deliberately; point a text fragment at a paragraph with no heading or id nearby — confirms it's really matching text, not riding on :target. Then try it in a browser where support isn't there yet, and confirm nothing breaks.
+
+If you're building something where the highlight needs to respond to user input rather than a URL — search results, live filtering, anything client-side and dynamic — that's outside what ::target-text can do by design, since it only ever fires on navigation. Instead, that's a job for the CSS Custom Highlight API, which is a related piece of the same puzzle, but different enough in how it works that it deserves its own post rather than a rushed footnote here. I'll be writing about it properly once I've built something worth showing rather than just describing the API secondhand. Until then, [MDN's overview](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API) is the best place to start if you want to get ahead of it yourself.
+
+For now, `::target-text` is a small, quiet win.
