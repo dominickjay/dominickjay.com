@@ -6,10 +6,29 @@ supported: 'bcd.css["selectors"].target-text.__compat'
 tags:
   - css
 growth: seedling
+showCTA: true
 ---
 
 import TargetTextDemo from '../../components/demos/TargetTextDemo.astro';
 import FYIBlock from '../../components/FYIBlock.astro';
+import InlineCallout from '../../components/InlineCallout.astro';
+import InlineCalloutCluster from '../../components/InlineCalloutCluster.astro';
+
+<InlineCalloutCluster
+	tagline="Targetting Text · 2-part series"
+	articles={[
+		{
+			title: "You Don't Need JavaScript to Highlight Hash Targets",
+			link: '/target-text',
+			description: "Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation.",
+		},
+		{
+			title: 'Native Text Highlighting for Live, Dynamic Content',
+			link: '/custom-highlight-api',
+			description: "Aspect ratios, CLS prevention, and the full performance strategy",
+		}
+	]}
+/>
 
 ## What Happens When Visual Feedback Is Minimal
 
@@ -56,6 +75,13 @@ The easiest way to feel what this actually does is to try it on something you al
 
 A couple of things worth trying deliberately; point a text fragment at a paragraph with no heading or id nearby — confirms it's really matching text, not riding on :target. Then try it in a browser where support isn't there yet, and confirm nothing breaks.
 
-If you're building something where the highlight needs to respond to user input rather than a URL — search results, live filtering, anything client-side and dynamic — that's outside what ::target-text can do by design, since it only ever fires on navigation. Instead, that's a job for the CSS Custom Highlight API, which is a related piece of the same puzzle, but different enough in how it works that it deserves its own post rather than a rushed footnote here. I'll be writing about it properly once I've built something worth showing rather than just describing the API secondhand. Until then, [MDN's overview](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API) is the best place to start if you want to get ahead of it yourself.
+If you're building something where the highlight needs to respond to user input rather than a URL — search results, live filtering, anything client-side and dynamic — that's outside what ::target-text can do by design, since it only ever fires on navigation. Instead, that's a job for the CSS Custom Highlight API.
+
+<InlineCallout
+	tagline="Ready to go read on?"
+	title="Native Text Highlighting for Live, Dynamic Content"
+	description="Realising the map you're navigating by was wrong"
+	slug="/writing/custom-highlight-api"
+/>
 
 For now, `::target-text` is a small, quiet win.

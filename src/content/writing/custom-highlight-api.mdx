@@ -1,0 +1,104 @@
+---
+title: "Native Text Highlighting for Live, Dynamic Content"
+description: 'Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation.'
+pubDate: '2026-08-05'
+supported: 'bcd.css["selectors"].target-text.__compat'
+tags:
+  - css
+growth: seedling
+showCTA: true
+---
+
+import CustomHighlightAPI from '../../components/demos/CustomHighlightAPI.astro';
+import FYIBlock from '../../components/FYIBlock.astro';
+import InlineCallout from '../../components/InlineCallout.astro';
+import InlineCalloutCluster from '../../components/InlineCalloutCluster.astro';
+
+<InlineCalloutCluster
+	tagline="Targetting Text · 2-part series"
+	articles={[
+		{
+			title: "You Don't Need JavaScript to Highlight Hash Targets",
+			link: '/target-text',
+			description: "Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation.",
+		},
+		{
+			title: 'Native Text Highlighting for Live, Dynamic Content',
+			link: '/custom-highlight-api',
+			description: "Aspect ratios, CLS prevention, and the full performance strategy",
+		}
+	]}
+/>
+
+## The Problem It Solves
+
+Upon finding out about the Custom Highlight API, I instantly thought of the perfect use case for it being in search or filter UIs. You type a query, the results re-render but no navigation ever happens; no url load or history change. It'd be nice to highlight the search result text as it appears on the cards.
+
+::target-text literally cannot fire here — it's built for navigation, and there isn't one.
+Old approach: wrap matches in `<mark>` via string manipulation or surroundContents() — breaks when a match spans element boundaries, loses event listeners on re-render, mutates the DOM you're trying to just read
+
+<InlineCallout
+	tagline="Want to read up on ::target-text?"
+	title="You Don't Need JavaScript to Highlight Hash Targets"
+	description="Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation."
+	slug="/writing/target-text"k
+/>
+
+## What the Custom Highlight API Actually Does
+
+Range objects define arbitrary text spans — not limited to what the browser matches for you
+Register them under a name via CSS.highlights.set(name, highlight)
+Style via ::highlight(name) in CSS
+Key distinction from ::target-text: this is imperative (you build the ranges in JS) where that was declarative (the browser built the range for you) — worth being explicit about that trade-off up front
+
+## Where It Shines
+
+Multiple simultaneous matches — one Highlight object holds many ranges
+Ranges can span across element boundaries — the thing surroundContents() chokes on
+DOM stays untouched — no wrapped `<mark>` elements to insert/remove, nothing to break on re-render
+Live/dynamic content — rebuild ranges on every keystroke, cheaply
+
+### Quick Diversion, What's surroundContents()?
+
+`Range.surroundContents()` is a DOM API method that wraps everything inside a Range in a new parent element — typically used to wrap search matches in `<mark>`:
+
+```js
+const range = document.createRange();
+range.setStart(textNode, start);
+range.setEnd(textNode, end);
+const mark = document.createElement('mark');
+range.surroundContents(mark); // <mark>matched text</mark>
+```
+
+That mutates the DOM: it inserts a real element around the text. It works when the match lives in a single text node, but throws `InvalidStateError` when the range starts in one element and ends in another — e.g. there is `<em>no</em>` spoon and you try to wrap no spoon. The browser refuses because wrapping would split or reparent nodes in a messy way.
+
+You wouldn't reach for it for its own sake — you'd reach for “wrap the match in a `<mark>`”, and `surroundContents()` is the Range API's built-in way to do that wrap.
+
+Before the Custom Highlight API, the usual options for live search highlighting were:
+
+String / HTML surgery — rebuild the HTML with `<mark>` tags spliced in `innerHTML = ...`. Fast to write, but you throw away the live DOM: event listeners, focus, selection, React/Vue nodes, etc.
+`surroundContents()` — keep the existing DOM tree and surgically wrap only the matched slice. That was the “proper” DOM approach: one Range, one new element, no full re-render.
+So historically it was the cleaner alternative to nuking innerHTML. The catch is the same one your post calls out: it only works when the match sits neatly inside one parent. Cross an `<em>`, a `<a>`, or a `<code>`, and it blows up — which is exactly when people invent messy fallbacks (split nodes, wrap each piece separately, etc.).
+
+Custom Highlight exists so you can keep the Range (the useful part: “these characters”) and drop the wrap (the painful part: “mutate the tree to style them”).
+
+## A Quick Example
+
+Type a query into the search bar below. Matches light up across the result cards instantly, painted with CSS, without wrapping a single character in the DOM. Try `no spoon` specifically: the match spans an `<em>` boundary in the Matrix card. That's the case `surroundContents()` chokes on; the Custom Highlight API does not.
+
+<CustomHighlightAPI />
+
+## Browser Support & Caveats
+
+We've got very good browser support with this, it's currently Baseline "Newly available", which is great - and because it's a nice little highlight, it's not critical if it doesn't show in our example of search results. We're still getting the results, nothing's broken there. We just don't have the extra highlight to go along with it.
+
+## Try It Yourself / CTA
+
+<InlineCallout
+	tagline="Want to read up on ::target-text?"
+	title="You Don't Need JavaScript to Highlight Hash Targets"
+	description="Style the exact text a URL fragment resolves to. No JavaScript, no class toggling. Just CSS on real navigation."
+	slug="/writing/target-text"
+/>
+
+So there you have it, if you've ever built as search or filter UI with manual `<mark>`, this replaces it completely as it only ever works on navigation. Now the Custom Highlight API can take that over completely.

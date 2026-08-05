@@ -9,6 +9,7 @@ tags:
 supported: 'bcd.css["at-rules"].scope.__compat'
 growth: evergreen
 atprotoDocumentRkey: 3mopuiplzsk2s
+showCTA: true
 ---
 
 import PlaceholderImage from '../../components/PlaceholderImage.astro';
@@ -17,7 +18,7 @@ import ScopeDemo1 from '../../components/demos/ScopeDemo1.astro';
 import ChecklistItem from '../../components/ChecklistItem.astro';
 
 As a parent of two, I've found writing CSS can be a bit like having toddlers - you tell them to only use the red pens and somehow, blue pen appears somewhere completely unexpected. The sofa. The wall. Something you haven't seen in six months.
-CSS has the same problem. You tie up a new button style for a new part of a project and suddenly all the buttons across the site have that random border-radius or hover state. 
+CSS has the same problem. You tie up a new button style for a new part of a project and suddenly all the buttons across the site have that random border-radius or hover state.
 
 The rules are loose and the damage spreads.
 
@@ -41,13 +42,13 @@ Well...that's kind of it, right? We've it set it up. Nothing more to do here, ap
   <div class="card__content">
     <h3 class="card__heading">Card Title</h3>
     <p class="card__text">
-   	  Amet aute minim eiusmod tempor do minim eu. Eu officia amet 
-      consequat et esse pariatur Lorem proident aliqua reprehenderit 
-      esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit. 
-      In consequat adipisicing ea consequat aute elit elit. Do proident 
-      veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat 
-      id veniam do. Aliquip non incididunt ipsum occaecat cillum est 
-      consequat consectetur cillum. Dolore in excepteur veniam adipisicing 
+   	  Amet aute minim eiusmod tempor do minim eu. Eu officia amet
+      consequat et esse pariatur Lorem proident aliqua reprehenderit
+      esse elit. Eiusmod laborum fugiat irure culpa adipisicing velit.
+      In consequat adipisicing ea consequat aute elit elit. Do proident
+      veniam commodo voluptate adipisicing ullamco et ut aliqua fugiat
+      id veniam do. Aliquip non incididunt ipsum occaecat cillum est
+      consequat consectetur cillum. Dolore in excepteur veniam adipisicing
       pariatur Lorem.
     </p>
     <a class="card__link" href="#">Learn More</a>
@@ -92,8 +93,8 @@ So what's the fix? We can use the `to` keyword to define where a scope stops:
 
 ```css
 @scope (.card) to (.card) {
-  h3 { 
-  	font-size: 24px; 
+  h3 {
+  	font-size: 24px;
   }
 }
 ```

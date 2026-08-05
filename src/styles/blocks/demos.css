@@ -39,7 +39,7 @@
       border: 1px solid;
       padding-inline: var(--space-m);
       padding-block-start: var(--space-s);
-      padding-block-end: var(--space-xs);
+      padding-block-end: var(--space-s);
       font-family: var(--font-base);
       transition:
         background 0.25s ease-in-out,

@@ -1,0 +1,417 @@
+---
+import FYIBlock from '../../components/FYIBlock.astro';
+---
+
+<section class="demo flow">
+
+  <div class="demo__intro">
+    <p>
+      Type in the search bar — matches highlight live across the results below.
+      No <code>&lt;mark&gt;</code> wrappers, no DOM mutation. Just Ranges painted with CSS.
+    </p>
+  </div>
+
+  <div class="search-bar">
+    <label class="visually-hidden" for="search-query">Search quotes</label>
+    <svg class="search-bar__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </svg>
+    <input
+      id="search-query"
+      class="search-bar__input"
+      type="search"
+      value="you"
+      placeholder="Search quotes…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button class="button search-bar__clear" type="button" id="search-clear">Clear</button>
+  </div>
+
+  <div class="cluster" style="--gutter: var(--space-s)">
+    <span class="eyebrow" id="chips-label">Try:</span>
+    <div class="cluster" role="group" aria-labelledby="chips-label">
+      <button class="button" type="button" data-term="you">you</button>
+      <button class="button" type="button" data-term="space">space</button>
+      <button class="button" type="button" data-term="no spoon">no spoon</button>
+    </div>
+  </div>
+
+  <p class="search-status" role="status" id="status"></p>
+
+  <div class="result-list" id="results" aria-label="Search results">
+    <article class="card">
+      <div class="card-img-wrap">
+        <img
+          src="https://picsum.photos/seed/scifi1/600/340"
+          alt="Starfield over a darkened horizon"
+          loading="lazy"
+          width="600"
+          height="340"
+        />
+      </div>
+      <div class="card-body">
+        <p class="card-label">1977 · Star Wars</p>
+        <h3 class="card-title">A New Hope</h3>
+        <p class="card-excerpt">
+          “Help me, Obi-Wan Kenobi. You’re my only hope.”
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-img-wrap">
+        <img
+          src="https://picsum.photos/seed/scifi2/600/340"
+          alt="Green digital rain on a dark screen"
+          loading="lazy"
+          width="600"
+          height="340"
+        />
+      </div>
+      <div class="card-body">
+        <p class="card-label">1999 · The Matrix</p>
+        <h3 class="card-title">There is no spoon</h3>
+        <p class="card-excerpt">
+          “Do not try and bend the spoon. That’s impossible. Instead, only try to
+          realize the truth: there is <em>no</em> spoon.”
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-img-wrap">
+        <img
+          src="https://picsum.photos/seed/scifi3/600/340"
+          alt="Mist drifting through a metal corridor"
+          loading="lazy"
+          width="600"
+          height="340"
+        />
+      </div>
+      <div class="card-body">
+        <p class="card-label">1979 · Alien</p>
+        <h3 class="card-title">In space no one can hear you scream</h3>
+        <p class="card-excerpt">
+          “This is Ripley, last survivor of the Nostromo, signing off.”
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-img-wrap">
+        <img
+          src="https://picsum.photos/seed/scifi4/600/340"
+          alt="Rain falling on a neon-lit city street"
+          loading="lazy"
+          width="600"
+          height="340"
+        />
+      </div>
+      <div class="card-body">
+        <p class="card-label">1982 · Blade Runner</p>
+        <h3 class="card-title">Tears in rain</h3>
+        <p class="card-excerpt">
+          “I’ve seen things you people wouldn’t believe. Attack ships on fire off
+          the shoulder of Orion.”
+        </p>
+      </div>
+    </article>
+  </div>
+
+  <div id="fallback-note" hidden>
+    <FYIBlock type="warning">
+    	<span slot="title">No support here</span>
+    	<div slot="body">Your browser doesn't support the CSS Custom Highlight API, so this demo can't highlight matches — the search results above are shown unhighlighted instead.</div>
+    </FYIBlock>
+  </div>
+
+</section>
+
+<style is:global>
+  /* Highlight name is registered globally via CSS.highlights */
+  ::highlight(search-match) {
+    background: color-mix(in srgb, var(--color-feature) 35%, transparent);
+    color: var(--color-dark);
+  }
+</style>
+
+<style>
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding-inline: var(--space-m);
+    padding-block: var(--space-s);
+    background: var(--color-light);
+    border: 1px solid var(--color-dark);
+  }
+
+  .search-bar:focus-within {
+    outline: 2px solid var(--color-feature);
+    outline-offset: 2px;
+  }
+
+  .search-bar__icon {
+    flex-shrink: 0;
+    color: color-mix(in srgb, var(--color-dark) 55%, transparent);
+  }
+
+  .search-bar__input {
+    flex: 1;
+    min-inline-size: 0;
+    border: none;
+    background: transparent;
+    font-family: var(--font-base);
+    font-size: clamp(16px, 2.5vw, 20px);
+    line-height: 1.4;
+    padding-block: var(--space-s);
+    color: var(--color-dark);
+  }
+
+  .search-bar__input:focus {
+    outline: none;
+  }
+
+  .search-bar__input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .search-bar__clear {
+    flex-shrink: 0;
+    font-size: 13px;
+    padding-inline: var(--space-s);
+    padding-block: var(--space-xs);
+  }
+
+  .search-status {
+    font-size: 14px;
+    color: color-mix(in srgb, var(--color-dark) 65%, transparent);
+    min-block-size: 1.4em;
+  }
+
+  .result-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-m);
+
+    @media (width >= 768px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-dark);
+    overflow: hidden;
+  }
+
+  @media (max-width: 520px) {
+    .card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card-img-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--color-surface-2);
+  }
+
+  .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .card-body {
+    padding: var(--space-m);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-dark) 55%, transparent);
+    margin-block-end: 4px;
+  }
+
+  .card-title {
+    font-family: var(--font-base);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--color-dark);
+    margin-block-end: 6px;
+  }
+
+  .card-title code {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 0.9em;
+  }
+
+  .card-excerpt {
+    font-size: 14px;
+    color: color-mix(in srgb, var(--color-dark) 65%, transparent);
+    line-height: 1.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .button { transition: none; }
+  }
+</style>
+
+<script>
+  type TextEntry = { node: Text; start: number };
+
+  const resultsEl = document.getElementById('results');
+  const inputEl = document.getElementById('search-query');
+  const clearEl = document.getElementById('search-clear');
+  const statusEl = document.getElementById('status');
+  const fallbackEl = document.getElementById('fallback-note');
+  const chipButtons = Array.from(
+    document.querySelectorAll('[data-term]'),
+  ) as HTMLButtonElement[];
+
+  if (
+    !(resultsEl instanceof HTMLElement) ||
+    !(inputEl instanceof HTMLInputElement) ||
+    !(clearEl instanceof HTMLButtonElement) ||
+    !(statusEl instanceof HTMLElement) ||
+    !(fallbackEl instanceof HTMLElement)
+  ) {
+    // Missing DOM — nothing to wire up.
+  } else if (!('highlights' in CSS)) {
+    // Feature detect first — this API isn't universal.
+    fallbackEl.hidden = false;
+    statusEl.textContent = 'Highlighting unavailable in this browser.';
+  } else {
+    const results = resultsEl;
+    const searchInput = inputEl;
+    const clearBtn = clearEl;
+    const status = statusEl;
+
+    const highlight = new Highlight();
+    CSS.highlights.set('search-match', highlight);
+
+    function escapeRegExp(string: string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    /** Flatten text nodes under `root`, tracking global character offsets. */
+    function collectTextNodes(root: Element) {
+      const nodes: TextEntry[] = [];
+      let text = '';
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        const textNode = n as Text;
+        nodes.push({ node: textNode, start: text.length });
+        text += textNode.textContent ?? '';
+      }
+      return { nodes, text };
+    }
+
+    /** Map a global character offset back to { node, offset }. */
+    function offsetToPoint(nodes: TextEntry[], globalOffset: number) {
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const entry = nodes[i];
+        if (globalOffset >= entry.start) {
+          return {
+            node: entry.node,
+            offset: globalOffset - entry.start,
+          };
+        }
+      }
+      return { node: nodes[0].node, offset: 0 };
+    }
+
+    function highlightQuery(term: string) {
+      highlight.clear();
+      const trimmed = term.trim();
+
+      if (!trimmed) {
+        status.textContent = 'Type to highlight matches in the results.';
+        return;
+      }
+
+      const { nodes, text } = collectTextNodes(results);
+      if (!nodes.length) {
+        status.textContent = 'No searchable text found.';
+        return;
+      }
+
+      // Treat any whitespace in the term as "one or more whitespace characters"
+      // so multi-word queries still match across wrapping/indentation.
+      const pattern = trimmed.split(/\s+/).map(escapeRegExp).join('\\s+');
+      const regex = new RegExp(pattern, 'gi');
+      const matches = [...text.matchAll(regex)];
+
+      if (!matches.length) {
+        status.textContent = `No matches for "${trimmed}".`;
+        return;
+      }
+
+      // Count how many result cards contain at least one match.
+      const cardsWithMatch = new Set<Element>();
+
+      for (const match of matches) {
+        const start = match.index ?? 0;
+        const end = start + match[0].length;
+        const from = offsetToPoint(nodes, start);
+        const to = offsetToPoint(nodes, end);
+
+        const range = new Range();
+        range.setStart(from.node, from.offset);
+        range.setEnd(to.node, to.offset);
+        highlight.add(range);
+
+        // Walk up from the start node to find its card.
+        let el = from.node.parentElement;
+        while (el && el !== results) {
+          if (el.classList.contains('card')) {
+            cardsWithMatch.add(el);
+            break;
+          }
+          el = el.parentElement;
+        }
+      }
+
+      const matchWord = matches.length === 1 ? 'match' : 'matches';
+      const cardWord = cardsWithMatch.size === 1 ? 'result' : 'results';
+      status.textContent = `${matches.length} ${matchWord} across ${cardsWithMatch.size} ${cardWord}.`;
+    }
+
+    function applyFromInput() {
+      highlightQuery(searchInput.value);
+    }
+
+    searchInput.addEventListener('input', applyFromInput);
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.focus();
+      applyFromInput();
+    });
+
+    chipButtons.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        searchInput.value = chip.dataset.term ?? '';
+        applyFromInput();
+        searchInput.focus();
+      });
+    });
+
+    // Prefill is already in the value attribute — highlight on load.
+    applyFromInput();
+  }
+</script>
