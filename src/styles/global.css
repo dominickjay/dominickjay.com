@@ -41,6 +41,7 @@
 @import "./blocks/code.css";
 @import "./blocks/prose.css";
 @import "./blocks/toc.css";
+@import "./blocks/reading-bar.css";
 @import "./blocks/browser-support-table.css";
 @import "./blocks/music-card.css";
 @import "./blocks/joke.css";
@@ -75,7 +76,6 @@
 @import "./blocks/currently-playing.css";
 @import "./blocks/page-turners.css";
 @import "./blocks/writing-cta.css";
-@import "./blocks/toc.css";
 
 /* @import-glob 'utilities/*.css'; */
 @import "./utilities/visually-hidden.css";

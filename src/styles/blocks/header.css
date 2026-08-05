@@ -23,6 +23,8 @@
         left: 0;
         right: 0;
         padding-block: var(--space-m);
+        max-width: 350px;
+        transition: max-width .25s ease-in-out;
       }
     }
   }
@@ -30,10 +32,11 @@
   @layer variations {
     .header--open {
       padding-block-end: var(--space-m);
-    }
-  }
 
-  @layer variations {
+      @media (width >= 768px) {
+        max-width: min(900px, calc(100svw - var(--space-m)));
+      }
+    }
   }
 
   article header,

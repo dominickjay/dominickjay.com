@@ -1,0 +1,161 @@
+@layer components {
+	@layer base {
+		@keyframes reading-bar-fill {
+			from {
+				stroke-dashoffset: 100;
+			}
+
+			to {
+				stroke-dashoffset: 0;
+			}
+		}
+
+		.reading-bar {
+			position: fixed;
+			z-index: 40;
+			bottom: var(--space-s);
+			left: 50%;
+			display: flex;
+			flex-direction: column;
+			align-items: stretch;
+			gap: 0;
+			width: min(360px, calc(100vw - var(--space-m)));
+			padding: 0;
+			border: 1px solid var(--color-feature);
+			border-radius: 999px;
+			background: var(--color-dark);
+			color: var(--color-light);
+			transform: translateX(-50%) translateY(calc(100% + var(--space-l)));
+			opacity: 0;
+			pointer-events: none;
+			overflow: hidden;
+			transition:
+				opacity 0.35s ease,
+				transform 0.35s ease;
+
+				@media (width > 768px) {
+					bottom: var(--space-l);
+					width: min(360px, calc(100vw - var(--space-xl)));
+				}
+		}
+
+		.reading-bar[data-visible="true"] {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+			pointer-events: auto;
+		}
+
+		.reading-bar[data-open="true"] {
+			border-radius: 20px;
+		}
+
+		.reading-bar__trigger {
+			display: flex;
+			align-items: center;
+			gap: var(--space-s);
+			width: 100%;
+			margin: 0;
+			padding: 10px 14px;
+			border: 0;
+			background: transparent;
+			color: inherit;
+			font: inherit;
+			text-align: left;
+			cursor: pointer;
+		}
+
+		.reading-bar__trigger:focus-visible {
+			outline: 2px solid var(--color-feature);
+			outline-offset: -4px;
+			border-radius: inherit;
+		}
+
+		.reading-bar__mark {
+			flex-shrink: 0;
+			width: 18px;
+			height: 18px;
+			border-radius: 50%;
+			background: linear-gradient(
+				145deg,
+				color-mix(in srgb, var(--color-feature) 55%, white) 0%,
+				color-mix(in srgb, var(--color-feature) 35%, #9aa8b0) 100%
+			);
+		}
+
+		.reading-bar__section {
+			flex: 1 1 auto;
+			min-width: 0;
+			margin: 0;
+			font-family: var(--font-base);
+			font-size: 14px;
+			font-weight: 500;
+			line-height: 1.2;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.reading-bar__progress {
+			flex-shrink: 0;
+			width: 22px;
+			height: 22px;
+			transform: rotate(-90deg);
+			pointer-events: none;
+		}
+
+		.reading-bar__track {
+			stroke: rgb(from var(--color-light) r g b / 0.2);
+		}
+
+		.reading-bar__ring {
+			stroke: var(--color-light);
+			stroke-linecap: round;
+			stroke-dasharray: 100;
+			stroke-dashoffset: 100;
+			animation: reading-bar-fill auto linear;
+			animation-timeline: --page-scroll;
+		}
+
+		.reading-bar__panel {
+			padding: 0 14px 12px;
+			border-top: 1px solid rgb(from var(--color-light) r g b / 0.12);
+		}
+
+		.reading-bar__panel[hidden] {
+			display: none;
+		}
+
+		/* Theme the shared TOC tokens for the dark pill — structure stays in toc.css */
+		@scope (.reading-bar .toc) {
+			:scope {
+				--gutter: var(--space-xs);
+				--toc-link-color: var(--color-light);
+				--toc-link-opacity: 0.7;
+				--toc-border: rgb(from var(--color-light) r g b / 0.18);
+				--toc-accent: color-mix(in srgb, var(--color-feature) 70%, white);
+				--toc-eyebrow-color: rgb(from var(--color-light) r g b / 0.55);
+				margin: 0;
+				margin-block-end: 0;
+				padding-block-start: 10px;
+				grid-row: auto;
+				grid-column: auto;
+			}
+
+			.eyebrow {
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+
+			.list {
+				max-height: min(40vh, 280px);
+				overflow-y: auto;
+			}
+
+			.item .link {
+				font-size: 13px;
+				padding: 6px 8px 6px 6px;
+			}
+		}
+	}
+}

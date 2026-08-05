@@ -73,6 +73,7 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
       </article>
     </main>
     <Footer />
+    <slot name="overlay" />
   </body>
   <script
     data-goatcounter="https://dominickjay.goatcounter.com/count"
@@ -103,35 +104,18 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 </script>
 
 <style is:inline>
-  #progress {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 64px;
-
-    transform-origin: 0 50%;
-    animation: grow-progress auto linear;
-    animation-timeline: --page-scroll;
-  }
-
-  #progress > *:first-child {
-    position: relative;
-    transform: translateY(-50%);
-  }
-
   .content-flow > * {
-      grid-column: 1 / span 2;
+    grid-column: 1 / span 2;
+  }
+
+  @media (width >= 992px) {
+    .content-flow > * {
+      grid-column: 1 / span 1;
     }
 
-    @media (width >= 992px) {
-      .content-flow > * {
-        grid-column: 1 / span 1;
-      }
-
-      .content-flow > .post-recommendations {
-        grid-column: 2 / span 1;
-        grid-row: 1 / span 999;
-      }
+    .content-flow > .post-recommendations {
+      grid-column: 2 / span 1;
+      grid-row: 1 / span 999;
     }
   }
 

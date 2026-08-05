@@ -96,6 +96,12 @@
 
 .prose table {
   width: 100%;
+  text-align: left;
+
+  th {
+    text-align: left;
+    padding-block-end: var(--space-s);
+  }
 }
 
 .prose .blockquote,

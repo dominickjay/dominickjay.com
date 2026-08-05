@@ -8,7 +8,7 @@ import MusicGrid from "../../components/MusicGrid.astro";
 import { getRaindropBookmarks } from "../../lib/raindrop";
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from "../../lib/lastfm";
 import BrowserSupportTable from "../../components/BrowserSupportTable.astro";
-import TableOfContents from "../../components/TableOfContents.astro";
+import ReadingBar from "../../components/ReadingBar.astro";
 import WritingCTA from "../../components/WritingCTA.astro";
 
 const { slug } = Astro.params;
@@ -198,7 +198,6 @@ if (post.data.showCTA !== undefined && availability === "available") {
     <div
       class="md:sticky md:bottom-[var(--space-xxl)] contents md:flex flex-col gap-[var(--space-m)]"
     >
-      <TableOfContents headings={headings} />
       <div class="max-md:mt-[var(--space-l)] max-md:col-span-full">
         {
           browserSupport.length > 0 && (
@@ -236,6 +235,7 @@ if (post.data.showCTA !== undefined && availability === "available") {
       </div>
     </div>
   </div>
+  <ReadingBar slot="overlay" headings={headings} />
 </BlogPost>
 <script is:inline>
   const ICON_COPY = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
