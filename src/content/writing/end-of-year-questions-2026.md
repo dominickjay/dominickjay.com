@@ -53,6 +53,8 @@ Improved relationships, less burnout and also more tattoos!
 
 ## 15. Where did most of your money go?
 
+The house and as always the kids. But I made my normal investments into my every growing vinyl and board game collection too!
+
 ## 16. What did you get really, really, really excited about?
 
 ## 17. What song will always remind you of this year?
@@ -71,7 +73,11 @@ Improved relationships, less burnout and also more tattoos!
 
 ## 24. What was your favorite show?
 
+The Pitt, and Clarkson's Farm
+
 ## 25. What was the best book you read?
+
+Dungeon Crawler Carl Book 8
 
 ## 26. What was your greatest musical discovery of the year?
 
