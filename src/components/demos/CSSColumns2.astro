@@ -1,0 +1,121 @@
+---
+const cards = [
+  {
+    n: "01",
+    title: "Fetch on mount",
+    body: "Load data when the component first renders.",
+  },
+  {
+    n: "02",
+    title: "Skeleton loaders",
+    body: "Hold the layout steady while the request is in flight.",
+  },
+  {
+    n: "03",
+    title: "Error boundaries",
+    body: "Catch a failed request without taking the whole view down.",
+  },
+];
+---
+
+<style>
+  :root {
+    --color-danger: #a3402c;
+  }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-s);
+  }
+  @media (min-width: 560px) {
+    .compare { grid-template-columns: 1fr 1fr; }
+  }
+
+  .compare-panel {
+    border: 1px solid color-mix(in srgb, var(--color-dark) 18%, var(--color-light));
+    border-radius: 8px;
+    padding: var(--space-s);
+    background: color-mix(in srgb, var(--color-dark) 3%, var(--color-light));
+  }
+  .compare-panel__label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin: 0 0 var(--space-s);
+  }
+  .compare-panel__label.is-off { color: var(--color-danger); }
+  .compare-panel__label.is-on { color: var(--color-accent); }
+
+  .card-columns {
+    --card-height: 7.25rem;
+    --card-gap: var(--space-s);
+    column-count: 2;
+    column-gap: var(--space-s);
+    column-rule: 1px solid color-mix(in srgb, var(--color-dark) 20%, var(--color-light));
+    column-fill: auto;
+    /* Two full cards, then half of a third — enough room to stack
+       with break-inside: avoid, still short enough to slice without it. */
+    height: calc(var(--card-height) * 2.45 + var(--card-gap) * 2);
+  }
+
+  .card-columns--avoid .card {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+
+  .card {
+    box-sizing: border-box;
+    height: var(--card-height);
+    background: var(--color-light);
+    border: 1px solid color-mix(in srgb, var(--color-dark) 25%, var(--color-light));
+    padding: var(--space-xs) var(--space-s);
+    margin: 0 0 var(--card-gap);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+  .card p { margin: 0; }
+  .card .n {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-accent);
+  }
+  .card h3 {
+    font-size: 0.85rem;
+    margin: 0.15rem 0 0.25rem;
+    font-weight: 600;
+  }
+</style>
+
+<div class="wrapper stacked">
+  <section class="demo-section stacked">
+    <p class="demo-note">Same three cards, same <code>column-count: 2</code>. The only difference is <code>break-inside: avoid</code> on the right.</p>
+
+    <div class="compare">
+      <div class="compare-panel">
+        <p class="compare-panel__label is-off">Without break-inside: avoid</p>
+        <div class="card-columns">
+          {cards.map((card) => (
+            <article class="card">
+              <p class="n">{card.n}</p>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="compare-panel">
+        <p class="compare-panel__label is-on">With break-inside: avoid</p>
+        <div class="card-columns card-columns--avoid">
+          {cards.map((card) => (
+            <article class="card">
+              <p class="n">{card.n}</p>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

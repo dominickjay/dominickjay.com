@@ -1,0 +1,75 @@
+---
+title: CSS Columns Are the Layout Method Everyone Forgets
+description: 'Two lines get you newspaper columns. The third line is the one nobody mentions.'
+pubDate: '2026-08-16'
+tags:
+  - css
+growth: seedling
+draft: true
+---
+
+import InlineCallout from '../../components/InlineCallout.astro';
+import CSSColumns1 from '../../components/demos/CSSColumns1.astro';
+import CSSColumns2 from '../../components/demos/CSSColumns2.astro';
+
+Saw a [post](https://www.linkedin.com/posts/theosoti_you-can-create-a-multi-column-layout-without-share-7494397531133571072-6zSN) from Theo Soti this week making the case for the CSS columns property. It's a good use case for multi-column, newspaper-style text layout. No grid, no flexbox, two lines of CSS. He's right that it's underused, I'm not sure I've reached for it more than a handful of times since finding out about it, and it's normally as a last resort when something that more ingrained options like flex or grid don't seem to do the trick.
+
+Given this lack of usage, but wanting to dive in a bit more  So I built the two-line version from the original, and then some more to figure out what the downsides are. There must be some big ones, right? For it to somewhat fly under the radar?
+
+So, the two lines. Pretty simple stuff.
+
+```css
+.container {
+  columns: 200px 3;
+}
+```
+
+That's it. For the happy, easy-breasy path anyways. `columns` is a shorthand for `column-width` and `column-count`, really reading as *"at least 200px per column, and don't exceed 3 columns"*, and then it's left in the browsers capable hands to figure out how many actually fit. Sprinkle in some `column-gap` and `column-rule` for spacing and a divider, and you've got clean readable columns for biographies, long-form text, feature-lists...anything that's really just a block of text.
+
+If we want something to break out of those columns and sit above them, like an introduction paragraph, we can use `column-span` to get all of that just as easily.
+
+```css
+  .text-columns {
+    columns: 200px 3;
+    column-gap: 1.5rem;
+    column-rule: 1px solid #ccc;
+  }
+
+  .text-columns .intro {
+    column-span: all;
+  }
+```
+
+<CSSColumns1 />
+
+## The missing piece
+
+Using this for getting blocks of text into columns is perfect, but the moment we put anything more structured inside it, like a card, an image, a bordered note, it falls over completely. The browser doesn't know, or more precisely, care, that your `.card` element in a single visual component. It just keeps flowing content down the current column until it runs out of vertical space, and then starts the next one. If that happens when it's mid-element, then we get the browser-equivalent of a shrug, and the break happens.
+
+So how do we get around it? Well, luckily, we don't need some odd hack or weird workaround, as I'd fully expect in a situation like this.
+The fix is one more line, but this time on the child (we're using a used-so-much-its-boring card element) this time:
+
+```css
+@scope (.text-columns) {
+  .card {
+    break-inside: avoid;
+  }
+}
+```
+
+<InlineCallout
+	tagline="Not sure why @scope is used in the example above?"
+	title="Put Your CSS In Its Place with @scope"
+	description="A closer look at how @scope keeps those child styles from leaking."
+	slug="/writing/css-scope"
+/>
+
+Look at the example below and watch a card get sliced when we run out of vertical space. That's where the seperation between the "text layout trick" and the "general-purpose layout tool" is. `columns` is genuinely great at the first thing, but it'll happily let you shoot yourself in the foot and cause a scene if you go in blindly. Yes, the learning curve is less than using `flex` or `grid` for creating columns, but they are definitely more flexible than `columns` and don't require unrelated caveats like `break-inside`. It's not something naturally found while learning about columns until you had that specific issue.
+
+<CSSColumns2 />
+
+## Where this actually fits
+
+Using `columns` is best when using genuinely text-heavy content, like biographies, FAQ answers, footer link lists on top of those mentioned at the start of the post. The moment we start using components in them, that's most likely a good time to reconsider using `columns` and go for an alternative, like `flex` or `grid`. This doesn't, and *never will* replace them, it's a third, narrower tool that's super easy to forget exists.
+
+As I noted at the beginning of this post, I've reached for `columns` only a few times. If it's used more and `break-inside` turns out to have a few of it's own edge cases, like widows, orphans etc, then I'll update this post further to include how they could, or if they could, be dealt with, or if that's the death knell on it.
