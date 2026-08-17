@@ -1,7 +1,7 @@
 ---
 title: 'Switch VS If'
 description: "A practical guide to choosing between switch and if statements in JavaScript, focusing on everyday agency development scenarios."
-pubDate: 'February 10 2025'
+pubDate: '2025-02-10'
 tags:
     - javascript
 growth: seedling

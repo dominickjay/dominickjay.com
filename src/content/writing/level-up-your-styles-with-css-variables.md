@@ -1,7 +1,7 @@
 ---
 title: Level Up Your Styles With CSS Variables
 description: The four behaviours that make custom properties more than just variables.
-pubDate: August 17 2021
+pubDate: '2021-08-17'
 tags:
   - css
   - javascript
