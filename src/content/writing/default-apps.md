@@ -3,7 +3,7 @@ title: The default-iest of Apps
 description: >-
   There’s been a trend recently of writing up a list of default apps, stemming
   from a recent podcast, so here I am, jumping on that trend!
-pubDate: 2023-11-13T00:00:00.000Z
+pubDate: '2023-11-13'
 tags:
   - personal
 growth: seedling

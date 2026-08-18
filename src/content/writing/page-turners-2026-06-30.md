@@ -1,6 +1,6 @@
 ---
 title: "Page Turners - June 2026"
-pubDate: 2026-06-30
+pubDate: '2026-06-30'
 description: "A list of links and demos I've collected over June 2026, with the intention of posting monthly."
 tags:
   - page turners

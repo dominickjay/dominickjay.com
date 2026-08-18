@@ -1,6 +1,6 @@
 ---
 title: Page Turners - March 2026
-pubDate: 2026-03-30T00:00:00.000Z
+pubDate: '2026-03-30'
 description: >-
   This months page turners have articles written by Terry Godier, David Bushell,
   Nicole Sullivan, Stuart Robson and Abbey Perini. Plus a crazy video of a CSS
