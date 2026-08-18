@@ -14,7 +14,7 @@ import CSSColumns2 from '../../components/demos/CSSColumns2.astro';
 
 Saw a [post](https://www.linkedin.com/posts/theosoti_you-can-create-a-multi-column-layout-without-share-7494397531133571072-6zSN) from Theo Soti this week making the case for the CSS columns property. It's a good use case for multi-column, newspaper-style text layout. No grid, no flexbox, two lines of CSS. He's right that it's underused, I'm not sure I've reached for it more than a handful of times since finding out about it, and it's normally as a last resort when something that more ingrained options like flex or grid don't seem to do the trick.
 
-Given this lack of usage, but wanting to dive in a bit more  So I built the two-line version from the original, and then some more to figure out what the downsides are. There must be some big ones, right? For it to somewhat fly under the radar?
+Given this lack of usage but wanting to dive in a bit more, I built the two-line version from the original, and then some more to figure out what the downsides are. There must be some big ones, right? For it to somewhat fly under the radar?
 
 So, the two lines. Pretty simple stuff.
 
@@ -44,7 +44,7 @@ If we want something to break out of those columns and sit above them, like an i
 
 ## The missing piece
 
-Using this for getting blocks of text into columns is perfect, but the moment we put anything more structured inside it, like a card, an image, a bordered note, it falls over completely. The browser doesn't know, or more precisely, care, that your `.card` element in a single visual component. It just keeps flowing content down the current column until it runs out of vertical space, and then starts the next one. If that happens when it's mid-element, then we get the browser-equivalent of a shrug, and the break happens.
+Using this for getting blocks of text into columns is perfect, but the moment we put anything more structured inside it, like a card, an image, a bordered note, it falls over completely. The browser doesn't know, or more precisely, care, that your `.card` element is a single visual component. It just keeps flowing content down the current column until it runs out of vertical space, and then starts the next one. If that happens when it's mid-element, then we get the browser-equivalent of a shrug, and the break happens.
 
 So how do we get around it? Well, luckily, we don't need some odd hack or weird workaround, as I'd fully expect in a situation like this.
 The fix is one more line, but this time on the child (we're using a used-so-much-its-boring card element) this time:
@@ -64,7 +64,7 @@ The fix is one more line, but this time on the child (we're using a used-so-much
 	slug="/writing/css-scope"
 />
 
-Look at the example below and watch a card get sliced when we run out of vertical space. That's where the seperation between the "text layout trick" and the "general-purpose layout tool" is. `columns` is genuinely great at the first thing, but it'll happily let you shoot yourself in the foot and cause a scene if you go in blindly. Yes, the learning curve is less than using `flex` or `grid` for creating columns, but they are definitely more flexible than `columns` and don't require unrelated caveats like `break-inside`. It's not something naturally found while learning about columns until you had that specific issue.
+Look at the example below and watch a card get sliced when we run out of vertical space. That's where the separation between the "text layout trick" and the "general-purpose layout tool" is. `columns` is genuinely great at the first thing, but it'll happily let you shoot yourself in the foot and cause a scene if you go in blindly. Yes, the learning curve is less than using `flex` or `grid` for creating columns, but they are definitely more flexible than `columns` and don't require unrelated caveats like `break-inside`. It's not something naturally found while learning about columns until you had that specific issue.
 
 <CSSColumns2 />
 
@@ -72,4 +72,6 @@ Look at the example below and watch a card get sliced when we run out of vertica
 
 Using `columns` is best when using genuinely text-heavy content, like biographies, FAQ answers, footer link lists on top of those mentioned at the start of the post. The moment we start using components in them, that's most likely a good time to reconsider using `columns` and go for an alternative, like `flex` or `grid`. This doesn't, and *never will* replace them, it's a third, narrower tool that's super easy to forget exists.
 
-As I noted at the beginning of this post, I've reached for `columns` only a few times. If it's used more and `break-inside` turns out to have a few of it's own edge cases, like widows, orphans etc, then I'll update this post further to include how they could, or if they could, be dealt with, or if that's the death knell on it.
+Quick note on support here, since it's not a single "check one number" situation here. `columns` itself has been safe for years now, it's actually `break-inside` that needs the check. The same property also handles page breaks, and does it's own thing inside `flex` and `grid` items too. If you go searching and the first result looks reassuring, there's half a chance that it's not talking about what happens when we're using a multi-column layout. Worth checking if you're looking at the right behaviour before you trust it. `column-span` is worth a glance too if you're using the intro trick from earlier, just to be safe.
+
+As I noted at the beginning of this post, I've reached for `columns` only a few times. If it's used more and `break-inside` turns out to have a few of its own edge cases, like widows, orphans etc, then I'll update this post further to include how they could, or if they could, be dealt with, or if that's the death knell on it.
