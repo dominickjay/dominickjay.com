@@ -83,6 +83,8 @@ Dungeon Crawler Carl Book 8
 
 ## 27. What was your favorite film?
 
+Spiderman: Brand New Day - one of the best Spiderman films made in my opinion. It made some cinematography choices that made some of the combat scenes look straight out of a comic book, and loved the interactions between Spiderman and Jon Bernthal's Punisher.
+
 ## 28. What was your favorite meal?
 
 ## 29. What did you want and get?
