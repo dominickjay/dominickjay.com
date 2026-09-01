@@ -1,5 +1,4 @@
 ---
-// Astro.response.headers.set("Cache-Control", "p currently ublic, max-age=300, s-maxage=86400");
 import BaseHead from "../components/BaseHead.astro";
 import Cursor from "../components/Cursor.astro";
 import Header from "../components/Header.astro";
@@ -14,8 +13,6 @@ const CACHE_TTL = 30000; // 30 seconds
 let allBooks = [];
 let backlog = [];
 let currentlyReading = [];
-let currentList = [];
-let currentListCount = 0;
 let currentListBooks = [];
 
 function getCached(key: string): any | null {
@@ -100,16 +97,7 @@ async function hardcoverGraphQL(
   return json;
 }
 
-// Fetch list book IDs first to filter them out
-let listBookIds = new Set();
-let listBooksCount = 0;
-let listBooks: any[] = [];
-
 // Fetch to-read, currently reading books, and list info in parallel
-let currentBooks: any[] = [];
-let toReadBooks: any[] = [];
-let sortedYears: any[] = [];
-
 try {
   const [toReadData, currentDataAndList, listInfo] = await Promise.all([
     hardcoverGraphQL(
@@ -217,13 +205,9 @@ try {
   allBooks = listInfo.data?.me?.[0]?.user_books ?? [];
   backlog = toReadData.data?.me?.[0]?.user_books ?? [];
   currentlyReading = me?.user_books ?? [];
-  currentList = list ?? [];
-  currentListCount = list?.books_count ?? 0;
   currentListBooks = list?.list_books ?? [];
 } catch (error) {
   console.error(error);
-  // Expected output: ReferenceError: nonExistentFunction is not defined
-  // (Note: the exact output may be browser-dependent)
 }
 const getListBookUserBook = (listBook) => listBook?.book?.user_books?.[0] ?? null;
 const getListBookStatus = (listBook) =>
@@ -244,29 +228,26 @@ const queuedListBooks = currentListBooks?.filter((book) => {
 });
 
 let booksByYear = allBooks.reduce((acc, entry) => {
-  const title = entry.book.title;
-
   entry.user_book_reads?.forEach((read) => {
-    if (read.finished_at) {
-      const year = new Date(read.finished_at).getFullYear();
-      if (!acc[year]) acc[year] = [];
+    if (!read.finished_at) return;
 
-      // Prevent duplicate titles in the same year
-      if (!acc[year].find((b) => b.title === title)) {
-        acc[year].push({
-          id: entry.book.id,
-          title,
-          author: getPrimaryAuthor(entry.book),
-          finished: entry.user_book_reads?.[0]?.finished_at,
-        });
-      }
-    }
+    const year = new Date(read.finished_at).getFullYear();
+    if (!acc[year]) acc[year] = [];
+
+    // Prevent duplicate titles in the same year
+    if (acc[year].some((b) => b.title === entry.book.title)) return;
+
+    acc[year].push({
+      id: entry.book.id,
+      title: entry.book.title,
+      author: getPrimaryAuthor(entry.book),
+      finished: read.finished_at,
+    });
   });
   return acc;
 }, {});
 
-// Define it here so it's scoped correctly for the template
-sortedYears = Object.keys(booksByYear).sort((a, b) => b - a);
+const sortedYears = Object.keys(booksByYear).sort((a, b) => Number(b) - Number(a));
 
 const totalReadCount = allBooks.filter((entry) =>
   entry.user_book_reads?.some((read) => read.finished_at),
@@ -280,6 +261,7 @@ const toGo = Math.max(0, goalTotal - readCount.length);
 
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
+const year = new Date().getFullYear()
 ---
 
 <!doctype html>
@@ -369,32 +351,34 @@ const ogImage = getImagePath({ url, site });
             </ol>
           </div>
 
-          <div class="flex flex-col gap-[20px]">
-            <h2 class="h2 col-span-full mb-[24px]">2026 Reading List</h2>
-            <ol class="feature-list flow" style="--flow-space: 0;">
-              {
-                queuedListBooks.map((book, i) => {
-                  const userBook = getListBookUserBook(book);
-                  const status = getListBookStatus(book);
+          {queuedListBooks.length > 0 && (
+            <div class="flex flex-col gap-[20px]">
+                <h2 class="h2 col-span-full mb-[24px]">{year} Reading List</h2>
+              <ol class="feature-list flow" style="--flow-space: 0;">
+                {
+                  queuedListBooks.map((book, i) => {
+                    const userBook = getListBookUserBook(book);
+                    const status = getListBookStatus(book);
 
-                  return (
-                    <BookItem
-                      i={String(i + 1).padStart(2, "0")}
-                      title={book.book.title}
-                      author={getPrimaryAuthor(book.book)}
-                      rating={book.book.rating}
-                      cover={book.book.cover}
-                      queued={status === "read"}
-                      started={userBook?.user_book_reads?.[0]?.started_at}
-                      finished={userBook?.user_book_reads?.[0]?.finished_at}
-                      status={status}
-                      showStrikethrough={status === "read"}
-                    />
-                  );
-                })
-              }
-            </ol>
-          </div>
+                    return (
+                      <BookItem
+                        i={String(i + 1).padStart(2, "0")}
+                        title={book.book.title}
+                        author={getPrimaryAuthor(book.book)}
+                        rating={book.book.rating}
+                        cover={book.book.cover}
+                        queued={status === "read"}
+                        started={userBook?.user_book_reads?.[0]?.started_at}
+                        finished={userBook?.user_book_reads?.[0]?.finished_at}
+                        status={status}
+                        showStrikethrough={status === "read"}
+                      />
+                    );
+                  })
+                }
+              </ol>
+            </div>
+          )}
 
           {
             sortedYears.map((year, i) => (
