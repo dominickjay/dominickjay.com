@@ -81,6 +81,8 @@ Dungeon Crawler Carl Book 8
 
 ## 26. What was your greatest musical discovery of the year?
 
+Purity ring, maybe? This year seems to have been full of new releases by artists I'm already aware of, and while I've got new artists from this year, none of them jumped out at me to the top of my list.
+
 ## 27. What was your favorite film?
 
 Spiderman: Brand New Day - one of the best Spiderman films made in my opinion. It made some cinematography choices that made some of the combat scenes look straight out of a comic book, and loved the interactions between Spiderman and Jon Bernthal's Punisher.
@@ -92,6 +94,8 @@ Spiderman: Brand New Day - one of the best Spiderman films made in my opinion. I
 ## 30. What did you want and not get?
 
 ## 31. What did you do on your birthday?
+
+Worked during the day, and in the evening had family come over for a big family dinner consisting of about 4 massive beef and chicken lasagnes.
 
 ## 32. What one thing would have made your year immeasurably more satisfying?
 
