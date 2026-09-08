@@ -20,7 +20,6 @@ const writing = defineCollection({
     musicDateTo: z.string().optional(),
     linksFrom: z.string().optional(),
     linksTo: z.string().optional(),
-    growth: z.enum(["evergreen", "growing", "seedling"]).optional(),
     showCTA: z.boolean().optional() || false,
     atprotoDocumentRkey: z.string().optional(),
   }),

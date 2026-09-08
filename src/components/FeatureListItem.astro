@@ -6,7 +6,6 @@ const {
   pubDate,
   lastModified,
   id,
-  growth,
   i,
   theme = "default",
   external = "false"
@@ -16,7 +15,6 @@ const {
 <li
   class="item"
   {...external === "false" ? {
-    "data-stage": growth ?? "all",
     "data-topics": tags?.join(",") ?? "",
     "data-title": title?.toLowerCase() ?? ""
   } : {}}
@@ -25,6 +23,8 @@ const {
   	href={external === "false" ? `/writing/${id}/` : id}
   	class={`link ${theme != "default" ? "link--" + theme : ""}`}
     {...external == "true" ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+    data-small={theme === "small"}
+    data-narrow={theme === "narrow"}
   >
   	{i &&
     	<span class="index">{i}</span>
@@ -37,13 +37,6 @@ const {
             <FormattedDate date={pubDate} />
             <span class="topics">{tags?.join(", ")}</span>
           </div>
-	        {
-	          growth !== undefined && (
-	            <span class={`growth`} data-growth={growth}>
-	              {growth}
-	            </span>
-	          )
-	        }
 	      </div>
       }
     </div>

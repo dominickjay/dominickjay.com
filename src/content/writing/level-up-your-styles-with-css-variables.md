@@ -5,7 +5,6 @@ pubDate: '2021-08-17'
 tags:
   - css
   - javascript
-growth: evergreen
 supported: 'bcd.css["properties"].custom-property.__compat'
 atprotoDocumentRkey: 3mopuiqov22ft
 ---

@@ -6,7 +6,6 @@ tags:
     - career advice
 draft: true
 layout: BlogPost
-growth: seedling
 ---
 
 I. Introduction: The Lure of Speed vs. Depth

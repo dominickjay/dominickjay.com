@@ -43,20 +43,15 @@
       background-color: color-mix(in srgb, var(--color-light) 95%, #ffffff);
       padding-block-start: 68px;
       padding-block-end: 36px;
-      /*border-radius: 15px 15px 0 0;*/
 
-      @media (width > 760px) {
-        /*border-radius: 24px 24px 0 0;*/
+      .home {
+        --grid-placement: 2;
+
+        @media (width < 760px) {
+          --grid-placement: 1;
+        }
       }
     }
-    /*
-    footer {
-      border-radius: 0 0 15px 15px;
-
-      @media (width > 760px) {
-        border-radius: 0 0 24px 24px;
-      }
-    }*/
 
     * {
       scroll-margin-block-start: 150px;

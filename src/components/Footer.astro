@@ -16,10 +16,6 @@ const rawPosts =
   import.meta.env.ENVIRONMENT === "production"
     ? await getCollection("writing", ({ data }) => !data?.draft)
     : await getCollection("writing");
-const evergreen = rawPosts.filter((p) => p.data.growth === "evergreen").length;
-const growing = rawPosts.filter((p) => p.data.growth === "growing").length;
-const seedlings = rawPosts.filter((p) => p.data.growth === "seedling").length;
-
 const lastTended =
   propLastTended instanceof Temporal.PlainDate
     ? propLastTended
@@ -131,11 +127,6 @@ if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
   } catch (_) {}
 }
 
-const gardenNav = [
-  { href: "/writing?growth=evergreen", label: "Evergreen" },
-  { href: "/writing?growth=growing", label: "Growing" },
-  { href: "/writing?growth=seedling", label: "Seedlings" },
-];
 ---
 
 <footer class="site-footer" role="contentinfo">
@@ -148,20 +139,6 @@ const gardenNav = [
           <ul class="footer-nav-list">
             {
               MAIN_NAVIGATION.map((item) => (
-                <li>
-                  <a class="footer-nav-link" href={item.href}>
-                    {item.label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
-        <nav class="footer-nav-group" aria-label="Garden">
-          <p class="footer-nav-label eyebrow">Garden</p>
-          <ul class="footer-nav-list">
-            {
-              gardenNav.map((item) => (
                 <li>
                   <a class="footer-nav-link" href={item.href}>
                     {item.label}
@@ -345,19 +322,6 @@ const gardenNav = [
     border: 1px solid color-mix(in srgb, var(--color-light) 50%, transparent);
   }
 
-  .status-dot--evergreen {
-    background: var(--color-evergreen);
-  }
-
-  .status-dot--growing {
-    background: var(--color-growing);
-  }
-
-  .status-dot--seedlings {
-    background: var(--color-seedling);
-    box-sizing: border-box;
-  }
-
   .footer-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -368,7 +332,7 @@ const gardenNav = [
 
   .footer-nav-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--space-m);
   }
 

@@ -7,7 +7,6 @@ description: >-
 pubDate: '2026-06-19'
 tags:
   - personal
-growth: seedling
 atprotoDocumentRkey: 3mopuir7o5kyv
 ---
 

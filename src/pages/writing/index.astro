@@ -43,29 +43,6 @@ const tagCounts = Object.fromEntries(
 );
 const postLength = posts.length;
 
-const growthOptions = [
-	{ value: "all", label: "All", description: "All posts" },
-	{
-		value: "evergreen",
-		label: "Evergreen",
-		description:
-			"Fully vetted, production-ready guides. These features are stable across major browsers and are safe to implement in production today.",
-	},
-	{
-		value: "growing",
-		label: "Growing",
-		description:
-			"Working drafts and stable concepts that are ready for early adoption. Code samples have been tested but are subject to minor changes as specs finalize.",
-	},
-	{
-		value: "seedling",
-		label: "Seedling",
-		description:
-			"Ideas on the edge of the specification. Highly experimental, rough code, and often dependent on browser flags.",
-	},
-];
-
-const growth = Astro.url.searchParams.get("growth") || "all";
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
 const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
@@ -95,34 +72,12 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 			<section
 				class="container flow"
 				x-data={`{
-					growth: '${growth}',
-					growthDescription: '${growthOptions.find((option) => option.value === growth)?.description || ""}',
-					growthOptions: ${JSON.stringify(growthOptions)},
 					category: 'All',
 					categoryOptions: ${JSON.stringify(categories)},
-
-					init() {
-						this.growth = new URLSearchParams(window.location.search).get('growth');
-					}
 				}`}
 			>
 				<div class="!grid grid-cols-4 gap-[var(--space-m)]">
 					<div class="col-span-full md:col-span-3 max-md:w-full shrink-0 flex max-md:flex-col md:items-end gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
-						<select
-							class="px-[var(--space-m)] py-[var(--space-s)] border border-dashed hover:border-solid cursor-pointer min-w-fit max-md:w-full"
-							x-on:change="growth = $event.target.value; growthDescription = growthOptions.find(option => option.value === growth)?.description || '';"
-						>
-							{
-								growthOptions.map((option) => (
-									<option
-										value={option.value}
-										x-bind:selected={`growth === '${option.value}'`}
-									>
-										{option.label}
-									</option>
-								))
-							}
-						</select>
 						<div class="flex items-center gap-x-[var(--space-m)] justify-between w-full">
 							<div class="flex-1 h-full">
 								<div class="search-wrap">
@@ -145,7 +100,6 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 										pubDate={post.data.pubDate}
 										lastModified={post.lastModified}
 										id={post.id}
-										growth={post.data.growth}
 										external="false"
 									/>
 								))
@@ -217,15 +171,13 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 
 		function applyFilters() {
 		  const items = getItems();
-		  const activeStage = section?.querySelector('select')?.value ?? 'all';
 		  const activeTopic = section?.querySelector('.category-filter.active')?.dataset.category ?? 'All';
 		  let visible = 0;
 		  items.forEach(item => {
-		    const stageOk  = activeStage === 'all' || item.dataset.stage === activeStage;
 		    const topicOk  = activeTopic === 'All' || (item.dataset.topics || '').split(',').map(t => t.trim()).includes(activeTopic);
 		    const searchOk = !searchQuery || (item.dataset.title || '').includes(searchQuery.toLowerCase());
 
-		    const show = stageOk && topicOk && searchOk;
+		    const show = topicOk && searchOk;
 		    item.classList.toggle('hidden', !show);
 
 		    if (show) {
@@ -250,13 +202,6 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 		  if (e.target.closest('.category-filter')) applyFilters();
 		});
 
-		section?.querySelector('select')?.addEventListener('change', applyFilters);
-
-		const growthFromUrl = new URLSearchParams(window.location.search).get('growth');
-		if (growthFromUrl && ['all', 'evergreen', 'growing', 'seedling'].includes(growthFromUrl)) {
-		  const sel = section?.querySelector('select');
-		  if (sel) sel.value = growthFromUrl;
-		}
 		applyFilters();
 
 		// Stagger reveal (post lists only — header nav handles its own)

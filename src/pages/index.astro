@@ -30,23 +30,17 @@ if (import.meta.env.ENVIRONMENT === "production") {
 const posts = rawPosts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
-const evergreen = posts.filter((post: any) => post.data.growth === "evergreen");
-const growing = posts.filter((post: any) => post.data.growth === "growing");
-const seedling = posts.filter((post: any) => post.data.growth === "seedling");
-
-const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 ---
 
 <Layout
 	{...{
 		title: "Dom Jay - CSS, JS, and the occasional existential crisis",
 		description:
-			"Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
+			"CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
 	} as any}
 >
 	<Header />
-	<main>
+	<main class="grid home">
 		<!-- <div>
 			<Pattern />
 		</div> -->
@@ -83,11 +77,7 @@ const featuredPosts = [...evergreen.slice(0, 1), ...growing.slice(0, 1)];
 
 		<section>
 			<div class="container stacked" style="--gutter: 64px">
-				<GrowthPanel
-					evergreen={evergreen}
-					growing={growing}
-					seedling={seedling}
-				/>
+				<GrowthPanel posts={posts} />
 			</div>
 		</section>
 	</main>
