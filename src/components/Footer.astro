@@ -3,6 +3,7 @@ import { Temporal } from "@js-temporal/polyfill";
 import { getCollection } from "astro:content";
 import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
 import { getRecentTracksWithTags } from "../lib/lastfm";
+import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
 
 const {
   listeningTrack: propListeningTrack = "",
@@ -16,6 +17,8 @@ const rawPosts =
   import.meta.env.ENVIRONMENT === "production"
     ? await getCollection("writing", ({ data }) => !data?.draft)
     : await getCollection("writing");
+const notes = await getPublishedNotes();
+const mainNav = navWithoutNotes(MAIN_NAVIGATION, notes.length > 0);
 const lastTended =
   propLastTended instanceof Temporal.PlainDate
     ? propLastTended
@@ -138,7 +141,7 @@ if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
           <p class="footer-nav-label eyebrow">Pages</p>
           <ul class="footer-nav-list">
             {
-              MAIN_NAVIGATION.map((item) => (
+              mainNav.map((item) => (
                 <li>
                   <a class="footer-nav-link" href={item.href}>
                     {item.label}

@@ -1,0 +1,36 @@
+---
+import { render } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import { getNotesForPreview } from "../../utils/notes";
+
+export async function getStaticPaths() {
+  const notes = await getNotesForPreview();
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+
+const { slug } = Astro.params;
+const notes = await getNotesForPreview();
+const note = notes.find((n) => n.id === slug);
+
+if (!note) {
+  return Astro.redirect("/404");
+}
+
+const { Content, remarkPluginFrontmatter } = await render(note);
+const lastModified = remarkPluginFrontmatter?.lastModified
+  ? new Date(remarkPluginFrontmatter.lastModified)
+  : undefined;
+---
+
+<BlogPost
+  {...note.data}
+  lastModified={lastModified}
+  showPublication={false}
+>
+  <div class="min-w-0 flow prose">
+    <Content />
+  </div>
+</BlogPost>

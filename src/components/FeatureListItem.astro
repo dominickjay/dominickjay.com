@@ -8,7 +8,8 @@ const {
   id,
   i,
   theme = "default",
-  external = "false"
+  external = "false",
+  basePath = "/writing",
 } = Astro.props;
 ---
 
@@ -20,7 +21,7 @@ const {
   } : {}}
 >
   <a
-  	href={external === "false" ? `/writing/${id}/` : id}
+  	href={external === "false" ? `${basePath}/${id}/` : id}
   	class={`link ${theme != "default" ? "link--" + theme : ""}`}
     {...external == "true" ? { target: "_blank", rel: "noopener noreferrer" } : {}}
     data-small={theme === "small"}
@@ -31,11 +32,13 @@ const {
     }
     <div class="body">
       <span class="title">{title}</span>
-      {tags &&
+      {pubDate &&
 	      <div class="meta">
           <div class="meta__item">
             <FormattedDate date={pubDate} />
-            <span class="topics">{tags?.join(", ")}</span>
+            {tags?.length > 0 &&
+              <span class="topics">{tags.join(", ")}</span>
+            }
           </div>
 	      </div>
       }

@@ -1,5 +1,4 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { getDocumentAtUri } from "@bryanguffey/astro-standard-site";
 import BaseHead from "../components/BaseHead.astro";
 import { getImagePath } from "astro-opengraph-images";
@@ -11,9 +10,17 @@ import DefaultHero from "../components/DefaultHero.astro";
 import { ATPROTO_DID, PUBLICATION_RKEY } from "../lib/atproto-config";
 import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
 
-type Props = CollectionEntry<"writing">["data"] & {
+type Props = {
+  title: string;
+  description?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  lastModified?: Date;
+  atprotoDocumentRkey?: string;
   headings?: any[];
   timeToRead?: number;
+  showPublication?: boolean;
 };
 
 const {
@@ -24,6 +31,7 @@ const {
   tags,
   lastModified,
   atprotoDocumentRkey,
+  showPublication = true,
 } = Astro.props;
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
@@ -35,11 +43,13 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} image={ogImage} />
+    <BaseHead title={title} description={description ?? title} image={ogImage} />
     {documentUri && (
       <link rel="site.standard.document" href={documentUri} />
     )}
-    <link rel="site.standard.publication" href={publicationUri}>
+    {showPublication && (
+      <link rel="site.standard.publication" href={publicationUri}>
+    )}
   </head>
 
   <body>

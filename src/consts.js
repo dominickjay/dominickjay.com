@@ -18,6 +18,10 @@ export const PRIMARY_NAVIGATION = [
     label: "Writing",
   },
   {
+    href: "/notes",
+    label: "Notes",
+  },
+  {
     href: "/about",
     label: "About",
   },

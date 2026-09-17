@@ -1,0 +1,91 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Cursor from "../../components/Cursor.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PatternBanner from "../../components/Pattern-Banner.astro";
+import FeatureListItem from "../../components/FeatureListItem.astro";
+import DefaultHero from "../../components/DefaultHero.astro";
+import { getImagePath } from "astro-opengraph-images";
+import { getPublishedNotes } from "../../utils/notes";
+
+const NOTES_DESCRIPTION =
+	"Short asides that don't belong in Writing. No CSS, no career anxiety — just things I wanted to write down.";
+
+const notes = (await getPublishedNotes()).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+if (notes.length === 0) {
+	return Astro.redirect("/404");
+}
+
+const noteLength = notes.length;
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title="Notes"
+			description={NOTES_DESCRIPTION}
+			image={ogImage}
+		/>
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title="Notes"
+			href="/notes.xml"
+		/>
+	</head>
+	<body>
+		<Cursor />
+		<Header />
+		<main>
+			<DefaultHero
+				title="Notes"
+				description={`${noteLength} ${noteLength === 1 ? "note" : "notes"} that didn't fit anywhere else.`}
+			/>
+			<PatternBanner />
+			{notes.length > 0 &&
+				<section class="container flow">
+					<div class="flex items-center justify-between gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+						<a class="body opacity-70 hover:opacity-100" href="/notes.xml">RSS feed</a>
+					</div>
+					<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+						{
+							notes.map((note, i) => (
+								<FeatureListItem
+									i={String(i + 1).padStart(2, "0")}
+									title={note.data.title}
+									description={note.data.description}
+									pubDate={note.data.pubDate}
+									id={note.id}
+									basePath="/notes"
+									external="false"
+								/>
+							))
+						}
+					</ol>
+				</section>
+			}
+		</main>
+		<Footer />
+	</body>
+	<script>
+		document.querySelectorAll('main .feature-list').forEach(postList => {
+			const items = postList.querySelectorAll('.item');
+			const obs = new IntersectionObserver(entries => {
+				entries.forEach(e => {
+					if (!e.isIntersecting) return;
+					const i = [...items].indexOf(e.target);
+					setTimeout(() => e.target.classList.add('visible'), i * 26);
+					obs.unobserve(e.target);
+				});
+			}, { threshold: 0.05 });
+			items.forEach(el => obs.observe(el));
+		});
+	</script>
+</html>
