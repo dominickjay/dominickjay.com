@@ -6,7 +6,10 @@
         flex-direction: column;
         gap: var(--space-xl);
         padding-block-end: var(--space-xl);
-        padding-block: 64px;
+        
+        @media (width >= 992px) {
+            padding-block-start: 64px;
+        }
       }
     }
   }

@@ -24,13 +24,7 @@
       display: flex;
       flex-direction: column;
       text-wrap: balance;
-      /*background-color: color-mix(var(--color-dark) 30%, var(--color-feature));
-      padding: 10px;
-      padding-block-start: 20px;*/
-
-      /*@media (width > 760px) {
-        padding: 35px;
-      }*/
+      background-color: color-mix(in srgb, var(--color-light) 95%, #ffffff);
     }
 
     main {
@@ -40,8 +34,7 @@
       display: flex;
       flex-direction: column;
       z-index: 1;
-      background-color: color-mix(in srgb, var(--color-light) 95%, #ffffff);
-      padding-block-start: 68px;
+      padding-block-start: 98px;
       padding-block-end: 36px;
 
       .home {
