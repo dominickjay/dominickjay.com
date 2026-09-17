@@ -4,10 +4,6 @@ import { getPublishedNotes } from "../utils/notes";
 export async function GET(context) {
   const notes = await getPublishedNotes();
 
-  if (notes.length === 0) {
-    return new Response(null, { status: 404, statusText: "Not Found" });
-  }
-
   return rss({
     title: "Notes | Dom Jay",
     description:

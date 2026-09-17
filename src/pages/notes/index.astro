@@ -10,14 +10,17 @@ import { getImagePath } from "astro-opengraph-images";
 import { getPublishedNotes } from "../../utils/notes";
 
 const NOTES_DESCRIPTION =
-	"Short asides that don't belong in Writing. No CSS, no career anxiety — just things I wanted to write down.";
+	"Short asides that don't quite fit...just things I wanted to write down.";
+const NOT_FOUND_DESCRIPTION =
+	"You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that.";
 
 const notes = (await getPublishedNotes()).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-if (notes.length === 0) {
-	return Astro.redirect("/404");
+const hasNotes = notes.length > 0;
+if (!hasNotes) {
+	Astro.response.status = 404;
 }
 
 const noteLength = notes.length;
@@ -29,48 +32,71 @@ const ogImage = getImagePath({ url, site });
 <html lang="en">
 	<head>
 		<BaseHead
-			title="Notes"
-			description={NOTES_DESCRIPTION}
+			title={hasNotes ? "Notes" : "Lost? Same."}
+			showName={hasNotes}
+			description={hasNotes ? NOTES_DESCRIPTION : NOT_FOUND_DESCRIPTION}
 			image={ogImage}
 		/>
-		<link
-			rel="alternate"
-			type="application/rss+xml"
-			title="Notes"
-			href="/notes.xml"
-		/>
+		{hasNotes &&
+			<link
+				rel="alternate"
+				type="application/rss+xml"
+				title="Notes"
+				href="/notes.xml"
+			/>
+		}
 	</head>
 	<body>
 		<Cursor />
 		<Header />
 		<main>
-			<DefaultHero
-				title="Notes"
-				description={`${noteLength} ${noteLength === 1 ? "note" : "notes"} that didn't fit anywhere else.`}
-			/>
-			<PatternBanner />
-			{notes.length > 0 &&
-				<section class="container flow">
-					<div class="flex items-center justify-between gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
-						<a class="body opacity-70 hover:opacity-100" href="/notes.xml">RSS feed</a>
+			{hasNotes ? (
+				<>
+					<DefaultHero
+						title="Notes"
+						description={`${noteLength} ${noteLength === 1 ? "note" : "notes"} that didn't fit anywhere else.`}
+					/>
+					<PatternBanner />
+					<section class="container flow">
+						<div class="flex items-center justify-between gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+							<a class="body opacity-70 hover:opacity-100" href="/notes.xml">RSS feed</a>
+						</div>
+						<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+							{
+								notes.map((note, i) => (
+									<FeatureListItem
+										i={String(i + 1).padStart(2, "0")}
+										title={note.data.title}
+										description={note.data.description}
+										pubDate={note.data.pubDate}
+										id={note.id}
+										basePath="/notes"
+										external="false"
+									/>
+								))
+							}
+						</ol>
+					</section>
+				</>
+			) : (
+				<div
+					class="bg-[var(--color-light)] relative min-h-[calc(100svh-290px)] flex items-center justify-center"
+				>
+					<div
+						class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
+					>
+						<h1
+							class="heading-tagline !text-[45vw] md:!text-[460px] opacity-[0.10] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
+							style="background-image: var(--color-gradient);"
+						>
+							404
+						</h1>
+						<div class="intro md:max-w-[550px] text-pretty md:pb-[20px] relative">
+							{NOT_FOUND_DESCRIPTION}
+						</div>
 					</div>
-					<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
-						{
-							notes.map((note, i) => (
-								<FeatureListItem
-									i={String(i + 1).padStart(2, "0")}
-									title={note.data.title}
-									description={note.data.description}
-									pubDate={note.data.pubDate}
-									id={note.id}
-									basePath="/notes"
-									external="false"
-								/>
-							))
-						}
-					</ol>
-				</section>
-			}
+				</div>
+			)}
 		</main>
 		<Footer />
 	</body>
