@@ -34,17 +34,16 @@ const cards = [
 
   .compare-panel {
     border: 1px solid color-mix(in srgb, var(--color-dark) 18%, var(--color-light));
-    border-radius: 8px;
     padding: var(--space-s);
     background: color-mix(in srgb, var(--color-dark) 3%, var(--color-light));
   }
-  .compare-panel__label {
+  .section-label {
     font-family: var(--font-mono);
     font-size: 0.78rem;
     margin: 0 0 var(--space-s);
   }
-  .compare-panel__label.is-off { color: var(--color-danger); }
-  .compare-panel__label.is-on { color: var(--color-accent); }
+  .section-label.is-off { color: var(--color-danger); }
+  .section-label.is-on { color: var(--color-accent); }
 
   .card-columns {
     --card-height: 7.25rem;
@@ -53,8 +52,6 @@ const cards = [
     column-gap: var(--space-s);
     column-rule: 1px solid color-mix(in srgb, var(--color-dark) 20%, var(--color-light));
     column-fill: auto;
-    /* Two full cards, then half of a third — enough room to stack
-       with break-inside: avoid, still short enough to slice without it. */
     height: calc(var(--card-height) * 2.45 + var(--card-gap) * 2);
   }
 
@@ -92,7 +89,7 @@ const cards = [
 
     <div class="compare">
       <div class="compare-panel">
-        <p class="compare-panel__label is-off">Without break-inside: avoid</p>
+        <p class="section-label is-off">Without break-inside: avoid</p>
         <div class="card-columns">
           {cards.map((card) => (
             <article class="card">
@@ -105,7 +102,7 @@ const cards = [
       </div>
 
       <div class="compare-panel">
-        <p class="compare-panel__label is-on">With break-inside: avoid</p>
+        <p class="section-label is-on">With break-inside: avoid</p>
         <div class="card-columns card-columns--avoid">
           {cards.map((card) => (
             <article class="card">
