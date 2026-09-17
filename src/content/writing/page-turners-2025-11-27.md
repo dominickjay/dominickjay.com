@@ -1,6 +1,6 @@
 ---
 title: Page Turners - November 2025
-pubDate: 2025-11-27T00:00:00.000Z
+pubDate: '2025-11-27'
 description: >-
   A list of links and demos I've collected over November 2025, with the
   intention of posting monthly

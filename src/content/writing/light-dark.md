@@ -6,7 +6,6 @@ tags:
   - css
 draft: true
 layout: BlogPost
-growth: growing
 supported: bcd.css["types"].color.light-dark.__compat
 ---
 

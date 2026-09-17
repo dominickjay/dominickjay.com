@@ -1,6 +1,6 @@
 ---
 title: Page Turners - September 2025
-pubDate: 2025-09-01T00:00:00.000Z
+pubDate: '2025-09-01'
 description: >-
   A list of links and demos I've collected over September 2025, with the
   intention of posting monthly

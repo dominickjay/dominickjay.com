@@ -5,10 +5,6 @@
     justify-content: center;
     align-items: center;
     gap: var(--space-m);
-    inline-size: 60%;
-    margin-inline: auto;
-    container: inline-heading-text / inline-size;
-    text-align: center;
 
     h1 {
       flex-grow: 1;
@@ -32,14 +28,9 @@
 
     .intro {
       inline-size: 100%;
-      max-inline-size: 35%;
       padding-block-end: 20px;
       flex-shrink: 0;
       text-wrap: balance;
-
-      @container inline-heading-text (width < 945px) {
-        max-inline-size: 100%;
-      }
     }
 
     @media (width < 640px) {

@@ -92,11 +92,6 @@
         }
       }
 
-      .growth {
-        margin-inline-start: auto;
-        margin-block-end: 0;
-      }
-
       .index {
         align-self: flex-start;
         opacity: 0.75;
@@ -184,11 +179,6 @@
           .topics + * {
             margin-inline-start: 0;
           }
-
-          .growth {
-            margin-inline-start: 0;
-            font-size: 10px;
-          }
         }
       }
     }
@@ -199,15 +189,6 @@
       --opacity: 0.1;
     }
 
-    [data-stage="evergreen"] {
-      --growth: rgb(from var(--color-evergreen) r g b / var(--opacity));
-    }
-    [data-stage="seedling"] {
-      --growth: rgb(from var(--color-seedling) r g b / var(--opacity));
-    }
-    [data-stage="growing"] {
-      --growth: rgb(from var(--color-growing) r g b / var(--opacity));
-    }
     [data-type="book"] {
       .index {
         display: none;

@@ -2,13 +2,14 @@
   @layer base {
     @scope (.hero) {
       :scope {
-        position: relative;
+        position: sticky;
         padding-block: 64px;
         overflow-y: hidden;
         overflow-x: clip;
+        top: 0;
 
-        @media (width < 768px) {
-          padding-block: 32px;
+        @media (width <= 992px) {
+          padding-block: 0;
         }
       }
 
@@ -75,12 +76,11 @@
 
       .hero__content {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        align-items: flex-end;
         inline-size: 100%;
         grid-column: 1 / span 2;
         position: relative;
-        pointer-events: none;
       }
     }
   }

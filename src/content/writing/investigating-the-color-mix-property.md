@@ -6,7 +6,6 @@ pubDate: '2025-02-10'
 tags:
   - css
 draft: true
-growth: seedling
 supported: bcd.css["types"].color.color-mix.__compat
 ---
 <style>

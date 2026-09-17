@@ -6,6 +6,7 @@ import Cursor from "../components/Cursor.astro";
 import Header from "../components/Header.astro";
 import Footer	 from "../components/Footer.astro";
 import { getCollection } from "astro:content";
+import { getPublishedNotes } from "../utils/notes";
 
 function levenshteinDistance(a, b) {
   a = a.toLowerCase();
@@ -39,6 +40,8 @@ const posts =
     ? await getCollection("writing", ({ data }) => !data?.draft)
     : await getCollection("writing");
 
+const notes = await getPublishedNotes();
+
 const staticRoutes = [
   {
     href: "/books",
@@ -49,7 +52,16 @@ const staticRoutes = [
     href: "/music",
     title: "Music",
     paths: ["/music", "/music-list", "/song", "/songs"],
-  }
+  },
+  ...(notes.length > 0
+    ? [
+        {
+          href: "/notes",
+          title: "Notes",
+          paths: ["/notes", "/note"],
+        },
+      ]
+    : []),
 ];
 
 const postRoutes = posts.map((post) => ({
@@ -58,7 +70,13 @@ const postRoutes = posts.map((post) => ({
   paths: [`/writing/${post.id}`],
 }));
 
-const possibleRoutes = [...staticRoutes, ...postRoutes];
+const noteRoutes = notes.map((note) => ({
+  href: `/notes/${note.id}`,
+  title: note.data.title,
+  paths: [`/notes/${note.id}`],
+}));
+
+const possibleRoutes = [...staticRoutes, ...postRoutes, ...noteRoutes];
 
 const requestedPath = Astro.url.pathname;
 

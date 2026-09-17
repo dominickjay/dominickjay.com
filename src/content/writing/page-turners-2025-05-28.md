@@ -1,6 +1,6 @@
 ---
 title: Page Turners - May 2025
-pubDate: 2025-05-29T00:00:00.000Z
+pubDate: '2025-05-29'
 date: 2025-05-29T00:00:00.000Z
 description: >-
   A list of links and demos I've collected over May 2025, with the intention of

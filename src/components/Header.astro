@@ -10,6 +10,7 @@ import {
 import FormattedDate from "../components/FormattedDate.astro";
 import NavLink from "../components/NavigationLink.astro";
 import SocialIcon from "../components/icons/SocialIcon.astro";
+import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
 
 const rawPosts =
   import.meta.env.ENVIRONMENT === "production"
@@ -19,6 +20,9 @@ const rawPosts =
 const latestPost = [...rawPosts].sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )[0];
+
+const notes = await getPublishedNotes();
+const primaryNav = navWithoutNotes(PRIMARY_NAVIGATION, notes.length > 0);
 ---
 
 <header
@@ -133,7 +137,7 @@ const latestPost = [...rawPosts].sort(
         <p class="menubar__heading eyebrow">Pages</p>
         <ul class="stacked" style="--gutter: 0">
           {
-            PRIMARY_NAVIGATION.map((item) => (
+            primaryNav.map((item) => (
               <li class="item">
                 <NavLink href={item.href}>{item.label}</NavLink>
               </li>
