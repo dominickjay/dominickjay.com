@@ -1,0 +1,117 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Cursor from "../../components/Cursor.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import PatternBanner from "../../components/Pattern-Banner.astro";
+import FeatureListItem from "../../components/FeatureListItem.astro";
+import DefaultHero from "../../components/DefaultHero.astro";
+import { getImagePath } from "astro-opengraph-images";
+import { getPublishedNotes } from "../../utils/notes";
+
+const NOTES_DESCRIPTION =
+	"Short asides that don't quite fit...just things I wanted to write down.";
+const NOT_FOUND_DESCRIPTION =
+	"You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that.";
+
+const notes = (await getPublishedNotes()).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const hasNotes = notes.length > 0;
+if (!hasNotes) {
+	Astro.response.status = 404;
+}
+
+const noteLength = notes.length;
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title={hasNotes ? "Notes" : "Lost? Same."}
+			showName={hasNotes}
+			description={hasNotes ? NOTES_DESCRIPTION : NOT_FOUND_DESCRIPTION}
+			image={ogImage}
+		/>
+		{hasNotes &&
+			<link
+				rel="alternate"
+				type="application/rss+xml"
+				title="Notes"
+				href="/notes.xml"
+			/>
+		}
+	</head>
+	<body>
+		<Cursor />
+		<Header />
+		<main>
+			{hasNotes ? (
+				<>
+					<DefaultHero
+						title="Notes"
+						description={`${noteLength} ${noteLength === 1 ? "note" : "notes"} that didn't fit anywhere else.`}
+					/>
+					<PatternBanner />
+					<section class="container flow">
+						<div class="flex items-center justify-between gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+							<a class="body opacity-70 hover:opacity-100" href="/notes.xml">RSS feed</a>
+						</div>
+						<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+							{
+								notes.map((note, i) => (
+									<FeatureListItem
+										i={String(i + 1).padStart(2, "0")}
+										title={note.data.title}
+										description={note.data.description}
+										pubDate={note.data.pubDate}
+										id={note.id}
+										basePath="/notes"
+										external="false"
+									/>
+								))
+							}
+						</ol>
+					</section>
+				</>
+			) : (
+				<div
+					class="bg-[var(--color-light)] relative min-h-[calc(100svh-290px)] flex items-center justify-center"
+				>
+					<div
+						class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
+					>
+						<h1
+							class="heading-tagline !text-[45vw] md:!text-[460px] opacity-[0.10] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
+							style="background-image: var(--color-gradient);"
+						>
+							404
+						</h1>
+						<div class="intro md:max-w-[550px] text-pretty md:pb-[20px] relative">
+							{NOT_FOUND_DESCRIPTION}
+						</div>
+					</div>
+				</div>
+			)}
+		</main>
+		<Footer />
+	</body>
+	<script>
+		document.querySelectorAll('main .feature-list').forEach(postList => {
+			const items = postList.querySelectorAll('.item');
+			const obs = new IntersectionObserver(entries => {
+				entries.forEach(e => {
+					if (!e.isIntersecting) return;
+					const i = [...items].indexOf(e.target);
+					setTimeout(() => e.target.classList.add('visible'), i * 26);
+					obs.unobserve(e.target);
+				});
+			}, { threshold: 0.05 });
+			items.forEach(el => obs.observe(el));
+		});
+	</script>
+</html>

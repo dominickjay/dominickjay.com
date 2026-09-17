@@ -1,4 +1,14 @@
 @layer components {
+  /* ── Section label ── */
+  .section-label {
+	  font-family: var(--font-base);
+	  font-size: 14px;
+	  letter-spacing: 0.14em;
+	  color: var(--accent);
+	  text-transform: uppercase;
+	  margin-block-end: 8px;
+  }
+    
   .object-fit-example {
     width: 100%;
     aspect-ratio: 4/3;

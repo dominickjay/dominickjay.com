@@ -6,7 +6,6 @@ tags:
   - javascript
 draft: true
 layout: BlogPost
-growth: growing
 supported: bcd.javascript["builtins"].Temporal.__compat
 ---
 
