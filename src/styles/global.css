@@ -74,6 +74,8 @@
 @import "./blocks/testimonials.css";
 @import "./blocks/prose-notice.css";
 @import "./blocks/currently-playing.css";
+@import "./blocks/featured-album.css";
+@import "./blocks/music-layout.css";
 @import "./blocks/page-turners.css";
 @import "./blocks/writing-cta.css";
 

@@ -1,0 +1,102 @@
+---
+import { getFeaturedAlbum } from "../lib/featuredAlbum";
+import { getAlbumInfo } from "../lib/lastfm";
+
+const { album, artist, genre, year, trackCount, totalPlayCount, tracks } =
+  getFeaturedAlbum();
+
+const apiKey = import.meta.env.LAST_FM_API_KEY;
+let artworkUrl = "";
+if (apiKey) {
+  try {
+    const albumInfo = await getAlbumInfo(artist, album, apiKey);
+    artworkUrl =
+      albumInfo?.image?.find((i) => i.size === "extralarge")?.["#text"] ?? "";
+  } catch (e) {
+    console.error("Failed to fetch album artwork:", e);
+  }
+}
+
+const formatTime = (ms?: number) => {
+  if (!ms) return "";
+  const totalSeconds = Math.round(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+};
+
+const mostPlayed = Math.max(...tracks.map((t) => t.playCount || 0), 1);
+---
+
+<section class="featured-album">
+  <div class="featured-album__art">
+    {
+      artworkUrl ? (
+        <img
+          src={artworkUrl}
+          alt={`${album} cover art`}
+          width="600"
+          height="600"
+          loading="eager"
+        />
+      ) : (
+        <div class="featured-album__art-fallback" aria-hidden="true" />
+      )
+    }
+  </div>
+  <div class="featured-album__body">
+    <p class="eyebrow">Featured Album &middot; New Every Day</p>
+    <h2 class="featured-album__title">{album}</h2>
+    <p class="featured-album__meta">
+      {artist} {year && <>&middot; {year}</>} {genre && <>&middot; {genre}</>}
+    </p>
+    <p class="featured-album__stats">
+      {trackCount} tracks &middot; {totalPlayCount.toLocaleString()} plays
+    </p>
+
+    <details class="featured-album__tracklist">
+      <summary class="featured-album__tracklist-summary">
+        <span>More details</span>
+        <svg
+          class="featured-album__tracklist-chevron"
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M1 1.5L6 6.5L11 1.5"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </summary>
+      <ol class="featured-album__tracks">
+        {
+          tracks.map((track) => (
+            <li class="featured-album__track">
+              <span class="featured-album__track-index">
+                {String(track.trackNumber ?? "").padStart(2, "0")}
+              </span>
+              <span class="featured-album__track-name">{track.name}</span>
+              <span class="featured-album__track-time">
+                {formatTime(track.totalTime)}
+              </span>
+              <span
+                class="featured-album__track-bar"
+                style={`--play-ratio: ${((track.playCount || 0) / mostPlayed) * 100}%`}
+              >
+                <span class="featured-album__track-plays">
+                  {track.playCount} plays
+                </span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+    </details>
+  </div>
+</section>

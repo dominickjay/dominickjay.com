@@ -1,6 +1,4 @@
 ---
-import PlaceholderImageLarge from "./PlaceholderImageLarge.astro";
-
 interface Props {
   artistBannerUrl?: string;
 }
@@ -8,32 +6,46 @@ interface Props {
 const { artistBannerUrl = "" } = Astro.props;
 ---
 
-<div class="currently-playing">
-  <div
-    class="container stacked"
-    x-data={`currentlyPlaying(${JSON.stringify(artistBannerUrl)})`}
-  >
-    <div class="background">
-      <PlaceholderImageLarge />
-      <img
-        :src="displayImageUrl"
-        alt=""
-        width="2180"
-        height="1224"
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        fetchpriority="low"
-        x-show="displayImageUrl" x-cloak
-      />
-      <div class="overlay" :style="overlayStyle"></div>
-    </div>
-    <div
-      aria-live="polite"
-      :class="{ 'is-playing': nowPlaying }"
-      class="np-pill"
-      id="npPill"
-    >
+<div
+  class="now-playing-bar"
+  x-data={`currentlyPlaying(${JSON.stringify(artistBannerUrl)})`}
+  :style="overlayStyle"
+>
+  <div class="now-playing-bar__art">
+    <img
+      :src="displayImageUrl"
+      alt=""
+      width="120"
+      height="120"
+      loading="lazy"
+      decoding="async"
+      x-show="displayImageUrl"
+      x-cloak
+    />
+    <div class="now-playing-bar__art-fallback" aria-hidden="true"></div>
+  </div>
+
+  <div class="now-playing-bar__info">
+    <a
+      class="now-playing-bar__track"
+      :href="trackUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      x-text="trackName || 'Nothing played yet'"
+    ></a>
+    <span class="now-playing-bar__meta">
+      <span class="now-playing-bar__artist" x-text="artistName"></span>
+      <template x-if="albumName">
+        <span class="now-playing-bar__album">
+          <span aria-hidden="true">on</span>
+          <span x-text="albumName"></span>
+        </span>
+      </template>
+    </span>
+  </div>
+
+  <div class="now-playing-bar__status">
+    <div class="np-pill np-pill--transparent" :class="{ 'is-playing': nowPlaying }">
       <div class="np-bars">
         <div class="np-bar"></div>
         <div class="np-bar"></div>
@@ -41,14 +53,14 @@ const { artistBannerUrl = "" } = Astro.props;
         <div class="np-bar"></div>
         <div class="np-bar"></div>
       </div>
-      <div class="np-text">
-        <div>
-          <span class="np-track" id="npTrack" x-text="trackName"></span>
-          <span class="np-artist" id="npArtist" x-text="artistName"></span>
-        </div>
-        <span class="np-status eyebrow" id="npStatus" x-text="statusText"></span>
-      </div>
+      <span class="np-status eyebrow" x-text="statusText"></span>
     </div>
+    <span
+      class="now-playing-bar__time eyebrow"
+      x-text="relativeTime"
+      x-show="relativeTime"
+      x-cloak
+    ></span>
   </div>
 </div>
 
@@ -64,6 +76,20 @@ const { artistBannerUrl = "" } = Astro.props;
       | { nowplaying?: boolean | string }
       | undefined;
     return attr?.nowplaying === true || String(attr?.nowplaying) === "true";
+  }
+
+  function formatRelativeTime(unixSeconds: number): string {
+    const diffSeconds = Math.max(
+      0,
+      Math.round(Date.now() / 1000) - unixSeconds,
+    );
+    if (diffSeconds < 60) return "just now";
+    const minutes = Math.floor(diffSeconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
   }
 
   document.addEventListener("alpine:init", () => {
@@ -91,12 +117,36 @@ const { artistBannerUrl = "" } = Astro.props;
         return (this.track as any)?.artist?.["#text"] ?? "";
       },
 
+      get albumName(): string {
+        return (this.track as any)?.album?.["#text"] ?? "";
+      },
+
+      get trackUrl(): string {
+        return (this.track as any)?.url ?? "";
+      },
+
+      get trackImageUrl(): string {
+        const images = (this.track as any)?.image;
+        if (!Array.isArray(images)) return "";
+        const match =
+          images.find((i: any) => i?.size === "extralarge") ??
+          images[images.length - 1];
+        return match?.["#text"]?.trim() ?? "";
+      },
+
+      get relativeTime(): string {
+        if (this.nowPlaying) return "";
+        const uts = (this.track as any)?.date?.uts;
+        if (!uts) return "";
+        return formatRelativeTime(Number(uts));
+      },
+
       get statusText(): string {
         return this.nowPlaying ? "Now playing" : "Last played";
       },
 
       get displayImageUrl(): string {
-        return this.fetchedBannerUrl ?? "";
+        return this.trackImageUrl || this.fetchedBannerUrl || "";
       },
 
       get overlayStyle(): string {
