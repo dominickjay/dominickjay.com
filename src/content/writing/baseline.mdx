@@ -1,0 +1,62 @@
+---
+title: Baseline Isn't a Green Light
+description: "Newly available" and "Widely available" aren't the same promise. The badge doesn't tell you which one you're looking at.
+pubDate: '2026-08-17'
+tags:
+  - css
+growth: seedling
+---
+
+import { Picture } from 'astro:assets';
+import InlineCallout from '../../components/InlineCallout.astro';
+import ChecklistItem from '../../components/ChecklistItem.astro';
+
+Take a look at the MDN page for [:has()](https://developer.mozilla.org/en-US/docs/Web/CSS/:has). What does it show you? Well, it's baseline, so we get a green checkmark, a short label, **sometimes** a date. That's the whole signal, the green light, the good-to-go, and the "shoot for the moon kid" that we need to wildly roll this into all production sites going forward immediately. It tells you a feature crossed the finish line. Problem is, it doesn't tell you exactly *which* line it crossed, and it turns out there's two.
+
+<Picture
+  src="/images/baseline-widely-example.png"
+  formats={['avif', 'webp']}
+  alt="MDN Baseline widget for :has(), showing a green checkmark and the label Baseline "Widely available" since December 2023."
+  width={786}
+  height={263}
+/>
+
+In reality, "Baseline" has always made one of two promises, and it's easy to mis-read, or blissfully ignore in favor of eagerness, the gap between them. A 2026 roundup of Baseline features, with the focus being on what is 'safe to use', lists [CSS anchor positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/anchor-name) alongside features that have been stable for years. The noticeable thing here that, unlike the `:has()` baseline status, this is '"Newly available", rather than '"Widely available"'.
+
+<Picture
+  src="/images/baseline-newly-available.png"
+  formats={['avif', 'webp']}
+  alt="MDN Baseline widget for anchor-name, showing a blue checkmark and the label Baseline "Newly available" since January 2026."
+  width={786}
+  height={263}
+/>
+
+So what's the difference? It can't just be two of the same, surely?
+
+## What using 'Baseline' actually delivers
+
+Noting a feature as 'Baseline' isn't giving one definitive, it's not saying 'yep, you can use this with absolutely no risk in modern browsers right now'. It's saying two different things with quite the gap in the middle of them. A feature can be classed as '"Newly available"' once it's easily adaptable across the Big 4 browsers; Chrome, Firefox, Safari and Edge, both desktop and mobile, in their current stable versions. After 30 months has passed from that point, this then changes to '"Widely available"'. Before either of those though, the feature is marked as having 'limited availability', which is Baseline's way of saying "coming soon, but don't go all in just yet". This 30-month gap isn't a safety buffer either, it's the limit for the entire wait before a feature crosses that line and can known as '"Widely available"', and that's the state most casual references to 'Baseline' avoid, putting both states into one yes-or-no option.
+
+## More on this mystical 'gap'
+
+Something that's been tagged as being '"Newly available"' means it works in the current stable release of those Big 4 browsers. There's no mention of the version **before** that one, which is still being used on loads of devices, especially on those locked-down corporate systems or an older phone that your parents just haven't updated because they ignore the popup. The guidance web.dev provides on choosing a Baseline target frames this as pretty much "this is on you". It's a choice *you* have to make, rather than a Baseline wraps up and gifts you, regardless of whether you have a cut off of "Newly available" or "Widely available". Really, 'well it's Baseline' gets used to finish the arguement, rather than looking at the bigger picture. Given the two status', it would seem that the maintainers of Baseline are visibly less certain that the people who actively quote it.
+
+## So why shortcut then?
+
+Really, it's mostly structural. The badges on Baseline tells you that a feature has crossed that line, but not *when*. There's quite a bit of generalisation really, as a feature that became "Newly available" last month is lumped in with the same group as one that has been sat nicely for three years. The distinction, that actual piece of necessary information, exists next to the badge itself rather than in it. "Widely available" is also an explicitly moving target, a feature that isn't in it could enter it the next month and cross that 30-month mark with no change and no announcement. Using "it's Baseline" as a fixed, unchanging fact is citing something that's actually designed to shift under you.
+
+## The trade-off
+
+Despite all this, it doesn't mean that '"Widely available"' is safe for everyone. Baseline tracks four core engines - the Big 4 browsers we mentioned earlier - while not knowing anything about your actual traffic, your client's three version behind installation of Chrome or the specific device mix hitting a specific site. '"Widely available"' is Baseline's own ceiling rather than a guarantee, if anything, it's better use is that of a starting filter rather than a finishing one as it could be used against your real analytics rather than what's being cleared to ship without looking.
+
+## So, how do you cite it?
+
+If it wasn't transparent enough already, then the best way to acknowledge Baseline is to specifically state the tier. Not _"this is Baseline"_, but instead _"this became "Widely available" in $[YEAR]"_ or "this is "Newly available", worth planning for but hold off shipping that out to everyone yet". It's a slightly context shift, but a massive difference between the two situations that a vague "Baseline" actually suggests.
+
+<ul class="checklist">
+	<ChecklistItem id="citing-baseline-status">When citing Baseline status, name the tier. "Newly available" and "Widely available" are not interchangeable shorthand for "safe."</ChecklistItem>
+  <ChecklistItem id="newly-available-signal">Treat "Newly available" as a signal to start learning and planning fallbacks, not a green light to ship unguarded.</ChecklistItem>
+  <ChecklistItem id="widely-available-targets-move">Remember "Widely available" targets move. A feature absent from your target today can enter it with no code change, next month.</ChecklistItem>
+  <ChecklistItem id="cross-check-baseline">Cross-check Baseline against your own audience data before treating it as sufficient on its own. It's a floor, not a guarantee for your specific users.</ChecklistItem>
+  <ChecklistItem id="link-mdn-badge">If you're writing about a feature specifically because of its support status, say which tier and since when rather than just linking to the MDN badge.</ChecklistItem>
+</ul>
