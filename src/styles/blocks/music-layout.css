@@ -1,0 +1,40 @@
+@layer components {
+  @scope (.music-layout) {
+    :scope {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+
+      @media (width >= 1024px) {
+        grid-template-columns: 1fr 340px;
+      }
+    }
+
+    .music-layout__sidebar {
+      background: var(--color-surface);
+      border: 1px solid var(--color-dark);
+      padding: var(--space-m);
+
+      @media (width >= 1024px) {
+        position: sticky;
+        top: var(--space-m);
+      }
+    }
+  }
+
+  .artist-row {
+    display: flex;
+    gap: var(--space-m);
+    padding-block: var(--space-xs);
+  }
+
+  .artist-row__item {
+    flex: 0 0 160px;
+    scroll-snap-align: start;
+
+    @media (width >= 640px) {
+      flex-basis: 180px;
+    }
+  }
+}

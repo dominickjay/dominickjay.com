@@ -1,60 +1,158 @@
-@layer blocks {
-  @scope (.currently-playing) {
+@layer components {
+  @scope (.now-playing-bar) {
     :scope {
-      overflow: hidden;
-      position: relative;
-
-      @media (width > 768px) {
-        padding-block-start: 32px;
-      }
-    }
-
-    .container {
-      --gutter: var(--space-s);
-
-      position: relative;
+      position: fixed;
+      inset-block-end: 0;
+      inset-inline: 0;
+      z-index: 500;
       display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      z-index: 100;
-      aspect-ratio: 16 / 7;
-      padding-inline: 0;
+      align-items: center;
+      gap: var(--space-m);
+      padding: var(--space-s) var(--space-m);
+      padding-block-end: calc(var(--space-s) + env(safe-area-inset-bottom));
+      background: var(--color-dark);
+      border-block-start: 1px solid
+        hsl(from var(--overlay-color, hsl(0, 0%, 30%)) h s l / 0.6);
+      transition: border-color 0.4s ease;
 
-      @media (width > 768px) {
-        --gutter: var(--space-m);
-
-        aspect-ratio: 16 / 9;
-        padding: var(--space-m);
+      @media (width >= 768px) {
+        padding-inline: var(--space-l);
+        gap: var(--space-l);
       }
     }
 
-    .card-img-wrap {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      block-size: 100%;
-      inline-size: 100%;
-    }
-
-    .background {
+    .now-playing-bar__art {
       position: relative;
-      inset: 0;
-      z-index: 0;
-      block-size: 100%;
-      inline-size: 100%;
+      flex-shrink: 0;
+      inline-size: 44px;
+      block-size: 44px;
       overflow: hidden;
 
-      @media (width > 768px) {
-        position: absolute;
+      @media (width >= 768px) {
+        inline-size: 56px;
+        block-size: 56px;
       }
 
       img {
-        object-fit: cover;
         position: absolute;
         inset: 0;
-        block-size: 100%;
-        inline-size: 100%;
-        object-position: top 30% right 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .now-playing-bar__art-fallback {
+      width: 100%;
+      height: 100%;
+      background: hsl(from var(--overlay-color, hsl(0, 0%, 25%)) h s l);
+    }
+
+    .now-playing-bar__info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+      gap: 2px;
+    }
+
+    .now-playing-bar__track {
+      font-family: var(--font-base);
+      font-size: 14px;
+      color: var(--color-light);
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: fit-content;
+      max-width: 100%;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+
+      @media (hover: hover) {
+        &:hover {
+          border-color: rgb(from var(--color-light) r g b / 0.5);
+        }
+      }
+
+      @media (width >= 768px) {
+        font-size: 16px;
+      }
+    }
+
+    .now-playing-bar__meta {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .now-playing-bar__artist {
+      font-family: var(--font-base);
+      font-size: 12px;
+      color: var(--color-light);
+      opacity: 0.65;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+
+      @media (width >= 768px) {
+        font-size: 14px;
+      }
+    }
+
+    .now-playing-bar__album {
+      display: none;
+      font-family: var(--font-base);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--color-light);
+      opacity: 0.45;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      gap: 6px;
+
+      @media (width >= 640px) {
+        display: flex;
+      }
+
+      @media (width >= 768px) {
+        font-size: 14px;
+      }
+    }
+
+    .now-playing-bar__status {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .now-playing-bar__time {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--color-light);
+      opacity: 0.45;
+      white-space: nowrap;
+    }
+
+    .np-pill {
+      flex-shrink: 0;
+      background: transparent;
+      border: none;
+      padding: 0;
+      width: fit-content;
+    }
+
+    .np-status {
+      display: none;
+
+      @media (width >= 640px) {
+        display: block;
       }
     }
   }

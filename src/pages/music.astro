@@ -11,6 +11,7 @@ import { sanityClient } from "sanity:client";
 import { getRecentTracks, getArtistInfo } from "../lib/lastfm";
 import { getArtistArt } from "../lib/fanart";
 import TracksList from "../components/TracksList.astro";
+import FeaturedAlbum from "../components/FeaturedAlbum.astro";
 
 const CACHE_ID = "global-music-cache";
 const cache = await sanityClient.fetch(
@@ -126,61 +127,56 @@ if (apiKey && fanartApiKey) {
         class="container stacked"
         style="--gutter: 32px"
       >
-      <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
-        <div class="stacked w-full" style="--gutter: 20px">
-          <div class="grid !grid-cols-4 gap-[20px]">
-            <div
-              class="col-start-1 col-span-4 grid grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 !gap-[8px] md:!gap-[20px]"
-            >
-              <h1 class="eyebrow col-span-full">Artists from the Last Week</h1>
-              <div
-                class="col-span-full !grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4"
-              >
-                {
-                  artists.map((artist, i) => {
-                    const playcount = artist.playcount
-                      ? Number(artist.playcount)
+        <FeaturedAlbum />
+        <div class="music-layout">
+          <div class="stacked" style="--gutter: 12px">
+            <h1 class="eyebrow">Artists from the Last Week</h1>
+            <div class="artist-row card-row snap-x snap-mandatory overflow-auto">
+              {
+                artists.slice(0, 10).map((artist, i) => {
+                  const playcount = artist.playcount
+                    ? Number(artist.playcount)
+                    : 0;
+                  const percentage =
+                    totalPlaycount > 0
+                      ? (playcount / totalPlaycount) * 100
                       : 0;
-                    const percentage =
-                      totalPlaycount > 0
-                        ? (playcount / totalPlaycount) * 100
-                        : 0;
-                    return (
-                      <div class="col-span-1">
-                        <div
-                          class="flex h-full"
-                          style={`--track-color: ${trackColor}`}
-                        >
-                          <ArtistCard
-                            artist={artist}
-                            isNowPlaying={false}
-                            trackColor={trackColor}
-                            index={i}
-                            percentage={percentage}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })
-                }
-              </div>
-
-              <div class="col-span-full mt-[var(--space-m)]">
-                <h2 class="eyebrow">
-                  Top 10 Tracks of the Last Week
-                </h2>
-                <TracksList tracks={tracks} />
-              </div>
+                  return (
+                    <div
+                      class="artist-row__item"
+                      style={`--track-color: ${trackColor}`}
+                    >
+                      <ArtistCard
+                        artist={artist}
+                        isNowPlaying={false}
+                        trackColor={trackColor}
+                        index={i}
+                        percentage={percentage}
+                      />
+                    </div>
+                  );
+                })
+              }
             </div>
           </div>
+
+          <aside class="music-layout__sidebar stacked" style="--gutter: 8px">
+            <h2 class="eyebrow">Top 10 Tracks of the Last Week</h2>
+            <TracksList tracks={tracks} />
+          </aside>
         </div>
       </div>
     </main>
     <Footer />
+    <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
   </body>
 </html>
 
 <style is:global>
+  main {
+    padding-block-end: 96px;
+  }
+
   .card-row::-webkit-scrollbar {
     height: 10px;
   }
