@@ -26,13 +26,29 @@ const { artistBannerUrl = "" } = Astro.props;
   </div>
 
   <div class="now-playing-bar__info">
-    <a
-      class="now-playing-bar__track"
-      :href="trackUrl"
-      target="_blank"
-      rel="noopener noreferrer"
-      x-text="trackName || 'Nothing played yet'"
-    ></a>
+    <div class="now-playing-bar__title-row">
+      <a
+        class="now-playing-bar__track"
+        :href="trackUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        x-text="trackName || 'Nothing played yet'"
+      ></a>
+      <svg
+        class="now-playing-bar__heart"
+        x-show="isLoved"
+        x-cloak
+        width="13"
+        height="12"
+        viewBox="0 0 13 12"
+        fill="currentColor"
+        aria-label="Loved track"
+      >
+        <path
+          d="M6.5 11.5C6.5 11.5 0.5 7.8 0.5 3.9C0.5 1.9 2 0.6 3.7 0.6C4.9 0.6 5.9 1.2 6.5 2.1C7.1 1.2 8.1 0.6 9.3 0.6C11 0.6 12.5 1.9 12.5 3.9C12.5 7.8 6.5 11.5 6.5 11.5Z"
+        />
+      </svg>
+    </div>
     <span class="now-playing-bar__meta">
       <span class="now-playing-bar__artist" x-text="artistName"></span>
       <template x-if="albumName">
@@ -41,24 +57,35 @@ const { artistBannerUrl = "" } = Astro.props;
           <span x-text="albumName"></span>
         </span>
       </template>
+      <template x-if="topTag">
+        <span class="now-playing-bar__tag" x-text="topTag"></span>
+      </template>
     </span>
   </div>
 
+  <div
+    class="now-playing-bar__wave"
+    :class="{ 'is-playing': nowPlaying }"
+    aria-hidden="true"
+  >
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+    <span class="now-playing-bar__wave-bar"></span>
+  </div>
+
   <div class="now-playing-bar__status">
-    <div class="np-pill np-pill--transparent" :class="{ 'is-playing': nowPlaying }">
-      <div class="np-bars">
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-        <div class="np-bar"></div>
-      </div>
-      <span class="np-status eyebrow" x-text="statusText"></span>
-    </div>
+    <span class="np-status eyebrow" x-text="statusText"></span>
     <span
       class="now-playing-bar__time eyebrow"
-      x-text="relativeTime"
-      x-show="relativeTime"
+      x-text="secondaryStatusText"
+      x-show="secondaryStatusText"
       x-cloak
     ></span>
   </div>
@@ -96,14 +123,17 @@ const { artistBannerUrl = "" } = Astro.props;
     // @ts-ignore
     window.Alpine.data("currentlyPlaying", (initialBannerUrl: string) => ({
       track: null as Record<string, unknown> | null,
+      trackInfo: null as Record<string, unknown> | null,
       loading: true,
       fetchedBannerUrl: toHttps(initialBannerUrl ?? ""),
       extractedColor: null as string | null,
       _pollId: null as ReturnType<typeof setInterval> | null,
       _lastArtistFetched: "",
       _lastColorUrl: "",
+      _lastTrackInfoFetched: "",
       _trackAbort: null as AbortController | null,
       _bannerAbort: null as AbortController | null,
+      _trackInfoAbort: null as AbortController | null,
 
       get nowPlaying(): boolean {
         return isNowPlayingAttr(this.track);
@@ -145,6 +175,34 @@ const { artistBannerUrl = "" } = Astro.props;
         return this.nowPlaying ? "Now playing" : "Last played";
       },
 
+      get isLoved(): boolean {
+        const loved = (this.trackInfo as any)?.userloved;
+        return loved === "1" || loved === 1;
+      },
+
+      get userPlayCount(): number {
+        const count = (this.trackInfo as any)?.userplaycount;
+        return count ? Number(count) : 0;
+      },
+
+      get playsLabel(): string {
+        if (!this.userPlayCount) return "";
+        return this.userPlayCount === 1
+          ? "Played once"
+          : `Played ${this.userPlayCount}×`;
+      },
+
+      get topTag(): string {
+        const tags = (this.trackInfo as any)?.toptags?.tag;
+        if (!tags) return "";
+        const first = Array.isArray(tags) ? tags[0] : tags;
+        return first?.name ?? "";
+      },
+
+      get secondaryStatusText(): string {
+        return [this.relativeTime, this.playsLabel].filter(Boolean).join(" · ");
+      },
+
       get displayImageUrl(): string {
         return this.trackImageUrl || this.fetchedBannerUrl || "";
       },
@@ -169,6 +227,12 @@ const { artistBannerUrl = "" } = Astro.props;
         return null;
       },
 
+      get trackKey(): string {
+        return this.artistName && this.trackName
+          ? `${this.artistName}|||${this.trackName}`
+          : "";
+      },
+
       init() {
         this.fetchTrack();
         this._pollId = setInterval(() => this.fetchTrack(), 90000);
@@ -190,12 +254,22 @@ const { artistBannerUrl = "" } = Astro.props;
             this.extractedColor = null;
           }
         });
+
+        // @ts-ignore Alpine magic
+        this.$watch("trackKey", (val: string) => {
+          if (val) this.fetchTrackInfo(this.artistName, this.trackName);
+          else {
+            this._lastTrackInfoFetched = "";
+            this.trackInfo = null;
+          }
+        });
       },
 
       destroy() {
         if (this._pollId !== null) clearInterval(this._pollId);
         this._trackAbort?.abort();
         this._bannerAbort?.abort();
+        this._trackInfoAbort?.abort();
       },
 
       fetchTrack() {
@@ -236,6 +310,28 @@ const { artistBannerUrl = "" } = Astro.props;
           .catch((error) => {
             if (error?.name === "AbortError") return;
             this.fetchedBannerUrl = "";
+          });
+      },
+
+      fetchTrackInfo(artist: string, track: string) {
+        const key = `${artist}|||${track}`;
+        if (key === this._lastTrackInfoFetched) return;
+
+        this._lastTrackInfoFetched = key;
+        this._trackInfoAbort?.abort();
+        this._trackInfoAbort = new AbortController();
+
+        fetch(
+          `/api/track-info?artist=${encodeURIComponent(artist)}&track=${encodeURIComponent(track)}`,
+          { signal: this._trackInfoAbort.signal },
+        )
+          .then((r) => r.json())
+          .then((data) => {
+            this.trackInfo = data?.info ?? null;
+          })
+          .catch((error) => {
+            if (error?.name === "AbortError") return;
+            this.trackInfo = null;
           });
       },
 
