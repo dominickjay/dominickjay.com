@@ -19,7 +19,7 @@
     width: fit-content;
     padding: 6px 10px;
     background: var(--color-light);
-    border: 1px solid color-mix(in srgb, var(--color-dark) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-feature) 85%, transparent);
     z-index: 1;
   }
 
@@ -67,8 +67,8 @@
     width: 100%;
     padding-block: 8px;
     padding-inline: 16px;
-    background: var(--color-accent);
-    color: var(--color-light);
+    background: color-mix(in srgb, var(--color-feature) 50%, transparent);
+    color: var(--color-dark);
     border-radius: 5px;
     overflow: hidden;
     min-height: 28px;
@@ -83,7 +83,7 @@
 
   .info-panel__marquee {
     gap: 1.5rem;
-    color: var(--color-light);
+    color: var(--color-dark);
     font-size: 13px;
     letter-spacing: -0.02em;
     white-space: nowrap;
