@@ -39,7 +39,7 @@
           text-transform: capitalize;
           font-size: 18px;
           margin-block-end: 0;
-          text-wrap: balance;
+          text-wrap: pretty;
           max-inline-size: none;
 
           &:has(+ .meta) {
