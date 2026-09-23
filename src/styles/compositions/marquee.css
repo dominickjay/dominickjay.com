@@ -10,7 +10,7 @@
   .marquee__content {
     flex-shrink: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     min-width: 0;
     gap: var(--gap);
