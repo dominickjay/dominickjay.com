@@ -52,7 +52,7 @@ const options = [
       <p class="card__title" id={`${id}-listbox-heading`}>Hand-built listbox</p>
       <form class="flow" data-form>
         <div class="field listbox" data-listbox data-required-message="Choose a delivery method.">
-          <label class="field__label" id={`${id}-js-label`}>Delivery method</label>
+          <span class="field__label" id={`${id}-js-label`}>Delivery method</span>
           <div class="listbox__control" role="combobox" tabindex="0"
                aria-haspopup="listbox" aria-expanded="false" aria-required="true"
                aria-controls={`${id}-js-list`} aria-labelledby={`${id}-js-label`}
@@ -125,7 +125,7 @@ const options = [
       .toggle {
         display: inline-flex;
         gap: var(--space-s);
-        align-items: center;
+        align-items: flex-start;
         min-block-size: 2.75rem;
       }
       .toggle input {
