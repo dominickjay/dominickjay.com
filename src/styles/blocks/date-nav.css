@@ -118,6 +118,10 @@
   padding-block: var(--space-xs);
   border-bottom: 1px solid #2c5364;
 
+  @media (width < 768px) {
+    padding-inline: var(--space-m);
+  }
+
   &:not(:first-child) {
     margin-block-start: var(--space-xl);
 
@@ -132,6 +136,9 @@
 
   .eyebrow {
     margin: 0;
+    color: inherit;
+    padding-block-end: var(--space-xs);
+    font-weight: 700;
   }
 }
 
