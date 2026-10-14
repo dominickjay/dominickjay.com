@@ -3,29 +3,20 @@ import Base from "../../layouts/Base.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
 import { SITE_DESCRIPTION, EXTERNAL_WRITING } from "../../consts";
-import { getCollection, render } from "astro:content";
+import { getVisiblePosts, sortByPubDateDesc } from "../../utils/posts";
 import FormattedDate from "../../components/FormattedDate.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
 
 let externalPosts = EXTERNAL_WRITING;
 
-let rawPosts = [];
 let randomSuperhero = "";
 const superheroes = [
 	"Batman", "Wolverine", "Gambit", "Iron Man", "Spider-Man", "90s Cartoon Superhero Bananaman", "Captain Planet", "Colin Robinson",
 ];
 randomSuperhero = superheroes[Math.floor(Math.random() * superheroes.length)];
 
-if (import.meta.env.ENVIRONMENT === "production") {
-	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
-} else {
-	rawPosts = await getCollection("writing");
-}
-
-const posts = rawPosts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = sortByPubDateDesc(await getVisiblePosts());
 
 // Extract all unique tags from posts
 const allTags = posts.flatMap((post) => post.data.tags);

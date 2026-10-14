@@ -6,15 +6,14 @@ import FeatureListItem from "../../components/FeatureListItem.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
 import { getImagePath } from "astro-opengraph-images";
 import { getPublishedNotes } from "../../utils/notes";
+import { sortByPubDateDesc } from "../../utils/posts";
 
 const NOTES_DESCRIPTION =
 	"Short asides that don't quite fit...just things I wanted to write down.";
 const NOT_FOUND_DESCRIPTION =
 	"You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that.";
 
-const notes = (await getPublishedNotes()).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const notes = sortByPubDateDesc(await getPublishedNotes());
 
 const hasNotes = notes.length > 0;
 if (!hasNotes) {

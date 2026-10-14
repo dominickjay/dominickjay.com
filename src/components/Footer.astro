@@ -1,8 +1,8 @@
 ---
-import { getCollection } from "astro:content";
 import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
 import { getRecentTracksWithTags } from "../lib/lastfm";
 import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
+import { getVisiblePosts } from "../utils/posts";
 
 const {
   listeningTrack: propListeningTrack = "",
@@ -11,10 +11,7 @@ const {
   readingAuthor: propReadingAuthor = "",
 } = Astro.props;
 
-const rawPosts =
-  import.meta.env.ENVIRONMENT === "production"
-    ? await getCollection("writing", ({ data }) => !data?.draft)
-    : await getCollection("writing");
+const rawPosts = await getVisiblePosts();
 const notes = await getPublishedNotes();
 const mainNav = navWithoutNotes(MAIN_NAVIGATION, notes.length > 0);
 const lastTendedDate = new Date(

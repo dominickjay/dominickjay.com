@@ -3,8 +3,8 @@ export const prerender = false;
 
 import Base from "../layouts/Base.astro";
 import NotFound from "../components/NotFound.astro";
-import { getCollection } from "astro:content";
 import { getPublishedNotes } from "../utils/notes";
+import { getVisiblePosts } from "../utils/posts";
 
 function levenshteinDistance(a, b) {
   a = a.toLowerCase();
@@ -33,10 +33,7 @@ function levenshteinDistance(a, b) {
   return distances[b.length];
 }
 
-const posts =
-  import.meta.env.ENVIRONMENT === "production"
-    ? await getCollection("writing", ({ data }) => !data?.draft)
-    : await getCollection("writing");
+const posts = await getVisiblePosts();
 
 const notes = await getPublishedNotes();
 

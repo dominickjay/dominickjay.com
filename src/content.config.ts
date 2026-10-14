@@ -67,6 +67,7 @@ const now = defineCollection({
     description: z.string().optional(),
     // Transform string to Date object
     pubDate: z.coerce.date(),
+    draft: z.boolean().optional(),
     tracks: z
       .array(z.object({ title: z.string(), artist: z.string() }))
       .optional(),

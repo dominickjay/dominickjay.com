@@ -4,21 +4,11 @@ export const prerender = true;
 import Layout from "../layouts/Home.astro";
 import InfoPanel from "../components/InfoPanel.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
-import { getCollection } from "astro:content";
+import { getVisiblePosts, sortByPubDateDesc } from "../utils/posts";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 
-let rawPosts = [];
-
-if (import.meta.env.ENVIRONMENT === "production") {
-	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
-} else {
-	rawPosts = await getCollection("writing");
-}
-
-const posts = rawPosts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = sortByPubDateDesc(await getVisiblePosts());
 ---
 
 <Layout
