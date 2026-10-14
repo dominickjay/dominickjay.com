@@ -1,8 +1,5 @@
 ---
-import {
-  getRecentTracksWithTags,
-  type LastFmTrack,
-} from "../lib/lastfm";
+import { getLatestTrack } from "../lib/lastfm";
 
 let currentlyReading: Array<{
   book: {
@@ -115,19 +112,11 @@ try {
   console.error(error);
 }
 
-let recentTracks: LastFmTrack | null = null;
+const latestTrack = await getLatestTrack(apiKey);
 
-const recentTracksData = await getRecentTracksWithTags(apiKey, 5);
-
-if (recentTracksData.recentTracks) {
-  recentTracks = recentTracksData.recentTracks;
-}
-
-const trackName = recentTracks?.name ?? "";
-const artistName = recentTracks?.artist?.["#text"] ?? "";
-const nowPlayingAttr = recentTracks?.["@attr"]?.nowplaying;
-const isPlaying =
-  nowPlayingAttr === true || String(nowPlayingAttr) === "true";
+const trackName = latestTrack?.name ?? "";
+const artistName = latestTrack?.artist ?? "";
+const isPlaying = latestTrack?.isPlaying ?? false;
 const bookLabel = `${book} by ${author}`;
 ---
 

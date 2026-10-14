@@ -1,6 +1,8 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
+export const LASTFM_USER = "zerosandones217";
+
 export const EXTERNAL_WRITING = [
   {
     href: "https://serieseight.com/journal/technical-debt",
@@ -65,7 +67,7 @@ export const EXTERNAL_NAVIGATION = [
     icon: "bluesky",
   },
   {
-    href: "https://last.fm/user/zerosandones217",
+    href: `https://last.fm/user/${LASTFM_USER}`,
     label: "Last.fm",
     icon: "lastfm",
   },

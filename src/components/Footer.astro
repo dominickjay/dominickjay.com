@@ -1,6 +1,6 @@
 ---
 import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
-import { getRecentTracksWithTags } from "../lib/lastfm";
+import { getLatestTrack } from "../lib/lastfm";
 import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
 import { getVisiblePosts } from "../utils/posts";
 
@@ -83,13 +83,10 @@ let listeningArtist = propListeningArtist;
 let readingTitle = propReadingTitle;
 let readingAuthor = propReadingAuthor;
 
-if (!propListeningTrack && !propListeningArtist && apiKey) {
-  try {
-    const { recentTracks } = await getRecentTracksWithTags(apiKey, 1);
-    if (recentTracks?.name) listeningTrack = recentTracks.name;
-    if (recentTracks?.artist?.["#text"])
-      listeningArtist = recentTracks.artist["#text"];
-  } catch (_) {}
+if (!propListeningTrack && !propListeningArtist) {
+  const latest = await getLatestTrack(apiKey);
+  if (latest?.name) listeningTrack = latest.name;
+  if (latest?.artist) listeningArtist = latest.artist;
 }
 
 if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
