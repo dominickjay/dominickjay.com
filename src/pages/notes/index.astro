@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import NotFound from "../../components/NotFound.astro";
 import PatternBanner from "../../components/Pattern-Banner.astro";
 import FeatureListItem from "../../components/FeatureListItem.astro";
 import DefaultHero from "../../components/DefaultHero.astro";
@@ -70,23 +71,7 @@ const ogImage = getImagePath({ url, site });
 					</section>
 				</>
 			) : (
-				<div
-					class="bg-[var(--color-light)] relative min-h-[calc(100svh-290px)] flex items-center justify-center"
-				>
-					<div
-						class="container flex flex-col justify-center items-center text-center gap-y-[var(--space-m)] py-[var(--space-m)] md:py-[var(--space-l)] relative h-full"
-					>
-						<h1
-							class="heading-tagline !text-[45vw] md:!text-[460px] opacity-[0.10] absolute top-1/2 -translate-y-1/2 opacity-[0.3] gradient-text px-[2px] md:px-[4px]"
-							style="background-image: var(--color-gradient);"
-						>
-							404
-						</h1>
-						<div class="intro md:max-w-[550px] text-pretty md:pb-[20px] relative">
-							{NOT_FOUND_DESCRIPTION}
-						</div>
-					</div>
-				</div>
+				<NotFound />
 			)}
 		</main>
 </Base>
