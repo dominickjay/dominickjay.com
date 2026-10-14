@@ -1,5 +1,4 @@
 import "dotenv/config";
-import fetch from "node-fetch";
 import { format, startOfMonth } from "date-fns";
 import fs from "fs";
 
