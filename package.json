@@ -10,7 +10,6 @@
     "astro": "astro",
     "generate-links": "node scripts/links.js",
     "generate-now": "node scripts/now.js",
-    "generate-books": "node scripts/books.js",
     "generate-music": "node scripts/syncMusic.mjs",
     "generate-music-local": "node --env-file=.env scripts/syncMusic.mjs",
     "sync:atproto": "tsx scripts/sync-to-atproto.ts"
