@@ -1,5 +1,4 @@
 ---
-import bcd from "@mdn/browser-compat-data";
 import { type CollectionEntry } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { render } from "astro:content";
@@ -116,6 +115,7 @@ export async function getStaticPaths() {
 let compatData = null;
 try {
   if (supported) {
+    const { default: bcd } = await import("@mdn/browser-compat-data");
     const path = supported
       .replace("bcd.", "")
       .replace(/\["/g, ".")
