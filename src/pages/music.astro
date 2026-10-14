@@ -1,10 +1,7 @@
 ---
 export const prerender = false;
 
-import BaseHead from "../components/BaseHead.astro";
-import Cursor from "../components/Cursor.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Base from "../layouts/Base.astro";
 import ArtistCard from "../components/ArtistCard.astro";
 import CurrentlyPlaying from "../components/CurrentlyPlaying.astro";
 import { sanityClient } from "sanity:client";
@@ -95,13 +92,10 @@ if (apiKey && fanartApiKey) {
 }
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead
-      title="On rotation"
-      description="What I've been listening to lately - pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids."
-    />
+<Base
+  title="On rotation"
+  description="What I've been listening to lately - pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids."
+>
     <script>
       import { initializeColorExtraction } from "../lib/colorExtraction";
 
@@ -117,10 +111,6 @@ if (apiKey && fanartApiKey) {
         window.setTimeout(() => void initColorExtraction(), 0);
       }
     </script>
-  </head>
-  <body>
-    <Cursor />
-    <Header />
     <main>
       <div
         class="container stacked"
@@ -176,9 +166,6 @@ if (apiKey && fanartApiKey) {
         </div>
       </div>
     </main>
-    <Footer />
-  </body>
-</html>
 
 <style is:global>
   .card-row::-webkit-scrollbar {
@@ -201,7 +188,7 @@ if (apiKey && fanartApiKey) {
   }
 </style>
 
-<script is:inline>
+<script is:inline slot="after">
   const cur = document.getElementById("cur");
   const body = document.body;
 
@@ -247,3 +234,4 @@ if (apiKey && fanartApiKey) {
       });
     });
 </script>
+</Base>

@@ -1,8 +1,5 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Cursor from "../components/Cursor.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import Base from "../layouts/Base.astro";
 import BookItem from "../components/BookItem.astro";
 import { getImagePath } from "astro-opengraph-images";
 
@@ -264,18 +261,11 @@ const ogImage = getImagePath({ url, site });
 const year = new Date().getFullYear()
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead
-      title="What I'm reading"
-      description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list."
-      image={ogImage}
-    />
-  </head>
-  <body>
-    <Cursor />
-    <Header />
+<Base
+  title="What I'm reading"
+  description="Books I've read, books I'm reading, and the occasional one I keep meaning to get to. No summaries, just the list."
+  image={ogImage}
+>
     <main>
       <div
         class="container flex flex-col md:flex-row gap-[32px] md:gap-[64px] py-[var(--space-m)] md:py-[var(--space-l)] md:!max-w-[992px]"
@@ -464,6 +454,4 @@ const year = new Date().getFullYear()
         </div>
       </div>
     </main>
-    <Footer />
-  </body>
-</html>
+</Base>
