@@ -1,0 +1,481 @@
+---
+interface Props {
+  /** Prefix for every id in the demo, so two instances on a page can't collide */
+  id?: string;
+}
+
+const { id = "select-demo" } = Astro.props;
+
+const options = [
+  { value: "standard", name: "Standard", meta: "3–5 working days · Free" },
+  { value: "tracked", name: "Tracked", meta: "2–3 working days · £3.95" },
+  { value: "next-day", name: "Next day", meta: "Order by 2pm · £6.95" },
+  { value: "collect", name: "Click & collect", meta: "Ready in 1 hour · Free" },
+];
+---
+
+<div class="select-demo flow" data-select-demo>
+  <label class="toggle">
+    <input type="checkbox" data-fallback-toggle />
+    <span>Preview the fallback (what browsers without support see)</span>
+  </label>
+
+  <div class="switcher" style="--gutter: var(--space-m)">
+    <!-- ============ Native ============ -->
+    <section class="card flow" aria-labelledby={`${id}-native-heading`}>
+      <p class="card__title" id={`${id}-native-heading`}>
+        Native <code>&lt;select&gt;</code>
+      </p>
+      <form class="flow" data-form>
+        <div class="field">
+          <label class="field__label" for={`${id}-native`}>Delivery method</label>
+          <select class="select" id={`${id}-native`} name="delivery" required>
+            <button type="button"><selectedcontent></selectedcontent></button>
+            <option value="">Choose a delivery method</option>
+            {options.map((o) => (
+              <option value={o.value}>
+                <span class="option-name">{o.name}</span>
+                <span class="option-meta">{o.meta}</span>
+              </option>
+            ))}
+          </select>
+        </div>
+        <div class="cluster">
+          <button class="submit" type="submit">Place order</button>
+        </div>
+        <output class="output" for={`${id}-native`} data-output>Nothing submitted yet.</output>
+      </form>
+    </section>
+
+    <!-- ============ Hand-built ============ -->
+    <section class="card flow" aria-labelledby={`${id}-listbox-heading`}>
+      <p class="card__title" id={`${id}-listbox-heading`}>Hand-built listbox</p>
+      <form class="flow" data-form>
+        <div class="field listbox" data-listbox data-required-message="Choose a delivery method.">
+          <label class="field__label" id={`${id}-js-label`}>Delivery method</label>
+          <div class="listbox__control" role="combobox" tabindex="0"
+               aria-haspopup="listbox" aria-expanded="false" aria-required="true"
+               aria-controls={`${id}-js-list`} aria-labelledby={`${id}-js-label`}
+               aria-describedby={`${id}-js-error`}>
+            <span class="listbox__value" data-value>Choose a delivery method</span>
+          </div>
+          <div class="listbox__list" id={`${id}-js-list`} role="listbox" popover="manual"
+               aria-labelledby={`${id}-js-label`}>
+            <div class="listbox__option" role="option" id={`${id}-js-0`} data-value="" aria-selected="true">Choose a delivery method</div>
+            {options.map((o, i) => (
+              <div class="listbox__option" role="option" id={`${id}-js-${i + 1}`} data-value={o.value} aria-selected="false">
+                <span class="option-name">{o.name}</span>
+                <span class="option-meta">{o.meta}</span>
+              </div>
+            ))}
+          </div>
+          <input type="hidden" name="delivery" value="" />
+          <p class="field__error" id={`${id}-js-error`} role="alert" data-error></p>
+        </div>
+        <div class="cluster">
+          <button class="submit" type="submit">Place order</button>
+        </div>
+        <output class="output" data-output>Nothing submitted yet.</output>
+      </form>
+    </section>
+  </div>
+</div>
+
+<style is:global>
+  /* @scope does the scoping, so Astro's own attribute scoping is switched off:
+     it rewrites :scope, & and ::picker(select) selectors. */
+  @layer components {
+    @scope (.select-demo) {
+      :scope {
+        /* Site tokens only. The prototype's line, soft ink and wash colours
+           have no site equivalent, so they are derived from the dark and light tokens. */
+        --demo-surface: var(--color-light);
+        --demo-ink: var(--color-dark);
+        --demo-ink-soft: color-mix(in srgb, var(--color-dark) 80%, var(--color-light));
+        --demo-line: color-mix(in srgb, var(--color-dark) 65%, var(--color-light));
+        --demo-wash: var(--color-surface-2);
+        --demo-radius: 0.5rem;
+        --demo-shadow: rgb(0 0 0 / 0.15);
+
+        color: var(--demo-ink);
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--demo-ink);
+        outline-offset: 2px;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        background: var(--demo-wash);
+        padding: 0.1em 0.35em;
+        border-radius: 0.25rem;
+      }
+
+      .card {
+        min-inline-size: 0;
+        background: var(--demo-surface);
+        border: 1px solid var(--demo-line);
+        border-radius: calc(var(--demo-radius) * 1.5);
+        padding: var(--space-l);
+      }
+      .card__title { font-weight: 600; }
+
+      .toggle {
+        display: inline-flex;
+        gap: var(--space-s);
+        align-items: center;
+        min-block-size: 2.75rem;
+      }
+      .toggle input {
+        flex: none;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        accent-color: var(--color-feature);
+      }
+
+      .field { display: grid; gap: var(--space-s); }
+      .field__label { font-weight: 600; }
+      /* No site error token, so the invalid state leans on weight and a heavier border, not colour alone */
+      .field__error { color: var(--demo-ink); font-weight: 600; min-block-size: 1lh; }
+      .field__error:empty { display: none; }
+
+      .submit {
+        font: inherit;
+        font-weight: 600;
+        min-block-size: 2.75rem;
+        padding: 0.5rem 1.25rem;
+        border: 2px solid var(--demo-ink);
+        border-radius: var(--demo-radius);
+        background: var(--demo-ink);
+        color: var(--demo-surface);
+        cursor: pointer;
+      }
+
+      .output {
+        display: block;
+        padding: var(--space-m);
+        border-radius: var(--demo-radius);
+        background: var(--color-surface);
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        overflow-wrap: anywhere;
+        min-block-size: 3rem;
+      }
+
+      /* Shared content styles for the rich option contents in both versions */
+      .option-name { font-weight: 600; }
+      .option-meta {
+        margin-inline-start: auto;
+        color: var(--demo-ink-soft);
+        font-size: 0.875rem;
+      }
+    }
+
+    /* ---------------------------------------------------------------- */
+    /* BLOCK: native select, opted in with appearance: base-select      */
+    /* ---------------------------------------------------------------- */
+    @scope (.select-demo) {
+      /* Baseline: this is all a browser without support ever sees. */
+      .select {
+        inline-size: 100%;
+        min-block-size: 3rem;
+        font: inherit;
+      }
+
+      @supports (appearance: base-select) {
+        :scope:not([data-preview="fallback"]) .select {
+          &, &::picker(select) { appearance: base-select; }
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          padding: 0.5rem 1rem;
+          border: 1px solid var(--demo-line);
+          border-radius: var(--demo-radius);
+          background: var(--demo-surface);
+          color: var(--demo-ink);
+          cursor: pointer;
+
+          /* The site's global button rule sets a heading font and letter-spacing */
+          & > button { font: inherit; letter-spacing: inherit; }
+
+          & selectedcontent {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+            align-items: baseline;
+            column-gap: 0.75rem;
+          }
+
+          &::picker-icon { color: var(--color-feature); }
+
+          &::picker(select) {
+            margin-block: 0.25rem;
+            padding: 0.25rem;
+            border: 1px solid var(--demo-line);
+            border-radius: var(--demo-radius);
+            background: var(--demo-surface);
+            color: var(--demo-ink);
+            box-shadow: 0 0.5rem 1.5rem var(--demo-shadow);
+            opacity: 0;
+            translate: 0 -0.25rem;
+          }
+          &::picker(select):popover-open { opacity: 1; translate: 0 0; }
+
+          & option {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            column-gap: 0.75rem;
+            padding: 0.625rem 0.875rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+          }
+          & option:is(:hover, :focus-visible) { background: var(--demo-wash); }
+          & option:checked { background: var(--demo-wash); }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          :scope:not([data-preview="fallback"]) .select {
+            &::picker-icon { transition: rotate 0.2s; }
+            &:open::picker-icon { rotate: 180deg; }
+            &::picker(select) {
+              transition: opacity 0.15s ease-out, translate 0.15s ease-out,
+                display 0.15s allow-discrete, overlay 0.15s allow-discrete;
+            }
+            @starting-style {
+              &::picker(select):popover-open { opacity: 0; translate: 0 -0.25rem; }
+            }
+          }
+        }
+
+        @media (forced-colors: active) {
+          :scope:not([data-preview="fallback"]) .select option:is(:hover, :focus-visible) {
+            outline: 2px solid Highlight;
+            outline-offset: -2px;
+          }
+        }
+      }
+    }
+
+    /* ---------------------------------------------------------------- */
+    /* BLOCK: hand-built listbox (vanilla JS, popover + anchor positioning) */
+    /* ---------------------------------------------------------------- */
+    @scope (.select-demo) {
+      .listbox { position: relative; anchor-scope: --listbox; }
+
+      .listbox__control {
+        anchor-name: --listbox;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        inline-size: 100%;
+        min-block-size: 3rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--demo-line);
+        border-radius: var(--demo-radius);
+        background: var(--demo-surface);
+        color: var(--demo-ink);
+        cursor: pointer;
+      }
+      .listbox__control::after {
+        content: "";
+        flex: none;
+        inline-size: 0.5rem;
+        block-size: 0.5rem;
+        border-inline-end: 2px solid var(--color-feature);
+        border-block-end: 2px solid var(--color-feature);
+        rotate: 45deg;
+        translate: 0 -0.15rem;
+      }
+      .listbox__control[aria-expanded="true"]::after { rotate: 225deg; translate: 0 0.15rem; }
+      .listbox__control[aria-invalid="true"] { border: 2px solid var(--demo-ink); }
+
+      .listbox__value {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 0.75rem;
+      }
+
+      .listbox__list {
+        position-anchor: --listbox;
+        inset: auto;
+        top: anchor(bottom);
+        left: anchor(left);
+        min-inline-size: anchor-size(width);
+        position-try-fallbacks: flip-block;
+        max-block-size: min(20rem, 60dvh);
+        margin: 0.25rem 0;
+        padding: 0.25rem;
+        overflow: auto;
+        border: 1px solid var(--demo-line);
+        border-radius: var(--demo-radius);
+        background: var(--demo-surface);
+        color: var(--demo-ink);
+        box-shadow: 0 0.5rem 1.5rem var(--demo-shadow);
+        opacity: 0;
+        translate: 0 -0.25rem;
+      }
+      .listbox__list:popover-open { opacity: 1; translate: 0 0; }
+
+      .listbox__option {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+      }
+      /* The "/ ''" alt text keeps the tick out of the option's accessible name */
+      .listbox__option::before { content: "✓" / ""; visibility: hidden; }
+      .listbox__option[aria-selected="true"]::before { visibility: visible; }
+      .listbox__option:hover,
+      .listbox__option[data-active] { background: var(--demo-wash); }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .listbox__control::after { transition: rotate 0.2s, translate 0.2s; }
+        .listbox__list {
+          transition: opacity 0.15s ease-out, translate 0.15s ease-out,
+            display 0.15s allow-discrete, overlay 0.15s allow-discrete;
+        }
+        @starting-style {
+          .listbox__list:popover-open { opacity: 0; translate: 0 -0.25rem; }
+        }
+      }
+
+      @media (forced-colors: active) {
+        .listbox__option:hover,
+        .listbox__option[data-active] { outline: 2px solid Highlight; outline-offset: -2px; }
+      }
+    }
+  }
+</style>
+
+<script>
+  type ListboxRoot = HTMLElement & { validate?: () => boolean };
+
+  for (const demo of document.querySelectorAll<HTMLElement>("[data-select-demo]")) {
+    // The fallback preview is scoped to this demo, not the page
+    demo.querySelector<HTMLInputElement>("[data-fallback-toggle]")!
+      .addEventListener("change", (e) => {
+        if ((e.target as HTMLInputElement).checked) demo.dataset.preview = "fallback";
+        else delete demo.dataset.preview;
+      });
+
+    // The hand-built listbox
+    for (const root of demo.querySelectorAll<ListboxRoot>("[data-listbox]")) {
+      const control = root.querySelector<HTMLElement>('[role="combobox"]')!;
+      const list = root.querySelector<HTMLElement>('[role="listbox"]')!;
+      const input = root.querySelector<HTMLInputElement>('input[type="hidden"]')!;
+      const error = root.querySelector<HTMLElement>("[data-error]")!;
+      const display = root.querySelector<HTMLElement>("[data-value]")!;
+      const options = [...list.querySelectorAll<HTMLElement>('[role="option"]')];
+      const isOpen = () => list.matches(":popover-open");
+      let active = 0;
+      let typed = "";
+      let timer: ReturnType<typeof setTimeout>;
+
+      const setActive = (i: number) => {
+        active = Math.min(Math.max(i, 0), options.length - 1);
+        options.forEach((o, n) => o.toggleAttribute("data-active", n === active));
+        control.setAttribute("aria-activedescendant", options[active].id);
+        options[active].scrollIntoView({ block: "nearest" });
+      };
+      const choose = (i: number) => {
+        active = i;
+        options.forEach((o, n) => o.setAttribute("aria-selected", String(n === i)));
+        display.replaceChildren(...[...options[i].childNodes].map((c) => c.cloneNode(true)));
+        input.value = options[i].dataset.value ?? "";
+        control.removeAttribute("aria-invalid");
+        error.textContent = "";
+      };
+      const open = () => {
+        list.showPopover();
+        control.setAttribute("aria-expanded", "true");
+        setActive(options.findIndex((o) => o.getAttribute("aria-selected") === "true"));
+      };
+      const close = () => {
+        if (!isOpen()) return;
+        list.hidePopover();
+        control.setAttribute("aria-expanded", "false");
+        control.removeAttribute("aria-activedescendant");
+      };
+
+      control.addEventListener("click", () => (isOpen() ? close() : open()));
+      list.addEventListener("click", (e) => {
+        const i = options.indexOf((e.target as Element).closest<HTMLElement>('[role="option"]')!);
+        if (i > -1) { choose(i); close(); control.focus(); }
+      });
+      document.addEventListener("pointerdown", (e) => { if (!root.contains(e.target as Node)) close(); });
+      document.getElementById(control.getAttribute("aria-labelledby")!)!
+        .addEventListener("click", () => control.focus());
+
+      control.addEventListener("keydown", (e) => {
+        switch (e.key) {
+          case "ArrowDown":
+          case "ArrowUp":
+            e.preventDefault();
+            if (!isOpen()) open();
+            else setActive(active + (e.key === "ArrowDown" ? 1 : -1));
+            break;
+          case "Home":
+          case "End":
+            e.preventDefault();
+            if (!isOpen()) open();
+            setActive(e.key === "Home" ? 0 : options.length - 1);
+            break;
+          case "Enter":
+          case " ":
+            e.preventDefault();
+            if (isOpen()) { choose(active); close(); } else open();
+            break;
+          case "Escape":
+            if (isOpen()) { e.preventDefault(); close(); }
+            break;
+          case "Tab":
+            if (isOpen()) { choose(active); close(); }
+            break;
+          default:
+            if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+              typed += e.key.toLowerCase();
+              clearTimeout(timer);
+              timer = setTimeout(() => (typed = ""), 500);
+              const hit = options.findIndex((o) => o.textContent!.trim().toLowerCase().startsWith(typed));
+              if (hit > -1) { if (isOpen()) setActive(hit); else choose(hit); }
+            }
+        }
+      });
+
+      // The form's submit handler calls this and stops if it returns false
+      root.validate = () => {
+        if (input.value) return true;
+        control.setAttribute("aria-invalid", "true");
+        error.textContent = root.dataset.requiredMessage ?? "";
+        control.focus();
+        return false;
+      };
+    }
+
+    // Place order, for both cards
+    for (const form of demo.querySelectorAll<HTMLFormElement>("[data-form]")) {
+      const out = form.querySelector<HTMLOutputElement>("[data-output]")!;
+      const place = (e: Event) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        if (form.querySelector<ListboxRoot>("[data-listbox]")?.validate?.() === false) return;
+        out.value = "Submitted: " + JSON.stringify(Object.fromEntries(new FormData(form)));
+      };
+      // Listening for the click as well as submit matters: a preview that sandboxes
+      // the page without allow-forms never fires "submit", so the button would do nothing.
+      form.querySelector('[type="submit"]')!.addEventListener("click", place);
+      form.addEventListener("submit", place);
+    }
+  }
+</script>
