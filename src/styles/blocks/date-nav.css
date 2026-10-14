@@ -119,7 +119,7 @@
   border-bottom: 1px solid #2c5364;
 
   &:not(:first-child) {
-    margin-block-start: var(--space-m);
+    margin-block-start: var(--space-xl);
 
     @media (width >= 768px) {
       margin-block-start: var(--space-xxl);
