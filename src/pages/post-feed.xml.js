@@ -1,9 +1,9 @@
 import rss from "@astrojs/rss";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import { getPublishedPosts } from "../utils/posts";
+import { getPublishedPosts, sortByPubDateDesc } from "../utils/posts";
 
 export async function GET(context) {
-  const blogPosts = await getPublishedPosts();
+  const blogPosts = sortByPubDateDesc(await getPublishedPosts());
 
   const items = blogPosts.map((post) => {
     const title = post.data.title ?? "Untitled";
