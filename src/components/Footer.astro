@@ -1,15 +1,9 @@
 ---
 import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
 import { getLatestTrack } from "../lib/lastfm";
+import { getCurrentlyReadingBook } from "../lib/hardcover";
 import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
 import { getVisiblePosts } from "../utils/posts";
-
-const {
-  listeningTrack: propListeningTrack = "",
-  listeningArtist: propListeningArtist = "",
-  readingTitle: propReadingTitle = "",
-  readingAuthor: propReadingAuthor = "",
-} = Astro.props;
 
 const rawPosts = await getVisiblePosts();
 const notes = await getPublishedNotes();
@@ -22,97 +16,15 @@ const lastTendedDate = new Date(
     : Date.now(),
 );
 
-const cache = new Map<string, { data: unknown; expires: number }>();
-const CACHE_TTL = 30_000;
-const hardcoverToken = (import.meta.env.HARDCOVER_TOKEN ?? "").trim();
-const apiKey = import.meta.env.LAST_FM_API_KEY;
+const [latestTrack, currentBook] = await Promise.all([
+  getLatestTrack(import.meta.env.LAST_FM_API_KEY),
+  getCurrentlyReadingBook(import.meta.env.HARDCOVER_TOKEN),
+]);
 
-function getCached(key: string): unknown {
-  const entry = cache.get(key);
-  if (entry && entry.expires > Date.now()) return entry.data;
-  cache.delete(key);
-  return null;
-}
-
-function setCached(key: string, data: unknown): void {
-  cache.set(key, { data, expires: Date.now() + CACHE_TTL });
-}
-
-async function hardcoverGraphQL(
-  query: string,
-  variables: Record<string, unknown>,
-  useAuth: boolean,
-): Promise<{
-  data?: {
-    me?: Array<{
-      user_books?: Array<{
-        book?: {
-          title?: string;
-          contributions?: Array<{ author?: { name?: string } }>;
-        };
-      }>;
-    }>;
-  };
-}> {
-  if (useAuth && !hardcoverToken) return {};
-  const cacheKey = JSON.stringify({ query, variables });
-  const cached = getCached(cacheKey);
-  if (cached) return cached as Awaited<ReturnType<typeof hardcoverGraphQL>>;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "User-Agent": "dominickjay.com/1.0",
-  };
-  if (useAuth) {
-    headers["authorization"] = hardcoverToken.startsWith("Bearer ")
-      ? hardcoverToken
-      : `Bearer ${hardcoverToken}`;
-  }
-  const res = await fetch("https://api.hardcover.app/v1/graphql", {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ query, variables }),
-  });
-  if (!res.ok) return {};
-  const json = await res.json();
-  setCached(cacheKey, json);
-  return json;
-}
-
-let listeningTrack = propListeningTrack;
-let listeningArtist = propListeningArtist;
-let readingTitle = propReadingTitle;
-let readingAuthor = propReadingAuthor;
-
-if (!propListeningTrack && !propListeningArtist) {
-  const latest = await getLatestTrack(apiKey);
-  if (latest?.name) listeningTrack = latest.name;
-  if (latest?.artist) listeningArtist = latest.artist;
-}
-
-if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
-  try {
-    const data = await hardcoverGraphQL(
-      `query getCurrentReading {
-        me {
-          user_books(where: { status_id: { _eq: 2 } }) {
-            book {
-              title
-              contributions { author { name } }
-            }
-          }
-        }
-      }`,
-      {},
-      true,
-    );
-    const books = data?.data?.me?.[0]?.user_books ?? [];
-    const first = books[1] ? books[1]?.book : books[0].book ?? null;
-    if (first?.title) readingTitle = first.title;
-    if (first?.contributions?.[0]?.author?.name)
-      readingAuthor = first.contributions[0].author.name;
-  } catch (_) {}
-}
-
+const listeningTrack = latestTrack?.name ?? "";
+const listeningArtist = latestTrack?.artist ?? "";
+const readingTitle = currentBook?.title ?? "";
+const readingAuthor = currentBook?.author ?? "";
 ---
 
 <footer class="site-footer" role="contentinfo">

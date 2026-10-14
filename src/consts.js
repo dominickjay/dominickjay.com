@@ -2,6 +2,8 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const LASTFM_USER = "zerosandones217";
+export const HARDCOVER_LIST_ID = 328925;
+export const HARDCOVER_USER_ID = 28090;
 
 export const EXTERNAL_WRITING = [
   {
