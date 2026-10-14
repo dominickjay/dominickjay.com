@@ -2,13 +2,11 @@
 export const prerender = true;
 
 import Layout from "../layouts/Home.astro";
-import Header from "../components/Header.astro";
 import InfoPanel from "../components/InfoPanel.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
 import { getCollection } from "astro:content";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
-import Footer from "../components/Footer.astro";
 
 let rawPosts = [];
 
@@ -30,7 +28,6 @@ const posts = rawPosts.sort(
 			"CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
 	} as any}
 >
-	<Header />
 	<main class="grid home container">
 		<section>
 			<div class="hero grid">
@@ -54,5 +51,4 @@ const posts = rawPosts.sort(
 			</div>
 		</section>
 	</main>
-	<Footer />
 </Layout>
