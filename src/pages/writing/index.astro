@@ -18,14 +18,31 @@ randomSuperhero = superheroes[Math.floor(Math.random() * superheroes.length)];
 
 const posts = sortByPubDateDesc(await getVisiblePosts());
 
-// Extract all unique tags from posts
-const allTags = posts.flatMap((post) => post.data.tags);
-const categories = [...new Set(allTags)].sort();
-const tagCounts = Object.fromEntries(
-	categories.map((tag) => [
-		tag,
-		posts.filter((post) => post.data.tags?.includes(tag)).length,
-	]),
+const monthKey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}`;
+const monthName = (m: number) =>
+	new Date(2000, m, 1).toLocaleString("en-us", { month: "long" });
+
+// Newest-first list of years, each with its months (newest first) that have posts.
+const firstOfMonth = new Set<number>();
+const seenMonths = new Set<string>();
+posts.forEach((post, i) => {
+	const key = monthKey(post.data.pubDate);
+	if (!seenMonths.has(key)) {
+		seenMonths.add(key);
+		firstOfMonth.add(i);
+	}
+});
+const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))].map(
+	(year) => ({
+		year,
+		months: [
+			...new Set(
+				posts
+					.filter((p) => p.data.pubDate.getFullYear() === year)
+					.map((p) => p.data.pubDate.getMonth()),
+			),
+		],
+	}),
 );
 const postLength = posts.length;
 
@@ -48,28 +65,25 @@ const ogImage = getImagePath({ url, site });
 			<PatternBanner />
 			<section
 				class="container flow"
-				x-data={`{
-					category: 'All',
-					categoryOptions: ${JSON.stringify(categories)},
-				}`}
 			>
 				<div class="!grid grid-cols-4 gap-[var(--space-m)]">
-					<div class="col-span-full md:col-span-3 max-md:w-full shrink-0 flex max-md:flex-col md:items-end gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
-						<div class="flex items-center gap-x-[var(--space-m)] justify-between w-full">
-							<div class="flex-1 h-full">
-								<div class="search-wrap">
-									<span class="search-icon">⌕</span>
-									<input type="text" class="search-input" id="searchInput" placeholder="Search posts…" autocomplete="off" spellcheck="false">
-								</div>
-							</div>
-							<span class="results-count" id="resultsCount">35 posts</span>
-						</div>
-					</div>
-					<div class="col-span-full md:col-span-3">
+					<div class="col-span-full md:col-span-3 pt-[var(--space-m)] md:pt-[var(--space-xl)]">
 						<ol class="!pb-[56px] feature-list flow" data-internal-posts style="--flow-space: 0;">
 							{
 								posts.map((post: any, i: number) => (
-									<FeatureListItem
+									<>
+										{firstOfMonth.has(i) && (
+											<li
+												class="month-heading"
+												id={`month-${monthKey(post.data.pubDate)}`}
+												data-month={monthKey(post.data.pubDate)}
+											>
+												<h2 class="eyebrow">
+													{monthName(post.data.pubDate.getMonth())} {post.data.pubDate.getFullYear()}
+												</h2>
+											</li>
+										)}
+										<FeatureListItem
 										i={String(i + 1).padStart(2, "0")}
 										title={post.data.title}
 										description={post.data.description}
@@ -78,12 +92,10 @@ const ogImage = getImagePath({ url, site });
 										lastModified={post.lastModified}
 										id={post.id}
 										external="false"
-									/>
+										/>
+									</>
 								))
 							}
-							<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
-								No posts match your filters.
-							</li>
 						</ol>
 						<div class="stacked">
 							<h3 class="eyebrow">Writing elsewhere</h3>
@@ -97,42 +109,32 @@ const ogImage = getImagePath({ url, site });
 										/>
 									))
 								}
-								<li id="emptyState" class="hidden col-span-full py-[var(--space-xl)] text-center opacity-70" aria-live="polite">
-									No posts match your filters.
-								</li>
 							</ol>
 						</div>
 					</div>
-					<div
-						class="col-span-full md:col-span-1 relative"
+					<nav
+						class="max-md:hidden md:col-span-1 relative"
+						aria-label="Posts by date"
 					>
-						<div class="md:sticky md:top-[120px]">
-							<span class="h3" data-category=""> Topics </span>
-							<div id="sideTopics" class="flex max-md:flex-wrap md:flex-col gap-[var(--space-s)] pt-[var(--space-m)] md:max-h-[70vh] md:overflow-auto">
-								<button
-									class="category-filter w-fit"
-									data-category="All"
-									@click.prevent={`category = 'All'`}
-									:class="{ active: category === 'All' }"
-								>
-									all
-								</button>
-								{
-									categories.map((category) => (
-										<button
-											class="category-filter lowercase w-fit"
-											data-category={category}
-											@click.prevent={`category = '${category}'`}
-											:class={`{ 'active': category === '${category}' }`}
-										>
-											<span data-scramble={category}>{category}</span>
-											<span class="opacity-60">({tagCounts[category]})</span>
-										</button>
-									))
-								}
-							</div>
+						<div class="date-nav md:sticky md:top-[120px] md:max-h-[70vh] md:overflow-auto pt-[var(--space-xl)]">
+							{
+								years.map(({ year, months }, yi) => (
+									<details open={yi === 0} data-year={year}>
+										<summary>{year}</summary>
+										<ul>
+											{months.map((m) => (
+												<li>
+													<a class="date-nav__link" href={`#month-${year}-${m}`} data-month-link={`${year}-${m}`}>
+														{monthName(m)}
+													</a>
+												</li>
+											))}
+										</ul>
+									</details>
+								))
+							}
 						</div>
-					</div>
+					</nav>
 				</div>
 			</section>
 		</main>
@@ -140,47 +142,65 @@ const ogImage = getImagePath({ url, site });
 
 <script>
 		import { initStaggerReveal } from "../../utils/stagger-reveal.js";
-		let searchQuery = '';
 
 		const internalList = document.querySelector("[data-internal-posts]");
-		const section = internalList?.closest("section.container.flow");
 		const getItems = () =>
 			internalList ? internalList.querySelectorAll(".item") : [];
+		const trackedEls = () =>
+			internalList ? internalList.querySelectorAll(".item, .month-heading") : [];
+		const monthLinks = document.querySelectorAll("[data-month-link]");
 
-		function applyFilters() {
-		  const items = getItems();
-		  const activeTopic = section?.querySelector('.category-filter.active')?.dataset.category ?? 'All';
-		  let visible = 0;
-		  items.forEach(item => {
-		    const topicOk  = activeTopic === 'All' || (item.dataset.topics || '').split(',').map(t => t.trim()).includes(activeTopic);
-		    const searchOk = !searchQuery || (item.dataset.title || '').includes(searchQuery.toLowerCase());
-
-		    const show = topicOk && searchOk;
-		    item.classList.toggle('hidden', !show);
-
-		    if (show) {
-		      item.classList.remove('visible');
-		      setTimeout(() => item.classList.add('visible'), visible * 26);
-		      visible++;
-		    }
+		let activeYear = null;
+		function setActiveMonth(key) {
+		  monthLinks.forEach(link => {
+		    const on = link.dataset.monthLink === key;
+		    if (on) link.setAttribute('aria-current', 'true');
+		    else link.removeAttribute('aria-current');
 		  });
-
-		  const resultsEl = document.getElementById('resultsCount');
-		  if (resultsEl) resultsEl.textContent = visible + ' posts';
-		  const emptyEl = internalList?.querySelector("#emptyState");
-		  if (emptyEl) emptyEl.style.display = visible === 0 ? "block" : "none";
+		  const year = key?.split('-')[0];
+		  if (year && year !== activeYear) {
+		    activeYear = year;
+		    // Only the newest year and the year being read stay open.
+		    document.querySelectorAll('details[data-year]').forEach((d, i) => {
+		      d.open = i === 0 || d.dataset.year === year;
+		    });
+		  }
 		}
 
-		document.getElementById('searchInput').addEventListener('input', e => {
-		  searchQuery = e.target.value.trim();
-		  applyFilters();
+		function updateActiveMonth() {
+		  const probe = 140;
+		  let current = null;
+		  trackedEls().forEach(item => {
+		    if (item.getBoundingClientRect().top <= probe) current = item.dataset.month;
+		  });
+		  if (!current) current = trackedEls()[0]?.dataset.month;
+		  if (current) {
+		    setActiveMonth(current);
+		    const monthItems = [...trackedEls()].filter(i => i.dataset.month === current);
+		    const top = monthItems[0]?.getBoundingClientRect().top ?? 0;
+		    const bottom = monthItems.at(-1)?.getBoundingClientRect().bottom ?? 1;
+		    const progress = Math.min(1, Math.max(0, (probe - top) / (bottom - top || 1)));
+		    monthLinks.forEach(link => {
+		      if (link.dataset.monthLink === current) link.style.setProperty('--progress', progress.toFixed(3));
+		      else link.style.removeProperty('--progress');
+		    });
+		  }
+		}
+
+		getItems().forEach((item, i) => {
+		  setTimeout(() => item.classList.add('visible'), i * 26);
 		});
 
-		section?.addEventListener('click', (e) => {
-		  if (e.target.closest('.category-filter')) applyFilters();
-		});
+		window.addEventListener('resize', updateActiveMonth);
 
-		applyFilters();
+		let ticking = false;
+		window.addEventListener('scroll', () => {
+		  if (ticking) return;
+		  ticking = true;
+		  requestAnimationFrame(() => { updateActiveMonth(); ticking = false; });
+		}, { passive: true });
+
+		updateActiveMonth();
 
 		initStaggerReveal();
 </script>
