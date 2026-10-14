@@ -124,7 +124,7 @@ const ogImage = getImagePath({ url, site });
 										<ul>
 											{months.map((m) => (
 												<li>
-													<a class="date-nav__link" href={`#month-${year}-${m}`} data-month-link={`${year}-${m}`}>
+													<a class="date-nav__link" href={`#month-${year}-${m}`} aria-label={`${monthName(m)} ${year}`} data-month-link={`${year}-${m}`}>
 														{monthName(m)}
 													</a>
 												</li>
