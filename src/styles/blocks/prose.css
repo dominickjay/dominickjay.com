@@ -112,15 +112,15 @@
     vertical-align: top;
     border-block-end: 1px solid
       color-mix(in srgb, var(--color-dark) 25%, transparent);
-
-    &:first-child {
-      padding-inline-start: 0;
-    }
   }
 
   th {
     font-weight: 600;
     border-block-end: 2px solid var(--color-dark);
+  }
+
+  tbody tr:nth-child(odd) {
+    background: color-mix(in srgb, var(--color-dark) 8%, transparent);
   }
 
   tbody tr:last-child :is(th, td) {
