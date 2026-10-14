@@ -183,3 +183,127 @@ export async function getReadingGoal(token: string | undefined): Promise<{
 
   return { currentlyReading, booksRead, goalTotal };
 }
+
+interface BookshelfEntry {
+  [key: string]: any;
+}
+
+interface BookshelfResponse {
+  data?: { me?: Array<{ user_books?: BookshelfEntry[]; lists?: Array<{ list_books?: BookshelfEntry[] }> }> };
+}
+
+export async function getBookshelf(token: string | undefined): Promise<{
+  backlog: BookshelfEntry[];
+  currentlyReading: BookshelfEntry[];
+  currentListBooks: BookshelfEntry[];
+  allBooks: BookshelfEntry[];
+}> {
+  try {
+    const [toReadData, currentDataAndList, listInfo] = await Promise.all([
+      hardcoverQuery<BookshelfResponse>(
+        token,
+        `query getUserBooks($statusId: Int!) {
+        me {
+          user_books(where: { status_id: { _eq: $statusId } }) {
+            book {
+              id
+              title
+              image {
+                url
+              }
+              contributions {
+                author {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }`,
+        { statusId: 1 },
+      ),
+      hardcoverQuery<BookshelfResponse>(
+        token,
+        `query getCurrentReadingAndList {
+        me {
+          user_books(where: { status_id: { _eq: 2 } }) {
+            rating
+            book {
+              id
+              title
+              contributions {
+                author {
+                  name
+                }
+              }
+            }
+          }
+          lists(where: {id: {_eq: ${HARDCOVER_LIST_ID}}}) {
+            id
+            name
+            books_count
+            list_books {
+              book {
+              	id
+                title
+                contributions {
+                  author {
+                    name
+                  }
+                }
+                user_books(
+                  where: {user_id: {_eq: ${HARDCOVER_USER_ID}}}
+                  limit: 1
+                  order_by: {updated_at: desc}
+                ) {
+                  user_book_status {
+                    status
+                    slug
+                  }
+                  user_book_reads(limit: 1, order_by: {finished_at: desc_nulls_first}) {
+                    started_at
+                    finished_at
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`,
+      ),
+      hardcoverQuery<BookshelfResponse>(
+        token,
+        `query getBooksByYear {
+	      me {
+	        # We fetch from user_books directly to get all your reading history
+	        user_books(where: {user_book_status: {slug: {_eq: "read"}}}) {
+	          book {
+							id
+              title
+              contributions {
+                author {
+                  name
+                }
+              }
+	          }
+	          user_book_reads {
+	            finished_at
+	          }
+	        }
+	      }
+			    }`,
+      ),
+    ]);
+
+    const me = currentDataAndList.data?.me?.[0];
+    return {
+      allBooks: listInfo.data?.me?.[0]?.user_books ?? [],
+      backlog: toReadData.data?.me?.[0]?.user_books ?? [],
+      currentlyReading: me?.user_books ?? [],
+      currentListBooks: me?.lists?.[0]?.list_books ?? [],
+    };
+  } catch (error) {
+    console.error("[Hardcover] bookshelf:", error);
+    return { backlog: [], currentlyReading: [], currentListBooks: [], allBooks: [] };
+  }
+}
