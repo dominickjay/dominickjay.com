@@ -1,9 +1,10 @@
 ---
 import bcd from "@mdn/browser-compat-data";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { render } from "astro:content";
 import { getReadingTime } from "../../utils/utils.mjs";
+import { getVisiblePosts } from "../../utils/posts";
 import MusicGrid from "../../components/MusicGrid.astro";
 import { getRaindropBookmarks } from "../../lib/raindrop";
 import { getWeeklyAlbumChart, enrichAlbumsWithImages } from "../../lib/lastfm";
@@ -11,13 +12,7 @@ import BrowserSupportTable from "../../components/BrowserSupportTable.astro";
 import ReadingBar from "../../components/ReadingBar.astro";
 import WritingCTA from "../../components/WritingCTA.astro";
 
-const { slug } = Astro.params;
-const posts = await getCollection("writing");
-const post = posts.find((p) => p.id === slug);
-
-if (!post) {
-  return Astro.redirect("/404");
-}
+const { post } = Astro.props;
 
 const { Content, headings, remarkPluginFrontmatter } = await render(post);
 const lastModified = remarkPluginFrontmatter?.lastModified
@@ -35,25 +30,27 @@ const excludedTags = [
 ];
 const finalTags = tags.filter((tag) => !excludedTags.includes(tag));
 
-const allPosts1 = posts
-  .filter((post1: CollectionEntry<"writing">) => {
+const visiblePosts = await getVisiblePosts();
+
+const relatedPosts = visiblePosts
+  .filter((candidate: CollectionEntry<"writing">) => {
     // Exclude the current article
-    if (post.data.title === post1.data.title) return false;
+    if (post.data.title === candidate.data.title) return false;
 
     // Only include posts that have matching tags
     return post.data.tags?.filter((tag) => finalTags.includes(tag)).length > 0;
   })
-  .map((post: CollectionEntry<"writing">) => ({
-    ...post,
-    sameTagCount: post.data.tags.filter((tag) => finalTags.includes(tag))
+  .map((candidate: CollectionEntry<"writing">) => ({
+    ...candidate,
+    sameTagCount: candidate.data.tags.filter((tag) => finalTags.includes(tag))
       .length,
   }))
   .sort((a, b) => {
     if (a.sameTagCount > b.sameTagCount) return -1;
     if (b.sameTagCount > a.sameTagCount) return 1;
 
-    if (a.data.date > b.data.date) return -1;
-    if (a.data.date < b.data.date) return 1;
+    if (a.data.pubDate > b.data.pubDate) return -1;
+    if (a.data.pubDate < b.data.pubDate) return 1;
 
     return 0;
   })
@@ -109,7 +106,7 @@ try {
 }
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing");
+  const posts = await getVisiblePosts();
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -219,7 +216,7 @@ if (post.data.showCTA !== undefined && availability === "available") {
           style="--gutter: var(--space-s)"
         >
           {
-            allPosts1.map((post) => (
+            relatedPosts.map((post) => (
               <div key={post.id} class="">
                 <a
                 	class="body font-[var(--font-base)] text-[14px] opacity-[0.8] hover:opacity-100 leading-[1.4]"
