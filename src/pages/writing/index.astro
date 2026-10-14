@@ -162,6 +162,7 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 		<Footer />
 	</body>
 	<script>
+		import { initStaggerReveal } from "../../utils/stagger-reveal.js";
 		let searchQuery = '';
 
 		const internalList = document.querySelector("[data-internal-posts]");
@@ -204,18 +205,6 @@ const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 
 		applyFilters();
 
-		// Stagger reveal (post lists only — header nav handles its own)
-		document.querySelectorAll('main .feature-list').forEach(postList => {
-			const items = postList.querySelectorAll('.item');
-			const obs = new IntersectionObserver(entries => {
-				entries.forEach(e => {
-					if (!e.isIntersecting) return;
-					const i = [...items].indexOf(e.target);
-					setTimeout(() => e.target.classList.add('visible'), i * 26);
-					obs.unobserve(e.target);
-				});
-			}, { threshold: 0.05 });
-			items.forEach(el => obs.observe(el));
-		});
+		initStaggerReveal();
 	</script>
 </html>

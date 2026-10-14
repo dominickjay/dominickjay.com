@@ -1,5 +1,4 @@
 ---
-import { Temporal } from "@js-temporal/polyfill";
 import { getCollection } from "astro:content";
 import { MAIN_NAVIGATION, EXTERNAL_NAVIGATION } from "../consts";
 import { getRecentTracksWithTags } from "../lib/lastfm";
@@ -10,7 +9,6 @@ const {
   listeningArtist: propListeningArtist = "",
   readingTitle: propReadingTitle = "",
   readingAuthor: propReadingAuthor = "",
-  lastTended: propLastTended,
 } = Astro.props;
 
 const rawPosts =
@@ -19,22 +17,13 @@ const rawPosts =
     : await getCollection("writing");
 const notes = await getPublishedNotes();
 const mainNav = navWithoutNotes(MAIN_NAVIGATION, notes.length > 0);
-const lastTended =
-  propLastTended instanceof Temporal.PlainDate
-    ? propLastTended
-    : rawPosts.length > 0
-      ? Temporal.PlainDate.from(
-          new Date(
-            Math.max(
-              ...rawPosts.map((p) =>
-                (p.data.updatedDate ?? p.data.pubDate).valueOf(),
-              ),
-            ),
-          )
-            .toISOString()
-            .slice(0, 10),
-        )
-      : Temporal.Now.plainDateISO();
+const lastTendedDate = new Date(
+  rawPosts.length > 0
+    ? Math.max(
+        ...rawPosts.map((p) => (p.data.updatedDate ?? p.data.pubDate).valueOf()),
+      )
+    : Date.now(),
+);
 
 const cache = new Map<string, { data: unknown; expires: number }>();
 const CACHE_TTL = 30_000;
@@ -257,25 +246,22 @@ if (!propReadingTitle && !propReadingAuthor && hardcoverToken) {
       <div class="footer-bottom-left">
         <span class="footer-tagline">Leave it better than you found it.</span>
         <span class="footer-copyright"
-          >© {Temporal.Now.plainDateISO().year} Dominick Jay</span
+          >© {new Date().getFullYear()} Dominick Jay</span
         >
       </div>
       <div class="footer-bottom-right">
         <span class="footer-last-tended-label">Last tended</span>
         <time
           class="footer-last-tended-value"
-          datetime={lastTended instanceof Temporal.PlainDate
-            ? lastTended.toString()
-            : undefined}
+          datetime={lastTendedDate.toISOString().slice(0, 10)}
         >
           {
-            lastTended instanceof Temporal.PlainDate
-              ? lastTended.toLocaleString("en-GB", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })
-              : String(lastTended)
+            lastTendedDate.toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+              timeZone: "UTC",
+            })
           }
         </time>
       </div>

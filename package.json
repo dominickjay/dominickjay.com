@@ -26,7 +26,6 @@
     "@atproto/api": "^0.15.27",
     "@bramus/sda-utilities": "^1.1.1",
     "@bryanguffey/astro-standard-site": "^1.0.3",
-    "@js-temporal/polyfill": "^0.5.1",
     "@mdn/browser-compat-data": "^7.1.12",
     "@sanity/astro": "^3.2.11",
     "@sanity/client": "^7.15.0",
