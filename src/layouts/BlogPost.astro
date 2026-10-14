@@ -1,5 +1,8 @@
 ---
-import { getDocumentAtUri } from "@bryanguffey/astro-standard-site";
+import {
+  getDocumentAtUri,
+  getPublicationAtUri,
+} from "@bryanguffey/astro-standard-site";
 import BaseHead from "../components/BaseHead.astro";
 import { getImagePath } from "astro-opengraph-images";
 import Cursor from "../components/Cursor.astro";
@@ -8,27 +11,20 @@ import Footer from "../components/Footer.astro";
 import PatternBanner from "../components/Pattern-Banner.astro";
 import DefaultHero from "../components/DefaultHero.astro";
 import { ATPROTO_DID, PUBLICATION_RKEY } from "../lib/atproto-config";
-import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
 
 type Props = {
   title: string;
   description?: string;
-  pubDate?: Date;
   updatedDate?: Date;
-  tags?: string[];
   lastModified?: Date;
   atprotoDocumentRkey?: string;
-  headings?: any[];
-  timeToRead?: number;
   showPublication?: boolean;
 };
 
 const {
   title,
   description,
-  pubDate,
   updatedDate,
-  tags,
   lastModified,
   atprotoDocumentRkey,
   showPublication = true,

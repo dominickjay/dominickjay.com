@@ -3,21 +3,12 @@ export const prerender = true;
 
 import Layout from "../layouts/Home.astro";
 import Header from "../components/Header.astro";
-import Pattern from "../components/Pattern.astro";
 import InfoPanel from "../components/InfoPanel.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
-import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
-import Profile from "../components/Profile.astro";
+import { getCollection } from "astro:content";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
 import Footer from "../components/Footer.astro";
-
-type PostWithLastModified = {
-	post: CollectionEntry<'writing'>;
-	lastModified: Date | undefined;
-};
 
 let rawPosts = [];
 
