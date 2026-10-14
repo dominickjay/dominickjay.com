@@ -62,7 +62,7 @@ After that it's just CSS. `::picker(select)` is the popup, `::picker-icon` is th
   background: var(--color-surface);
   opacity: 0;
   translate: 0 -0.25rem;
-}
+}s
 .select::picker(select):popover-open { opacity: 1; translate: 0 0; }
 
 .select option:is(:hover, :focus-visible),
@@ -71,7 +71,7 @@ After that it's just CSS. `::picker(select)` is the popup, `::picker-icon` is th
 
 ## The fallback is just a select
 
-This is the part I care about most. In a browser that doesn't know `base-select`, the `<button>` is ignored and the spans in each option flatten into text, so you get the ordinary system select reading "Standard 3–5 working days · Free". Not pretty — completely usable. The demo has a checkbox that flips the page into that state so you can see it from Chrome.
+This is the part I care about most, that sweet progressive enhancement. We've wrapped out `::picker(select)` in a `@supports` so it's an enhancement and not a gamble. In a browser that doesn't know what `base-select` is, the `<button>` is ignored and the spans in each option flatten into text, so you get the ordinary system select reading "Standard 3–5 working days · Free". Not pretty but completely usable. The demo has a checkbox that flips the page into that state so you can see it from Chrome.
 
 It's also why every option needs real text. Icons and swatches are an extra layer on top; the WebKit team's advice on this is the same, because an option that's only a picture is empty in the fallback and means nothing to a screen reader.
 
@@ -87,30 +87,23 @@ Same visuals, same tokens, measured from the demo file. These are unminified sou
 | Total | 3,602 B | 8,389 B |
 | Gzipped | 1,111 B | 2,513 B |
 
-The bytes aren't really the point. Ninety-two lines of JavaScript is ninety-two lines you now own: bugs, browser quirks, the next person who has to read it.
-
-And ninety-two lines still doesn't buy everything. The native select resets with its form, shows the browser's own `required` message, and works with JavaScript switched off. Mine does none of that: I never wrote form reset, the validation message is a custom one, and with scripts off nothing opens.
+The points aren't really what we're looking at here. 92 lines of JavaScript, there's 92 lines that now exist. You don't really need it to. Bugs, browser quirks, the next person who has to read it. It's all not particularly necessary here. Also on top of everything else, 92 lines still doesn't buy everything you need. The native select resets with its form, shows the browser's own required message, and works with JavaScript switched off. Mine does none of that, I never wrote the form reset. The validation message is just a custom one, and with scripts off, nothing opens at all.
 
 ## What I got wrong
 
-I checked both in Chrome's accessibility tree, and the hand-built one had two mistakes that look perfectly fine on screen. The tick I drew with CSS `content` was being read as part of every option's name — "✓ Choose a delivery method" — and I'd forgotten `aria-required`. The first fix is a one-liner (`content: "✓" / ""` gives the tick empty alt text), but I'd never have found either without looking.
+I looked at both examples using Chrome's accessibility tree and despite them looking similar the hand built one had two mistakes that what I noticed on the screen and only saw became visible after I inspected it. The tick I drew with CSS content was being read as part of every option's name. For example tick choose a delivery method. And I'd forgotten that ARIA required. The first fix is a one liner (`content: "✓" / ""` gives the tick empty alt text) gives the tick empty alt text. But I'd never have found either without looking into it.
 
-The native control had nothing to get wrong. One oddity: Chrome 141's tree doesn't list `required` on it, though the browser enforces it regardless. I haven't tried either version with a screen reader, so that's the next check. {/* TODO(Dom): [Do this before publishing, or leave the sentence in.] */}
+The native control, the one that is default, had nothing to get wrong. One weird thing is that Chrome 141's accessibility tree doesn't list required on it, though the browser does enforce it regardless. I haven't tried either version with the screen reader, that's probably the next check.
 
-I also gated the open animation behind `prefers-reduced-motion: no-preference`, and added an outline for hovered options under `forced-colors`, because a background tint is the first thing high contrast mode throws away.
+I also put the opening animation behind `prefers-reduced-motion: no-preference`, and also added an outline for hovered options under `forced colors` because a background tint is the first thing high contrast mode throws away. It's just not visible to those that have that setting turned on.
 
 ## Where it isn't a win
 
-- **Support.** Chrome and Edge 135+, and Safari 27 (out since 17 September). Firefox has it disabled by default behind a preference. It isn't Baseline yet, hence the `@supports`.
-- **Defaults differ.** Safari 27 ships its own base styles, so don't lean on the unstyled look. Style what you care about and test it. If a design only works when it's identical everywhere, that's a product decision, not a CSS one.
-- **It's a select, not a combobox.** No filtering, no async options, no tags. If you need search-as-you-type, you still need something else.
-- **Phones.** I haven't tested on a real device, so check before putting it in a checkout.
+Support here is okay. Chrome and Edge at 135 plus and Safari 27 which has been out since the 17th of September. Firefox has it disabled by default by the preference. It isn't baseline yet which is exactly why we've put that into the app supports. Defaults differ also. Safari 27 ships its own base styles. So, don't lean too much on the unstyled look. Style what you care about and test it. If a design only works when it's identical everywhere, that's a product decision, not a CSS one. It's a select as well, not a combo box. There shouldn't be any filtering, no async options, no tags. If you need search as you type, you still need something else. Also, haven't tested this on a real device, so check before putting it straight into a checkout. At least for this example.
 
 ## When I'd reach for it
 
-If the design needs a styled dropdown and your first instinct is a library: start here, wrap it in `@supports`, and let unsupported browsers have the plain select. Keep the dropdown component for the cases that really are comboboxes.
-
-Try the demo above in a browser that supports it, then tick the fallback box. The distance between those two states is the whole argument.
+I'd consider using this if the first instinct for a style drop down is to use a library. Start here, wrap it in `@supports`, and then let unsupported browsers have the plain select. So, a nice bit of progressive enhancement. Keep the drop down component for the cases that really are just combo boxes. Try the demo above in a browser that supports it, and then tick the fallback box. The distance between those two states is exactly what you need.
 
 ## Sources
 
