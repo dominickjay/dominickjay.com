@@ -104,8 +104,11 @@ export const onRequest: MiddlewareHandler = async (
 ) => {
   const response = await next();
 
-  // Headers are unavailable while prerendering static pages.
-  if (isPrerendered || !["GET", "HEAD"].includes(request.method)) {
+  if (isPrerendered) {
+    return response;
+  }
+
+  if (!["GET", "HEAD"].includes(request.method)) {
     return response;
   }
 

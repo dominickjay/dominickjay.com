@@ -11,7 +11,6 @@ pubDate: '2023-03-09'
 tags:
   - css
 supported: 'bcd.css["properties"].font-palette.__compat'
-growth: growing
 atprotoDocumentRkey: 3mopuiq5s62u5
 ---
 

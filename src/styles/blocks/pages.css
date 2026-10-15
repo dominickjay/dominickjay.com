@@ -5,3 +5,11 @@
         --flow-space: 64px;
     }
 }
+
+.home {
+    --grid-placement: 1;
+    
+    @media (width >= 992px) {
+        --grid-placement: 2;
+    }
+}

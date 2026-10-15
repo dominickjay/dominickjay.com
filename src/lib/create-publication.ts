@@ -12,7 +12,7 @@ const result = await publisher.publishPublication({
   name: "Dom Jay - CSS, JS, and the occasional existential crisis",
   url: "https://dominickjay.com",
   description:
-    "Dom Jay's digital garden. CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
+    "CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
   preferences: {
     showInDiscover: true,
   },

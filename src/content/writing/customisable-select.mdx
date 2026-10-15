@@ -1,0 +1,113 @@
+---
+title: The Select Element Finally Gets a Personality
+subtitle: '`appearance: base-select` hands you the picker, the arrow, the checkmark and the insides of every option — and you keep the real `<select>`.'
+description: >-
+  Style the native select with `appearance: base-select`, then see what it saves against a hand-built vanilla JS listbox: bytes, behaviour and a couple of accessibility bugs I made on the way.
+pubDate: '2026-10-14'
+tags:
+  - css
+growth: seedling
+draft: true
+---
+
+import BaseSelectDemo from '../../components/demos/BaseSelectDemo.astro';
+
+Opinion: one of the worst types of design/dev issues is when you have to choose between a native control and a hand-built one. The latter is a lot more work, but it's also a lot more flexible. I've seen it do the job for me, and I'm not going to argue that it's the right choice for every project when you're trying to keep to a design system.
+
+A designer might say "I want a select that looks like my vision, and that's it", and not be receptive to understand the tradeoffs. On the other hand, a designer/project manager or client might be fine being told "to release this using the native web control rather than spending time and resources building out a custom one would be a good idea". Both valid points of view, but I'm not going to argue that either is right, but really, the nicer one (the one that fits with the site, as a complete experience) is the custom one.
+
+Luckily for us, we know have `apperance: base-select` to help us out. We get to now keep the real element and get to be able to use CSS to style the parts that were always off-limits. I wanted to know whether "just use the native one" is advice or wishful thinking, so I built the same delivery-method picker twice: once as a native select, once as a hand-built listbox in vanilla JavaScript. I gave the hand-built one a fair go — popover API for the top layer, anchor positioning that flips near the viewport edge, type-ahead, even `required` validation.
+
+<BaseSelectDemo />
+
+## Opting in
+
+The markup is a normal `<select>` with two additions: a `<button>` as the first child, containing `<selectedcontent>`, which mirrors whatever option is chosen. Options can now hold ordinary elements.
+
+```html
+<select class="select" id="delivery" name="delivery" required>
+  <button type="button"><selectedcontent></selectedcontent></button>
+  <option value="">Choose a delivery method</option>
+  <option value="standard">
+    <span class="option-name">Standard</span>
+    <span class="option-meta">3–5 working days · Free</span>
+  </option>
+  <option value="tracked">
+    <span class="option-name">Tracked</span>
+    <span class="option-meta">2–3 working days · £3.95</span>
+  </option>
+  <!-- …and so on -->
+</select>
+```
+
+The opt-in is one declaration on two selectors — the control and its popup — wrapped in `@supports` so it's an enhancement and not a gamble:
+
+```css
+@supports (appearance: base-select) {
+  .select,
+  .select::picker(select) {
+    appearance: base-select;
+  }
+}
+```
+
+After that it's just CSS. `::picker(select)` is the popup, `::picker-icon` is the arrow, `option::checkmark` is the tick, and `:open` tells you when the picker is showing. Border, radius, padding and hover states are the same properties you already write. Here's the core of mine, trimmed:
+
+```css
+.select::picker(select) {
+  margin-block: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  opacity: 0;
+  translate: 0 -0.25rem;
+}s
+.select::picker(select):popover-open { opacity: 1; translate: 0 0; }
+
+.select option:is(:hover, :focus-visible),
+.select option:checked { background: var(--color-wash); }
+```
+
+## The fallback is just a select
+
+This is the part I care about most, that sweet progressive enhancement. We've wrapped out `::picker(select)` in a `@supports` so it's an enhancement and not a gamble. In a browser that doesn't know what `base-select` is, the `<button>` is ignored and the spans in each option flatten into text, so you get the ordinary system select reading "Standard 3–5 working days · Free". Not pretty but completely usable. The demo has a checkbox that flips the page into that state so you can see it from Chrome.
+
+It's also why every option needs real text. Icons and swatches are an extra layer on top; the WebKit team's advice on this is the same, because an option that's only a picture is empty in the fallback and means nothing to a screen reader.
+
+## What it cost
+
+Same visuals, same tokens, measured from the demo file. These are unminified source sizes.
+
+| | Native + base-select | Hand-built listbox |
+| --- | --- | --- |
+| HTML | 1,211 B | 2,217 B |
+| CSS | 2,389 B | 2,743 B |
+| JavaScript | none | 3,427 B (92 lines) |
+| Total | 3,602 B | 8,389 B |
+| Gzipped | 1,111 B | 2,513 B |
+
+The points aren't really what we're looking at here. 92 lines of JavaScript, there's 92 lines that now exist. You don't really need it to. Bugs, browser quirks, the next person who has to read it. It's all not particularly necessary here. Also on top of everything else, 92 lines still doesn't buy everything you need. The native select resets with its form, shows the browser's own required message, and works with JavaScript switched off. Mine does none of that, I never wrote the form reset. The validation message is just a custom one, and with scripts off, nothing opens at all.
+
+## What I got wrong
+
+I looked at both examples using Chrome's accessibility tree and despite them looking similar the hand built one had two mistakes that what I noticed on the screen and only saw became visible after I inspected it. The tick I drew with CSS content was being read as part of every option's name. For example tick choose a delivery method. And I'd forgotten that ARIA required. The first fix is a one liner (`content: "✓" / ""` gives the tick empty alt text) gives the tick empty alt text. But I'd never have found either without looking into it.
+
+The native control, the one that is default, had nothing to get wrong. One weird thing is that Chrome 141's accessibility tree doesn't list required on it, though the browser does enforce it regardless. I haven't tried either version with the screen reader, that's probably the next check.
+
+I also put the opening animation behind `prefers-reduced-motion: no-preference`, and also added an outline for hovered options under `forced colors` because a background tint is the first thing high contrast mode throws away. It's just not visible to those that have that setting turned on.
+
+## Where it isn't a win
+
+Support here is okay. Chrome and Edge at 135 plus and Safari 27 which has been out since the 17th of September. Firefox has it disabled by default by the preference. It isn't baseline yet which is exactly why we've put that into the app supports. Defaults differ also. Safari 27 ships its own base styles. So, don't lean too much on the unstyled look. Style what you care about and test it. If a design only works when it's identical everywhere, that's a product decision, not a CSS one. It's a select as well, not a combo box. There shouldn't be any filtering, no async options, no tags. If you need search as you type, you still need something else. Also, haven't tested this on a real device, so check before putting it straight into a checkout. At least for this example.
+
+## When I'd reach for it
+
+I'd consider using this if the first instinct for a style drop down is to use a library. Start here, wrap it in `@supports`, and then let unsupported browsers have the plain select. So, a nice bit of progressive enhancement. Keep the drop down component for the cases that really are just combo boxes. Try the demo above in a browser that supports it, and then tick the fallback box. The distance between those two states is exactly what you need.
+
+## Sources
+
+- [WebKit Features for Safari 27.0](https://webkit.org/blog/18325/webkit-features-for-safari-27-0/)
+- [Customizable Select: The select dropdown finally catches up with CSS](https://dev.to/olivierleplus/customizable-select-the-dropdown-finally-catches-up-with-css-1c60) (Safari release date, Firefox status, not yet Baseline)
+- [Can I use: appearance: base-select](https://caniuse.com/mdn-css_properties_appearance_base-select)
+- [The golden rule of Customizable Select](https://daily.dev/posts/the-golden-rule-of-customizable-select-ovcvnr5yr) (WebKit's text-in-every-option guidance)

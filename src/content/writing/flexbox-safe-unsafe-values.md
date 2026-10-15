@@ -5,7 +5,6 @@ pubDate: '2025-01-27'
 draft: true
 tags:
   - css
-growth: seedling
 ---
 
 ## Understanding Safe vs Unsafe Values
