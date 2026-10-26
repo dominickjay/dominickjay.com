@@ -115,7 +115,7 @@
 }
 
 .month-heading {
-  padding-block: var(--space-xs);
+  padding-block-start: var(--space-xs);
   border-bottom: 1px solid #2c5364;
 
   @media (width < 768px) {
