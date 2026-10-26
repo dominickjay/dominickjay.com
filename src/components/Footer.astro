@@ -294,11 +294,12 @@ const readingAuthor = currentBook?.author ?? "";
 
   .now-tabs {
     display: flex;
-    gap: var(--space-s);
+    gap: 14px;
     margin-block-start: var(--space-s);
   }
 
   .now-tab {
+    position: relative;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -310,6 +311,12 @@ const readingAuthor = currentBook?.author ?? "";
 
     &::before {
       content: none;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -7px;
     }
   }
 
