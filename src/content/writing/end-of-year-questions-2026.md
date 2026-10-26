@@ -19,6 +19,8 @@ Some answers are short. Some needed a bit more unpacking. Either way, here’s h
 
 ## 2. Did you keep your new year’s resolutions?
 
+I didn't set specific new year's resolutions, but I did keep a list of things I wanted to do this year and achieved most of them. More gym work, more books read than I think I've ever read before. More time with my family, and more time with my kids.
+
 ## 3. Did anyone close to you give birth?
 
 Not this year!
@@ -29,7 +31,7 @@ Thankfully, no.
 
 ## 5. What cities/states/countries did you visit?
 
-We went as a family to Benidorm in Spain, and then as part of Series Eight's annual retreat, I went to Cyprus
+We went as a family to Benidorm in Spain, and then as part of Series Eight's [annual(https://serieseight.com/journal/s8-team-retreat-2026-cyprus), I went to Cyprus
 
 ## 6. What would you like to have next year that you lacked this year?
 
@@ -60,6 +62,8 @@ The house and as always the kids. But I made my normal investments into my every
 ## 17. What song will always remind you of this year?
 
 ## 18. Compared to this time last year, are you: happier or sadder? Richer or poorer? Healthier or unhealthier?
+
+Happier and healthier, thankfully.
 
 ## 19. What do you wish you’d done more of?
 
@@ -92,6 +96,8 @@ Spiderman: Brand New Day - one of the best Spiderman films made in my opinion. I
 ## 29. What did you want and get?
 
 ## 30. What did you want and not get?
+
+Tattoos, but my indecisiveness was a big part of that.
 
 ## 31. What did you do on your birthday?
 
