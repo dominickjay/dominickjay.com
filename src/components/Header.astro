@@ -1,7 +1,6 @@
 ---
 Astro.response.headers.set("Cache-Control", "public, max-age=604800");
 
-import { getCollection } from "astro:content";
 import {
   PRIMARY_NAVIGATION,
   SECONDARY_NAVIGATION,
@@ -10,15 +9,15 @@ import {
 import FormattedDate from "../components/FormattedDate.astro";
 import NavLink from "../components/NavigationLink.astro";
 import SocialIcon from "../components/icons/SocialIcon.astro";
+import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
+import { getVisiblePosts, sortByPubDateDesc } from "../utils/posts";
 
-const rawPosts =
-  import.meta.env.ENVIRONMENT === "production"
-    ? await getCollection("writing", ({ data }) => !data?.draft)
-    : await getCollection("writing");
+const posts = await getVisiblePosts();
 
-const latestPost = [...rawPosts].sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)[0];
+const latestPost = sortByPubDateDesc(posts)[0];
+
+const notes = await getPublishedNotes();
+const primaryNav = navWithoutNotes(PRIMARY_NAVIGATION, notes.length > 0);
 ---
 
 <header
@@ -133,7 +132,7 @@ const latestPost = [...rawPosts].sort(
         <p class="menubar__heading eyebrow">Pages</p>
         <ul class="stacked" style="--gutter: 0">
           {
-            PRIMARY_NAVIGATION.map((item) => (
+            primaryNav.map((item) => (
               <li class="item">
                 <NavLink href={item.href}>{item.label}</NavLink>
               </li>

@@ -1,0 +1,81 @@
+---
+import Base from "../../layouts/Base.astro";
+import NotFound from "../../components/NotFound.astro";
+import PatternBanner from "../../components/Pattern-Banner.astro";
+import FeatureListItem from "../../components/FeatureListItem.astro";
+import DefaultHero from "../../components/DefaultHero.astro";
+import { getImagePath } from "astro-opengraph-images";
+import { getPublishedNotes } from "../../utils/notes";
+import { sortByPubDateDesc } from "../../utils/posts";
+
+const NOTES_DESCRIPTION =
+	"Short asides that don't quite fit...just things I wanted to write down.";
+const NOT_FOUND_DESCRIPTION =
+	"You found a page that doesn't exist. I probably renamed it and forgot to set up a redirect. Sorry about that.";
+
+const notes = sortByPubDateDesc(await getPublishedNotes());
+
+const hasNotes = notes.length > 0;
+if (!hasNotes) {
+	Astro.response.status = 404;
+}
+
+const noteLength = notes.length;
+const { url, site } = Astro;
+const ogImage = getImagePath({ url, site });
+---
+
+<Base
+	title={hasNotes ? "Notes" : "Lost? Same."}
+	showName={hasNotes}
+	description={hasNotes ? NOTES_DESCRIPTION : NOT_FOUND_DESCRIPTION}
+	image={ogImage}
+>
+	{hasNotes &&
+		<link
+			slot="head"
+			rel="alternate"
+			type="application/rss+xml"
+			title="Notes"
+			href="/notes.xml"
+		/>
+	}
+		<main>
+			{hasNotes ? (
+				<>
+					<DefaultHero
+						title="Notes"
+						description={`${noteLength} ${noteLength === 1 ? "note" : "notes"} that didn't fit anywhere else.`}
+					/>
+					<PatternBanner />
+					<section class="container flow">
+						<div class="flex items-center justify-between gap-[var(--space-m)] pt-[var(--space-m)] md:pt-[var(--space-xl)]">
+							<a class="body opacity-70 hover:opacity-100" href="/notes.xml">RSS feed</a>
+						</div>
+						<ol class="!pb-[56px] feature-list flow" style="--flow-space: 0;">
+							{
+								notes.map((note, i) => (
+									<FeatureListItem
+										i={String(i + 1).padStart(2, "0")}
+										title={note.data.title}
+										description={note.data.description}
+										pubDate={note.data.pubDate}
+										id={note.id}
+										basePath="/notes"
+										external="false"
+									/>
+								))
+							}
+						</ol>
+					</section>
+				</>
+			) : (
+				<NotFound />
+			)}
+		</main>
+</Base>
+
+<script>
+		import { initStaggerReveal } from "../../utils/stagger-reveal.js";
+		initStaggerReveal();
+</script>

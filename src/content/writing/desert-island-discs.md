@@ -1,7 +1,7 @@
 ---
 title: 'Desert Island Discs post'
 description: '8 albums - each from a point of my life.'
-pubDate: 'February 10 2025'
+pubDate: '2025-02-10'
 tags:
   - personal
   - music

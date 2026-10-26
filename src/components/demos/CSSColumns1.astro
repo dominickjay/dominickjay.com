@@ -1,0 +1,39 @@
+<style>
+  .text-columns {
+    column-width: 200px;
+    column-gap: var(--space-m);
+    column-rule: 1px solid color-mix(in srgb, var(--color-dark) 50%, var(--color-light));
+    margin-top: var(--space-l);
+    border: 1px solid currentColor;
+    padding: var(--space-m);
+
+    @media (min-width: 640px) {
+      .text-columns { column-count: 3; }
+    }
+    p {
+      margin: 0 0 var(--space-2xs);
+      font-size: 0.85rem;
+    }
+
+    .intro {
+      column-span: all;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-bottom: var(--space-s);
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<div class="wrapper stacked">
+
+  <section class="demo-section">
+
+    <div class="text-columns">
+      <p class="intro">This line spans all columns first, then the rest of the content flows into separate columns below it.</p>
+      <p>Without changing the parent column setup, one child can opt out of the column flow and sit full-width as an intro.</p>
+      <p>This works well for lead paragraphs, section labels, and short contextual notes before dense text content.</p>
+      <p>After that line, normal column flow resumes and the browser continues distributing paragraphs by available space.</p>
+    </div>
+  </section>
+</div>

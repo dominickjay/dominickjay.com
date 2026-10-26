@@ -1,10 +1,6 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Cursor from "../components/Cursor.astro";
 import { getImagePath } from "astro-opengraph-images";
-import { getPublicationAtUri } from "@bryanguffey/astro-standard-site";
-import { ATPROTO_DID, PUBLICATION_RKEY } from "../lib/atproto-config";
+import Base from "./Base.astro";
 
 const { url, site } = Astro;
 const ogImage = getImagePath({ url, site });
@@ -15,64 +11,19 @@ type Props = {
 };
 
 const { title, description } = Astro.props;
-const publicationUri = getPublicationAtUri(ATPROTO_DID, PUBLICATION_RKEY);
 ---
 
-<html lang="en">
-  <head>
-    <BaseHead
-      title={title}
-      showName={false}
-      description={description}
-      image={ogImage}
-    />
-		<link rel="site.standard.publication" href={publicationUri}>
-  </head>
+<Base
+  title={title}
+  description={description}
+  showName={false}
+  image={ogImage}
+  publication
+>
+  <slot />
+</Base>
 
-  <body>
-    <Cursor />
-    <slot />
-  </body>
-  <script
-    data-goatcounter="https://dominickjay.goatcounter.com/count"
-    async
-    src="//gc.zgo.at/count.js"
-  ></script>
-  <script is:inline>
-	  function updateTimeTheme() {
-	    const hour = typeof Temporal !== "undefined"
-	      ? Temporal.Now.zonedDateTimeISO().hour
-	      : new Date().getHours();
-
-	    let period = "";
-	    if (hour >= 5 && hour < 9) period = "early-morning";
-	    else if (hour >= 9 && hour < 12) period = "late-morning";
-	    else if (hour >= 12 && hour < 15) period = "early-afternoon";
-	    else if (hour >= 15 && hour < 17) period = "mid-afternoon";
-	    else if (hour >= 17 && hour < 19) period = "last-afternoon";
-	    else if (hour >= 19 && hour < 22) period = "evening";
-	    else period = "night";
-
-	    document.documentElement.setAttribute("data-time", period);
-	  }
-
-    updateTimeTheme();
-
-    // Stagger reveal (post lists only — header nav handles its own)
-    document.querySelectorAll("main .feature-list").forEach((postList) => {
-      const items = postList.querySelectorAll(".item");
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            const i = [...items].indexOf(e.target);
-            setTimeout(() => e.target.classList.add("visible"), i * 26);
-            obs.unobserve(e.target);
-          });
-        },
-        { threshold: 0.05 },
-      );
-      items.forEach((el) => obs.observe(el));
-    });
-  </script>
-</html>
+<script>
+  import { initStaggerReveal } from "../utils/stagger-reveal.js";
+  initStaggerReveal();
+</script>

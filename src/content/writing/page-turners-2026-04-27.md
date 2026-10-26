@@ -1,6 +1,6 @@
 ---
 title: "Page Turners - April 2026"
-pubDate: 2026-04-27
+pubDate: '2026-04-27'
 description: "This months page turners have articles written by John Rhea, Scott Jehl, Chris Coyier, Amit Sheen and Stewart Robson. Plus a couple of quizzes!"
 tags:
   - page turners
