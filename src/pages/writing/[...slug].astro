@@ -112,32 +112,6 @@ export async function getStaticPaths() {
   }));
 }
 
-let compatData = null;
-try {
-  if (supported) {
-    const { default: bcd } = await import("@mdn/browser-compat-data");
-    const path = supported
-      .replace("bcd.", "")
-      .replace(/\["/g, ".")
-      .replace(/"\]/g, "");
-    const keys = path.split(".");
-
-    let current = bcd;
-    for (const key of keys) {
-      if (current && current[key]) {
-        current = current[key];
-      } else {
-        console.warn(`Browser compat data not found at path: ${supported}`);
-        current = null;
-        break;
-      }
-    }
-    compatData = current;
-  }
-} catch (error) {
-  console.error("Error accessing browser compat data:", error);
-}
-
 const allowedBrowsers = ["chrome", "firefox", "safari", "edge"];
 
 function getSupportEntry(data: unknown) {
@@ -152,24 +126,72 @@ function getSupportEntry(data: unknown) {
   return data && typeof data === "object" ? data : {};
 }
 
-const browserSupport = compatData?.support
-  ? Object.entries(compatData.support)
-      .filter(([browser]) => allowedBrowsers.includes(browser))
-      .map(([browser, data]) => {
-        const entry = getSupportEntry(data);
-        const versionAdded = entry.version_added;
-        const version =
-          versionAdded === false ? "Not supported" : versionAdded || "Unknown";
-        return {
-          browser,
-          version: String(version),
-          prefix: entry.prefix,
-          support: versionAdded ? "Supported" : "Not supported",
-        };
-      })
+const supportedPaths = supported
+  ? Array.isArray(supported)
+    ? supported
+    : [supported]
   : [];
 
-const compatDataStatus = compatData?.status;
+const compatTables: Array<{
+  label?: string;
+  browserSupport: Array<{
+    browser: string;
+    version: string;
+    prefix?: string;
+    support: string;
+  }>;
+  status: { experimental?: boolean; deprecated?: boolean; standard_track?: boolean } | undefined;
+}> = [];
+
+try {
+  if (supportedPaths.length) {
+    const { default: bcd } = await import("@mdn/browser-compat-data");
+    for (const supportedPath of supportedPaths) {
+      const keys = supportedPath
+        .replace("bcd.", "")
+        .replace(/\["/g, ".")
+        .replace(/"\]/g, "")
+        .split(".");
+
+      let current: any = bcd;
+      for (const key of keys) {
+        if (current && current[key]) {
+          current = current[key];
+        } else {
+          console.warn(`Browser compat data not found at path: ${supportedPath}`);
+          current = null;
+          break;
+        }
+      }
+      if (!current?.support) continue;
+
+      const browserSupport = Object.entries(current.support)
+        .filter(([browser]) => allowedBrowsers.includes(browser))
+        .map(([browser, data]) => {
+          const entry = getSupportEntry(data);
+          const versionAdded = entry.version_added;
+          const version =
+            versionAdded === false ? "Not supported" : versionAdded || "Unknown";
+          return {
+            browser,
+            version: String(version),
+            prefix: entry.prefix,
+            support: versionAdded ? "Supported" : "Not supported",
+          };
+        });
+
+      const feature = keys.filter((k) => k !== "__compat").pop();
+      compatTables.push({
+        label: supportedPaths.length > 1 ? feature : undefined,
+        browserSupport,
+        status: current.status,
+      });
+    }
+  }
+} catch (error) {
+  console.error("Error accessing browser compat data:", error);
+}
+
 let showCTA = false;
 let availability = "available";
 
@@ -197,12 +219,13 @@ if (post.data.showCTA !== undefined && availability === "available") {
     >
       <div class="max-md:mt-[var(--space-l)] max-md:col-span-full">
         {
-          browserSupport.length > 0 && (
+          compatTables.map((table) => (
             <BrowserSupportTable
-              browserSupport={browserSupport}
-              compatDataStatus={compatDataStatus}
+              label={table.label}
+              browserSupport={table.browserSupport}
+              compatDataStatus={table.status}
             />
-          )
+          ))
         }
       </div>
       <div class="stacked prose max-md:col-span-full max-md:mt-[var(--space-l)]" style="--gutter: var(--space-s)">

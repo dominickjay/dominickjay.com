@@ -1,5 +1,5 @@
 ---
-const { browserSupport, compatDataStatus } = Astro.props;
+const { browserSupport, compatDataStatus, label } = Astro.props;
 
 const browserConfig = {
   chrome: { icon: "/images/icons/chrome.svg", label: "Chrome" },
@@ -10,8 +10,9 @@ const browserConfig = {
 ---
 
 <div class="prose">
-  <h2 class="sr-only">Browser Support</h2>
+  <h2 class="sr-only">Browser Support{label && `: ${label}`}</h2>
   <div class="browser-support-table">
+    {label && <p class="eyebrow">{label}</p>}
     {compatDataStatus?.experimental && <h3>Experimental</h3>}
     {compatDataStatus?.deprecated && <h3>Deprecated</h3>}
     {
@@ -32,7 +33,7 @@ const browserConfig = {
           if (!config) return null;
           return (
             <div
-              class={`col-span-1 items-baseline gap-x-[3px] border px-[var(--space-s)] py-[var(--space-xs)] flex flex-wrap justify-center text-center ${item.support === "Supported" ? "" : "opacity-50"}`}
+              class={`col-span-1 items-baseline gap-x-[3px] border px-[var(--space-s)] py-[var(--space-xs)] h-full flex flex-wrap justify-center items-center text-center ${item.support === "Supported" ? "" : "opacity-50"}`}
             >
               <span class="text-sm">{config.label}</span>
               <span class="text-sm text-[var(--color-accent)] font-semibold">
