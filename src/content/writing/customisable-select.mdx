@@ -1,0 +1,134 @@
+---
+title: The Select Element Finally Gets a Personality
+subtitle: '`appearance: base-select` hands you the picker, the arrow, the checkmark and the insides of every option — and you keep the real `<select>`.'
+description: >-
+  Style the native select with `appearance: base-select`, then see what it saves against a hand-built vanilla JS listbox: bytes, behaviour and a couple of accessibility bugs I made on the way.
+pubDate: '2026-10-14'
+tags:
+  - css
+---
+
+import BaseSelectDemo from '../../components/demos/BaseSelectDemo.astro';
+
+Every project grows a dropdown that somebody wants to look like the rest of the site. And every time you hit the same fork: put up with the operating system's idea of a menu, or swap the `<select>` for a stack of divs, some ARIA and a `keydown` handler — then lose an afternoon rediscovering why the native one handled Home and End so quietly.
+
+`appearance: base-select` removes the fork. You keep the real element and get CSS access to the parts that were always off-limits.
+
+I wanted to know whether "just use the native one" is advice or wishful thinking, so I built the same delivery-method picker twice: once as a native select, once as a hand-built listbox in vanilla JavaScript. I gave the hand-built one a fair go — popover API for the top layer, anchor positioning that flips near the viewport edge, type-ahead, even `required` validation. I've only built this in a demo so far, not on a client site, so treat it as a first look rather than a verdict.
+
+<BaseSelectDemo />
+
+## Opting in
+
+The markup is a normal `<select>` with two additions: a `<button>` as the first child, containing `<selectedcontent>`, which mirrors whatever option is chosen. Options can now hold ordinary elements.
+
+```html
+<select class="select" id="delivery" name="delivery" required>
+  <button type="button"><selectedcontent></selectedcontent></button>
+  <option value="">Choose a delivery method</option>
+  <option value="standard">
+    <span class="option-name">Standard</span>
+    <span class="option-meta">3–5 working days · Free</span>
+  </option>
+  <option value="tracked">
+    <span class="option-name">Tracked</span>
+    <span class="option-meta">2–3 working days · £3.95</span>
+  </option>
+  <!-- …and so on -->
+</select>
+```
+
+The opt-in is one declaration on two selectors — the control and its popup — wrapped in `@supports` so it's an enhancement and not a gamble:
+
+```css
+@supports (appearance: base-select) {
+  .select,
+  .select::picker(select) {
+    appearance: base-select;
+  }
+}
+```
+
+After that it's just CSS. `::picker(select)` is the popup, `::picker-icon` is the arrow, `option::checkmark` is the tick, and `:open` tells you when the picker is showing. Border, radius, padding and hover states are the same properties you already write. Here's the core of mine, trimmed:
+
+```css
+.select::picker(select) {
+  margin-block: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  opacity: 0;
+  translate: 0 -0.25rem;
+}
+.select::picker(select):popover-open { opacity: 1; translate: 0 0; }
+
+.select option:is(:hover, :focus-visible),
+.select option:checked { background: var(--color-wash); }
+```
+
+The popup lives in the top layer and switches between `display: none` and open, so animating it needs two extra pieces. `@starting-style` gives it somewhere to animate in from, and `allow-discrete` on `display` and `overlay` keeps it on screen long enough to animate out. The arrow is a plain transition on `:open`:
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  .select::picker-icon { transition: rotate 0.2s; }
+  .select:open::picker-icon { rotate: 180deg; }
+
+  .select::picker(select) {
+    transition: opacity 0.15s ease-out, translate 0.15s ease-out,
+      display 0.15s allow-discrete, overlay 0.15s allow-discrete;
+  }
+  @starting-style {
+    .select::picker(select):popover-open { opacity: 0; translate: 0 -0.25rem; }
+  }
+}
+```
+
+## The fallback is just a select
+
+This is the part I care about most. In a browser that doesn't know `base-select`, the `<button>` is ignored and the spans in each option flatten into text, so you get the ordinary system select reading "Standard 3–5 working days · Free". Not pretty, but completely usable. The demo has a checkbox that flips the demo into that state so you can see it from Chrome.
+
+It's also why every option needs real text. Icons and swatches are an extra layer on top; the WebKit team's advice on this is the same, because an option that's only a picture is empty in the fallback and means nothing to a screen reader.
+
+## What it cost
+
+Same visuals, same tokens, measured from the demo component. These are unminified source sizes.
+
+| | Native + base-select | Hand-built listbox |
+| --- | --- | --- |
+| HTML | 1,217 B | 2,251 B |
+| CSS | 2,813 B | 3,059 B |
+| JavaScript | none | 4,007 B (93 lines) |
+| Total | 4,031 B | 9,319 B |
+| Gzipped | 1,172 B | 2,620 B |
+
+The hand-built version is a little over twice the size either way you count it, but the bytes aren't really the point. Ninety-three lines of JavaScript is ninety-three lines you now own: bugs, browser quirks, the next person who has to read it.
+
+And ninety-three lines still doesn't buy everything. The native select resets with its form, shows the browser's own `required` message, and works with JavaScript switched off. Mine does none of that: I never wrote form reset, the validation message is a custom one, and with scripts off nothing opens.
+
+## What I got wrong
+
+I checked both in Chrome's accessibility tree, and the hand-built one had two mistakes that look perfectly fine on screen. The tick I drew with CSS `content` was being read as part of every option's name, so the first option came out as "✓ Choose a delivery method". And I'd forgotten `aria-required`. The first fix is a one-liner (`content: "✓" / ""` gives the tick empty alt text), but I'd never have found either without looking.
+
+The native control had nothing to get wrong. One oddity: Chrome 141's tree doesn't list `required` on it, though the browser enforces it regardless. I haven't tried either version with a screen reader, so that's the next check.
+
+I also gated the open animation behind `prefers-reduced-motion: no-preference`, and added an outline for hovered options under `forced-colors`, because a background tint is the first thing high contrast mode throws away.
+
+## Where it isn't a win
+
+- **Support.** Chrome and Edge 135+, and Safari 27 (out since 17 September). Firefox has it disabled by default behind a preference. It isn't Baseline yet, hence the `@supports`.
+- **Defaults differ.** Safari 27 ships its own base styles, so don't lean on the unstyled look. Style what you care about and test it. If a design only works when it's identical everywhere, that's a product decision, not a CSS one.
+- **It's a select, not a combobox.** No filtering, no async options, no tags. If you need search-as-you-type, you still need something else.
+- **Phones.** I haven't tested on a real device, so check before putting it in a checkout.
+
+## When I'd reach for it
+
+If the design needs a styled dropdown and your first instinct is a library: start here, wrap it in `@supports`, and let unsupported browsers have the plain select. Keep the dropdown component for the cases that really are comboboxes.
+
+Try the demo above in a browser that supports it, then tick the fallback box. The distance between those two states is the whole argument.
+
+## Sources
+
+- [WebKit Features for Safari 27.0](https://webkit.org/blog/18325/webkit-features-for-safari-27-0/)
+- [Customizable Select: The select dropdown finally catches up with CSS](https://dev.to/olivierleplus/customizable-select-the-dropdown-finally-catches-up-with-css-1c60) (Safari release date, Firefox status, not yet Baseline)
+- [Can I use: appearance: base-select](https://caniuse.com/mdn-css_properties_appearance_base-select)
+- [The golden rule of Customizable Select](https://daily.dev/posts/the-golden-rule-of-customizable-select-ovcvnr5yr) (WebKit's text-in-every-option guidance)

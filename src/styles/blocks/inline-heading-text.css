@@ -16,7 +16,7 @@
           font-family: var(--font-heading);
           -webkit-text-stroke: 0.5px rgb(from var(--color-feature) r g b / 1);
           color: var(--color-light);
-          text-shadow: -4px 4px 4px rgb(from var(--color-feature) r g b / 0.5);
+          text-shadow: -4px 4px 4px rgb(from var(--color-feature) r g b / 0.9);
           letter-spacing: -4px;
 
           @container inline-heading-text (width < 945px) {

@@ -15,6 +15,7 @@ const {
 
 <li
   class="item"
+  data-month={pubDate ? `${pubDate.getFullYear()}-${pubDate.getMonth()}` : undefined}
   {...external === "false" ? {
     "data-topics": tags?.join(",") ?? "",
     "data-title": title?.toLowerCase() ?? ""

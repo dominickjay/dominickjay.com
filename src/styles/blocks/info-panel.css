@@ -82,7 +82,7 @@
   }
 
   .info-panel__marquee {
-    gap: 1.5rem;
+    gap: var(--gap);
     color: var(--color-dark);
     font-size: 13px;
     letter-spacing: -0.02em;

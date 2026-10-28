@@ -98,8 +98,15 @@ function appendVaryAccept(existing: string | null): string {
   return `${parts.join(", ")}, Accept`;
 }
 
-export const onRequest: MiddlewareHandler = async ({ request }, next) => {
+export const onRequest: MiddlewareHandler = async (
+  { request, isPrerendered },
+  next,
+) => {
   const response = await next();
+
+  if (isPrerendered) {
+    return response;
+  }
 
   if (!["GET", "HEAD"].includes(request.method)) {
     return response;

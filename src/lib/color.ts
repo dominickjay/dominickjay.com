@@ -1,6 +1,6 @@
 /**
  * Deterministic HSL color from a string (e.g. track or artist name).
- * Same saturation/lightness as MusicCard/ArtistCard fallbacks.
+ * Same saturation/lightness as the ArtistCard fallback.
  */
 export function hashStringToHsl(input: string): string {
   let hash = 0;

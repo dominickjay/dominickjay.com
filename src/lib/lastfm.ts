@@ -1,3 +1,6 @@
+import { LASTFM_USER } from "../consts";
+import { ttlCached } from "./ttl-cache";
+
 export interface LastFmAlbum {
   name: string;
   url: string;
@@ -45,30 +48,10 @@ export interface LastFmTopTrack {
   url: string;
 }
 
-export interface LastFmTag {
-  name: string;
-  url: string;
-}
-
-export interface LastFmTrackInfo {
-  tags: LastFmTag[];
-  info: any;
-}
-
-export interface LastFmWeeklyArtistChart {
-  artist: LastFmArtist[];
-}
-
-export interface LastFmWeeklyTrackChart {
-  track: LastFmTrack[];
-}
-
 export interface LastFmResponse {
   weeklyalbumchart?: {
     album: LastFmAlbum[];
   };
-  weeklyartistchart?: LastFmWeeklyArtistChart;
-  weeklytrackchart?: LastFmWeeklyTrackChart;
   recenttracks?: {
     track: LastFmTrack[];
   };
@@ -83,9 +66,30 @@ export interface LastFmResponse {
   message?: string;
 }
 
+const LASTFM_API = "https://ws.audioscrobbler.com/2.0/";
+
+export function lastfmUrl(
+  method: string,
+  params: Record<string, string | number>,
+  apiKey: string,
+): string {
+  const url = new URL(LASTFM_API);
+  url.searchParams.set("method", method);
+  for (const [key, value] of Object.entries(params)) {
+    url.searchParams.set(key, String(value));
+  }
+  url.searchParams.set("api_key", apiKey);
+  url.searchParams.set("format", "json");
+  return url.toString();
+}
+
 export async function getWeeklyAlbumChart(from: string, to: string, apiKey: string, limit?: number): Promise<LastFmResponse> {
   const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyAlbumChart&user=zerosandones217&from=${from}&to=${to}&api_key=${apiKey}&limit=${limit || 20}&format=json`
+    lastfmUrl(
+      "user.getWeeklyAlbumChart",
+      { user: LASTFM_USER, from, to, limit: limit || 20 },
+      apiKey,
+    ),
   );
   return response.json();
 }
@@ -96,7 +100,11 @@ export async function getTopTracks(
   period: "7day" | "1month" | "3month" | "6month" | "12month" = "7day"
 ): Promise<LastFmResponse> {
   const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getTopTracks&user=zerosandones217&period=${period}&api_key=${apiKey}&limit=${limit ?? 20}&format=json`
+    lastfmUrl(
+      "user.getTopTracks",
+      { user: LASTFM_USER, period, limit: limit ?? 20 },
+      apiKey,
+    ),
   );
   return response.json();
 }
@@ -105,7 +113,7 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
   if (!artist?.trim() || !apiKey?.trim()) {
     throw new Error('artist and apiKey are required');
   }
-  const url = `https://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&autocorrect=1`;
+  const url = lastfmUrl("artist.getInfo", { artist, autocorrect: 1 }, apiKey);
   const response = await fetch(url);
   const data = await response.json();
   if (data.error) {
@@ -119,7 +127,7 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
   if (firstImageUrl.includes(defaultImageHash)) {
     try {
       const imagesResponse = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=artist.getImages&artist=${encodeURIComponent(artist)}&api_key=${apiKey}&format=json&limit=10`
+        lastfmUrl("artist.getImages", { artist, limit: 10 }, apiKey),
       );
       const imagesData = await imagesResponse.json();
       if (!imagesData?.error) {
@@ -142,7 +150,7 @@ export async function getArtistInfo(artist: string, apiKey: string): Promise<Las
 export async function getAlbumInfo(artist: string, album: string, apiKey: string): Promise<LastFmAlbum> {
   try {
     const response = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=album.getInfo&artist=${encodeURIComponent(artist)}&album=${encodeURIComponent(album)}&api_key=${apiKey}&format=json`
+      lastfmUrl("album.getInfo", { artist, album }, apiKey),
     );
 
     // Check if response is ok
@@ -176,13 +184,9 @@ export async function getRecentTracks(apiKey: string): Promise<LastFmResponse> {
     throw new Error('apiKey is required');
   }
   const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&limit=10&api_key=${apiKey}&format=json`
+    lastfmUrl("user.getrecenttracks", { user: LASTFM_USER, limit: 10 }, apiKey),
   );
-  const data = await response.json();
-  const trackCount = Array.isArray(data?.recenttracks?.track)
-    ? data.recenttracks.track.length
-    : 0;
-  return data;
+  return response.json();
 }
 
 export async function enrichAlbumsWithImages(albums: LastFmAlbum[], apiKey: string): Promise<LastFmAlbum[]> {
@@ -213,145 +217,32 @@ export async function enrichAlbumsWithImages(albums: LastFmAlbum[], apiKey: stri
   return enrichedAlbums;
 }
 
-// Function to get weekly artist chart
-export async function getWeeklyArtistChart(from: string, to: string, apiKey: string, limit?: number): Promise<LastFmResponse> {
-  const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyArtistChart&user=zerosandones217&from=${from}&to=${to}&api_key=${apiKey}&limit=${limit || 20}&format=json`
-  );
-  return response.json();
+export interface LatestTrack {
+  name: string;
+  artist: string;
+  isPlaying: boolean;
 }
 
-// Function to get weekly track chart
-export async function getWeeklyTrackChart(from: string, to: string, apiKey: string, limit?: number): Promise<LastFmResponse> {
-  const response = await fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.getWeeklyTrackChart&user=zerosandones217&from=${from}&to=${to}&api_key=${apiKey}&limit=${limit || 10}&format=json`
-  );
-  return response.json();
-}
-
-// Function to enrich artist data with getInfo
-export async function enrichArtistsWithInfo(artistList: LastFmArtist[], apiKey: string): Promise<LastFmArtist[]> {
-  const enrichedArtists = await Promise.all(
-    artistList.map(async (artist) => {
-      try {
-        const artistInfoResponse = await fetch(
-          `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodeURIComponent(artist.name)}&username=zerosandones217&api_key=${apiKey}&format=json`
-        );
-        const artistInfo = await artistInfoResponse.json();
-
-        return {
-          ...artist,
-          info: artistInfo.artist || null
-        };
-      } catch (error) {
-        console.error(`Error fetching info for artist ${artist.name}:`, error);
-        return {
-          ...artist,
-          info: null
-        };
-      }
-    })
-  );
-  return enrichedArtists;
-}
-
-// Function to get track info including tags
-export async function getTrackInfo(artistName: string, trackName: string, apiKey: string): Promise<LastFmTrackInfo> {
-  try {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=track.getinfo&artist=${encodeURIComponent(artistName)}&track=${encodeURIComponent(trackName)}&user=zerosandones217&api_key=${apiKey}&format=json`;
-    const trackResponse = await fetch(url);
-    const trackData = await trackResponse.json();
-
-    // Check if there's an error in the response
-    if (trackData.error) {
-      console.error('Last.fm API error:', trackData.message);
-      return { tags: [], info: null };
+/** Most recent scrobble. One request, shared across callers for 30s. */
+export function getLatestTrack(apiKey?: string): Promise<LatestTrack | null> {
+  if (!apiKey?.trim()) return Promise.resolve(null);
+  return ttlCached("lastfm:latest-track", 30_000, async () => {
+    try {
+      const response = await fetch(
+        lastfmUrl("user.getrecenttracks", { user: LASTFM_USER, limit: 1 }, apiKey),
+      );
+      const data = (await response.json()) as LastFmResponse;
+      const track = data?.recenttracks?.track?.[0];
+      if (!track) return null;
+      const nowPlaying: unknown = track["@attr"]?.nowplaying;
+      return {
+        name: track.name,
+        artist: track.artist?.["#text"] ?? "",
+        isPlaying: nowPlaying === true || String(nowPlaying) === "true",
+      };
+    } catch (error) {
+      console.error("Error fetching latest track:", error);
+      return null;
     }
-
-    // Extract tags from track info
-    let tags: LastFmTag[] = [];
-    if (trackData.track && trackData.track.toptags) {
-      if (Array.isArray(trackData.track.toptags.tag)) {
-        tags = trackData.track.toptags.tag;
-      } else if (trackData.track.toptags.tag) {
-        tags = [trackData.track.toptags.tag];
-      }
-    }
-
-    return {
-      tags: tags,
-      info: trackData.track || null
-    };
-  } catch (error) {
-    console.error(`Error fetching track info for ${artistName} - ${trackName}:`, error);
-    return { tags: [], info: null };
-  }
-}
-
-// Function to get artist top tags as fallback
-export async function getArtistTopTags(artistName: string, apiKey: string): Promise<LastFmTag[]> {
-  try {
-    const url = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${encodeURIComponent(artistName)}&api_key=${apiKey}&format=json`;
-
-    const artistResponse = await fetch(url);
-    const artistData = await artistResponse.json();
-
-    // Check if there's an error in the response
-    if (artistData.error) {
-      return [];
-    }
-
-    // Extract tags from artist response
-    let tags: LastFmTag[] = [];
-    if (artistData.toptags && artistData.toptags.tag) {
-      if (Array.isArray(artistData.toptags.tag)) {
-        tags = artistData.toptags.tag;
-      } else {
-        tags = [artistData.toptags.tag];
-      }
-    }
-
-    return tags;
-  } catch (error) {
-    console.error(`Error fetching artist tags for ${artistName}:`, error);
-    return [];
-  }
-}
-
-// Function to get recent tracks with tags
-export async function getRecentTracksWithTags(apiKey: string, limit: number = 5): Promise<{
-  recentTracks: LastFmTrack | null;
-  recentTrackTags: LastFmTag[];
-}> {
-  try {
-    const response = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=zerosandones217&api_key=${apiKey}&format=json&limit=${limit}`
-    );
-    const responseJSON = await response.json();
-
-    const recentTracks = responseJSON.recenttracks.track[0];
-    let recentTrackTags: LastFmTag[] = [];
-
-    // Fetch track info including tags for the recent track
-    if (recentTracks && recentTracks.artist && recentTracks.artist['#text'] && recentTracks.name) {
-      const trackInfo = await getTrackInfo(recentTracks.artist['#text'], recentTracks.name, apiKey);
-      recentTrackTags = trackInfo.tags;
-
-      // If no track tags found, try artist tags as fallback
-      if (recentTrackTags.length === 0) {
-        recentTrackTags = await getArtistTopTags(recentTracks.artist['#text'], apiKey);
-      }
-    }
-
-    return {
-      recentTracks,
-      recentTrackTags
-    };
-  } catch (error) {
-    console.error('Error fetching recent tracks with tags:', error);
-    return {
-      recentTracks: null,
-      recentTrackTags: []
-    };
-  }
+  });
 }

@@ -1,7 +1,6 @@
 ---
 Astro.response.headers.set("Cache-Control", "public, max-age=604800");
 
-import { getCollection } from "astro:content";
 import {
   PRIMARY_NAVIGATION,
   SECONDARY_NAVIGATION,
@@ -11,15 +10,11 @@ import FormattedDate from "../components/FormattedDate.astro";
 import NavLink from "../components/NavigationLink.astro";
 import SocialIcon from "../components/icons/SocialIcon.astro";
 import { getPublishedNotes, navWithoutNotes } from "../utils/notes";
+import { getVisiblePosts, sortByPubDateDesc } from "../utils/posts";
 
-const rawPosts =
-  import.meta.env.ENVIRONMENT === "production"
-    ? await getCollection("writing", ({ data }) => !data?.draft)
-    : await getCollection("writing");
+const posts = await getVisiblePosts();
 
-const latestPost = [...rawPosts].sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-)[0];
+const latestPost = sortByPubDateDesc(posts)[0];
 
 const notes = await getPublishedNotes();
 const primaryNav = navWithoutNotes(PRIMARY_NAVIGATION, notes.length > 0);
@@ -61,7 +56,7 @@ const primaryNav = navWithoutNotes(PRIMARY_NAVIGATION, notes.length > 0);
         class="home-link h-fit flex items-center gap-x-[8px] overflow-hidden will-change-[width] hover:opacity-[0.85] transition ease-in-out duration-300"
         style="font-family: var(--font-heading)"
         href="/"
-        aria-label="Home"
+        aria-label="Dominick Jay, home"
       >
         <svg
           class="shrink-0 h-[20px] md:h-[24px] w-auto"

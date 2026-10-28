@@ -2,34 +2,13 @@
 export const prerender = true;
 
 import Layout from "../layouts/Home.astro";
-import Header from "../components/Header.astro";
-import Pattern from "../components/Pattern.astro";
 import InfoPanel from "../components/InfoPanel.astro";
-import PatternBanner from "../components/Pattern-Banner.astro";
 import GrowthPanel from "../components/GrowthPanel.astro";
-import type { CollectionEntry } from "astro:content";
-import { getCollection, render } from "astro:content";
-import Profile from "../components/Profile.astro";
+import { getVisiblePosts, sortByPubDateDesc } from "../utils/posts";
 import InlineHeadingText from "../components/InlineHeadingText.astro";
 import { SITE_DESCRIPTION, SITE_TAGLINE } from "../consts";
-import Footer from "../components/Footer.astro";
 
-type PostWithLastModified = {
-	post: CollectionEntry<'writing'>;
-	lastModified: Date | undefined;
-};
-
-let rawPosts = [];
-
-if (import.meta.env.ENVIRONMENT === "production") {
-	rawPosts = await getCollection("writing", ({ data }) => !data?.draft);
-} else {
-	rawPosts = await getCollection("writing");
-}
-
-const posts = rawPosts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = sortByPubDateDesc(await getVisiblePosts());
 ---
 
 <Layout
@@ -39,7 +18,6 @@ const posts = rawPosts.sort(
 			"CSS, JavaScript, and the web platform - written honestly, published impatiently, and updated whenever guilt kicks in.",
 	} as any}
 >
-	<Header />
 	<main class="grid home container">
 		<section>
 			<div class="hero grid">
@@ -63,5 +41,4 @@ const posts = rawPosts.sort(
 			</div>
 		</section>
 	</main>
-	<Footer />
 </Layout>

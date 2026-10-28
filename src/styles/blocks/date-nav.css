@@ -1,0 +1,147 @@
+.date-nav {
+    font-family: var(--font-base);
+    font-size: 14px;
+
+  details + details {
+    margin-block-start: var(--space-m);
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    width: fit-content;
+    color: var(--color-dark);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      content: "";
+      inline-size: 0.5em;
+      block-size: 0.5em;
+      border: solid currentColor;
+      border-width: 0 2px 2px 0;
+      transform: translateY(-20%) rotate(45deg);
+      transition: transform 0.5s;
+    }
+  }
+
+  details[open] > summary::after {
+    transform: translateY(20%) rotate(-135deg);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-s) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .date-nav__link {
+    --dot: 0.5em;
+    --pill-pad: calc(var(--space-xs) / 2);
+    --progress: 0;
+    position: relative;
+    display: block;
+    width: fit-content;
+    padding-inline-start: calc(var(--dot) + var(--space-xs));
+    color: var(--color-dark);
+    opacity: 0.45;
+    text-decoration: none;
+    transition: opacity 0.5s;
+
+    /* grey track: a dot that grows into a pill on the active month */
+    &::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: calc(50% - var(--dot) / 2);
+      inline-size: var(--dot);
+      block-size: var(--dot);
+      border-radius: var(--dot);
+      background: currentColor;
+      opacity: 0.5;
+      transition:
+        inset-block-start 0.3s,
+        block-size 0.3s;
+    }
+
+    /* black marker that follows scroll progress through the month */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      inset-block-start: calc(50% - var(--dot) / 2);
+      inline-size: var(--dot);
+      block-size: var(--dot);
+      border-radius: 50%;
+      background: var(--color-dark);
+      opacity: 0;
+      transition:
+        inset-block-start 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+        opacity 0.2s;
+    }
+
+    &:hover,
+    &[aria-current="true"] {
+      opacity: 1;
+    }
+
+    &[aria-current="true"]::before {
+      inset-block-start: calc(var(--pill-pad) * -1);
+      block-size: calc(100% + var(--pill-pad) * 2);
+      opacity: 0.18;
+    }
+
+    &[aria-current="true"]::after {
+      opacity: 1;
+      inset-block-start: calc(
+        var(--pill-pad) * -1 +
+          (100% + var(--pill-pad) * 2 - var(--dot)) * var(--progress)
+      );
+    }
+
+    &[data-empty="true"] {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
+}
+
+.month-heading {
+  padding-block-start: var(--space-xs);
+  border-bottom: 1px solid #2c5364;
+
+  @media (width < 768px) {
+    padding-inline: var(--space-m);
+  }
+
+  &:not(:first-child) {
+    margin-block-start: var(--space-xl);
+
+    @media (width >= 768px) {
+      margin-block-start: var(--space-xxl);
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: inherit;
+    padding-block-end: var(--space-xs);
+    font-weight: 700;
+  }
+}
+
+.month-heading {
+  scroll-margin-block-start: 120px;
+}
