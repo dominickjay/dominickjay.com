@@ -1,0 +1,30 @@
+.album-strip {
+  display: flex;
+  gap: var(--space-s);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: 0;
+  padding-block-end: var(--space-s);
+  margin-block: var(--space-m);
+}
+
+.album-strip__item {
+  flex: 0 0 clamp(140px, 30%, 200px);
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--track-color);
+  scroll-snap-align: start;
+  transition: border-color 0.3s;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--accent);
+  }
+
+  & img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
