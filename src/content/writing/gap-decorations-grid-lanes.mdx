@@ -1,0 +1,131 @@
+---
+title: "Gap decorations and Grid Lanes: the CSS layout features everyone's saving for later"
+subtitle: 'Each works in a single engine today. Both are safe to use now as progressive enhancement, as long as you design the fallback first.'
+description: Gap decorations topped the State of CSS 2026 reading list; Grid Lanes is the masonry everyone asked for. Each ships in one engine. Here's how to use them now.
+pubDate: '2026-11-26'
+tags:
+  - css
+draft: true
+supported:
+  - 'bcd.css["properties"].row-rule.__compat'
+  - 'bcd.css["properties"].display["grid-lanes"].__compat'
+---
+
+import GapDecorations from '../../components/demos/GapDecorations.astro';
+import GridLanes from '../../components/demos/GridLanes.astro';
+
+
+
+In State of CSS 2026, gap decorations was the feature most respondents added to their reading list: 55% of them. It was also one of the two least-used features in the whole survey, which the survey puts down to browser support. Saved by more than half, used by hardly anyone. That's a very 2026 sort of statistic.
+
+Grid Lanes has a similar story. Masonry has been on the missing-features wishlist for years, and Patrick Brosset's summary of this year's results still has it as the most common request. It now exists, as `display: grid-lanes`, in exactly one browser.
+
+So here are two features everyone is saving for later, and a pattern for using each of them today.
+
+One caveat up front: I haven't built with either on a real project. I've read the specs and the release notes and put together two small demos below, so treat this as a first look and a safe way in, not a report from production. Both are *Limited availability* in Baseline terms, and [Baseline Isn't a Green Light](/writing/baseline/) covers why that label matters.
+
+## Gap decorations: let the container draw the lines
+
+You know the old pattern. A border on every item, an `nth-child` rule to strip it from the last item in each row, another to strip the bottom border from the last row. It's right until the grid reflows and the number of columns stops matching your selector.
+
+```css
+/* The old way: correct at exactly three columns */
+.stat-grid > * { border-inline-end: 1px solid var(--color-line); }
+.stat-grid > :nth-child(3n) { border-inline-end: 0; }
+```
+
+Gap decorations move the job to the container:
+
+```css
+@layer composition {
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-m);
+  }
+}
+
+@layer block {
+  .stat-grid {
+    column-rule: 1px solid var(--color-line);
+    row-rule: 1px solid var(--color-line);
+  }
+}
+```
+
+The composition owns the layout, the block owns the look, and because the lines are purely visual they live in the block. The markup is `<ul class="auto-grid stat-grid">` and nothing else.
+
+`column-rule` has been around in multicol layouts forever (I wrote about [columns](/writing/css-columns/) recently). It now works on grid and flex containers too, and `row-rule` is its new horizontal counterpart. Both take the same shorthand as `border`, and `rule` sets both at once. The lines are painted inside the gap, take up no space and don't change your layout, so there's no extra markup for assistive technology to wade through.
+
+The extras are where it gets interesting. `column-rule-break: intersection` stops the lines running through the points where gaps cross, `rule-inset` pulls the ends in, and `rule-visibility-items: between` draws a line only between two neighbouring items, so a half-empty last row doesn't sprout lines next to nothing. Width, style and colour all accept lists and `repeat()`, so you can alternate: Chrome's calendar demo does hour and half-hour lines that way.
+
+Here's a small grid using `rule-break` and `rule-visibility-items`. The seventh note sits alone in the last row, so you can see the lines stay out of the empty cell beside it.
+
+<GapDecorations />
+
+### The fallback
+
+A browser that doesn't understand gap decorations ignores the lines and draws ordinary gaps. If the lines are decoration, that *is* your fallback and you're done. (If a line is the only thing separating two pieces of content, it isn't decoration. Keep a visible separator for that case.)
+
+If you do need something behind it, test for `row-rule`, not `column-rule`. `column-rule` has existed for multicol since long before this, so asking about it gets a yes everywhere.
+
+```css
+@supports not (row-rule: 1px solid red) {
+  .stat-grid > * { border-block-end: 1px solid var(--color-line); }
+}
+```
+
+That's horizontal lines only, and it's good enough. The "Preview the fallback" checkbox in the demo above shows exactly that, and it's what you'll see by default in Firefox and Safari.
+
+Support is Chrome and Edge 149, from early June 2026. Firefox and Safari haven't shipped it, though both have standards positions on record in its favour, and the Chrome team says a polyfill is in development.
+
+## Grid Lanes: masonry that's still grid
+
+```css
+@layer composition {
+  .gallery {
+    display: grid;
+    display: grid-lanes;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-m);
+  }
+}
+```
+
+Two `display` declarations. A browser that doesn't know `grid-lanes` throws the second one away and keeps the first, so everyone else gets a normal grid. In a browser that does, you define the lanes with the `grid-template-columns` you already know, and each item drops into the lane with the most room. Define rows instead and you get the horizontal, brick-style version.
+
+Safari 26.4 shipped it in March 2026, iOS included. Chrome and Edge have it behind a flag. Firefox hasn't shipped it.
+
+### The catch is tab order
+
+Packing items into the lane with the most space is lovely for the eye and rough on the keyboard. Focus follows the DOM, but the layout follows the space, so tabbing can zig-zag across the screen. Matuzo argues that this is likely to fail WCAG 2.4.3 (Focus Order) when the items are focusable.
+
+`flow-tolerance` is the dial. Its default is `1em`, and lanes whose lengths are within that distance count as a tie, so placement stays closer to source order. Set `flow-tolerance: infinite` and items stay in source order, at the cost of lanes ending up uneven. The WebKit team flags this as an accessibility consideration themselves.
+
+Here are ten tiles numbered in source order. Where your browser supports Grid Lanes they're packed into lanes, so you can follow the numbers and see where they wander.
+
+<GridLanes />
+
+My rule, from reading rather than building: use Grid Lanes where order isn't carrying meaning, such as a photo wall or a set of cards, and don't use it for steps, rankings or anything read in sequence. Then tab through it before you ship it. `reading-flow` is the property meant to fix mismatched visual and tab order (I wrote about it in [Reclaiming the Flow](/writing/content-flow-with-reading-order/)), but check its support and test it alongside `grid-lanes` yourself before you lean on it. I haven't.
+
+## Where that leaves you
+
+Gap decorations are free to use now if the lines are decoration: nothing breaks, and Chrome and Edge users get cleaner dividers with no extra markup. Grid Lanes is fine as an enhancement for content where order doesn't matter.
+
+In both cases the fallback is what most of your readers will see, so design that first and treat the new thing as a bonus.
+
+Save them for later if you like. Just write the fallback now.
+
+---
+
+**Sources**
+- [Gap decorations: Now available in Chromium](https://developer.chrome.com/blog/gap-decorations-stable) (Chrome for Developers, 15 May 2026)
+- [New in Chrome 149](https://developer.chrome.com/blog/new-in-chrome-149)
+- [Gap decorations, Web platform features explorer](https://web-platform-dx.github.io/web-features-explorer/features/gap-decorations/) (version numbers, release dates, standards positions)
+- [CSS Gap Decorations Module Level 1](https://drafts.csswg.org/css-gaps-1/)
+- [State of CSS 2026: Features](https://2026.stateofcss.com/en-US/features/) (reading list, 55%, least-used)
+- [State of CSS 2026 summary, Patrick Brosset](https://patrickbrosset.com/articles/2026-08-07-state-of-css-2026/) (masonry as most common missing-feature request)
+- [Introducing CSS Grid Lanes](https://webkit.org/blog/17660/introducing-css-grid-lanes/) (WebKit)
+- [Web Technology Sessions at WWDC26](https://webkit.org/blog/17974/web-technology-sessions-at-wwdc26/) (Safari 26.4, flow-tolerance and accessibility)
+- [Your Grid Lanes will likely fail WCAG 2.4.3](https://matuzo.at/blog/2026/grid-lanes-accessibility) (Matuzo)
+- [Enhancing with CSS Grid Lanes](https://adactio.com/journal/22613) (Chrome and Edge behind a flag, June 2026)

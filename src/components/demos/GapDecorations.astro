@@ -1,0 +1,185 @@
+---
+interface Props {
+  /** Prefix for every id in the demo, so two instances on a page can't collide */
+  id?: string;
+}
+
+const { id = "gap-demo" } = Astro.props;
+---
+
+<div class="demo gap-demo" data-gap-demo>
+  <p class="status">
+    <span class="status__yes">
+      Your browser supports gap decorations, so CSS is drawing the lines below.
+    </span>
+    <span class="status__no">
+      Your browser doesn't support gap decorations yet, so you're seeing the
+      fallback: a border under each note.
+    </span>
+    <span class="status__preview">
+      Previewing the fallback, which is what browsers without support see.
+    </span>
+  </p>
+
+  <label class="toggle">
+    <input type="checkbox" />
+    <span>Preview the fallback (what browsers without support see)</span>
+  </label>
+
+  <div class="card example-copy" role="group" aria-labelledby={`${id}-heading`}>
+    <p class="card__title" id={`${id}-heading`}>
+      Seven notes in a grid that sizes itself
+    </p>
+    <ul class="auto-grid ruled-grid" role="list">
+      <li>
+        <p class="note__title">Rows and columns</p>
+        <p>
+          <code>column-rule</code> and <code>row-rule</code> each take a width,
+          style and colour.
+        </p>
+      </li>
+      <li>
+        <p class="note__title">Nothing to wrap</p>
+        <p>The lines come from the container, so there's no extra markup.</p>
+      </li>
+      <li>
+        <p class="note__title">No layout cost</p>
+        <p>A rule sits inside the gap and takes up no space of its own.</p>
+      </li>
+      <li>
+        <p class="note__title">Break at crossings</p>
+        <p>
+          <code>rule-break</code> decides whether a line stops where a row meets
+          a column.
+        </p>
+      </li>
+      <li>
+        <p class="note__title">Empty cells</p>
+        <p>
+          <code>rule-visibility-items</code> keeps lines away from cells with
+          nothing in them.
+        </p>
+      </li>
+      <li>
+        <p class="note__title">Purely visual</p>
+        <p>
+          Rules aren't exposed to assistive tech, so the content has to make
+          sense without them.
+        </p>
+      </li>
+      <li>
+        <p class="note__title">Easy to fall back</p>
+        <p>
+          Without support, a border on each note is a fair stand-in.
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style is:global>
+  /* @scope does the scoping, so Astro's own attribute scoping is switched off. */
+  @layer components {
+    @scope (.gap-demo) {
+      :scope {
+        /* Site tokens only. Lines, soft ink and wash are derived from the
+           dark and light tokens, as in the other demos. */
+        --demo-ink: var(--color-dark);
+        --demo-ink-soft: color-mix(in srgb, var(--color-dark) 80%, var(--color-light));
+        --demo-line: color-mix(in srgb, var(--color-dark) 65%, var(--color-light));
+        --demo-wash: var(--color-surface-2);
+
+        display: grid;
+        gap: var(--space-m);
+        color: var(--demo-ink);
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--demo-ink);
+        outline-offset: 2px;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        background: var(--demo-wash);
+        padding: 0.1em 0.35em;
+        overflow-wrap: anywhere;
+      }
+
+      /* ---- Status line: the baseline message is the unsupported one ---- */
+      .status > * { display: none; }
+      .status__no { display: inline; }
+
+      .toggle {
+        display: inline-flex;
+        gap: var(--space-s);
+        align-items: flex-start;
+        min-block-size: 2.75rem;
+      }
+      .toggle input {
+        flex: none;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        accent-color: var(--color-feature);
+      }
+
+      .card {
+        display: grid;
+        gap: var(--space-m);
+        min-inline-size: 0;
+      }
+      .card__title { font-weight: 600; }
+
+      /* ---- CUBE: composition ---- */
+      .auto-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+        gap: var(--space-l);
+      }
+
+      /* ---- CUBE: block. Baseline is the fallback: a border under each note ---- */
+      .ruled-grid {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .ruled-grid > li {
+        padding-block-end: var(--space-m);
+        border-block-end: 1px solid var(--demo-line);
+      }
+      .note__title { font-weight: 600; }
+
+      /* ---- Enhancement: only where gap decorations exist ---- */
+      @supports (row-rule: 1px solid red) {
+        .status__no { display: none; }
+        .status__yes { display: inline; }
+
+        :scope:has(.toggle input:checked) {
+          .status__yes { display: none; }
+          .status__preview { display: inline; }
+        }
+
+        :scope:not(:has(.toggle input:checked)) {
+          .ruled-grid {
+            column-rule: 1px solid var(--demo-line);
+            row-rule: 1px solid var(--demo-line);
+            /* Stop each line where a row meets a column... */
+            rule-break: intersection;
+            /* ...and keep lines out of gaps with an empty cell beside them */
+            rule-visibility-items: between;
+          }
+          .ruled-grid > li {
+            padding-block-end: 0;
+            border-block-end: 0;
+          }
+        }
+      }
+
+      /* Nothing to preview if the browser can't do it anyway */
+      @supports not (row-rule: 1px solid red) {
+        .toggle { display: none; }
+      }
+    }
+  }
+</style>

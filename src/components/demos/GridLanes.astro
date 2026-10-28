@@ -1,0 +1,146 @@
+---
+interface Props {
+  /** Prefix for every id in the demo, so two instances can't collide */
+  id?: string;
+}
+
+const { id = "lanes-demo" } = Astro.props;
+
+// Heights come from each tile's aspect ratio, not fixed pixel sizes, so the
+// layout holds at any width and any text size.
+const ratios = [
+  "4 / 5", "1 / 1", "3 / 4", "5 / 4", "2 / 3",
+  "1 / 1", "4 / 5", "3 / 2", "3 / 4", "1 / 1",
+];
+---
+
+<div class="demo lanes-demo" data-lanes-demo>
+  <p class="status">
+    <span class="status__yes">
+      Your browser supports Grid Lanes, so the tiles below are packed into
+      lanes.
+    </span>
+    <span class="status__no">
+      Your browser doesn't support Grid Lanes yet, so you're seeing the
+      fallback: a plain grid, with a gap under the shorter tiles.
+    </span>
+    <span class="status__preview">
+      Previewing the fallback, which is what browsers without support see.
+    </span>
+  </p>
+
+  <label class="toggle">
+    <input type="checkbox" />
+    <span>Preview the fallback (what browsers without support see)</span>
+  </label>
+
+  <div class="card example-copy" role="group" aria-labelledby={`${id}-heading`}>
+    <p class="card__title" id={`${id}-heading`}>Ten tiles, numbered in source order</p>
+    <ol class="lanes" role="list">
+      {ratios.map((ratio, i) => (
+        <li class="tile" style={`--ratio: ${ratio}`}>
+          <span class="tile__num"><span class="visually-hidden">Tile </span>{i + 1}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<style is:global>
+  /* @scope does the scoping, so Astro's own attribute scoping is switched off. */
+  @layer components {
+    @scope (.lanes-demo) {
+      :scope {
+        --demo-ink: var(--color-dark);
+        --demo-ink-soft: color-mix(in srgb, var(--color-dark) 80%, var(--color-light));
+        --demo-line: color-mix(in srgb, var(--color-dark) 65%, var(--color-light));
+        --demo-wash: var(--color-surface-2);
+
+        display: grid;
+        gap: var(--space-m);
+        color: var(--demo-ink);
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--demo-ink);
+        outline-offset: 2px;
+      }
+
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        background: var(--demo-wash);
+        padding: 0.1em 0.35em;
+        overflow-wrap: anywhere;
+      }
+
+      /* ---- Status line: the baseline message is the unsupported one ---- */
+      .status > * { display: none; }
+      .status__no { display: inline; }
+
+      .toggle {
+        display: inline-flex;
+        gap: var(--space-s);
+        align-items: flex-start;
+        min-block-size: 2.75rem;
+      }
+      .toggle input {
+        flex: none;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+        accent-color: var(--color-feature);
+      }
+
+      .card {
+        display: grid;
+        gap: var(--space-m);
+        min-inline-size: 0;
+      }
+      .card__title { font-weight: 600; }
+
+      /* ---- CUBE: block. Baseline is the fallback: a plain grid ---- */
+      .lanes {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 8rem), 1fr));
+        align-items: start;
+        gap: var(--space-m);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .tile {
+        display: grid;
+        place-content: center;
+        aspect-ratio: var(--ratio);
+        background: var(--demo-wash);
+        border: 1px solid var(--demo-line);
+      }
+      .tile__num {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        line-height: 1;
+      }
+
+      /* ---- Enhancement: only where Grid Lanes exists ---- */
+      @supports (display: grid-lanes) {
+        .status__no { display: none; }
+        .status__yes { display: inline; }
+
+        :scope:has(.toggle input:checked) {
+          .status__yes { display: none; }
+          .status__preview { display: inline; }
+        }
+
+        :scope:not(:has(.toggle input:checked)) .lanes {
+          display: grid-lanes;
+        }
+      }
+
+      /* Nothing to preview if the browser can't do it anyway */
+      @supports not (display: grid-lanes) {
+        .toggle { display: none; }
+      }
+    }
+  }
+</style>
