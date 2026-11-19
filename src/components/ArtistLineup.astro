@@ -1,0 +1,302 @@
+---
+import { Image } from "astro:assets";
+import { hashStringToHsl } from "../lib/color";
+
+interface Ranked {
+  name: string;
+  plays: number;
+}
+
+export interface Props {
+  artists: Array<{
+    name: string;
+    playcount?: string;
+    genre?: string;
+    week?: { tracks: Ranked[]; albums: Ranked[] };
+    image?: Array<{ "#text": string }>;
+    info?: { image?: Array<{ "#text": string }> };
+  }>;
+}
+
+const { artists } = Astro.props;
+
+// Last.fm serves a grey star for artists it has no photo of
+const PLACEHOLDER_HASH = "2a96cbd8b46e442fc41c2b86b821562f";
+
+const items = artists.map((artist) => {
+  const raw = artist.info?.image ?? artist.image;
+  const imgs = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  const src = [...imgs]
+    .reverse()
+    .map((img) => img?.["#text"]?.trim())
+    .find((url) => url && !url.includes(PLACEHOLDER_HASH));
+  return {
+    name: artist.name,
+    plays: artist.playcount ? Number(artist.playcount) : 0,
+    genre: artist.genre,
+    tracks: artist.week?.tracks ?? [],
+    albums: artist.week?.albums ?? [],
+    src,
+    color: hashStringToHsl(artist.name),
+  };
+});
+
+const hasImages = items.map((item) => Boolean(item.src));
+
+const playsLabel = (plays: number) => `${plays} ${plays === 1 ? "play" : "plays"}`;
+---
+
+<div
+  class="artist-lineup"
+  data-media={hasImages.some(Boolean) ? "" : undefined}
+  x-data="artistLineup"
+>
+  <ol class="artist-lineup__list" role="list">
+    {
+      items.map((item, i) => (
+        <li
+          class="artist-lineup__item"
+          data-image={item.src}
+          data-fallback={item.color}
+          :class={`{ 'is-active': active === ${i} }`}
+          @mouseenter={`activate(${i})`}
+          @focusin={`activate(${i})`}
+        >
+          <button
+            type="button"
+            class="artist-lineup__name"
+            aria-haspopup="dialog"
+            @click={`open(${i})`}
+            @pointermove="track($event)"
+          >
+            {item.name}
+          </button>
+          {(item.plays > 0 || item.genre) && (
+            <span class="artist-lineup__meta">
+              {item.plays > 0 && <span>{playsLabel(item.plays)}</span>}
+              {item.genre && <span>{item.genre}</span>}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+
+  {
+    hasImages.some(Boolean) && (
+      <div
+        class="artist-lineup__media"
+        aria-hidden="true"
+        :class={`{ 'is-empty': !${JSON.stringify(hasImages)}[active] }`}
+        :style="colors[active] && `--media-color: ${colors[active]}`"
+      >
+        {items.map((item, i) => (
+          <div
+            class="artist-lineup__image"
+            :class={`{ 'is-active': active === ${i} }`}
+          >
+            {item.src && (
+              <Image src={item.src} alt="" loading="lazy" width={300} height={450} />
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    items.map((item, i) => (
+      <dialog
+        class="artist-drawer"
+        x-ref={`drawer${i}`}
+        data-image={item.src}
+        style={`--drawer-bg: ${item.color}`}
+        aria-labelledby={`artist-drawer-title-${i}`}
+        @click="$event.target === $el && $el.close()"
+      >
+        <div class="artist-drawer__inner stacked">
+          <button
+            type="button"
+            class="artist-drawer__close"
+            @click="$el.closest('dialog').close()"
+          >
+            Close
+          </button>
+
+          {item.src && (
+            <Image
+              class="artist-drawer__image"
+              src={item.src}
+              alt=""
+              loading="lazy"
+              width={440}
+              height={293}
+            />
+          )}
+
+          <div class="stacked" style="--gutter: var(--space-xs)">
+            <h2 class="artist-drawer__title" id={`artist-drawer-title-${i}`}>
+              {item.name}
+            </h2>
+            {(item.plays > 0 || item.genre) && (
+              <p class="artist-lineup__meta artist-drawer__meta">
+                {item.plays > 0 && <span>{playsLabel(item.plays)} this week</span>}
+                {item.genre && <span>{item.genre}</span>}
+              </p>
+            )}
+          </div>
+
+          {item.tracks.length > 0 && (
+            <section class="stacked" style="--gutter: var(--space-xs)">
+              <h3 class="eyebrow">Top tracks</h3>
+              <ol class="artist-drawer__list" role="list">
+                {item.tracks.map((track) => (
+                  <li>
+                    <span>{track.name}</span>
+                    <span class="artist-drawer__plays">{playsLabel(track.plays)}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {item.albums.length > 0 && (
+            <section class="stacked" style="--gutter: var(--space-xs)">
+              <h3 class="eyebrow">Albums</h3>
+              <ol class="artist-drawer__list" role="list">
+                {item.albums.map((album) => (
+                  <li>
+                    <span>{album.name}</span>
+                    <span class="artist-drawer__plays">{playsLabel(album.plays)}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
+          {item.tracks.length === 0 && item.albums.length === 0 && (
+            <p>No breakdown for this week yet.</p>
+          )}
+
+          <a
+            class="artist-drawer__link"
+            href={`https://www.last.fm/music/${encodeURIComponent(item.name)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {item.name} on Last.fm
+          </a>
+        </div>
+      </dialog>
+    ))
+  }
+</div>
+
+<script>
+  import { extractImageColor } from "../lib/colorExtraction";
+  import {
+    contrastRatio,
+    ensureContrast,
+    hslToRgb,
+    parseRgb,
+    type Rgb,
+  } from "../lib/color";
+
+  const WHITE: Rgb = [255, 255, 255];
+  const BLACK: Rgb = [0, 0, 0];
+
+  // Colour each name from its photo, darkened as needed so it (and the
+  // small play count beside it) stays readable against the page
+  // The page colour usually lives on <html>, with the body left transparent
+  function getBackground(el: HTMLElement): Rgb {
+    for (let node: HTMLElement | null = el; node; node = node.parentElement) {
+      const value = getComputedStyle(node).backgroundColor;
+      const alpha = value.match(/rgba?\([^)]*,\s*([\d.]+)\)/)?.[1];
+      if (value !== "transparent" && alpha !== "0") {
+        const rgb = parseRgb(value);
+        if (rgb) return rgb;
+      }
+    }
+    return WHITE;
+  }
+
+  // --artist-color is the colour as it comes, for hover. --artist-text is
+  // darkened to pass 4.5:1 for the small meta text. --artist-dim is the
+  // resting name: faded towards the page like 0.75 opacity, but held at the
+  // 3:1 large text minimum
+  async function tintName(item: HTMLElement): Promise<string | undefined> {
+    if (item.dataset.tinted) return;
+    item.dataset.tinted = "true";
+    const image = item.dataset.image;
+    const result = image ? await extractImageColor(image) : null;
+    const color =
+      (result?.success ? parseRgb(result.color) : null) ??
+      hslToRgb(item.dataset.fallback ?? "");
+    if (!color) return;
+    const background = getBackground(item);
+    const toCss = ([r, g, b]: Rgb) => `rgb(${r} ${g} ${b})`;
+    const faded = color.map((c, i) => Math.round(c + (background[i] - c) * 0.25)) as Rgb;
+    item.style.setProperty("--artist-color", toCss(color));
+    item.style.setProperty("--artist-text", toCss(ensureContrast(color, background, 4.5)));
+    item.style.setProperty("--artist-dim", toCss(ensureContrast(faded, background, 3)));
+    return toCss(color);
+  }
+
+  async function tintDrawer(drawer: HTMLDialogElement) {
+    const image = drawer.dataset.image;
+    if (!image || drawer.dataset.tinted) return;
+    drawer.dataset.tinted = "true";
+    const result = await extractImageColor(image);
+    if (!result.success) return;
+    const rgb = parseRgb(result.color);
+    if (!rgb) return;
+    drawer.style.setProperty("--drawer-bg", result.color);
+    // Whichever of black or white text reads better on this background
+    drawer.dataset.tone =
+      contrastRatio(rgb, BLACK) > contrastRatio(rgb, WHITE) ? "light" : "dark";
+  }
+
+  document.addEventListener("alpine:init", () => {
+    // @ts-ignore
+    window.Alpine.data("artistLineup", () => ({
+      active: 0,
+      // Each artist's colour, for the glow around the photo panel
+      colors: [] as string[],
+      init() {
+        // @ts-ignore
+        const root = this.$root as HTMLElement;
+        const images = root.querySelectorAll<HTMLElement>(".artist-lineup__image");
+        root
+          .querySelectorAll<HTMLElement>(".artist-lineup__item")
+          .forEach(async (item, i) => {
+            const color = await tintName(item);
+            if (!color) return;
+            this.colors[i] = color;
+            images[i]?.style.setProperty("--artist-color", color);
+          });
+      },
+      activate(index: number) {
+        this.active = index;
+      },
+      // Moves the centre of the hover gradient with the pointer
+      track(event: PointerEvent) {
+        const name = event.currentTarget as HTMLElement;
+        const rect = name.getBoundingClientRect();
+        name.style.setProperty("--gradient-x", `${event.clientX - rect.left}px`);
+        name.style.setProperty("--gradient-y", `${event.clientY - rect.top}px`);
+      },
+      open(index: number) {
+        // @ts-ignore
+        const drawer = this.$refs[`drawer${index}`] as HTMLDialogElement;
+        drawer.showModal();
+        // Re-show the cursor so it stacks above the dialog in the top layer
+        const cursor = document.getElementById("cur");
+        if (cursor?.matches(":popover-open")) {
+          cursor.hidePopover();
+          cursor.showPopover();
+        }
+        void tintDrawer(drawer);
+      },
+    }));
+  });
+</script>

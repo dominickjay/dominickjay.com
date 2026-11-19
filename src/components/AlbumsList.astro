@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import { hashStringToHsl } from "../lib/color";
+
+export interface Props {
+  albums?: Array<{
+    name: string;
+    artist: string;
+    image?: string;
+  }>;
+}
+
+const { albums = [] } = Astro.props;
+---
+
+<ol class="albums-grid" role="list">
+  {
+    albums.map((album) => (
+      <li class="albums-grid__card">
+        <div
+          class="albums-grid__cover"
+          style={`--album-color: ${hashStringToHsl(`${album.artist}${album.name}`)}`}
+        >
+          {album.image && (
+            <Image src={album.image} alt="" loading="lazy" width={300} height={300} />
+          )}
+        </div>
+        <p class="albums-grid__title">{album.name}</p>
+        <p class="albums-grid__artist">{album.artist}</p>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,136 @@
+@layer components {
+  @scope (.artist-drawer) {
+    :scope {
+      --drawer-text: var(--color-light);
+
+      position: fixed;
+      inset: 0 0 0 auto;
+      inline-size: min(100vw, 440px);
+      max-inline-size: 100vw;
+      block-size: 100dvh;
+      max-block-size: 100dvh;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      overflow-y: auto;
+      background: var(--drawer-bg);
+      color: var(--drawer-text);
+      transform: translateX(100%);
+      transition:
+        transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+        background-color 0.4s ease,
+        overlay 0.4s allow-discrete,
+        display 0.4s allow-discrete;
+
+      &[open] {
+        transform: none;
+
+        @starting-style {
+          transform: translateX(100%);
+        }
+      }
+
+      &[data-tone="light"] {
+        --drawer-text: var(--color-dark);
+      }
+
+      &::backdrop {
+        background: rgb(0 0 0 / 0);
+        transition:
+          background-color 0.4s ease,
+          overlay 0.4s allow-discrete,
+          display 0.4s allow-discrete;
+      }
+
+      &[open]::backdrop {
+        background: rgb(0 0 0 / 0.5);
+
+        @starting-style {
+          background: rgb(0 0 0 / 0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: background-color 0.4s ease;
+        transform: none;
+
+        &[open] {
+          @starting-style {
+            transform: none;
+          }
+        }
+      }
+    }
+
+    .artist-drawer__inner {
+      --gutter: var(--space-m);
+
+      padding: var(--space-l) var(--space-m);
+    }
+
+    .artist-drawer__close {
+      align-self: flex-end;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: inherit;
+      background: none;
+      border: 1px solid currentColor;
+      padding: var(--space-xs) var(--space-s);
+      cursor: pointer;
+    }
+
+    .artist-drawer__image {
+      inline-size: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      display: block;
+    }
+
+    .artist-drawer__title {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 700;
+      line-height: 0.9;
+      color: inherit;
+    }
+
+    .artist-drawer__meta {
+      opacity: 1;
+      transform: none;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      color: inherit;
+    }
+
+    .artist-drawer__list {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-s);
+        padding-block: var(--space-xs);
+        border-block-end: 1px solid
+          color-mix(in srgb, currentColor 25%, transparent);
+      }
+    }
+
+    .artist-drawer__plays {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    .artist-drawer__link {
+      color: inherit;
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+  }
+}

@@ -1,0 +1,194 @@
+@layer components {
+  @scope (.artist-lineup) {
+    :scope {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-l);
+      align-items: start;
+
+      @media (width >= 768px) {
+        &[data-media] {
+          grid-template-columns: 1fr minmax(160px, 240px);
+        }
+      }
+    }
+
+    .artist-lineup__list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .artist-lineup__item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      column-gap: var(--space-xs);
+      padding-block: var(--space-s);
+      color: var(--artist-text, inherit);
+      transition:
+        padding-inline-start 0.3s cubic-bezier(0, 1, 0.585, 1),
+        color 0.2s;
+
+      &.is-active .artist-lineup__name {
+        color: transparent;
+        background: radial-gradient(
+          circle at var(--gradient-x, 50%) var(--gradient-y, 50%),
+          var(--artist-color, var(--color-feature)),
+          var(--artist-text, var(--color-feature)) 8em
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+
+        @media (forced-colors: active) {
+          color: CanvasText;
+          background: none;
+        }
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          padding-inline-start: 1em;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: color 0.2s;
+
+        &:hover {
+          padding-inline-start: 0;
+        }
+      }
+    }
+
+    .artist-lineup__name {
+      font-family: var(--font-base);
+      font-size: clamp(24px, 3.5vw, 32px);
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--artist-dim, inherit);
+      transition: color 0.2s;
+      text-align: start;
+      text-wrap: balance;
+      background: none;
+      border: 0;
+      padding: 0.05em 0;
+      margin-block: -0.15em;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+      }
+    }
+
+    .artist-lineup__meta {
+      display: flex;
+      gap: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: nowrap;
+
+      > * + *::before {
+        content: "/";
+        margin-inline-end: var(--space-xs);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        opacity: 0;
+        transform: translateX(-1em);
+        transition:
+          opacity 0.2s ease,
+          transform 0.3s cubic-bezier(0, 1, 0.585, 1);
+
+        .artist-lineup__item:is(:hover, :focus-within) & {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transform: none;
+      }
+    }
+
+    .artist-lineup__media {
+      display: none;
+
+      @media (width >= 768px) {
+        display: grid;
+        position: sticky;
+        top: var(--space-m);
+        margin-block-start: var(--space-s);
+        aspect-ratio: 2 / 3;
+        overflow: hidden;
+        box-shadow: 0 0 48px -8px
+          color-mix(in srgb, var(--media-color, transparent) 60%, transparent);
+      }
+
+      /* Fade the frame away too, rather than snapping hidden */
+      transition:
+        opacity 0.4s ease,
+        visibility 0s 0s,
+        box-shadow 0.4s ease;
+
+      &.is-empty {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.4s ease,
+          visibility 0s 0.4s,
+          box-shadow 0.4s ease;
+      }
+    }
+
+    .artist-lineup__image {
+      position: relative;
+      grid-area: 1 / 1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+
+      /* Wash of the artist's colour over their photo */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--artist-color, transparent);
+        opacity: 0.25;
+        mix-blend-mode: color;
+        pointer-events: none;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        scale: 1.08;
+        transition: scale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      /* The incoming photo settles from a slight zoom while the outgoing
+         one fades beneath it */
+      &.is-active {
+        opacity: 1;
+        z-index: 1;
+
+        img {
+          scale: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        img {
+          scale: 1;
+          transition: none;
+        }
+      }
+    }
+  }
+}
