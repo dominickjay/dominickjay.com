@@ -76,6 +76,9 @@
 @import "./blocks/currently-playing.css";
 @import "./blocks/featured-album.css";
 @import "./blocks/music-layout.css";
+@import "./blocks/artist-lineup.css";
+@import "./blocks/artist-drawer.css";
+@import "./blocks/albums-grid.css";
 @import "./blocks/page-turners.css";
 @import "./blocks/writing-cta.css";
 

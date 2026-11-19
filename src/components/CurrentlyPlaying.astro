@@ -6,36 +6,56 @@ interface Props {
 const { artistBannerUrl = "" } = Astro.props;
 ---
 
-<div
-  class="now-playing-bar"
+<section
+  class="currently-playing"
+  aria-label="Currently playing"
   x-data={`currentlyPlaying(${JSON.stringify(artistBannerUrl)})`}
+  :class="{ 'is-playing': nowPlaying }"
   :style="overlayStyle"
 >
-  <div class="now-playing-bar__art">
-    <img
-      :src="displayImageUrl"
-      alt=""
-      width="120"
-      height="120"
-      loading="lazy"
-      decoding="async"
-      x-show="displayImageUrl"
-      x-cloak
-    />
-    <div class="now-playing-bar__art-fallback" aria-hidden="true"></div>
+  <div class="currently-playing__record" aria-hidden="true">
+    <div class="currently-playing__disc">
+      <img
+        class="currently-playing__disc-art"
+        :src="discUrl"
+        alt=""
+        x-show="discUrl"
+        x-cloak
+      />
+      <div class="currently-playing__vinyl" x-show="!discUrl">
+        <div class="currently-playing__label">
+          <img :src="displayImageUrl" alt="" x-show="displayImageUrl" x-cloak />
+        </div>
+      </div>
+    </div>
+    <div class="currently-playing__sleeve">
+      <img
+        :src="displayImageUrl"
+        alt=""
+        width="300"
+        height="300"
+        decoding="async"
+        x-show="displayImageUrl"
+        x-cloak
+      />
+    </div>
   </div>
 
-  <div class="now-playing-bar__info">
-    <div class="now-playing-bar__title-row">
+  <div class="currently-playing__info stacked" style="--gutter: 4px">
+    <p class="currently-playing__status eyebrow">
+      <span x-text="statusText"></span>
+      <span x-text="secondaryStatusText" x-show="secondaryStatusText" x-cloak></span>
+    </p>
+    <div class="currently-playing__title-row">
       <a
-        class="now-playing-bar__track"
+        class="currently-playing__track"
         :href="trackUrl"
         target="_blank"
         rel="noopener noreferrer"
         x-text="trackName || 'Nothing played yet'"
       ></a>
       <svg
-        class="now-playing-bar__heart"
+        class="currently-playing__heart"
         x-show="isLoved"
         x-cloak
         width="13"
@@ -49,47 +69,20 @@ const { artistBannerUrl = "" } = Astro.props;
         />
       </svg>
     </div>
-    <span class="now-playing-bar__meta">
-      <span class="now-playing-bar__artist" x-text="artistName"></span>
+    <p class="currently-playing__meta">
+      <span x-text="artistName"></span>
       <template x-if="albumName">
-        <span class="now-playing-bar__album">
+        <span class="currently-playing__album">
           <span aria-hidden="true">on</span>
           <span x-text="albumName"></span>
         </span>
       </template>
-      <template x-if="topTag">
-        <span class="now-playing-bar__tag" x-text="topTag"></span>
-      </template>
-    </span>
+    </p>
+    <template x-if="topTag">
+      <span class="currently-playing__tag" x-text="topTag"></span>
+    </template>
   </div>
-
-  <div
-    class="now-playing-bar__wave"
-    :class="{ 'is-playing': nowPlaying }"
-    aria-hidden="true"
-  >
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-    <span class="now-playing-bar__wave-bar"></span>
-  </div>
-
-  <div class="now-playing-bar__status">
-    <span class="np-status eyebrow" x-text="statusText"></span>
-    <span
-      class="now-playing-bar__time eyebrow"
-      x-text="secondaryStatusText"
-      x-show="secondaryStatusText"
-      x-cloak
-    ></span>
-  </div>
-</div>
+</section>
 
 <script>
   import { hashStringToHsl, rgbToHsl } from "../lib/color";
@@ -127,10 +120,13 @@ const { artistBannerUrl = "" } = Astro.props;
       loading: true,
       fetchedBannerUrl: toHttps(initialBannerUrl ?? ""),
       extractedColor: null as string | null,
+      discUrl: "",
       _pollId: null as ReturnType<typeof setInterval> | null,
       _lastArtistFetched: "",
       _lastColorUrl: "",
       _lastTrackInfoFetched: "",
+      _lastAlbumFetched: "",
+      _discAbort: null as AbortController | null,
       _trackAbort: null as AbortController | null,
       _bannerAbort: null as AbortController | null,
       _trackInfoAbort: null as AbortController | null,
@@ -149,6 +145,16 @@ const { artistBannerUrl = "" } = Astro.props;
 
       get albumName(): string {
         return (this.track as any)?.album?.["#text"] ?? "";
+      },
+
+      get albumMbid(): string {
+        return (this.track as any)?.album?.mbid ?? "";
+      },
+
+      get albumKey(): string {
+        return this.artistName && this.albumName
+          ? `${this.artistName}|||${this.albumName}`
+          : "";
       },
 
       get trackUrl(): string {
@@ -256,6 +262,15 @@ const { artistBannerUrl = "" } = Astro.props;
         });
 
         // @ts-ignore Alpine magic
+        this.$watch("albumKey", (val: string) => {
+          if (val) this.fetchAlbumDisc();
+          else {
+            this._lastAlbumFetched = "";
+            this.discUrl = "";
+          }
+        });
+
+        // @ts-ignore Alpine magic
         this.$watch("trackKey", (val: string) => {
           if (val) this.fetchTrackInfo(this.artistName, this.trackName);
           else {
@@ -270,6 +285,7 @@ const { artistBannerUrl = "" } = Astro.props;
         this._trackAbort?.abort();
         this._bannerAbort?.abort();
         this._trackInfoAbort?.abort();
+        this._discAbort?.abort();
       },
 
       fetchTrack() {
@@ -310,6 +326,31 @@ const { artistBannerUrl = "" } = Astro.props;
           .catch((error) => {
             if (error?.name === "AbortError") return;
             this.fetchedBannerUrl = "";
+          });
+      },
+
+      fetchAlbumDisc() {
+        const key = this.albumKey;
+        if (key === this._lastAlbumFetched) return;
+
+        this._lastAlbumFetched = key;
+        this._discAbort?.abort();
+        this._discAbort = new AbortController();
+        this.discUrl = "";
+
+        const params = new URLSearchParams({
+          artist: this.artistName,
+          album: this.albumName,
+          mbid: this.albumMbid,
+        });
+        fetch(`/api/album-disc?${params}`, { signal: this._discAbort.signal })
+          .then((r) => r.json())
+          .then((data) => {
+            this.discUrl = data?.url ? toHttps(data.url) : "";
+          })
+          .catch((error) => {
+            if (error?.name === "AbortError") return;
+            this.discUrl = "";
           });
       },
 

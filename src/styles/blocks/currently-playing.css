@@ -1,257 +1,199 @@
 @layer components {
-  @scope (.now-playing-bar) {
+  @scope (.currently-playing) {
     :scope {
-      position: fixed;
-      inset-block-end: 0;
-      inset-inline: 0;
-      z-index: 500;
+      --sleeve-size: 112px;
+
       display: flex;
       align-items: center;
-      gap: var(--space-m);
-      padding: var(--space-s) var(--space-m);
-      padding-block-end: calc(var(--space-s) + env(safe-area-inset-bottom));
-      background: var(--color-dark);
-      border-block-start: 1px solid
-        hsl(from var(--overlay-color, hsl(0, 0%, 30%)) h s l / 0.6);
-      transition: border-color 0.4s ease;
+      gap: var(--space-l);
 
       @media (width >= 768px) {
-        padding-inline: var(--space-l);
-        gap: var(--space-l);
+        --sleeve-size: 144px;
       }
     }
 
-    .now-playing-bar__art {
+    .currently-playing__record {
       position: relative;
       flex-shrink: 0;
-      inline-size: 44px;
-      block-size: 44px;
-      overflow: hidden;
+      inline-size: var(--sleeve-size);
+      block-size: var(--sleeve-size);
+      /* Room for the record poking out of the sleeve */
+      margin-inline-end: calc(var(--sleeve-size) * 0.45);
+    }
 
-      @media (width >= 768px) {
-        inline-size: 56px;
-        block-size: 56px;
-      }
+    .currently-playing__sleeve {
+      position: relative;
+      z-index: 1;
+      inline-size: 100%;
+      block-size: 100%;
+      overflow: hidden;
+      background: hsl(from var(--overlay-color, hsl(0, 0%, 25%)) h s l);
+      box-shadow: 4px 0 12px rgb(0 0 0 / 0.25);
 
       img {
-        position: absolute;
-        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-      }
-    }
-
-    .now-playing-bar__art-fallback {
-      width: 100%;
-      height: 100%;
-      background: hsl(from var(--overlay-color, hsl(0, 0%, 25%)) h s l);
-    }
-
-    .now-playing-bar__info {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      flex: 1;
-      gap: 2px;
-    }
-
-    .now-playing-bar__title-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 0;
-    }
-
-    .now-playing-bar__track {
-      font-family: var(--font-base);
-      font-size: 14px;
-      color: var(--color-light);
-      text-decoration: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: fit-content;
-      max-width: 100%;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s;
-
-      @media (hover: hover) {
-        &:hover {
-          border-color: rgb(from var(--color-light) r g b / 0.5);
-        }
-      }
-
-      @media (width >= 768px) {
-        font-size: 16px;
-      }
-    }
-
-    .now-playing-bar__heart {
-      flex-shrink: 0;
-      color: #e0555f;
-    }
-
-    .now-playing-bar__meta {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      min-width: 0;
-    }
-
-    .now-playing-bar__artist {
-      font-family: var(--font-base);
-      font-size: 12px;
-      color: var(--color-light);
-      opacity: 0.65;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex-shrink: 1;
-
-      @media (width >= 768px) {
-        font-size: 14px;
-      }
-    }
-
-    .now-playing-bar__album {
-      display: none;
-      font-family: var(--font-base);
-      font-style: italic;
-      font-size: 12px;
-      color: var(--color-light);
-      opacity: 0.45;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      gap: 6px;
-
-      @media (width >= 640px) {
-        display: flex;
-      }
-
-      @media (width >= 768px) {
-        font-size: 14px;
-      }
-    }
-
-    .now-playing-bar__tag {
-      display: none;
-      flex-shrink: 0;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: hsl(from var(--overlay-color, var(--color-accent)) h s 75%);
-      border: 1px solid rgb(from var(--color-light) r g b / 0.25);
-      border-radius: 100vh;
-      padding: 2px 8px;
-
-      @media (width >= 1024px) {
         display: block;
       }
     }
 
-    .now-playing-bar__wave {
-      display: none;
-      flex-shrink: 0;
-      align-items: flex-end;
-      gap: 3px;
-      height: 24px;
+    .currently-playing__disc {
+      position: absolute;
+      inset: 4%;
+      transform: translateX(45%);
+    }
 
-      @media (width >= 900px) {
-        display: flex;
+    .currently-playing__disc-art,
+    .currently-playing__vinyl {
+      inline-size: 100%;
+      block-size: 100%;
+      border-radius: 50%;
+      animation: currently-playing-spin 2.4s linear infinite;
+      animation-play-state: paused;
+
+      :scope.is-playing & {
+        animation-play-state: running;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
       }
     }
 
-    .now-playing-bar__wave-bar {
-      width: 3px;
-      border-radius: 2px;
-      background: hsl(from var(--overlay-color, hsl(0, 0%, 60%)) h s l / 0.9);
-      transform-origin: bottom;
-      opacity: 0.5;
+    .currently-playing__disc-art {
+      display: block;
+      object-fit: contain;
     }
 
-    .now-playing-bar__wave.is-playing .now-playing-bar__wave-bar {
-      opacity: 1;
-      animation: nowPlayingWave 1s ease-in-out infinite alternate;
-    }
+    .currently-playing__vinyl {
+      position: relative;
+      display: grid;
+      place-items: center;
+      background:
+        repeating-radial-gradient(
+          circle,
+          #111 0 1px,
+          #1d1d1d 1px 3px
+        );
+      box-shadow: inset 0 0 0 2px #000;
 
-    .now-playing-bar__wave-bar:nth-child(1) {
-      height: 35%;
-      animation-delay: 0s;
-    }
-    .now-playing-bar__wave-bar:nth-child(2) {
-      height: 65%;
-      animation-delay: 0.1s;
-    }
-    .now-playing-bar__wave-bar:nth-child(3) {
-      height: 90%;
-      animation-delay: 0.2s;
-    }
-    .now-playing-bar__wave-bar:nth-child(4) {
-      height: 50%;
-      animation-delay: 0.3s;
-    }
-    .now-playing-bar__wave-bar:nth-child(5) {
-      height: 100%;
-      animation-delay: 0.15s;
-    }
-    .now-playing-bar__wave-bar:nth-child(6) {
-      height: 55%;
-      animation-delay: 0.35s;
-    }
-    .now-playing-bar__wave-bar:nth-child(7) {
-      height: 80%;
-      animation-delay: 0.05s;
-    }
-    .now-playing-bar__wave-bar:nth-child(8) {
-      height: 40%;
-      animation-delay: 0.25s;
-    }
-    .now-playing-bar__wave-bar:nth-child(9) {
-      height: 70%;
-      animation-delay: 0.4s;
-    }
-    .now-playing-bar__wave-bar:nth-child(10) {
-      height: 45%;
-      animation-delay: 0.2s;
-    }
-
-    @keyframes nowPlayingWave {
-      from {
-        transform: scaleY(0.3);
-      }
-      to {
-        transform: scaleY(1);
+      /* Colour from the sleeve washed over the grooves */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: var(--overlay-color, transparent);
+        opacity: 0.35;
+        pointer-events: none;
       }
     }
 
-    .now-playing-bar__status {
-      flex-shrink: 0;
+    .currently-playing__label {
+      position: relative;
+      z-index: 1;
+      inline-size: 36%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      background: hsl(from var(--overlay-color, hsl(0, 0%, 25%)) h s l);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Spindle hole */
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 50% auto auto 50%;
+        inline-size: 12%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: var(--color-light);
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .currently-playing__info {
+      min-width: 0;
+    }
+
+    .currently-playing__status {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
-    .np-status {
+      flex-wrap: wrap;
+      gap: var(--space-xs);
       margin: 0;
-      padding: 0;
-      font-size: 11px;
 
-      @media (width >= 768px) {
-        font-size: 12px;
+      > * + *::before {
+        content: "/";
+        margin-inline-end: var(--space-xs);
       }
     }
 
-    .now-playing-bar__time {
+    .currently-playing__title-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-width: 0;
+    }
+
+    .currently-playing__track {
+      font-family: var(--font-heading);
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-dark);
+      text-decoration: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (hover: hover) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .currently-playing__heart {
+      flex-shrink: 0;
+      color: #e0555f;
+    }
+
+    .currently-playing__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0;
+      font-family: var(--font-base);
+      font-size: 14px;
+      color: var(--color-dark);
+    }
+
+    .currently-playing__album {
+      display: flex;
+      gap: 6px;
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    .currently-playing__tag {
+      align-self: flex-start;
       font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      color: var(--color-light);
-      opacity: 0.45;
-      white-space: nowrap;
+      font-size: 12px;
+      border: 1px solid currentColor;
+      border-radius: 100vh;
+      padding: 2px 8px;
+    }
+  }
+
+  @keyframes currently-playing-spin {
+    to {
+      rotate: 360deg;
     }
   }
 }

@@ -39,3 +39,46 @@ export async function getMbidByArtistName(
     return null;
   }
 }
+
+/**
+ * fanart.tv indexes album art by release group, while Last.fm hands back
+ * release mbids, so resolve one to the other. Falls back to a name search.
+ */
+export async function getReleaseGroupId({
+  releaseMbid,
+  artist,
+  album,
+}: {
+  releaseMbid?: string;
+  artist?: string;
+  album?: string;
+}): Promise<string | null> {
+  try {
+    if (releaseMbid?.trim()) {
+      const res = await fetch(
+        `https://musicbrainz.org/ws/2/release/${encodeURIComponent(releaseMbid.trim())}?inc=release-groups&fmt=json`,
+        { headers: { "User-Agent": USER_AGENT } },
+      );
+      if (res.ok) {
+        const data = (await res.json()) as { "release-group"?: { id: string } };
+        const id = data?.["release-group"]?.id;
+        if (id) return id;
+      }
+    }
+    if (!artist?.trim() || !album?.trim()) return null;
+    const query = `releasegroup:"${album.trim()}" AND artist:"${artist.trim()}"`;
+    const res = await fetch(
+      `https://musicbrainz.org/ws/2/release-group/?query=${encodeURIComponent(query)}&fmt=json&limit=1`,
+      { headers: { "User-Agent": USER_AGENT } },
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      "release-groups"?: Array<{ id: string; score?: number }>;
+    };
+    const first = data?.["release-groups"]?.[0];
+    return first && (first.score ?? 0) >= 90 ? first.id : null;
+  } catch (err) {
+    console.debug("[musicbrainz] release group error:", err);
+    return null;
+  }
+}

@@ -2,28 +2,32 @@
 export const prerender = false;
 
 import Base from "../layouts/Base.astro";
-import ArtistCard from "../components/ArtistCard.astro";
+import ArtistLineup from "../components/ArtistLineup.astro";
 import CurrentlyPlaying from "../components/CurrentlyPlaying.astro";
 import { sanityClient } from "sanity:client";
 import { getRecentTracks, getArtistInfo } from "../lib/lastfm";
 import { getArtistArt } from "../lib/fanart";
 import TracksList from "../components/TracksList.astro";
-import FeaturedAlbum from "../components/FeaturedAlbum.astro";
+import AlbumsList from "../components/AlbumsList.astro";
 
 const CACHE_ID = "global-music-cache";
 const cache = await sanityClient.fetch(
-  `*[_type == "musicCache" && _id == $id][0]{ lastUpdated, topTracksJson, recentArtistsJson }`,
+  `*[_type == "musicCache" && _id == $id][0]{ lastUpdated, topTracksJson, recentArtistsJson, topAlbumsJson }`,
   { id: CACHE_ID },
 );
 
 let artists: Array<{
   name: string;
   playcount?: string;
+  genre?: string;
+  week?: {
+    tracks: Array<{ name: string; plays: number }>;
+    albums: Array<{ name: string; plays: number }>;
+  };
   image?: Array<{ "#text": string; size?: string }>;
   info?: { image?: Array<{ "#text": string }> };
 }> = [];
 let tracks: Array<{ name: string; artist: string; title: string }> = [];
-const trackColor = "#000000";
 
 if (cache?.topTracksJson) {
   try {
@@ -48,6 +52,21 @@ if (cache?.topTracksJson) {
   }
 }
 
+let albums: Array<{
+  name: string;
+  artist: string;
+  image?: string;
+}> = [];
+
+if (cache?.topAlbumsJson) {
+  try {
+    const data = JSON.parse(cache.topAlbumsJson);
+    albums = Array.isArray(data) ? data : [];
+  } catch (_) {
+    albums = [];
+  }
+}
+
 if (cache?.recentArtistsJson) {
   try {
     const data = JSON.parse(cache.recentArtistsJson);
@@ -59,6 +78,8 @@ if (cache?.recentArtistsJson) {
           return {
             name: a.name,
             playcount: a.playcount,
+            genre: a.genre ?? undefined,
+            week: a.week,
             image: imageArr,
             info: imageArr.length ? { image: imageArr } : undefined,
           };
@@ -68,11 +89,6 @@ if (cache?.recentArtistsJson) {
     artists = [];
   }
 }
-
-const totalPlaycount = artists.reduce((sum, artist) => {
-  const playcount = artist.playcount ? Number(artist.playcount) : 0;
-  return sum + playcount;
-}, 0);
 
 let artistBannerUrl = "";
 
@@ -97,90 +113,38 @@ if (apiKey && fanartApiKey) {
   title="On rotation"
   description="What I've been listening to lately - pulled from Last.fm. Mostly accurate, occasionally embarrassing. If it's anything out of the norm, it's probably my kids."
 >
-    <script>
-      import { initializeColorExtraction } from "../lib/colorExtraction";
-
-      const initColorExtraction = async () => {
-        const { default: ColorThief } = await import("colorthief");
-        (window as any).ColorThief = ColorThief;
-        initializeColorExtraction();
-      };
-
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(() => void initColorExtraction());
-      } else {
-        window.setTimeout(() => void initColorExtraction(), 0);
-      }
-    </script>
     <main>
       <div
         class="container stacked"
         style="--gutter: 32px"
       >
-        <FeaturedAlbum />
+        {/* Hidden for now: <FeaturedAlbum /> */}
+        <CurrentlyPlaying artistBannerUrl={artistBannerUrl || undefined} />
         <div class="music-layout">
           <div class="stacked" style="--gutter: 12px">
             <h1 class="eyebrow">Artists from the Last Week</h1>
-            <div class="artist-row card-row snap-x snap-mandatory overflow-auto">
-              {
-                artists.slice(0, 10).map((artist, i) => {
-                  const playcount = artist.playcount
-                    ? Number(artist.playcount)
-                    : 0;
-                  const percentage =
-                    totalPlaycount > 0
-                      ? (playcount / totalPlaycount) * 100
-                      : 0;
-                  return (
-                    <div
-                      class="artist-row__item"
-                      style={`--track-color: ${trackColor}`}
-                    >
-                      <ArtistCard
-                        artist={artist}
-                        isNowPlaying={false}
-                        trackColor={trackColor}
-                        index={i}
-                        percentage={percentage}
-                      />
-                    </div>
-                  );
-                })
-              }
-            </div>
+            <ArtistLineup artists={artists.slice(0, 10)} />
           </div>
 
-          <aside class="music-layout__sidebar stacked" style="--gutter: 8px">
-            <h2 class="eyebrow">Top 10 Tracks of the Last Week</h2>
-            <TracksList tracks={tracks} />
-          </aside>
+          <div class="music-layout__charts">
+            {albums.length > 0 && (
+              <aside class="music-layout__sidebar stacked" style="--gutter: 8px">
+                <h2 class="eyebrow">Top 10 Albums of the Last Week</h2>
+                <AlbumsList albums={albums} />
+              </aside>
+            )}
+            <aside class="music-layout__sidebar stacked" style="--gutter: 8px">
+              <h2 class="eyebrow">Top 10 Tracks of the Last Week</h2>
+              <TracksList tracks={tracks} />
+            </aside>
+          </div>
         </div>
       </div>
     </main>
 
-
 <style is:global>
   main {
     padding-block-end: 96px;
-  }
-
-  .card-row::-webkit-scrollbar {
-    height: 10px;
-  }
-
-  .card-row::-webkit-scrollbar-track {
-    border-radius: 100vh;
-  }
-
-  .card-row::-webkit-scrollbar-thumb {
-    background: var(--color-dark);
-    border-radius: 100vh;
-    border: 1px solid var(--color-dark);
-    transition: all 0.25s ease-in-out;
-  }
-
-  .card-row::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in srgb, var(--color-dark) 85%, transparent);
   }
 </style>
 

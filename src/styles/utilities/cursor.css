@@ -14,6 +14,13 @@
     z-index: 9999;
     top: -50%;
     left: -50%;
+    /* Undo the popover defaults, which would centre and box the dot */
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: visible;
     transform: translate(-50%, -50%);
 
     mix-blend-mode: difference;

@@ -53,3 +53,30 @@ export async function getArtistArt(
     return "";
   }
 }
+
+interface FanartMusicAlbums {
+  albums?: Record<string, { cdart?: Array<{ url: string }> }>;
+}
+
+/**
+ * Transparent disc artwork for an album, by MusicBrainz release group id.
+ * Returns "" when fanart.tv has none.
+ */
+export async function getAlbumDisc(
+  releaseGroupId: string | null | undefined,
+  apiKey: string | undefined,
+): Promise<string> {
+  const id = releaseGroupId?.trim();
+  if (!id || !apiKey?.trim()) return "";
+  try {
+    const res = await fetch(
+      `https://webservice.fanart.tv/v3/music/albums/${encodeURIComponent(id)}?api_key=${encodeURIComponent(apiKey.trim())}`,
+    );
+    if (!res.ok) return "";
+    const data = (await res.json()) as FanartMusicAlbums;
+    return data?.albums?.[id]?.cdart?.[0]?.url?.trim() ?? "";
+  } catch (err) {
+    console.debug("[getAlbumDisc] error:", err);
+    return "";
+  }
+}

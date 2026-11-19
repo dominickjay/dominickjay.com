@@ -20,6 +20,10 @@ const domTheme = require("./src/styles/dom-shiki-theme.json");
 // https://astro.build/config
 export default defineConfig({
   site: env.BASE_URL ?? "https://dominickjay.com",
+  image: {
+    // Artist photos and album covers on the music page
+    domains: ["assets.fanart.tv", "lastfm-img.freetls.fastly.net"],
+  },
   markdown: {
     remarkPlugins: [remarkModifiedTime],
   },

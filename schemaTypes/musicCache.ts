@@ -22,5 +22,11 @@ export const musicCache = defineType({
       type: 'text',
       description: 'Raw JSON from Last.fm user.getTopArtists',
     }),
+    defineField({
+      name: 'topAlbumsJson',
+      title: 'Top Albums JSON',
+      type: 'text',
+      description: 'Albums at least half played this week, built from user.getRecentTracks',
+    }),
   ],
 })

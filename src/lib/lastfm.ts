@@ -48,6 +48,16 @@ export interface LastFmTopTrack {
   url: string;
 }
 
+export interface LastFmTag {
+  name: string;
+  url: string;
+}
+
+export interface LastFmTrackInfo {
+  tags: LastFmTag[];
+  info: any;
+}
+
 export interface LastFmResponse {
   weeklyalbumchart?: {
     album: LastFmAlbum[];
@@ -215,6 +225,25 @@ export async function enrichAlbumsWithImages(albums: LastFmAlbum[], apiKey: stri
     })
   );
   return enrichedAlbums;
+}
+
+export async function getTrackInfo(artist: string, track: string, apiKey: string): Promise<LastFmTrackInfo> {
+  try {
+    const response = await fetch(
+      lastfmUrl("track.getInfo", { artist, track, user: LASTFM_USER }, apiKey),
+    );
+    const data = await response.json();
+    if (data.error) {
+      console.error("Last.fm API error:", data.message);
+      return { tags: [], info: null };
+    }
+    const tag = data.track?.toptags?.tag;
+    const tags: LastFmTag[] = Array.isArray(tag) ? tag : tag ? [tag] : [];
+    return { tags, info: data.track || null };
+  } catch (error) {
+    console.error(`Error fetching track info for ${artist} - ${track}:`, error);
+    return { tags: [], info: null };
+  }
 }
 
 export interface LatestTrack {

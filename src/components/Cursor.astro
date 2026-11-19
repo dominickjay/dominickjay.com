@@ -2,13 +2,15 @@
 
 ---
 
-<div id="cur" aria-hidden="true"></div>
+<div id="cur" aria-hidden="true" popover="manual"></div>
 
 <script is:inline>
 	const cursor = document.getElementById("cur");
 	const canHover = window.matchMedia("(hover: hover)").matches;
 
 	if (cursor && canHover) {
+    // Top layer, so it stays above modal dialogs like the artist drawer
+    cursor.showPopover?.();
 
     const largeTargets = "a, button, .item, .big-link, .home-link, input[type='range']";
     const smallTargets = ".prose, .intro";

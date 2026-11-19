@@ -10,9 +10,13 @@ export interface ColorExtractionResult {
 }
 
 // Function to extract dominant color from image URL
-export function extractImageColor(
+export async function extractImageColor(
   imageUrl: string,
 ): Promise<ColorExtractionResult> {
+  if (typeof window !== "undefined" && !(window as any).ColorThief) {
+    const { default: ColorThief } = await import("colorthief");
+    (window as any).ColorThief = ColorThief;
+  }
   return new Promise((resolve) => {
     const img = new Image();
     img.crossOrigin = "anonymous";
